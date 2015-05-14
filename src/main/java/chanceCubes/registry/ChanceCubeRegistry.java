@@ -7,54 +7,36 @@ import java.util.Random;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chanceCubes.rewards.ChanceCubeReward;
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.ItemAndEntityReward;
 
 public class ChanceCubeRegistry
 {
 
-	private List<ChanceCubeReward> rewards = new ArrayList<ChanceCubeReward>();
+	private static List<IChanceCubeReward> rewards = new ArrayList<IChanceCubeReward>();
 
 	/**
 	 * loads the default rewards of the Chance Cube
 	 */
 	public void loadDefaultRewards()
 	{
-		this.registerReward("Test reward 1", new ItemStack(Items.redstone, 1), new ItemStack(Items.diamond, 1));
-		this.registerReward("Test reward 2", "Creeper");
-		this.registerReward("Test reward 3", new ItemStack(Items.redstone, 1),"Zombie");
-	}
-
-	/**
-	 * Registers a reward with the given name and given objects
-	 * Valid objects are
-	 * - ItemStack
-	 * - Entity
-	 * 
-	 * @param name of the reward to add
-	 * @param Objects to add to the reward when the block is broken
-	 */
-	public void registerReward(String name, Object... args)
-	{
-		List<ItemStack> stack = new ArrayList<ItemStack>();
-		List<String> ents = new ArrayList<String>();
-
-		for(Object s: args)
-		{
-			if(s instanceof ItemStack)
-				stack.add((ItemStack) s);
-			if(s instanceof String)
-				ents.add((String) s);
-		}
-
-		ChanceCubeReward reward = new ChanceCubeReward(name, stack, ents);
-		rewards.add(reward);
+		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":RedstoneDiamond", 0,
+				new ItemStack[] {new ItemStack(Items.redstone), new ItemStack(Items.diamond)}, null));
+		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":Creeper", 0, null, new String[] {"Creeper"}));
+		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":RedstoneZombie", 2,
+				new ItemStack[] {new ItemStack(Items.redstone)}, new String[] {"Zombie"}));
+		
+		//this.registerReward("Test reward 1", new ItemStack(Items.redstone, 1), new ItemStack(Items.diamond, 1));
+		//this.registerReward("Test reward 2", "Creeper");
+		//this.registerReward("Test reward 3", new ItemStack(Items.redstone, 1),"Zombie");
 	}
 
 	/**
 	 * Registers the given reward as a possible outcome
 	 * @param reward to register
 	 */
-	public void registerReward(ChanceCubeReward reward)
+	public void registerReward(IChanceCubeReward reward)
 	{
 		rewards.add(reward);
 	}
@@ -68,7 +50,7 @@ public class ChanceCubeRegistry
 	{
 		for(int i = 0; i < rewards.size(); i++)
 		{
-			ChanceCubeReward reward = rewards.get(i);
+			IChanceCubeReward reward = rewards.get(i);
 			if(reward.getName().equalsIgnoreCase(name))
 			{
 				rewards.remove(reward);
