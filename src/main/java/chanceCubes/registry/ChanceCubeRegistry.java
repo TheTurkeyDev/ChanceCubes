@@ -8,8 +8,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.rewards.ItemAndEntityReward;
+import chanceCubes.rewards.type.EntityRewardType;
+import chanceCubes.rewards.type.ItemRewardType;
 
 public class ChanceCubeRegistry
 {
@@ -21,11 +23,11 @@ public class ChanceCubeRegistry
 	 */
 	public void loadDefaultRewards()
 	{
-		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":RedstoneDiamond", 0,
-				new ItemStack[] {new ItemStack(Items.redstone), new ItemStack(Items.diamond)}, null));
-		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":Creeper", 0, null, new String[] {"Creeper"}));
-		this.registerReward(new ItemAndEntityReward(CCubesCore.MODID+":RedstoneZombie", 2,
-				new ItemStack[] {new ItemStack(Items.redstone)}, new String[] {"Zombie"}));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", 0,
+				new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 2,
+				new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
 		
 		//this.registerReward("Test reward 1", new ItemStack(Items.redstone, 1), new ItemStack(Items.diamond, 1));
 		//this.registerReward("Test reward 2", "Creeper");
