@@ -5,6 +5,7 @@ import java.util.Random;
 import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class ChanceCubeBlock extends Block
@@ -12,17 +13,19 @@ public class ChanceCubeBlock extends Block
 	public ChanceCubeBlock()
 	{
 		super(Material.ground);
-		super.setHardness(.5f);
-		super.setBlockName("Chance_Cube");
-		super.setCreativeTab(CCubesCore.modTab);
-		super.setBlockTextureName("chancecubes:chanceCube");
+		this.setHardness(.5f);
+		this.setBlockName("Chance_Cube");
+		this.setCreativeTab(CCubesCore.modTab);
+		this.setBlockTextureName("chancecubes:chanceCube");
 	}
-
-	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) 
+	
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
 	{
-		CCubesCore.cCubeRegistry.triggerRandomReward(world, x, y, z);
+		CCubesCore.cCubeRegistry.triggerRandomReward(world, x, y, z, player);
 	}
 
+	@Override
 	public int quantityDropped(Random p_149745_1_)
 	{
 		return 0;

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityRewardType implements IRewardType
@@ -18,7 +19,7 @@ public class EntityRewardType implements IRewardType
 	}
 
 	@Override
-	public void trigger(World world, int x, int y, int z)
+	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		if(!world.isRemote)
 		{

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -69,9 +70,9 @@ public class ChanceCubeRegistry
 	 * @param y
 	 * @param z
 	 */
-	public void triggerRandomReward(World world, int x, int y, int z)
+	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player)
 	{
 		Random r = new Random();
-		rewards.get(r.nextInt(rewards.size())).trigger(world, x, y, z);
+		rewards.get(r.nextInt(rewards.size())).trigger(world, x, y, z, player);
 	}
 }

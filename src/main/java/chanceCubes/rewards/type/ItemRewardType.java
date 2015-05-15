@@ -2,6 +2,7 @@ package chanceCubes.rewards.type;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -15,7 +16,7 @@ public class ItemRewardType implements IRewardType
 	}
 
 	@Override
-	public void trigger(World world, int x, int y, int z)
+	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		if(!world.isRemote)
 		{

@@ -1,5 +1,6 @@
 package chanceCubes.rewards.type;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public interface IRewardType
@@ -12,5 +13,5 @@ public interface IRewardType
 	 * @param y
 	 * @param z
 	 */
-	public void trigger(World world, int x, int y, int z);
+	public void trigger(World world, int x, int y, int z, EntityPlayer player);
 }
