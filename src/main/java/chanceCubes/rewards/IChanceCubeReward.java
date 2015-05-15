@@ -11,7 +11,7 @@ public interface IChanceCubeReward {
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param player
+	 * @param player Player who triggered the block
 	 */
 	public void trigger(World world, int x, int y, int z, EntityPlayer player);
 	

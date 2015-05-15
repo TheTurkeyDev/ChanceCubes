@@ -70,9 +70,28 @@ public class ChanceCubeRegistry
 	 * @param y
 	 * @param z
 	 */
-	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player)
+	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, double luck)
 	{
-		Random r = new Random();
-		rewards.get(r.nextInt(rewards.size())).trigger(world, x, y, z, player);
+		double[] chances = new double[rewards.size()];
+		for (int i = 0; i < chances.length; i++)
+		{
+			chances[i] = rewards.get(i).getLuckValue() + (world.rand.nextDouble()-0.5)*0.001; //Little bit of noise.
+		}
+		
+		int minIndex = 0;
+		double min = Double.MAX_VALUE;
+		double r = world.rand.nextGaussian() + luck;
+		
+		for (int index = 0; index < chances.length; index++)
+		{
+			double curr = Math.abs(chances[index] - r);
+			if (curr < min)
+			{
+				min = curr;
+				minIndex = index;
+			}
+		}
+		
+		rewards.get(minIndex).trigger(world, x, y, z, player);
 	}
 }
