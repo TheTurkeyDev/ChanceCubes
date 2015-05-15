@@ -24,15 +24,9 @@ public class ChanceCubeRegistry
 	 */
 	public void loadDefaultRewards()
 	{
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", 0,
-				new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -50, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 2,
-				new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
-		
-		//this.registerReward("Test reward 1", new ItemStack(Items.redstone, 1), new ItemStack(Items.diamond, 1));
-		//this.registerReward("Test reward 2", "Creeper");
-		//this.registerReward("Test reward 3", new ItemStack(Items.redstone, 1),"Zombie");
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 50, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
 	}
 
 	/**
