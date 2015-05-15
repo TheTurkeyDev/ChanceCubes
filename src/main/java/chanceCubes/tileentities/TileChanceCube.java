@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileChanceCube extends TileEntity {
 	
-	private double luck;
+	private int luck;
 	
 	public TileChanceCube()
 	{
@@ -22,7 +22,7 @@ public class TileChanceCube extends TileEntity {
 		this.luck = newLuck;
 	}
 	
-	public double getLuck()
+	public int getLuck()
 	{
 		return this.luck;
 	}
@@ -36,7 +36,7 @@ public class TileChanceCube extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		this.luck = nbt.getDouble("luck");
+		this.luck = nbt.getInteger("luck");
 	}
 
 }

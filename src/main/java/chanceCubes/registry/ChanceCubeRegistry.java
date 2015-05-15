@@ -2,7 +2,6 @@ package chanceCubes.registry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -13,20 +12,23 @@ import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
+import chanceCubes.util.ListSort;
 
 public class ChanceCubeRegistry
 {
 
 	private static List<IChanceCubeReward> rewards = new ArrayList<IChanceCubeReward>();
+	
+	private int range = 75;
 
 	/**
 	 * loads the default rewards of the Chance Cube
 	 */
 	public void loadDefaultRewards()
 	{
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -50, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 50, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
 	}
 
 	/**
@@ -64,28 +66,36 @@ public class ChanceCubeRegistry
 	 * @param y
 	 * @param z
 	 */
-	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, double luck)
+	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int luck)
 	{
-		double[] chances = new double[rewards.size()];
-		for (int i = 0; i < chances.length; i++)
-		{
-			chances[i] = rewards.get(i).getLuckValue() + (world.rand.nextDouble()-0.5)*0.001; //Little bit of noise.
-		}
+		int lowerIndex = 0;
+		int upperIndex = rewards.size();
+		int lowerRange = luck - this.range < -100 ? -100: luck - this.range;
+		int upperRange = luck + this.range > 100 ? 100: luck + this.range;
 		
-		int minIndex = 0;
-		double min = Double.MAX_VALUE;
-		double r = world.rand.nextGaussian() + luck;
-		
-		for (int index = 0; index < chances.length; index++)
+		for(int i = 0; i < rewards.size(); i++)
 		{
-			double curr = Math.abs(chances[index] - r);
-			if (curr < min)
+			if(rewards.get(i).getLuckValue() >= lowerRange)
 			{
-				min = curr;
-				minIndex = index;
+				lowerIndex = i;
+				break;
+			}
+		}
+		for(int i = rewards.size()-1; i >= 0; i--)
+		{
+			if(rewards.get(i).getLuckValue() <= upperRange)
+			{
+				upperIndex = i;
+				break;
 			}
 		}
 		
-		rewards.get(minIndex).trigger(world, x, y, z, player);
+		int pick = world.rand.nextInt(upperIndex-lowerIndex + 1) + lowerIndex;
+		rewards.get(pick).trigger(world, x, y, z, player);
+	}
+
+	public void processRewards()
+	{
+		rewards = ListSort.sortList(rewards);
 	}
 }

@@ -1,7 +1,6 @@
 package chanceCubes;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
 import org.apache.logging.log4j.Logger;
@@ -61,7 +60,7 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		Blocks.hardened_clay.setHardness(0.3F);
-		Blocks.stained_hardened_clay.setHardness(0.3F);
+		
+		cCubeRegistry.processRewards();
 	}
 }
