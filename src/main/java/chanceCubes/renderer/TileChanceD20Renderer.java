@@ -2,7 +2,7 @@ package chanceCubes.renderer;
 
 import java.awt.Color;
 import java.util.Random;
-import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -13,10 +13,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import org.lwjgl.opengl.GL11;
+
+import chanceCubes.tileentities.TileChanceD20;
+
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 {
-	IModelCustom model;
-	ResourceLocation texture;
+	private IModelCustom model;
+	private ResourceLocation texture;
+	
+	private float baseSpinSpd = 4F;
+	private float baseColorSpd = 50F;
+	private float hvrSpd = 12F;
 	
 	public TileChanceD20Renderer()
 	{
@@ -27,11 +35,12 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick)
 	{
-		float spinSpd = 40F;
-		float colorSpd = 50F;
-		float hvrSpd = 12F;
+		int stage = ((TileChanceD20)tileEntity).getStage();
 		
-		float wave = MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime()%(hvrSpd * 1000F) + partialTick)/(hvrSpd * 1000F) * 360F);
+		float spinSpd = baseSpinSpd + (stage/4f);
+		float colorSpd = baseColorSpd - (stage/5f);
+		
+		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime()%(hvrSpd * 1000F) + partialTick)/(hvrSpd * 1000F) * 360F) : (stage/10f);
 		float spin = (tileEntity.getWorldObj().getTotalWorldTime()*spinSpd)%360 + partialTick;
 		float color = (tileEntity.getWorldObj().getTotalWorldTime()%colorSpd + partialTick)/colorSpd;
 		
@@ -66,7 +75,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -1.0F, -2.0F);
 
-        for (int i = 0; i < 16; ++i)
+        for (int i = 0; i < (16 + (stage/10)); ++i)
         {
             GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);

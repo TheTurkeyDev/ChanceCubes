@@ -20,7 +20,6 @@ public class CCubesBlocks
 		chanceCube = new BlockChanceCube();
 		chanceIcosahedron = new BlockChanceD20();
 		
-		
 		GameRegistry.registerBlock(chanceCube, "Chance_Cube");
 		GameRegistry.registerBlock(chanceIcosahedron, "Chance_Icosahedron");
 		
