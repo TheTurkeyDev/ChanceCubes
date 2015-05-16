@@ -13,6 +13,8 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
+import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.rewards.type.PotionRewardType.PotionType;
 import chanceCubes.util.ListSort;
 
 public class ChanceCubeRegistry
@@ -31,6 +33,7 @@ public class ChanceCubeRegistry
 		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":EXP", 25, new ExperienceRewardType(100)));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":Potions", 0, new PotionRewardType(PotionType.POISON_II)));
 	}
 
 	/**
