@@ -11,6 +11,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.type.EntityRewardType;
+import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.util.ListSort;
 
@@ -29,6 +30,7 @@ public class ChanceCubeRegistry
 		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
 		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
+		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 25, new ExperienceRewardType(100)));
 	}
 
 	/**
