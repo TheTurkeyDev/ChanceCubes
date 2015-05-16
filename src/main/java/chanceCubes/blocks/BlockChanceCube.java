@@ -10,12 +10,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class ChanceCubeBlock extends Block
+public class BlockChanceCube extends Block
 {
-	public ChanceCubeBlock()
+	public BlockChanceCube()
 	{
 		super(Material.ground);
-		this.setHardness(.5f);
+		this.setHardness(0.5f);
 		this.setBlockName("Chance_Cube");
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setBlockTextureName("chancecubes:chanceCube");

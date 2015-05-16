@@ -98,4 +98,9 @@ public class ChanceCubeRegistry
 	{
 		rewards = ListSort.sortList(rewards);
 	}
+	
+	public void setRange(int r)
+	{
+		this.range = r;
+	}
 }
