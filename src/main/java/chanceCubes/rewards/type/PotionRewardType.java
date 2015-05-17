@@ -54,7 +54,9 @@ public class PotionRewardType implements IRewardType {
 			entity.posX = player.posX;
 			entity.posY = player.posY + 2;
 			entity.posZ = player.posZ;
-			entity.motionY = -1;
+			entity.motionX = 0;
+			entity.motionY = 0.1;
+			entity.motionZ = 0;
 			
 			world.spawnEntityInWorld(entity);
 		}
