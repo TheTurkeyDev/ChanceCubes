@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -51,6 +52,7 @@ public class CCubesCore
 		logger = event.getModLog();
 
 		CCubesBlocks.loadBlocks();
+		CCubesItems.loadItems();
 		cCubeRegistry = new ChanceCubeRegistry();
 		cCubeRegistry.loadDefaultRewards();
 
