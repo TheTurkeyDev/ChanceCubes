@@ -126,7 +126,6 @@ public class ChanceCubeRegistry
 		int upperIndex = rewards.size();
 		int lowerRange = luck - this.range < -100 ? -100: luck - this.range;
 		int upperRange = luck + this.range > 100 ? 100: luck + this.range;
-		System.out.println(lowerRange +" - "+upperRange);
 		
 		for(int i = 0; i < rewards.size(); i++)
 		{
