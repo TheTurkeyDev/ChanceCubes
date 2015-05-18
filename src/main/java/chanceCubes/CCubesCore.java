@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;

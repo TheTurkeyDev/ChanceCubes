@@ -38,7 +38,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		int stage = ((TileChanceD20)tileEntity).getStage();
 		
 		float spinSpd = baseSpinSpd + (stage/4f);
-		float colorSpd = baseColorSpd - (stage/5f);
+		float colorSpd = baseColorSpd - (stage/10f);
 		
 		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime()%(hvrSpd * 1000F) + partialTick)/(hvrSpd * 1000F) * 360F) : (stage/10f);
 		float spin = (tileEntity.getWorldObj().getTotalWorldTime()*spinSpd)%360 + partialTick;

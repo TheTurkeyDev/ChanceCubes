@@ -1,4 +1,4 @@
-package chanceCubes;
+package chanceCubes.config;
 
 public class CCubesSettings 
 {

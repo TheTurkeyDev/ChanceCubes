@@ -1,7 +1,8 @@
-package chanceCubes;
+package chanceCubes.config;
 
 import java.io.File;
 
+import chanceCubes.CCubesCore;
 import net.minecraftforge.common.config.Configuration;
 
 public class ConfigLoader 
