@@ -1,7 +1,6 @@
 package chanceCubes;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
 import org.apache.logging.log4j.Logger;
@@ -9,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 import com.enderio.core.IEnderMod;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.ConfigLoader;
+import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -52,10 +54,11 @@ public class CCubesCore implements IEnderMod
     public void load(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-
-        CCubesBlocks.loadBlocks();
-        cCubeRegistry = new ChanceCubeRegistry();
-        cCubeRegistry.loadDefaultRewards();
+        
+		CCubesBlocks.loadBlocks();
+		CCubesItems.loadItems();
+		cCubeRegistry = new ChanceCubeRegistry();
+		cCubeRegistry.loadDefaultRewards();
 
         ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
         FMLCommonHandler.instance().bus().register(new UpdateNotificationHandler());
@@ -64,8 +67,8 @@ public class CCubesCore implements IEnderMod
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        Blocks.hardened_clay.setHardness(0.3F);
-        Blocks.stained_hardened_clay.setHardness(0.3F);
+        CustomRewardsLoader.instance.loadCustomRewards();
+        cCubeRegistry.processRewards();
     }
 
     @Override
