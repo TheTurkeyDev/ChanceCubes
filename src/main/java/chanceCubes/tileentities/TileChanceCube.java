@@ -30,7 +30,7 @@ public class TileChanceCube extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setDouble("luck", this.luck);
+		nbt.setInteger("luck", this.luck);
 	}
 	
 	@Override
@@ -38,5 +38,4 @@ public class TileChanceCube extends TileEntity {
 	{
 		this.luck = nbt.getInteger("luck");
 	}
-
 }
