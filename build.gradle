@@ -22,10 +22,16 @@ group= "chanceCubes.CCubesCore"
 archivesBaseName = "ChanceCubes"
 
 minecraft {
-    version = "1.7.10-10.13.3.1403-1.7.10"
+    version = "${mc_version}-${forge_version}"
+}
+
+repositories {
+    maven { url = "http://maven.tterrag.com" }
+    maven { url = "http://chickenbones.net/maven/" }
 }
 
 dependencies {
+    compile "com.enderio.core:EnderCore:${mc_version}-${endercore_version}:dev"
 }
 
 processResources
