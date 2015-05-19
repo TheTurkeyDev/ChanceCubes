@@ -1,12 +1,12 @@
 package chanceCubes.items;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.config.ConfigLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 
 public class ItemChancePendant extends Item {
 
@@ -24,7 +24,7 @@ public class ItemChancePendant extends Item {
 	public void onCreated(ItemStack stack, World world, EntityPlayer player)
 	{
 		stack.stackTagCompound = new NBTTagCompound();
-		stack.stackTagCompound.setInteger("damage", ConfigLoader.pendantUses);
+		stack.stackTagCompound.setInteger("damage", CCubesSettings.pendantUses);
 		stack.stackTagCompound.setInteger("luck", 0);
 	}
 	
@@ -42,7 +42,7 @@ public class ItemChancePendant extends Item {
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		if (stack.stackTagCompound != null)
-			return getNumberUsesRemaining(stack) / (double) ConfigLoader.pendantUses;
+			return getNumberUsesRemaining(stack) / (double) CCubesSettings.pendantUses;
 		else
 			return 0;
 	}

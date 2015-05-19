@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -63,7 +64,7 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		
+		CustomRewardsLoader.instance.loadCustomRewards();
 		cCubeRegistry.processRewards();
 	}
 }
