@@ -3,11 +3,11 @@ package chanceCubes.rewards.type;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public abstract class MultipleRewardType<T> implements IRewardType
+public abstract class BaseRewardType<T> implements IRewardType
 {
     protected T[] rewards;
 
-    protected MultipleRewardType(T... rewards)
+    protected BaseRewardType(T... rewards)
     {
         this.rewards = rewards;
     }

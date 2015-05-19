@@ -123,8 +123,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
         int upperIndex = sortedRewards.size() - 1;
         int lowerRange = LUCK_BOUND.clamp(luckBounds.min + luck);
         int upperRange = LUCK_BOUND.clamp(luckBounds.max + luck);
-        
-        System.out.println("Luck range: " + lowerRange + " - " + upperRange);
 
         while (sortedRewards.get(lowerIndex).getLuckValue() < lowerRange)
         {

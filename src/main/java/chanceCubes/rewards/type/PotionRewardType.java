@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class PotionRewardType extends MultipleRewardType<PotionEffect>
+public class PotionRewardType extends BaseRewardType<PotionEffect>
 {
     /**
      * This is real useful and all, but really hard to use from an API standpoint. Going to switch to raw PotionEffects

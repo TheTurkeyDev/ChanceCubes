@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class MessageRewardType extends MultipleRewardType<String>
+public class MessageRewardType extends BaseRewardType<String>
 {
     public MessageRewardType(String... messages)
     {

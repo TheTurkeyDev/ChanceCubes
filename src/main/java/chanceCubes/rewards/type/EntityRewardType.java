@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 
-public class EntityRewardType extends MultipleRewardType<String>
+public class EntityRewardType extends BaseRewardType<String>
 {
     public EntityRewardType(String... entities)
     {

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemRewardType extends MultipleRewardType<ItemStack>
+public class ItemRewardType extends BaseRewardType<ItemStack>
 {
     public ItemRewardType(ItemStack... items)
     {
