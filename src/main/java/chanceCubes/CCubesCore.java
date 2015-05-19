@@ -42,8 +42,6 @@ public class CCubesCore implements IEnderMod
     };
     public static Logger logger;
 
-    public static ChanceCubeRegistry cCubeRegistry;
-
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -57,8 +55,7 @@ public class CCubesCore implements IEnderMod
         
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
-		cCubeRegistry = new ChanceCubeRegistry();
-		cCubeRegistry.loadDefaultRewards();
+		ChanceCubeRegistry.loadDefaultRewards();
 
         ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
         FMLCommonHandler.instance().bus().register(new UpdateNotificationHandler());
@@ -68,7 +65,6 @@ public class CCubesCore implements IEnderMod
     public void postInit(FMLPostInitializationEvent event)
     {
         CustomRewardsLoader.instance.loadCustomRewards();
-        cCubeRegistry.processRewards();
     }
 
     @Override

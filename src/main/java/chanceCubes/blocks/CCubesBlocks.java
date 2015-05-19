@@ -11,8 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
 {
-	
-	public static Block chanceCube;
+	public static BlockChanceCube chanceCube;
 	public static Block chanceIcosahedron;
 
 	public static void loadBlocks()

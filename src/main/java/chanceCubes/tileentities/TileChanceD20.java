@@ -2,7 +2,10 @@ package chanceCubes.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BlockChanceCube;
+import chanceCubes.registry.ChanceCubeRegistry;
+
+import com.enderio.core.common.util.BlockCoord;
 
 public class TileChanceD20 extends TileEntity
 {
@@ -15,21 +18,21 @@ public class TileChanceD20 extends TileEntity
 
 	}
 
-	public void updateEntity() 
-	{
-		if(!breaking)
-			return;
-		stage++;
-		if(stage > 200)
-		{
-			breaking = false;
-			if(!this.worldObj.isRemote)
-			{
-				this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-				this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
-				CCubesCore.cCubeRegistry.triggerRandomReward(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player, 0);
-			}
-		}
+    public void updateEntity()
+    {
+        if (!breaking)
+            return;
+        stage++;
+        if (stage > 200)
+        {
+            breaking = false;
+            if (!this.worldObj.isRemote)
+            {
+                this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+                this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
+                ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, new BlockCoord(this), player, 0, BlockChanceCube.luckBound);
+            }
+        }
 	}
 
 	public void startBreaking(EntityPlayer player)

@@ -1,10 +1,14 @@
 package chanceCubes.registry;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,64 +27,58 @@ import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.PotionRewardType.PotionType;
 
-public class ChanceCubeRegistry
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.Bound;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ChanceCubeRegistry implements IRewardRegistry
 {
-
-	private static List<IChanceCubeReward> rewards = new ArrayList<IChanceCubeReward>();
+    private static final Bound<Integer> LUCK_BOUND = Bound.of(-100, 100);
+    
+    public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
+    
+	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
+	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	
-	private int range = 75;
-
 	/**
 	 * loads the default rewards of the Chance Cube
 	 */
-	public void loadDefaultRewards()
+	public static void loadDefaultRewards()
 	{
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":EXP", 25, new ExperienceRewardType(100)));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":Potions", 0, new PotionRewardType(PotionType.POISON_II)));
-		this.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes........."), new MessageRewardType("For now......")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":EXP", 25, new ExperienceRewardType(100)));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Potions", 0, new PotionRewardType(PotionType.POISON_II)));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 	}
 
-	/**
-	 * Registers the given reward as a possible outcome
-	 * @param reward to register
-	 */
-	public void registerReward(IChanceCubeReward reward)
-	{
-		rewards.add(reward);
-	}
+    @Override
+    public void registerReward(IChanceCubeReward reward)
+    {
+        nameToReward.put(reward.getName(), reward);
+        redoSort(reward);
+    }
 
-	/**
-	 * Unregisters a reward with the given name
-	 * @param name of the reward to remove
-	 * @return true is a reward was successfully removed, false if a reward was not removed
-	 */
-	public boolean unregisterReward(String name)
-	{
-		for(int i = 0; i < rewards.size(); i++)
-		{
-			IChanceCubeReward reward = rewards.get(i);
-			if(reward.getName().equalsIgnoreCase(name))
-			{
-				rewards.remove(reward);
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean unregisterReward(String name)
+    {
+        return nameToReward.remove(name) != null;
+    }
 
-	/**
-	 * Triggers a random reward in the given world at the given location
-	 * @param World
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int luck)
-	{
-		//Luck from pendant
+    @Nullable
+    public IChanceCubeReward getRewardByName(String name)
+    {
+        return nameToReward.get(name);
+    }
+
+    @Override
+    public void triggerRandomReward(World world, BlockCoord pos, EntityPlayer player, int luck, Bound<Integer> luckBounds)
+    {
+        // Luck from pendant
+        // TODO this is a mess...
 		if (player != null && player.inventory.hasItem(CCubesItems.chancePendant))
 		{
 			for (int i = 0; i < player.inventory.mainInventory.length; i++)
@@ -107,9 +105,8 @@ public class ChanceCubeRegistry
 								player.inventory.setInventorySlotContents(slotCounter, null);
 							}
 						}
-						
-						luck = luck + lapisCounter> (100+this.range) ? 100+this.range : luck + lapisCounter; //Don't overflow on topside.
-					}
+						luck += lapisCounter;
+                    }
 					
 					if (stack.getItemDamage() == 1) //Not yet implemented
 					{
@@ -117,41 +114,38 @@ public class ChanceCubeRegistry
 						pendant.removeAllLuck(stack);
 						pendant.damage(stack);
 					}
-						
 				}
-					
 			}
+        }
+		
+        int lowerIndex = 0;
+        int upperIndex = sortedRewards.size() - 1;
+        int lowerRange = LUCK_BOUND.clamp(luckBounds.min + luck);
+        int upperRange = LUCK_BOUND.clamp(luckBounds.max + luck);
+        
+        System.out.println("Luck range: " + lowerRange + " - " + upperRange);
 
-		}
-		int lowerIndex = 0;
-		int upperIndex = rewards.size();
-		int lowerRange = luck - this.range < -100 ? -100: luck - this.range;
-		int upperRange = luck + this.range > 100 ? 100: luck + this.range;
-		
-		for(int i = 0; i < rewards.size(); i++)
-		{
-			if(rewards.get(i).getLuckValue() >= lowerRange)
-			{
-				lowerIndex = i;
-				break;
-			}
-		}
-		for(int i = rewards.size()-1; i >= 0; i--)
-		{
-			if(rewards.get(i).getLuckValue() <= upperRange)
-			{
-				upperIndex = i;
-				break;
-			}
-		}
-		
-		int pick = world.rand.nextInt(upperIndex-lowerIndex + 1) + lowerIndex;
-		rewards.get(pick).trigger(world, x, y, z, player);
+        while (sortedRewards.get(lowerIndex).getLuckValue() < lowerRange)
+        {
+            lowerIndex++;
+        }
+        while (sortedRewards.get(upperIndex).getLuckValue() > upperRange)
+        {
+            upperIndex--;
+        }
+
+        int pick = world.rand.nextInt(upperIndex - lowerIndex + 1) + lowerIndex;
+        sortedRewards.get(pick).trigger(world, pos.x, pos.y, pos.z, player);
     }
 
-    public void processRewards()
+    private void redoSort(@Nullable IChanceCubeReward newReward)
     {
-        Collections.sort(rewards, new Comparator<IChanceCubeReward>()
+        if (newReward != null)
+        {
+            sortedRewards.add(newReward);
+        }
+        
+        Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
         {
             public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
             {
@@ -159,9 +153,4 @@ public class ChanceCubeRegistry
             };
         });
     }
-
-	public void setRange(int r)
-	{
-		this.range = r;
-	}
 }

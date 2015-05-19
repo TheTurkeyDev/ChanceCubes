@@ -2,8 +2,10 @@ package chanceCubes.config;
 
 import java.io.File;
 
-import chanceCubes.CCubesCore;
 import net.minecraftforge.common.config.Configuration;
+import chanceCubes.blocks.BlockChanceCube;
+
+import com.enderio.core.common.util.Bound;
 
 public class ConfigLoader 
 {
@@ -17,7 +19,9 @@ public class ConfigLoader
 		config = new Configuration(new File(fileFolder + "/" + file.getName()));
 		config.load();
 		
-		CCubesCore.cCubeRegistry.setRange(config.getInt(genCat, "Chance Range", 75, 0, 100, "changes the range of chance that the chance block can pick from. ie. if you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value."));
+		int rangeMin = config.getInt("chanceRangeMin", genCat, -75, -100, 0, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+        int rangeMax = config.getInt("chanceRangeMax", genCat, 75, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+		BlockChanceCube.luckBound = Bound.of(rangeMin, rangeMax);
 		
 		CCubesSettings.pendantUses = config.get(genCat, "pendantUses", CCubesSettings.pendantUses, "Number of uses for a pendant").getInt();
 		
