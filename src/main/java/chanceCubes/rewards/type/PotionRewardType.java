@@ -1,66 +1,94 @@
 package chanceCubes.rewards.type;
 
-import java.util.ArrayList;
-
+import lombok.Value;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class PotionRewardType implements IRewardType {
+public class PotionRewardType extends MultipleRewardType<PotionEffect>
+{
+    /**
+     * This is real useful and all, but really hard to use from an API standpoint. Going to switch to raw PotionEffects
+     */
+    @Value
+    @Deprecated
+    public static class PotionData
+    {
+        private String potionEffect;
+        private boolean tier, duration;
 
-	private ArrayList<Integer> potion_ids = new ArrayList<Integer>();
-	
-	public static enum PotionType
-	{
-		REGENERATION(16385), REGENERATION_II(16417),
-		SWIFTNESS(16386), SWIFTNESS_II(16418),
-		FIRE_RESIST(16387),
-		POISON(16388), POISON_II(16420),
-		HEALTH(16389), HEALTH_II(16421),
-		NIGHT_VISION(16390),
-		WEAKNESS(16392),
-		STRENGTH(16393), STRENGTH_II(16425),
-		SLOWNESS(16394), SLOWNESS_II(16426),
-		HARMING(16396), HARMING_II(16428),
-		WATER_BREATHING(16397),
-		INVISIBILITY(16398);
-		
-		public int id;
-		PotionType(int id)
-		{
-			this.id = id;
-		}
-	}
-	
-	public PotionRewardType(Potion... potions)
-	{
-		for (Potion pot : potions)
-			potion_ids.add(pot.id);
-	}
-	
-	public PotionRewardType(PotionType... potions)
-	{
-		for (PotionType pot : potions)
-			potion_ids.add(pot.id);
-	}
-	
-	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player) 
-	{
-		for (Integer i : potion_ids)
-		{
-			EntityPotion entity = new EntityPotion(world, player, i);
-			entity.posX = player.posX;
-			entity.posY = player.posY + 2;
-			entity.posZ = player.posZ;
-			entity.motionX = 0;
-			entity.motionY = 0.1;
-			entity.motionZ = 0;
-			
-			world.spawnEntityInWorld(entity);
-		}
-		
-	}
+        /**
+         * Reference: http://minecraft.gamepedia.com/Data_values#Potions
+         * 
+         * @return The damage value for this data
+         */
+        public int getDamage(boolean splash)
+        {
+            int damage = getDamageFromEffect(potionEffect);
+            damage |= bitFor(tier, 5);
+            damage |= bitFor(duration, 6);
+            damage |= bitFor(splash, 14);
+            return damage;
+        }
 
+        private int getDamageFromEffect(String effect)
+        {
+            int idx = effect.lastIndexOf('&');
+            if (idx >= 0)
+            {
+                effect = effect.substring(0, effect.lastIndexOf('&'));
+            }
+            boolean set = false;
+            int damage = 0;
+            for (char c : effect.toCharArray())
+            {
+                if (c == '+' || c == '-')
+                {
+                    set = c == '+';
+                }
+                else
+                {
+                    damage |= bitFor(set, Integer.valueOf(String.valueOf(c)));
+                }
+            }
+            return damage;
+        }
+
+        private int bitFor(boolean bool, int shift)
+        {
+            return (bool ? 1 : 0) << shift;
+        }
+    }
+    
+    public PotionRewardType(PotionEffect... effects)
+    {
+        super(effects);
+    }
+
+    @Override
+    public void trigger(PotionEffect effect, World world, int x, int y, int z, EntityPlayer player)
+    {
+        ItemStack potion = new ItemStack(Items.potionitem);
+        NBTTagList effects = new NBTTagList();
+        NBTTagCompound effectData = new NBTTagCompound();
+        effect.writeCustomPotionEffectToNBT(effectData);
+        effects.appendTag(effectData);
+        potion.stackTagCompound = new NBTTagCompound();
+        potion.stackTagCompound.setTag("CustomPotionEffects", effects);
+
+        EntityPotion entity = new EntityPotion(world, player, potion);
+        entity.posX = player.posX;
+        entity.posY = player.posY + 2;
+        entity.posZ = player.posZ;
+        entity.motionX = 0;
+        entity.motionY = 0.1;
+        entity.motionZ = 0;
+
+        world.spawnEntityInWorld(entity);
+    }
 }

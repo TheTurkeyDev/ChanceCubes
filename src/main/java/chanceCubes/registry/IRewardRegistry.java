@@ -1,5 +1,7 @@
 package chanceCubes.registry;
 
+import javax.annotation.Nullable;
+
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.Bound;
 
@@ -26,6 +28,7 @@ public interface IRewardRegistry
      */
     boolean unregisterReward(String name);
 
+    @Nullable
     IChanceCubeReward getRewardByName(String name);
 
     /**
