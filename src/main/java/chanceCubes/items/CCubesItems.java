@@ -10,6 +10,7 @@ public class CCubesItems {
 	public static void loadItems()
 	{
 		chancePendant = new ItemChancePendant();
+		
 		GameRegistry.registerItem(chancePendant, "chancePendant");
 	}
 
