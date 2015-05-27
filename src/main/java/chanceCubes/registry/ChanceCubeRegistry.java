@@ -14,6 +14,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
@@ -21,6 +23,11 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.type.CommandRewardType;
+import chanceCubes.rewards.type.EntityRewardType;
+import chanceCubes.rewards.type.ExperienceRewardType;
+import chanceCubes.rewards.type.ItemRewardType;
+import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.type.PotionRewardType;
 
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.Bound;
@@ -42,12 +49,12 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
-		/*INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneDiamond", -75, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Creeper", 0, new EntityRewardType("Creeper")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":RedstoneZombie", 100, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType("Zombie")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":EXP", 25, new ExperienceRewardType(100)));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Potions", 0, new PotionRewardType(new PotionEffect(Potion.poison.id, 16 * 20))));		
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));*/
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 0, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
 	}
 

@@ -10,7 +10,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class UpdateNotificationHandler
 {
 	boolean hasChecked = false;
-
+	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event)
 	{

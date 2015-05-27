@@ -9,7 +9,7 @@ import com.enderio.core.common.util.Bound;
 
 public class ConfigLoader 
 {
-	private static Configuration config;
+	public static Configuration config;
 	private static final String genCat = "General Settings";
 	
 	public static void loadConfigSettings(File file)
@@ -24,6 +24,9 @@ public class ConfigLoader
 		BlockChanceCube.luckBound = Bound.of(rangeMin, rangeMax);
 		
 		CCubesSettings.pendantUses = config.get(genCat, "pendantUses", CCubesSettings.pendantUses, "Number of uses for a pendant").getInt();
+		CCubesSettings.oreGeneration = config.getBoolean(genCat, "BlockedWorlds", true, "true if Chance Cubes should generate like ores with in the world. false if they should not");
+		CCubesSettings.surfaceGeneration = config.getBoolean(genCat, "BlockedWorlds", true, "true if Chance Cubes should generate on the surface of the world. false if they should not");
+		CCubesSettings.blockedWorlds = config.getStringList(genCat, "BlockedWorlds", new String[0], "Worlds that Chance cubes shold not generate in");
 		
 		config.save();
 		
