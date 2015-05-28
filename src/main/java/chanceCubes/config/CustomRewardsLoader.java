@@ -12,14 +12,20 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.type.CommandRewardType;
+import chanceCubes.rewards.type.EntityRewardType;
+import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
+import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.type.PotionRewardType;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -65,6 +71,16 @@ public class CustomRewardsLoader
 						JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
 						if(rewardElement.getKey().equalsIgnoreCase("Item"))
 							this.loadItemReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Message"))
+							this.loadMessageReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Command"))
+							this.loadCommandReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
+							this.loadEntityReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
+							this.loadExperienceReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
+							this.loadExperienceReward(rewardTypes, rewards);
 					}
 					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":" + reward.getKey(), 0, rewards.toArray(new IRewardType[rewards.size()])));
 				}
@@ -96,7 +112,6 @@ public class CustomRewardsLoader
 				}
 				else
 				{
-					System.out.println(((NBTTagCompound) nbtbase).hasKey("id"));
 					ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
 					if(stack == null)
 						CCubesCore.logger.log(Level.ERROR, "Failed to create an itemstack from the JSON of: " + jsonEdited + " and the NBT of: " + ((NBTTagCompound) nbtbase).toString());
@@ -110,12 +125,47 @@ public class CustomRewardsLoader
 		}
 		return rewards;
 	}
+
+	public List<IRewardType> loadMessageReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		for(JsonElement element : rawReward)
+			rewards.add(new MessageRewardType(element.getAsJsonObject().get("message").getAsString()));
+		return rewards;
+	}
 	
+	public List<IRewardType> loadCommandReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		for(JsonElement element : rawReward)
+			rewards.add(new CommandRewardType(element.getAsJsonObject().get("command").getAsString()));
+		return rewards;
+	}
 	
+	//TODO: Change this to an NBT system like the item reward
+	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		for(JsonElement element : rawReward)
+			rewards.add(new EntityRewardType(element.getAsJsonObject().get("entity").getAsString()));
+		return rewards;
+	}
 	
+	public List<IRewardType> loadExperienceReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		for(JsonElement element : rawReward)
+			rewards.add(new ExperienceRewardType(element.getAsJsonObject().get("experienceAmount").getAsInt()));
+		return rewards;
+	}
 	
-	
-	
+	public List<IRewardType> loadPotionReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		for(JsonElement element : rawReward)
+			rewards.add(new PotionRewardType(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20)));
+		return rewards;
+	}
+
+
+
+
+
 	public String removedKeyQuotes(String raw)
 	{
 		StringBuilder sb = new StringBuilder(raw.toString());
