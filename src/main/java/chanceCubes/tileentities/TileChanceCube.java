@@ -1,5 +1,7 @@
 package chanceCubes.tileentities;
 
+import java.util.Random;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -9,7 +11,7 @@ public class TileChanceCube extends TileEntity {
 	
 	public TileChanceCube()
 	{
-		this(0);
+		this(new Random().nextInt(201)-100);
 	}
 	
 	public TileChanceCube(int initialLuck)

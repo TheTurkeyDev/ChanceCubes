@@ -31,23 +31,18 @@ public class WorldGen implements IWorldGenerator
 		}
 		else
 		{
-			boolean oreGen = random.nextBoolean();
-			if(oreGen)
-				generateOre(world, random, chunkX * 16, chunkZ * 16);
-			else
-			{
-				int j = chunkX + random.nextInt(16) + 8;
-				int k = chunkZ + random.nextInt(16) + 8;
-				int  l = nextInt(world.getHeightValue(j, k) * 2, random);
-				generateSurface(world, random, j, k, l);
-			}
+			int j = chunkX + random.nextInt(16) + 8;
+			int k = chunkZ + random.nextInt(16) + 8;
+			int  l = nextInt(world.getHeightValue(j, k) * 2, random);
+			generateOre(world, random, chunkX * 16, chunkZ * 16);
+			generateSurface(world, random, j, k, l);
 		}
 
 	}
 
 	private void generateOre(World world, Random rand, int chunkX, int chunkZ) 
 	{
-		for(int k = 0; k < 5; k++)
+		for(int k = 0; k < 64; k++)
 		{
 			int firstBlockXCoord = chunkX + rand.nextInt(16);
 			int firstBlockYCoord = rand.nextInt(100);
