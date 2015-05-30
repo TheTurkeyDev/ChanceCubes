@@ -22,7 +22,7 @@ public class WorldGen implements IWorldGenerator
 			return;
 		else if(CCubesSettings.oreGeneration && !CCubesSettings.surfaceGeneration)
 			generateOre(world, random, chunkX * 16, chunkZ * 16);
-		else if(!CCubesSettings.oreGeneration && !CCubesSettings.surfaceGeneration)
+		else if(!CCubesSettings.oreGeneration && CCubesSettings.surfaceGeneration)
 		{
 			int j = chunkX + random.nextInt(16) + 8;
 			int k = chunkZ + random.nextInt(16) + 8;
@@ -32,7 +32,7 @@ public class WorldGen implements IWorldGenerator
 		else
 		{
 			int j = chunkX + random.nextInt(16) + 8;
-			int k = chunkZ + random.nextInt(16) + 8;
+			int k = chunkZ + random.nextInt(16) + 70;
 			int  l = nextInt(world.getHeightValue(j, k) * 2, random);
 			generateOre(world, random, chunkX * 16, chunkZ * 16);
 			generateSurface(world, random, j, k, l);
@@ -42,7 +42,7 @@ public class WorldGen implements IWorldGenerator
 
 	private void generateOre(World world, Random rand, int chunkX, int chunkZ) 
 	{
-		for(int k = 0; k < 64; k++)
+		for(int k = 0; k < 8; k++)
 		{
 			int firstBlockXCoord = chunkX + rand.nextInt(16);
 			int firstBlockYCoord = rand.nextInt(100);
@@ -54,15 +54,16 @@ public class WorldGen implements IWorldGenerator
 
 	public boolean generateSurface(World world, Random rand, int x, int y, int z)
 	{
-		for (int l = 0; l < 64; ++l)
+		for (int l = 0; l < 8; ++l)
 		{
 			int i1 = x + rand.nextInt(8) - rand.nextInt(8);
 			int j1 = y + rand.nextInt(4) - rand.nextInt(4);
 			int k1 = z + rand.nextInt(8) - rand.nextInt(8);
 
-			if (world.isAirBlock(i1, j1, k1) && world.getBlock(i1, j1 - 1, k1) == Blocks.grass && Blocks.pumpkin.canPlaceBlockAt(world, i1, j1, k1))
+			if (world.isAirBlock(i1, j1, k1) && world.getBlock(i1, j1 - 1, k1).isOpaqueCube())
 			{
-				world.setBlock(i1, j1, k1, CCubesBlocks.chanceCube, rand.nextInt(4), 2);
+				System.out.println("Gen'd at (" + i1 + ", " + j1 + ", " + k1 + ")");
+				world.setBlock(i1, j1, k1, CCubesBlocks.chanceCube);
 			}
 		}
 

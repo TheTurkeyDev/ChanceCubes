@@ -21,6 +21,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.NukeReward;
 import chanceCubes.rewards.type.CommandRewardType;
@@ -58,6 +59,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 15, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
 		INSTANCE.registerReward(new NukeReward());
+		INSTANCE.registerReward(new FiveProngReward());
 	}
 
     @Override
@@ -135,6 +137,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
         while (sortedRewards.get(upperIndex).getLuckValue() > upperRange)
         {
             upperIndex--;
+            if(upperIndex < 0)
+            {
+            	upperIndex++;
+            	break;
+            }
         }
 
         int pick = world.rand.nextInt(upperIndex - lowerIndex + 1) + lowerIndex;
