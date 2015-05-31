@@ -1,5 +1,11 @@
 package chanceCubes.proxy;
 
+import chanceCubes.renderer.SpecialRendererD20;
+import chanceCubes.renderer.TileChanceD20Renderer;
+import chanceCubes.tileentities.TileChanceD20;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+
 
 public class ClientProxy extends CommonProxy
 {
@@ -10,8 +16,10 @@ public class ClientProxy extends CommonProxy
 		return true;
 	}
 
-	public void registerGuis()
+	public void registerRenderings()
 	{
-
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
+		SpecialRendererD20.renderID = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(SpecialRendererD20.renderID, new SpecialRendererD20());
 	}
 }

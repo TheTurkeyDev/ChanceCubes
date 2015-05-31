@@ -1,21 +1,52 @@
 package chanceCubes.tileentities;
 
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
-
-import com.enderio.core.common.util.BlockCoord;
 
 public class TileChanceD20 extends TileEntity
 {
 	private boolean breaking = false;
 	private int stage = 0;
 	private EntityPlayer player;
-
+	
+	
+	private int chance;
+	
 	public TileChanceD20()
 	{
-
+		this(new Random().nextInt(201)-100);
+	}
+	
+	public TileChanceD20(int initialChance)
+	{
+		this.chance = initialChance;
+	}
+	
+	public void setChance(int newChance)
+	{
+		this.chance = newChance;
+	}
+	
+	public int getChance()
+	{
+		return this.chance;
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		nbt.setInteger("chance", this.chance);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		this.chance = nbt.getInteger("chance");
 	}
 
     public void updateEntity()
@@ -30,7 +61,7 @@ public class TileChanceD20 extends TileEntity
             {
                 this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
                 this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
-                ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, new BlockCoord(this), player, 0, BlockChanceCube.luckBound);
+                ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player, 0, BlockChanceCube.luckBound);
             }
         }
 	}

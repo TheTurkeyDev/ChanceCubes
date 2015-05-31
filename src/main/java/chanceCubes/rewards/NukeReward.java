@@ -1,5 +1,6 @@
 package chanceCubes.rewards;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -30,7 +31,7 @@ public class NukeReward implements IChanceCubeReward
 	}
 
 	@Override
-	public int getLuckValue()
+	public int getChanceValue()
 	{
 		return -90;
 	}
@@ -38,7 +39,7 @@ public class NukeReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return "Nuke";
+		return CCubesCore.MODID+":Nuke";
 	}
 
 }

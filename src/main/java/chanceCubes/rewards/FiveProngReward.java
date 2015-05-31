@@ -1,9 +1,10 @@
 package chanceCubes.rewards;
 
-import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
 
 public class FiveProngReward implements IChanceCubeReward
 {
@@ -39,7 +40,7 @@ public class FiveProngReward implements IChanceCubeReward
 	}
 
 	@Override
-	public int getLuckValue()
+	public int getChanceValue()
 	{
 		return 30;
 	}
@@ -47,6 +48,6 @@ public class FiveProngReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return "5 Prongs";
+		return CCubesCore.MODID+":5 Prongs";
 	}
 }

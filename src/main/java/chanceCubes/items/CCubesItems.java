@@ -5,13 +5,13 @@ import net.minecraft.item.Item;
 
 public class CCubesItems {
 	
-	public static Item chancePendant;
+	public static Item chancePendantT1;
 	
 	public static void loadItems()
 	{
-		chancePendant = new ItemChancePendant();
+		chancePendantT1 = new ItemChancePendantT1();
 		
-		GameRegistry.registerItem(chancePendant, "chancePendant");
+		GameRegistry.registerItem(chancePendantT1, "chancePendantTier1");
 	}
 
 }

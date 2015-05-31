@@ -15,14 +15,10 @@ public class WorldGen implements IWorldGenerator
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) 
 	{
 		if(CCubesSettings.oreGeneration)
-		{
 			generateOre(world, random, chunkX * 16, chunkZ * 16);
-		}
 
 		if(CCubesSettings.surfaceGeneration)
-		{
 			generateSurface(world, random, chunkX * 16, chunkZ * 16);
-		}
 	}
 
 	private void generateOre(World world, Random rand, int x, int z) 

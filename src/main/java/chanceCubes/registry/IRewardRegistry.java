@@ -2,12 +2,11 @@ package chanceCubes.registry;
 
 import javax.annotation.Nullable;
 
-import com.enderio.core.common.util.BlockCoord;
-import com.enderio.core.common.util.Bound;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chanceCubes.rewards.IChanceCubeReward;
+
+import com.enderio.core.common.util.Bound;
 
 public interface IRewardRegistry
 {
@@ -41,9 +40,9 @@ public interface IRewardRegistry
      * @param player
      *            The player receiving the reward
      * @param luck
-     *            The luck of the player
+     *            The chance of the block
      * @param luckBounds
-     *            Min and max luck values
+     *            Min and max chance values
      */
-    void triggerRandomReward(World world, BlockCoord pos, EntityPlayer player, int luck, Bound<Integer> luckBounds);
+    void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance, Bound<Integer> chanceBounds);
 }

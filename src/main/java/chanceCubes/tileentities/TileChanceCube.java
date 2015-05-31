@@ -7,37 +7,37 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileChanceCube extends TileEntity {
 	
-	private int luck;
+	private int chance;
 	
 	public TileChanceCube()
 	{
 		this(new Random().nextInt(201)-100);
 	}
 	
-	public TileChanceCube(int initialLuck)
+	public TileChanceCube(int initialChance)
 	{
-		this.luck = initialLuck;
+		this.chance = initialChance;
 	}
 	
-	public void setLuck(int newLuck)
+	public void setChance(int newChance)
 	{
-		this.luck = newLuck;
+		this.chance = newChance;
 	}
 	
-	public int getLuck()
+	public int getChance()
 	{
-		return this.luck;
+		return this.chance;
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setInteger("luck", this.luck);
+		nbt.setInteger("chance", this.chance);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		this.luck = nbt.getInteger("luck");
+		this.chance = nbt.getInteger("chance");
 	}
 }

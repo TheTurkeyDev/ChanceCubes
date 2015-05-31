@@ -8,13 +8,13 @@ public class BasicReward implements IChanceCubeReward
 {
 
     private String name;
-    private int luck;
+    private int chance;
     private IRewardType[] rewards;
 
-    public BasicReward(String name, int luck, IRewardType... rewards)
+    public BasicReward(String name, int chance, IRewardType... rewards)
     {
         this.name = name;
-        this.luck = luck;
+        this.chance = chance;
         this.rewards = rewards;
     }
 
@@ -31,9 +31,9 @@ public class BasicReward implements IChanceCubeReward
     }
 
     @Override
-    public int getLuckValue()
+    public int getChanceValue()
     {
-        return this.luck;
+        return this.chance;
     }
 
     @Override

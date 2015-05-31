@@ -66,8 +66,15 @@ public class CustomRewardsLoader
 				{
 					List<IRewardType> rewards = new ArrayList<IRewardType>();
 					JsonObject rewardElements = reward.getValue().getAsJsonObject();
+					int chance = 0;
 					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
 					{
+						if(rewardElement.getKey().equalsIgnoreCase("chance"))
+						{
+							chance = rewardElement.getValue().getAsInt();
+							continue;
+						}
+					
 						JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
 						if(rewardElement.getKey().equalsIgnoreCase("Item"))
 							this.loadItemReward(rewardTypes, rewards);
@@ -82,7 +89,8 @@ public class CustomRewardsLoader
 						else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
 							this.loadExperienceReward(rewardTypes, rewards);
 					}
-					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":" + reward.getKey(), 0, rewards.toArray(new IRewardType[rewards.size()])));
+					
+					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":" + reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
 				}
 				CCubesCore.logger.log(Level.INFO,"Loaded custom rewards file " + f.getName());
 			}

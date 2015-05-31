@@ -10,16 +10,16 @@ import javax.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import org.apache.logging.log4j.Level;
+
 import chanceCubes.CCubesCore;
-import chanceCubes.items.CCubesItems;
-import chanceCubes.items.ItemChancePendant;
+import chanceCubes.items.IChancePendant;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -29,9 +29,9 @@ import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 
-import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.Bound;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,7 +39,7 @@ import com.google.common.collect.Maps;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ChanceCubeRegistry implements IRewardRegistry
 {
-    private static final Bound<Integer> LUCK_BOUND = Bound.of(-100, 100);
+    private static final Bound<Integer> CHANCE_BOUND = Bound.of(-100, 100);
     
     public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
     
@@ -58,6 +58,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Potions", -30, new PotionRewardType(new PotionEffect(Potion.poison.id, 16 * 20))));		
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 15, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Particles", 0, new ParticleEffectRewardType("largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke")));	
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 	}
@@ -82,59 +83,39 @@ public class ChanceCubeRegistry implements IRewardRegistry
     }
 
     @Override
-    public void triggerRandomReward(World world, BlockCoord pos, EntityPlayer player, int luck, Bound<Integer> luckBounds)
+    public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance, Bound<Integer> chanceBounds)
     {
-        // Luck from pendant
-        // TODO this is a mess...
-		if (player != null && player.inventory.hasItem(CCubesItems.chancePendant))
+		if (player != null)
 		{
 			for (int i = 0; i < player.inventory.mainInventory.length; i++)
 			{
 				ItemStack stack = player.inventory.mainInventory[i];
-				if (stack != null && stack.getItem().equals(CCubesItems.chancePendant))
+				if (stack != null && stack.getItem() instanceof IChancePendant)
 				{
-					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
-					
-					if (stack.getItemDamage() == 0)
-					{
-						int lapisCounter = 0;
-						for (int slotCounter = 0; slotCounter < player.inventory.mainInventory.length; slotCounter++)
-						{
-							ItemStack lapisStack = player.inventory.mainInventory[slotCounter];
-							if (lapisStack != null && lapisStack.getItem().equals(Items.dye) && lapisStack.getItemDamage() == 4) //Lapis!
-							{
-								lapisCounter += lapisStack.stackSize;
-								player.inventory.setInventorySlotContents(slotCounter, null); //Annnnnnnd it's gone.
-							}
-							else if (lapisStack != null && lapisStack.getItem().equals(Item.getItemFromBlock(Blocks.lapis_block)))
-							{
-								lapisCounter += 9*lapisStack.stackSize;
-								player.inventory.setInventorySlotContents(slotCounter, null);
-							}
-						}
-						luck += lapisCounter;
-                    }
-					
-					if (stack.getItemDamage() == 1) //Not yet implemented
-					{
-						luck += pendant.getLuck(stack); //Stores lapis internally
-						pendant.removeAllLuck(stack);
-						pendant.damage(stack);
-					}
+					IChancePendant pendant = (IChancePendant) stack.getItem();
+					pendant.damage(stack);
+					chance += pendant.getChanceIncrease();
+					if(chance>100)
+						chance=100;
 				}
 			}
         }
 		
         int lowerIndex = 0;
         int upperIndex = sortedRewards.size() - 1;
-        int lowerRange = LUCK_BOUND.clamp(luckBounds.min + luck);
-        int upperRange = LUCK_BOUND.clamp(luckBounds.max + luck);
+        int lowerRange = CHANCE_BOUND.clamp(chanceBounds.min + chance);
+        int upperRange = CHANCE_BOUND.clamp(chanceBounds.max + chance);
 
-        while (sortedRewards.get(lowerIndex).getLuckValue() < lowerRange)
+        while (sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
         {
             lowerIndex++;
+            if(lowerIndex >= sortedRewards.size())
+            {
+            	lowerIndex--;
+            	break;
+            }
         }
-        while (sortedRewards.get(upperIndex).getLuckValue() > upperRange)
+        while (sortedRewards.get(upperIndex).getChanceValue() > upperRange)
         {
             upperIndex--;
             if(upperIndex < 0)
@@ -145,7 +126,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
         }
 
         int pick = world.rand.nextInt(upperIndex - lowerIndex + 1) + lowerIndex;
-        sortedRewards.get(pick).trigger(world, pos.x, pos.y, pos.z, player);
+        CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " +  sortedRewards.get(pick).getName());
+        sortedRewards.get(pick).trigger(world, x, y, z, player);
     }
 
     private void redoSort(@Nullable IChanceCubeReward newReward)
@@ -159,7 +141,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
         {
             public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
             {
-                return o1.getLuckValue() - o2.getLuckValue();
+                return o1.getChanceValue() - o2.getChanceValue();
             };
         });
     }

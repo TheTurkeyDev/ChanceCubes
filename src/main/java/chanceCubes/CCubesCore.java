@@ -59,6 +59,7 @@ public class CCubesCore implements IEnderMod
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
 		ChanceCubeRegistry.loadDefaultRewards();
+		proxy.registerRenderings();
 
         FMLCommonHandler.instance().bus().register(new UpdateNotificationHandler());
     }

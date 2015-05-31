@@ -18,7 +18,7 @@ public interface IChanceCubeReward {
 	/**
 	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward.
 	 */
-	public int getLuckValue();
+	public int getChanceValue();
 	
 	/**
 	 * @return Unique name for reward (suggested to pre-pend MODID).
