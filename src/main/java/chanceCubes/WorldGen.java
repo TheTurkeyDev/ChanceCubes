@@ -11,13 +11,13 @@ import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGen implements IWorldGenerator 
 {
-
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) 
 	{
-
 		if(CCubesSettings.oreGeneration)
+		{
 			generateOre(world, random, chunkX * 16, chunkZ * 16);
+		}
 
 		if(CCubesSettings.surfaceGeneration)
 		{
@@ -37,7 +37,7 @@ public class WorldGen implements IWorldGenerator
 		}
 	}
 
-	public boolean generateSurface(World world, Random rand, int x, int z)
+	public void generateSurface(World world, Random rand, int x, int z)
 	{
 		for (int l = 0; l < 8; ++l)
 		{
@@ -47,7 +47,5 @@ public class WorldGen implements IWorldGenerator
 
 			world.setBlock(xCord, yCord, zCord, CCubesBlocks.chanceCube);
 		}
-
-		return true;
 	}
 }
