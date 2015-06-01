@@ -1,5 +1,7 @@
 package chanceCubes.proxy;
 
+import net.minecraftforge.common.MinecraftForge;
+import chanceCubes.client.RenderEvent;
 import chanceCubes.renderer.SpecialRendererD20;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.tileentities.TileChanceD20;
@@ -21,5 +23,10 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
 		SpecialRendererD20.renderID = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(SpecialRendererD20.renderID, new SpecialRendererD20());
+	}
+	
+	public void registerEvents()
+	{
+		MinecraftForge.EVENT_BUS.register(new RenderEvent());
 	}
 }
