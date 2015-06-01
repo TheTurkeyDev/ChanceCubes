@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.items.IChancePendant;
+import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -90,9 +90,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			for (int i = 0; i < player.inventory.mainInventory.length; i++)
 			{
 				ItemStack stack = player.inventory.mainInventory[i];
-				if (stack != null && stack.getItem() instanceof IChancePendant)
+				if (stack != null && stack.getItem() instanceof ItemChancePendant)
 				{
-					IChancePendant pendant = (IChancePendant) stack.getItem();
+					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
 					chance += pendant.getChanceIncrease();
 					if(chance>100)

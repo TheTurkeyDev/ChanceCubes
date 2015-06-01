@@ -23,7 +23,7 @@ public class WorldGen implements IWorldGenerator
 
 	private void generateOre(World world, Random rand, int x, int z) 
 	{ 
-		for(int k = 0; k < 8; k++)
+		for(int k = 0; k < 4; k++)
 		{
 			int firstBlockXCoord = x + rand.nextInt(16);
 			int firstBlockYCoord = rand.nextInt(100);
@@ -35,7 +35,7 @@ public class WorldGen implements IWorldGenerator
 
 	public void generateSurface(World world, Random rand, int x, int z)
 	{
-		for (int l = 0; l < 8; ++l)
+		if(rand.nextInt(100) == 0)
 		{
 			int xCord = x + rand.nextInt(16);
 			int zCord = z + rand.nextInt(16);
