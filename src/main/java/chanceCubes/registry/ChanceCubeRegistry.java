@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
@@ -64,13 +65,23 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":ChatMessage", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 15, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Particles", 0, new ParticleEffectRewardType("largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke","largesmoke")));	
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":wool", 15, new ItemRewardType(new ItemStack(Blocks.wool, 16, 0),new ItemStack(Blocks.wool, 16, 1),new ItemStack(Blocks.wool, 16, 2),new ItemStack(Blocks.wool, 16, 3),new ItemStack(Blocks.wool, 16, 4),new ItemStack(Blocks.wool, 16, 5),new ItemStack(Blocks.wool, 16, 6),new ItemStack(Blocks.wool, 16, 7),new ItemStack(Blocks.wool, 16, 8),new ItemStack(Blocks.wool, 16, 9),new ItemStack(Blocks.wool, 16, 10),new ItemStack(Blocks.wool, 16, 11),new ItemStack(Blocks.wool, 16, 12),new ItemStack(Blocks.wool, 16, 13),new ItemStack(Blocks.wool, 16, 14),new ItemStack(Blocks.wool, 16, 15))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Wool", 15, new ItemRewardType(new ItemStack(Blocks.wool, 16, 0),new ItemStack(Blocks.wool, 16, 1),new ItemStack(Blocks.wool, 16, 2),new ItemStack(Blocks.wool, 16, 3),new ItemStack(Blocks.wool, 16, 4),new ItemStack(Blocks.wool, 16, 5),new ItemStack(Blocks.wool, 16, 6),new ItemStack(Blocks.wool, 16, 7),new ItemStack(Blocks.wool, 16, 8),new ItemStack(Blocks.wool, 16, 9),new ItemStack(Blocks.wool, 16, 10),new ItemStack(Blocks.wool, 16, 11),new ItemStack(Blocks.wool, 16, 12),new ItemStack(Blocks.wool, 16, 13),new ItemStack(Blocks.wool, 16, 14),new ItemStack(Blocks.wool, 16, 15))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Beacon", 100, new ItemRewardType(new ItemStack(Blocks.beacon))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":cake", 30, new ItemRewardType(new ItemStack(Blocks.cake)), new MessageRewardType("But is it a lie?")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":enchanting", 80, new ItemRewardType(new ItemStack(Blocks.enchanting_table))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Cake", 30, new ItemRewardType(new ItemStack(Blocks.cake)), new MessageRewardType("But is it a lie?")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Enchanting", 80, new ItemRewardType(new ItemStack(Blocks.enchanting_table))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":BookShelves", 80, new ItemRewardType(new ItemStack(Blocks.bookshelf, 64))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":oresGolore", 65, new ItemRewardType(new ItemStack(Items.coal), new ItemStack(Items.redstone), new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.diamond), new ItemStack(Items.emerald))));
-		
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Ores_Golore", 65, new ItemRewardType(new ItemStack(Items.coal), new ItemStack(Items.redstone), new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.diamond), new ItemStack(Items.emerald))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Have_Another", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceCube))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Icsahedron", 21, new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Saplings", 21, new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Farmer", 21, new MessageRewardType("Time to farm!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Fighter", 21, new MessageRewardType("SPARTAAA!!!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Explorer", 21, new MessageRewardType("Lets go on a journey!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Mitas", 21, new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Horde", 21, new MessageRewardType("Release the horde!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Rain", 21, new MessageRewardType("Release the horde!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Divine", 21, new MessageRewardType("Release the horde!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
+		//TODO INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":AnvilDrop", 21, new MessageRewardType("Release the horde!"), new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
 		
 		stack = new ItemStack(Items.redstone);
 		stack.addEnchantment(Enchantment.sharpness, 5);
