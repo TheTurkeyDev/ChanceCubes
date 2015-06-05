@@ -5,22 +5,21 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class ExperienceRewardType implements IRewardType
+public class ExperienceRewardType extends BaseRewardType<Integer>
 {
-    private int levels;
 
-    public ExperienceRewardType(int levels)
-    {
-        this.levels = levels;
-    }
+	public ExperienceRewardType(Integer... levels)
+	{
+		super(levels);
+	}
 
-    @Override
-    public void trigger(World world, int x, int y, int z, EntityPlayer player)
-    {
-        if (!world.isRemote)
-        {
-            Entity newEnt = new EntityXPOrb(world, x, y, z, levels);
-            world.spawnEntityInWorld(newEnt);
-        }
-    }
+	@Override
+	public void trigger(Integer levels, World world, int x, int y, int z, EntityPlayer player)
+	{
+		if (!world.isRemote)
+		{
+			Entity newEnt = new EntityXPOrb(world, x, y, z, levels);
+			world.spawnEntityInWorld(newEnt);
+		}
+	}
 }

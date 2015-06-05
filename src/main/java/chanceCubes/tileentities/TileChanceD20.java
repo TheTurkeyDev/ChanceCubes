@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 
@@ -70,6 +71,7 @@ public class TileChanceD20 extends TileEntity
 	{
 		if(!breaking)
 		{
+			player.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, CCubesCore.MODID + ":d20_Break", 1, 1);
 			breaking = true;
 			stage = 0;
 			this.player = player;

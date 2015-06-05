@@ -7,3 +7,5 @@ item.chancePendantTier1.name=Tier 1 Chance Pendant
 item.chancePendantTier2.name=Tier 2 Chance Pendant
 item.chancePendantTier3.name=Tier 3 Chance Pendant
 item.chancePendantTier4.name=Tier 4 Chance Pendant
+
+item.scanner.name=Scanner

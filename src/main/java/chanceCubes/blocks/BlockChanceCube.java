@@ -29,6 +29,7 @@ public class BlockChanceCube extends Block
     @Override
     public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
     {
+    	super.onBlockHarvested(world, x, y, z, side, player);
         TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
         if (te != null)
         {

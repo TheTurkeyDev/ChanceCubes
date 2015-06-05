@@ -74,7 +74,7 @@ public class CustomRewardsLoader
 							chance = rewardElement.getValue().getAsInt();
 							continue;
 						}
-					
+
 						JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
 						if(rewardElement.getKey().equalsIgnoreCase("Item"))
 							this.loadItemReward(rewardTypes, rewards);
@@ -89,7 +89,7 @@ public class CustomRewardsLoader
 						else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
 							this.loadExperienceReward(rewardTypes, rewards);
 					}
-					
+
 					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":" + reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
 				}
 				CCubesCore.logger.log(Level.INFO,"Loaded custom rewards file " + f.getName());
@@ -136,39 +136,65 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadMessageReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<String> msgs = new ArrayList<String>();
 		for(JsonElement element : rawReward)
-			rewards.add(new MessageRewardType(element.getAsJsonObject().get("message").getAsString()));
+			msgs.add(element.getAsJsonObject().get("message").getAsString());
+		rewards.add(new MessageRewardType(msgs.toArray(new String[msgs.size()])));
 		return rewards;
 	}
-	
+
 	public List<IRewardType> loadCommandReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<String> cmds = new ArrayList<String>();
 		for(JsonElement element : rawReward)
-			rewards.add(new CommandRewardType(element.getAsJsonObject().get("command").getAsString()));
+			cmds.add(element.getAsJsonObject().get("command").getAsString());
+		rewards.add(new CommandRewardType(cmds.toArray(new String[cmds.size()])));
 		return rewards;
 	}
-	
+
 	//TODO: Change this to an NBT system like the item reward
 	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		for(JsonElement element : rawReward)
-			rewards.add(new EntityRewardType(element.getAsJsonObject().get("entity").getAsString()));
+		{
+			try
+			{
+				String jsonEdited = this.removedKeyQuotes(element.toString());
+				NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
+
+				if (!(nbtbase instanceof NBTTagCompound))
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
+				}
+				else
+				{
+					rewards.add(new EntityRewardType((NBTTagCompound)nbtbase));
+				}
+			} catch (NBTException e1)
+			{
+				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+			}
+		}
 		return rewards;
 	}
-	
+
 	public List<IRewardType> loadExperienceReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<Integer> exp = new ArrayList<Integer>();
 		for(JsonElement element : rawReward)
-			rewards.add(new ExperienceRewardType(element.getAsJsonObject().get("experienceAmount").getAsInt()));
+			exp.add(element.getAsJsonObject().get("experienceAmount").getAsInt());
+		rewards.add(new ExperienceRewardType(exp.toArray(new Integer[exp.size()])));
 		return rewards;
 	}
-	
+
 	public List<IRewardType> loadPotionReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<PotionEffect> potions = new ArrayList<PotionEffect>();
 		for(JsonElement element : rawReward)
-			rewards.add(new PotionRewardType(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20)));
+			potions.add(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
+		rewards.add(new PotionRewardType(potions.toArray(new PotionEffect[potions.size()])));
 		return rewards;
-	}
+	}	
 
 
 
