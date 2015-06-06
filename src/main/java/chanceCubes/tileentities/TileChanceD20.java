@@ -43,12 +43,14 @@ public class TileChanceD20 extends TileEntity
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
+		super.writeToNBT(nbt);
 		nbt.setInteger("chance", this.chance);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
+		super.readFromNBT(nbt);
 		this.chance = nbt.getInteger("chance");
 	}
 
@@ -100,7 +102,6 @@ public class TileChanceD20 extends TileEntity
 	}
 	
 	
-	// Ehhhh, i guess you could use writeToNBT and ReadFromNBT :/
 	private void writeSyncableDataToNBT(NBTTagCompound syncData)
 	{
 		syncData.setInteger("chance", this.getChance());

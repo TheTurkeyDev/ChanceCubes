@@ -37,9 +37,9 @@ public class EntityRewardType extends BaseRewardType<NBTTagCompound>
     	try
 		{
     		nbt = (NBTTagCompound) JsonToNBT.func_150315_a(json);
-    		CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 		} catch (NBTException e)
 		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;
 		}
     	return nbt;

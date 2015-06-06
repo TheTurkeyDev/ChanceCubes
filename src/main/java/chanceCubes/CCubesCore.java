@@ -2,6 +2,7 @@ package chanceCubes;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION)
 public class CCubesCore
@@ -44,7 +44,7 @@ public class CCubesCore
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	GameRegistry.registerWorldGenerator(new WorldGen(), 0);
+    	
     }
 
     @EventHandler
@@ -61,6 +61,7 @@ public class CCubesCore
 		proxy.registerEvents();
 
         FMLCommonHandler.instance().bus().register(new UpdateNotificationHandler());
+        MinecraftForge.EVENT_BUS.register(new WorldGen());
     }
 
     @EventHandler

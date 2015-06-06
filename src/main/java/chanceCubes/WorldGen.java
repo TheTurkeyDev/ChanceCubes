@@ -3,22 +3,22 @@ package chanceCubes;
 import java.util.Random;
 
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import cpw.mods.fml.common.IWorldGenerator;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class WorldGen implements IWorldGenerator 
+public class WorldGen 
 {
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) 
+	@SubscribeEvent
+	public void onGenerate(PopulateChunkEvent.Pre event)
 	{
 		if(CCubesSettings.oreGeneration)
-			generateOre(world, random, chunkX * 16, chunkZ * 16);
+			generateOre(event.world, event.rand, event.chunkX * 16, event.chunkZ * 16);
 
 		if(CCubesSettings.surfaceGeneration)
-			generateSurface(world, random, chunkX * 16, chunkZ * 16);
+			generateSurface(event.world, event.rand, event.chunkX * 16, event.chunkZ * 16);
 	}
 
 	private void generateOre(World world, Random rand, int x, int z) 

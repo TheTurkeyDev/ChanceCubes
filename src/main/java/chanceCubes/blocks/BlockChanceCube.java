@@ -22,23 +22,23 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setBlockTextureName("chancecubes:chanceCube");
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int p_149915_2_)
 	{
 		return new TileChanceCube();
 	}
 
-    @Override
-    public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
-    {
-    	super.onBlockHarvested(world, x, y, z, side, player);
-        TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
-        if (te != null)
-        {
-            ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance());
-        }
-    }
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
+	{
+		super.onBlockHarvested(world, x, y, z, side, player);
+		TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
+		if (te != null)
+		{
+			ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance());
+		}
+	}
 
 	@Override
 	public int quantityDropped(Random p_149745_1_)
