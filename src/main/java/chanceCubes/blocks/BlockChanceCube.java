@@ -3,6 +3,7 @@ package chanceCubes.blocks;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +12,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 
-public class BlockChanceCube extends Block
+public class BlockChanceCube extends Block implements ITileEntityProvider
 { 
 	public BlockChanceCube()
 	{
@@ -20,6 +21,12 @@ public class BlockChanceCube extends Block
 		this.setBlockName("Chance_Cube");
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setBlockTextureName("chancecubes:chanceCube");
+	}
+	
+	@Override
+	public TileEntity createNewTileEntity(World world, int p_149915_2_)
+	{
+		return new TileChanceCube();
 	}
 
     @Override
@@ -37,17 +44,5 @@ public class BlockChanceCube extends Block
 	public int quantityDropped(Random p_149745_1_)
 	{
 		return 0;
-	}
-	
-	@Override
-	public boolean hasTileEntity(int meta)
-	{
-		return true;
-	}
-	
-	@Override
-	public TileEntity createTileEntity(World world, int meta)
-	{
-		return new TileChanceCube();
 	}
 }
