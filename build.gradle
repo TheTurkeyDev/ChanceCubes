@@ -26,12 +26,7 @@ minecraft {
 }
 
 repositories {
-    maven { url = "http://maven.tterrag.com" }
     maven { url = "http://chickenbones.net/maven/" }
-}
-
-dependencies {
-    compile "com.enderio.core:EnderCore:${mc_version}-${endercore_version}:dev"
 }
 
 processResources

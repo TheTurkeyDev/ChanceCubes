@@ -1,6 +1,5 @@
 package chanceCubes.rewards.type;
 
-import lombok.Value;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
@@ -15,7 +14,6 @@ public class PotionRewardType extends BaseRewardType<PotionEffect>
     /**
      * This is real useful and all, but really hard to use from an API standpoint. Going to switch to raw PotionEffects
      */
-    @Value
     @Deprecated
     public static class PotionData
     {

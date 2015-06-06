@@ -6,8 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chanceCubes.rewards.IChanceCubeReward;
 
-import com.enderio.core.common.util.Bound;
-
 public interface IRewardRegistry
 {
     /**
@@ -44,5 +42,5 @@ public interface IRewardRegistry
      * @param luckBounds
      *            Min and max chance values
      */
-    void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance, Bound<Integer> chanceBounds);
+    void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance);
 }

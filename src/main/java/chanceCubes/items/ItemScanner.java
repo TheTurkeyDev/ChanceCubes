@@ -69,7 +69,7 @@ public class ItemScanner extends Item
 						RenderEvent.setLookingAt(true);
 						TileChanceD20 te = (TileChanceD20) world.getTileEntity(i, j, k);
 						RenderEvent.setLookingAtChance(te.getChance());
-					}	
+					}
 				}
 			}
 		}

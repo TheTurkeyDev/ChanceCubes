@@ -87,7 +87,7 @@ public class CustomRewardsLoader
 						else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
 							this.loadExperienceReward(rewardTypes, rewards);
 						else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
-							this.loadExperienceReward(rewardTypes, rewards);
+							this.loadPotionReward(rewardTypes, rewards);
 					}
 
 					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":" + reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
@@ -152,7 +152,6 @@ public class CustomRewardsLoader
 		return rewards;
 	}
 
-	//TODO: Change this to an NBT system like the item reward
 	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		for(JsonElement element : rawReward)

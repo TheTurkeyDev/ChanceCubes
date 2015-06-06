@@ -11,9 +11,6 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
-
-import com.enderio.core.IEnderMod;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -25,7 +22,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION)
-public class CCubesCore implements IEnderMod
+public class CCubesCore
 {
     public static final String MODID = "chancecubes";
     public static final String VERSION = "0.1";
@@ -70,23 +67,5 @@ public class CCubesCore implements IEnderMod
     public void postInit(FMLPostInitializationEvent event)
     {
         CustomRewardsLoader.instance.loadCustomRewards();
-    }
-
-    @Override
-    public String modid()
-    {
-        return MODID;
-    }
-
-    @Override
-    public String name()
-    {
-        return NAME;
-    }
-
-    @Override
-    public String version()
-    {
-        return VERSION;
     }
 }

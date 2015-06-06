@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,6 +20,7 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
@@ -36,15 +35,11 @@ import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 
-import com.enderio.core.common.util.Bound;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ChanceCubeRegistry implements IRewardRegistry
 {
-	private static final Bound<Integer> CHANCE_BOUND = Bound.of(-100, 100);
-
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
 
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
@@ -132,7 +127,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	}
 
 	@Override
-	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance, Bound<Integer> chanceBounds)
+	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance)
 	{
 		if (player != null)
 		{
@@ -151,8 +146,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		int lowerIndex = 0;
 		int upperIndex = sortedRewards.size() - 1;
-		int lowerRange = CHANCE_BOUND.clamp(chanceBounds.min + chance);
-		int upperRange = CHANCE_BOUND.clamp(chanceBounds.max + chance);
+		int lowerRange = chance - CCubesSettings.rangeMin < -100 ? -100 : chance - CCubesSettings.rangeMin;
+		int upperRange = chance + CCubesSettings.rangeMax > 100 ? 100 : chance + CCubesSettings.rangeMax;
 
 		while (sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{
@@ -172,7 +167,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				break;
 			}
 		}
-
 		int pick = world.rand.nextInt(upperIndex - lowerIndex + 1) + lowerIndex;
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + sortedRewards.get(pick).getName());
 		sortedRewards.get(pick).trigger(world, x, y, z, player);

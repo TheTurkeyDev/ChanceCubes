@@ -11,12 +11,8 @@ import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 
-import com.enderio.core.common.util.Bound;
-
 public class BlockChanceCube extends Block
-{
-    public static Bound<Integer> luckBound;
-    
+{ 
 	public BlockChanceCube()
 	{
 		super(Material.ground);
@@ -33,7 +29,7 @@ public class BlockChanceCube extends Block
         TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
         if (te != null)
         {
-            ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance(), luckBound);
+            ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance());
         }
     }
 
