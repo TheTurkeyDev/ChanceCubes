@@ -27,6 +27,7 @@ import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.NukeReward;
+import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
@@ -34,6 +35,7 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.util.OffsetBlock;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -51,7 +53,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	public static void loadDefaultRewards()
 	{
 		ItemStack stack;
-
+		
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0,1,0,Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 10, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Creeper", -10, new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Creeper"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Zombie", 0, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Zombie"))));
@@ -129,6 +132,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance)
 	{
+		if(this.sortedRewards.size() == 0)
+		{
+			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with ChanceCubes and no reward was able to be given");
+			return;
+		}
 		if (player != null)
 		{
 			for (int i = 0; i < player.inventory.mainInventory.length; i++)

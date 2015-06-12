@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
@@ -26,6 +28,7 @@ import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.util.OffsetBlock;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -78,6 +81,8 @@ public class CustomRewardsLoader
 						JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
 						if(rewardElement.getKey().equalsIgnoreCase("Item"))
 							this.loadItemReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Block"))
+							this.loadBlockReward(rewardTypes, rewards);
 						else if(rewardElement.getKey().equalsIgnoreCase("Message"))
 							this.loadMessageReward(rewardTypes, rewards);
 						else if(rewardElement.getKey().equalsIgnoreCase("Command"))
@@ -131,6 +136,24 @@ public class CustomRewardsLoader
 				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
 			}
 		}
+		return rewards;
+	}
+	
+	public List<IRewardType> loadBlockReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		for(JsonElement element : rawReward)
+		{
+			int x = element.getAsJsonObject().get("XOffSet").getAsInt();
+			int y = element.getAsJsonObject().get("YOffSet").getAsInt();
+			int z = element.getAsJsonObject().get("ZOffSet").getAsInt();
+			String mod = element.getAsJsonObject().get("Block").getAsString().substring(0, element.getAsJsonObject().get("Block").getAsString().indexOf(":"));
+			String blockName = element.getAsJsonObject().get("Block").getAsString().substring(element.getAsJsonObject().get("Block").getAsString().indexOf(":")+1);
+			Block block = GameRegistry.findBlock(mod, blockName);
+			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
+			blocks.add(new OffsetBlock(x,y,z,block,falling));
+		}
+		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
 		return rewards;
 	}
 

@@ -11,6 +11,9 @@ public class CCubesSettings
 	public static boolean surfaceGeneration = true;
 	public static String[] blockedWorlds = new String[]{};
 	
+	public static int dropHeight = 20;
+	
+	
 	public static boolean isBlockedWorld(String world)
 	{
 		for(String blockedWorld: blockedWorlds)
