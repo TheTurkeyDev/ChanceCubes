@@ -14,7 +14,7 @@ public class HerobrineReward implements IChanceCubeReward
 {
 	private boolean triggered = false;
 	private int stage = 0;
-	private boolean staying = true;
+	private boolean staying = false;
 	private String[] leaveSayings = new String[] {"I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath." };
 	private String[] staySayings = new String[] {"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!" };
 	private EntityPlayer player;
@@ -28,7 +28,7 @@ public class HerobrineReward implements IChanceCubeReward
 			return;
 		triggered = true;
 		stage = 0;
-		//staying = world.rand.nextInt(50) == 1;
+		staying = world.rand.nextInt(50) == 1;
 		this.player = player;
 		this.world = world;
 		this.x = x;
@@ -73,8 +73,7 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
-					//String command = "/summon Zombie ~ ~1 ~ {Riding:{id:ThrownPotion,Potion:{id:15,Damage:16,tag:{CustomPotionEffects:[{Id:15,Amplifier:0,Duration:2400,ShowParticles:0b}]}}},CustomName:\"Herobrine\",CustomNameVisible:1,CanBreakDoors:1,Equipment:[{id:278,Count:1,tag:{ench:[{id:32,lvl:5}]}},{},{},{},{id:397,Damage:3,Count:1,tag:{SkullOwner:Herobrine,ench:[{id:7,lvl:16}]}}],DropChances:[1F,1F,1F,1F,0.0F],Attributes:[{Name:zombie.spawnReinforcements,Base:1.0F}],ActiveEffects:[{Id:5,Amplifier:15,Duration:199980,ShowParticles:0b},{Id:11,Amplifier:10,Duration:2400,ShowParticles:0b}],Attributes:[{Name:generic.maxHealth,Base:200}],Health:200}";
-					String command = "/summon Zombie ~ ~ ~ {Equipment:[{},{},{},{},{id:397,Damage:3,tag:{SkullOwner:\"Herobrine\"}}]}";
+					String command = "/summon Zombie ~ ~1 ~ {Riding:{id:ThrownPotion,Potion:{id:15,Damage:16,tag:{CustomPotionEffects:[{Id:15,Amplifier:0,Duration:2400,ShowParticles:0b}]}}},CustomName:\"Herobrine\",CustomNameVisible:1,CanBreakDoors:1,Equipment:[{id:276,Count:1},{},{},{},{id:397,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[1F,1F,1F,1F,0.0F],Attributes:[{Name:zombie.spawnReinforcements,Base:1.0F}],ActiveEffects:[{Id:5,Amplifier:15,Duration:199980,ShowParticles:0b}, {Id:10,Amplifier:50,Duration:500,ShowParticles:0b}],Attributes:[{Name:generic.maxHealth,Base:200}],Health:200}";
 					CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
 		        	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
 				}
