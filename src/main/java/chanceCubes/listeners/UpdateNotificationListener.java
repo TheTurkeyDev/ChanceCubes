@@ -1,4 +1,4 @@
-package chanceCubes;
+package chanceCubes.listeners;
 
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
@@ -7,7 +7,7 @@ import java.net.URL;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
-public class UpdateNotificationHandler
+public class UpdateNotificationListener
 {
 	boolean hasChecked = false;
 	

@@ -25,6 +25,7 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
+import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.NukeReward;
 import chanceCubes.rewards.type.BlockRewardType;
@@ -52,7 +53,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
-		ItemStack stack;
+		/*ItemStack stack;
 		
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0,1,0,Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 10, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
@@ -107,7 +108,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
-		INSTANCE.registerReward(new AnvilRain());
+		INSTANCE.registerReward(new AnvilRain());*/
+		INSTANCE.registerReward(new HerobrineReward());
 	}
 
 	@Override

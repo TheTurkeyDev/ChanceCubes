@@ -10,6 +10,9 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
+import chanceCubes.listeners.TickListener;
+import chanceCubes.listeners.UpdateNotificationListener;
+import chanceCubes.listeners.WorldGen;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -60,8 +63,10 @@ public class CCubesCore
 		proxy.registerRenderings();
 		proxy.registerEvents();
 
-        FMLCommonHandler.instance().bus().register(new UpdateNotificationHandler());
+        FMLCommonHandler.instance().bus().register(new UpdateNotificationListener());
+        FMLCommonHandler.instance().bus().register(new TickListener());
         MinecraftForge.EVENT_BUS.register(new WorldGen());
+        
     }
 
     @EventHandler

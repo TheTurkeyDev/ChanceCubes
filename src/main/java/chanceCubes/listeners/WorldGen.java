@@ -1,4 +1,4 @@
-package chanceCubes;
+package chanceCubes.listeners;
 
 import java.util.Random;
 
