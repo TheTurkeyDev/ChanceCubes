@@ -151,7 +151,13 @@ public class CustomRewardsLoader
 			String blockName = element.getAsJsonObject().get("Block").getAsString().substring(element.getAsJsonObject().get("Block").getAsString().indexOf(":")+1);
 			Block block = GameRegistry.findBlock(mod, blockName);
 			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
-			blocks.add(new OffsetBlock(x,y,z,block,falling));
+			
+			OffsetBlock offBlock = new OffsetBlock(x,y,z,block,falling);
+			
+			if(element.getAsJsonObject().has("Delay"))
+				offBlock.setDealy(element.getAsJsonObject().get("Delay").getAsInt());
+			
+			blocks.add(offBlock);
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
 		return rewards;

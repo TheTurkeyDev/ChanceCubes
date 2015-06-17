@@ -12,6 +12,7 @@ public class OffsetBlock
 	public int zOff;
 	
 	private boolean falling;
+	private int delay = 0;
 
 	private Block block;
 
@@ -24,7 +25,7 @@ public class OffsetBlock
 		this.falling = falling;
 	}
 
-	public void spawnInWorld(World world, int x, int y, int z)
+	public void spawnInWorld(final World world, final int x, final int y, final int z)
 	{
 		if(!falling)
 		{
@@ -32,9 +33,35 @@ public class OffsetBlock
 		}
 		else
 		{
-			double yy = (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5);
-			BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double)(x+xOff)) + 0.5, yy, ((double)(z+zOff)) + 0.5 , block, y+yOff);
-			world.spawnEntityInWorld(entityfallingblock);
+			if(delay != 0)
+			{
+				Task task = new Task()
+				{
+					@Override
+					public void callback()
+					{
+						spawnFallingBlock(world, x, y, z);
+					}
+				};
+				Scheduler.scheduleTask("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay, task);
+			}
+			else
+			{
+				spawnFallingBlock(world, x, y, z);
+			}
+				
 		}
+	}
+	
+	private void spawnFallingBlock(World world, int x, int y, int z)
+	{
+		double yy = (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double)(x+xOff)) + 0.5, yy, ((double)(z+zOff)) + 0.5 , block, y+yOff);
+		world.spawnEntityInWorld(entityfallingblock);
+	}
+	
+	public void setDealy(int delay)
+	{
+		this.delay = delay;
 	}
 }
