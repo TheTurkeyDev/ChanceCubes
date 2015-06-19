@@ -30,6 +30,9 @@ public class ConfigLoader
 		
 		File customConfigFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards");
 		customConfigFolder.mkdirs();
+		
+		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Schematics").mkdirs();
+		
 		new CustomRewardsLoader(customConfigFolder);
 	}
 }

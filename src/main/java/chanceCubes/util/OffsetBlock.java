@@ -11,10 +11,12 @@ public class OffsetBlock
 	public int yOff;
 	public int zOff;
 	
-	private boolean falling;
-	private int delay = 0;
+	protected byte data = 0;
 
-	private Block block;
+	protected boolean falling;
+	protected int delay = 0;
+
+	protected Block block;
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
@@ -29,7 +31,7 @@ public class OffsetBlock
 	{
 		if(!falling)
 		{
-			world.setBlock(x+xOff, y+yOff, z+zOff, block);
+			world.setBlock(x + xOff, y + yOff, z + zOff, block, data, 2);
 		}
 		else
 		{
@@ -49,19 +51,23 @@ public class OffsetBlock
 			{
 				spawnFallingBlock(world, x, y, z);
 			}
-				
 		}
 	}
-	
-	private void spawnFallingBlock(World world, int x, int y, int z)
+
+	protected void spawnFallingBlock(World world, int x, int y, int z)
 	{
-		double yy = (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double)(y+yOff+CCubesSettings.dropHeight)) + 0.5);
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double)(x+xOff)) + 0.5, yy, ((double)(z+zOff)) + 0.5 , block, y+yOff);
+		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block, data, y + yOff);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
-	
+
 	public void setDealy(int delay)
 	{
 		this.delay = delay;
+	}
+	
+	public void setData(byte d)
+	{
+		this.data = d;
 	}
 }
