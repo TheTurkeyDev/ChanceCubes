@@ -10,6 +10,8 @@ public class CCubesItems {
 	public static Item chancePendantT3;
 	public static Item chancePendantT4;
 	
+	public static Item silkPendant;
+	
 	public static Item scanner;
 	
 	public static void loadItems()
@@ -18,6 +20,7 @@ public class CCubesItems {
 		chancePendantT2 = new ItemChancePendant(2, 25);
 		chancePendantT3 = new ItemChancePendant(3, 50);
 		chancePendantT4 = new ItemChancePendant(4, 100);
+		silkPendant = new ItemSilkTouchPendant();
 		
 		scanner = new ItemScanner();
 		
@@ -25,6 +28,8 @@ public class CCubesItems {
 		GameRegistry.registerItem(chancePendantT2, "chancePendantTier2");
 		GameRegistry.registerItem(chancePendantT3, "chancePendantTier3");
 		GameRegistry.registerItem(chancePendantT4, "chancePendantTier4");
+		
+		GameRegistry.registerItem(silkPendant, "silkTouchPendant");
 		
 		GameRegistry.registerItem(scanner, "scanner");
 	}

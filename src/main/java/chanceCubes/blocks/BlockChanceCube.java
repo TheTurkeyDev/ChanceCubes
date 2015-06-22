@@ -6,9 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 
@@ -32,6 +34,11 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
 	{
+		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		{
+			this.dropBlockAsItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceCube, 1));
+			return;
+		}
 		TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
 		if (te != null)
 		{

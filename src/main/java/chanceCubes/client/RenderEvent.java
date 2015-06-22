@@ -40,7 +40,9 @@ public class RenderEvent
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		
 		if(islookingAt)
+		{
 			fontrenderer.drawString("The chance of this cube is: " + chance, (k/2)-80, (l/2)-15, 16777215);
+		}
 		
 		GL11.glPopMatrix();
 	}

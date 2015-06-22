@@ -28,6 +28,7 @@ import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.NukeReward;
+import chanceCubes.rewards.SurroundedReward;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
@@ -53,9 +54,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
-		ItemStack stack;
 		
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0,1,0,Blocks.bedrock, false))));
+		ItemStack stack;
+
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 80))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 10, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Creeper", -10, new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Creeper"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Zombie", 0, new ItemRewardType(new ItemStack(Items.redstone)), new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Zombie"))));
@@ -80,7 +83,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Mitas", 21, new ItemRewardType(new ItemStack(Items.gold_nugget, 32), new ItemStack(Items.gold_ingot, 8), new ItemStack(Items.golden_carrot, 16), new ItemStack(Items.golden_helmet))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -40, new MessageRewardType("Release the horde!"), new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -50, new PotionRewardType(new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", - 15, new CommandRewardType("/weather thunder 20000")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -15, new CommandRewardType("/weather thunder 20000")));
 
 		stack = new ItemStack(Items.stick);
 		stack.addEnchantment(Enchantment.sharpness, 5);
@@ -105,11 +108,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setItemDamage(stack.getMaxDamage() - 2);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 90, new ItemRewardType(stack)));
 
-		
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());
 		INSTANCE.registerReward(new HerobrineReward());
+		INSTANCE.registerReward(new SurroundedReward());
 	}
 
 	@Override
@@ -139,17 +142,18 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with ChanceCubes and no reward was able to be given");
 			return;
 		}
-		if (player != null)
+		if(player != null)
 		{
-			for (int i = 0; i < player.inventory.mainInventory.length; i++)
+			for(int i = 0; i < player.inventory.mainInventory.length; i++)
 			{
 				ItemStack stack = player.inventory.mainInventory[i];
-				if (stack != null && stack.getItem() instanceof ItemChancePendant)
+				if(stack != null && stack.getItem() instanceof ItemChancePendant)
 				{
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
 					chance += pendant.getChanceIncrease();
-					if (chance > 100) chance = 100;
+					if(chance > 100)
+						chance = 100;
 				}
 			}
 		}
@@ -159,19 +163,19 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		int lowerRange = chance - CCubesSettings.rangeMin < -100 ? -100 : chance - CCubesSettings.rangeMin;
 		int upperRange = chance + CCubesSettings.rangeMax > 100 ? 100 : chance + CCubesSettings.rangeMax;
 
-		while (sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
+		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{
 			lowerIndex++;
-			if (lowerIndex >= sortedRewards.size())
+			if(lowerIndex >= sortedRewards.size())
 			{
 				lowerIndex--;
 				break;
 			}
 		}
-		while (sortedRewards.get(upperIndex).getChanceValue() > upperRange)
+		while(sortedRewards.get(upperIndex).getChanceValue() > upperRange)
 		{
 			upperIndex--;
-			if (upperIndex < 0)
+			if(upperIndex < 0)
 			{
 				upperIndex++;
 				break;
@@ -184,7 +188,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	private void redoSort(@Nullable IChanceCubeReward newReward)
 	{
-		if (newReward != null)
+		if(newReward != null)
 		{
 			sortedRewards.add(newReward);
 		}

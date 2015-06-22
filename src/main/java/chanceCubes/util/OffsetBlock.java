@@ -26,6 +26,16 @@ public class OffsetBlock
 		this.block = b;
 		this.falling = falling;
 	}
+	
+	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
+	{
+		this.xOff = x;
+		this.yOff = y;
+		this.zOff = z;
+		this.block = b;
+		this.falling = falling;
+		this.delay = delay;
+	}
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
 	{
