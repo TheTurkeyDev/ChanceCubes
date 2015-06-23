@@ -7,6 +7,7 @@ import chanceCubes.config.CCubesSettings;
 
 public class OffsetBlock
 {
+	protected boolean relativeToPlayer = false;
 	public int xOff;
 	public int yOff;
 	public int zOff;
@@ -79,5 +80,15 @@ public class OffsetBlock
 	public void setData(byte d)
 	{
 		this.data = d;
+	}
+	
+	public void setRelativeToPlayer(boolean relative)
+	{
+		this.relativeToPlayer = relative;
+	}
+	
+	public boolean isRelativeToPlayer()
+	{
+		return this.relativeToPlayer;
 	}
 }

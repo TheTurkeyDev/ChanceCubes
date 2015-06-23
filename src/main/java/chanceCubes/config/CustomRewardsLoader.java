@@ -170,6 +170,9 @@ public class CustomRewardsLoader
 
 			if(element.getAsJsonObject().has("Delay"))
 				offBlock.setDealy(element.getAsJsonObject().get("Delay").getAsInt());
+			
+			if(element.getAsJsonObject().has("RelativeToPlayer"))
+				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 
 			blocks.add(offBlock);
 		}
@@ -286,6 +289,8 @@ public class CustomRewardsLoader
 							if(element.getAsJsonObject().has("falling"))
 								falling = element.getAsJsonObject().get("falling").getAsBoolean();
 							OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+							if(element.getAsJsonObject().has("RelativeToPlayer"))
+								block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 							block.setDealy(i * multiplier);
 							block.setData(schem.data[i]);
 							blocks.add(block);

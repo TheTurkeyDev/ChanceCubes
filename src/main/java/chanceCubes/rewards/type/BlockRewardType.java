@@ -7,14 +7,17 @@ import chanceCubes.util.OffsetBlock;
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {
 
-    public BlockRewardType(OffsetBlock... blocks)
-    {
-        super(blocks);
-    }
-	
+	public BlockRewardType(OffsetBlock... blocks)
+	{
+		super(blocks);
+	}
+
 	@Override
 	protected void trigger(OffsetBlock block, World world, int x, int y, int z, EntityPlayer player)
 	{
-		block.spawnInWorld(world, x, y, z);
+		if(block.isRelativeToPlayer())
+			block.spawnInWorld(world, (int)player.posX, (int)player.posY, (int)player.posZ);
+		else
+			block.spawnInWorld(world, x, y, z);
 	}
 }
