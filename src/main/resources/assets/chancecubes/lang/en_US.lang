@@ -1,11 +1,17 @@
 itemGroup.chancecubes=Chance Cubes
 
 tile.Chance_Cube.name=Chance Cube
+item.Chance_Cube.name=Chance Cube
 tile.Chance_Icosahedron.name=Chance Icosahedron
+item.Chance_Icosahedron.name=Chance Icosahedron
 
 item.chancePendantTier1.name=Tier 1 Chance Pendant
 item.chancePendantTier2.name=Tier 2 Chance Pendant
 item.chancePendantTier3.name=Tier 3 Chance Pendant
 item.chancePendantTier4.name=Tier 4 Chance Pendant
+
+item.creativePendant.name=Creative Chance Pendant
+
+item.silkTouchPendant.name=Silk Touch Chance Pendant
 
 item.scanner.name=Scanner

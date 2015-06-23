@@ -6,11 +6,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
+import chanceCubes.items.ItemChanceCube;
 import chanceCubes.renderer.SpecialRendererD20;
 import chanceCubes.tileentities.TileChanceD20;
 import cpw.mods.fml.relauncher.Side;
@@ -51,31 +53,37 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
+		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			this.dropBlockAsItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceIcosahedron, 1));
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
+			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+			this.dropBlockAsItem(world, x, y, z, stack);
 			world.setBlockToAir(x, y, z);
 			world.removeTileEntity(x, y, z);
 			return;
 		}
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileChanceD20)
-			((TileChanceD20) te).startBreaking(player);
+
+		if(te != null)
+			te.startBreaking(player);
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
+		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			this.dropBlockAsItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceIcosahedron, 1));
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
+			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+			this.dropBlockAsItem(world, x, y, z, stack);
 			world.setBlockToAir(x, y, z);
 			world.removeTileEntity(x, y, z);
 			return true;
 		}
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileChanceD20)
+
+		if(te != null)
 		{
-			((TileChanceD20) te).startBreaking(player);
+			te.startBreaking(player);
 			return true;
 		}
 		return false;

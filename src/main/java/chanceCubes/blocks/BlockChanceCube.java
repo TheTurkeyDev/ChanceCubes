@@ -6,11 +6,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
+import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 
@@ -34,12 +36,17 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
 	{
+		TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			this.dropBlockAsItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceCube, 1));
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceCube), 1);
+			((ItemChanceCube)stack.getItem()).setChance(stack, te.getChance());
+			this.dropBlockAsItem(world, x, y, z, stack);
+			world.setBlockToAir(x, y, z);
+			world.removeTileEntity(x, y, z);
 			return;
 		}
-		TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
+		
 		if (te != null)
 		{
 			ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance());

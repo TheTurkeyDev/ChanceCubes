@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
-import chanceCubes.client.gui.CreativePendantGui;
-import cpw.mods.fml.common.FMLCommonHandler;
+import chanceCubes.client.gui.CCubesGuiHandler;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -24,10 +24,7 @@ public class ItemCreativePendant extends Item
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (world.isRemote)
-		{
-			FMLCommonHandler.instance().showGuiScreen(new CreativePendantGui(player, stack));
-		}
+		FMLNetworkHandler.openGui(player, CCubesCore.instance, CCubesGuiHandler.CREATIVE_PENDANT_ID, world, (int)player.posX, (int)player.posY, (int)player.posZ);
 		return stack;
 	}
 
