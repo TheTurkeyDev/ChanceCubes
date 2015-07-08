@@ -14,6 +14,8 @@ public class WorldGen
 	@SubscribeEvent
 	public void onGenerate(PopulateChunkEvent.Pre event)
 	{
+		if(CCubesSettings.isBlockedWorld(event.world.getWorldInfo().getWorldName()))
+			return;
 		if(CCubesSettings.oreGeneration)
 			generateOre(event.world, event.rand, event.chunkX * 16, event.chunkZ * 16);
 

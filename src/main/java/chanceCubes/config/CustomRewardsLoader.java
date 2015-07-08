@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.apache.logging.log4j.Level;
 
@@ -170,7 +173,7 @@ public class CustomRewardsLoader
 
 			if(element.getAsJsonObject().has("Delay"))
 				offBlock.setDealy(element.getAsJsonObject().get("Delay").getAsInt());
-			
+
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 
@@ -250,7 +253,7 @@ public class CustomRewardsLoader
 
 			try
 			{
-				schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString());
+				schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString(), false);
 			} catch(IOException e)
 			{
 				e.printStackTrace();
@@ -265,7 +268,7 @@ public class CustomRewardsLoader
 			int multiplier = 0;
 			if(element.getAsJsonObject().has("delay"))
 				multiplier = element.getAsJsonObject().get("delay").getAsInt();
-			
+
 			int i = 0;
 			short halfLength = (short) (schem.length / 2);
 			short halfWidth = (short) (schem.width / 2);
@@ -325,15 +328,25 @@ public class CustomRewardsLoader
 		return rewards;
 	}
 
-	public Schematic parseSchematic(String name) throws IOException
+	public Schematic parseSchematic(String name, boolean hardcoded) throws IOException
 	{
 		if(!name.contains(".schematic"))
 			name = name + ".schematic";
-		File schematic = new File(folder.getParentFile().getAbsolutePath() + "/CustomRewards/Schematics/" + name);
+		InputStream is;
 
-		InputStream is = new FileInputStream(schematic);
+		if(hardcoded)
+		{
+			IResource res = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("chancecubes", "schematics/" + name));
+			is = res.getInputStream();
+		}
+		else
+		{
+			File schematic = new File(folder.getParentFile().getAbsolutePath() + "/CustomRewards/Schematics/" + name);
+			is = new FileInputStream(schematic);
+		}
+
+
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
-		System.out.println(nbtdata.toString());
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");

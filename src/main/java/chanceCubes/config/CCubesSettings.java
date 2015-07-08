@@ -4,6 +4,8 @@ public class CCubesSettings
 {
 	public static int pendantUses = 100;
 	
+	public static boolean enableHardCodedRewards = true;
+	
 	public static int rangeMin = 75;
 	public static int rangeMax = 75;
 	
