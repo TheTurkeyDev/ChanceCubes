@@ -30,6 +30,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.NukeReward;
 import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
+import chanceCubes.rewards.TrollHoleReward;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
@@ -59,7 +60,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 80))));
+		/*INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 80))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 10, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Creeper", -10, new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Creeper"))));
@@ -118,7 +119,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new AnvilRain());
 		INSTANCE.registerReward(new HerobrineReward());
 		INSTANCE.registerReward(new SurroundedReward());
-		INSTANCE.registerReward(new RandomTeleportReward());
+		INSTANCE.registerReward(new RandomTeleportReward());*/
+		INSTANCE.registerReward(new TrollHoleReward());
 	}
 
 	@Override

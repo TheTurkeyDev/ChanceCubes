@@ -14,13 +14,13 @@ import chanceCubes.util.Task;
 
 public class SurroundedReward implements IChanceCubeReward
 {
-	private List<Entity> ents = new ArrayList<Entity>();
 	private World world;
 
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		this.world = world;
+		final List<Entity> ents = new ArrayList<Entity>();
 		EntityEnderman enderman;
 		for(int xx = 0; xx < 2; xx++)
 		{
@@ -57,20 +57,20 @@ public class SurroundedReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				removeEnts();
+				removeEnts(ents);
 			}
-
 		};
 
 		Scheduler.scheduleTask("Surrounded Reward", 100, task);
 	}
 
-	private void removeEnts()
+	private void removeEnts(List<Entity> ents)
 	{
 		for(Entity enderman: ents)
 		{
 			world.removeEntity(enderman);
 		}
+		
 		ents.clear();
 	}
 
