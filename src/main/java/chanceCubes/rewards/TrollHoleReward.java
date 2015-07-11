@@ -23,7 +23,7 @@ public class TrollHoleReward implements IChanceCubeReward
 		final int py = (int) Math.floor(player.posY) - 1;
 		final int pz = (int) Math.floor(player.posZ);
 
-		for(int yy = 0; yy < 50; yy++)
+		for(int yy = 0; yy < 75; yy++)
 		{
 			for(int xx = -2; xx < 3; xx++)
 			{
@@ -69,5 +69,4 @@ public class TrollHoleReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":TrollHole";
 	}
-
 }

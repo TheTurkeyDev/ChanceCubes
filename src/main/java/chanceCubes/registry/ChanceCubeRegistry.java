@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.Level;
 
@@ -27,6 +28,7 @@ import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.MathReward;
 import chanceCubes.rewards.NukeReward;
 import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
@@ -60,7 +62,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		/*INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 80))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 80), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 80))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -80, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 10, new ItemRewardType(new ItemStack(Items.redstone), new ItemStack(Items.diamond))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Creeper", -10, new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Creeper"))));
@@ -87,10 +89,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -40, new MessageRewardType("Release the horde!"), new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -50, new PotionRewardType(new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -15, new CommandRewardType("/weather thunder 20000")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false)));
-				
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false), new MessageRewardType("House made by: xZiiRx4KiinGs")));
+
 		ItemStack stack;
-		
+
 		stack = new ItemStack(Items.stick);
 		stack.addEnchantment(Enchantment.sharpness, 5);
 		stack.setStackDisplayName("A Big Stick");
@@ -119,8 +121,12 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new AnvilRain());
 		INSTANCE.registerReward(new HerobrineReward());
 		INSTANCE.registerReward(new SurroundedReward());
-		INSTANCE.registerReward(new RandomTeleportReward());*/
+		INSTANCE.registerReward(new RandomTeleportReward());
 		INSTANCE.registerReward(new TrollHoleReward());
+
+		MathReward math = new MathReward();
+		MinecraftForge.EVENT_BUS.register(math);
+		INSTANCE.registerReward(math);
 	}
 
 	@Override
@@ -202,11 +208,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 
 		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
-		{
+				{
 			public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
 			{
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
-		});
+				});
 	}
 }
