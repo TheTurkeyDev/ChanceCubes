@@ -25,6 +25,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.CookieMonsterReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -123,6 +124,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new SurroundedReward());
 		INSTANCE.registerReward(new RandomTeleportReward());
 		INSTANCE.registerReward(new TrollHoleReward());
+		INSTANCE.registerReward(new CookieMonsterReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
