@@ -67,6 +67,7 @@ public class CCubesCore
 		CCubesItems.loadItems();
 		CraftingRecipies.loadRecipies();
 		ChanceCubeRegistry.loadDefaultRewards();
+		ConfigLoader.config.save();
 		proxy.registerRenderings();
 		proxy.registerEvents();
 
@@ -86,5 +87,6 @@ public class CCubesCore
     public void postInit(FMLPostInitializationEvent event)
     {
         CustomRewardsLoader.instance.loadCustomRewards();
+		ConfigLoader.config.save();
     }
 }

@@ -8,6 +8,7 @@ public class ConfigLoader
 {
 	public static Configuration config;
 	private static final String genCat = "General Settings";
+	public static final String rewardCat = "Rewards";
 	
 	public static void loadConfigSettings(File file)
 	{

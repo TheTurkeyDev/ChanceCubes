@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
@@ -134,8 +135,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
-		nameToReward.put(reward.getName(), reward);
-		redoSort(reward);
+		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, "Set to false to disable this reward"))
+		{
+			nameToReward.put(reward.getName(), reward);
+			redoSort(reward);
+		}
 	}
 
 	@Override
