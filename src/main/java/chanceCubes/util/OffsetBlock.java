@@ -48,7 +48,7 @@ public class OffsetBlock
 		{
 			if(delay != 0)
 			{
-				Task task = new Task()
+				Task task = new Task("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
 				{
 					@Override
 					public void callback()
@@ -56,7 +56,7 @@ public class OffsetBlock
 						spawnFallingBlock(world, x, y, z);
 					}
 				};
-				Scheduler.scheduleTask("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay, task);
+				Scheduler.scheduleTask(task);
 			}
 			else
 			{

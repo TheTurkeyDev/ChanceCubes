@@ -46,7 +46,7 @@ public class MathReward implements IChanceCubeReward
 			inQuestion.put(player, new CustomEntry<Integer, Entity>(num1+num2, entitytntprimed));
 		}
 		
-		Task task = new Task()
+		Task task = new Task("Math", 240)
 		{
 			@Override
 			public void callback()
@@ -56,7 +56,7 @@ public class MathReward implements IChanceCubeReward
 
 		};
 		
-		Scheduler.scheduleTask("Math", 240, task);
+		Scheduler.scheduleTask(task);
 	}
 
 	private void timeUp(EntityPlayer player, boolean correct)

@@ -35,7 +35,7 @@ public class TrollHoleReward implements IChanceCubeReward
 			}
 		}
 
-		Task task = new Task()
+		Task task = new Task("TrollHole", 70)
 		{
 			@Override
 			public void callback()
@@ -45,7 +45,7 @@ public class TrollHoleReward implements IChanceCubeReward
 
 		};
 
-		Scheduler.scheduleTask("TrollHole", 70, task);
+		Scheduler.scheduleTask(task);
 	}
 
 	public void fillHole(World world, EntityPlayer player, int x, int y, int z, Map<Location3I, Block> storedBlocks)

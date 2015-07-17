@@ -317,7 +317,10 @@ public class CustomRewardsLoader
 						if(element.getAsJsonObject().has("falling"))
 							falling = element.getAsJsonObject().get("falling").getAsBoolean();
 						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
-
+						if(element.getAsJsonObject().has("RelativeToPlayer"))
+							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+						block.setDealy(i * multiplier);
+						block.setData(schem.data[i]);
 						blocks.add(block);
 					}
 				}

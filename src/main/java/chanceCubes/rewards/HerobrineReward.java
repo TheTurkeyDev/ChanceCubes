@@ -39,7 +39,7 @@ public class HerobrineReward implements IChanceCubeReward
 
 	private void schedule()
 	{
-		Task task = new Task()
+		Task task = new Task("Herobrine Reward", 40)
 		{
 			@Override
 			public void callback()
@@ -49,7 +49,7 @@ public class HerobrineReward implements IChanceCubeReward
 
 		};
 
-		Scheduler.scheduleTask("Herobrine Reward", 40, task);
+		Scheduler.scheduleTask(task);
 	}
 
 	private void update()

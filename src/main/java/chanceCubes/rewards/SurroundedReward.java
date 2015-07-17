@@ -52,7 +52,7 @@ public class SurroundedReward implements IChanceCubeReward
 			}
 		}
 
-		Task task = new Task()
+		Task task = new Task("Surrounded Reward", 100)
 		{
 			@Override
 			public void callback()
@@ -61,7 +61,7 @@ public class SurroundedReward implements IChanceCubeReward
 			}
 		};
 
-		Scheduler.scheduleTask("Surrounded Reward", 100, task);
+		Scheduler.scheduleTask(task);
 	}
 
 	private void removeEnts(List<Entity> ents)
