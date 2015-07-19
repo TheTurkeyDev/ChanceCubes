@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -62,6 +63,18 @@ public class CCubesPacket  implements IMessage
 							((ItemChanceCube)ccubes.getItem()).setChance(ccubes, packet.tags.getInteger("Chance"));
 						}
 					}
+				}
+			}
+			else if(id == 1)
+			{
+				ItemStack stack =MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(packet.tags.getString("Player")).inventory.getCurrentItem();
+				if(stack != null && stack.getItem().equals(CCubesItems.rewardSelectorPendant))
+				{
+					NBTTagCompound nbt = stack.getTagCompound();
+					if(nbt == null)
+						nbt = new NBTTagCompound();
+					nbt.setString("Reward", packet.tags.getString("Reward"));
+					stack.setTagCompound(nbt);
 				}
 			}
 			else

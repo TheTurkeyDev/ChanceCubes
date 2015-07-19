@@ -12,6 +12,7 @@ public class CCubesItems {
 	
 	public static Item silkPendant;
 	public static Item creativePendant;
+	public static Item rewardSelectorPendant;
 	
 	public static Item scanner;
 	
@@ -23,6 +24,7 @@ public class CCubesItems {
 		chancePendantT4 = new ItemChancePendant(4, 100);
 		silkPendant = new ItemSilkTouchPendant();
 		creativePendant = new ItemCreativePendant();
+		rewardSelectorPendant = new ItemRewardSelectorPendant();
 		
 		scanner = new ItemScanner();
 		
@@ -33,6 +35,7 @@ public class CCubesItems {
 		
 		GameRegistry.registerItem(silkPendant, "silkTouchPendant");
 		GameRegistry.registerItem(creativePendant, "creativePendant");
+		GameRegistry.registerItem(rewardSelectorPendant, "reward_Selector_Pendant");
 		
 		GameRegistry.registerItem(scanner, "scanner");
 	}

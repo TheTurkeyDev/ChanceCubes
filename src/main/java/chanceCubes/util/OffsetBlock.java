@@ -84,9 +84,10 @@ public class OffsetBlock
 		this.data = d;
 	}
 	
-	public void setRelativeToPlayer(boolean relative)
+	public OffsetBlock setRelativeToPlayer(boolean relative)
 	{
 		this.relativeToPlayer = relative;
+		return this;
 	}
 	
 	public boolean isRelativeToPlayer()

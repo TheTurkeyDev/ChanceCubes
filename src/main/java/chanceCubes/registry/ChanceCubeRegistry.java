@@ -93,6 +93,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -50, new PotionRewardType(new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -15, new CommandRewardType("/weather thunder 20000")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false), new MessageRewardType("House made by: xZiiRx4KiinGs")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -20, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(0, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(0, -1, -1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true))));
 
 		ItemStack stack;
 
@@ -118,6 +119,13 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.addEnchantment(Enchantment.unbreaking, 10);
 		stack.setItemDamage(stack.getMaxDamage() - 2);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 90, new ItemRewardType(stack)));
+
+		stack = new ItemStack(Items.bow);
+		stack.setItemDamage(stack.getMaxDamage() - 1);
+		stack.addEnchantment(Enchantment.power, 5);
+		stack.addEnchantment(Enchantment.punch, 3);
+		stack.addEnchantment(Enchantment.flame, 2);
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Shot", 85, new ItemRewardType(stack, new ItemStack(Items.arrow, 1))));
 
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
@@ -216,11 +224,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 
 		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
-				{
+		{
 			public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
 			{
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
-				});
+		});
 	}
 }

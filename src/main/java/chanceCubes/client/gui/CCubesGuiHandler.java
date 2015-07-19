@@ -9,6 +9,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 public class CCubesGuiHandler implements IGuiHandler
 {
 	public final static int CREATIVE_PENDANT_ID = 0;
+	public final static int REWARD_SELECTOR_PENDANT_ID = 1;
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
