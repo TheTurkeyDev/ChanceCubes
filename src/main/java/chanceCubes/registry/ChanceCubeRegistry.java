@@ -94,7 +94,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -15, new CommandRewardType("/weather thunder 20000")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false), new MessageRewardType("House made by: xZiiRx4KiinGs")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -20, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(0, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(-1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(0, -1, -1, Blocks.lava, false).setRelativeToPlayer(true) , new OffsetBlock(1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true))));
-
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -15, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(0, 0, 1, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(0, 1, 1, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(-1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(-1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(0, 0, -1, Blocks.monster_egg, false).setRelativeToPlayer(true) , new OffsetBlock(0, 1, -1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.monster_egg, false).setRelativeToPlayer(true))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 35, new ItemRewardType(new ItemStack(Items.fish, 5), new ItemStack(Items.spawn_egg, 1, 95))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bone_Cat", 35, new ItemRewardType(new ItemStack(Items.bone, 5), new ItemStack(Items.spawn_egg, 1, 98))));
+		
 		ItemStack stack;
 
 		stack = new ItemStack(Items.stick);
