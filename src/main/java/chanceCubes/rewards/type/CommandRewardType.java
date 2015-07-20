@@ -19,8 +19,19 @@ public class CommandRewardType extends BaseRewardType<String>
         if (!world.isRemote)
         {
         	command = command.replace("%player", player.getCommandSenderName());
+        	command = command.replace("%x", "" + x);
+        	command = command.replace("%y", "" + y);
+        	command = command.replace("%z", "" + z);
+        	command = command.replace("%px", "" + player.posX);
+        	command = command.replace("%py", "" + player.posY);
+        	command = command.replace("%pz", "" + player.posZ);
+        	
         	CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
+        	
+        	Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
+			MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
         	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
+        	MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
         }
     }
 }
