@@ -17,12 +17,21 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = ""
+ext.buildnumber = 0
+if (System.getenv('BUILD_NUMBER') != null)
+    project.buildnumber = System.getenv('BUILD_NUMBER')
+else
+    logger.lifecycle "No build number detected, setting to 0"
+
 group= "chanceCubes.CCubesCore"
 archivesBaseName = "ChanceCubes"
+version = "${mc_version}-${mod_version}.${buildnumber}"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
+	
+	replace "@VERSION@", project.version
+    replaceIn "CCubesCore.java"
 }
 
 repositories {

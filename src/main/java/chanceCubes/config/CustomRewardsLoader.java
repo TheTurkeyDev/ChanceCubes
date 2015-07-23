@@ -339,6 +339,7 @@ public class CustomRewardsLoader
 
 		if(hardcoded)
 		{
+			//TODO: Does not work on the server!!
 			IResource res = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("chancecubes", "schematics/" + name));
 			is = res.getInputStream();
 		}
