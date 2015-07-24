@@ -93,7 +93,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -40, new MessageRewardType("Release the horde!"), new EntityRewardType(EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"), EntityRewardType.getBasicNBTForEntity("Zombie"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -50, new PotionRewardType(new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2), new PotionEffect(16428, 2))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -15, new CommandRewardType("/weather thunder 20000")));
-		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false), new MessageRewardType("House made by: xZiiRx4KiinGs")));
+		// INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false), new MessageRewardType("House made by: xZiiRx4KiinGs")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -20, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, -1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -15, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.monster_egg, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 35, new ItemRewardType(new ItemStack(Items.fish, 5), new ItemStack(Items.spawn_egg, 1, 95))));
@@ -102,10 +102,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -30, new CommandRewardType("/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Ozelot\",CatType:0,Sitting:0}}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SlimeMan", 65, new CommandRewardType("/summon Slime %x %y %z {CustomName:\"SlimeMan\",CustomNameVisible:1,Size:1,Riding:{id:\"Slime\",Size:2,Riding:{id:\"Slime\",Size:3}}}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 0, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.water, false)), new CommandRewardType("/summon Boat %x %y %z"), new MessageRewardType("Come sail away!")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Brutish_Witch", -75, new CommandRewardType("/summon Witch %x %y %z ")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 80, new CommandRewardType("/summon Chicken %x %y %z {CustomName:\"Cluckington\",CustomNameVisible:1}")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 80, new CommandRewardType("/summon Slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}")));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 80, new CommandRewardType("/summon Zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -75, new CommandRewardType("/summon Witch %x %y %z ")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 60, new CommandRewardType("/summon Chicken %x %y %z {CustomName:\"Cluckington\",CustomNameVisible:1}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 60, new CommandRewardType("/summon Slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 60, new CommandRewardType("/summon Zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Want_To_Build_A_Snowman", 50, new MessageRewardType("Do you want to build a snowman?"), new ItemRewardType(new ItemStack(Blocks.snow, 2), new ItemStack(Blocks.pumpkin))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Frozen", -5, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.ice, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 0, Blocks.ice, false).setRelativeToPlayer(true))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":You_saw_nothing", 0, new MessageRewardType("You didn't see anything......")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Diamond_Block", 80, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.diamond_block, true, 200))));
 
 		ItemStack stack;
 
@@ -138,6 +142,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.addEnchantment(Enchantment.punch, 3);
 		stack.addEnchantment(Enchantment.flame, 2);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Shot", 85, new ItemRewardType(stack, new ItemStack(Items.arrow, 1))));
+
+		stack = new ItemStack(Items.fish, 1, 2);
+		stack.setStackDisplayName("Nemo");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Nemo", 10, new ItemRewardType(stack)));
 
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
