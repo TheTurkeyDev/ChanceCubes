@@ -11,12 +11,11 @@ import org.lwjgl.opengl.GL11;
 
 import chanceCubes.blocks.BlockChanceD20;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.CCubesSettings;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class SpecialRendererD20 implements ISimpleBlockRenderingHandler
 {
-	public static int renderID = -1;
-	
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
@@ -54,6 +53,6 @@ public class SpecialRendererD20 implements ISimpleBlockRenderingHandler
 	@Override
 	public int getRenderId()
 	{
-		return renderID;
+		return CCubesSettings.d20RenderID;
 	}
 }

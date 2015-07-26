@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
-import chanceCubes.renderer.SpecialRendererD20;
 import chanceCubes.tileentities.TileChanceD20;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +37,7 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 	@Override
 	public int getRenderType()
 	{
-		return SpecialRendererD20.renderID;
+		return CCubesSettings.d20RenderID;
 	}
 
 	@Override
