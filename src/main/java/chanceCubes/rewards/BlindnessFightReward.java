@@ -23,12 +23,27 @@ public class BlindnessFightReward implements IChanceCubeReward
 		EntitySkeleton skele = new EntitySkeleton(world);
 		skele.setPosition(x, y, z);
 		world.spawnEntityInWorld(skele);
+		skele = new EntitySkeleton(world);
+		skele.setPosition(x, y, z);
+		world.spawnEntityInWorld(skele);
+		skele = new EntitySkeleton(world);
+		skele.setPosition(x, y, z);
+		world.spawnEntityInWorld(skele);
+		skele = new EntitySkeleton(world);
+		skele.setPosition(x, y, z);
+		world.spawnEntityInWorld(skele);
+		skele = new EntitySkeleton(world);
+		skele.setPosition(x, y, z);
+		world.spawnEntityInWorld(skele);
+		skele = new EntitySkeleton(world);
+		skele.setPosition(x, y, z);
+		world.spawnEntityInWorld(skele);
 	}
 
 	@Override
 	public int getChanceValue()
 	{
-		return 0;
+		return -10;
 	}
 
 	@Override

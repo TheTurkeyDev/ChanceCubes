@@ -14,12 +14,9 @@ import chanceCubes.util.Task;
 
 public class SurroundedReward implements IChanceCubeReward
 {
-	private World world;
-
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		this.world = world;
 		final List<Entity> ents = new ArrayList<Entity>();
 		EntityEnderman enderman;
 		for(int xx = 0; xx < 2; xx++)
@@ -68,7 +65,7 @@ public class SurroundedReward implements IChanceCubeReward
 	{
 		for(Entity enderman: ents)
 		{
-			world.removeEntity(enderman);
+			enderman.setDead();
 		}
 		
 		ents.clear();

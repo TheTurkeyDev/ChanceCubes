@@ -15,6 +15,7 @@ public class TileChanceD20 extends TileEntity
 {
 	private boolean breaking = false;
 	private int stage = 0;
+	public float rotationStage = 0;
 	private EntityPlayer player;
 
 

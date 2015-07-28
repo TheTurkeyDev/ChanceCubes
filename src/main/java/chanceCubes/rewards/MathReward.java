@@ -67,7 +67,7 @@ public class MathReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new ChatComponentText("Correct!"));
-			player.worldObj.removeEntity(inQuestion.get(player).getValue());
+			inQuestion.get(player).getValue().setDead();;
 		}
 		
 		inQuestion.remove(player);
