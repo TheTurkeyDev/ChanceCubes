@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
@@ -53,19 +54,22 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
-		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
-		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		if (!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
-			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
-			this.dropBlockAsItem(world, x, y, z, stack);
-			world.setBlockToAir(x, y, z);
-			world.removeTileEntity(x, y, z);
-			return;
-		}
+			TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
+			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+			{
+				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+				this.dropBlockAsItem(world, x, y, z, stack);
+				world.setBlockToAir(x, y, z);
+				world.removeTileEntity(x, y, z);
+				return;
+			}
 
-		if(te != null)
-			te.startBreaking(player);
+			if(te != null)
+				te.startBreaking(player);
+		}
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)

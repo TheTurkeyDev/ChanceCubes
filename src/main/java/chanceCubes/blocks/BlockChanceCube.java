@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
@@ -36,7 +37,7 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
 	{
-		if (!world.isRemote)
+		if (!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
 			TileChanceCube te = (TileChanceCube) world.getTileEntity(x, y, z);
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
