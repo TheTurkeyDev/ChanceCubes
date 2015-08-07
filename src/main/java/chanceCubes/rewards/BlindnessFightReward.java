@@ -16,8 +16,6 @@ public class BlindnessFightReward implements IChanceCubeReward
 	{
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 2));
 		player.addChatMessage(new ChatComponentText("Fight!!!"));
-		
-		player.setRotationYawHead(player.getRotationYawHead() + world.rand.nextInt(180));
 
 		world.setBlockToAir(x, y + 1, z);
 		EntitySkeleton skele = new EntitySkeleton(world);

@@ -22,12 +22,8 @@ public class BasicReward implements IChanceCubeReward
     public void trigger(World world, int x, int y, int z, EntityPlayer player)
     {
         if (!world.isRemote && rewards != null)
-        {
             for (IRewardType reward : rewards)
-            {
                 reward.trigger(world, x, y, z, player);
-            }
-        }
     }
 
     @Override

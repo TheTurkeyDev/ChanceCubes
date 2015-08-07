@@ -16,9 +16,7 @@ public abstract class BaseRewardType<T> implements IRewardType
     public void trigger(World world, int x, int y, int z, EntityPlayer player)
     {
         for (T t : rewards)
-        {
             trigger(t, world, x, y, z, player);
-        }
     }
 
     protected abstract void trigger(T obj, World world, int x, int y, int z, EntityPlayer player);

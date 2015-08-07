@@ -41,6 +41,7 @@ import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.util.OffsetBlock;
 import chanceCubes.util.OffsetTileEntity;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -112,7 +113,7 @@ public class CustomRewardsLoader
 							this.loadSchematicReward(rewardTypes, rewards);
 					}
 
-					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":" + reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
+					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
 				}
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
 			}
@@ -319,8 +320,8 @@ public class CustomRewardsLoader
 						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-						block.setDealy(i * multiplier);
-						block.setData(schem.data[i]);
+						block.setDealy(i1 * multiplier);
+						block.setData(schem.data[i1]);
 						blocks.add(block);
 					}
 				}
@@ -339,7 +340,7 @@ public class CustomRewardsLoader
 
 		if(hardcoded)
 		{
-			//TODO: Does not work on the server!!
+			// TODO: Does not work on the server!!
 			IResource res = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("chancecubes", "schematics/" + name));
 			is = res.getInputStream();
 		}
@@ -348,7 +349,6 @@ public class CustomRewardsLoader
 			File schematic = new File(folder.getParentFile().getAbsolutePath() + "/CustomRewards/Schematics/" + name);
 			is = new FileInputStream(schematic);
 		}
-
 
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
 		short width = nbtdata.getShort("Width");
@@ -403,5 +403,88 @@ public class CustomRewardsLoader
 				index++;
 		}
 		return sb.toString();
+	}
+
+	public List<String> getRewardsFiles()
+	{
+		List<String> files = Lists.newArrayList();
+		for(File f : folder.listFiles())
+		{
+			if(!f.isFile())
+				continue;
+			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
+				files.add(f.getName());
+		}
+		return files;
+	}
+
+	public List<String> getRewardsFromFile(String s)
+	{
+		List<String> rewards = Lists.newArrayList();
+
+		File rewardsFile = null;
+
+		for(File f : folder.listFiles())
+			if(f.getName().equalsIgnoreCase(s))
+				rewardsFile = f;
+
+		if(rewardsFile == null)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes Failed to get the rewards file by the name of: " + s);
+			return null;
+		}
+
+		JsonElement fileJson;
+		try
+		{
+			CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + rewardsFile.getName());
+			fileJson = json.parse(new FileReader(rewardsFile));
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
+			return null;
+		}
+
+		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+			rewards.add(reward.getKey());
+
+		return rewards;
+	}
+	
+	public List<String> getReward(String file, String s)
+	{
+		List<String> rewardinfo = Lists.newArrayList();
+		
+		for(File f : folder.listFiles())
+		{
+			if(!f.isFile() || !f.getName().equalsIgnoreCase(file))
+				continue;
+			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
+			{
+				JsonElement fileJson;
+				try
+				{
+					CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + f.getName());
+					fileJson = json.parse(new FileReader(f));
+				} catch(Exception e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
+					continue;
+				}
+
+				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+				{
+					JsonObject rewardElements = reward.getValue().getAsJsonObject();
+					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+					{
+						if(rewardElement.getKey().equalsIgnoreCase("chance"))
+							continue;
+						
+						rewardinfo.add(rewardElement.getKey());
+					}
+				}
+			}
+		}
+		return rewardinfo;
 	}
 }

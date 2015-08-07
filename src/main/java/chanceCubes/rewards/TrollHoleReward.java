@@ -54,7 +54,7 @@ public class TrollHoleReward implements IChanceCubeReward
 			world.setBlock(x + loc.getX(), y - loc.getY(), z + loc.getZ(), storedBlocks.get(loc));
 
 		player.setPositionAndUpdate(x, y + 1, z);
-		player.setVelocity(0, 0, 0);
+		player.motionY = 0;
 		player.fallDistance = 0;
 	}
 

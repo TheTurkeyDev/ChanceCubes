@@ -8,18 +8,15 @@ import net.minecraft.world.World;
 
 public class ItemRewardType extends BaseRewardType<ItemStack>
 {
-    public ItemRewardType(ItemStack... items)
-    {
-        super(items);
-    }
+	public ItemRewardType(ItemStack... items)
+	{
+		super(items);
+	}
 
-    @Override
-    public void trigger(ItemStack stack, World world, int x, int y, int z, EntityPlayer player)
-    {
-        if (!world.isRemote)
-        {
-            Entity itemEnt = new EntityItem(world, x, y, z, stack.copy());
-            world.spawnEntityInWorld(itemEnt);
-        }
-    }
+	@Override
+	public void trigger(ItemStack stack, World world, int x, int y, int z, EntityPlayer player)
+	{
+		Entity itemEnt = new EntityItem(world, x, y, z, stack.copy());
+		world.spawnEntityInWorld(itemEnt);
+	}
 }

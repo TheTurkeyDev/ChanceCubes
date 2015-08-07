@@ -16,10 +16,7 @@ public class ExperienceRewardType extends BaseRewardType<Integer>
 	@Override
 	public void trigger(Integer levels, World world, int x, int y, int z, EntityPlayer player)
 	{
-		if (!world.isRemote)
-		{
-			Entity newEnt = new EntityXPOrb(world, x, y, z, levels);
-			world.spawnEntityInWorld(newEnt);
-		}
+		Entity newEnt = new EntityXPOrb(world, x, y, z, levels);
+		world.spawnEntityInWorld(newEnt);
 	}
 }
