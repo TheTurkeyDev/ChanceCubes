@@ -18,6 +18,22 @@ public class EntityRewardType extends BaseRewardType<NBTTagCompound>
 		super(entities);
 	}
 
+	public EntityRewardType(String... nbtRaw)
+	{
+		NBTTagCompound[] nbt = new NBTTagCompound[nbtRaw.length];
+		for(int i = 0; i < nbtRaw.length; i++)
+		{
+			try
+			{
+				nbt[i] = (NBTTagCompound) JsonToNBT.func_150315_a(nbtRaw[i]);
+			} catch(NBTException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		this.rewards = nbt;
+	}
+
 	@Override
 	public void trigger(NBTTagCompound entData, World world, int x, int y, int z, EntityPlayer player)
 	{
@@ -34,7 +50,7 @@ public class EntityRewardType extends BaseRewardType<NBTTagCompound>
 		try
 		{
 			nbt = (NBTTagCompound) JsonToNBT.func_150315_a(json);
-		} catch (NBTException e)
+		} catch(NBTException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;

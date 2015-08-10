@@ -61,7 +61,7 @@ public class CCubesCore
     public void load(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-        ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
+        ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile(), event.getSourceFile());
         
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();

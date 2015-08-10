@@ -10,7 +10,6 @@ import chanceCubes.config.CustomRewardsLoader;
 public class ConfigGui extends GuiScreen
 {
 	private ConfigEditState editState;
-	private GuiButton buttonBack;
 	private GuiButton buttonNew;
 
 	private String[] prevStage = new String[3];
@@ -30,7 +29,7 @@ public class ConfigGui extends GuiScreen
 		this.buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
-		this.buttonList.add(this.buttonBack = new GuiButton(0, 50, this.height - 40, 98, 20, "Back"));
+		this.buttonList.add(new GuiButton(0, 50, this.height - 40, 98, 20, "Back"));
 		this.buttonList.add(this.buttonNew = new GuiButton(1, this.width / 2 - 50, this.height - 40, 100, 20, "New"));
 
 		entries = new CustomExtendedList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);

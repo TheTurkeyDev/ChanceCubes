@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.IResource;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,7 +21,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 import org.apache.logging.log4j.Level;
 
@@ -53,12 +50,14 @@ public class CustomRewardsLoader
 {
 	public static CustomRewardsLoader instance;
 	private File folder;
+	private File source;
 	private static JsonParser json;
 
-	public CustomRewardsLoader(File folder)
+	public CustomRewardsLoader(File folder, File source)
 	{
 		instance = this;
 		this.folder = folder;
+		this.source = source;
 		json = new JsonParser();
 	}
 
@@ -340,9 +339,7 @@ public class CustomRewardsLoader
 
 		if(hardcoded)
 		{
-			// TODO: Does not work on the server!!
-			IResource res = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("chancecubes", "schematics/" + name));
-			is = res.getInputStream();
+			is = new FileInputStream(new File(source.getAbsolutePath() + "/assets/chancecubes/schematics/" + name));
 		}
 		else
 		{
@@ -351,6 +348,7 @@ public class CustomRewardsLoader
 		}
 
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
+		
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");
@@ -450,11 +448,11 @@ public class CustomRewardsLoader
 
 		return rewards;
 	}
-	
+
 	public List<String> getReward(String file, String s)
 	{
 		List<String> rewardinfo = Lists.newArrayList();
-		
+
 		for(File f : folder.listFiles())
 		{
 			if(!f.isFile() || !f.getName().equalsIgnoreCase(file))
@@ -479,7 +477,7 @@ public class CustomRewardsLoader
 					{
 						if(rewardElement.getKey().equalsIgnoreCase("chance"))
 							continue;
-						
+
 						rewardinfo.add(rewardElement.getKey());
 					}
 				}

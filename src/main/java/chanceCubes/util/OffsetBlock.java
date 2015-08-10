@@ -42,7 +42,7 @@ public class OffsetBlock
 	{
 		if(!falling)
 		{
-			world.setBlock(x + xOff, y + yOff, z + zOff, block, data, 2);
+			this.placeInWorld(world, x, y, z, true);
 		}
 		else
 		{
@@ -70,7 +70,7 @@ public class OffsetBlock
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
 			world.setBlockToAir((x + xOff), yyy, (z + zOff));
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block, data, y + yOff);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block, data, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
@@ -93,5 +93,14 @@ public class OffsetBlock
 	public boolean isRelativeToPlayer()
 	{
 		return this.relativeToPlayer;
+	}
+	
+	public void placeInWorld(World world, int x, int y, int z, boolean offset)
+	{
+		if(offset)
+			world.setBlock(x + xOff, y + yOff, z + zOff, block, data, 2);
+		else
+			world.setBlock(x, y, z, block, data, 2);
+		
 	}
 }

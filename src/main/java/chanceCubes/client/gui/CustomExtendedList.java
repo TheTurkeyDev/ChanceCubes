@@ -9,8 +9,6 @@ import net.minecraft.client.renderer.Tessellator;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
-
 public class CustomExtendedList extends GuiListExtended
 {
 	public List<CustomListEntry> elements = Lists.newArrayList();

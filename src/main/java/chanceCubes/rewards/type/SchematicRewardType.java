@@ -31,7 +31,8 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 	 * @param schematic
 	 * @param delay
 	 * @param falling
-	 * @param relative to the player
+	 * @param relative
+	 *            to the player
 	 */
 	public SchematicRewardType(String schemName, int delay, boolean falling, boolean rtp)
 	{
@@ -84,6 +85,7 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 			{
 				for(int xx = 0; xx < schem.width; xx++)
 				{
+					
 					int j = schem.blocks[i];
 					if(j < 0)
 					{
@@ -91,6 +93,29 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 					}
 
 					Block b = Block.getBlockById(j);
+					
+					if(schem.tileentities != null)
+					{
+						for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
+						{	
+							NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
+							if(nbttagcompound4.getInteger("x") == xx && nbttagcompound4.getInteger("y") == yy && nbttagcompound4.getInteger("z") == zz)
+							{
+								TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
+								if(tileentity != null)
+								{
+									tileentity.blockType = b;
+									OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
+									block.setRelativeToPlayer(this.relativeToPlayer);
+									block.setDealy(i * delay);
+									block.setData(schem.data[i]);
+									blocks.add(block);
+									continue;
+								}
+							}
+						}
+					}
+					
 					if(b != Blocks.air)
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
@@ -101,22 +126,6 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 					}
 
 					i++;
-				}
-			}
-		}
-
-		if(schem.tileentities != null)
-		{
-			for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
-			{
-				NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-				TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
-
-				if(tileentity != null)
-				{
-					OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
-
-					blocks.add(block);
 				}
 			}
 		}
