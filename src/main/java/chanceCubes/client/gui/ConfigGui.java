@@ -86,13 +86,16 @@ public class ConfigGui extends GuiScreen
 			}
 			case All_Rewards:
 			{
-				editState = ConfigEditState.All_Rewards;
+				editState = ConfigEditState.Edit_Reward_Type;
 				this.loadSingleReward(name);
 				this.prevStage[1] = name;
 				break;
 			}
 			case Edit_Reward_Type:
 			{
+				editState = ConfigEditState.Reward_Type;
+				//this.loadSingleReward(name);
+				this.prevStage[2] = name;
 				break;
 			}
 			case Reward_Type:
@@ -122,10 +125,14 @@ public class ConfigGui extends GuiScreen
 			}
 			case Edit_Reward_Type:
 			{
+				editState = ConfigEditState.All_Rewards;
+				this.loadFileRewards(this.prevStage[0]);
 				break;
 			}
 			case Reward_Type:
 			{
+				editState = ConfigEditState.Edit_Reward_Type;
+				this.loadSingleReward(this.prevStage[1]);
 				break;
 			}
 			case Single_Reward:
@@ -156,6 +163,16 @@ public class ConfigGui extends GuiScreen
 	{
 		drawString = "Select the reward that you would like to edit";
 		entries.clearElements();
+		for(String s : CustomRewardsLoader.instance.getReward(this.prevStage[0], reward))
+			entries.addElement(s);
+	}
+	
+	public void loadRewardType(String type)
+	{
+		drawString = "Select the reward that you would like to edit";
+		entries.clearElements();
+		for(String s : CustomRewardsLoader.instance.getRewardType(this.prevStage[0], this.prevStage[1], type))
+			entries.addElement(s);
 	}
 
 	public enum ConfigEditState

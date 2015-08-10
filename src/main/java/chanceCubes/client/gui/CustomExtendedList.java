@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.Tessellator;
 
 import com.google.common.collect.Lists;
@@ -77,6 +78,41 @@ public class CustomExtendedList extends GuiListExtended
 		{
 			if(this.button.mousePressed(mc, x, y))
 				parentScreen.nextEditStage(button.displayString);
+			return false;
+		}
+
+		@Override
+		public void mouseReleased(int index, int x, int y, int mouseEvent, int relativeX, int relativeY)
+		{
+			
+		}
+	}
+	
+	public class CustomTextEntry implements IGuiListEntry
+	{
+		private GuiTextField text;
+		private ConfigGui parentScreen;
+		private Minecraft mc;
+
+		public CustomTextEntry(ConfigGui parentScreen, Minecraft mc)
+		{
+			this.parentScreen = parentScreen;
+			text = new GuiTextField(mc.fontRenderer, 0, 0, 200, 20);
+			this.mc = mc;
+		}
+
+		@Override
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, Tessellator tessellator, int mouseX, int mouseY, boolean isSelected)
+		{
+            this.text.xPosition = x;
+            this.text.yPosition = y;
+            //this.button.enabled = enabled();
+            this.text.drawTextBox();
+		}
+
+		@Override
+		public boolean mousePressed(int index, int x, int y, int mouseEvent, int relativeX, int relativeY)
+		{
 			return false;
 		}
 

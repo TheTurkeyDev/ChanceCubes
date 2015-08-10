@@ -348,7 +348,7 @@ public class CustomRewardsLoader
 		}
 
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
-		
+
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");
@@ -479,6 +479,47 @@ public class CustomRewardsLoader
 							continue;
 
 						rewardinfo.add(rewardElement.getKey());
+					}
+				}
+			}
+		}
+		return rewardinfo;
+	}
+
+	public List<String> getRewardType(String file, String s, String type)
+	{
+		List<String> rewardinfo = Lists.newArrayList();
+
+		for(File f : folder.listFiles())
+		{
+			if(!f.isFile() || !f.getName().equalsIgnoreCase(file))
+				continue;
+			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
+			{
+				JsonElement fileJson;
+				try
+				{
+					CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + f.getName());
+					fileJson = json.parse(new FileReader(f));
+				} catch(Exception e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
+					continue;
+				}
+
+				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+				{
+					JsonObject rewardElements = reward.getValue().getAsJsonObject();
+					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+					{
+						if(rewardElement.getKey().equalsIgnoreCase(type))
+						{
+							JsonObject rewardTypeEl = rewardElement.getValue().getAsJsonObject();
+							for(Entry<String, JsonElement> rewardtype : rewardTypeEl.entrySet())
+							{
+								rewardinfo.add(rewardtype.getKey());
+							}
+						}
 					}
 				}
 			}
