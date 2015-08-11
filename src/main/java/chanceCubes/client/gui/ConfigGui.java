@@ -86,15 +86,15 @@ public class ConfigGui extends GuiScreen
 			}
 			case All_Rewards:
 			{
-				editState = ConfigEditState.Edit_Reward_Type;
+				editState = ConfigEditState.Single_Reward;
 				this.loadSingleReward(name);
 				this.prevStage[1] = name;
 				break;
 			}
-			case Edit_Reward_Type:
+			case Single_Reward:
 			{
 				editState = ConfigEditState.Reward_Type;
-				//this.loadSingleReward(name);
+				this.loadRewardType(name);
 				this.prevStage[2] = name;
 				break;
 			}
@@ -102,7 +102,7 @@ public class ConfigGui extends GuiScreen
 			{
 				break;
 			}
-			case Single_Reward:
+			case Edit_Reward_Type:
 			{
 				break;
 			}
@@ -123,7 +123,7 @@ public class ConfigGui extends GuiScreen
 				this.loadFiles();
 				break;
 			}
-			case Edit_Reward_Type:
+			case Single_Reward:
 			{
 				editState = ConfigEditState.All_Rewards;
 				this.loadFileRewards(this.prevStage[0]);
@@ -131,12 +131,14 @@ public class ConfigGui extends GuiScreen
 			}
 			case Reward_Type:
 			{
-				editState = ConfigEditState.Edit_Reward_Type;
+				editState = ConfigEditState.Single_Reward;
 				this.loadSingleReward(this.prevStage[1]);
 				break;
 			}
-			case Single_Reward:
+			case Edit_Reward_Type:
 			{
+				editState = ConfigEditState.Reward_Type;
+				//this.loadSingleReward(this.prevStage[1]);
 				break;
 			}
 		}
@@ -161,7 +163,7 @@ public class ConfigGui extends GuiScreen
 	
 	public void loadSingleReward(String reward)
 	{
-		drawString = "Select the reward that you would like to edit";
+		drawString = "Select the reward type that you would like to edit";
 		entries.clearElements();
 		for(String s : CustomRewardsLoader.instance.getReward(this.prevStage[0], reward))
 			entries.addElement(s);
@@ -169,7 +171,7 @@ public class ConfigGui extends GuiScreen
 	
 	public void loadRewardType(String type)
 	{
-		drawString = "Select the reward that you would like to edit";
+		drawString = "Select the reward type that you would like to edit";
 		entries.clearElements();
 		for(String s : CustomRewardsLoader.instance.getRewardType(this.prevStage[0], this.prevStage[1], type))
 			entries.addElement(s);

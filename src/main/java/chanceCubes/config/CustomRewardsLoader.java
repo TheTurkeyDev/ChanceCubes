@@ -416,26 +416,15 @@ public class CustomRewardsLoader
 		return files;
 	}
 
-	public List<String> getRewardsFromFile(String s)
+	public List<String> getRewardsFromFile(String file)
 	{
 		List<String> rewards = Lists.newArrayList();
 
-		File rewardsFile = null;
-
-		for(File f : folder.listFiles())
-			if(f.getName().equalsIgnoreCase(s))
-				rewardsFile = f;
-
-		if(rewardsFile == null)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes Failed to get the rewards file by the name of: " + s);
-			return null;
-		}
+		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
 
 		JsonElement fileJson;
 		try
 		{
-			CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + rewardsFile.getName());
 			fileJson = json.parse(new FileReader(rewardsFile));
 		} catch(Exception e)
 		{
@@ -449,38 +438,31 @@ public class CustomRewardsLoader
 		return rewards;
 	}
 
-	public List<String> getReward(String file, String s)
+	public List<String> getReward(String file, String rewardName)
 	{
 		List<String> rewardinfo = Lists.newArrayList();
 
-		for(File f : folder.listFiles())
+		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
+		JsonElement fileJson;
+
+		try
 		{
-			if(!f.isFile() || !f.getName().equalsIgnoreCase(file))
-				continue;
-			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
+			fileJson = json.parse(new FileReader(rewardsFile));
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
+			return null;
+		}
+
+		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+		{
+			JsonObject rewardElements = reward.getValue().getAsJsonObject();
+			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
 			{
-				JsonElement fileJson;
-				try
-				{
-					CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + f.getName());
-					fileJson = json.parse(new FileReader(f));
-				} catch(Exception e)
-				{
-					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
+				if(rewardElement.getKey().equalsIgnoreCase("chance"))
 					continue;
-				}
 
-				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
-				{
-					JsonObject rewardElements = reward.getValue().getAsJsonObject();
-					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-					{
-						if(rewardElement.getKey().equalsIgnoreCase("chance"))
-							continue;
-
-						rewardinfo.add(rewardElement.getKey());
-					}
-				}
+				rewardinfo.add(rewardElement.getKey());
 			}
 		}
 		return rewardinfo;
@@ -490,36 +472,28 @@ public class CustomRewardsLoader
 	{
 		List<String> rewardinfo = Lists.newArrayList();
 
-		for(File f : folder.listFiles())
+		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
+		JsonElement fileJson;
+		try
 		{
-			if(!f.isFile() || !f.getName().equalsIgnoreCase(file))
-				continue;
-			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
-			{
-				JsonElement fileJson;
-				try
-				{
-					CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + f.getName());
-					fileJson = json.parse(new FileReader(f));
-				} catch(Exception e)
-				{
-					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
-					continue;
-				}
+			fileJson = json.parse(new FileReader(rewardsFile));
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
+			return null;
+		}
 
-				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
+		{
+			JsonObject rewardElements = reward.getValue().getAsJsonObject();
+			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+			{
+				if(rewardElement.getKey().equalsIgnoreCase(type))
 				{
-					JsonObject rewardElements = reward.getValue().getAsJsonObject();
-					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+					JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
+					for(int i = 0; i < rewardTypeArray.size(); i++)
 					{
-						if(rewardElement.getKey().equalsIgnoreCase(type))
-						{
-							JsonObject rewardTypeEl = rewardElement.getValue().getAsJsonObject();
-							for(Entry<String, JsonElement> rewardtype : rewardTypeEl.entrySet())
-							{
-								rewardinfo.add(rewardtype.getKey());
-							}
-						}
+						rewardinfo.add(rewardTypeArray.get(i).toString());
 					}
 				}
 			}
