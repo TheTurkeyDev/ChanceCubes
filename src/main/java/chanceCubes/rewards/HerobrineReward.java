@@ -28,7 +28,7 @@ public class HerobrineReward implements IChanceCubeReward
 			return;
 		triggered = true;
 		stage = 0;
-		staying = world.rand.nextInt(25) == 1;
+		staying = world.rand.nextInt(10) == 1;
 		this.player = player;
 		this.world = world;
 		this.x = x;

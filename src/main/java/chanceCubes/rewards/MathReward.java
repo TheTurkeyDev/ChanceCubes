@@ -38,7 +38,7 @@ public class MathReward implements IChanceCubeReward
 
 		if (!world.isRemote)
 		{
-			EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double)((float)player.posX + 0.5F), (double)((float)player.posY + 0.5F), (double)((float)player.posZ + 0.5F), player);
+			EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
 			world.spawnEntityInWorld(entitytntprimed);
 			world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
 			entitytntprimed.fuse = 120;
@@ -67,7 +67,7 @@ public class MathReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new ChatComponentText("Correct!"));
-			inQuestion.get(player).getValue().setDead();;
+			inQuestion.get(player).getValue().setDead();
 		}
 		
 		inQuestion.remove(player);
