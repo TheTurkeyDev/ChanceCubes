@@ -35,6 +35,7 @@ import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.OffsetBlock;
 import chanceCubes.util.OffsetTileEntity;
 
@@ -110,6 +111,8 @@ public class CustomRewardsLoader
 							this.loadPotionReward(rewardTypes, rewards);
 						else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
 							this.loadSchematicReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
+							this.loadSoundReward(rewardTypes, rewards);
 					}
 
 					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
@@ -241,6 +244,15 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 			potions.add(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
 		rewards.add(new PotionRewardType(potions.toArray(new PotionEffect[potions.size()])));
+		return rewards;
+	}
+	
+	public List<IRewardType> loadSoundReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<String> sounds = new ArrayList<String>();
+		for(JsonElement element : rawReward)
+			sounds.add(element.getAsJsonObject().get("Sound").getAsString());
+		rewards.add(new SoundRewardType(sounds.toArray(new String[sounds.size()])));
 		return rewards;
 	}
 
