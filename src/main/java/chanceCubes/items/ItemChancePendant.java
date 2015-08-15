@@ -41,6 +41,7 @@ public class ItemChancePendant extends Item
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
 		list.add("Increases the chance of Chance Cubes by +" + chanceIncrease + " when the block is broken");
+		list.add("Simply having the pendant in your inventory will make it work");
 	}
 
 	public boolean getIsRepairable(ItemStack stack, ItemStack repairStack)

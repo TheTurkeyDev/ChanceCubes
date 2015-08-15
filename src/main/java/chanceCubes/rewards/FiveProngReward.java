@@ -48,6 +48,6 @@ public class FiveProngReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID+":5 Prongs";
+		return CCubesCore.MODID+":5_Prongs";
 	}
 }

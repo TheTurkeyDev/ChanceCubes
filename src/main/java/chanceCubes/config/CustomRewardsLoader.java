@@ -28,6 +28,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.type.BlockRewardType;
+import chanceCubes.rewards.type.ChestRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
@@ -36,6 +37,7 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.util.ChestChanceItem;
 import chanceCubes.util.OffsetBlock;
 import chanceCubes.util.OffsetTileEntity;
 
@@ -113,6 +115,8 @@ public class CustomRewardsLoader
 							this.loadSchematicReward(rewardTypes, rewards);
 						else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
 							this.loadSoundReward(rewardTypes, rewards);
+						else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
+							this.loadChestReward(rewardTypes, rewards);
 					}
 
 					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
@@ -246,13 +250,43 @@ public class CustomRewardsLoader
 		rewards.add(new PotionRewardType(potions.toArray(new PotionEffect[potions.size()])));
 		return rewards;
 	}
-	
+
 	public List<IRewardType> loadSoundReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<String> sounds = new ArrayList<String>();
+		List<String> sounds = Lists.newArrayList();
 		for(JsonElement element : rawReward)
-			sounds.add(element.getAsJsonObject().get("Sound").getAsString());
+			sounds.add(element.getAsJsonObject().get("sound").getAsString());
 		rewards.add(new SoundRewardType(sounds.toArray(new String[sounds.size()])));
+		return rewards;
+	}
+
+	public List<IRewardType> loadChestReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<ChestChanceItem> items = Lists.newArrayList();
+		for(JsonElement element : rawReward)
+		{
+			JsonObject obj = element.getAsJsonObject();
+			if(obj.has("item") && obj.has("chance"))
+			{
+				int meta = 0;
+				if(obj.has("meta"))
+					meta = obj.get("meta").getAsInt();
+				
+				int amountMin = 0;
+				if(obj.has("amountMin"))
+					amountMin = obj.get("amountMin").getAsInt();
+				
+				int amountMax = 8;
+				if(obj.has("amountMax"))
+					amountMax = obj.get("amountMax").getAsInt();
+				
+				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
+			}
+			else
+				CCubesCore.logger.log(Level.ERROR, "A chest reward failed to load do to missing params");
+			
+		}
+		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
 		return rewards;
 	}
 

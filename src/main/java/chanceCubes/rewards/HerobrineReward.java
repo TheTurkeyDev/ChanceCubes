@@ -73,9 +73,12 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
-					String command = "/summon Zombie ~ ~1 ~ {Riding:{id:ThrownPotion,Potion:{id:15,Damage:16,tag:{CustomPotionEffects:[{Id:15,Amplifier:0,Duration:2400,ShowParticles:0b}]}}},CustomName:\"Herobrine\",CustomNameVisible:1,CanBreakDoors:1,Equipment:[{id:276,Count:1},{},{},{},{id:397,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[1F,1F,1F,1F,0.0F],Attributes:[{Name:zombie.spawnReinforcements,Base:1.0F}],ActiveEffects:[{Id:5,Amplifier:15,Duration:199980,ShowParticles:0b}, {Id:10,Amplifier:50,Duration:500,ShowParticles:0b}],Attributes:[{Name:generic.maxHealth,Base:200}],Health:200}";
+					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
+					MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+					String command = "/summon Zombie ~ ~1 ~ {Riding:{id:ThrownPotion,Potion:{id:15,Damage:16,tag:{CustomPotionEffects:[{Id:15,Amplifier:0,Duration:3000,ShowParticles:0b}]}}},CustomName:\"Herobrine\",CustomNameVisible:1,CanBreakDoors:1,Equipment:[{id:276,Count:1},{},{},{},{id:397,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[1F,1F,1F,1F,0.0F],Attributes:[{Name:zombie.spawnReinforcements,Base:1.0F}],ActiveEffects:[{Id:5,Amplifier:15,Duration:199980,ShowParticles:0b}, {Id:10,Amplifier:50,Duration:500,ShowParticles:0b}],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500}";
 					CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
 		        	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
+		        	MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 				}
 				else
 				{

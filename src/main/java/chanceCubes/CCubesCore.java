@@ -80,7 +80,6 @@ public class CCubesCore
         this.network = NetworkRegistry.INSTANCE.newSimpleChannel("ChanceCubes");
 		this.network.registerMessage(CCubesPacket.HandlerServer.class, CCubesPacket.class, 0, Side.SERVER);
 		this.network.registerMessage(CCubesPacket.HandlerClient.class, CCubesPacket.class, 1, Side.CLIENT);
-        
     }
 
     @EventHandler

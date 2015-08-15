@@ -35,7 +35,7 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int side, EntityPlayer player)
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
 	{
 		if (!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
@@ -47,14 +47,16 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 				this.dropBlockAsItem(world, x, y, z, stack);
 				world.setBlockToAir(x, y, z);
 				world.removeTileEntity(x, y, z);
-				return;
+				return true;
 			}
 
 			if (te != null)
 			{
+				world.setBlockToAir(x, y, z);
 				ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, te.getChance());
 			}
 		}
+		return true;
 	}
 
 	@Override
