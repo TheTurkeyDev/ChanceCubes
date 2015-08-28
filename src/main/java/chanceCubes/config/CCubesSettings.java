@@ -4,7 +4,6 @@ public class CCubesSettings
 {
 	public static int d20RenderID = -1;
 	
-	
 	public static int pendantUses = 100;
 	
 	public static boolean enableHardCodedRewards = true;
@@ -15,6 +14,8 @@ public class CCubesSettings
 	public static boolean oreGeneration = true;
 	public static boolean surfaceGeneration = true;
 	public static String[] blockedWorlds = new String[]{};
+	
+	public static boolean userSpecificRewards = true;
 	
 	public static int dropHeight = 20;
 	

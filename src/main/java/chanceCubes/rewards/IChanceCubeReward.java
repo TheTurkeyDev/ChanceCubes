@@ -24,5 +24,4 @@ public interface IChanceCubeReward {
 	 * @return Unique name for reward (suggested to pre-pend MODID).
 	 */
 	public String getName();
-
 }

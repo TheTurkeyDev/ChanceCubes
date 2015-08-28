@@ -107,5 +107,4 @@ public class HerobrineReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":Herobrine";
 	}
-
 }

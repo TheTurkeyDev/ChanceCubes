@@ -65,5 +65,4 @@ public class AnvilRain implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":AnvilRain";
 	}
-
 }

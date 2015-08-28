@@ -82,7 +82,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemStack(Blocks.enchanting_table))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 80, new ItemRewardType(new ItemStack(Blocks.bookshelf, 64))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 65, new ItemRewardType(new ItemStack(Items.coal), new ItemStack(Items.redstone), new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.diamond), new ItemStack(Items.emerald))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceCube)), new MessageRewardType("Here, have another!")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceCube, 3)), new MessageRewardType("Here, have more!")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 10, new ItemRewardType(new ItemStack(Blocks.sapling, 16, 0), new ItemStack(Blocks.sapling, 16, 0), new ItemStack(Blocks.sapling, 16, 1), new ItemStack(Blocks.sapling, 16, 2), new ItemStack(Blocks.sapling, 16, 3), new ItemStack(Blocks.sapling, 16, 4), new ItemStack(Blocks.sapling, 16, 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType("Time to farm!"), new ItemRewardType(new ItemStack(Items.iron_hoe), new ItemStack(Items.bucket), new ItemStack(Items.wheat_seeds, 16))));
@@ -116,7 +116,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chance_Cube_Cube", 15, new BlockRewardType(new OffsetBlock(-1, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -2, CCubesBlocks.chanceCube, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 5, new SoundRewardType("game.tnt.primed","game.tnt.primed","game.tnt.primed","game.tnt.primed")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 5, new SoundRewardType("mob.ghast.scream", "mob.ghast.moan", "mob.ghast.moan")));
-
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", -35, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType("No")));
+		
 		ItemStack stack;
 
 		stack = new ItemStack(Items.stick);
@@ -169,6 +170,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BlindnessFightReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
+		//INSTANCE.registerReward(new EnderCrystalTimerReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
@@ -226,7 +228,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		int lowerRange = chance - CCubesSettings.rangeMin < -100 ? -100 : chance - CCubesSettings.rangeMin;
 		int upperRange = chance + CCubesSettings.rangeMax > 100 ? 100 : chance + CCubesSettings.rangeMax;
 
-		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
+		while(sortedRewards.get(lowerIndex).getChanceValue() <= lowerRange)
 		{
 			lowerIndex++;
 			if(lowerIndex >= sortedRewards.size())
@@ -235,7 +237,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				break;
 			}
 		}
-		while(sortedRewards.get(upperIndex).getChanceValue() > upperRange)
+		while(sortedRewards.get(upperIndex).getChanceValue() >= upperRange)
 		{
 			upperIndex--;
 			if(upperIndex < 0)
@@ -244,7 +246,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				break;
 			}
 		}
-		int pick = world.rand.nextInt(upperIndex - lowerIndex + 1) + lowerIndex;
+		int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
+		int pick = world.rand.nextInt(range) + lowerIndex;
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + sortedRewards.get(pick).getName());
 		sortedRewards.get(pick).trigger(world, x, y, z, player);
 	}

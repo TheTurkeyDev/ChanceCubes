@@ -62,5 +62,4 @@ public class BlindnessFightReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":Blindness_Fight";
 	}
-
 }

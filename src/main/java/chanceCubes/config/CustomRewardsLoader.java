@@ -271,20 +271,20 @@ public class CustomRewardsLoader
 				int meta = 0;
 				if(obj.has("meta"))
 					meta = obj.get("meta").getAsInt();
-				
+
 				int amountMin = 0;
 				if(obj.has("amountMin"))
 					amountMin = obj.get("amountMin").getAsInt();
-				
+
 				int amountMax = 8;
 				if(obj.has("amountMax"))
 					amountMax = obj.get("amountMax").getAsInt();
-				
+
 				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
 			}
 			else
 				CCubesCore.logger.log(Level.ERROR, "A chest reward failed to load do to missing params");
-			
+
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
 		return rewards;

@@ -1,0 +1,10 @@
+{
+	"No_Reward":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"HMMMM, I couldn't seem to find a reward for you"}
+		]
+	}
+}
