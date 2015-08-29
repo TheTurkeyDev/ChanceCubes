@@ -17,10 +17,10 @@ public class WorldGen
 		if(CCubesSettings.isBlockedWorld(event.world.getWorldInfo().getWorldName()))
 			return;
 		if(CCubesSettings.oreGeneration)
-			generateOre(event.world, event.rand, event.chunkX * 16, event.chunkZ * 16);
+			generateOre(event.world, new Random(), event.chunkX * 16, event.chunkZ * 16);
 
 		if(CCubesSettings.surfaceGeneration)
-			generateSurface(event.world, event.rand, event.chunkX * 16, event.chunkZ * 16);
+			generateSurface(event.world, new Random(), event.chunkX * 16, event.chunkZ * 16);
 	}
 
 	private void generateOre(World world, Random rand, int x, int z) 
