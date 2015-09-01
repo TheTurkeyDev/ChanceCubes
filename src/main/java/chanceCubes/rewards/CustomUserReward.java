@@ -72,6 +72,7 @@ public class CustomUserReward implements IChanceCubeReward
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
+			CCubesCore.logger.log(Level.ERROR, e.getMessage());
 			return;
 		}
 
@@ -117,6 +118,8 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);
+		player.addChatMessage(new ChatComponentText("Seems you have some custom rewards...."));
+		player.addChatMessage(new ChatComponentText("Let the fun begin! >:)"));
 	}
 
 	@Override
@@ -131,7 +134,7 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 		player.addChatMessage(new ChatComponentText("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
-		Task task = new Task("Custom Reward", 60)
+		Task task = new Task("Custom Reward", 100)
 		{
 			@Override
 			public void callback()
@@ -158,7 +161,7 @@ public class CustomUserReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + "Custom_Reward_For_" + this.userName;
+		return CCubesCore.MODID + ":Custom_Reward_For_" + this.userName;
 	}
 
 }

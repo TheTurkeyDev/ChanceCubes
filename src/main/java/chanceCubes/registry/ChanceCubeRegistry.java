@@ -117,7 +117,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 5, new SoundRewardType("game.tnt.primed","game.tnt.primed","game.tnt.primed","game.tnt.primed")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 5, new SoundRewardType("mob.ghast.scream", "mob.ghast.moan", "mob.ghast.moan")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", -35, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType("No")));
-		
+
 		ItemStack stack;
 
 		stack = new ItemStack(Items.stick);
@@ -190,7 +190,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public boolean unregisterReward(String name)
 	{
-		return nameToReward.remove(name) != null;
+		Object o = nameToReward.remove(name);
+		if(o != null)
+			return sortedRewards.remove(o);
+		return false;
 	}
 
 	@Override
@@ -260,11 +263,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 
 		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
-		{
+				{
 			public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
 			{
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
-		});
+				});
 	}
 }
