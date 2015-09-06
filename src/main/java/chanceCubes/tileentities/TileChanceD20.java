@@ -18,12 +18,11 @@ public class TileChanceD20 extends TileEntity
 	public float rotationStage = 0;
 	private EntityPlayer player;
 
-
 	private int chance;
 
 	public TileChanceD20()
 	{
-		this(new Random().nextInt(201)-100);
+		this(new Random().nextInt(201) - 100);
 	}
 
 	public TileChanceD20(int initialChance)
@@ -57,13 +56,13 @@ public class TileChanceD20 extends TileEntity
 
 	public void updateEntity()
 	{
-		if (!breaking)
+		if(!breaking)
 			return;
 		stage++;
-		if (stage > 200)
+		if(stage > 200)
 		{
 			breaking = false;
-			if (!this.worldObj.isRemote)
+			if(!this.worldObj.isRemote)
 			{
 				this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 				this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
@@ -76,10 +75,14 @@ public class TileChanceD20 extends TileEntity
 	{
 		if(!breaking)
 		{
-			player.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, CCubesCore.MODID + ":d20_Break", 1, 1);
+			if(!player.worldObj.isRemote)
+			{
+				player.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, CCubesCore.MODID + ":d20_Break", 1, 1);
+				this.player = player;
+			}
 			breaking = true;
 			stage = 0;
-			this.player = player;
+			
 		}
 	}
 
@@ -101,12 +104,11 @@ public class TileChanceD20 extends TileEntity
 	{
 		readSyncableDataFromNBT(pkt.func_148857_g());
 	}
-	
-	
+
 	private void writeSyncableDataToNBT(NBTTagCompound syncData)
 	{
 		syncData.setInteger("chance", this.getChance());
-		
+
 	}
 
 	private void readSyncableDataFromNBT(NBTTagCompound nbt)

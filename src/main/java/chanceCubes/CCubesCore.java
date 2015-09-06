@@ -10,6 +10,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.UpdateNotificationListener;
@@ -86,6 +87,7 @@ public class CCubesCore
     public void postInit(FMLPostInitializationEvent event)
     {
         CustomRewardsLoader.instance.loadCustomRewards();
+        ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
     }
 }

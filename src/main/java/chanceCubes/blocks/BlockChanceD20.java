@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -15,7 +16,9 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
+import chanceCubes.network.CCubesPacket;
 import chanceCubes.tileentities.TileChanceD20;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -68,7 +71,15 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 			}
 
 			if(te != null)
+			{
 				te.startBreaking(player);
+				NBTTagCompound tags = new NBTTagCompound();
+				tags.setByte("id", (byte) 0);
+				tags.setInteger("x", x);
+				tags.setInteger("y", y);
+				tags.setInteger("z", z);
+				CCubesCore.instance.network.sendToAllAround(new CCubesPacket(tags), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+			}
 		}
 	}
 

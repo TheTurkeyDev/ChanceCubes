@@ -118,7 +118,7 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);
-		player.addChatMessage(new ChatComponentText("Seems you have some custom rewards...."));
+		player.addChatMessage(new ChatComponentText("Seems you have some custom Chance Cubes rewards...."));
 		player.addChatMessage(new ChatComponentText("Let the fun begin! >:)"));
 	}
 

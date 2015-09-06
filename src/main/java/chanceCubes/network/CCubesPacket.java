@@ -1,10 +1,12 @@
 package chanceCubes.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 
 import org.apache.logging.log4j.Level;
 
@@ -12,6 +14,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
+import chanceCubes.tileentities.TileChanceD20;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -92,6 +95,15 @@ public class CCubesPacket  implements IMessage
 
 			if(id == 0)
 			{
+				int x = packet.tags.getInteger("x");
+				int y = packet.tags.getInteger("y");
+				int z = packet.tags.getInteger("z");
+				TileEntity ico;
+				
+				if((ico = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(x, y, z)) != null)
+					if(ico instanceof TileChanceD20)
+						((TileChanceD20)ico).startBreaking(Minecraft.getMinecraft().thePlayer);
+				
 				
 			}
 			else
