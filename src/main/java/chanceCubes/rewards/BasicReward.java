@@ -6,7 +6,6 @@ import chanceCubes.rewards.type.IRewardType;
 
 public class BasicReward implements IChanceCubeReward
 {
-
 	private String name;
 	private int chance;
 	private IRewardType[] rewards;
