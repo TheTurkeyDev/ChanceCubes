@@ -1,5 +1,7 @@
 package chanceCubes.config;
 
+import chanceCubes.rewards.IChanceCubeReward;
+
 public class CCubesSettings 
 {
 	public static int d20RenderID = -1;
@@ -16,6 +18,11 @@ public class CCubesSettings
 	public static String[] blockedWorlds = new String[]{};
 	
 	public static boolean userSpecificRewards = true;
+	
+	public static boolean holidayRewards = true;
+	public static boolean holidayRewardTriggered = false;
+	public static boolean doesHolidayRewardTrigger = false;
+	public static IChanceCubeReward holidayReward = null;
 	
 	public static int dropHeight = 20;
 	

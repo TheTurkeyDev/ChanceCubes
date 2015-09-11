@@ -227,6 +227,15 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with ChanceCubes and no reward was able to be given");
 			return;
 		}
+		
+		if(CCubesSettings.doesHolidayRewardTrigger && CCubesSettings.holidayReward != null)
+		{
+			CCubesSettings.holidayReward.trigger(world, x, y, z, player);
+			CCubesSettings.doesHolidayRewardTrigger = false;
+			CCubesSettings.holidayRewardTriggered = true;
+			ConfigLoader.config.get("HolidayRewardTriggered", ConfigLoader.genCat, false).setValue(true);
+		}
+		
 		if(player != null)
 		{
 			for(int i = 0; i < player.inventory.mainInventory.length; i++)

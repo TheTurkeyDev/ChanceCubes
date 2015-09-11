@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -38,6 +42,7 @@ import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.ChestChanceItem;
+import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.OffsetBlock;
 import chanceCubes.util.OffsetTileEntity;
 
@@ -123,6 +128,101 @@ public class CustomRewardsLoader
 				}
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
 			}
+		}
+	}
+
+	public void loadHolidayRewards()
+	{
+		if(!CCubesSettings.holidayRewards || CCubesSettings.holidayRewardTriggered)
+			return;
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = new Date();
+		JsonElement holidays;
+
+		try
+		{
+			holidays = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/Holidays.json");
+		} catch(Exception e1)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to fetch the list of holiday rewards!");
+			return;
+		}
+		
+		String holidayName = "";
+
+		for(JsonElement holiday : holidays.getAsJsonArray())
+		{
+			Date parsed;
+			try
+			{
+				parsed = dateFormat.parse(holiday.getAsJsonObject().get("Date").getAsString());
+			} catch(ParseException e)
+			{
+				CCubesCore.logger.log(Level.ERROR, "Failed to parse a holiday date. BLAME TURKEY!!!");
+				continue;
+			}
+
+			if(dateFormat.format(date).equalsIgnoreCase(dateFormat.format(parsed)))
+			{
+				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
+			}
+		}
+		
+		if(holidayName.equalsIgnoreCase(""))
+		{
+			ConfigLoader.config.get("holidayRewardTriggered", ConfigLoader.genCat, false).setValue(false);
+			return;
+		}
+		
+		JsonElement userRewards;
+
+		try
+		{
+			userRewards = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/HolidayRewards/" + holidayName + ".json");
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
+			CCubesCore.logger.log(Level.ERROR, e.getMessage());
+			return;
+		}
+
+		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
+		{
+			List<IRewardType> rewards = new ArrayList<IRewardType>();
+			JsonObject rewardElements = reward.getValue().getAsJsonObject();
+			int chance = 0;
+			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+			{
+				if(rewardElement.getKey().equalsIgnoreCase("chance"))
+				{
+					chance = rewardElement.getValue().getAsInt();
+					continue;
+				}
+
+				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
+				if(rewardElement.getKey().equalsIgnoreCase("Item"))
+					this.loadItemReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Block"))
+					this.loadBlockReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Message"))
+					this.loadMessageReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Command"))
+					this.loadCommandReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
+					this.loadEntityReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
+					this.loadExperienceReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
+					this.loadPotionReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
+					this.loadSchematicReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
+					this.loadSoundReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
+					this.loadChestReward(rewardTypes, rewards);
+			}
+			CCubesSettings.holidayReward = new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
 		}
 	}
 

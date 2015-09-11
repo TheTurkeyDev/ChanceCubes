@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 public class ConfigLoader 
 {
 	public static Configuration config;
-	private static final String genCat = "General Settings";
+	public static final String genCat = "General Settings";
 	public static final String rewardCat = "Rewards";
 	
 	public static void loadConfigSettings(File file, File resources)
@@ -30,6 +30,8 @@ public class ConfigLoader
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
 		
 		CCubesSettings.userSpecificRewards = config.getBoolean("UserSpecificRewards", genCat, true, "true if Chance Cubes should load in user specific rewards (for a select few only)");
+		CCubesSettings.holidayRewards = config.getBoolean("HolidayRewards", genCat, true, "Set to false if you wish to disable the super special holiday rewards. Why would you want to do that?");
+		CCubesSettings.holidayRewardTriggered = config.getBoolean("HolidayRewardTriggered", genCat, false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.");
 		
 		config.save();
 		
