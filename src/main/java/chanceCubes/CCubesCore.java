@@ -99,6 +99,7 @@ public class CCubesCore
     public void postInit(FMLPostInitializationEvent event)
     {
         CustomRewardsLoader.instance.loadCustomRewards();
+        CustomRewardsLoader.instance.loadHolidayRewards();
         ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
     }

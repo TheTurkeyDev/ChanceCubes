@@ -137,11 +137,12 @@ public class CustomRewardsLoader
 			return;
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = new Date();
+		Date date;
 		JsonElement holidays;
 
 		try
 		{
+			date = dateFormat.parse("2015/10/31");
 			holidays = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/Holidays.json");
 		} catch(Exception e1)
 		{
@@ -223,6 +224,7 @@ public class CustomRewardsLoader
 					this.loadChestReward(rewardTypes, rewards);
 			}
 			CCubesSettings.holidayReward = new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
+			CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
 		}
 	}
 
