@@ -12,7 +12,7 @@
 		],
 		"Command":
 		[
-			{"Command":"/time set 18000"}
+			{"command":"/time set 18000"}
 		]
 	}
 }

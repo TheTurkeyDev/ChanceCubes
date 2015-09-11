@@ -157,7 +157,7 @@ public class CustomRewardsLoader
 			Date parsed;
 			try
 			{
-				parsed = dateFormat.parse(holiday.getAsJsonObject().get("Date").getAsString());
+				parsed = dateFormat.parse(holiday.getAsJsonObject().get("Date").getAsString().trim());
 			} catch(ParseException e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to parse a holiday date. BLAME TURKEY!!!");
