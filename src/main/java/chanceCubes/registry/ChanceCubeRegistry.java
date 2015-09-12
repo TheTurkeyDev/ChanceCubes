@@ -27,6 +27,7 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.BlindnessFightReward;
+import chanceCubes.rewards.ChargedCreeperReward;
 import chanceCubes.rewards.CookieMonsterReward;
 import chanceCubes.rewards.CreeperSurroundedReward;
 import chanceCubes.rewards.FiveProngReward;
@@ -38,6 +39,7 @@ import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
 import chanceCubes.rewards.TrollHoleReward;
 import chanceCubes.rewards.TrollTNTReward;
+import chanceCubes.rewards.WaitForItReward;
 import chanceCubes.rewards.WitherReward;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
@@ -115,7 +117,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Diamond", 75, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.diamond_block, false), new OffsetBlock(0, -1, 0, Blocks.diamond_block, false), new OffsetBlock(1, 0, 0, Blocks.diamond_block, false), new OffsetBlock(-1, 0, 0, Blocks.diamond_block, false), new OffsetBlock(0, 0, 1, Blocks.diamond_block, false), new OffsetBlock(0, 0, -1, Blocks.diamond_block, false)), new CommandRewardType("/summon PrimedTnt %x %y %z {Fuse:40}", "/summon PrimedTnt %x %y %z {Fuse:40}", "/summon PrimedTnt %x %y %z {Fuse:40}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Anti_Slab", 30, new BlockRewardType(new OffsetBlock(-1, 2, -1, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, -1, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(1, 2, -1, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(-1, 2, 0, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(1, 2, 0, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(-1, 2, 1, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 1, Blocks.obsidian, false).setRelativeToPlayer(true), new OffsetBlock(1, 2, 1, Blocks.obsidian, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chance_Cube_Cube", 15, new BlockRewardType(new OffsetBlock(-1, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -2, CCubesBlocks.chanceCube, false))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 5, new SoundRewardType("game.tnt.primed","game.tnt.primed","game.tnt.primed","game.tnt.primed")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 5, new SoundRewardType("game.tnt.primed", "game.tnt.primed", "game.tnt.primed", "game.tnt.primed")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 5, new SoundRewardType("mob.ghast.scream", "mob.ghast.moan", "mob.ghast.moan")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", -35, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType("No")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Creeper", -10, new CommandRewardType("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}")));
@@ -160,7 +162,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack = new ItemStack(Items.fish, 1, 2);
 		stack.setStackDisplayName("Marlin");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Marlin", 10, new ItemRewardType(stack)));
-		
+
 		stack = new ItemStack(Blocks.fire, 1);
 		stack.addEnchantment(Enchantment.fireAspect, 2);
 		stack.setStackDisplayName("Why not?");
@@ -178,8 +180,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BlindnessFightReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
-		//INSTANCE.registerReward(new EnderCrystalTimerReward());
-		
+		// INSTANCE.registerReward(new EnderCrystalTimerReward());
+		INSTANCE.registerReward(new WaitForItReward());
+		INSTANCE.registerReward(new ChargedCreeperReward());
+
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
 			@Override
@@ -227,16 +231,16 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with ChanceCubes and no reward was able to be given");
 			return;
 		}
-		
+
 		if(CCubesSettings.doesHolidayRewardTrigger && CCubesSettings.holidayReward != null)
 		{
 			CCubesSettings.holidayReward.trigger(world, x, y, z, player);
 			CCubesSettings.doesHolidayRewardTrigger = false;
 			CCubesSettings.holidayRewardTriggered = true;
-			ConfigLoader.config.get("HolidayRewardTriggered", ConfigLoader.genCat, false).setValue(true);
+			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false).setValue(true);
 			return;
 		}
-		
+
 		if(player != null)
 		{
 			for(int i = 0; i < player.inventory.mainInventory.length; i++)
@@ -290,11 +294,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 
 		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
-				{
+		{
 			public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
 			{
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
-				});
+		});
 	}
 }

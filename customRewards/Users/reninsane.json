@@ -1,0 +1,25 @@
+{
+	"Hard_Enough":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Oh so Chance Cubes aren't hard enough are they? <3 Turkey"}
+		],
+		"Command":
+		[
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"}
+		]
+	}
+}
