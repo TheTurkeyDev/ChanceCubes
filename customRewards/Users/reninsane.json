@@ -8,18 +8,18 @@
 		],
 		"Command":
 		[
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"},
-			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:"Bat"}}"}
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}"}
 		]
 	}
 }
