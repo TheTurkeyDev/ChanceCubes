@@ -133,16 +133,16 @@ public class CustomRewardsLoader
 
 	public void loadHolidayRewards()
 	{
-		if(!CCubesSettings.holidayRewards || CCubesSettings.holidayRewardTriggered)
+		if(!CCubesSettings.holidayRewards)
 			return;
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd");
 		Date date = new Date();
 		JsonElement holidays;
 
 		try
 		{
-			//date = dateFormat.parse("2015/10/31");
+			// date = dateFormat.parse("10/31");
 			holidays = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/Holidays.json");
 		} catch(Exception e1)
 		{
@@ -172,10 +172,11 @@ public class CustomRewardsLoader
 		
 		if(holidayName.equalsIgnoreCase(""))
 		{
-			ConfigLoader.config.get("holidayRewardTriggered", ConfigLoader.genCat, false).setValue(false);
+			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(false);
+			ConfigLoader.config.save();
 			return;
 		}
-		
+
 		JsonElement userRewards;
 
 		try
