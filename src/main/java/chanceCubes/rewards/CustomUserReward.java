@@ -51,7 +51,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		for(JsonElement user : users.getAsJsonArray())
 		{
-			if(user.getAsJsonObject().get("Name").getAsString().equalsIgnoreCase(player.getCommandSenderName()))
+			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(player.getUniqueID().toString()))
 			{
 				userName = user.getAsJsonObject().get("Name").getAsString();
 				type = user.getAsJsonObject().get("Type").getAsString();
@@ -118,7 +118,7 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);
-		player.addChatMessage(new ChatComponentText("Seems you have some custom Chance Cubes rewards...."));
+		player.addChatMessage(new ChatComponentText("Seems you have some custom Chance Cubes rewards " + this.userName + "...."));
 		player.addChatMessage(new ChatComponentText("Let the fun begin! >:)"));
 	}
 
@@ -161,7 +161,7 @@ public class CustomUserReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Custom_Reward_For_" + this.userName;
+		return CCubesCore.MODID + ":CR_" + this.userName;
 	}
 
 }

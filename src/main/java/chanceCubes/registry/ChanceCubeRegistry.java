@@ -238,6 +238,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesSettings.doesHolidayRewardTrigger = false;
 			CCubesSettings.holidayRewardTriggered = true;
 			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false).setValue(true);
+			ConfigLoader.config.save();
 			return;
 		}
 
