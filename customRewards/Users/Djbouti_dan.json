@@ -1,0 +1,15 @@
+{
+	"Donation":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Welp, I have no no money to donate, but here. Have some diamonds!"},
+			{"message":"-Turkey"}
+		],
+		"Item":
+		[
+			{"id":"minecraft:diamond","Count":64}
+		]
+	}
+}
