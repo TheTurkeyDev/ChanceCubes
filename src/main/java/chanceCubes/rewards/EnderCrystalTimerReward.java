@@ -12,15 +12,17 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		for(int i = 30; i > 0; i++)
+		for(int i = 30; i > 0; i--)
 			world.setBlockToAir(x, y + i, z);
-		
+
 		EntityEnderCrystal ent = new EntityEnderCrystal(world);
-		ent.setLocationAndAngles(x, y, z, 90, 90);
+		ent.setLocationAndAngles(x + 0.5, y, z + 0.5, 0, 0);
 		world.spawnEntityInWorld(ent);
-		
-		EntityArrow arrow = new EntityArrow(world, x, y + 29, z);
+
+		EntityArrow arrow = new EntityArrow(world, x + 0.5, y + 29, z + 0.5);
+		arrow.motionX = 0;
 		arrow.motionY = -1;
+		arrow.motionZ = 0;
 		world.spawnEntityInWorld(arrow);
 	}
 

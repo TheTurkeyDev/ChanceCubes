@@ -30,6 +30,7 @@ import chanceCubes.rewards.BlindnessFightReward;
 import chanceCubes.rewards.ChargedCreeperReward;
 import chanceCubes.rewards.CookieMonsterReward;
 import chanceCubes.rewards.CreeperSurroundedReward;
+import chanceCubes.rewards.EnderCrystalTimerReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -180,7 +181,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BlindnessFightReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
-		// INSTANCE.registerReward(new EnderCrystalTimerReward());
+		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
 		INSTANCE.registerReward(new ChargedCreeperReward());
 

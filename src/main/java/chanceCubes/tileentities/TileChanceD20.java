@@ -22,7 +22,7 @@ public class TileChanceD20 extends TileEntity
 
 	public TileChanceD20()
 	{
-		this(new Random().nextInt(201) - 100);
+		this(new Random().nextBoolean() ? -100 : 100);
 	}
 
 	public TileChanceD20(int initialChance)
@@ -82,7 +82,7 @@ public class TileChanceD20 extends TileEntity
 			}
 			breaking = true;
 			stage = 0;
-			
+
 		}
 	}
 
