@@ -84,7 +84,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon", 100, new ItemRewardType(new ItemStack(Blocks.beacon))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cake", 45, new ItemRewardType(new ItemStack(Items.cake, 1)), new MessageRewardType("But is it a lie?")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemStack(Blocks.enchanting_table))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 80, new ItemRewardType(new ItemStack(Blocks.bookshelf, 64))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 80, new ItemRewardType(new ItemStack(Blocks.bookshelf, 8))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 65, new ItemRewardType(new ItemStack(Items.coal), new ItemStack(Items.redstone), new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.diamond), new ItemStack(Items.emerald))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceCube, 3)), new MessageRewardType("Here, have more!")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemStack(CCubesBlocks.chanceIcosahedron))));
@@ -122,6 +122,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 5, new SoundRewardType("mob.ghast.scream", "mob.ghast.moan", "mob.ghast.moan")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", -35, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType("No")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Creeper", -10, new CommandRewardType("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}")));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zobmie", -30, new CommandRewardType("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",IsBaby:1,Equipment:[{id:280,Count:1,tag:{ench:[{id:19,lvl:10}]}},{},{},{},{}],DropChances:[0.0F,0.085F,0.085F,0.085F,0.085F]}")));
 
 		ItemStack stack;
 
