@@ -17,6 +17,8 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
+		int px = (int) player.posX;
+		int pz = (int) player.posZ;
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 1, true));
 		boolean skip = false;
 		EntityCreeper creeper;
@@ -26,11 +28,11 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 			{
 				if(!skip)
 				{
-					int xxx = xx == 1 ? x + 4 : x - 4;
-					if(world.getBlock(xxx, y, z + zz).equals(Blocks.air) && world.getBlock(xxx, y + 1, z + zz).equals(Blocks.air) && world.getBlock(xxx, y + 2, z + zz).equals(Blocks.air))
+					int xxx = xx == 1 ? px + 4 : px - 4;
+					if(world.getBlock(xxx, y,pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 1, pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 2, pz + zz).equals(Blocks.air))
 					{
 						creeper = new EntityCreeper(world);
-						creeper.setLocationAndAngles(xxx, y, z + zz, xx == 1 ? 90 : -90, 0);
+						creeper.setLocationAndAngles(xxx, y, pz + zz, xx == 1 ? 90 : -90, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
 						world.spawnEntityInWorld(creeper);
@@ -46,11 +48,11 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 			{
 				if(!skip)
 				{
-					int zzz = zz == 1 ? z + 4 : z - 4;
-					if(world.getBlock(x + xx, y, zzz).equals(Blocks.air) && world.getBlock(x + xx, y + 1, zzz).equals(Blocks.air) && world.getBlock(x + xx, y + 2, zzz).equals(Blocks.air))
+					int zzz = zz == 1 ? pz + 4 : pz - 4;
+					if(world.getBlock(px + xx, y, zzz).equals(Blocks.air) && world.getBlock(px + xx, y + 1, zzz).equals(Blocks.air) && world.getBlock(px + xx, y + 2, zzz).equals(Blocks.air))
 					{
 						creeper = new EntityCreeper(world);
-						creeper.setLocationAndAngles(x + xx, y, zzz, zz == 1 ? 180 : 0, 0);
+						creeper.setLocationAndAngles(px + xx, y, zzz, zz == 1 ? 180 : 0, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
 						world.spawnEntityInWorld(creeper);
