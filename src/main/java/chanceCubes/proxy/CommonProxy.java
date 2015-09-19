@@ -1,5 +1,7 @@
 package chanceCubes.proxy;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 
 public class CommonProxy
 {
@@ -22,5 +24,10 @@ public class CommonProxy
 	public void registerEvents()
 	{
 		
+	}
+	
+	public EntityPlayer getClientPlayer()
+	{
+		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package chanceCubes.proxy;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import chanceCubes.client.RenderEvent;
 import chanceCubes.config.CCubesSettings;
@@ -29,5 +31,11 @@ public class ClientProxy extends CommonProxy
 	public void registerEvents()
 	{
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
+	}
+	
+	@Override
+	public EntityPlayer getClientPlayer()
+	{
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }

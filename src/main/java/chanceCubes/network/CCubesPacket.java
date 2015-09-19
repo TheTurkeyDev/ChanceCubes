@@ -100,9 +100,9 @@ public class CCubesPacket  implements IMessage
 				int z = packet.tags.getInteger("z");
 				TileEntity ico;
 				
-				if((ico = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(x, y, z)) != null)
+				if((ico = CCubesCore.proxy.getClientPlayer().worldObj.getTileEntity(x, y, z)) != null)
 					if(ico instanceof TileChanceD20)
-						((TileChanceD20)ico).startBreaking(Minecraft.getMinecraft().thePlayer);
+						((TileChanceD20)ico).startBreaking(CCubesCore.proxy.getClientPlayer());
 				
 				
 			}
