@@ -1,9 +1,11 @@
-package chanceCubes.util;
+package chanceCubes.rewards.rewardparts;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
 public class OffsetBlock
 {

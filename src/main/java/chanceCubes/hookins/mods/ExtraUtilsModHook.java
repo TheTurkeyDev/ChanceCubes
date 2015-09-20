@@ -8,9 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
-import chanceCubes.util.OffsetBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilsModHook extends BaseModHook

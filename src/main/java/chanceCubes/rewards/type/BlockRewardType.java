@@ -2,7 +2,7 @@ package chanceCubes.rewards.type;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import chanceCubes.util.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {

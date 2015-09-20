@@ -31,6 +31,11 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.rewardparts.ChestChanceItem;
+import chanceCubes.rewards.rewardparts.MessagePart;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ChestRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
@@ -41,10 +46,7 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
-import chanceCubes.util.ChestChanceItem;
 import chanceCubes.util.HTTPUtil;
-import chanceCubes.util.OffsetBlock;
-import chanceCubes.util.OffsetTileEntity;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -296,10 +298,21 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadMessageReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<String> msgs = new ArrayList<String>();
+		List<MessagePart> msgs = new ArrayList<MessagePart>();
 		for(JsonElement element : rawReward)
-			msgs.add(element.getAsJsonObject().get("message").getAsString());
-		rewards.add(new MessageRewardType(msgs.toArray(new String[msgs.size()])));
+		{
+			MessagePart message = new MessagePart(element.getAsJsonObject().get("message").getAsString());
+			
+			if(element.getAsJsonObject().has("delay"))
+				message.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			if(element.getAsJsonObject().has("serverWide"))
+				message.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
+			if(element.getAsJsonObject().has("range"))
+				message.setRange(element.getAsJsonObject().get("range").getAsInt());
+			
+			msgs.add(message);
+		}
+		rewards.add(new MessageRewardType(msgs.toArray(new MessagePart[msgs.size()])));
 		return rewards;
 	}
 
@@ -357,10 +370,21 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadSoundReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<String> sounds = Lists.newArrayList();
+		List<SoundPart> sounds = new ArrayList<SoundPart>();
 		for(JsonElement element : rawReward)
-			sounds.add(element.getAsJsonObject().get("sound").getAsString());
-		rewards.add(new SoundRewardType(sounds.toArray(new String[sounds.size()])));
+		{
+			SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
+			
+			if(element.getAsJsonObject().has("delay"))
+				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			if(element.getAsJsonObject().has("serverWide"))
+				sound.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
+			if(element.getAsJsonObject().has("range"))
+				sound.setRange(element.getAsJsonObject().get("range").getAsInt());
+			
+			sounds.add(sound);
+		}
+		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[sounds.size()])));
 		return rewards;
 	}
 

@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
-import chanceCubes.util.ChestChanceItem;
+import chanceCubes.rewards.rewardparts.ChestChanceItem;
 
 public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 {

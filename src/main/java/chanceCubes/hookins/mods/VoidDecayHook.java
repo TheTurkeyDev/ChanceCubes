@@ -3,10 +3,10 @@ package chanceCubes.hookins.mods;
 import cpw.mods.fml.common.registry.GameRegistry;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
-import chanceCubes.util.OffsetBlock;
 
 public class VoidDecayHook extends BaseModHook
 {

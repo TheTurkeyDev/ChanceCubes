@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.config.CustomRewardsLoader.Schematic;
-import chanceCubes.util.OffsetBlock;
-import chanceCubes.util.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 
 public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 {
