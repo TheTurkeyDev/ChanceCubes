@@ -92,42 +92,9 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					List<IRewardType> rewards = new ArrayList<IRewardType>();
-					JsonObject rewardElements = reward.getValue().getAsJsonObject();
-					int chance = 0;
-					for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-					{
-						if(rewardElement.getKey().equalsIgnoreCase("chance"))
-						{
-							chance = rewardElement.getValue().getAsInt();
-							continue;
-						}
-
-						JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
-						if(rewardElement.getKey().equalsIgnoreCase("Item"))
-							this.loadItemReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Block"))
-							this.loadBlockReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Message"))
-							this.loadMessageReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Command"))
-							this.loadCommandReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
-							this.loadEntityReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
-							this.loadExperienceReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
-							this.loadPotionReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
-							this.loadSchematicReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
-							this.loadSoundReward(rewardTypes, rewards);
-						else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
-							this.loadChestReward(rewardTypes, rewards);
-					}
-
-					ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
+					ChanceCubeRegistry.INSTANCE.registerReward(this.parseReward(reward));
 				}
+				
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
 			}
 		}
@@ -193,43 +160,49 @@ public class CustomRewardsLoader
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 		{
-			List<IRewardType> rewards = new ArrayList<IRewardType>();
-			JsonObject rewardElements = reward.getValue().getAsJsonObject();
-			int chance = 0;
-			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-			{
-				if(rewardElement.getKey().equalsIgnoreCase("chance"))
-				{
-					chance = rewardElement.getValue().getAsInt();
-					continue;
-				}
-
-				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
-				if(rewardElement.getKey().equalsIgnoreCase("Item"))
-					this.loadItemReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Block"))
-					this.loadBlockReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Message"))
-					this.loadMessageReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Command"))
-					this.loadCommandReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
-					this.loadEntityReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
-					this.loadExperienceReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
-					this.loadPotionReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
-					this.loadSchematicReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
-					this.loadSoundReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
-					this.loadChestReward(rewardTypes, rewards);
-			}
+			BasicReward basicReward = this.parseReward(reward);
 			CCubesSettings.doesHolidayRewardTrigger = true;
-			CCubesSettings.holidayReward = new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
+			CCubesSettings.holidayReward = basicReward;
 			CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
 		}
+	}
+	
+	public BasicReward parseReward(Entry<String, JsonElement> reward)
+	{
+		List<IRewardType> rewards = new ArrayList<IRewardType>();
+		JsonObject rewardElements = reward.getValue().getAsJsonObject();
+		int chance = 0;
+		for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+		{
+			if(rewardElement.getKey().equalsIgnoreCase("chance"))
+			{
+				chance = rewardElement.getValue().getAsInt();
+				continue;
+			}
+
+			JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
+			if(rewardElement.getKey().equalsIgnoreCase("Item"))
+				this.loadItemReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Block"))
+				this.loadBlockReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Message"))
+				this.loadMessageReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Command"))
+				this.loadCommandReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
+				this.loadEntityReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
+				this.loadExperienceReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
+				this.loadPotionReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
+				this.loadSchematicReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
+				this.loadSoundReward(rewardTypes, rewards);
+			else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
+				this.loadChestReward(rewardTypes, rewards);
+		}
+		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
 	}
 
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
