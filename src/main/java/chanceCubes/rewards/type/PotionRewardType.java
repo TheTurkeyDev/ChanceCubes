@@ -6,75 +6,45 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import chanceCubes.rewards.rewardparts.PotionPart;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
-public class PotionRewardType extends BaseRewardType<PotionEffect>
+public class PotionRewardType extends BaseRewardType<PotionPart>
 {
-    /**
-     * This is real useful and all, but really hard to use from an API standpoint. Going to switch to raw PotionEffects
-     */
-    @Deprecated
-    public static class PotionData
-    {
-        private String potionEffect;
-        private boolean tier, duration;
-
-        /**
-         * Reference: http://minecraft.gamepedia.com/Data_values#Potions
-         * 
-         * @return The damage value for this data
-         */
-        public int getDamage(boolean splash)
-        {
-            int damage = getDamageFromEffect(potionEffect);
-            damage |= bitFor(tier, 5);
-            damage |= bitFor(duration, 6);
-            damage |= bitFor(splash, 14);
-            return damage;
-        }
-
-        private int getDamageFromEffect(String effect)
-        {
-            int idx = effect.lastIndexOf('&');
-            if (idx >= 0)
-            {
-                effect = effect.substring(0, effect.lastIndexOf('&'));
-            }
-            boolean set = false;
-            int damage = 0;
-            for (char c : effect.toCharArray())
-            {
-                if (c == '+' || c == '-')
-                {
-                    set = c == '+';
-                }
-                else
-                {
-                    damage |= bitFor(set, Integer.valueOf(String.valueOf(c)));
-                }
-            }
-            return damage;
-        }
-
-        private int bitFor(boolean bool, int shift)
-        {
-            return (bool ? 1 : 0) << shift;
-        }
-    }
-    
-    public PotionRewardType(PotionEffect... effects)
+    public PotionRewardType(PotionPart... effects)
     {
         super(effects);
     }
 
     @Override
-    public void trigger(PotionEffect effect, World world, int x, int y, int z, EntityPlayer player)
-    {
+	public void trigger(final PotionPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
+	{
+		if(part.getDelay() != 0)
+		{
+			Task task = new Task("Potion Reward Delay", part.getDelay())
+			{
+				@Override
+				public void callback()
+				{
+					triggerPotion(part, world, x, y, z, player);
+				}
+			};
+			Scheduler.scheduleTask(task);
+		}
+		else
+		{
+			triggerPotion(part, world, x, y, z, player);
+		}
+	}
+    
+    public void triggerPotion(PotionPart part, World world, int x, int y, int z, EntityPlayer player)
+	{
         ItemStack potion = new ItemStack(Items.potionitem);
         NBTTagList effects = new NBTTagList();
         NBTTagCompound effectData = new NBTTagCompound();
-        effect.writeCustomPotionEffectToNBT(effectData);
+        part.getEffect().writeCustomPotionEffectToNBT(effectData);
         effects.appendTag(effectData);
         potion.stackTagCompound = new NBTTagCompound();
         potion.stackTagCompound.setTag("CustomPotionEffects", effects);
@@ -88,5 +58,5 @@ public class PotionRewardType extends BaseRewardType<PotionEffect>
         entity.motionZ = 0;
 
         world.spawnEntityInWorld(entity);
-    }
+	}
 }

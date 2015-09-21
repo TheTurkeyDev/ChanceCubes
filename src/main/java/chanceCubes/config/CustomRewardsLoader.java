@@ -32,9 +32,12 @@ import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
+import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.ExpirencePart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ChestRewardType;
@@ -291,10 +294,16 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadCommandReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<String> cmds = new ArrayList<String>();
+		List<CommandPart> commands = new ArrayList<CommandPart>();
 		for(JsonElement element : rawReward)
-			cmds.add(element.getAsJsonObject().get("command").getAsString());
-		rewards.add(new CommandRewardType(cmds.toArray(new String[cmds.size()])));
+		{
+			CommandPart command = new CommandPart(element.getAsJsonObject().get("command").getAsString());
+			
+			if(element.getAsJsonObject().has("delay"))
+				command.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			commands.add(command);
+		}
+		rewards.add(new CommandRewardType(commands.toArray(new CommandPart[commands.size()])));
 		return rewards;
 	}
 
@@ -325,19 +334,33 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadExperienceReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<Integer> exp = new ArrayList<Integer>();
+		List<ExpirencePart> exp = new ArrayList<ExpirencePart>();
 		for(JsonElement element : rawReward)
-			exp.add(element.getAsJsonObject().get("experienceAmount").getAsInt());
-		rewards.add(new ExperienceRewardType(exp.toArray(new Integer[exp.size()])));
+		{
+			ExpirencePart exppart = new ExpirencePart(element.getAsJsonObject().get("experienceAmount").getAsInt());
+			
+			if(element.getAsJsonObject().has("delay"))
+				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			if(element.getAsJsonObject().has("numberOfOrbs"))
+				exppart.setNumberofOrbs(element.getAsJsonObject().get("numberOfOrbs").getAsInt());
+			exp.add(exppart);
+		}
+		rewards.add(new ExperienceRewardType(exp.toArray(new ExpirencePart[exp.size()])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadPotionReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<PotionEffect> potions = new ArrayList<PotionEffect>();
+		List<PotionPart> potionEffects = new ArrayList<PotionPart>();
 		for(JsonElement element : rawReward)
-			potions.add(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
-		rewards.add(new PotionRewardType(potions.toArray(new PotionEffect[potions.size()])));
+		{
+			PotionPart exppart = new PotionPart(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
+			
+			if(element.getAsJsonObject().has("delay"))
+				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			potionEffects.add(exppart);
+		}
+		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[potionEffects.size()])));
 		return rewards;
 	}
 
