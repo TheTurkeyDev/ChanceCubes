@@ -1,0 +1,18 @@
+{
+	"Halloween":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Happy Halloween! From the Chance Cubes Team!"}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Witch"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}},{"entity":{"id":"Bat"}}
+		],
+		"Command":
+		[
+			{"command":"/time set 18000"}
+		]
+	}
+}

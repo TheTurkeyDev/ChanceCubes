@@ -1,0 +1,18 @@
+{
+	"No_Sloth":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"No sloths found... Actually I was just to lazy to look."},
+			{"message":"Have some zombies instead! Thoes are fun!"}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}}
+		]
+	}
+}

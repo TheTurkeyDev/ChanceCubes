@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
@@ -29,12 +30,12 @@ public class ExtraUtilsModHook extends BaseModHook
 
 		if(GameRegistry.findItem(super.modId, "unstableingot") != null)
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":unstableingot", -100, new ItemRewardType(GameRegistry.findItemStack(super.modId, "unstableingot", 1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":unstableingot", -100, new ItemRewardType(new ItemPart(GameRegistry.findItemStack(super.modId, "unstableingot", 1)))
 			{
 				@Override
-				public void trigger(ItemStack s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
 				{
-					ItemStack stack1 = s.copy();
+					ItemStack stack1 = s.getItemStack().copy();
 					NBTTagCompound ts = new NBTTagCompound();
 					if(ts.hasKey("crafting"))
 					{
@@ -64,54 +65,54 @@ public class ExtraUtilsModHook extends BaseModHook
 			stack = GameRegistry.findItemStack(super.modId, "generator.64", 1);
 			stack.setStackDisplayName("Useless Generator");
 			stack.setItemDamage(9);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 30, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "watering_can") != null)
 		{
 			stack = GameRegistry.findItemStack(super.modId, "watering_can", 1);
 			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Broken_Watering_Can", 15, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Broken_Watering_Can", 15, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "drum") != null)
 		{
 			stack = GameRegistry.findItemStack(super.modId, "drum", 1);
 			stack.setItemDamage(1);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 65, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "golden_bag") != null)
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(GameRegistry.findItemStack(super.modId, "golden_bag", 1))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(new ItemPart(GameRegistry.findItemStack(super.modId, "golden_bag", 1)))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "plant/ender_lilly") != null)
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 45, new ItemRewardType(GameRegistry.findItemStack(super.modId, "plant/ender_lilly", 3))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 45, new ItemRewardType(new ItemPart(GameRegistry.findItemStack(super.modId, "plant/ender_lilly", 3)))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "endConstructor") != null)
 		{
 			stack = GameRegistry.findItemStack(super.modId, "endConstructor", 10);
 			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Flux_Crystal", 80, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Flux_Crystal", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "dark_portal") != null)
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Deep_Dark", 95, new ItemRewardType(GameRegistry.findItemStack(super.modId, "dark_portal", 1))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Deep_Dark", 95, new ItemRewardType(new ItemPart(GameRegistry.findItemStack(super.modId, "dark_portal", 1)))));
 
 			stack = GameRegistry.findItemStack(super.modId, "dark_portal", 1);
 			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Last_Millenium", 95, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Last_Millenium", 95, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "cobblestone_compressed") != null)
 		{
 			stack = GameRegistry.findItemStack(super.modId, "cobblestone_compressed", 4);
 			stack.setItemDamage(5);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 20, new ItemRewardType(stack)));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 20, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findBlock(super.modId, "spike_base") != null)

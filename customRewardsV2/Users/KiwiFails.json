@@ -1,0 +1,14 @@
+{
+	"No_Reward":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"It's Kiwi!!"}
+		],
+		"Entity":
+		[
+			{"command":"/summon WitherBoss ~ ~1 ~ {CustomName:\"KiwiFailes\",CustomNameVisible:1}"}
+		]
+	}
+}

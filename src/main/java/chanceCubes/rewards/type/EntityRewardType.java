@@ -11,35 +11,41 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.rewardparts.EntityPart;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
-public class EntityRewardType extends BaseRewardType<NBTTagCompound>
+public class EntityRewardType extends BaseRewardType<EntityPart>
 {
-	public EntityRewardType(NBTTagCompound... entities)
+	public EntityRewardType(EntityPart... entities)
 	{
 		super(entities);
 	}
 
-	public EntityRewardType(String... nbtRaw)
-	{
-		super(new NBTTagCompound[]{});
-		NBTTagCompound[] nbt = new NBTTagCompound[nbtRaw.length];
-		for(int i = 0; i < nbtRaw.length; i++)
-		{
-			try
-			{
-				nbt[i] = (NBTTagCompound) JsonToNBT.func_150315_a(nbtRaw[i]);
-			} catch(NBTException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		this.rewards = nbt;
-	}
-
 	@Override
-	public void trigger(NBTTagCompound entData, World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		Entity newEnt = EntityList.createEntityFromNBT(entData, world);
+		if(part.getDelay() != 0)
+		{
+			Task task = new Task("Entity Reward Delay", part.getDelay())
+			{
+				@Override
+				public void callback()
+				{
+					spawnEntity(part, world, x, y, z, player);
+				}
+			};
+			Scheduler.scheduleTask(task);
+		}
+		else
+		{
+			spawnEntity(part, world, x, y, z, player);
+		}
+	}
+	
+	public void spawnEntity(EntityPart part, World world, int x, int y, int z, EntityPlayer player)
+	{
+		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
 		newEnt.setPosition(x, y, z);
 		world.spawnEntityInWorld(newEnt);
 	}

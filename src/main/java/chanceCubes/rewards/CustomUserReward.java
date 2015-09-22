@@ -18,14 +18,11 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class CustomUserReward implements IChanceCubeReward
 {
@@ -42,7 +39,7 @@ public class CustomUserReward implements IChanceCubeReward
 		JsonElement users;
 		try
 		{
-			users = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/UserList.json");
+			users = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/UserList.json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of users with custom rewards!");
@@ -68,7 +65,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/Users/" + userName + ".json");
+			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "Users/" + userName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
@@ -76,45 +73,9 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
-		CustomRewardsLoader rewardLoader = CustomRewardsLoader.instance;
-
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 		{
-			List<IRewardType> rewards = new ArrayList<IRewardType>();
-			JsonObject rewardElements = reward.getValue().getAsJsonObject();
-			int chance = 0;
-			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-			{
-				if(rewardElement.getKey().equalsIgnoreCase("chance"))
-				{
-					chance = rewardElement.getValue().getAsInt();
-					continue;
-				}
-
-				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
-				if(rewardElement.getKey().equalsIgnoreCase("Item"))
-					rewardLoader.loadItemReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Block"))
-					rewardLoader.loadBlockReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Message"))
-					rewardLoader.loadMessageReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Command"))
-					rewardLoader.loadCommandReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
-					rewardLoader.loadEntityReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
-					rewardLoader.loadExperienceReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
-					rewardLoader.loadPotionReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
-					rewardLoader.loadSchematicReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
-					rewardLoader.loadSoundReward(rewardTypes, rewards);
-				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
-					rewardLoader.loadChestReward(rewardTypes, rewards);
-			}
-
-			customRewards.add(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])));
+			customRewards.add(CustomRewardsLoader.instance.parseReward(reward));
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);

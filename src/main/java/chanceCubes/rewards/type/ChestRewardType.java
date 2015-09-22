@@ -5,24 +5,48 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
 public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 {
 	private TileEntityChest chest;
-	
+
+	private int delay = 0;
+
 	public ChestRewardType(ChestChanceItem... items)
 	{
 		super(items);
 	}
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		world.setBlock(x, y, z, Blocks.chest);
-		chest = (TileEntityChest) world.getTileEntity(x, y, z);
-		
-		for (ChestChanceItem item : rewards)
-			trigger(item, world, x, y, z, player);
+		if(delay != 0)
+		{
+			Task task = new Task("Chest Reward Delay", delay)
+			{
+				@Override
+				public void callback()
+				{
+					world.setBlock(x, y, z, Blocks.chest);
+					chest = (TileEntityChest) world.getTileEntity(x, y, z);
+
+					for(ChestChanceItem item : rewards)
+						trigger(item, world, x, y, z, player);
+				}
+			};
+			Scheduler.scheduleTask(task);
+		}
+		else
+		{
+			world.setBlock(x, y, z, Blocks.chest);
+			chest = (TileEntityChest) world.getTileEntity(x, y, z);
+
+			for(ChestChanceItem item : rewards)
+				trigger(item, world, x, y, z, player);
+		}
+
 	}
 
 	@Override
@@ -34,5 +58,11 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 			int slot = world.rand.nextInt(chest.getSizeInventory());
 			chest.setInventorySlotContents(slot, item.getRandomItemStack());
 		}
+	}
+	
+	public ChestRewardType setDelay(int delay)
+	{
+		this.delay = delay;
+		return this;
 	}
 }

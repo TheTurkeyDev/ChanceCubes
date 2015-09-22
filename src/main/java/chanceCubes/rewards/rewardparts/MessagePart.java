@@ -7,7 +7,7 @@ public class MessagePart
 	private int delay = 0;
 	
 	private boolean serverWide = false;
-	private int range = 16;
+	private int range = 32;
 	
 	public MessagePart(String message)
 	{

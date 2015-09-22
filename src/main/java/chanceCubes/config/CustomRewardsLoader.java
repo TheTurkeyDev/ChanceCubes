@@ -33,7 +33,9 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ExpirencePart;
+import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
@@ -97,7 +99,7 @@ public class CustomRewardsLoader
 				{
 					ChanceCubeRegistry.INSTANCE.registerReward(this.parseReward(reward));
 				}
-				
+
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
 			}
 		}
@@ -115,13 +117,13 @@ public class CustomRewardsLoader
 		try
 		{
 			// date = dateFormat.parse("10/31");
-			holidays = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/Holidays.json");
+			holidays = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Holidays.json");
 		} catch(Exception e1)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to fetch the list of holiday rewards!");
 			return;
 		}
-		
+
 		String holidayName = "";
 
 		for(JsonElement holiday : holidays.getAsJsonArray())
@@ -141,7 +143,7 @@ public class CustomRewardsLoader
 				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
 			}
 		}
-		
+
 		if(holidayName.equalsIgnoreCase(""))
 		{
 			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(false);
@@ -153,7 +155,7 @@ public class CustomRewardsLoader
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile("https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewards/HolidayRewards/" + holidayName + ".json");
+			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
@@ -169,7 +171,7 @@ public class CustomRewardsLoader
 			CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
 		}
 	}
-	
+
 	public BasicReward parseReward(Entry<String, JsonElement> reward)
 	{
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
@@ -183,33 +185,40 @@ public class CustomRewardsLoader
 				continue;
 			}
 
-			JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
-			if(rewardElement.getKey().equalsIgnoreCase("Item"))
-				this.loadItemReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Block"))
-				this.loadBlockReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Message"))
-				this.loadMessageReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Command"))
-				this.loadCommandReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
-				this.loadEntityReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
-				this.loadExperienceReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
-				this.loadPotionReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
-				this.loadSchematicReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
-				this.loadSoundReward(rewardTypes, rewards);
-			else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
-				this.loadChestReward(rewardTypes, rewards);
+			try
+			{
+				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
+				if(rewardElement.getKey().equalsIgnoreCase("Item"))
+					this.loadItemReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Block"))
+					this.loadBlockReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Message"))
+					this.loadMessageReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Command"))
+					this.loadCommandReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Entity"))
+					this.loadEntityReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Experience"))
+					this.loadExperienceReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Potion"))
+					this.loadPotionReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Schematic"))
+					this.loadSchematicReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Sound"))
+					this.loadSoundReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
+					this.loadChestReward(rewardTypes, rewards);
+			} catch(Exception ex)
+			{
+				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
+			}
 		}
 		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
 	}
 
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<ItemPart> items = new ArrayList<ItemPart>();
 		for(JsonElement element : rawReward)
 		{
 			String itemInfo = element.getAsJsonObject().get("id").getAsString();
@@ -220,6 +229,9 @@ public class CustomRewardsLoader
 				int id = Item.getIdFromItem(GameRegistry.findItem(mod, name));
 				element.getAsJsonObject().addProperty("id", id);
 			}
+
+			ItemPart stack;
+
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.toString());
@@ -228,20 +240,31 @@ public class CustomRewardsLoader
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
 					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
+					continue;
 				}
 				else
 				{
-					ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
-					if(stack == null)
+					ItemStack itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
+					if(itemstack == null)
+					{
 						CCubesCore.logger.log(Level.ERROR, "Failed to create an itemstack from the JSON of: " + jsonEdited + " and the NBT of: " + ((NBTTagCompound) nbtbase).toString());
+						continue;
+					}
 					else
-						rewards.add(new ItemRewardType(stack));
+						stack = new ItemPart(itemstack);
 				}
 			} catch(NBTException e1)
 			{
 				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+				continue;
 			}
+
+			if(element.getAsJsonObject().has("delay"))
+				stack.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+
+			items.add(stack);
 		}
+		rewards.add(new ItemRewardType(items.toArray(new ItemPart[items.size()])));
 		return rewards;
 	}
 
@@ -278,14 +301,14 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			MessagePart message = new MessagePart(element.getAsJsonObject().get("message").getAsString());
-			
+
 			if(element.getAsJsonObject().has("delay"))
 				message.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("serverWide"))
 				message.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
 			if(element.getAsJsonObject().has("range"))
 				message.setRange(element.getAsJsonObject().get("range").getAsInt());
-			
+
 			msgs.add(message);
 		}
 		rewards.add(new MessageRewardType(msgs.toArray(new MessagePart[msgs.size()])));
@@ -298,7 +321,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			CommandPart command = new CommandPart(element.getAsJsonObject().get("command").getAsString());
-			
+
 			if(element.getAsJsonObject().has("delay"))
 				command.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			commands.add(command);
@@ -309,26 +332,36 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
+		List<EntityPart> entities = new ArrayList<EntityPart>();
 		for(JsonElement element : rawReward)
 		{
+			EntityPart ent;
+
 			try
 			{
-				String jsonEdited = this.removedKeyQuotes(element.toString());
+				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsString());
 				NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
 					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
+					continue;
 				}
 				else
 				{
-					rewards.add(new EntityRewardType((NBTTagCompound) nbtbase));
+					ent = new EntityPart((NBTTagCompound) nbtbase);
 				}
 			} catch(NBTException e1)
 			{
 				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+				continue;
 			}
+
+			if(element.getAsJsonObject().has("delay"))
+				ent.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			entities.add(ent);
 		}
+		rewards.add(new EntityRewardType(entities.toArray(new EntityPart[entities.size()])));
 		return rewards;
 	}
 
@@ -338,7 +371,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			ExpirencePart exppart = new ExpirencePart(element.getAsJsonObject().get("experienceAmount").getAsInt());
-			
+
 			if(element.getAsJsonObject().has("delay"))
 				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("numberOfOrbs"))
@@ -355,7 +388,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			PotionPart exppart = new PotionPart(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
-			
+
 			if(element.getAsJsonObject().has("delay"))
 				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			potionEffects.add(exppart);
@@ -370,14 +403,14 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
-			
+
 			if(element.getAsJsonObject().has("delay"))
 				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("serverWide"))
 				sound.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
 			if(element.getAsJsonObject().has("range"))
 				sound.setRange(element.getAsJsonObject().get("range").getAsInt());
-			
+
 			sounds.add(sound);
 		}
 		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[sounds.size()])));

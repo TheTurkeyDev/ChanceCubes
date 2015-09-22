@@ -1,0 +1,23 @@
+{
+	"chickens":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Chikari"},
+			{"message":"Chik"},
+			{"message":"Chi"},
+			{"message":"Chic"},
+			{"message":"Chickens"},
+			{"message":"Chickens!!!!!"}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Chicken"}},
+			{"entity":{"id":"Chicken"}},
+			{"entity":{"id":"Chicken"}},
+			{"entity":{"id":"Chicken"}},
+			{"entity":{"id":"Chicken"}}
+		]
+	}
+}
