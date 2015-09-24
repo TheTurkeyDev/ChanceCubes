@@ -35,6 +35,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper.setLocationAndAngles(xxx, y, pz + zz, xx == 1 ? 90 : -90, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
+						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}
@@ -55,6 +56,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper.setLocationAndAngles(px + xx, y, zzz, zz == 1 ? 180 : 0, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
+						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}
