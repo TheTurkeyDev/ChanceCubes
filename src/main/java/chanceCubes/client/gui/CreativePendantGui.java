@@ -5,12 +5,12 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
-import chanceCubes.network.CCubesPacket;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketCreativePendant;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -78,13 +78,7 @@ public class CreativePendantGui extends GuiContainer
 			else if(button.id == 6)
 			{
 				if(container.getChanceCubesInPendant() != null)
-				{
-					NBTTagCompound tags = new NBTTagCompound();
-					tags.setByte("id", (byte) 0);
-					tags.setInteger("Chance", this.chanceValue);
-					tags.setString("Player", this.player.getCommandSenderName());
-					CCubesCore.instance.network.sendToServer(new CCubesPacket(tags));
-				}
+					CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderName(), this.chanceValue));
 			}
 		}
 		if(this.chanceValue > 100)

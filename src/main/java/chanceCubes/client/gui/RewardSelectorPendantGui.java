@@ -13,7 +13,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.network.CCubesPacket;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketRewardSelector;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -76,11 +77,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 					nbt.setString("Reward", this.rewardName);
 					stack.setTagCompound(nbt);
 					
-					NBTTagCompound tags = new NBTTagCompound();
-					tags.setByte("id", (byte) 1);
-					tags.setString("Reward", this.rewardField.getText());
-					tags.setString("Player", this.player.getCommandSenderName());
-					CCubesCore.instance.network.sendToServer(new CCubesPacket(tags));
+					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderName(), this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
 				}
 				else
