@@ -77,6 +77,9 @@ public class RewardSelectorPendantGui extends GuiScreen
 					nbt.setString("Reward", this.rewardName);
 					stack.setTagCompound(nbt);
 					
+					System.out.println(this.player.getCommandSenderName());
+					System.out.println(this.rewardField.getText());
+					
 					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderName(), this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
 				}

@@ -18,6 +18,7 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.UpdateNotificationListener;
 import chanceCubes.listeners.WorldGen;
+import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -67,6 +68,7 @@ public class CCubesCore
 		CraftingRecipies.loadRecipies();
 		ChanceCubeRegistry.loadDefaultRewards();
 		ConfigLoader.config.save();
+		CCubesPacketHandler.init();
 		proxy.registerRenderings();
 		proxy.registerEvents();
 
