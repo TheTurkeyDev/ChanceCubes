@@ -6,7 +6,7 @@
 		[
 			{"message":"It's Kiwi!!"}
 		],
-		"Entity":
+		"Command":
 		[
 			{"command":"/summon WitherBoss ~ ~1 ~ {CustomName:\"KiwiFailes\",CustomNameVisible:1}"}
 		]

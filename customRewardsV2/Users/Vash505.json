@@ -1,0 +1,18 @@
+{
+	"challenge":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"You said you like a challenge right?!"},
+			{"message":"-Turkey"}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Ghast"}},
+			{"entity":{"id":"Ghast"}},
+			{"entity":{"id":"Ghast"}},
+			{"entity":{"id":"Ghast"}}
+		]
+	}
+}
