@@ -17,6 +17,10 @@ public class PacketCreativePendant implements IMessage
 	private String playerName;
 	private int chancevalue;
 
+	public PacketCreativePendant()
+	{
+	}
+
 	public PacketCreativePendant(String player, int chance)
 	{
 		this.playerName = player;

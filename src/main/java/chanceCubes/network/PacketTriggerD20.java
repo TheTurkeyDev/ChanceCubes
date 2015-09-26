@@ -14,6 +14,10 @@ public class PacketTriggerD20 implements IMessage
 	public int x;
 	public int y;
 	public int z;
+	
+	public PacketTriggerD20()
+	{
+	}
 
 	public PacketTriggerD20(int x, int y, int z)
 	{

@@ -16,6 +16,10 @@ public class PacketRewardSelector implements IMessage
 	private String playerName;
 	private String reward;
 
+	public PacketRewardSelector()
+	{
+	}
+
 	public PacketRewardSelector(String player, String reward)
 	{
 		this.playerName = player;
