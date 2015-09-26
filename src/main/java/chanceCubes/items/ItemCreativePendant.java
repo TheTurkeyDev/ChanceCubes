@@ -32,6 +32,7 @@ public class ItemCreativePendant extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		list.add("Right click to change the chance the pendant sets chance cubes to.");
+		list.add("Right click to change the chance");
+		list.add("of the inserted cubes.");
 	}
 }

@@ -52,7 +52,7 @@ public class ItemRewardSelectorPendant  extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		list.add("Shift right click to change the reward that this item will spawn in.");
+		list.add("Shift right click to change the reward.");
 		list.add("Right a lucky block to summon the reward.");
 	}
 }

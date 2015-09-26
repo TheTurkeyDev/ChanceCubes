@@ -1,0 +1,15 @@
+{
+	"charity":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":For charity!!!!"},
+			{"message":"-Turkey"}
+		],
+		"Item":
+		[
+			{"id":"minecraft:diamond","Count":6}
+		]
+	}
+}

@@ -40,8 +40,9 @@ public class ItemChancePendant extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		list.add("Increases the chance of Chance Cubes by +" + chanceIncrease + " when the block is broken");
-		list.add("Simply having the pendant in your inventory will make it work");
+		list.add("Increases the chance of Chance Cubes by:");
+		list.add("      +" + chanceIncrease + " when the block is broken");
+		list.add("Only needs to be in the players inventory to work");
 	}
 
 	public boolean getIsRepairable(ItemStack stack, ItemStack repairStack)
