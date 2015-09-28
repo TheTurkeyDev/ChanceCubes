@@ -28,6 +28,7 @@ import chanceCubes.rewards.AnvilRain;
 import chanceCubes.rewards.BasicReward;
 import chanceCubes.rewards.BlindnessFightReward;
 import chanceCubes.rewards.ChargedCreeperReward;
+import chanceCubes.rewards.ClearInventoryReward;
 import chanceCubes.rewards.CookieMonsterReward;
 import chanceCubes.rewards.CreeperSurroundedReward;
 import chanceCubes.rewards.EnderCrystalTimerReward;
@@ -192,6 +193,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
 		INSTANCE.registerReward(new ChargedCreeperReward());
+		INSTANCE.registerReward(new ClearInventoryReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{

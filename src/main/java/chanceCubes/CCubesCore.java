@@ -16,7 +16,7 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.TickListener;
-import chanceCubes.listeners.UpdateNotificationListener;
+import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
@@ -72,7 +72,7 @@ public class CCubesCore
 		proxy.registerRenderings();
 		proxy.registerEvents();
 
-        FMLCommonHandler.instance().bus().register(new UpdateNotificationListener());
+        FMLCommonHandler.instance().bus().register(new PlayerConnectListener());
         FMLCommonHandler.instance().bus().register(new TickListener());
         MinecraftForge.EVENT_BUS.register(new WorldGen());
         
