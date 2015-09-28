@@ -219,9 +219,10 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<ItemPart> items = new ArrayList<ItemPart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement fullelement : rawReward)
 		{
-			String itemInfo = element.getAsJsonObject().get("id").getAsString();
+			String itemInfo = fullelement.getAsJsonObject().get("item").getAsJsonObject().get("id").getAsString();
+			JsonElement element = fullelement.getAsJsonObject().get("item").getAsJsonObject();
 			if(itemInfo.contains(":"))
 			{
 				String mod = itemInfo.substring(0, itemInfo.indexOf(":"));
@@ -259,8 +260,8 @@ public class CustomRewardsLoader
 				continue;
 			}
 
-			if(element.getAsJsonObject().has("delay"))
-				stack.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			if(fullelement.getAsJsonObject().has("delay"))
+				stack.setDelay(fullelement.getAsJsonObject().get("delay").getAsInt());
 
 			items.add(stack);
 		}
@@ -339,7 +340,7 @@ public class CustomRewardsLoader
 
 			try
 			{
-				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsString());
+				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsJsonObject().toString());
 				NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
@@ -351,9 +352,11 @@ public class CustomRewardsLoader
 				{
 					ent = new EntityPart((NBTTagCompound) nbtbase);
 				}
-			} catch(NBTException e1)
+			} catch(Exception e1)
 			{
-				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+				CCubesCore.logger.log(Level.ERROR, "The Entiy loading failed for a custom reward!");
+				CCubesCore.logger.log(Level.ERROR, "-------------------------------------------");
+				e1.printStackTrace();
 				continue;
 			}
 
