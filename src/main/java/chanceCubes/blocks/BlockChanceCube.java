@@ -2,15 +2,19 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -23,13 +27,16 @@ import chanceCubes.tileentities.TileChanceCube;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
+	private IIcon top;
+
 	public BlockChanceCube()
 	{
 		super(Material.ground);
 		this.setHardness(0.5f);
 		this.setBlockName("Chance_Cube");
 		this.setCreativeTab(CCubesCore.modTab);
-		this.setBlockTextureName("chancecubes:chanceCube");
+		this.setBlockTextureName("chancecubes:chanceCubeHalloween");
+		this.setLightLevel(2);
 	}
 
 	@Override
@@ -85,5 +92,21 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	public boolean canDropFromExplosion(Explosion explosion)
 	{
 		return false;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister p_149651_1_)
+	{
+		super.registerBlockIcons(p_149651_1_);
+		this.top = p_149651_1_.registerIcon(CCubesCore.MODID + ":chanceCubeHalloweenTop");
+	}
+
+	@SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta)
+    {
+		if(side == 0 || side == 1)
+			return top;
+		else
+			return blockIcon;
 	}
 }
