@@ -11,5 +11,19 @@
 		[
 			{"message":"From: Insaneau #GetUp"}
 		]
+	},
+	
+	"Fake_Creeper":
+	{
+		"chance": 0,
+		"Sound":
+		[
+			{"sound":"creeper.primed"},
+			{"sound":"random.explode", "delay":80}
+		],
+		"Message":
+		[
+			{"message":"From: Nalkrien", "delay":90}
+		]
 	}
 }
