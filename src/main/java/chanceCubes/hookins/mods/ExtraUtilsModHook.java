@@ -99,15 +99,6 @@ public class ExtraUtilsModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Flux_Crystal", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		if(GameRegistry.findItem(super.modId, "dark_portal") != null)
-		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Deep_Dark", 95, new ItemRewardType(new ItemPart(GameRegistry.findItemStack(super.modId, "dark_portal", 1)))));
-
-			stack = GameRegistry.findItemStack(super.modId, "dark_portal", 1);
-			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Last_Millenium", 95, new ItemRewardType(new ItemPart(stack))));
-		}
-
 		if(GameRegistry.findItem(super.modId, "cobblestone_compressed") != null)
 		{
 			stack = GameRegistry.findItemStack(super.modId, "cobblestone_compressed", 4);
