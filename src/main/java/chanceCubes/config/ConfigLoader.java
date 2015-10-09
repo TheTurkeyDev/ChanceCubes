@@ -17,8 +17,8 @@ public class ConfigLoader
 		config = new Configuration(new File(fileFolder + "/" + file.getName()));
 		config.load();
 		
-		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat,  50, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
-		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  50, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat,  25, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  25, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
 		
 		CCubesSettings.enableHardCodedRewards = config.getBoolean("EnableDefaultRewards", genCat, true, "Set to true if the default rewards should be loaded, false if they shouldn't");
 		

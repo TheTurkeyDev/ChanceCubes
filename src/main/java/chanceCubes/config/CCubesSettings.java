@@ -10,8 +10,8 @@ public class CCubesSettings
 	
 	public static boolean enableHardCodedRewards = true;
 	
-	public static int rangeMin = 75;
-	public static int rangeMax = 75;
+	public static int rangeMin = 25;
+	public static int rangeMax = 25;
 	
 	public static boolean oreGeneration = true;
 	public static boolean surfaceGeneration = true;
