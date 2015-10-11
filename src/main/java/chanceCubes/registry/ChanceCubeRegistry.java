@@ -178,6 +178,29 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setStackDisplayName("Why not?");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 20, new ItemRewardType(new ItemPart(stack))));
 
+		OffsetBlock[] blocks = new OffsetBlock[35];
+		int i = 0;
+		for(int y = 0; y < 2; y++)
+		{
+			for(int x = 0; x < 5; x++)
+			{
+				for(int z = 0; z < 5; z++)
+				{
+					if(y == 1 && (x == 0 || x == 4 || z == 0 || z == 4))
+					{
+						continue;
+					}
+					else
+					{
+						blocks[i] = new OffsetBlock(x - 2, y, z - 2, Blocks.iron_block, true, ((x * 5) + z) * (y + 1) * 5);
+						i++;
+					}
+				}
+			}
+		}
+		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.beacon, true, 250);
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 80, new BlockRewardType(blocks)));
+
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());

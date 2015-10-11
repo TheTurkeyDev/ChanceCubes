@@ -21,7 +21,7 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 
 		EntityArrow arrow = new EntityArrow(world, x + 0.5, y + 29, z + 0.5);
 		arrow.motionX = 0;
-		arrow.motionY = -1;
+		arrow.motionY = -0.25f;
 		arrow.motionZ = 0;
 		world.spawnEntityInWorld(arrow);
 	}
