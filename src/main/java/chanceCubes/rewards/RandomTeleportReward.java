@@ -10,8 +10,8 @@ public class RandomTeleportReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		int xChange = (world.rand.nextInt(30) + 20) + x;
-		int zChange = (world.rand.nextInt(30) + 20) + z;
+		int xChange = ((world.rand.nextInt(50) + 20) + x) - 35;
+		int zChange = ((world.rand.nextInt(50) + 20) + z) - 35;
 
 		int yChange = -1;
 
