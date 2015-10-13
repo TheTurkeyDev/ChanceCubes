@@ -74,7 +74,7 @@ public class SurroundedReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -15;
+		return -45;
 	}
 
 	@Override

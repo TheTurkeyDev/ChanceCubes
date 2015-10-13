@@ -42,7 +42,7 @@ public class FiveProngReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return 30;
+		return -10;
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class AnvilRain implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -90;
+		return -45;
 	}
 
 	@Override

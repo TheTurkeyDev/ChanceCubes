@@ -59,7 +59,7 @@ public class InventoryChestReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -50;
+		return -95;
 	}
 
 	@Override

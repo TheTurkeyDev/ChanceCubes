@@ -77,7 +77,7 @@ public class MathReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -5;
+		return -35;
 	}
 
 	@Override

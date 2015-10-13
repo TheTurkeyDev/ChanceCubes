@@ -50,7 +50,7 @@ public class TrollTNTReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return 0;
+		return -5;
 	}
 
 	@Override

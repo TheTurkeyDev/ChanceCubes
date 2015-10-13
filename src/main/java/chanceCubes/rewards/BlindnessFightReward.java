@@ -54,7 +54,7 @@ public class BlindnessFightReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -10;
+		return -65;
 	}
 
 	@Override

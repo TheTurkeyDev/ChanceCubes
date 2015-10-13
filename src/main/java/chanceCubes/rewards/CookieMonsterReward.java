@@ -52,7 +52,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return 0;
+		return -50;
 	}
 
 	@Override

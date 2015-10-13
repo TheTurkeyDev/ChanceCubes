@@ -49,7 +49,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -50;
+		return -100;
 	}
 
 	@Override

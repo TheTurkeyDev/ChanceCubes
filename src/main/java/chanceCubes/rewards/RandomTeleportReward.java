@@ -32,7 +32,7 @@ public class RandomTeleportReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -35;
+		return -30;
 	}
 
 	@Override

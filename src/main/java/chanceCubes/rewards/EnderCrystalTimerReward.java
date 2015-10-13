@@ -29,7 +29,7 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -70;
+		return -90;
 	}
 
 	@Override
