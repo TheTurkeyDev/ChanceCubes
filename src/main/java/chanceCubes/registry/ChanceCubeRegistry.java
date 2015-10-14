@@ -41,6 +41,7 @@ import chanceCubes.rewards.MathReward;
 import chanceCubes.rewards.NukeReward;
 import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
+import chanceCubes.rewards.ThrownInAirReward;
 import chanceCubes.rewards.TrollHoleReward;
 import chanceCubes.rewards.TrollTNTReward;
 import chanceCubes.rewards.WaitForItReward;
@@ -220,6 +221,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ClearInventoryReward());
 		INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
+		INSTANCE.registerReward(new ThrownInAirReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
