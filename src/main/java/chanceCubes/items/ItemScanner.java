@@ -22,24 +22,24 @@ public class ItemScanner extends Item
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 	}
-	
-    public EnumAction getItemUseAction(ItemStack p_77661_1_)
-    {
-        return EnumAction.block;
-    }
-    
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 72000;
-    }
-    
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-    {
-    	player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-        return stack;
-    }
 
-	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) 
+	public EnumAction getItemUseAction(ItemStack p_77661_1_)
+	{
+		return EnumAction.block;
+	}
+
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return 72000;
+	}
+
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+	{
+		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+		return stack;
+	}
+
+	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
 	{
 		if(!world.isRemote)
 			return;
@@ -50,25 +50,34 @@ public class ItemScanner extends Item
 			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().equals(stack) && player.getItemInUse() != null && player.getItemInUse().equals(stack))
 			{
 				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
-				
-				if (movingobjectposition == null)
+
+				if(movingobjectposition == null)
 					return;
-				if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+				if(movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 				{
 					int i = movingobjectposition.blockX;
 					int j = movingobjectposition.blockY;
 					int k = movingobjectposition.blockZ;
+					boolean flag = false;
 					if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceCube))
 					{
-						RenderEvent.setLookingAt(true);
-						TileChanceCube te = (TileChanceCube) world.getTileEntity(i, j, k);
-						RenderEvent.setLookingAtChance(te.getChance());
+						flag = true;
+						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(i, j, k)).getChance());
 					}
 					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceIcosahedron))
 					{
+						flag = true;
+						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
+					}
+
+					if(flag)
+					{
 						RenderEvent.setLookingAt(true);
-						TileChanceD20 te = (TileChanceD20) world.getTileEntity(i, j, k);
-						RenderEvent.setLookingAtChance(te.getChance());
+						int chanceInc = 0;
+						for(ItemStack s : player.inventory.mainInventory)
+							if(s != null && s.getItem() instanceof ItemChancePendant)
+								chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
+						RenderEvent.setChanceIncrease(chanceInc);
 					}
 				}
 			}

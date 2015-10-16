@@ -16,6 +16,7 @@ public class RenderEvent
 {
 	private static boolean islookingAt = false;
 	private static int chance = -201;
+	private static int chanceIncrease = 0;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -41,7 +42,12 @@ public class RenderEvent
 		
 		if(islookingAt)
 		{
-			fontrenderer.drawString("The chance of this cube is: " + chance, (k/2)-80, (l/2)-15, 16777215);
+			fontrenderer.drawString("The chance of this cube is: " + chance, (k/2)-80, (l/2)-30, 16777215);
+			if(chanceIncrease != 0)
+			{
+				int c = chance + chanceIncrease;
+				fontrenderer.drawString("Chance with pendants is: " + (c > 100 ? 100 : c < -100 ? -100: c), (k/2)-80, (l/2)-15, 16777215);
+			}
 		}
 		
 		GL11.glPopMatrix();
@@ -55,5 +61,10 @@ public class RenderEvent
 	public static void setLookingAt(boolean lookingAt)
 	{
 		islookingAt = lookingAt;
+	}
+
+	public static void setChanceIncrease(int increase)
+	{
+		chanceIncrease = increase;
 	}
 }

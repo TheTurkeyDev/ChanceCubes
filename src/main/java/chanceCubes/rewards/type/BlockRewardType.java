@@ -7,7 +7,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {
 
-	public BlockRewardType( OffsetBlock... blocks)
+	public BlockRewardType(OffsetBlock... blocks)
 	{
 		super(blocks);
 	}
