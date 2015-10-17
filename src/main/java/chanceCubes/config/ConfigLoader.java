@@ -17,6 +17,8 @@ public class ConfigLoader
 		config = new Configuration(new File(fileFolder + "/" + file.getName()));
 		config.load();
 		
+		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
+		
 		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat,  25, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  25, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
 		
@@ -26,6 +28,7 @@ public class ConfigLoader
 		CCubesSettings.oreGeneration = config.getBoolean("GenerateAsOre", genCat, true, "true if Chance Cubes should generate like ores with in the world. false if they should not");
 		CCubesSettings.surfaceGeneration = config.getBoolean("GenerateOnSurface", genCat, true, "true if Chance Cubes should generate on the surface of the world. false if they should not");
 		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes shold not generate in");
+		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");
 		
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
 		

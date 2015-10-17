@@ -241,7 +241,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, "Set to false to disable this reward"))
+		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, ""))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);

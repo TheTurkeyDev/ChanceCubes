@@ -16,6 +16,7 @@ public class CCubesSettings
 	public static boolean oreGeneration = true;
 	public static boolean surfaceGeneration = true;
 	public static String[] blockedWorlds = new String[]{};
+	public static boolean chestLoot = true;
 	
 	public static boolean userSpecificRewards = true;
 	
