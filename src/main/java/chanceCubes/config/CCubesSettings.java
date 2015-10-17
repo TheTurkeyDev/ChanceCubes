@@ -14,7 +14,9 @@ public class CCubesSettings
 	public static int rangeMax = 25;
 	
 	public static boolean oreGeneration = true;
+	public static int oreGenAmount = 4;
 	public static boolean surfaceGeneration = true;
+	public static int surfaceGenAmount = 1;
 	public static String[] blockedWorlds = new String[]{};
 	public static boolean chestLoot = true;
 	

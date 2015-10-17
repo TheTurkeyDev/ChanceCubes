@@ -25,7 +25,7 @@ public class WorldGen
 
 	private void generateOre(World world, Random rand, int x, int z) 
 	{ 
-		for(int k = 0; k < 4; k++)
+		for(int k = 0; k < CCubesSettings.oreGenAmount; k++)
 		{
 			int firstBlockXCoord = x + rand.nextInt(16);
 			int firstBlockYCoord = rand.nextInt(100);
@@ -37,7 +37,7 @@ public class WorldGen
 
 	public void generateSurface(World world, Random rand, int x, int z)
 	{
-		if(rand.nextInt(100) == 0)
+		if(rand.nextInt(100) < CCubesSettings.surfaceGenAmount)
 		{
 			int xCord = x + rand.nextInt(16);
 			int zCord = z + rand.nextInt(16);
