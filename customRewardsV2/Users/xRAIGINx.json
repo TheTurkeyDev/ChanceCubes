@@ -1,5 +1,5 @@
 {
-	"Half_Heart":
+	"War":
 	{
 		"chance": 0,
 		"Entity":
@@ -32,7 +32,7 @@
 		],
 		"Message":
 		[
-			{"message":"Are You ready for war! - Turkey"}
+			{"message":"Are you ready for a war! - Turkey"}
 		]
 	}
 }
