@@ -1,0 +1,38 @@
+{
+	"Half_Heart":
+	{
+		"chance": 0,
+		"Entity":
+		[
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}},
+			{"entity":{"id":"Zombie"}}
+		],
+		"Message":
+		[
+			{"message":"Are You ready for war! - Turkey"}
+		]
+	}
+}

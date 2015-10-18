@@ -305,7 +305,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		int lowerRange = chance - CCubesSettings.rangeMin < -100 ? -100 : chance - CCubesSettings.rangeMin;
 		int upperRange = chance + CCubesSettings.rangeMax > 100 ? 100 : chance + CCubesSettings.rangeMax;
 
-		while(sortedRewards.get(lowerIndex).getChanceValue() <= lowerRange)
+		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{
 			lowerIndex++;
 			if(lowerIndex >= sortedRewards.size())
@@ -314,7 +314,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				break;
 			}
 		}
-		while(sortedRewards.get(upperIndex).getChanceValue() >= upperRange)
+		while(sortedRewards.get(upperIndex).getChanceValue() > upperRange)
 		{
 			upperIndex--;
 			if(upperIndex < 0)
