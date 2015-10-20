@@ -27,6 +27,7 @@ import com.google.gson.JsonElement;
 public class CustomUserReward implements IChanceCubeReward
 {
 	private String userName = "";
+	private String uuid = "";
 	private String type;
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
@@ -51,6 +52,7 @@ public class CustomUserReward implements IChanceCubeReward
 			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(player.getUniqueID().toString()))
 			{
 				userName = user.getAsJsonObject().get("Name").getAsString();
+				uuid = player.getUniqueID().toString();
 				type = user.getAsJsonObject().get("Type").getAsString();
 			}
 		}
@@ -86,13 +88,14 @@ public class CustomUserReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		if(!player.getCommandSenderName().equalsIgnoreCase(this.userName))
+		if(!uuid.equalsIgnoreCase(player.getUniqueID().toString()))
 		{
 			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You cant have his reward! Try again!"));
 			Entity itemEnt = new EntityItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceCube, 1));
 			world.spawnEntityInWorld(itemEnt);
 			return;
 		}
+		
 		player.addChatMessage(new ChatComponentText("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
 		Task task = new Task("Custom Reward", 100)
@@ -105,7 +108,6 @@ public class CustomUserReward implements IChanceCubeReward
 		};
 
 		Scheduler.scheduleTask(task);
-
 	}
 
 	public void triggerAcutalReward(World world, int x, int y, int z, EntityPlayer player)
