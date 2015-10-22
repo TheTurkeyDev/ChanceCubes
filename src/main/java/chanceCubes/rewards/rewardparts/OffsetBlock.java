@@ -13,7 +13,7 @@ public class OffsetBlock
 	public int xOff;
 	public int yOff;
 	public int zOff;
-	
+
 	protected byte data = 0;
 
 	protected boolean falling;
@@ -29,7 +29,7 @@ public class OffsetBlock
 		this.block = b;
 		this.falling = falling;
 	}
-	
+
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
 	{
 		this.xOff = x;
@@ -80,29 +80,36 @@ public class OffsetBlock
 	{
 		this.delay = delay;
 	}
-	
+
 	public void setData(byte d)
 	{
 		this.data = d;
 	}
-	
+
 	public OffsetBlock setRelativeToPlayer(boolean relative)
 	{
 		this.relativeToPlayer = relative;
 		return this;
 	}
-	
+
 	public boolean isRelativeToPlayer()
 	{
 		return this.relativeToPlayer;
 	}
-	
+
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
+		int xx = x;
+		int yy = y;
+		int zz = z;
 		if(offset)
-			world.setBlock(x + xOff, y + yOff, z + zOff, block, data, 2);
-		else
-			world.setBlock(x, y, z, block, data, 2);
-		
+		{
+			xx += xOff;
+			yy += yOff;
+			zz += zOff;
+		}
+		world.setBlock(xx, yy, zz, block, data, 2);
+		Block bSurface = world.getBlock(xx, yy - 1, zz);
+		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.func_150496_b(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getPitch() * 0.5F);
 	}
 }

@@ -65,8 +65,6 @@ public class BlockFallingCustom extends EntityFallingBlock
 				else if(normY == j)
 				{
 					this.setDead();
-					Block bSurface = this.worldObj.getBlock(i, j - 1, k);
-					this.worldObj.playSoundEffect((double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), bSurface.stepSound.func_150496_b(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getPitch() * 0.5F);
 					osb.placeInWorld(worldObj, i, j, k, false);
 				}
 				else if(this.field_145812_b > 100 && !this.worldObj.isRemote && (j < 1 || j > 256) || this.field_145812_b > 600)
