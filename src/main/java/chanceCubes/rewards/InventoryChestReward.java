@@ -22,7 +22,7 @@ public class InventoryChestReward implements IChanceCubeReward
 			if(stack != null)
 				stacks.add(stack);
 
-		ItemStack[] armor = player.inventory.armorInventory;
+		ItemStack[] armor = player.inventory.armorInventory.clone();
 		player.inventory.clearInventory(null, -1);
 		player.inventory.armorInventory = armor;
 
@@ -52,7 +52,7 @@ public class InventoryChestReward implements IChanceCubeReward
 			else if(i > chest.getSizeInventory())
 				chest = (TileEntityChest) world.getTileEntity(x + 1, y, z);
 			
-			chest.setInventorySlotContents(i, stacks.get(i));
+			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
 		}
 	}
 
