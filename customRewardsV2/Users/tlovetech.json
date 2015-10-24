@@ -1,0 +1,25 @@
+{
+	"t-Love":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"All the love for t-love!!! -Turkey"}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":20},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":60},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":60},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":80},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":100},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":120},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":140},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":160},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":180},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":200},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":220},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":240}
+		]
+	}
+}
