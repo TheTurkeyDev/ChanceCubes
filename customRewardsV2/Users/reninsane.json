@@ -1,19 +1,20 @@
 {
-	"Hard_Enough":
+	"Nice":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Let me guess. Still not hard enough?"}
+			{"message":"Ok... I'll be nice now"},
+			{"message":"LOL JK. GET REKT", "delay": 200}
 		],
-		"Command":
+		"Entity":
 		[
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
-			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"}
+			{"entity":{"id":"EnderDragon"}, "delay": 280},
+			{"entity":{"id":"EnderDragon"}, "delay": 280}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:cookie","Count":32}}
 		]
 	}
 }
