@@ -39,7 +39,6 @@ import chanceCubes.rewards.InventoryChestReward;
 import chanceCubes.rewards.ItemOfDestinyReward;
 import chanceCubes.rewards.MathReward;
 import chanceCubes.rewards.NukeReward;
-import chanceCubes.rewards.PandorasBoxReward;
 import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
 import chanceCubes.rewards.ThrownInAirReward;
