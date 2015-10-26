@@ -39,6 +39,7 @@ import chanceCubes.rewards.InventoryChestReward;
 import chanceCubes.rewards.ItemOfDestinyReward;
 import chanceCubes.rewards.MathReward;
 import chanceCubes.rewards.NukeReward;
+import chanceCubes.rewards.PandorasBoxReward;
 import chanceCubes.rewards.RandomTeleportReward;
 import chanceCubes.rewards.SurroundedReward;
 import chanceCubes.rewards.ThrownInAirReward;
@@ -224,6 +225,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
 		INSTANCE.registerReward(new ThrownInAirReward());
+		//INSTANCE.registerReward(new PandorasBoxReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -242,7 +244,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, ""))
+		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, "") && !this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);

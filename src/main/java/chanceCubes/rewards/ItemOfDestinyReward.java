@@ -42,7 +42,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				if(iteration + 1 > 25)
+				if(iteration + 1 > 17)
 				{
 					player.addChatMessage(new ChatComponentText("Random item selected"));
 					player.addChatMessage(new ChatComponentText("Selecting number of enchants to give item"));
@@ -60,7 +60,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 
 	private void changeEnchantAmount(final EntityItem item, final EntityPlayer player)
 	{
-		Task task = new Task("Item_Of_Destiny_Reward", 150)
+		Task task = new Task("Item_Of_Destiny_Reward", 70)
 		{
 			@Override
 			public void callback()
@@ -77,7 +77,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	
 	private void changeEnchants(final EntityItem item, final int enchants, final int iteration, final EntityPlayer player)
 	{
-		Task task = new Task("Item_Of_Destiny_Reward", 150)
+		Task task = new Task("Item_Of_Destiny_Reward", 70)
 		{
 			@Override
 			public void callback()

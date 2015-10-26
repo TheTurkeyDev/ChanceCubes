@@ -53,6 +53,6 @@ public class ItemRewardSelectorPendant  extends Item
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
 		list.add("Shift right click to change the reward.");
-		list.add("Right a lucky block to summon the reward.");
+		list.add("Right click a Chance Cube to summon the reward.");
 	}
 }

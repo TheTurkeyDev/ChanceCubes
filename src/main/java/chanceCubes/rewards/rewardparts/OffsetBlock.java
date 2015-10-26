@@ -44,7 +44,22 @@ public class OffsetBlock
 	{
 		if(!falling)
 		{
-			this.placeInWorld(world, x, y, z, true);
+			if(delay != 0)
+			{
+				Task task = new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				{
+					@Override
+					public void callback()
+					{
+						placeInWorld(world, x, y, z, true);
+					}
+				};
+				Scheduler.scheduleTask(task);
+			}
+			else
+			{
+				placeInWorld(world, x, y, z, true);
+			}
 		}
 		else
 		{
@@ -95,6 +110,11 @@ public class OffsetBlock
 	public boolean isRelativeToPlayer()
 	{
 		return this.relativeToPlayer;
+	}
+	
+	public int getDelay()
+	{
+		return this.delay;
 	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
