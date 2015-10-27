@@ -20,6 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -27,6 +28,7 @@ import chanceCubes.tileentities.TileChanceCube;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
+	private IIcon specialNormal;
 	private IIcon top;
 
 	public BlockChanceCube()
@@ -35,7 +37,7 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		this.setHardness(0.5f);
 		this.setBlockName("Chance_Cube");
 		this.setCreativeTab(CCubesCore.modTab);
-		this.setBlockTextureName("chancecubes:chanceCubeHalloween");
+		this.setBlockTextureName("chancecubes:chanceCube");
 		this.setLightLevel(2);
 	}
 
@@ -95,18 +97,28 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_)
+	public void registerBlockIcons(IIconRegister register)
 	{
-		super.registerBlockIcons(p_149651_1_);
-		this.top = p_149651_1_.registerIcon(CCubesCore.MODID + ":chanceCubeHalloweenTop");
+		super.registerBlockIcons(register);
+		if(CCubesSettings.hasHolidayTexture)
+		{
+			String texture = CCubesSettings.holidayTextureName;
+			this.specialNormal = register.registerIcon(CCubesCore.MODID + ":" + texture);
+			this.top = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
-		if(side == 0 || side == 1)
-			return top;
+	public IIcon getIcon(int side, int meta)
+	{
+		if(CCubesSettings.hasHolidayTexture)
+		{
+			if(side == 0 || side == 1)
+				return this.top;
+			else
+				return this.specialNormal;
+		}
 		else
-			return blockIcon;
+			return super.blockIcon;
 	}
 }

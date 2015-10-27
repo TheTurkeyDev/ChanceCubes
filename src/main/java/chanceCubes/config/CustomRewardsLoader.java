@@ -150,6 +150,25 @@ public class CustomRewardsLoader
 			{
 				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
 			}
+			
+			if(holiday.getAsJsonObject().has("Texture") && !holiday.getAsJsonObject().get("Texture").getAsString().equalsIgnoreCase(""))
+			{
+				try
+				{
+					Date start = parsed = dateFormat.parse(holiday.getAsJsonObject().get("Start").getAsString().trim());
+					Date end = parsed = dateFormat.parse(holiday.getAsJsonObject().get("End").getAsString().trim());
+					
+					if(date.after(start) && date.before(end))
+					{
+						CCubesSettings.hasHolidayTexture = true;
+						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
+					}
+				} catch(ParseException e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to parse a holiday date. BLAME TURKEY!!!");
+					continue;
+				}
+			}
 		}
 
 		if(holidayName.equalsIgnoreCase(""))

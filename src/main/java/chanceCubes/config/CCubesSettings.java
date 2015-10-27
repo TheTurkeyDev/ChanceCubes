@@ -26,6 +26,8 @@ public class CCubesSettings
 	public static boolean holidayRewardTriggered = false;
 	public static boolean doesHolidayRewardTrigger = false;
 	public static IChanceCubeReward holidayReward = null;
+	public static boolean hasHolidayTexture = false;
+	public static String holidayTextureName = "";
 	
 	public static int dropHeight = 20;
 	
