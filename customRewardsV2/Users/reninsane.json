@@ -1,20 +1,21 @@
 {
-	"Nice":
+	"Nicer":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Ok... I'll be nice now"},
-			{"message":"LOL JK. GET REKT", "delay": 200}
+			{"message":"Ok, Ok... No more dragons...."},
+			{"message":"How about some unkillable charged creepers?", "delay":100}
 		],
-		"Entity":
+		"Command":
 		[
-			{"entity":{"id":"EnderDragon"}, "delay": 280},
-			{"entity":{"id":"EnderDragon"}, "delay": 280}
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160}
 		],
-		"Item":
+		"Block":
 		[
-			{"item":{"id":"minecraft:cookie","Count":32}}
+			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:air", "Falling":false}
 		]
 	}
 }
