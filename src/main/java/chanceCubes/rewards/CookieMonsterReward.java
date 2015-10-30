@@ -24,7 +24,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 			Entity itemEnt = new EntityItem(world, x, y, z, new ItemStack(Items.cookie, 8));
 			world.spawnEntityInWorld(itemEnt);
 
-			Task task = new Task("Cookie Monster", 60)
+			Task task = new Task("Cookie Monster", 30)
 			{
 				@Override
 				public void callback()

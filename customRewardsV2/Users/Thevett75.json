@@ -4,7 +4,8 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Ahhh so you are a vet for animals! Kappa -Turkey"}
+			{"message":"Ahhh so you are a vet for animals! Kappa"},
+			{"message":"ok I'll stop now xD -Turkey", "delay":20}
 		],
 		"Entity":
 		[

@@ -19,5 +19,7 @@
 	{"UUID":"f6d5909d-3676-4d48-afe7-29c558e64f71", "Name":"Leavaris", "Type":"Streamer and Patreon"},
 	{"UUID":"7e1f08a2-0028-4871-9484-891c02a229ef", "Name":"FamousCobain", "Type":"Streamer"},
 	{"UUID":"37af7398-5a3d-40f1-ac13-e8fcf1bb951f", "Name":"Thevett75", "Type":"Patreon"},
-	{"UUID":"c2024e2a-dd76-4bc9-9ea3-b771f18f23b6", "Name":"tlovetech", "Type":"Streamer"}
+	{"UUID":"c2024e2a-dd76-4bc9-9ea3-b771f18f23b6", "Name":"tlovetech", "Type":"Streamer"},
+	{"UUID":"69646063-cf85-4e93-a857-4ac9e869a837", "Name":"Matrixis", "Type":"Streamer"},
+	{"UUID":"ef7daeb4-b8ba-4a14-9616-5674a1604f0a", "Name":"K4ileb", "Type":"Streamer"}
 ]

@@ -49,7 +49,7 @@ public class SurroundedReward implements IChanceCubeReward
 			}
 		}
 
-		Task task = new Task("Surrounded Reward", 100)
+		Task task = new Task("Surrounded Reward", 60)
 		{
 			@Override
 			public void callback()

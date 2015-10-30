@@ -1,0 +1,16 @@
+{
+	"Bald":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Here, have some smooth stone for your smoooootth head!! xD"},
+			{"message":"I'm bad at making jokes ok! Shush!", "delay":70},
+			{"message":"-Turkey", "delay":80}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:stone","Count":32}}
+		]
+	}
+}

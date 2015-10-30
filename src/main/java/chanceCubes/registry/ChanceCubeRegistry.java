@@ -81,7 +81,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 60), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 60), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 60), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 60), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 60), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 60), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 60), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 60), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 60))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -40, new BlockRewardType(new OffsetBlock(-1, 0, -1, Blocks.tnt, true), new OffsetBlock(-1, 0, 0, Blocks.tnt, true), new OffsetBlock(-1, 0, 1, Blocks.tnt, true), new OffsetBlock(0, 0, -1, Blocks.tnt, true), new OffsetBlock(0, 0, 0, Blocks.tnt, true), new OffsetBlock(0, 0, 1, Blocks.tnt, true), new OffsetBlock(1, 0, -1, Blocks.tnt, true), new OffsetBlock(1, 0, 0, Blocks.tnt, true), new OffsetBlock(1, 0, 1, Blocks.tnt, true), new OffsetBlock(-1, 1, -1, Blocks.redstone_block, true, 30), new OffsetBlock(-1, 1, 0, Blocks.redstone_block, true, 30), new OffsetBlock(-1, 1, 1, Blocks.redstone_block, true, 30), new OffsetBlock(0, 1, -1, Blocks.redstone_block, true, 30), new OffsetBlock(0, 1, 0, Blocks.redstone_block, true, 30), new OffsetBlock(0, 1, 1, Blocks.redstone_block, true, 30), new OffsetBlock(1, 1, -1, Blocks.redstone_block, true, 30), new OffsetBlock(1, 1, 0, Blocks.redstone_block, true, 30), new OffsetBlock(1, 1, 1, Blocks.redstone_block, true, 30))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":BedRock", -50, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.bedrock, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Redstone_Diamond", 50, new ItemRewardType(new ItemPart(new ItemStack(Items.redstone)), new ItemPart(new ItemStack(Items.diamond)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sethbling_Reward", 55, new MessageRewardType(new MessagePart("Welcome back, SethBling here :)")), new ItemRewardType(new ItemPart(new ItemStack(Items.redstone, 32)), new ItemPart(new ItemStack(Items.repeater, 3)), new ItemPart(new ItemStack(Items.comparator, 3)), new ItemPart(new ItemStack(Blocks.redstone_lamp, 3)), new ItemPart(new ItemStack(Blocks.redstone_torch, 3)))));
@@ -202,7 +202,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				}
 			}
 		}
-		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.beacon, true, 250);
+		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.beacon, true, 200);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
 
 		INSTANCE.registerReward(new NukeReward());

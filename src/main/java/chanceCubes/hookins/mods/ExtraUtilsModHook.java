@@ -49,8 +49,8 @@ public class ExtraUtilsModHook extends BaseModHook
 					ts.setLong("time", world.getTotalWorldTime());
 					stack1.setTagCompound(ts);
 
-					world.setBlock(x, y, z, Blocks.crafting_table);
-					player.displayGUIWorkbench(x, y, z);
+					world.setBlock((int) player.posX, (int) player.posY, (int) player.posZ, Blocks.crafting_table);
+					player.displayGUIWorkbench((int) player.posX, (int) player.posY, (int) player.posZ);
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
 					if((player instanceof EntityPlayerMP))
 					{

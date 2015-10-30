@@ -35,7 +35,7 @@ public class TrollHoleReward implements IChanceCubeReward
 			}
 		}
 
-		Task task = new Task("TrollHole", 70)
+		Task task = new Task("TrollHole", 35)
 		{
 			@Override
 			public void callback()
