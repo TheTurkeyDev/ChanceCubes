@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -120,6 +121,8 @@ public class CustomRewardsLoader
 
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd");
 		Date date = new Date();
+		Calendar today = Calendar.getInstance();
+		today.setTime(date);
 		JsonElement holidays;
 
 		try
@@ -150,15 +153,20 @@ public class CustomRewardsLoader
 			{
 				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
 			}
-			
+
 			if(holiday.getAsJsonObject().has("Texture") && !holiday.getAsJsonObject().get("Texture").getAsString().equalsIgnoreCase(""))
 			{
 				try
 				{
-					Date start = parsed = dateFormat.parse(holiday.getAsJsonObject().get("Start").getAsString().trim());
-					Date end = parsed = dateFormat.parse(holiday.getAsJsonObject().get("End").getAsString().trim());
-					
-					if(date.after(start) && date.before(end))
+					Calendar start = Calendar.getInstance();
+					Calendar end = Calendar.getInstance();
+					start.setTime(dateFormat.parse(holiday.getAsJsonObject().get("Start").getAsString().trim()));
+					end.setTime(dateFormat.parse(holiday.getAsJsonObject().get("End").getAsString().trim()));
+
+					System.out.println(this.compareDates(start, today));
+					System.out.println(this.compareDates(end, today));
+
+					if(this.compareDates(start, today) >= 0 && this.compareDates(end, today) <= 0)
 					{
 						CCubesSettings.hasHolidayTexture = true;
 						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
@@ -178,24 +186,28 @@ public class CustomRewardsLoader
 			return;
 		}
 
-		JsonElement userRewards;
+		if(!CCubesSettings.holidayRewardTriggered)
+		{
 
-		try
-		{
-			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
-			CCubesCore.logger.log(Level.ERROR, e.getMessage());
-			return;
-		}
+			JsonElement userRewards;
 
-		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-		{
-			BasicReward basicReward = this.parseReward(reward);
-			CCubesSettings.doesHolidayRewardTrigger = true;
-			CCubesSettings.holidayReward = basicReward;
-			CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
+			try
+			{
+				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
+			} catch(Exception e)
+			{
+				CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
+				CCubesCore.logger.log(Level.ERROR, e.getMessage());
+				return;
+			}
+
+			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
+			{
+				BasicReward basicReward = this.parseReward(reward);
+				CCubesSettings.doesHolidayRewardTrigger = true;
+				CCubesSettings.holidayReward = basicReward;
+				CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
+			}
 		}
 	}
 
@@ -432,7 +444,7 @@ public class CustomRewardsLoader
 		List<SoundPart> sounds = new ArrayList<SoundPart>();
 		for(JsonElement element : rawReward)
 		{
-			
+
 			SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
 
 			if(element.getAsJsonObject().has("delay"))
@@ -460,7 +472,7 @@ public class CustomRewardsLoader
 			CCubesCore.logger.log(Level.ERROR, "Failed to load the sounds file from chance cubes..... what was the dev thinking?");
 			return;
 		}
-		
+
 		for(File f : new File(this.folder + "/Sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
 		{
 			String fileShortName = f.getName().substring(0, f.getName().indexOf('.'));
@@ -783,5 +795,27 @@ public class CustomRewardsLoader
 			}
 		}
 		return rewardinfo;
+	}
+
+	public int compareDates(Calendar first, Calendar second)
+	{
+		int fm = first.get(Calendar.MONTH);
+		int sm = second.get(Calendar.MONTH);
+
+		int fd = first.get(Calendar.DAY_OF_MONTH);
+		int sd = second.get(Calendar.DAY_OF_MONTH);
+
+		if(fm < sm)
+		{
+			return 1;
+		}
+		else if(fm == sm)
+		{
+			return fd == sd ? 0 : fd < sm ? 1 : -1;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 }

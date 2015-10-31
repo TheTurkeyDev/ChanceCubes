@@ -1,4 +1,4 @@
 [
-	{"Date":"10/31", "Name":"Halloween", "Texture":"chanceCubeHalloween", "Start":"9/30", "End":"11/01"},
-	{"Date":"12/25", "Name":"Holidays", "Texture":"chanceCubeHolidays", "Start":"11/30", "End":"01/01"}
+	{"Date":"10/31", "Name":"Halloween", "Texture":"chanceCubeHalloween", "Start":"10/01", "End":"10/31"},
+	{"Date":"12/25", "Name":"Holidays", "Texture":"chanceCubeHolidays", "Start":"12/01", "End":"12/31"}
 ]

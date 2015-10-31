@@ -113,8 +113,8 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		{
 			this.specialIcons = new IIcon[2];
 			String texture = CCubesSettings.holidayTextureName;
-			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture);
-			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
+			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
+			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture);
 		}
 	}
 
