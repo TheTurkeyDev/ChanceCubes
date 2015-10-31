@@ -23,7 +23,7 @@ public class WitherReward implements IChanceCubeReward
 		
 		player.addChatMessage(new ChatComponentText("\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\""));
 
-		Task task = new Task("Wither Reward", 390)
+		Task task = new Task("Wither Reward", 180)
 		{
 			@Override
 			public void callback()

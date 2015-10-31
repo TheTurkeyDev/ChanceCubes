@@ -28,17 +28,20 @@ public class TrollTNTReward implements IChanceCubeReward
 		world.spawnEntityInWorld(entitytntprimed);
 		world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
 
-		Task task = new Task("TrollTNT", 80)
+		if(world.rand.nextInt(25) != 1)
 		{
-			@Override
-			public void callback()
+			Task task = new Task("TrollTNT", 80)
 			{
-				timeUp(entitytntprimed, player);
-			}
+				@Override
+				public void callback()
+				{
+					timeUp(entitytntprimed, player);
+				}
 
-		};
+			};
 
-		Scheduler.scheduleTask(task);
+			Scheduler.scheduleTask(task);
+		}
 	}
 
 	private void timeUp(Entity ent, EntityPlayer player)

@@ -28,8 +28,11 @@ import chanceCubes.tileentities.TileChanceCube;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
-	private IIcon specialNormal;
-	private IIcon top;
+	@SideOnly(Side.CLIENT)
+	private IIcon[] icons;
+	@SideOnly(Side.CLIENT)
+	private IIcon[] specialIcons;
+
 
 	public BlockChanceCube()
 	{
@@ -99,12 +102,19 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register)
 	{
-		super.registerBlockIcons(register);
+		this.icons = new IIcon[6];
+		this.icons[0] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_1");
+		this.icons[1] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_6");
+		this.icons[2] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_2");
+		this.icons[3] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_5");
+		this.icons[4] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_4");
+		this.icons[5] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_3");
 		if(CCubesSettings.hasHolidayTexture)
 		{
+			this.specialIcons = new IIcon[2];
 			String texture = CCubesSettings.holidayTextureName;
-			this.specialNormal = register.registerIcon(CCubesCore.MODID + ":" + texture);
-			this.top = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
+			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture);
+			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
 		}
 	}
 
@@ -114,11 +124,11 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		if(CCubesSettings.hasHolidayTexture)
 		{
 			if(side == 0 || side == 1)
-				return this.top;
+				return this.specialIcons[0];
 			else
-				return this.specialNormal;
+				return this.specialIcons[1];
 		}
 		else
-			return super.blockIcon;
+			return this.icons[side];
 	}
 }
