@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +13,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.CustomEntry;
 import chanceCubes.util.Location3I;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
