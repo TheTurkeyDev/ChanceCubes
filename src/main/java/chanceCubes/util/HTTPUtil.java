@@ -17,7 +17,6 @@ public class HTTPUtil
 
 	public static JsonElement getWebFile(String link) throws Exception
 	{
-		HttpURLConnection.setFollowRedirects(false);
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
 		con.setDoOutput(false);
 		con.setReadTimeout(20000);

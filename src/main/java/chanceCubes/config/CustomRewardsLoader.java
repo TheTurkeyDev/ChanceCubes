@@ -124,18 +124,16 @@ public class CustomRewardsLoader
 		Calendar today = Calendar.getInstance();
 		today.setTime(date);
 		JsonElement holidays;
+		String holidayName = "";
 
 		try
 		{
-			// date = dateFormat.parse("10/31");
 			holidays = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Holidays.json");
 		} catch(Exception e1)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to fetch the list of holiday rewards!");
 			return;
 		}
-
-		String holidayName = "";
 
 		for(JsonElement holiday : holidays.getAsJsonArray())
 		{
@@ -162,9 +160,6 @@ public class CustomRewardsLoader
 					Calendar end = Calendar.getInstance();
 					start.setTime(dateFormat.parse(holiday.getAsJsonObject().get("Start").getAsString().trim()));
 					end.setTime(dateFormat.parse(holiday.getAsJsonObject().get("End").getAsString().trim()));
-
-					System.out.println(this.compareDates(start, today));
-					System.out.println(this.compareDates(end, today));
 
 					if(this.compareDates(start, today) >= 0 && this.compareDates(end, today) <= 0)
 					{
