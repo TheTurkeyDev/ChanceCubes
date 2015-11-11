@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -33,15 +31,15 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick)
+	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick, int var9)
 	{
 		TileChanceD20 d20 = (TileChanceD20) tileEntity;
 		
 		int stage = d20.getStage();
 
-		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
+		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorld().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
 		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage/15F));
-		float color = (tileEntity.getWorldObj().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
+		float color = (tileEntity.getWorld().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
 
 		GL11.glPushMatrix();
 
@@ -60,7 +58,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glTranslated(posX + 0.5F, posY + 1.5F + wave * 0.1F, posZ + 2.5F);
 		Tessellator tessellator = Tessellator.instance;
 		RenderHelper.disableStandardItemLighting();
-		float f1 = ((float) tileEntity.getWorldObj().getTotalWorldTime() % 750 + partialTick) / 750.0F;
+		float f1 = ((float) tileEntity.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
 		float f2 = 0F;
 
 		Random random = new Random(432L);

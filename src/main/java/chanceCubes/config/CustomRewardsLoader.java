@@ -29,6 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -66,8 +67,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CustomRewardsLoader
 {
@@ -270,7 +269,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.toString());
-				NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
+				NBTBase nbtbase = JsonToNBT.func_180713_a(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
@@ -375,7 +374,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsJsonObject().toString());
-				NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
+				NBTBase nbtbase = JsonToNBT.func_180713_a(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
@@ -607,7 +606,7 @@ public class CustomRewardsLoader
 						boolean falling = false;
 						if(element.getAsJsonObject().has("falling"))
 							falling = element.getAsJsonObject().get("falling").getAsBoolean();
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
+						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), tileentity, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 						block.setDealy(i1 * multiplier);

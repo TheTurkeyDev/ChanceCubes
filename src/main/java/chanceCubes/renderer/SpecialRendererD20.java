@@ -2,7 +2,6 @@ package chanceCubes.renderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -12,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import chanceCubes.blocks.BlockChanceD20;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class SpecialRendererD20 implements ISimpleBlockRenderingHandler
 {

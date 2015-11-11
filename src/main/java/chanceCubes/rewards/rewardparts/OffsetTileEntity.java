@@ -1,6 +1,7 @@
 package chanceCubes.rewards.rewardparts;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
@@ -14,7 +15,7 @@ public class OffsetTileEntity extends OffsetBlock
 
 	public OffsetTileEntity(int x, int y, int z, TileEntity te, boolean falling)
 	{
-		super(x, y, z, te.blockType, falling);
+		super(x, y, z, te.getBlockType(), falling);
 		this.te = te;
 	}
 
@@ -22,7 +23,7 @@ public class OffsetTileEntity extends OffsetBlock
 	protected void spawnFallingBlock(World world, int x, int y, int z)
 	{
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, te.blockType, 0, y + yOff, this);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, te.getBlockType().getDefaultState(), 0, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
@@ -55,11 +56,11 @@ public class OffsetTileEntity extends OffsetBlock
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
-		te.blockMetadata = this.data;
+		te.getBlockMetadata();
 		if(offset)
-			world.setTileEntity(x + xOff, y + yOff, z + zOff, te);
+			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), te);
 		else
-			world.setTileEntity(x, y, z, te);
+			world.setTileEntity(new BlockPos(x, y, z), te);
 		te.markDirty();
 	}
 }

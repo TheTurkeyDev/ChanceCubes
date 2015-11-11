@@ -7,12 +7,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCreativePendant;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class CreativePendantGui extends GuiContainer
@@ -78,7 +78,7 @@ public class CreativePendantGui extends GuiContainer
 			else if(button.id == 6)
 			{
 				if(container.getChanceCubesInPendant() != null)
-					CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderName(), this.chanceValue));
+					CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderEntity().getName(), this.chanceValue));
 			}
 		}
 		if(this.chanceValue > 100)

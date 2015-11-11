@@ -2,23 +2,25 @@ package chanceCubes.items;
 
 import java.util.List;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.config.CCubesSettings;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 
 public class ItemChancePendant extends Item
 {
+	public String itemNameID = "chancePendantTier";
+
 	private int chanceIncrease;
 
 	public ItemChancePendant(int tier, int chancebonus)
 	{
-		this.setUnlocalizedName("chancePendantTier" + tier);
-		this.setTextureName(CCubesCore.MODID + ":PendantT" + tier);
+		itemNameID += tier;
+		this.setUnlocalizedName(itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setMaxDamage(CCubesSettings.pendantUses);
@@ -38,7 +40,7 @@ public class ItemChancePendant extends Item
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Increases the chance of Chance Cubes by:");
 		list.add("      +" + chanceIncrease + " when the block is broken");

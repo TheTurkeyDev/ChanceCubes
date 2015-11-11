@@ -32,7 +32,7 @@ public class CommandPart
 	public String getParsedCommand(World world, int x, int y, int z, EntityPlayer player)
 	{
 		String parsedCommand = command;
-		parsedCommand = parsedCommand.replace("%player", player.getCommandSenderName());
+		parsedCommand = parsedCommand.replace("%player", player.getCommandSenderEntity().getName());
 		parsedCommand = parsedCommand.replace("%x", "" + x);
 		parsedCommand = parsedCommand.replace("%y", "" + y);
 		parsedCommand = parsedCommand.replace("%z", "" + z);

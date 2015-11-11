@@ -1,14 +1,14 @@
 [
 {
-  "modid": "chancecubes",
-  "name": "Chance Cubes",
-  "description": "A Game of Chance and Skill",
+  "modid": "examplemod",
+  "name": "Example Mod",
+  "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://minecraft.curseforge.com/mc-mods/233113-chance-cubes",
+  "url": "",
   "updateUrl": "",
-  "authorList": ["Turkey2349"],
-  "credits": "",
+  "authorList": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

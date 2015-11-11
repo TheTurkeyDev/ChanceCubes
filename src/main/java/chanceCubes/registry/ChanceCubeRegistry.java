@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -102,7 +103,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.chanceIcosahedron)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 35, new ItemRewardType(new ItemPart(new ItemStack(Blocks.sapling, 4, 0)), new ItemPart(new ItemStack(Blocks.sapling, 4, 1)), new ItemPart(new ItemStack(Blocks.sapling, 4, 2)), new ItemPart(new ItemStack(Blocks.sapling, 4, 3)), new ItemPart(new ItemStack(Blocks.sapling, 4, 4)), new ItemPart(new ItemStack(Blocks.sapling, 4, 5)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType(new MessagePart("Time to farm!")), new ItemRewardType(new ItemPart(new ItemStack(Items.iron_hoe)), new ItemPart(new ItemStack(Items.bucket)), new ItemPart(new ItemStack(Items.wheat_seeds, 16)))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.fence, 32)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 90)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 91)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 92)))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.oak_fence, 32)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 90)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 91)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 92)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 30, new MessageRewardType(new MessagePart("SPARTAAA!!!")), new ItemRewardType(new ItemPart(new ItemStack(Items.iron_sword)), new ItemPart(new ItemStack(Items.iron_helmet)), new ItemPart(new ItemStack(Items.iron_chestplate)), new ItemPart(new ItemStack(Items.iron_leggings)), new ItemPart(new ItemStack(Items.iron_boots)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":pssst", -5, new MessageRewardType(new MessagePart("Pssssst.... Over here!")), new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("Creeper")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 45, new MessageRewardType(new MessagePart("Lets go on a journey!")), new ItemRewardType(new ItemPart(new ItemStack(Items.compass)), new ItemPart(new ItemStack(Items.clock)), new ItemPart(new ItemStack(Blocks.torch, 64)), new ItemPart(new ItemStack(Items.iron_pickaxe)))));
@@ -266,7 +267,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	}
 
 	@Override
-	public void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance)
+	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
 	{
 		if(this.sortedRewards.size() == 0)
 		{
@@ -276,7 +277,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		if(CCubesSettings.doesHolidayRewardTrigger && CCubesSettings.holidayReward != null)
 		{
-			CCubesSettings.holidayReward.trigger(world, x, y, z, player);
+			CCubesSettings.holidayReward.trigger(world, pos, player);
 			CCubesSettings.doesHolidayRewardTrigger = false;
 			CCubesSettings.holidayRewardTriggered = true;
 			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(true);
@@ -328,7 +329,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
 		int pick = world.rand.nextInt(range) + lowerIndex;
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + sortedRewards.get(pick).getName());
-		sortedRewards.get(pick).trigger(world, x, y, z, player);
+		sortedRewards.get(pick).trigger(world, pos, player);
 	}
 
 	private void redoSort(@Nullable IChanceCubeReward newReward)

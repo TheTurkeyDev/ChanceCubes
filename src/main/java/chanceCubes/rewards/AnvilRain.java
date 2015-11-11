@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 
@@ -12,8 +13,12 @@ public class AnvilRain implements IChanceCubeReward
 	private Random rand = new Random();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos position, EntityPlayer player)
 	{
+		int x = position.getX();
+		int y = position.getY();
+		int z = position.getZ();
+		
 		int x1 = x + (rand.nextInt(9) - 4);
 		int z1 = z + (rand.nextInt(9) - 4);
 
@@ -31,27 +36,27 @@ public class AnvilRain implements IChanceCubeReward
 
 		int yy = 0;
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x, y + yy, z);
+			world.setBlockToAir(new BlockPos(x, y + yy, z));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x1, y + yy, z1);
+			world.setBlockToAir(new BlockPos(x1, y + yy, z1));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x2, y + yy, z2);
+			world.setBlockToAir(new BlockPos(x2, y + yy, z2));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x3, y + yy, z3);
+			world.setBlockToAir(new BlockPos(x3, y + yy, z3));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x4, y + yy, z4);
+			world.setBlockToAir(new BlockPos(x4, y + yy, z4));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x5, y + yy, z5);
+			world.setBlockToAir(new BlockPos(x5, y + yy, z5));
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir((int) player.posX, y + yy, (int) player.posZ);
+			world.setBlockToAir(new BlockPos((int) player.posX, y + yy, (int) player.posZ));
 
-		world.setBlock(x, y + 25, z, Blocks.anvil);
-		world.setBlock(x1, y + 25, z1, Blocks.anvil);
-		world.setBlock(x2, y + 25, z2, Blocks.anvil);
-		world.setBlock(x3, y + 25, z3, Blocks.anvil);
-		world.setBlock(x4, y + 25, z4, Blocks.anvil);
-		world.setBlock(x5, y + 25, z5, Blocks.anvil);
-		world.setBlock((int) player.posX, y + 25, (int) player.posZ, Blocks.anvil);
+		world.setBlockState(new BlockPos(x, y + 25, z), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos(x1, y + 25, z1), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos(x2, y + 25, z2), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos(x3, y + 25, z3), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos(x4, y + 25, z4), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos(x5, y + 25, z5), Blocks.anvil.getDefaultState());
+		world.setBlockState(new BlockPos((int) player.posX, y + 25, (int) player.posZ), Blocks.anvil.getDefaultState());
 	}
 
 	@Override

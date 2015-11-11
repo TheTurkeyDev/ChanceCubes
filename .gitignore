@@ -1,29 +1,45 @@
-saves/
-mods/
-logs/
-eclipse/
-crash-reports/
-config/
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
 asm/
-.settings/
-.metadata/
-MinecraftForge-License.txt
-MinecraftForge-Credits.txt
-LICENSE-fml.txt
+config/
+crash-reports/
+libs/
+logs/
+mods/
+saves/
+screenshots/
 CREDITS-fml.txt
 forge-1.7.10-10.13.2.1230-changelog.txt
-usernamecache.json
-bin/
-.gradle/
-options.txt
-make_logs
-libs/
-.classpath
-screenshots/
+forge-1.8-11.14.3.1556-changelog.txt
+hs_err_pid3384.log
 hs_err_pid7076.log
 hs_err_pid9872.log
-hs_err_pid3384.log
-logo.xcf
-logo.png
-logo(sqaure).png
+LICENSE-fml.txt
+MinecraftForge-Credits.txt
+MinecraftForge-License.txt
 minetweaker.log
+options.txt
+Paulscode IBXM Library License.txt
+Paulscode SoundSystem CodecIBXM License.txt
+README.txt
+usernamecache.json

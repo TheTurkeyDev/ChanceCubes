@@ -5,12 +5,11 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class RenderEvent
 {
@@ -33,7 +32,7 @@ public class RenderEvent
         int k = scaledresolution.getScaledWidth();
         int l = scaledresolution.getScaledHeight();
 		
-		FontRenderer fontrenderer = mc.fontRenderer;
+		FontRenderer fontrenderer = mc.fontRendererObj;
 		
 		GL11.glPushMatrix();
 		

@@ -5,12 +5,18 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
@@ -18,17 +24,17 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChanceD20 extends Block implements ITileEntityProvider
 {
+	private final String blockNameID = "chanceIcosahedron";
+	
 	public BlockChanceD20()
 	{
 		super(Material.iron);
+		GameRegistry.registerBlock(this, ItemChanceCube.class, blockNameID);
 		super.setHardness(-1F);
-		this.setBlockName("Chance_Icosahedron");
+		this.setUnlocalizedName(blockNameID);
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setLightLevel(7);
 	}
@@ -60,42 +66,46 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 	{
 		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
-			TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
+			BlockPos position = new BlockPos(x, y, z);
+			TileChanceD20 te = (TileChanceD20) world.getTileEntity(position);
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
 				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
 				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
-				this.dropBlockAsItem(world, x, y, z, stack);
-				world.setBlockToAir(x, y, z);
-				world.removeTileEntity(x, y, z);
+				EntityItem blockstack = new EntityItem(world, x, y, z, stack);
+				world.setBlockToAir(position);
+				world.removeTileEntity(position);
+				world.spawnEntityInWorld(blockstack);
 				return;
 			}
 
 			if(te != null)
 			{
 				te.startBreaking(player);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.getDimensionId(), x, y, z, 50));
 			}
 		}
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
-		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
+		BlockPos position = new BlockPos(x, y, z);
+		TileChanceD20 te = (TileChanceD20) world.getTileEntity(position);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
 			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
-			this.dropBlockAsItem(world, x, y, z, stack);
-			world.setBlockToAir(x, y, z);
-			world.removeTileEntity(x, y, z);
+			EntityItem blockstack = new EntityItem(world, x, y, z, stack);
+			world.setBlockToAir(position);
+			world.removeTileEntity(position);
+			world.spawnEntityInWorld(blockstack);
 			return true;
 		}
 
 		if(te != null)
 		{
 			te.startBreaking(player);
-			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.getDimensionId(), x, y, z, 50));
 			return true;
 		}
 		return false;

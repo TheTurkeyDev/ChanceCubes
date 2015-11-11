@@ -1,6 +1,7 @@
 package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public interface IChanceCubeReward {
@@ -13,7 +14,7 @@ public interface IChanceCubeReward {
 	 * @param z
 	 * @param player Player who triggered the block
 	 */
-	public void trigger(World world, int x, int y, int z, EntityPlayer player);
+	public void trigger(World world, BlockPos pos, EntityPlayer player);
 	
 	/**
 	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward.

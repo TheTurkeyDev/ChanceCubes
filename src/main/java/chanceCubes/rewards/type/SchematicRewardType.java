@@ -104,8 +104,7 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 								TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
 								if(tileentity != null)
 								{
-									tileentity.blockType = b;
-									OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, tileentity, falling);
+									OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getX(), tileentity.getPos().getX(), tileentity, falling);
 									block.setRelativeToPlayer(this.relativeToPlayer);
 									block.setDealy(i * delay);
 									block.setData(schem.data[i]);

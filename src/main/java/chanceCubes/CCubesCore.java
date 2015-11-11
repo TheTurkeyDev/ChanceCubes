@@ -6,6 +6,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.logging.log4j.Logger;
 
@@ -16,21 +26,12 @@ import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
-import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.PlayerConnectListener;
+import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
 public class CCubesCore
@@ -55,7 +56,12 @@ public class CCubesCore
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-
+		CraftingRecipies.loadRecipies();
+		
+		if(event.getSide() == Side.CLIENT)
+		{
+			CCubesItems.loadItemRenderes();
+		}
 	}
 
 	@EventHandler
@@ -66,7 +72,6 @@ public class CCubesCore
 
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
-		CraftingRecipies.loadRecipies();
 		ChanceCubeRegistry.loadDefaultRewards();
 		ConfigLoader.config.save();
 		CCubesPacketHandler.init();

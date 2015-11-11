@@ -1,10 +1,10 @@
 package chanceCubes.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
 {
@@ -18,7 +18,6 @@ public class CCubesBlocks
 		
 		
 		GameRegistry.registerBlock(chanceCube, ItemChanceCube.class, "Chance_Cube");
-		GameRegistry.registerBlock(chanceIcosahedron, ItemChanceCube.class, "Chance_Icosahedron");
 		
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
 		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");

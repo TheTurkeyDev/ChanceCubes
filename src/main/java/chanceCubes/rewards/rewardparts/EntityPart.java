@@ -19,7 +19,7 @@ public class EntityPart
 	{
 		try
 		{
-			this.nbtData = (NBTTagCompound) JsonToNBT.func_150315_a(nbtRaw);
+			this.nbtData = (NBTTagCompound) JsonToNBT.func_180713_a(nbtRaw);
 		} catch(NBTException e)
 		{
 			e.printStackTrace();

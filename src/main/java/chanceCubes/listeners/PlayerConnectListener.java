@@ -1,11 +1,11 @@
 package chanceCubes.listeners;
 
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.CustomUserReward;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 public class PlayerConnectListener
 {
@@ -26,6 +26,6 @@ public class PlayerConnectListener
 		if(event.player.worldObj.isRemote)
 			return;
 		
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":Custom_Reward_For_" + event.player.getCommandSenderName());
+		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":Custom_Reward_For_" + event.player.getCommandSenderEntity().getName());
 	}
 }

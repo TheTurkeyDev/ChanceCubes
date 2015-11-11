@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -15,17 +16,18 @@ import chanceCubes.tileentities.TileChanceD20;
 
 public class ItemScanner extends Item
 {
+	public String itemNameID = "scanner";
+	
 	public ItemScanner()
 	{
-		this.setUnlocalizedName("scanner");
-		this.setTextureName(CCubesCore.MODID + ":Scanner");
+		this.setUnlocalizedName(itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 	}
 
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)
 	{
-		return EnumAction.block;
+		return EnumAction.BLOCK;
 	}
 
 	public int getMaxItemUseDuration(ItemStack stack)
@@ -55,19 +57,22 @@ public class ItemScanner extends Item
 					return;
 				if(movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 				{
-					int i = movingobjectposition.blockX;
-					int j = movingobjectposition.blockY;
-					int k = movingobjectposition.blockZ;
+					int i = movingobjectposition.getBlockPos().getX();
+					int j = movingobjectposition.getBlockPos().getY();
+					int k = movingobjectposition.getBlockPos().getZ();
 					boolean flag = false;
-					if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceCube))
+					
+					BlockPos position = new BlockPos(i, j, k);
+					
+					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceCube))
 					{
 						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
 					}
-					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceIcosahedron))
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
 					{
 						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(position)).getChance());
 					}
 
 					if(flag)

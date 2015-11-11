@@ -3,6 +3,7 @@ package chanceCubes.registry;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.rewards.IChanceCubeReward;
 
@@ -42,5 +43,5 @@ public interface IRewardRegistry
      * @param luckBounds
      *            Min and max chance values
      */
-    void triggerRandomReward(World world, int x, int y, int z, EntityPlayer player, int chance);
+    void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance);
 }

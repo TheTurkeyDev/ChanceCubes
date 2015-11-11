@@ -2,12 +2,13 @@ package chanceCubes.listeners;
 
 import java.util.Random;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class WorldGen 
 {
@@ -31,7 +32,7 @@ public class WorldGen
 			int firstBlockYCoord = rand.nextInt(100);
 			int firstBlockZCoord = z + rand.nextInt(16);
 
-			(new WorldGenMinable(CCubesBlocks.chanceCube, 3)).generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+			(new WorldGenMinable(CCubesBlocks.chanceCube.getDefaultState(), 3)).generate(world, rand, new BlockPos(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord));
 		}
 	}
 
@@ -41,9 +42,9 @@ public class WorldGen
 		{
 			int xCord = x + rand.nextInt(16);
 			int zCord = z + rand.nextInt(16);
-			int yCord = world.getTopSolidOrLiquidBlock(xCord, zCord);
+			int yCord = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
 
-			world.setBlock(xCord, yCord, zCord, CCubesBlocks.chanceCube);
+			world.setBlockState(new BlockPos(xCord, yCord, zCord), CCubesBlocks.chanceCube.getDefaultState());
 		}
 	}
 }

@@ -5,21 +5,23 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemRewardSelectorPendant  extends Item
 {
+	public String itemNameID = "rewardSelectorPendant";
+	
 	public ItemRewardSelectorPendant()
 	{
-		this.setUnlocalizedName("reward_Selector_Pendant");
-		this.setTextureName(CCubesCore.MODID + ":RewardSelectorPendant");
+		this.setUnlocalizedName(itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 	}
@@ -39,10 +41,11 @@ public class ItemRewardSelectorPendant  extends Item
 			return false;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
-			if(world.getBlock(x, y, z).equals(CCubesBlocks.chanceCube))
+			BlockPos position = new BlockPos(x, y, z);
+			if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceCube))
 			{
-				world.setBlockToAir(x, y, z);
-				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, x, y, z, player);
+				world.setBlockToAir(position);
+				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, position, player);
 			}
 		}
 		return false;

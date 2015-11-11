@@ -1,5 +1,7 @@
 package chanceCubes.client.gui;
 
+import java.io.IOException;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -48,7 +50,7 @@ public class ConfigGui extends GuiScreen
 		this.drawDefaultBackground();
 		entries.drawScreen(mouseX, mouseY, partialTicks);
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		mc.fontRenderer.drawString(this.drawString, this.width / 2 - (int)(drawString.length() * 2.5), 10, 0xFFFFFF);
+		mc.fontRendererObj.drawString(this.drawString, this.width / 2 - (int)(drawString.length() * 2.5), 10, 0xFFFFFF);
 	}
 
 	protected void actionPerformed(GuiButton button)
@@ -67,9 +69,9 @@ public class ConfigGui extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int mouseEvent)
+	protected void mouseClicked(int x, int y, int mouseEvent) throws IOException
 	{
-		this.entries.func_148179_a(x, y, mouseEvent);
+		this.entries.mouseClicked(x, y, mouseEvent);
 		super.mouseClicked(x, y, mouseEvent);
 	}
 

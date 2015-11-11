@@ -1,6 +1,7 @@
 package chanceCubes.rewards.type;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class ParticleEffectRewardType extends BaseRewardType<String>
@@ -13,6 +14,6 @@ public class ParticleEffectRewardType extends BaseRewardType<String>
 	@Override
 	public void trigger(String effect, World world, int x, int y, int z, EntityPlayer player)
 	{
-		world.spawnParticle(effect, x, y + 1, z, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.valueOf(effect), x, y + 1, z, 0.0D, 0.0D, 0.0D);
 	}
 }

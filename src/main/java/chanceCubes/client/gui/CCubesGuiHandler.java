@@ -2,9 +2,9 @@ package chanceCubes.client.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.CCubesItems;
-import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CCubesGuiHandler implements IGuiHandler
 {

@@ -2,10 +2,10 @@ package chanceCubes.config;
 
 import java.util.Set;
 
-import chanceCubes.client.gui.ConfigGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import cpw.mods.fml.client.IModGuiFactory;
+import net.minecraftforge.fml.client.IModGuiFactory;
+import chanceCubes.client.gui.ConfigGui;
 
 public class ConfigGuiFactory implements IModGuiFactory
 {

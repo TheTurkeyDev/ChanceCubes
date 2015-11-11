@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.Tessellator;
 
 import com.google.common.collect.Lists;
 
@@ -64,7 +63,7 @@ public class CustomExtendedList extends GuiListExtended
 		}
 
 		@Override
-		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, Tessellator tessellator, int mouseX, int mouseY, boolean isSelected)
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
 		{
 			this.button.displayString = name;
             this.button.xPosition = x;
@@ -86,6 +85,12 @@ public class CustomExtendedList extends GuiListExtended
 		{
 			
 		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_)
+		{
+			
+		}
 	}
 	
 	public class CustomTextEntry implements IGuiListEntry
@@ -97,12 +102,12 @@ public class CustomExtendedList extends GuiListExtended
 		public CustomTextEntry(ConfigGui parentScreen, Minecraft mc)
 		{
 			this.parentScreen = parentScreen;
-			text = new GuiTextField(mc.fontRenderer, 0, 0, 200, 20);
+			text = new GuiTextField(bottom, mc.fontRendererObj, 0, 0, 200, 20);
 			this.mc = mc;
 		}
 
 		@Override
-		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, Tessellator tessellator, int mouseX, int mouseY, boolean isSelected)
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
 		{
             this.text.xPosition = x;
             this.text.yPosition = y;
@@ -118,6 +123,12 @@ public class CustomExtendedList extends GuiListExtended
 
 		@Override
 		public void mouseReleased(int index, int x, int y, int mouseEvent, int relativeX, int relativeY)
+		{
+			
+		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_)
 		{
 			
 		}

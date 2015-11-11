@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Offline Debug Variables
+#DRONE_BUILD_NUMBER=0
+#ver_num="TUR_VER_KEY"
+
+# Create document for update notice
+echo $ver_num > version.txt
+echo "https://drone.io/github.com/Turkey2349/TurkeyUtil/files" >> version.txt
+git log -1 --pretty=format:"%B" >> version.txt
+
+# Start writing full changelog
+echo "----- Full Changelog (1.7.10) -----" > full_changelog.txt
+echo "NOTE: Changlog does not account for failed builds!" >> full_changelog.txt
+echo "Version numbers may be inaccurate where builds have failed." >> full_changelog.txt
+echo "" >> full_changelog.txt
+
+echo "[$ver_num]" >> full_changelog.txt
+git log -1 --pretty=format:"%B" >> full_changelog.txt
+
+iver=0
+
+# Loop through known build numbers
+for i in $(eval echo "{1..$DRONE_BUILD_NUMBER}")
+do
+  let iver=$DRONE_BUILD_NUMBER-$i
+  echo "" >> full_changelog.txt
+  echo "[1.0.$iver]" >> full_changelog.txt
+  git log master -1 --skip=$i --pretty=format:"%B" --first-parent >> full_changelog.txt
+done
+
+#Write changelogs older than drone.io's build counter
+let iver=$DRONE_BUILD_NUMBER+1
+
+echo "" >> full_changelog.txt
+echo "[Older]" >> full_changelog.txt
+git log master -9999 --skip=$iver --pretty=format:"%B" --first-parent >> full_changelog.txt

@@ -1,6 +1,7 @@
 package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.rewards.type.IRewardType;
 
@@ -18,11 +19,11 @@ public class BasicReward implements IChanceCubeReward
 	}
 
 	@Override
-	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(World world, BlockPos position, EntityPlayer player)
 	{
 		if(!world.isRemote && rewards != null)
 			for(IRewardType reward : rewards)
-				reward.trigger(world, x, y, z, player);
+				reward.trigger(world, position.getX(), position.getY(), position.getZ(), player);
 	}
 
 	@Override

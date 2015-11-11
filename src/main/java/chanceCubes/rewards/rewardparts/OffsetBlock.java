@@ -1,6 +1,7 @@
 package chanceCubes.rewards.rewardparts;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
@@ -86,9 +87,14 @@ public class OffsetBlock
 	{
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
-			world.setBlockToAir((x + xOff), yyy, (z + zOff));
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block, data, y + yOff, this);
+			world.setBlockToAir(new BlockPos((x + xOff), yyy, (z + zOff)));
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block.getDefaultState(), data, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
+	}
+	
+	public Block getBlock()
+	{
+		return this.block;
 	}
 
 	public void setDealy(int delay)
@@ -128,8 +134,13 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		world.setBlock(xx, yy, zz, block, data, 2);
-		Block bSurface = world.getBlock(xx, yy - 1, zz);
-		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.func_150496_b(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getPitch() * 0.5F);
+		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), 2);
+		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
+		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.getPlaceSound(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getFrequency() * 0.5F);
+	}
+	
+	public void placeInWorld(World world, BlockPos position, boolean offset)
+	{
+		this.placeInWorld(world, position.getX(), position.getY(), position.getZ(), offset);
 	}
 }

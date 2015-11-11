@@ -1,5 +1,7 @@
 package chanceCubes.client.gui;
 
+import java.io.IOException;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -8,6 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -16,8 +20,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import chanceCubes.registry.ChanceCubeRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
@@ -48,7 +50,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		Keyboard.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.rewardField = new GuiTextField(this.fontRendererObj, i + 17, j + 10, 143, 12);
+		this.rewardField = new GuiTextField(0, this.fontRendererObj, i + 17, j + 10, 143, 12);
 		this.rewardField.setTextColor(-1);
 		this.rewardField.setDisabledTextColour(-1);
 		this.rewardField.setEnableBackgroundDrawing(true);
@@ -77,7 +79,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 					nbt.setString("Reward", this.rewardName);
 					stack.setTagCompound(nbt);
 					
-					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderName(), this.rewardField.getText()));
+					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderEntity().getName(), this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
 				}
 				else
@@ -89,7 +91,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		}
 	}
 
-	protected void keyTyped(char p_73869_1_, int p_73869_2_)
+	protected void keyTyped(char p_73869_1_, int p_73869_2_) throws IOException
 	{
 		if(!this.rewardField.textboxKeyTyped(p_73869_1_, p_73869_2_))
 		{
@@ -97,7 +99,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		}
 	}
 
-	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_)
+	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) throws IOException
 	{
 		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
 		this.rewardField.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
