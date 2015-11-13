@@ -1,0 +1,16 @@
+{
+	"Villagers_Respawn":
+	{
+		"chance": 0,
+		"Entity":
+		[
+			{"entity":{"id":"Villager"}},
+			{"entity":{"id":"Villager"}},
+			{"entity":{"id":"Villager"}}
+		],
+		"Message":
+		[
+			{"message":"Here, have some villagers to make up for the ones Chance Cubes killed"}
+		]
+	}
+}
