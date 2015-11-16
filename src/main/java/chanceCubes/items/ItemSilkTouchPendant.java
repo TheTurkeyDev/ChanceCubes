@@ -11,7 +11,7 @@ import chanceCubes.CCubesCore;
 
 public class ItemSilkTouchPendant extends Item
 {
-	public String itemNameID = "silkTouchPendant";
+	public String itemNameID = "silk_Touch_Pendant";
 	
 	public ItemSilkTouchPendant()
 	{

@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
@@ -15,7 +16,7 @@ import chanceCubes.util.Task;
 public class SurroundedReward implements IChanceCubeReward
 {
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		final List<Entity> ents = new ArrayList<Entity>();
 		EntityEnderman enderman;
@@ -23,11 +24,10 @@ public class SurroundedReward implements IChanceCubeReward
 		{
 			for(int zz = -4; zz < 5; zz++)
 			{
-				int xxx = xx == 1 ? x + 4 : x - 4;
-				if(world.getBlock(xxx, y, z + zz).equals(Blocks.air) && world.getBlock(xxx, y + 1, z + zz).equals(Blocks.air) && world.getBlock(xxx, y + 2, z + zz).equals(Blocks.air))
+				if(world.getBlockState(pos.add(xx == 1 ? 4 : -4, 0, zz)).equals(Blocks.air) && world.getBlockState(pos.add(xx == 1 ? 4 : -4, 1, zz)).equals(Blocks.air) && world.getBlockState(pos.add(xx == 1 ? 4 : -4, 2, zz)).equals(Blocks.air))
 				{
 					enderman = new EntityEnderman(world);
-					enderman.setLocationAndAngles(xxx, y, z + zz, xx == 1 ? 90 : -90, 0);
+					enderman.setLocationAndAngles(xx == 1 ? pos.getX() + 4 : pos.getX() - 4, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
 					world.spawnEntityInWorld(enderman);
 					ents.add(enderman);
 				}
@@ -38,11 +38,10 @@ public class SurroundedReward implements IChanceCubeReward
 		{
 			for(int zz = 0; zz < 2; zz++)
 			{
-				int zzz = zz == 1 ? z + 4 : z - 4;
-				if(world.getBlock(x + xx, y, zzz).equals(Blocks.air) && world.getBlock(x + xx, y + 1, zzz).equals(Blocks.air) && world.getBlock(x + xx, y + 2, zzz).equals(Blocks.air))
+				if(world.getBlockState(pos.add(xx, 0, zz == 1 ? 4 : -4)).equals(Blocks.air) && world.getBlockState(pos.add(xx, 1, zz == 1 ? 4 : -4)).equals(Blocks.air) && world.getBlockState(pos.add(xx, 2, zz == 1 ? 4 : -4)).equals(Blocks.air))
 				{
 					enderman = new EntityEnderman(world);
-					enderman.setLocationAndAngles(x + xx, y, zzz, zz == 1 ? 180 : 0, 0);
+					enderman.setLocationAndAngles(pos.getX() + xx, pos.getY(), zz == 1 ? pos.getZ() + 4 : pos.getZ() - 4, zz == 1 ? 180 : 0, 0);
 					world.spawnEntityInWorld(enderman);
 					ents.add(enderman);
 				}

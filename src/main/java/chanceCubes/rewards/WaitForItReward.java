@@ -7,6 +7,7 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -18,7 +19,7 @@ public class WaitForItReward implements IChanceCubeReward
 	private final Random rand = new Random();
 
 	@Override
-	public void trigger(final World world, int x, int y, int z, final EntityPlayer player)
+	public void trigger(final World world, BlockPos pos, final EntityPlayer player)
 	{
 		player.addChatMessage(new ChatComponentText("Wait for it......."));
 
@@ -47,7 +48,7 @@ public class WaitForItReward implements IChanceCubeReward
 				}
 				else if(reward == 2)
 				{
-					world.setBlock((int) player.posX, (int) player.posY, (int) player.posZ, Blocks.bedrock);
+					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.bedrock.getDefaultState());
 				}
 			}
 		};

@@ -1,6 +1,7 @@
 package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 
@@ -8,16 +9,16 @@ public class RandomTeleportReward implements IChanceCubeReward
 {
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		int xChange = ((world.rand.nextInt(50) + 20) + x) - 35;
-		int zChange = ((world.rand.nextInt(50) + 20) + z) - 35;
+		int xChange = ((world.rand.nextInt(50) + 20) + pos.getX()) - 35;
+		int zChange = ((world.rand.nextInt(50) + 20) + pos.getZ()) - 35;
 
 		int yChange = -1;
 
 		for(int yy = 0; yy <= world.getActualHeight(); yy++)
 		{
-			if(world.getBlock(xChange, yy, zChange).isAir(world, xChange, yy, zChange) && world.getBlock(xChange, yy + 1, zChange).isAir(world, xChange, yy + 1, zChange))
+			if(world.isAirBlock(new BlockPos(xChange, yy, zChange)) && world.isAirBlock(new BlockPos(xChange, yy + 1, zChange)))
 			{
 				yChange = yy;
 				break;
@@ -25,7 +26,7 @@ public class RandomTeleportReward implements IChanceCubeReward
 		}
 		if(yChange == -1)
 			return;
-		
+
 		player.setPositionAndUpdate(xChange, yChange, zChange);
 	}
 

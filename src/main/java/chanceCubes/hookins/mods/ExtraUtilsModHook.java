@@ -1,5 +1,6 @@
 package chanceCubes.hookins.mods;
 
+import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -50,13 +51,11 @@ public class ExtraUtilsModHook extends BaseModHook
 					ts.setLong("time", world.getTotalWorldTime());
 					stack1.setTagCompound(ts);
 
-					world.setBlockState(new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ), Blocks.crafting_table.getDefaultState());
-					player.displayGUIWorkbench((int) player.posX, (int) player.posY, (int) player.posZ);
+					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.crafting_table.getDefaultState());
+					player.displayGui(new BlockWorkbench.InterfaceCraftingTable(world, new BlockPos(player.posX, player.posY, player.posZ)));
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
 					if((player instanceof EntityPlayerMP))
-					{
 						((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);
-					}
 				}
 			}));
 		}

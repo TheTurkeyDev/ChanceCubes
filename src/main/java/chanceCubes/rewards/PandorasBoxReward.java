@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -19,14 +20,14 @@ public class PandorasBoxReward implements IChanceCubeReward
 	private Random rand = new Random();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 
-		List<OffsetBlock> blocks = genDome(x, y, z, world);
+		List<OffsetBlock> blocks = genDome(pos.getX(), pos.getY(), pos.getZ(), world);
 
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, x, y, z);
+			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	private List<OffsetBlock> genDome(int centerX, int centerY, int centerZ, World world)
@@ -44,7 +45,7 @@ public class PandorasBoxReward implements IChanceCubeReward
 					float dist = Math.abs(vector.length()) - 25;
 					if(dist < 1)
 					{
-						world.setBlockToAir(centerX + x, centerY + y, centerZ + z);
+						world.setBlockToAir(new BlockPos(centerX + x, centerY + y, centerZ + z));
 						if(dist >= 0)
 						{
 							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten) + 20));
@@ -61,7 +62,7 @@ public class PandorasBoxReward implements IChanceCubeReward
 								blocks.add(osb);
 								delay++;
 							}
-							
+
 							if(dist < -5 && rand.nextInt(1) == 0)
 							{
 								System.out.println("here");

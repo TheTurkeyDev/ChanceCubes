@@ -14,7 +14,7 @@ import chanceCubes.client.gui.CCubesGuiHandler;
 
 public class ItemCreativePendant extends Item
 {
-	public String itemNameID = "creativePendant";
+	public String itemNameID = "creative_Pendant";
 	
 	public ItemCreativePendant()
 	{

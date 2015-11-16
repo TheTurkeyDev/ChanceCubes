@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "chancecubes:items/chancePendantTier4.json"
+        "layer0": "chancecubes:items/chance_Pendant_Tier3"
     },
     "display": {
         "thirdperson": {

@@ -60,7 +60,7 @@ public class CCubesCore
 		
 		if(event.getSide() == Side.CLIENT)
 		{
-			CCubesItems.loadItemRenderes();
+			CCubesItems.registerItems();
 		}
 	}
 

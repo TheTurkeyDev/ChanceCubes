@@ -3,6 +3,7 @@ package chanceCubes.rewards;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -12,10 +13,10 @@ import chanceCubes.util.Task;
 public class WitherReward implements IChanceCubeReward
 {
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		final EntityWither wither = new EntityWither(world);
-		wither.setLocationAndAngles((double)x + 0.5D, (double)y + 1D, (double)z + 1.5D, 90.0F, 0.0F);
+		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
 		wither.func_82206_m();
 		wither.setCustomNameTag("Kiwi");

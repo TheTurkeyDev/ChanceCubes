@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
@@ -28,7 +29,7 @@ import chanceCubes.tileentities.TileChanceD20;
 public class BlockChanceD20 extends Block implements ITileEntityProvider
 {
 	private final String blockNameID = "chanceIcosahedron";
-	
+
 	public BlockChanceD20()
 	{
 		super(Material.iron);
@@ -51,7 +52,11 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 		return CCubesSettings.d20RenderID;
 	}
 
-	@Override
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	{
+		return false;
+	}
+
 	public boolean isOpaqueCube()
 	{
 		return false;

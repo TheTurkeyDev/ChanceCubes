@@ -20,6 +20,6 @@ public class CCubesBlocks
 		GameRegistry.registerBlock(chanceCube, ItemChanceCube.class, "Chance_Cube");
 		
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
-		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");
+		//GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");
 	}
 }

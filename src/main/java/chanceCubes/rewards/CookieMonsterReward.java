@@ -1,27 +1,28 @@
 package chanceCubes.rewards;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import chanceCubes.CCubesCore;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
 public class CookieMonsterReward implements IChanceCubeReward
 {
 
 	@Override
-	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
 		if (!world.isRemote)
 		{
 			player.addChatMessage(new ChatComponentText("Here have some cookies!"));
-			Entity itemEnt = new EntityItem(world, x, y, z, new ItemStack(Items.cookie, 8));
+			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.cookie, 8));
 			world.spawnEntityInWorld(itemEnt);
 
 			Task task = new Task("Cookie Monster", 30)
@@ -35,7 +36,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 				private void SpawnCM()
 				{
 					EntityZombie cm = new EntityZombie(world);
-					cm.setPosition(x, y, z);
+					cm.setPosition(pos.getX(), pos.getY(), pos.getZ());
 					cm.setChild(true);
 					cm.setCustomNameTag("Cookie Monster");
 					player.addChatMessage(new ChatComponentText("[Cookie Monster] Hey! Those are mine!"));

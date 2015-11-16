@@ -17,7 +17,7 @@ import chanceCubes.registry.ChanceCubeRegistry;
 
 public class ItemRewardSelectorPendant  extends Item
 {
-	public String itemNameID = "rewardSelectorPendant";
+	public String itemNameID = "reward_Selector_Pendant";
 	
 	public ItemRewardSelectorPendant()
 	{

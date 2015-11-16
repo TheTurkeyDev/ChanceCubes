@@ -1,6 +1,7 @@
 package chanceCubes.renderer;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.client.model.obj.OBJModel;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,7 +20,7 @@ import chanceCubes.tileentities.TileChanceD20;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 {
-	private IModelCustom model;
+	private OBJModel model;
 	private ResourceLocation texture;
 
 	private float baseSpinSpd = 0.5F;
@@ -26,7 +29,13 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 
 	public TileChanceD20Renderer()
 	{
-		model = AdvancedModelLoader.loadModel(new ResourceLocation("chancecubes", "models/blocks/d20.obj"));
+		try
+		{
+			model = (OBJModel) OBJLoader.instance.loadModel(new ResourceLocation("chancecubes", "models/d20.obj"));
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		texture = new ResourceLocation("chancecubes", "textures/models/d20.png");
 	}
 
@@ -49,14 +58,14 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glColor3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		model.renderAll();
+		//OBJBakedModel baked = model.bake(state, format, bakedTextureGetter);
 
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
 
 		GL11.glTranslated(posX + 0.5F, posY + 1.5F + wave * 0.1F, posZ + 2.5F);
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
 		RenderHelper.disableStandardItemLighting();
 		float f1 = ((float) tileEntity.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
 		float f2 = 0F;
@@ -80,20 +89,20 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(random.nextFloat() * 360.0F + f1 * 360.0F, 0.0F, 0.0F, 1.0F);
-			tessellator.startDrawing(6);
+			tessellator.getWorldRenderer().startDrawing(6);
 			float f3 = random.nextFloat() * 20.0F + 5.0F + f2 * 10.0F;
 			float f4 = random.nextFloat() * 2.0F + 1.0F + f2 * 2.0F;
 
 			f3 *= 0.1F;
 			f4 *= 0.1F;
 
-			tessellator.setColorRGBA_I(tmpClr.getRGB(), (int) (255.0F * (1.0F - f2)));
-			tessellator.addVertex(0.0D, 0.0D, 0.0D);
-			tessellator.setColorRGBA_I(tmpClr.getRGB(), 0);
-			tessellator.addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
-			tessellator.addVertex(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
-			tessellator.addVertex(0.0D, (double) f3, (double) (1.0F * f4));
-			tessellator.addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
+			tessellator.getWorldRenderer().setColorRGBA_I(tmpClr.getRGB(), (int) (255.0F * (1.0F - f2)));
+			tessellator.getWorldRenderer().addVertex(0.0D, 0.0D, 0.0D);
+			tessellator.getWorldRenderer().setColorRGBA_I(tmpClr.getRGB(), 0);
+			tessellator.getWorldRenderer().addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
+			tessellator.getWorldRenderer().addVertex(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
+			tessellator.getWorldRenderer().addVertex(0.0D, (double) f3, (double) (1.0F * f4));
+			tessellator.getWorldRenderer().addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
 			tessellator.draw();
 		}
 

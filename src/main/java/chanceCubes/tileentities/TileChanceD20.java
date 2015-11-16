@@ -64,9 +64,9 @@ public class TileChanceD20 extends TileEntity
 			breaking = false;
 			if(!this.worldObj.isRemote)
 			{
-				this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-				this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
-				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player, this.getChance());
+				this.worldObj.setBlockToAir(this.pos);
+				this.worldObj.removeTileEntity(this.pos);
+				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.pos, player, this.getChance());
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class TileChanceD20 extends TileEntity
 		{
 			if(!player.worldObj.isRemote)
 			{
-				player.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, CCubesCore.MODID + ":d20_Break", 1, 1);
+				player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
 				this.player = player;
 			}
 			breaking = true;
@@ -96,13 +96,13 @@ public class TileChanceD20 extends TileEntity
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
 		this.writeSyncableDataToNBT(syncData);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
+		return new S35PacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
 	{
-		readSyncableDataFromNBT(pkt.func_148857_g());
+		readSyncableDataFromNBT(pkt.getNbtCompound());
 	}
 
 	private void writeSyncableDataToNBT(NBTTagCompound syncData)

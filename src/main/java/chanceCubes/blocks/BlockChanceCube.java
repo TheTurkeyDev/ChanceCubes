@@ -91,4 +91,9 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	{
 		return false;
 	}
+	
+	public String getName()
+	{
+		return this.blockNameID;
+	}
 }

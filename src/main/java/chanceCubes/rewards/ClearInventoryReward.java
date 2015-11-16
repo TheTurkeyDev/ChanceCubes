@@ -2,6 +2,7 @@ package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -13,7 +14,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 {
 
 	@Override
-	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
 		boolean cubes = false;
 		final InventoryPlayer inv = player.inventory;
@@ -25,7 +26,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 				player.inventory.setInventorySlotContents(slotNum, null);
 		}
 		
-		world.playSoundEffect(x, y, z, "random.burp", 1, 1);
+		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.burp", 1, 1);
 		player.addChatMessage(new ChatComponentText("I hope you didn't have anything of value with you :)"));
 		if(cubes)
 			player.addChatMessage(new ChatComponentText("Don't worry, I left the cubes for you!"));

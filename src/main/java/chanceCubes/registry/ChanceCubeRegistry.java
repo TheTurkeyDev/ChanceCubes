@@ -230,7 +230,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
 			@Override
-			public void trigger(World world, int x, int y, int z, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
 			{
 				player.setHealth(1f);
 			}

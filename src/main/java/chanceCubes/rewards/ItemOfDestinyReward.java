@@ -7,6 +7,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -18,10 +19,10 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	private Random rand = new Random();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
-		final EntityItem item = new EntityItem(world, x, y, z, new ItemStack(this.randomItem(), 1));
-		item.delayBeforeCanPickup = 100000;
+		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this.randomItem(), 1));
+		item.setPickupDelay(100000);
 		world.spawnEntityInWorld(item);
 		player.addChatMessage(new ChatComponentText("Selecting random item"));
 		Task task = new Task("Item_Of_Destiny_Reward", 5)
@@ -93,7 +94,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 				else
 				{
 					player.addChatMessage(new ChatComponentText("Your item of destiny is complete! Enjoy!"));
-					item.delayBeforeCanPickup = 0;
+					item.setPickupDelay(0);
 				}
 			}
 		};
@@ -122,9 +123,9 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	
 	public Enchantment randomEnchantment()
 	{
-		Enchantment ench = Enchantment.enchantmentsList[rand.nextInt(Enchantment.enchantmentsList.length)];
+		Enchantment ench = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
 		while(ench == null)
-			ench = Enchantment.enchantmentsList[rand.nextInt(Enchantment.enchantmentsList.length)];
+			ench = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
 		return ench;
 	}
 

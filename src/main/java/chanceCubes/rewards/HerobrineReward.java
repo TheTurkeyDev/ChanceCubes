@@ -2,6 +2,7 @@ package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -22,7 +23,7 @@ public class HerobrineReward implements IChanceCubeReward
 	private int x, y, z;
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		if(triggered)
 			return;
@@ -31,9 +32,9 @@ public class HerobrineReward implements IChanceCubeReward
 		staying = world.rand.nextInt(10) == 1;
 		this.player = player;
 		this.world = world;
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.x = pos.getX();
+		this.y = pos.getY();
+		this.z = pos.getZ();
 		update();
 	}
 

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 
@@ -15,11 +16,11 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 	private Random rand = new Random();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;
-		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 1, true));
+		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 1, true, false));
 		boolean skip = false;
 		EntityCreeper creeper;
 		for(int xx = 0; xx < 2; xx++)
@@ -29,10 +30,10 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 				if(!skip)
 				{
 					int xxx = xx == 1 ? px + 4 : px - 4;
-					if(world.getBlock(xxx, y,pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 1, pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 2, pz + zz).equals(Blocks.air))
+					if(world.getBlockState(new BlockPos(xxx, pos.getY(),pz + zz)).equals(Blocks.air) && world.getBlockState(new BlockPos(xxx, pos.getY() + 1, pz + zz)).equals(Blocks.air) && world.getBlockState(new BlockPos(xxx, pos.getY() + 2, pz + zz)).equals(Blocks.air))
 					{
 						creeper = new EntityCreeper(world);
-						creeper.setLocationAndAngles(xxx, y, pz + zz, xx == 1 ? 90 : -90, 0);
+						creeper.setLocationAndAngles(xxx, pos.getY(), pz + zz, xx == 1 ? 90 : -90, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
 						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));
@@ -50,10 +51,10 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 				if(!skip)
 				{
 					int zzz = zz == 1 ? pz + 4 : pz - 4;
-					if(world.getBlock(px + xx, y, zzz).equals(Blocks.air) && world.getBlock(px + xx, y + 1, zzz).equals(Blocks.air) && world.getBlock(px + xx, y + 2, zzz).equals(Blocks.air))
+					if(world.getBlockState(new BlockPos(px + xx, pos.getY(), zzz)).equals(Blocks.air) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zzz)).equals(Blocks.air) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zzz)).equals(Blocks.air))
 					{
 						creeper = new EntityCreeper(world);
-						creeper.setLocationAndAngles(px + xx, y, zzz, zz == 1 ? 180 : 0, 0);
+						creeper.setLocationAndAngles(px + xx, pos.getY(), zzz, zz == 1 ? 180 : 0, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
 						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));

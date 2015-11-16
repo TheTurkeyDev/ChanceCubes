@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
@@ -50,7 +51,7 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
-		UUID uuidTemp = this.getPlayerUUID(player.getCommandSenderName());
+		UUID uuidTemp = this.getPlayerUUID(player.getName());
 		if(uuidTemp == null)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the uuid of the user!");
@@ -95,13 +96,13 @@ public class CustomUserReward implements IChanceCubeReward
 	}
 
 	@Override
-	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
 
-		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getCommandSenderName()))
+		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
 		{
 			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You cant have his reward! Try again!"));
-			Entity itemEnt = new EntityItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceCube, 1));
+			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.chanceCube, 1));
 			world.spawnEntityInWorld(itemEnt);
 			return;
 		}
@@ -113,16 +114,16 @@ public class CustomUserReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				triggerAcutalReward(world, x, y, z, player);
+				triggerAcutalReward(world, pos, player);
 			}
 		};
 
 		Scheduler.scheduleTask(task);
 	}
 
-	public void triggerAcutalReward(World world, int x, int y, int z, EntityPlayer player)
+	public void triggerAcutalReward(World world, BlockPos pos, EntityPlayer player)
 	{
-		this.customRewards.get(world.rand.nextInt(this.customRewards.size())).trigger(world, x, y, z, player);
+		this.customRewards.get(world.rand.nextInt(this.customRewards.size())).trigger(world, pos, player);
 	}
 
 	@Override

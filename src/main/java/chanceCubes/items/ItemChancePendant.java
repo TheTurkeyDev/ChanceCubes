@@ -13,7 +13,7 @@ import chanceCubes.config.CCubesSettings;
 
 public class ItemChancePendant extends Item
 {
-	public String itemNameID = "chancePendantTier";
+	public String itemNameID = "chance_Pendant_Tier";
 
 	private int chanceIncrease;
 

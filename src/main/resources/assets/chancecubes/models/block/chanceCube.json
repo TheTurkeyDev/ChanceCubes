@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "chancecubes:blocks/ChanceIcosahedron"
+        "all": "chancecubes:blocks/chanceCube"
     }
 }

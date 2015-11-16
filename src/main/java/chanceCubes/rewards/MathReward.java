@@ -9,14 +9,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chanceCubes.CCubesCore;
-import chanceCubes.util.Location3I;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MathReward implements IChanceCubeReward
 {
@@ -24,7 +24,7 @@ public class MathReward implements IChanceCubeReward
 	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -34,7 +34,8 @@ public class MathReward implements IChanceCubeReward
 
 		player.addChatMessage(new ChatComponentText("Quick, what's " + num1 + "+" + num2 + "?"));
 
-		List<Location3I> boxBlocks = new ArrayList<Location3I>();
+		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
+		List<BlockPos> boxBlocks = new ArrayList<BlockPos>();
 		for(int xx = -2; xx < 3; xx++)
 		{
 			for(int zz = -2; zz < 3; zz++)
@@ -43,13 +44,13 @@ public class MathReward implements IChanceCubeReward
 				{
 					if(xx == -2 || xx == 2 || zz == -2 || zz == 2 || yy == 1 || yy == 4)
 					{
-						world.setBlock((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz, Blocks.bedrock);
-						boxBlocks.add(new Location3I((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz));
+						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.bedrock.getDefaultState());
+						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 					else if(((xx == -1 || xx == 1) && (zz == -1 || zz == 1) && yy == 2))
 					{
-						world.setBlock((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz, Blocks.glowstone);
-						boxBlocks.add(new Location3I((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz));
+						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.glowstone.getDefaultState());
+						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 				}
 			}
@@ -92,8 +93,8 @@ public class MathReward implements IChanceCubeReward
 			info.getTnt().setDead();
 		}
 
-		for(Location3I b : info.getBlocks())
-			player.worldObj.setBlockToAir(b.getX(), b.getY(), b.getZ());
+		for(BlockPos b : info.getBlocks())
+			player.worldObj.setBlockToAir(b);
 
 		inQuestion.remove(player);
 
@@ -139,9 +140,9 @@ public class MathReward implements IChanceCubeReward
 	{
 		private int answer;
 		private Entity tnt;
-		private List<Location3I> blocks;
+		private List<BlockPos> blocks;
 
-		public RewardInfo(int answer, Entity tnt, List<Location3I> blocks)
+		public RewardInfo(int answer, Entity tnt, List<BlockPos> blocks)
 		{
 			this.answer = answer;
 			this.tnt = tnt;
@@ -158,7 +159,7 @@ public class MathReward implements IChanceCubeReward
 			return tnt;
 		}
 
-		public List<Location3I> getBlocks()
+		public List<BlockPos> getBlocks()
 		{
 			return blocks;
 		}

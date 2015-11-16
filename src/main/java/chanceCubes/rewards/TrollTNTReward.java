@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
@@ -14,13 +15,13 @@ public class TrollTNTReward implements IChanceCubeReward
 {
 
 	@Override
-	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
-		for(int xx = -1; xx < 2; xx++)
+		for(int x = -1; x < 2; x++)
 		{
-			for(int zz = -1; zz < 2; zz++)
+			for(int z = -1; z < 2; z++)
 			{
-				world.setBlock((int) player.posX + xx, (int) player.posY, (int) player.posZ + zz, Blocks.web);
+				world.setBlockState(new BlockPos(player.posX + x, player.posY, player.posZ + z), Blocks.web.getDefaultState());
 			}
 		}
 
