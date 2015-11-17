@@ -11,7 +11,8 @@
 		[
 			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
 			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
-			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160}
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 1000}
 		],
 		"Block":
 		[
