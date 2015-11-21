@@ -18,22 +18,26 @@ public class InventoryBombReward implements IChanceCubeReward
 	{
 		for(ItemStack stack: player.inventory.mainInventory)
 		{
+			if(stack == null)
+				continue;
 			EntityItem ient = new EntityItem(world, x, y, z, stack);
-			ient.motionX = rand.nextInt(5) - 2;
-			ient.motionY = rand.nextInt(5) - 2;
-			ient.motionZ = rand.nextInt(5) - 2;
+			ient.motionY = rand.nextInt(1) - 0.5;
+			ient.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(ient);
 		}
 		for(ItemStack stack: player.inventory.armorInventory)
 		{
+			if(stack == null)
+				continue;
 			EntityItem ient = new EntityItem(world, x, y, z, stack);
-			ient.motionX = rand.nextInt(5) - 2;
-			ient.motionY = rand.nextInt(5) - 2;
-			ient.motionZ = rand.nextInt(5) - 2;
+			ient.motionY = rand.nextInt(1) - 0.5;
+			ient.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(ient);
 		}
 		
+		player.inventory.openInventory();
 		player.inventory.clearInventory(null, -1);
+		player.inventory.closeInventory();
 		
 		player.addChatMessage(new ChatComponentText("Inventory Bomb!!!!"));
 		
@@ -48,7 +52,7 @@ public class InventoryBombReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Inventort_Bomb";
+		return CCubesCore.MODID + ":Inventory_Bomb";
 	}
 
 }

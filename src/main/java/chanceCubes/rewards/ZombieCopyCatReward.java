@@ -19,11 +19,11 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		for(int i = 0; i < 9; i++)
 		{
 			ItemStack stack = player.inventory.mainInventory[i];
-			if(stack.getItem() instanceof ItemSword)
-				weapon = stack;
+			if(stack != null && stack.getItem() instanceof ItemSword)
+				weapon = stack.copy();
 		}
-		if(weapon == null)
-			weapon = player.getCurrentEquippedItem();
+		if(weapon == null && player.getCurrentEquippedItem() != null)
+			weapon = player.getCurrentEquippedItem().copy();
 		
 		zombie.setCurrentItemOrArmor(0, weapon);
 		zombie.setCurrentItemOrArmor(1, player.inventory.armorInventory[0]);

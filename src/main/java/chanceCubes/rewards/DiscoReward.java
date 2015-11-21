@@ -18,7 +18,7 @@ public class DiscoReward implements IChanceCubeReward
 	{
 		for(int xx = -4; xx < 5; xx++)
 		{
-			for(int zz = -4; xx < 5; zz++)
+			for(int zz = -4; zz < 5; zz++)
 			{
 				world.setBlock(x+xx, y-1, z+zz, Blocks.wool, rand.nextInt(16), 3);
 			}
@@ -27,7 +27,9 @@ public class DiscoReward implements IChanceCubeReward
 		for(int i = 0; i < 10; i++)
 		{
 			EntitySheep sheep = new EntitySheep(world);
-			sheep.setCustomNameTag("Jeb_");
+			sheep.setCustomNameTag("jeb_");
+			sheep.setLocationAndAngles(x, y, z, 0, 0);
+			world.spawnEntityInWorld(sheep);
 		}
 		
 		world.setBlock(x, y + 3, z, CCubesBlocks.chanceIcosahedron);

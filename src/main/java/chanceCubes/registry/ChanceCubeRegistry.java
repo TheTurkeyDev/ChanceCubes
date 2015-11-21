@@ -30,10 +30,12 @@ import chanceCubes.rewards.BlindnessFightReward;
 import chanceCubes.rewards.ChargedCreeperReward;
 import chanceCubes.rewards.CookieMonsterReward;
 import chanceCubes.rewards.CreeperSurroundedReward;
+import chanceCubes.rewards.DiscoReward;
 import chanceCubes.rewards.EnderCrystalTimerReward;
 import chanceCubes.rewards.FiveProngReward;
 import chanceCubes.rewards.HerobrineReward;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.InventoryBombReward;
 import chanceCubes.rewards.InventoryChestReward;
 import chanceCubes.rewards.ItemOfDestinyReward;
 import chanceCubes.rewards.MathReward;
@@ -171,7 +173,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giga_Breaker", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.bow);
-		stack.setItemDamage(stack.getMaxDamage() - 1);
+		stack.setItemDamage(stack.getMaxDamage());
 		stack.addEnchantment(Enchantment.power, 5);
 		stack.addEnchantment(Enchantment.punch, 3);
 		stack.addEnchantment(Enchantment.flame, 2);
@@ -232,6 +234,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
 		INSTANCE.registerReward(new ThrownInAirReward());
+		INSTANCE.registerReward(new DiscoReward());
+		INSTANCE.registerReward(new InventoryBombReward());
 		//INSTANCE.registerReward(new PandorasBoxReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
