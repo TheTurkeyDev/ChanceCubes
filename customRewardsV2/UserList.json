@@ -22,5 +22,6 @@
 	{"UUID":"c2024e2a-dd76-4bc9-9ea3-b771f18f23b6", "Name":"tlovetech", "Type":"Streamer"},
 	{"UUID":"69646063-cf85-4e93-a857-4ac9e869a837", "Name":"Matrixis", "Type":"Streamer"},
 	{"UUID":"ef7daeb4-b8ba-4a14-9616-5674a1604f0a", "Name":"K4ileb", "Type":"Streamer"},
-	{"UUID":"8c0fd63c-427b-4ea2-93bb-cc106f005755", "Name":"Oisketchio", "Type":"Streamer"}
+	{"UUID":"8c0fd63c-427b-4ea2-93bb-cc106f005755", "Name":"Oisketchio", "Type":"Streamer"},
+	{"UUID":"de03be7c-e07f-49ae-ab88-ad66a703694f", "Name":"drpoom", "Type":"Streamer"}
 ]
