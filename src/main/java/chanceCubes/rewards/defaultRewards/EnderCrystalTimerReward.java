@@ -1,4 +1,4 @@
-package chanceCubes.rewards;
+package chanceCubes.rewards.defaultRewards;
 
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;

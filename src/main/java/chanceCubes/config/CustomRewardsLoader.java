@@ -36,7 +36,7 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;

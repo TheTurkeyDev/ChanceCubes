@@ -1,4 +1,4 @@
-package chanceCubes.rewards;
+package chanceCubes.rewards.defaultRewards;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;

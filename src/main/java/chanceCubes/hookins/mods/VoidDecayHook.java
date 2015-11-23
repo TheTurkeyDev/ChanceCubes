@@ -2,7 +2,7 @@ package chanceCubes.hookins.mods;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;

@@ -1,4 +1,4 @@
-package chanceCubes.rewards;
+package chanceCubes.rewards.defaultRewards;
 
 import java.util.Random;
 

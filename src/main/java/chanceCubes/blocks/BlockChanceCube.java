@@ -2,8 +2,6 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -25,6 +23,9 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.util.GiantCubeUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
@@ -32,7 +33,6 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	private IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] specialIcons;
-
 
 	public BlockChanceCube()
 	{
@@ -130,5 +130,14 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		}
 		else
 			return this.icons[side];
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+	{
+		if(GiantCubeUtil.checkMultiBlockForm(x, y, z, world))
+		{
+			GiantCubeUtil.setupStructure(x, y, z, world);
+		}
 	}
 }

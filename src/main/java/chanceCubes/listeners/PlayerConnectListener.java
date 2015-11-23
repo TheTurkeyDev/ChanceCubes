@@ -2,7 +2,7 @@ package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.CustomUserReward;
+import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;

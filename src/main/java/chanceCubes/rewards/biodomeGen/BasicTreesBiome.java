@@ -1,35 +1,22 @@
-package chanceCubes.rewards;
+package chanceCubes.rewards.biodomeGen;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 
-public class PandorasBoxReward implements IChanceCubeReward
+public class BasicTreesBiome implements IBioDomeBiome
 {
 	private Random rand = new Random();
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
-	{
-		player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
-
-		List<OffsetBlock> blocks = genDome(x, y, z, world);
-
-		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, x, y, z);
-	}
-
-	private List<OffsetBlock> genDome(int centerX, int centerY, int centerZ, World world)
+	public List<OffsetBlock> genDome(int centerX, int centerY, int centerZ, World world)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
@@ -61,7 +48,7 @@ public class PandorasBoxReward implements IChanceCubeReward
 								blocks.add(osb);
 								delay++;
 							}
-							
+
 							if(dist < -5 && rand.nextInt(100) == 0)
 							{
 								List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / delayShorten));
@@ -114,17 +101,4 @@ public class PandorasBoxReward implements IChanceCubeReward
 
 		return blocks;
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 85;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Pandoras_Box_Emulate";
-	}
-
 }
