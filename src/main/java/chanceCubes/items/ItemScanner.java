@@ -69,6 +69,13 @@ public class ItemScanner extends Item
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
 					}
+					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceGiantCube))
+					{
+						flag = false;
+						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAt(true);
+						RenderEvent.setChanceIncrease(0);
+					}
 
 					if(flag)
 					{

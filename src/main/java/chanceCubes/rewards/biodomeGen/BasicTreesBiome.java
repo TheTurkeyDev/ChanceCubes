@@ -37,7 +37,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten) + 20));
 							delay++;
 						}
-						if(y == 0)
+						else if(y == 0)
 						{
 							blocks.add(new OffsetBlock(x, y, z, Blocks.grass, false, (delay / delayShorten) + 20));
 							delay++;

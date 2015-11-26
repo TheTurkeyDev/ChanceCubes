@@ -42,7 +42,10 @@ public class RenderEvent
 		
 		if(islookingAt)
 		{
-			fontrenderer.drawString("The chance of this cube is: " + chance, (k/2)-80, (l/2)-30, 16777215);
+			if(chance == -201)
+			fontrenderer.drawString("The chance of this cube is: Desctruction... Probably", (k/2)-80, (l/2)-30, 16777215);
+			else
+				fontrenderer.drawString("The chance of this cube is: " + chance, (k/2)-80, (l/2)-30, 16777215);
 			if(chanceIncrease != 0)
 			{
 				int c = chance + chanceIncrease;

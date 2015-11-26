@@ -28,6 +28,7 @@ import chanceCubes.rewards.defaultRewards.AnvilRain;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BlindnessFightReward;
 import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
+import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.DiscoReward;
@@ -213,7 +214,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		}
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.beacon, true, 200);
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 99, new BlockRewardType(blocks)));
 
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
@@ -236,7 +237,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ThrownInAirReward());
 		INSTANCE.registerReward(new DiscoReward());
 		INSTANCE.registerReward(new InventoryBombReward());
-		//INSTANCE.registerReward(new PandorasBoxReward());
+		INSTANCE.registerReward(new ClearInventoryReward(), false);
+		
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -255,7 +257,12 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, true, "") && !this.nameToReward.containsKey(reward.getName()))
+		this.registerReward(reward, true);
+	}
+	
+	public void registerReward(IChanceCubeReward reward, boolean enabledDefault)
+	{
+		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, enabledDefault, "") && !this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
