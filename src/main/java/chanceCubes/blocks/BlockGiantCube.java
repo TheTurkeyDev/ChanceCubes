@@ -38,8 +38,8 @@ public class BlockGiantCube extends BlockContainer
 
 			if(te != null)
 			{
+				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
-				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, x, y, z, player, 0);
 			}
 		}
 		return true;

@@ -5,11 +5,17 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.tileentities.TileGiantCube;
+import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +48,24 @@ public class ItemRewardSelectorPendant  extends Item
 			if(world.getBlock(x, y, z).equals(CCubesBlocks.chanceCube))
 			{
 				world.setBlockToAir(x, y, z);
-				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, x, y, z, player);
+				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				if(reward != null)
+					reward.trigger(world, x, y, z, player);
+				else
+					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+			}
+			else if(world.getBlock(x, y, z).equals(CCubesBlocks.chanceGiantCube))
+			{
+				TileEntity ent = world.getTileEntity(x, y, z);
+				if(ent == null || !(ent instanceof TileGiantCube))
+					return false;
+				TileGiantCube giant = (TileGiantCube) ent;
+				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				if(reward != null)
+					reward.trigger(world, giant.getMasterX(), giant.getMasterY(), giant.getMasterZ(), player);
+				else
+					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+				GiantCubeUtil.removeStructure(giant.getMasterX(), giant.getMasterY(), giant.getMasterZ(), world);
 			}
 		}
 		return false;
