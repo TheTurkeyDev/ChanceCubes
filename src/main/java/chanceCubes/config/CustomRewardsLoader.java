@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
 import org.apache.commons.io.FileUtils;
@@ -67,6 +68,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CustomRewardsLoader
@@ -106,7 +108,10 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					ChanceCubeRegistry.INSTANCE.registerReward(this.parseReward(reward));
+					BasicReward basicReward = this.parseReward(reward);
+					if(basicReward == null)
+						continue;
+					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -199,6 +204,8 @@ public class CustomRewardsLoader
 			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			{
 				BasicReward basicReward = this.parseReward(reward);
+				if(basicReward == null)
+					continue;
 				CCubesSettings.doesHolidayRewardTrigger = true;
 				CCubesSettings.holidayReward = basicReward;
 				CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
@@ -216,6 +223,26 @@ public class CustomRewardsLoader
 			if(rewardElement.getKey().equalsIgnoreCase("chance"))
 			{
 				chance = rewardElement.getValue().getAsInt();
+				continue;
+			}
+			else if(rewardElement.getKey().equalsIgnoreCase("dependencies"))
+			{
+				boolean gameversion = false;
+				for(Entry<String, JsonElement> dependencies : rewardElement.getValue().getAsJsonObject().entrySet())
+				{
+					if(dependencies.getKey().equalsIgnoreCase("mod"))
+					{
+						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
+							return null;
+					}
+					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
+					{
+						if(MinecraftServer.getServer().getMinecraftVersion().equalsIgnoreCase(dependencies.getValue().getAsString()))
+							gameversion = true;
+					}
+				}
+				if(!gameversion)
+					return null;
 				continue;
 			}
 
