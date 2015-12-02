@@ -21,6 +21,8 @@ public class OffsetBlock
 
 	protected Block block;
 
+	protected boolean causeUpdate = false;
+
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
 		this.xOff = x;
@@ -111,10 +113,16 @@ public class OffsetBlock
 	{
 		return this.relativeToPlayer;
 	}
-	
+
 	public int getDelay()
 	{
 		return this.delay;
+	}
+	
+	public OffsetBlock setCausesBlockUpdate(boolean flag)
+	{
+		this.causeUpdate = flag;
+		return this;
 	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
@@ -128,7 +136,7 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		world.setBlock(xx, yy, zz, block, data, 2);
+		world.setBlock(xx, yy, zz, block, data, causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlock(xx, yy - 1, zz);
 		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.func_150496_b(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getPitch() * 0.5F);
 	}

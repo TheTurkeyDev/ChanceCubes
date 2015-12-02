@@ -132,9 +132,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart("game.tnt.primed"), new SoundPart("game.tnt.primed"), new SoundPart("game.tnt.primed"), new SoundPart("game.tnt.primed"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart("mob.ghast.scream"), new SoundPart("mob.ghast.moan"), new SoundPart("mob.ghast.moan"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType(new MessagePart("No"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Creeper", -75, new CommandRewardType(new CommandPart("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Creeper", -75, new CommandRewardType(new CommandPart("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zobmie", -55, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",IsBaby:1,Equipment:[{id:280,Count:1,tag:{ench:[{id:19,lvl:10}]}},{},{},{},{}],DropChances:[0.0F,0.085F,0.085F,0.085F,0.085F]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 40, new CommandRewardType(new CommandPart("/summon Villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Actual_Invisible_Ghast", -75, new CommandRewardType(new CommandPart("/summon Ghast ~ ~10 ~ {ActiveEffects:[{Id:14,Amplifier:0,Duration:2000,ShowParticles:0b}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Portal_Build", 90, new BlockRewardType(new OffsetBlock(-1, -1, 0, Blocks.obsidian, true), new OffsetBlock(0, -1, 0, Blocks.obsidian, true, 5), new OffsetBlock(1, 0, 0, Blocks.obsidian, true, 10), new OffsetBlock(1, 1, 0, Blocks.obsidian, true, 15), new OffsetBlock(1, 2, 0, Blocks.obsidian, true, 20), new OffsetBlock(1, 3, 0, Blocks.obsidian, true, 25), new OffsetBlock(-2, 0, 0, Blocks.obsidian, true, 30), new OffsetBlock(-2, 1, 0, Blocks.obsidian, true, 35), new OffsetBlock(-2, 2, 0, Blocks.obsidian, true, 40), new OffsetBlock(-2, 3, 0, Blocks.obsidian, true, 45), new OffsetBlock(-1, 4, 0, Blocks.obsidian, true, 50), new OffsetBlock(0, 4, 0, Blocks.obsidian, true, 55), new OffsetBlock(0, 0, 0, Blocks.fire, false, 120).setCausesBlockUpdate(true))));
 
 		ItemStack stack;
 
@@ -161,6 +163,12 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setItemDamage(stack.getMaxDamage() - 2);
 		stack.setStackDisplayName("The Divine Sword");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 100, new ItemRewardType(new ItemPart(stack))));
+
+		stack = new ItemStack(Items.wooden_pickaxe);
+		stack.addEnchantment(Enchantment.efficiency, 10);
+		stack.addEnchantment(Enchantment.fortune, 3);
+		stack.setStackDisplayName("Giga Breaker");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giga_Breaker", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.bow);
 		stack.setItemDamage(stack.getMaxDamage() - 1);

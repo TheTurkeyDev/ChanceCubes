@@ -62,9 +62,8 @@ public class PandorasBoxReward implements IChanceCubeReward
 								delay++;
 							}
 							
-							if(dist < -5 && rand.nextInt(1) == 0)
+							if(dist < -5 && rand.nextInt(100) == 0)
 							{
-								System.out.println("here");
 								List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / delayShorten));
 								blocks.addAll(treeblocks);
 							}
