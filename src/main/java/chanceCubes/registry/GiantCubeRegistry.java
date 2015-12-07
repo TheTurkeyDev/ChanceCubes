@@ -18,6 +18,7 @@ import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
+import chanceCubes.rewards.giantRewards.ThrowablesReward;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,6 +40,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
+		INSTANCE.registerReward(new ThrowablesReward());
 	}
 
 	@Override

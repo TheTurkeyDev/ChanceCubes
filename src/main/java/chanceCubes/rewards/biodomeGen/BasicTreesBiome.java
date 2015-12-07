@@ -31,7 +31,6 @@ public class BasicTreesBiome implements IBioDomeBiome
 					float dist = Math.abs(vector.length()) - 25;
 					if(dist < 1)
 					{
-						world.setBlockToAir(centerX + x, centerY + y, centerZ + z);
 						if(dist >= 0)
 						{
 							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten) + 20));
