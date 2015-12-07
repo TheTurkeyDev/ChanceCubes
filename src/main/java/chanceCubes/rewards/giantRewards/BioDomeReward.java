@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
+import chanceCubes.rewards.biodomeGen.EndBiome;
 import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -16,7 +17,7 @@ public class BioDomeReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
 	
-	private IBioDomeBiome[] biomes = new IBioDomeBiome[]{new BasicTreesBiome(), new DesertBiome()};
+	private IBioDomeBiome[] biomes = new IBioDomeBiome[]{new BasicTreesBiome(), new DesertBiome(), new EndBiome()};
 
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)

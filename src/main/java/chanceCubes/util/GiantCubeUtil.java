@@ -63,7 +63,7 @@ public class GiantCubeUtil
 	public static void resetStructure(int xCoord, int yCoord, int zCoord, World world)
 	{
 		for(int x = xCoord - 1; x < xCoord + 2; x++)
-			for(int y = yCoord - 1 ; y < yCoord + 2; y++)
+			for(int y = yCoord - 1; y < yCoord + 2; y++)
 				for(int z = zCoord - 1; z < zCoord + 2; z++)
 				{
 					TileEntity tile = world.getTileEntity(x, y, z);
@@ -75,7 +75,7 @@ public class GiantCubeUtil
 					}
 				}
 	}
-	
+
 	/** Reset all the parts of the structure */
 	public static void removeStructure(int xCoord, int yCoord, int zCoord, World world)
 	{
@@ -86,7 +86,7 @@ public class GiantCubeUtil
 					TileEntity tile = world.getTileEntity(x, y, z);
 					if(tile != null && (tile instanceof TileGiantCube))
 					{
-						((TileGiantCube)tile).reset();
+						((TileGiantCube) tile).reset();
 						world.removeTileEntity(x, y, z);
 						world.setBlockToAir(x, y, z);
 					}

@@ -4,9 +4,9 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import chanceCubes.CCubesCore;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
@@ -18,7 +18,6 @@ public class BlockGiantCube extends BlockContainer
 		super(Material.ground);
 		this.setHardness(0.5f);
 		this.setBlockName("Giant_Chance_Cube");
-		this.setCreativeTab(CCubesCore.modTab);
 		this.setBlockTextureName("chancecubes:chanceCube");
 		this.setLightLevel(2);
 	}
@@ -38,6 +37,8 @@ public class BlockGiantCube extends BlockContainer
 
 			if(te != null)
 			{
+				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
+				player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
 			}

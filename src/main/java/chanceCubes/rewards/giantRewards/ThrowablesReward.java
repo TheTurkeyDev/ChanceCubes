@@ -36,6 +36,9 @@ public class ThrowablesReward implements IChanceCubeReward
 		else if(entChoice == 1)
 		{
 			throwEnt = new EntityLargeFireball(world);
+			((EntityLargeFireball)throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
+			((EntityLargeFireball)throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
+			((EntityLargeFireball)throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
 		}
 		else if(entChoice == 2)
 		{
@@ -48,14 +51,13 @@ public class ThrowablesReward implements IChanceCubeReward
 		else
 		{
 			throwEnt = new EntityTNTPrimed(world);
+			((EntityTNTPrimed)throwEnt).fuse = 20;
 		}
 		throwEnt.setLocationAndAngles(x, y, z, 0, 0);
 		throwEnt.motionX = -1 + (Math.random() * 2);
-		throwEnt.motionY = Math.random();
+		throwEnt.motionY = -1 + (Math.random() * 2);
 		throwEnt.motionZ = -1 + (Math.random() * 2);
 		world.spawnEntityInWorld(throwEnt);
-		System.out.println(throwEnt.posX + " " + throwEnt.posY + " " + throwEnt.posZ);
-		System.out.println(x + " " + y + " " + z);
 
 		if(count < 50)
 		{

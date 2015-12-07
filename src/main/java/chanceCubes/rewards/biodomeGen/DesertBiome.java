@@ -33,30 +33,30 @@ public class DesertBiome implements IBioDomeBiome
 					{
 						if(dist >= 0)
 						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten) + 20));
+							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten)));
 							delay++;
 						}
 						else if(y == 0)
 						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.sand, false, (delay / delayShorten) + 21));
-							blocks.add(new OffsetBlock(x, y - 1, z, Blocks.sandstone, false, (delay / delayShorten) + 20));
+							blocks.add(new OffsetBlock(x, y, z, Blocks.sand, false, (delay / delayShorten) + 1));
+							blocks.add(new OffsetBlock(x, y - 1, z, Blocks.sandstone, false, (delay / delayShorten)));
 							delay++;
 							if(dist < 0 && rand.nextInt(50) == 0)
 							{
-								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.deadbush, false, (delay / delayShorten) + 20);
+								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.deadbush, false, (delay / delayShorten));
 								blocks.add(osb);
 								delay++;
 							}
 							
 							if(dist < 0 && rand.nextInt(60) == 0)
 							{
-								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.cactus, false, (delay / delayShorten) + 20);
+								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.cactus, false, (delay / delayShorten));
 								blocks.add(osb);
 								delay++;
-								osb = new OffsetBlock(x, y + 2, z, Blocks.cactus, false, (delay / delayShorten) + 20);
+								osb = new OffsetBlock(x, y + 2, z, Blocks.cactus, false, (delay / delayShorten));
 								blocks.add(osb);
 								delay++;
-								osb = new OffsetBlock(x, y + 3, z, Blocks.cactus, false, (delay / delayShorten) + 20);
+								osb = new OffsetBlock(x, y + 3, z, Blocks.cactus, false, (delay / delayShorten));
 								blocks.add(osb);
 								delay++;
 							}

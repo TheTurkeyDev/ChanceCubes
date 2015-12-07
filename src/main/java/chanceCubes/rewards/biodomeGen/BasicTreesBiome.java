@@ -33,16 +33,16 @@ public class BasicTreesBiome implements IBioDomeBiome
 					{
 						if(dist >= 0)
 						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten) + 20));
+							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten)));
 							delay++;
 						}
 						else if(y == 0)
 						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.grass, false, (delay / delayShorten) + 20));
+							blocks.add(new OffsetBlock(x, y, z, Blocks.grass, false, (delay / delayShorten)));
 							delay++;
 							if(dist < 0 && rand.nextInt(5) == 0)
 							{
-								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / delayShorten) + 20);
+								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / delayShorten));
 								osb.setData((byte) 1);
 								blocks.add(osb);
 								delay++;
@@ -68,7 +68,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 
 		for(int yy = 1; yy < 6; yy++)
 		{
-			blocks.add(new OffsetBlock(x, y + yy, z, Blocks.log, false, delay + 20));
+			blocks.add(new OffsetBlock(x, y + yy, z, Blocks.log, false, delay));
 			delay++;
 		}
 
@@ -80,22 +80,22 @@ public class BasicTreesBiome implements IBioDomeBiome
 				{
 					if((xx != 0 || zz != 0))
 					{
-						blocks.add(new OffsetBlock(x + xx, y + 4 + yy, z + zz, Blocks.leaves, false, delay + 20));
+						blocks.add(new OffsetBlock(x + xx, y + 4 + yy, z + zz, Blocks.leaves, false, delay));
 						delay++;
 					}
 				}
 			}
 		}
 
-		blocks.add(new OffsetBlock(x + 1, y + 6, z, Blocks.leaves, false, delay + 20));
+		blocks.add(new OffsetBlock(x + 1, y + 6, z, Blocks.leaves, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x - 1, y + 6, z, Blocks.leaves, false, delay + 20));
+		blocks.add(new OffsetBlock(x - 1, y + 6, z, Blocks.leaves, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z + 1, Blocks.leaves, false, delay + 20));
+		blocks.add(new OffsetBlock(x, y + 6, z + 1, Blocks.leaves, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z - 1, Blocks.leaves, false, delay + 20));
+		blocks.add(new OffsetBlock(x, y + 6, z - 1, Blocks.leaves, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z, Blocks.leaves, false, delay + 20));
+		blocks.add(new OffsetBlock(x, y + 6, z, Blocks.leaves, false, delay));
 		delay++;
 
 		return blocks;
