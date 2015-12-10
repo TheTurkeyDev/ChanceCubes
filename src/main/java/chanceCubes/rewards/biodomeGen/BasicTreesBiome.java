@@ -47,8 +47,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 								blocks.add(osb);
 								delay++;
 							}
-
-							if(dist < -5 && rand.nextInt(100) == 0)
+							else if(dist < -5 && rand.nextInt(100) == 0)
 							{
 								List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / delayShorten));
 								blocks.addAll(treeblocks);
