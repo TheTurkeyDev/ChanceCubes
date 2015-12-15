@@ -12,7 +12,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.RenderEvent;
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 
 public class ItemScanner extends Item
 {
@@ -20,7 +19,7 @@ public class ItemScanner extends Item
 	
 	public ItemScanner()
 	{
-		this.setUnlocalizedName(itemNameID);
+		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 	}
@@ -69,11 +68,11 @@ public class ItemScanner extends Item
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
 					}
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
+					/*else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
 					{
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(position)).getChance());
-					}
+					}*/
 
 					if(flag)
 					{

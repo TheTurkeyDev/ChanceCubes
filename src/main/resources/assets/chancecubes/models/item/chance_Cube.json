@@ -1,5 +1,5 @@
 {
-    "parent": "chancecubes:block/chanceCube",
+    "parent": "chancecubes:block/chance_Cube",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

@@ -18,7 +18,7 @@ public class ItemCreativePendant extends Item
 	
 	public ItemCreativePendant()
 	{
-		this.setUnlocalizedName(itemNameID);
+		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 	}

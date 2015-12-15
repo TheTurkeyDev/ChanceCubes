@@ -20,7 +20,7 @@ public class ItemChancePendant extends Item
 	public ItemChancePendant(int tier, int chancebonus)
 	{
 		itemNameID += tier;
-		this.setUnlocalizedName(itemNameID);
+		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setMaxDamage(CCubesSettings.pendantUses);

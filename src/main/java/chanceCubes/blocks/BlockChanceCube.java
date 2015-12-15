@@ -25,7 +25,7 @@ import chanceCubes.tileentities.TileChanceCube;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
-	private final String blockNameID = "chanceCube";
+	private final String blockNameID = "chance_Cube";
 
 	public BlockChanceCube()
 	{

@@ -456,6 +456,7 @@ public class CustomRewardsLoader
 
 	private void addCustomSounds()
 	{
+		System.out.println(source.getAbsolutePath());
 		File soundsFile = new File(source.getAbsolutePath() + "/assets/chancecubes/sounds.json");
 		JsonElement soundsJson;
 		try
@@ -464,6 +465,7 @@ public class CustomRewardsLoader
 		} catch(IOException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to load the sounds file from chance cubes..... what was the dev thinking?");
+			e.printStackTrace();
 			return;
 		}
 

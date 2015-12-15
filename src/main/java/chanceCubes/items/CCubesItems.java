@@ -1,8 +1,9 @@
 package chanceCubes.items;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
@@ -37,13 +38,25 @@ public class CCubesItems
 		GameRegistry.registerItem(creativePendant = new ItemCreativePendant(), creativePendant.itemNameID);
 		GameRegistry.registerItem(rewardSelectorPendant = new ItemRewardSelectorPendant(), rewardSelectorPendant.itemNameID);
 
-		GameRegistry.registerItem(scanner = new ItemScanner(), "scanner");
+		GameRegistry.registerItem(scanner = new ItemScanner(), scanner.itemNameID);
 	}
 
 	public static void registerItems()
 	{
-
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CCubesBlocks.chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + ((BlockChanceCube) CCubesBlocks.chanceCube).getName(), "inventory"));
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+	    
+    	renderItem.getItemModelMesher().register(Item.getItemFromBlock(CCubesBlocks.chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + ((BlockChanceCube) CCubesBlocks.chanceCube).getName(), "inventory"));
+    	
+    	renderItem.getItemModelMesher().register(CCubesItems.silkPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.silkPendant.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.chancePendantT1, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT1.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.chancePendantT2, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT2.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.chancePendantT3, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT3.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.chancePendantT4, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT4.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.creativePendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.rewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.itemNameID, "inventory"));
+    	renderItem.getItemModelMesher().register(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.itemNameID, "inventory"));
+    	
+		/*ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CCubesBlocks.chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + ((BlockChanceCube) CCubesBlocks.chanceCube).getName(), "inventory"));
 
 		ModelLoader.setCustomModelResourceLocation(CCubesItems.silkPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.silkPendant.itemNameID, "inventory"));
 		ModelLoader.setCustomModelResourceLocation(CCubesItems.chancePendantT1, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT1.itemNameID, "inventory"));
@@ -52,7 +65,7 @@ public class CCubesItems
 		ModelLoader.setCustomModelResourceLocation(CCubesItems.chancePendantT4, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT4.itemNameID, "inventory"));
 		ModelLoader.setCustomModelResourceLocation(CCubesItems.creativePendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.itemNameID, "inventory"));
 		ModelLoader.setCustomModelResourceLocation(CCubesItems.rewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.itemNameID, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.itemNameID, "inventory"));
+		ModelLoader.setCustomModelResourceLocation(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.itemNameID, "inventory"));*/
 	}
 
 }
