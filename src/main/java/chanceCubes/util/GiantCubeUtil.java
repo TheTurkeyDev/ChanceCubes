@@ -58,26 +58,19 @@ public class GiantCubeUtil
 						((TileGiantCube) tile).setHasMaster(true);
 						((TileGiantCube) tile).setIsMaster(master);
 					}
-					
-					/*BlockGiantCube giantCube = (BlockGiantCube) world.getBlock(x, y, z);
-					
-					if(z == cz)
-						giantCube.setSideIcon(3, GiantCubeUtil.getTextureForSide(2, x - cx, y - cy));
-					else if(z == cz + 2)
-						giantCube.setSideIcon(2, GiantCubeUtil.getTextureForSide(5, x - cx, y - cy));
-					
-					if(y == cy)
-						giantCube.setSideIcon(0, GiantCubeUtil.getTextureForSide(1, x - cx, z - cz));
-					else if(y == cy + 2)
-						giantCube.setSideIcon(1, GiantCubeUtil.getTextureForSide(6, x - cx, z - cz));
-					
-					if(x == cx)
-						giantCube.setSideIcon(4, GiantCubeUtil.getTextureForSide(4, z - cz, y - cy));
-					else if(x == cx + 2)
-						giantCube.setSideIcon(5, GiantCubeUtil.getTextureForSide(3, z - cz, y - cy));*/
+
+					/*
+					 * BlockGiantCube giantCube = (BlockGiantCube) world.getBlock(x, y, z);
+					 * 
+					 * if(z == cz) giantCube.setSideIcon(3, GiantCubeUtil.getTextureForSide(2, x - cx, y - cy)); else if(z == cz + 2) giantCube.setSideIcon(2, GiantCubeUtil.getTextureForSide(5, x - cx, y - cy));
+					 * 
+					 * if(y == cy) giantCube.setSideIcon(0, GiantCubeUtil.getTextureForSide(1, x - cx, z - cz)); else if(y == cy + 2) giantCube.setSideIcon(1, GiantCubeUtil.getTextureForSide(6, x - cx, z - cz));
+					 * 
+					 * if(x == cx) giantCube.setSideIcon(4, GiantCubeUtil.getTextureForSide(4, z - cz, y - cy)); else if(x == cx + 2) giantCube.setSideIcon(5, GiantCubeUtil.getTextureForSide(3, z - cz, y - cy));
+					 */
 				}
 	}
-	
+
 	private static int getTextureForSide(int side, int x, int y)
 	{
 		System.out.println(side + " " + x + " " + y);
