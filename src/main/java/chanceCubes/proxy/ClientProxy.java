@@ -3,10 +3,7 @@ package chanceCubes.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import chanceCubes.client.RenderEvent;
-import chanceCubes.renderer.TileChanceD20Renderer;
-import chanceCubes.tileentities.TileChanceD20;
 
 
 public class ClientProxy extends CommonProxy

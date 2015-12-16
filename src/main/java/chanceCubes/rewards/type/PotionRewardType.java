@@ -46,6 +46,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
         NBTTagCompound effectData = new NBTTagCompound();
         part.getEffect().writeCustomPotionEffectToNBT(effectData);
         effects.appendTag(effectData);
+        potion.getSubCompound("CustomPotionEffects", true);
         potion.getTagCompound().setTag("CustomPotionEffects", effects);
 
         EntityPotion entity = new EntityPotion(world, player, potion);

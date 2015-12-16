@@ -10,7 +10,7 @@ public class ConfigLoader
 	public static final String genCat = "General Settings";
 	public static final String rewardCat = "Rewards";
 	
-	public static void loadConfigSettings(File file, File resources)
+	public static void loadConfigSettings(File file)
 	{
 		File fileFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
 		fileFolder.mkdirs();
@@ -46,6 +46,6 @@ public class ConfigLoader
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Schematics").mkdirs();
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Sounds").mkdirs();
 		
-		new CustomRewardsLoader(customConfigFolder, resources);
+		new CustomRewardsLoader(customConfigFolder);
 	}
 }

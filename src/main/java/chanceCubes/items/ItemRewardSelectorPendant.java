@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,7 +34,7 @@ public class ItemRewardSelectorPendant  extends Item
 		return stack;
 	}
 
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if(world.isRemote)
 			return false;
@@ -41,11 +42,10 @@ public class ItemRewardSelectorPendant  extends Item
 			return false;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
-			BlockPos position = new BlockPos(x, y, z);
-			if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceCube))
+			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceCube))
 			{
-				world.setBlockToAir(position);
-				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, position, player);
+				world.setBlockToAir(pos);
+				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, pos, player);
 			}
 		}
 		return false;

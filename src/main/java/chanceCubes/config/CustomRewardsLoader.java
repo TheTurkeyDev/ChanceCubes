@@ -3,11 +3,9 @@ package chanceCubes.config;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +29,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.logging.log4j.Level;
 
@@ -58,7 +55,9 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.util.FileUtil;
 import chanceCubes.util.HTTPUtil;
+import chanceCubes.util.ResourcePackAssembler;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -74,18 +73,24 @@ public class CustomRewardsLoader
 	private File folder;
 	private File source;
 	private static JsonParser json;
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
+	private ResourcePackAssembler rPack;
 
-	public CustomRewardsLoader(File folder, File source)
+	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
 		this.folder = folder;
-		this.source = source;
 		json = new JsonParser();
+		rPack = new ResourcePackAssembler(new File(folder.getAbsolutePath() + "/ChanceCubes-Resourcepack"), "Chance Cubes Resource Pack", CCubesCore.MODID);
 		addCustomSounds();
+		rPack.assemble().inject();
+		
 	}
 
 	public void loadCustomRewards()
 	{
+		System.out.println(folder.getAbsolutePath());
 		for(File f : folder.listFiles())
 		{
 			if(!f.isFile())
@@ -456,22 +461,11 @@ public class CustomRewardsLoader
 
 	private void addCustomSounds()
 	{
-		System.out.println(source.getAbsolutePath());
-		File soundsFile = new File(source.getAbsolutePath() + "/assets/chancecubes/sounds.json");
-		JsonElement soundsJson;
-		try
-		{
-			soundsJson = json.parse(new FileReader(soundsFile));
-		} catch(IOException e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Failed to load the sounds file from chance cubes..... what was the dev thinking?");
-			e.printStackTrace();
-			return;
-		}
-
-		for(File f : new File(this.folder + "/Sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
+		JsonObject root = new JsonObject();
+		for(File f : new File(folder.getAbsolutePath() + "/sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
 		{
 			String fileShortName = f.getName().substring(0, f.getName().indexOf('.'));
+			rPack.addCustomFile("assets/minecraft/sounds", f); // add record .ogg
 			JsonObject event = new JsonObject();
 			event.addProperty("category", "master"); // put under the "record" category for sound options
 			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
@@ -480,30 +474,9 @@ public class CustomRewardsLoader
 			sound.addProperty("stream", true); // prevents lag for large files
 			sounds.add(sound);
 			event.add("sounds", sounds);
-			soundsJson.getAsJsonObject().add(fileShortName, event);
-			try
-			{
-				FileUtils.copyFile(f, new File(source.getAbsolutePath() + "/assets/chancecubes/sounds/" + f.getName()));
-			} catch(IOException e)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to copy a sound file");
-				e.printStackTrace();
-				continue;
-			}
+			root.add(fileShortName, event); // event name (same as name sent to ItemCustomRecord)
 		}
-
-		try
-		{
-			FileOutputStream outputStream = new FileOutputStream(soundsFile);
-			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			writer.append(gson.toJson(soundsJson));
-			writer.close();
-			outputStream.close();
-		} catch(IOException ex)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Could not write to json file for the account settings");
-		}
+		rPack.addCustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/sounds.json", gson.toJson(root)));
 	}
 
 	public List<IRewardType> loadChestReward(JsonArray rawReward, List<IRewardType> rewards)
