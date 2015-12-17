@@ -345,8 +345,8 @@ public class CustomRewardsLoader
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
-			if(element.getAsJsonObject().has("Delay"))
-				offBlock.setDealy(element.getAsJsonObject().get("Delay").getAsInt());
+			if(element.getAsJsonObject().has("delay"))
+				offBlock.setDealy(element.getAsJsonObject().get("delay").getAsInt());
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
