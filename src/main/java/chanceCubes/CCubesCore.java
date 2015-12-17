@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
+import chanceCubes.commands.ReloadRewardsCommand;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
@@ -31,6 +32,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
@@ -101,5 +103,11 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
+	}
+
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new ReloadRewardsCommand());
 	}
 }

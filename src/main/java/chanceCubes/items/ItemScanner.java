@@ -12,6 +12,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.RenderEvent;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
+import chanceCubes.tileentities.TileGiantCube;
 
 public class ItemScanner extends Item
 {
@@ -72,7 +73,7 @@ public class ItemScanner extends Item
 					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceGiantCube))
 					{
 						flag = false;
-						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAtChance(-201);
 						RenderEvent.setLookingAt(true);
 						RenderEvent.setChanceIncrease(0);
 					}

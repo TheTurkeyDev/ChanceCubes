@@ -4,24 +4,32 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import team.chisel.ctmlib.CTM;
+import team.chisel.ctmlib.TextureSubmap;
 import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import static team.chisel.ctmlib.Dir.*;
 
 public class BlockGiantCube extends BlockContainer
 {
 	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
+	private TextureSubmap[] subMap;
 	@SideOnly(Side.CLIENT)
-	private IIcon[] sideIcons;
+	private TextureSubmap[] specialIcons;
 
 	public BlockGiantCube()
 	{
@@ -44,7 +52,13 @@ public class BlockGiantCube extends BlockContainer
 		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
 			TileGiantCube te = (TileGiantCube) world.getTileEntity(x, y, z);
-
+			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+			{
+				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceCompactGiantCube), 1);
+				this.dropBlockAsItem(world, x, y, z, stack);
+				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
+				return true;
+			}
 			if(te != null)
 			{
 				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
@@ -59,37 +73,94 @@ public class BlockGiantCube extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register)
 	{
-		this.icons = new IIcon[16];
-		this.icons[0] = register.registerIcon(CCubesCore.MODID + ":GCMMND");
-		this.icons[1] = register.registerIcon(CCubesCore.MODID + ":GCULD");
-		this.icons[2] = register.registerIcon(CCubesCore.MODID + ":GCULND");
-		this.icons[3] = register.registerIcon(CCubesCore.MODID + ":GCUM");
-		this.icons[4] = register.registerIcon(CCubesCore.MODID + ":GCURD");
-		this.icons[5] = register.registerIcon(CCubesCore.MODID + ":GCURND");
-		this.icons[6] = register.registerIcon(CCubesCore.MODID + ":GCMLD");
-		this.icons[7] = register.registerIcon(CCubesCore.MODID + ":GCMLND");
-		this.icons[8] = register.registerIcon(CCubesCore.MODID + ":GCMMD");
-		this.icons[9] = register.registerIcon(CCubesCore.MODID + ":GCMRD");
-		this.icons[10] = register.registerIcon(CCubesCore.MODID + ":GCMRND");
-		this.icons[11] = register.registerIcon(CCubesCore.MODID + ":GCBLD");
-		this.icons[12] = register.registerIcon(CCubesCore.MODID + ":GCBLND");
-		this.icons[13] = register.registerIcon(CCubesCore.MODID + ":GCBM");
-		this.icons[14] = register.registerIcon(CCubesCore.MODID + ":GCBRD");
-		this.icons[15] = register.registerIcon(CCubesCore.MODID + ":GCBRND");
-
-		this.sideIcons = new IIcon[6];
-		for(int i = 0; i < 6; i++)
-			this.sideIcons[i] = this.icons[0];
+		this.subMap = new TextureSubmap[6];
+		this.subMap[0] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_1"), 3, 3);
+		this.subMap[1] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_6"), 3, 3);
+		this.subMap[2] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_2"), 3, 3);
+		this.subMap[3] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_5"), 3, 3);
+		this.subMap[4] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_4"), 3, 3);
+		this.subMap[5] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_3"), 3, 3);
+		if(CCubesSettings.hasHolidayTexture)
+		{
+			this.specialIcons = new TextureSubmap[2];
+			String texture = CCubesSettings.holidayTextureName;
+			this.specialIcons[0] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "Top"), 3, 3);
+			this.specialIcons[1] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture), 3, 3);
+		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	@Override
 	public IIcon getIcon(int side, int meta)
 	{
-		return this.sideIcons[side];
+		if(CCubesSettings.hasHolidayTexture)
+		{
+			if(side == 0 || side == 1)
+				return this.specialIcons[0].getBaseIcon();
+			else
+				return this.specialIcons[1].getBaseIcon();
+		}
+		else
+			return this.subMap[side].getBaseIcon();
 	}
 
-	public void setSideIcon(int side, int icon)
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
 	{
-		this.sideIcons[side] = this.icons[icon];
+		CTM ctm = CTM.getInstance();
+		ctm.buildConnectionMap(world, x, y, z, side, CCubesBlocks.chanceGiantCube, 0);
+
+		if(ctm.connectedAnd(TOP, RIGHT, BOTTOM, LEFT))
+		{
+			return this.getIconAt(side, 1, 1);
+		}
+		else if(ctm.connectedAnd(TOP, BOTTOM, RIGHT))
+		{
+			return this.getIconAt(side, 0, 1);
+		}
+		else if(ctm.connectedAnd(LEFT, RIGHT, BOTTOM))
+		{
+			return this.getIconAt(side, 1, 0);
+		}
+		else if(ctm.connectedAnd(LEFT, RIGHT, TOP))
+		{
+			return this.getIconAt(side, 1, 2);
+		}
+		else if(ctm.connectedAnd(LEFT, BOTTOM, TOP))
+		{
+			return this.getIconAt(side, 2, 1);
+		}
+		else if(ctm.connectedAnd(BOTTOM, RIGHT))
+		{
+			return this.getIconAt(side, 0, 0);
+		}
+		else if(ctm.connectedAnd(TOP, RIGHT))
+		{
+			return this.getIconAt(side, 0, 2);
+		}
+		else if(ctm.connectedAnd(LEFT, BOTTOM))
+		{
+			return this.getIconAt(side, 2, 0);
+		}
+		else if(ctm.connectedAnd(LEFT, TOP))
+		{
+			return this.getIconAt(side, 2, 2);
+		}
+		else
+		{
+			return this.getIconAt(side, 1, 1);
+		}
+	}
+	
+	public IIcon getIconAt(int side, int x, int y)
+	{
+		if(CCubesSettings.hasHolidayTexture)
+		{
+			if(side == 0 || side == 1)
+				return this.specialIcons[0].getSubIcon(x, y);
+			else
+				return this.specialIcons[1].getSubIcon(x, y);
+		}
+		else
+			return this.subMap[side].getSubIcon(x, y);
 	}
 }

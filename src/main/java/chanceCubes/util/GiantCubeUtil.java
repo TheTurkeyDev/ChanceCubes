@@ -2,7 +2,6 @@ package chanceCubes.util;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chanceCubes.blocks.BlockGiantCube;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileGiantCube;
 
@@ -44,11 +43,11 @@ public class GiantCubeUtil
 		while(world.getBlock(cx, cy, cz - 1).equals(CCubesBlocks.chanceCube))
 			cz--;
 		for(int x = cx; x < cx + 3; x++)
-			for(int y = cy; y < cy + 3; y++)
-				for(int z = cz; z < cz + 3; z++)
+			for(int z = cz; z < cz + 3; z++)
+				for(int y = cy; y < cy + 3; y++)
 				{
 					world.setBlock(x, y, z, CCubesBlocks.chanceGiantCube);
-					world.setBlockMetadataWithNotify(x, y, z, x + 3 * (y + 3 * z), 3);
+					world.setBlockMetadataWithNotify(x, y, z, (y - cy) + 3 * ((z - cz + 1) + 3 * (x - cx + 1)), 3);
 					TileEntity tile = world.getTileEntity(x, y, z);
 					// Check if block is bottom center block
 					boolean master = (x == cx + 1 && y == cy + 1 && z == cz + 1);
@@ -57,83 +56,9 @@ public class GiantCubeUtil
 						((TileGiantCube) tile).setMasterCoords(cx + 1, cy + 1, cz + 1);
 						((TileGiantCube) tile).setHasMaster(true);
 						((TileGiantCube) tile).setIsMaster(master);
+						((TileGiantCube) tile).setIsMaster(master);
 					}
-
-					/*
-					 * BlockGiantCube giantCube = (BlockGiantCube) world.getBlock(x, y, z);
-					 * 
-					 * if(z == cz) giantCube.setSideIcon(3, GiantCubeUtil.getTextureForSide(2, x - cx, y - cy)); else if(z == cz + 2) giantCube.setSideIcon(2, GiantCubeUtil.getTextureForSide(5, x - cx, y - cy));
-					 * 
-					 * if(y == cy) giantCube.setSideIcon(0, GiantCubeUtil.getTextureForSide(1, x - cx, z - cz)); else if(y == cy + 2) giantCube.setSideIcon(1, GiantCubeUtil.getTextureForSide(6, x - cx, z - cz));
-					 * 
-					 * if(x == cx) giantCube.setSideIcon(4, GiantCubeUtil.getTextureForSide(4, z - cz, y - cy)); else if(x == cx + 2) giantCube.setSideIcon(5, GiantCubeUtil.getTextureForSide(3, z - cz, y - cy));
-					 */
 				}
-	}
-
-	private static int getTextureForSide(int side, int x, int y)
-	{
-		System.out.println(side + " " + x + " " + y);
-		if(x == 0)
-		{
-			if(y == 0)
-			{
-				if(side == 1)
-					return 2;
-				return 1;
-			}
-			else if(y == 1)
-			{
-				return 3;
-			}
-			else if(y == 2)
-			{
-				if(side < 4)
-					return 4;
-				return 5;
-			}
-		}
-		else if(x == 1)
-		{
-			if(y == 0)
-			{
-				if(side == 6)
-					return 6;
-				return 7;
-			}
-			else if(y == 1)
-			{
-				if(side % 2 == 1)
-					return 0;
-				return 8;
-			}
-			else if(y == 2)
-			{
-				if(side == 6)
-					return 9;
-				return 10;
-			}
-		}
-		else if(x == 2)
-		{
-			if(y == 0)
-			{
-				if(side > 3)
-					return 11;
-				return 12;
-			}
-			else if(y == 1)
-			{
-				return 13;
-			}
-			else if(y == 2)
-			{
-				if(side != 1)
-					return 14;
-				return 15;
-			}
-		}
-		return 0;
 	}
 
 	/** Reset all the parts of the structure */

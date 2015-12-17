@@ -37,7 +37,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 	{
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
-		
+
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
 		INSTANCE.registerReward(new ThrowablesReward());
@@ -96,5 +96,11 @@ public class GiantCubeRegistry implements IRewardRegistry
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
 		});
+	}
+
+	public void ClearRewards()
+	{
+		this.sortedRewards.clear();
+		this.nameToReward.clear();
 	}
 }

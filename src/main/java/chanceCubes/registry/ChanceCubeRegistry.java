@@ -365,4 +365,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			};
 		});
 	}
+	
+	public void ClearRewards()
+	{
+		this.sortedRewards.clear();
+		this.nameToReward.clear();
+	}
 }
