@@ -12,24 +12,43 @@ import chanceCubes.rewards.biodomeGen.EndBiome;
 import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 
 public class BioDomeReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
-	
-	private IBioDomeBiome[] biomes = new IBioDomeBiome[]{new BasicTreesBiome(), new DesertBiome(), new EndBiome()};
+
+	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), new EndBiome() };
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(final World world, final int x, final int y, final int z, EntityPlayer player)
 	{
-		//player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
+		// player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 
-		List<OffsetBlock> blocks = biomes[rand.nextInt(biomes.length)].genDome(x, y, z, world);
+		final IBioDomeBiome spawnedBiome = biomes[rand.nextInt(biomes.length)];
+		List<OffsetBlock> blocks = spawnedBiome.genDome(x, y, z, world);
 
+		int lastTime = 0;
 		for(OffsetBlock b : blocks)
+		{
 			b.spawnInWorld(world, x, y, z);
-	}
+			if(lastTime < b.getDelay())
+				lastTime = b.getDelay();
+		}
 
+		Scheduler.scheduleTask(new Task("Entity_Delays", lastTime)
+		{
+
+			@Override
+			public void callback()
+			{
+				spawnedBiome.spawnEntities(x, y, z, world);
+			}
+
+		});
+
+	}
 
 	@Override
 	public int getChanceValue()

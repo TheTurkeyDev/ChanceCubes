@@ -8,4 +8,6 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 public interface IBioDomeBiome
 {
 	public List<OffsetBlock> genDome(int centerX, int centerY, int centerZ, World world);
+	
+	public void spawnEntities(int centerX, int centerY, int centerZ, World world);
 }

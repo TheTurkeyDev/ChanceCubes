@@ -2,6 +2,7 @@ package chanceCubes.listeners;
 
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
@@ -9,7 +10,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class WorldGen 
+public class WorldGen
 {
 	@SubscribeEvent
 	public void onGenerate(PopulateChunkEvent.Pre event)
@@ -23,8 +24,8 @@ public class WorldGen
 			generateSurface(event.world, new Random(), event.chunkX * 16, event.chunkZ * 16);
 	}
 
-	private void generateOre(World world, Random rand, int x, int z) 
-	{ 
+	private void generateOre(World world, Random rand, int x, int z)
+	{
 		for(int k = 0; k < CCubesSettings.oreGenAmount; k++)
 		{
 			int firstBlockXCoord = x + rand.nextInt(16);
@@ -42,6 +43,19 @@ public class WorldGen
 			int xCord = x + rand.nextInt(16);
 			int zCord = z + rand.nextInt(16);
 			int yCord = world.getTopSolidOrLiquidBlock(xCord, zCord);
+
+			if(world.getBlock(xCord, yCord - 1, zCord).equals(Blocks.bedrock))
+			{
+				for(int y = 0; y < yCord; y++)
+				{
+
+					if(world.getBlock(xCord, y - 1, zCord).isBlockSolid(world, xCord, y, zCord, 1) && world.isAirBlock(xCord, y, zCord))
+					{
+						yCord = y;
+						return;
+					}
+				}
+			}
 
 			world.setBlock(xCord, yCord, zCord, CCubesBlocks.chanceCube);
 		}

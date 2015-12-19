@@ -41,5 +41,6 @@ public class BlockCompactGiantCube extends Block
 				}
 			}
 		}
+		world.playSoundEffect(x, y, z, CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 	}
 }

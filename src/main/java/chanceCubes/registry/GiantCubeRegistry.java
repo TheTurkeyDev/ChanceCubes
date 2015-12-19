@@ -17,6 +17,9 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
+import chanceCubes.rewards.giantRewards.ChunkReverserReward;
+import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
+import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
 
@@ -41,6 +44,9 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
 		INSTANCE.registerReward(new ThrowablesReward());
+		INSTANCE.registerReward(new OrePillarReward());
+		INSTANCE.registerReward(new ChunkReverserReward());
+		INSTANCE.registerReward(new FloorIsLavaReward());
 	}
 
 	@Override

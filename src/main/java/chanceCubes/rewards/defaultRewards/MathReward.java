@@ -59,12 +59,17 @@ public class MathReward implements IChanceCubeReward
 
 		if(!world.isRemote)
 		{
-			EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
-			world.spawnEntityInWorld(entitytntprimed);
-			world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
-			entitytntprimed.fuse = 120;
+			List<Entity> tnt = new ArrayList<Entity>();
+			for(int i = 0; i < 5; i++)
+			{
+				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
+				world.spawnEntityInWorld(entitytntprimed);
+				world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
+				entitytntprimed.fuse = 120;
+				tnt.add(entitytntprimed);
+			}
 
-			inQuestion.put(player, new RewardInfo(num1 + num2, entitytntprimed, boxBlocks));
+			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, boxBlocks));
 		}
 
 		Task task = new Task("Math", 140)
@@ -89,7 +94,8 @@ public class MathReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new ChatComponentText("Correct!"));
-			info.getTnt().setDead();
+			for(Entity tnt : info.getTnt())
+				tnt.setDead();
 		}
 
 		for(Location3I b : info.getBlocks())
@@ -138,10 +144,10 @@ public class MathReward implements IChanceCubeReward
 	private class RewardInfo
 	{
 		private int answer;
-		private Entity tnt;
+		private List<Entity> tnt;
 		private List<Location3I> blocks;
 
-		public RewardInfo(int answer, Entity tnt, List<Location3I> blocks)
+		public RewardInfo(int answer, List<Entity> tnt, List<Location3I> blocks)
 		{
 			this.answer = answer;
 			this.tnt = tnt;
@@ -153,7 +159,7 @@ public class MathReward implements IChanceCubeReward
 			return answer;
 		}
 
-		public Entity getTnt()
+		public List<Entity> getTnt()
 		{
 			return tnt;
 		}

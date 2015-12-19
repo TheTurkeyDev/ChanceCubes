@@ -74,4 +74,10 @@ public class DesertBiome implements IBioDomeBiome
 
 		return blocks;
 	}
+
+	@Override
+	public void spawnEntities(int centerX, int centerY, int centerZ, World world)
+	{
+		
+	}
 }

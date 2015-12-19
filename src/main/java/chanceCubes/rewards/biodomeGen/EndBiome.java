@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
@@ -72,5 +73,16 @@ public class EndBiome implements IBioDomeBiome
 		}
 		blocks.add(new OffsetBlock(x, y + 10, z, Blocks.bedrock, false, delay));
 		return blocks;
+	}
+
+	@Override
+	public void spawnEntities(int centerX, int centerY, int centerZ, World world)
+	{
+		for(int i = 0; i < rand.nextInt(10) + 5; i++)
+		{
+			EntityEnderman enderman = new EntityEnderman(world);
+			enderman.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+			world.spawnEntityInWorld(enderman);
+		}
 	}
 }

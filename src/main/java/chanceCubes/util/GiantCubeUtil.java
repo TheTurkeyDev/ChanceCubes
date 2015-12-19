@@ -2,6 +2,7 @@ package chanceCubes.util;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileGiantCube;
 
@@ -47,18 +48,16 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					world.setBlock(x, y, z, CCubesBlocks.chanceGiantCube);
-					world.setBlockMetadataWithNotify(x, y, z, (y - cy) + 3 * ((z - cz + 1) + 3 * (x - cx + 1)), 3);
 					TileEntity tile = world.getTileEntity(x, y, z);
-					// Check if block is bottom center block
-					boolean master = (x == cx + 1 && y == cy + 1 && z == cz + 1);
+					boolean master = (x == cx && y == cy + 1 && z == cz);
 					if(tile != null && (tile instanceof TileGiantCube))
 					{
 						((TileGiantCube) tile).setMasterCoords(cx + 1, cy + 1, cz + 1);
 						((TileGiantCube) tile).setHasMaster(true);
 						((TileGiantCube) tile).setIsMaster(master);
-						((TileGiantCube) tile).setIsMaster(master);
 					}
 				}
+		world.playSoundEffect(xCoord, yCoord, zCoord, CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 	}
 
 	/** Reset all the parts of the structure */

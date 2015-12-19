@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
@@ -98,5 +103,45 @@ public class BasicTreesBiome implements IBioDomeBiome
 		delay++;
 
 		return blocks;
+	}
+
+	@Override
+	public void spawnEntities(int centerX, int centerY, int centerZ, World world)
+	{
+		for(int i = 0; i < rand.nextInt(10) + 5; i++)
+		{
+			int ri = rand.nextInt(5);
+			
+			if(ri == 0)
+			{
+				EntityChicken chicken = new EntityChicken(world);
+				chicken.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(chicken);
+			}
+			else if(ri == 1)
+			{
+				EntityCow cow = new EntityCow(world);
+				cow.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(cow);
+			}
+			else if(ri == 2)
+			{
+				EntityHorse horse = new EntityHorse(world);
+				horse.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(horse);
+			}
+			else if(ri == 3)
+			{
+				EntityPig pig = new EntityPig(world);
+				pig.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(pig);
+			}
+			else if(ri == 4)
+			{
+				EntitySheep sheep = new EntitySheep(world);
+				sheep.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(sheep);
+			}
+		}
 	}
 }
