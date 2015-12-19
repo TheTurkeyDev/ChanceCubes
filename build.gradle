@@ -40,9 +40,15 @@ configurations {
 }
 
 repositories {
-    maven { 
-		url = "http://chickenbones.net/maven/" 
-	}
+     maven { // The repo from which to get waila
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven { // the repo from which to get NEI and stuff 
+        name 'CB Repo'
+        url "http://chickenbones.net/maven/"
+    }
+	
 	maven {
         name 'Chisel Repo'
         url "http://maven.tterrag.com/"
@@ -51,6 +57,7 @@ repositories {
 
 dependencies {
     shade "team.chisel.ctmlib:CTMLib:${ctmlib_version}"
+	compile "mcp.mobius.waila:Waila:1.5.9_1.7.10"
 }
 
 processResources
