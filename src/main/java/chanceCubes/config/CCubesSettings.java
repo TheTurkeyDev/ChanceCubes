@@ -1,6 +1,6 @@
 package chanceCubes.config;
 
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 
 public class CCubesSettings 
 {
@@ -31,7 +31,7 @@ public class CCubesSettings
 	
 	public static int dropHeight = 20;
 	
-	public static String rewardURL = "https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewardsV2/";
+	public static String rewardURL = "https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewardsV2";
 	
 	public static boolean isBlockedWorld(String world)
 	{

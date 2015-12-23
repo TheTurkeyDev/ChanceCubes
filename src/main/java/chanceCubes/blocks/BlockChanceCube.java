@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
@@ -22,6 +23,7 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.util.GiantCubeUtil;
 
 public class BlockChanceCube extends Block implements ITileEntityProvider
 {
@@ -91,7 +93,16 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 	{
 		return false;
 	}
-	
+
+	@Override
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock)
+	{
+		if(GiantCubeUtil.checkMultiBlockForm(pos, world))
+		{
+			GiantCubeUtil.setupStructure(pos, world);
+		}
+	}
+
 	public String getName()
 	{
 		return this.blockNameID;

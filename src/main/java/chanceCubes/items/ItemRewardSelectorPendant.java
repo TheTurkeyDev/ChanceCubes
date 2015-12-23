@@ -5,7 +5,9 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -15,11 +17,15 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.tileentities.TileGiantCube;
+import chanceCubes.util.GiantCubeUtil;
 
-public class ItemRewardSelectorPendant  extends Item
+public class ItemRewardSelectorPendant extends Item
 {
 	public String itemNameID = "reward_Selector_Pendant";
-	
+
 	public ItemRewardSelectorPendant()
 	{
 		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
@@ -45,7 +51,24 @@ public class ItemRewardSelectorPendant  extends Item
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceCube))
 			{
 				world.setBlockToAir(pos);
-				ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward")).trigger(world, pos, player);
+				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				if(reward != null)
+					reward.trigger(world, pos, player);
+				else
+					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+			}
+			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceGiantCube))
+			{
+				TileEntity ent = world.getTileEntity(pos);
+				if(ent == null || !(ent instanceof TileGiantCube))
+					return false;
+				TileGiantCube giant = (TileGiantCube) ent;
+				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				if(reward != null)
+					reward.trigger(world, giant.getMasterPostion(), player);
+				else
+					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+				GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 			}
 		}
 		return false;
@@ -53,7 +76,7 @@ public class ItemRewardSelectorPendant  extends Item
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Shift right click to change the reward.");
 		list.add("Right click a Chance Cube to summon the reward.");

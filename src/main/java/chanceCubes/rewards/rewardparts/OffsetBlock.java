@@ -20,6 +20,8 @@ public class OffsetBlock
 	protected boolean falling;
 	protected int delay = 0;
 
+	protected boolean causeUpdate = false;
+
 	protected Block block;
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
@@ -91,7 +93,7 @@ public class OffsetBlock
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block.getDefaultState(), data, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
-	
+
 	public Block getBlock()
 	{
 		return this.block;
@@ -117,10 +119,16 @@ public class OffsetBlock
 	{
 		return this.relativeToPlayer;
 	}
-	
+
 	public int getDelay()
 	{
 		return this.delay;
+	}
+
+	public OffsetBlock setCausesBlockUpdate(boolean flag)
+	{
+		this.causeUpdate = flag;
+		return this;
 	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
@@ -134,11 +142,11 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), 2);
+		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
 		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.getPlaceSound(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getFrequency() * 0.5F);
 	}
-	
+
 	public void placeInWorld(World world, BlockPos position, boolean offset)
 	{
 		this.placeInWorld(world, position.getX(), position.getY(), position.getZ(), offset);

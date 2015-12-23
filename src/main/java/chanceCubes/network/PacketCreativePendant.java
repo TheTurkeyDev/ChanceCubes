@@ -8,6 +8,10 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import org.apache.logging.log4j.Level;
+
+import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.ItemChanceCube;
 
@@ -48,7 +52,15 @@ public class PacketCreativePendant implements IMessage
 		@Override
 		public IMessage onMessage(PacketCreativePendant message, MessageContext ctx)
 		{
-			Container c = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).openContainer;
+			Container c;
+			try
+			{
+				c = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).openContainer;
+			} catch(Exception NullPointerException)
+			{
+				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
+				return null;
+			}
 
 			if(c instanceof CreativePendantContainer)
 			{

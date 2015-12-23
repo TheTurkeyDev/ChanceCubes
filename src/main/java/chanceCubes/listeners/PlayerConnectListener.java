@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.CustomUserReward;
+import chanceCubes.rewards.defaultRewards.CustomUserReward;
 
 public class PlayerConnectListener
 {

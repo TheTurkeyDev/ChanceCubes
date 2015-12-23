@@ -20,6 +20,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
 
 @SideOnly(Side.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
@@ -71,7 +72,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		{
 			if(button.id == 0)
 			{
-				if(ChanceCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
+				if(ChanceCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
 				{
 					NBTTagCompound nbt = stack.getTagCompound();
 					if(nbt == null)

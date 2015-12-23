@@ -26,7 +26,9 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -34,7 +36,7 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.BasicReward;
+import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -74,7 +76,7 @@ public class CustomRewardsLoader
 	private File source;
 	private static JsonParser json;
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	
+
 	private ResourcePackAssembler rPack;
 
 	public CustomRewardsLoader(File folder)
@@ -85,7 +87,7 @@ public class CustomRewardsLoader
 		rPack = new ResourcePackAssembler(new File(folder.getAbsolutePath() + "/ChanceCubes-Resourcepack"), "Chance Cubes Resource Pack", CCubesCore.MODID);
 		addCustomSounds();
 		rPack.assemble().inject();
-		
+
 	}
 
 	public void loadCustomRewards()
@@ -110,7 +112,10 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					ChanceCubeRegistry.INSTANCE.registerReward(this.parseReward(reward));
+					BasicReward basicReward = this.parseReward(reward);
+					if(basicReward == null)
+						continue;
+					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -203,6 +208,8 @@ public class CustomRewardsLoader
 			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			{
 				BasicReward basicReward = this.parseReward(reward);
+				if(basicReward == null)
+					continue;
 				CCubesSettings.doesHolidayRewardTrigger = true;
 				CCubesSettings.holidayReward = basicReward;
 				CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
@@ -220,6 +227,26 @@ public class CustomRewardsLoader
 			if(rewardElement.getKey().equalsIgnoreCase("chance"))
 			{
 				chance = rewardElement.getValue().getAsInt();
+				continue;
+			}
+			else if(rewardElement.getKey().equalsIgnoreCase("dependencies"))
+			{
+				boolean gameversion = false;
+				for(Entry<String, JsonElement> dependencies : rewardElement.getValue().getAsJsonObject().entrySet())
+				{
+					if(dependencies.getKey().equalsIgnoreCase("mod"))
+					{
+						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
+							return null;
+					}
+					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
+					{
+						if(MinecraftServer.getServer().getMinecraftVersion().equalsIgnoreCase(dependencies.getValue().getAsString()))
+							gameversion = true;
+					}
+				}
+				if(!gameversion)
+					return null;
 				continue;
 			}
 
@@ -322,8 +349,8 @@ public class CustomRewardsLoader
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
-			if(element.getAsJsonObject().has("Delay"))
-				offBlock.setDealy(element.getAsJsonObject().get("Delay").getAsInt());
+			if(element.getAsJsonObject().has("delay"))
+				offBlock.setDealy(element.getAsJsonObject().get("delay").getAsInt());
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());

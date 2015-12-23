@@ -16,7 +16,7 @@ import chanceCubes.tileentities.TileChanceCube;
 public class ItemScanner extends Item
 {
 	public String itemNameID = "scanner";
-	
+
 	public ItemScanner()
 	{
 		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
@@ -60,19 +60,25 @@ public class ItemScanner extends Item
 					int j = movingobjectposition.getBlockPos().getY();
 					int k = movingobjectposition.getBlockPos().getZ();
 					boolean flag = false;
-					
+
 					BlockPos position = new BlockPos(i, j, k);
-					
+
 					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceCube))
 					{
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
 					}
-					/*else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
+					/*
+					 * else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron)) { flag = true; RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(position)).getChance()); }
+					 */
+
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceGiantCube))
 					{
-						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(position)).getChance());
-					}*/
+						flag = false;
+						RenderEvent.setLookingAtChance(-201);
+						RenderEvent.setLookingAt(true);
+						RenderEvent.setChanceIncrease(0);
+					}
 
 					if(flag)
 					{

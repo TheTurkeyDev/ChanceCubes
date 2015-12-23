@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -21,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
+import chanceCubes.commands.ReloadRewardsCommand;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
@@ -32,6 +34,7 @@ import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
 public class CCubesCore
@@ -74,6 +77,7 @@ public class CCubesCore
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
 		ChanceCubeRegistry.loadDefaultRewards();
+		GiantCubeRegistry.loadDefaultRewards();
 		ConfigLoader.config.save();
 		CCubesPacketHandler.init();
 		proxy.registerRenderings();
@@ -105,5 +109,11 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
+	}
+
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new ReloadRewardsCommand());
 	}
 }
