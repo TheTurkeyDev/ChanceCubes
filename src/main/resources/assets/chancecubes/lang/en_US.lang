@@ -4,8 +4,8 @@ tile.chance_Cube.name=Chance Cube
 item.chancecubes_chanceCube.name=Chance Cube
 tile.chanceIcosahedron.name=Chance Icosahedron
 item.chanceIcosahedron.name=Chance Icosahedron
-tile.Giant_Chance_Cube.name=Giant Chance Cube
-tile.Compact_Giant_Chance_Cube.name=Compact Giant Chance Cube
+tile.giant_Chance_Cube.name=Giant Chance Cube
+tile.compact_Giant_Chance_Cube.name=Compact Giant Chance Cube
 
 item.chancecubes_chance_Pendant_Tier1.name=Tier 1 Chance Pendant
 item.chancecubes_chance_Pendant_Tier2.name=Tier 2 Chance Pendant

@@ -2,13 +2,13 @@ package chanceCubes.blocks;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -23,7 +23,6 @@ public class BlockGiantCube extends BlockContainer
 		super(Material.ground);
 		this.setHardness(0.5f);
 		this.setUnlocalizedName(blockNameID);
-		this.setCreativeTab(CCubesCore.modTab);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class BlockGiantCube extends BlockContainer
 
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				this.dropBlockAsItem(world, pos, CCubesBlocks.chanceCompactGiantCube.getDefaultState(), 1);
+				CCubesBlocks.chanceCompactGiantCube.dropBlockAsItem(world, pos, CCubesBlocks.chanceCompactGiantCube.getDefaultState(), 1);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 				return true;
 			}
@@ -55,5 +54,10 @@ public class BlockGiantCube extends BlockContainer
 			}
 		}
 		return true;
+	}
+	
+	public String getName()
+	{
+		return this.blockNameID;
 	}
 }

@@ -14,7 +14,7 @@ import chanceCubes.tileentities.TileGiantCube;
 public class BlockCompactGiantCube extends Block
 {
 	private final String blockNameID = "compact_Giant_Chance_Cube";
-	
+
 	public BlockCompactGiantCube()
 	{
 		super(Material.ground);
@@ -23,7 +23,7 @@ public class BlockCompactGiantCube extends Block
 		this.setCreativeTab(CCubesCore.modTab);
 	}
 
-	 public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		if(world.isRemote)
@@ -48,5 +48,10 @@ public class BlockCompactGiantCube extends Block
 			}
 		}
 		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+	}
+
+	public String getName()
+	{
+		return this.blockNameID;
 	}
 }

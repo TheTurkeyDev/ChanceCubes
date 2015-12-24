@@ -78,6 +78,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 	@Override
 	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
 	{
+		if(pos == null)
+			return;
 		if(this.sortedRewards.size() == 0)
 		{
 			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with the Giant Chance Cubes and no reward was able to be given");

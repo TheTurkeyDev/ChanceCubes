@@ -57,13 +57,9 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
-import chanceCubes.util.FileUtil;
 import chanceCubes.util.HTTPUtil;
-import chanceCubes.util.ResourcePackAssembler;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -75,18 +71,13 @@ public class CustomRewardsLoader
 	private File folder;
 	private File source;
 	private static JsonParser json;
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-	private ResourcePackAssembler rPack;
 
 	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
 		this.folder = folder;
 		json = new JsonParser();
-		rPack = new ResourcePackAssembler(new File(folder.getAbsolutePath() + "/ChanceCubes-Resourcepack"), "Chance Cubes Resource Pack", CCubesCore.MODID);
 		addCustomSounds();
-		rPack.assemble().inject();
 
 	}
 
@@ -492,7 +483,6 @@ public class CustomRewardsLoader
 		for(File f : new File(folder.getAbsolutePath() + "/sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
 		{
 			String fileShortName = f.getName().substring(0, f.getName().indexOf('.'));
-			rPack.addCustomFile("assets/minecraft/sounds", f); // add record .ogg
 			JsonObject event = new JsonObject();
 			event.addProperty("category", "master"); // put under the "record" category for sound options
 			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
@@ -503,7 +493,6 @@ public class CustomRewardsLoader
 			event.add("sounds", sounds);
 			root.add(fileShortName, event); // event name (same as name sent to ItemCustomRecord)
 		}
-		rPack.addCustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/sounds.json", gson.toJson(root)));
 	}
 
 	public List<IRewardType> loadChestReward(JsonArray rawReward, List<IRewardType> rewards)

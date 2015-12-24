@@ -37,20 +37,9 @@ minecraft {
     mappings = "snapshot_20141130"
 }
 
-repositories {
-    maven { // The repo from which to get waila
-        name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
-    }
-    maven { // the repo from which to get NEI and stuff 
-        name 'CB Repo'
-        url "http://chickenbones.net/maven/"
-    }	
+repositories {	
 }
 
-dependencies {
-    compile "mcp.mobius.waila:Waila:1.6.0_B1_1.8.1:dev"
-}
 
 processResources
 {
