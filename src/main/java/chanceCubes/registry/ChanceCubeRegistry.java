@@ -141,7 +141,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 40, new CommandRewardType(new CommandPart("/summon Villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Actual_Invisible_Ghast", -75, new CommandRewardType(new CommandPart("/summon Ghast ~ ~10 ~ {ActiveEffects:[{Id:14,Amplifier:0,Duration:2000,ShowParticles:0b}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Portal_Build", 90, new BlockRewardType(new OffsetBlock(-1, -1, 0, Blocks.obsidian, true), new OffsetBlock(0, -1, 0, Blocks.obsidian, true, 5), new OffsetBlock(1, 0, 0, Blocks.obsidian, true, 10), new OffsetBlock(1, 1, 0, Blocks.obsidian, true, 15), new OffsetBlock(1, 2, 0, Blocks.obsidian, true, 20), new OffsetBlock(1, 3, 0, Blocks.obsidian, true, 25), new OffsetBlock(-2, 0, 0, Blocks.obsidian, true, 30), new OffsetBlock(-2, 1, 0, Blocks.obsidian, true, 35), new OffsetBlock(-2, 2, 0, Blocks.obsidian, true, 40), new OffsetBlock(-2, 3, 0, Blocks.obsidian, true, 45), new OffsetBlock(-1, 4, 0, Blocks.obsidian, true, 50), new OffsetBlock(0, 4, 0, Blocks.obsidian, true, 55), new OffsetBlock(0, 0, 0, Blocks.fire, false, 120).setCausesBlockUpdate(true))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giant_Chance_Cube", -10, new BlockRewardType(RewardsUtil.fillArea(3, 3, 3, CCubesBlocks.chanceCube, -1, 0, -1, false, 0, true, false))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giant_Chance_Cube", -10, new BlockRewardType(RewardsUtil.fillArea(3, 3, 3, CCubesBlocks.chanceCube, -1, 0, -1, false, 0, true, false))), false);
 
 		ItemStack stack;
 

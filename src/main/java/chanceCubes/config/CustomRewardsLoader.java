@@ -484,14 +484,17 @@ public class CustomRewardsLoader
 
 	private void addCustomSounds()
 	{
-		File soundsFile = new File(source.getAbsolutePath() + "/assets/chancecubes/sounds.json");
+		
+		File soundsFile;
 		JsonElement soundsJson;
 		try
 		{
+			soundsFile = new File(CCubesCore.class.getResource("/assets/chancecubes/sounds.json").toURI());
 			soundsJson = json.parse(new FileReader(soundsFile));
-		} catch(IOException e)
+		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to load the sounds file from chance cubes..... what was the dev thinking?");
+			e.printStackTrace();
 			return;
 		}
 
@@ -509,8 +512,8 @@ public class CustomRewardsLoader
 			soundsJson.getAsJsonObject().add(fileShortName, event);
 			try
 			{
-				FileUtils.copyFile(f, new File(source.getAbsolutePath() + "/assets/chancecubes/sounds/" + f.getName()));
-			} catch(IOException e)
+				FileUtils.copyFile(f, new File(CCubesCore.class.getResource("/assets/chancecubes/sounds/" + f.getName()).toURI()));
+			} catch(Exception e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to copy a sound file");
 				e.printStackTrace();
