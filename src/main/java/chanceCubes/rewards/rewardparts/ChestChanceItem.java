@@ -9,6 +9,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ChestChanceItem
 {
+	public static String[] elements = new String[]{"item", "chance", "meta", "amountMin", "amountMax"};
 	private static Random rand = new Random();
 	private String mod;
 	private String item;

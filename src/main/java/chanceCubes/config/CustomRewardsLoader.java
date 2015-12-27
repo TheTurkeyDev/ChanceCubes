@@ -91,7 +91,7 @@ public class CustomRewardsLoader
 	{
 		for(File f : folder.listFiles())
 		{
-			if(!f.isFile())
+			if(!f.isFile() || !f.getName().contains(".json"))
 				continue;
 			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
 			{
@@ -484,7 +484,7 @@ public class CustomRewardsLoader
 
 	private void addCustomSounds()
 	{
-		
+
 		File soundsFile;
 		JsonElement soundsJson;
 		try
@@ -780,9 +780,6 @@ public class CustomRewardsLoader
 			JsonObject rewardElements = reward.getValue().getAsJsonObject();
 			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
 			{
-				if(rewardElement.getKey().equalsIgnoreCase("chance"))
-					continue;
-
 				rewardinfo.add(rewardElement.getKey());
 			}
 		}
@@ -811,10 +808,17 @@ public class CustomRewardsLoader
 			{
 				if(rewardElement.getKey().equalsIgnoreCase(type))
 				{
-					JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
-					for(int i = 0; i < rewardTypeArray.size(); i++)
+					if(rewardElement.getValue() instanceof JsonArray)
 					{
-						rewardinfo.add(rewardTypeArray.get(i).toString());
+						JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
+						for(int i = 0; i < rewardTypeArray.size(); i++)
+						{
+							rewardinfo.add(rewardTypeArray.get(i).toString());
+						}
+					}
+					else
+					{
+						rewardinfo.add(rewardElement.getValue().toString());
 					}
 				}
 			}
@@ -842,5 +846,10 @@ public class CustomRewardsLoader
 		{
 			return -1;
 		}
+	}
+
+	public File getFolderFile()
+	{
+		return this.folder;
 	}
 }

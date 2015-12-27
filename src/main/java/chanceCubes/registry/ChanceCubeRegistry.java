@@ -1,7 +1,9 @@
 package chanceCubes.registry;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +11,13 @@ import javax.annotation.Nullable;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -31,6 +35,7 @@ import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
+import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import chanceCubes.rewards.defaultRewards.DiscoReward;
 import chanceCubes.rewards.defaultRewards.EnderCrystalTimerReward;
 import chanceCubes.rewards.defaultRewards.FiveProngReward;
@@ -253,6 +258,22 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
 		INSTANCE.registerReward(math);
+	}
+
+	public static void loadCustomUserRewards()
+	{
+		ArrayList<EntityPlayerMP> allp = new ArrayList<EntityPlayerMP>();
+		Iterator<?> iterator;
+
+		for(int i = 0; i < MinecraftServer.getServer().worldServers.length; i++)
+		{
+			iterator = MinecraftServer.getServer().worldServers[i].playerEntities.listIterator();
+			while(iterator.hasNext())
+				allp.add((EntityPlayerMP) iterator.next());
+		}
+		
+		for(EntityPlayerMP player : allp)
+			new CustomUserReward(player);
 	}
 
 	@Override

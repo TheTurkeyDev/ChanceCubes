@@ -5,6 +5,8 @@ import net.minecraft.world.World;
 
 public class CommandPart
 {
+	public static String[] elements = new String[]{"command", "delay"};
+	
 	private String command;
 
 	private int delay = 0;

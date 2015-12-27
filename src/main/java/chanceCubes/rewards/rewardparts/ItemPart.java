@@ -4,6 +4,8 @@ import net.minecraft.item.ItemStack;
 
 public class ItemPart
 {
+	public static String[] elements = new String[]{"item", "delay"};
+	
 	private ItemStack stack;
 
 	private int delay = 0;

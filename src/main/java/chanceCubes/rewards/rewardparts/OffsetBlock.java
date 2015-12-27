@@ -9,6 +9,8 @@ import chanceCubes.util.Task;
 
 public class OffsetBlock
 {
+	public static String[] elements = new String[]{"XOffSet", "YOffSet", "ZOffSet", "Block", "Falling", "delay", "RelativeToPlayer"};
+	
 	protected boolean relativeToPlayer = false;
 	public int xOff;
 	public int yOff;

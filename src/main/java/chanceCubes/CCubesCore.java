@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
-import chanceCubes.commands.ReloadRewardsCommand;
+import chanceCubes.commands.CCubesCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
@@ -108,6 +108,6 @@ public class CCubesCore
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event)
 	{
-		event.registerServerCommand(new ReloadRewardsCommand());
+		event.registerServerCommand(new CCubesCommands());
 	}
 }
