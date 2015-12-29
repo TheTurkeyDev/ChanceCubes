@@ -38,7 +38,7 @@ public class CustomExtendedList extends GuiListExtended
 
 	public void addButton(String e)
 	{
-		elements.add(new CustomListEntry(e, parentScreen, mc));
+		elements.add(new CustomListEntry(e, parentScreen, mc, elements.size()));
 	}
 	public void addTextEntry(String label, String textBoxText)
 	{
@@ -56,6 +56,16 @@ public class CustomExtendedList extends GuiListExtended
 			if(entry instanceof CustomTextEntry)
 				((CustomTextEntry)entry).keyTyped(p_73869_1_, p_73869_2_);
 	}
+	
+	@Override
+	public boolean func_148179_a(int x, int y, int mouseEvent)
+    {
+		super.func_148179_a(x, y, mouseEvent);
+		for(IGuiListEntry entry : elements)
+			if(entry instanceof CustomTextEntry)
+				((CustomTextEntry)entry).mousePressed(0, x, y, mouseEvent, 0, 0);
+		return true;
+    }
 
 
 
@@ -66,11 +76,11 @@ public class CustomExtendedList extends GuiListExtended
 		private ConfigGui parentScreen;
 		private Minecraft mc;
 
-		public CustomListEntry(String name, ConfigGui parentScreen, Minecraft mc)
+		public CustomListEntry(String name, ConfigGui parentScreen, Minecraft mc, int id)
 		{
 			this.name = name;
 			this.parentScreen = parentScreen;
-			button = new GuiButton(0, 0, 0, 200, 20, name);
+			button = new GuiButton(id, 0, 0, 200, 20, name);
 			this.mc = mc;
 		}
 
@@ -88,7 +98,7 @@ public class CustomExtendedList extends GuiListExtended
 		public boolean mousePressed(int index, int x, int y, int mouseEvent, int relativeX, int relativeY)
 		{
 			if(this.button.mousePressed(mc, x, y))
-				parentScreen.nextEditStage(button.displayString);
+				parentScreen.nextEditStage(button.id, button.displayString);
 			return false;
 		}
 
@@ -111,10 +121,10 @@ public class CustomExtendedList extends GuiListExtended
 		{
 			this.parentScreen = parentScreen;
 			text = new GuiTextField(mc.fontRenderer, 0, 0, 200, 20);
+			text.setMaxStringLength(1000);
 			text.setText(textBoxText);
 			this.mc = mc;
 			this.label = label + ":";
-			this.label = this.label.substring(0, 1).toUpperCase() + this.label.substring(1);
 		}
 
 		@Override

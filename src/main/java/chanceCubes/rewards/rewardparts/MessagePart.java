@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardparts;
 
 public class MessagePart
 {
-	public static String[] elements = new String[]{"message", "delay", "serverWide", "range"};
+	public static String[] elements = new String[]{"message:S", "delay:I", "serverWide:B", "range:I"};
 	
 	private String message;
 	

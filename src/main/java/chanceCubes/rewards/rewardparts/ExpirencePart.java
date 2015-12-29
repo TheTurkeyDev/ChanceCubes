@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardparts;
 
 public class ExpirencePart
 {
-	public static String[] elements = new String[]{"experienceAmount", "delay", "numberOfOrbs"};
+	public static String[] elements = new String[]{"experienceAmount:I", "delay:I", "numberOfOrbs:I"};
 	
 	private int amount;
 	private int orbs = 1;

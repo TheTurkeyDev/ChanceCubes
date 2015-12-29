@@ -4,7 +4,7 @@ import net.minecraft.potion.PotionEffect;
 
 public class PotionPart
 {
-	public static String[] elements = new String[]{"potionid", "duration", "delay"};
+	public static String[] elements = new String[]{"potionid:I", "duration:I", "delay:I"};
 	
 	private PotionEffect effect;
 

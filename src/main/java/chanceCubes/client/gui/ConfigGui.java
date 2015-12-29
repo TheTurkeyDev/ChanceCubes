@@ -54,12 +54,16 @@ public class ConfigGui extends GuiScreen
 
 	private JsonParser json;
 	private Gson gson;
+	
+	private GuiScreen parentScreen;
 
 	public ConfigGui(GuiScreen screen)
 	{
 		json = new JsonParser();
 
 		gson = new GsonBuilder().setPrettyPrinting().create();
+
+		parentScreen = screen;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -231,6 +235,7 @@ public class ConfigGui extends GuiScreen
 				this.isCreatingNew = false;
 				buttonNew.displayString = this.buttonNewText;
 				buttonCancel.visible = false;
+				buttonback.enabled = true;
 			}
 			else if(button.id == 3)
 			{
@@ -250,48 +255,39 @@ public class ConfigGui extends GuiScreen
 					return;
 				}
 
-				if(this.entries.getListEntry(0) instanceof CustomTextEntry && ((CustomTextEntry) this.entries.getListEntry(0)).getLabel().equalsIgnoreCase("Chance"))
+				if(this.entries.getListEntry(0) instanceof CustomTextEntry && ((CustomTextEntry) this.entries.getListEntry(0)).getLabel().equalsIgnoreCase("Chance:"))
 				{
 					CustomTextEntry textBox = (CustomTextEntry) this.entries.getListEntry(0);
 					try
 					{
 						int chance = Integer.parseInt(textBox.getTextBox().getText());
+						if(chance < -100)
+							chance = -100;
+						else if(chance > 100)
+							chance = 100;
 						rewardJson.getAsJsonObject().addProperty("Chance", chance);
 					} catch(NumberFormatException e)
 					{
 						CCubesCore.logger.log(Level.ERROR, "Failed to cast the chance value of the reward to an integer");
 						return;
 					}
+					try
+					{
+						FileOutputStream outputStream = new FileOutputStream(file);
+						OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+						writer.append(gson.toJson(fileJson));
+						writer.close();
+						outputStream.close();
+					} catch(IOException e)
+					{
+						CCubesCore.logger.log(Level.ERROR, "Failed to create the new file for a custom reward!");
+						e.printStackTrace();
+						return;
+					}
 				}
 				else
 				{
-					JsonArray rewardTypeArray = rewardJson.getAsJsonObject().get(this.prevStage[2]).getAsJsonArray();
-					JsonObject rewardInstance = new JsonObject();
-					for(int i = 0; i < this.entries.getSize(); i++)
-					{
-						IGuiListEntry entry = this.entries.getListEntry(i);
-						if(entry instanceof CustomTextEntry)
-						{
-							CustomTextEntry textBox = (CustomTextEntry) entry;
-							rewardInstance.addProperty(textBox.getLabel(), textBox.getTextBox().getText());
-							rewardTypeArray.add(rewardInstance);
-						}
-					}
-					rewardTypeArray.add(rewardInstance);
-				}
-
-				try
-				{
-					FileOutputStream outputStream = new FileOutputStream(file);
-					OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-					writer.append(gson.toJson(fileJson));
-					writer.close();
-					outputStream.close();
-				} catch(IOException e)
-				{
-					CCubesCore.logger.log(Level.ERROR, "Failed to create the new file for a custom reward!");
-					e.printStackTrace();
-					return;
+					this.saveRewardPart(file, fileJson, rewardJson);
 				}
 
 				this.textFieldNew.setText("");
@@ -318,7 +314,7 @@ public class ConfigGui extends GuiScreen
 		}
 	}
 
-	public void nextEditStage(String name)
+	public void nextEditStage(int id, String name)
 	{
 		switch(editState)
 		{
@@ -347,7 +343,7 @@ public class ConfigGui extends GuiScreen
 			{
 				editState = ConfigEditState.Edit_Reward_Type;
 				this.loadSpecificRewardType(name, this.prevStage[2]);
-				this.prevStage[3] = name;
+				this.prevStage[3] = id + ":" + name;
 				break;
 			}
 			case Edit_Reward_Type:
@@ -363,6 +359,7 @@ public class ConfigGui extends GuiScreen
 		{
 			case Files:
 			{
+				this.mc.displayGuiScreen(this.parentScreen);
 				break;
 			}
 			case All_Rewards:
@@ -418,7 +415,7 @@ public class ConfigGui extends GuiScreen
 			}
 			case Edit_Reward_Type:
 			{
-				this.loadSpecificRewardType(this.prevStage[3], this.prevStage[2]);
+				this.loadSpecificRewardType(this.prevStage[3].substring(this.prevStage[3].indexOf(":") + 1), this.prevStage[2]);
 				break;
 			}
 		}
@@ -466,7 +463,7 @@ public class ConfigGui extends GuiScreen
 		this.buttonNew.visible = true;
 		this.buttonNew.displayString = "New " + type;
 		this.buttonNewText = "New " + type;
-		drawString = "Select the reward type that you would like to edit";
+		drawString = "Select the specific reward part that you would like to edit";
 		entries.clearElements();
 		if(type.equalsIgnoreCase("Chance"))
 		{
@@ -512,7 +509,7 @@ public class ConfigGui extends GuiScreen
 		else if(type.equalsIgnoreCase("Potion"))
 			this.loadRewardPart(convertedJson, PotionPart.elements);
 		else if(type.equalsIgnoreCase("Schematic"))
-			this.loadRewardPart(convertedJson, new String[] { "fileName", "delay" });
+			this.loadRewardPart(convertedJson, new String[] { "fileName:S", "delay:I" });
 		else if(type.equalsIgnoreCase("Sound"))
 			this.loadRewardPart(convertedJson, SoundPart.elements);
 		else if(type.equalsIgnoreCase("Chest"))
@@ -541,11 +538,91 @@ public class ConfigGui extends GuiScreen
 	{
 		for(String s : parts)
 		{
+			s = s.substring(0, s.length() - 2);
 			String value = "";
 			if(convertedJson.has(s))
 				value = convertedJson.get(s).getAsString();
 			entries.addTextEntry(s, value);
 		}
+	}
+
+	public void saveRewardPart(File file, JsonElement fileJson, JsonElement rewardJson)
+	{
+		JsonArray rewardTypeArray = rewardJson.getAsJsonObject().get(this.prevStage[2]).getAsJsonArray();
+		JsonObject rewardInstance = rewardTypeArray.get(Integer.parseInt(this.prevStage[3].substring(0, this.prevStage[3].indexOf(":")))).getAsJsonObject();
+		String[] rewardElements = this.getsElementsFromReward(this.prevStage[2]);
+		for(int i = 0; i < this.entries.getSize(); i++)
+		{
+			IGuiListEntry entry = this.entries.getListEntry(i);
+			if(entry instanceof CustomTextEntry)
+			{
+				CustomTextEntry textBox = (CustomTextEntry) entry;
+				try
+				{
+					for(String s : rewardElements)
+					{
+						String s1 = s.substring(0, s.length() - 2);
+						String s2 = s.substring(s.length() - 1);
+						String label = textBox.getLabel().substring(0, textBox.getLabel().length() - 1);
+						String value = textBox.getTextBox().getText();
+						if(value.equalsIgnoreCase(""))
+							continue;
+						if(s1.equalsIgnoreCase(label))
+						{
+							if(s2.equalsIgnoreCase("I"))
+								rewardInstance.addProperty(label, Integer.parseInt(value));
+							if(s2.equalsIgnoreCase("S"))
+								rewardInstance.addProperty(label, value);
+							if(s2.equalsIgnoreCase("B"))
+								rewardInstance.addProperty(label, Boolean.parseBoolean(value));
+						}
+					}
+				} catch(Exception e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "An error has occured while saving this reward! Please make sure all fields are correctly filled!");
+				}
+
+			}
+		}
+		this.prevStage[3] = this.prevStage[3].substring(0, this.prevStage[3].indexOf(":") + 1) + rewardInstance.toString();
+		try
+		{
+			FileOutputStream outputStream = new FileOutputStream(file);
+			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+			writer.append(gson.toJson(fileJson));
+			writer.close();
+			outputStream.close();
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to create the new file for a custom reward!");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public String[] getsElementsFromReward(String reward)
+	{
+		if(reward.equalsIgnoreCase("Item"))
+			return ItemPart.elements;
+		else if(reward.equalsIgnoreCase("Block"))
+			return OffsetBlock.elements;
+		else if(reward.equalsIgnoreCase("Message"))
+			return MessagePart.elements;
+		else if(reward.equalsIgnoreCase("Command"))
+			return CommandPart.elements;
+		else if(reward.equalsIgnoreCase("Entity"))
+			return EntityPart.elements;
+		else if(reward.equalsIgnoreCase("Experience"))
+			return ExpirencePart.elements;
+		else if(reward.equalsIgnoreCase("Potion"))
+			return PotionPart.elements;
+		else if(reward.equalsIgnoreCase("Schematic"))
+			return new String[] { "fileName:S", "delay:I" };
+		else if(reward.equalsIgnoreCase("Sound"))
+			return SoundPart.elements;
+		else if(reward.equalsIgnoreCase("Chest"))
+			return ChestChanceItem.elements;
+		return new String[0];
 	}
 
 	public String loadFileContents(File file)

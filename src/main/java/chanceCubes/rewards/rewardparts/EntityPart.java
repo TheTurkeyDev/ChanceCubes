@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class EntityPart
 {
-	public static String[] elements = new String[]{"entity", "delay"};
+	public static String[] elements = new String[]{"entity:S", "delay:I"};
 	
 	private NBTTagCompound nbtData;
 
