@@ -1,13 +1,10 @@
 package chanceCubes.config;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,8 +28,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
@@ -61,8 +56,6 @@ import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -74,6 +67,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class CustomRewardsLoader
 {
 	public static CustomRewardsLoader instance;
+
 	private File folder;
 	private File source;
 	private static JsonParser json;
@@ -84,7 +78,10 @@ public class CustomRewardsLoader
 		this.folder = folder;
 		this.source = source;
 		json = new JsonParser();
-		addCustomSounds();
+
+		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
+		customSounds.addCustomSounds();
+		customSounds.assemble();
 	}
 
 	public void loadCustomRewards()
@@ -480,59 +477,6 @@ public class CustomRewardsLoader
 		}
 		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[sounds.size()])));
 		return rewards;
-	}
-
-	private void addCustomSounds()
-	{
-
-		File soundsFile;
-		JsonElement soundsJson;
-		try
-		{
-			soundsFile = new File(CCubesCore.class.getResource("/assets/chancecubes/sounds.json").toURI());
-			soundsJson = json.parse(new FileReader(soundsFile));
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Failed to load the sounds file from chance cubes..... what was the dev thinking?");
-			e.printStackTrace();
-			return;
-		}
-
-		for(File f : new File(this.folder + "/Sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
-		{
-			String fileShortName = f.getName().substring(0, f.getName().indexOf('.'));
-			JsonObject event = new JsonObject();
-			event.addProperty("category", "master"); // put under the "record" category for sound options
-			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
-			JsonObject sound = new JsonObject(); // sound object (instead of primitive to use 'stream' flag)
-			sound.addProperty("name", fileShortName); // path to file
-			sound.addProperty("stream", true); // prevents lag for large files
-			sounds.add(sound);
-			event.add("sounds", sounds);
-			soundsJson.getAsJsonObject().add(fileShortName, event);
-			try
-			{
-				FileUtils.copyFile(f, new File(CCubesCore.class.getResource("/assets/chancecubes/sounds/" + f.getName()).toURI()));
-			} catch(Exception e)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to copy a sound file");
-				e.printStackTrace();
-				continue;
-			}
-		}
-
-		try
-		{
-			FileOutputStream outputStream = new FileOutputStream(soundsFile);
-			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			writer.append(gson.toJson(soundsJson));
-			writer.close();
-			outputStream.close();
-		} catch(IOException ex)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Could not write to json file for the account settings");
-		}
 	}
 
 	public List<IRewardType> loadChestReward(JsonArray rawReward, List<IRewardType> rewards)
