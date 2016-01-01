@@ -1,0 +1,15 @@
+{
+	"Buttons":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Buttons!!!!"},
+			{"message":"<3 Turkey and Jacky", "delay":5}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:stone_button","Count":13,tag:{display:{Name:"ButtonScrub"}}}, "delay":20}
+		]
+	}
+}
