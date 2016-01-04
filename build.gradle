@@ -117,8 +117,8 @@ uploadArchives {
     repositories{
 		mavenDeployer {
 			configuration = configurations.deployerJars
-			repository(url: "ftp://theprogrammingturkey.com/") {
-				authentication(userName: "maven@theprogrammingturkey.com", password: "RNDX1v4#WL8!")
+			repository(url: "${project.mavenurl}") {
+				authentication(userName: "${project.mavenusername}", password: "${project.mavenpassword}")
 			}
 		}
     }
