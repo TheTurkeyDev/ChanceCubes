@@ -15,7 +15,9 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
 apply plugin: 'forge'
+apply plugin: 'maven'
 
 ext.buildnumber = 0
 if (System.getenv('BUILD_NUMBER') != null)
@@ -37,10 +39,13 @@ minecraft {
 configurations {
     shade
     compile.extendsFrom shade
+	deployerJars 
 }
 
 repositories {
-     maven { // The repo from which to get waila
+	mavenCentral()
+	
+    maven { // The repo from which to get waila
         name "Mobius Repo"
         url "http://mobiusstrip.eu/maven"
     }
@@ -58,6 +63,8 @@ repositories {
 dependencies {
     shade "team.chisel.ctmlib:CTMLib:${ctmlib_version}"
 	compile "mcp.mobius.waila:Waila:1.5.9_1.7.10:dev"
+	deployerJars "org.apache.maven.wagon:wagon-ftp:2.2"
+	
 }
 
 processResources
@@ -87,7 +94,32 @@ task deobfJar(type: Jar) {
         from sourceSets.main.output
         appendix = 'deobf'
 }
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+build.dependsOn sourceJar, deobfJar
  
 artifacts {
-        archives deobfJar
+	archives jar
+    archives deobfJar
+	archives sourceJar
+}
+
+uploadArchives {
+	onlyIf {
+		return project.hasProperty('mavenurl')
+	}
+	description = "Uploads the generated jar files to the maven"
+	logger.lifecycle "Uploads the generated jar files to the maven"
+    repositories{
+		mavenDeployer {
+			configuration = configurations.deployerJars
+			repository(url: "ftp://theprogrammingturkey.com/") {
+				authentication(userName: "maven@theprogrammingturkey.com", password: "RNDX1v4#WL8!")
+			}
+		}
+    }
 }

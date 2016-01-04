@@ -34,6 +34,11 @@ public class Location3I
 	{
 		return this.z;
 	}
+	
+	public float length()
+	{
+		return (float) Math.sqrt(x * x + y * y + z * z);
+	}
 
 	public boolean equals(Location3I loc)
 	{

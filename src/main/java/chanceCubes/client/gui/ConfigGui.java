@@ -26,6 +26,7 @@ import chanceCubes.rewards.rewardparts.ExpirencePart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 
@@ -514,6 +515,8 @@ public class ConfigGui extends GuiScreen
 			this.loadRewardPart(convertedJson, SoundPart.elements);
 		else if(type.equalsIgnoreCase("Chest"))
 			this.loadRewardPart(convertedJson, ChestChanceItem.elements);
+		else if(type.equalsIgnoreCase("Particle"))
+			this.loadRewardPart(convertedJson, ParticlePart.elements);
 
 	}
 

@@ -2,17 +2,21 @@ package chanceCubes.rewards.type;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketParticle;
+import chanceCubes.rewards.rewardparts.ParticlePart;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class ParticleEffectRewardType extends BaseRewardType<String>
+public class ParticleEffectRewardType extends BaseRewardType<ParticlePart>
 {
-	public ParticleEffectRewardType(String... effects)
+	public ParticleEffectRewardType(ParticlePart... effects)
 	{
 		super(effects);
 	}
 
 	@Override
-	public void trigger(String effect, World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(ParticlePart part, World world, int x, int y, int z, EntityPlayer player)
 	{
-		world.spawnParticle(effect, x, y + 1, z, 0.0D, 0.0D, 0.0D);
+		CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle(part.getParticle(), x, y, z, 0, 0, 0), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 	}
 }

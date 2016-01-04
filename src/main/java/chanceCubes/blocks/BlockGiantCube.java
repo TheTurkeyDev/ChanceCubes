@@ -61,6 +61,11 @@ public class BlockGiantCube extends BlockContainer
 			}
 			if(te != null)
 			{
+				if(!te.hasMaster())
+				{
+					world.setBlockToAir(x, y, z);
+					return false;
+				}
 				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
 				player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);

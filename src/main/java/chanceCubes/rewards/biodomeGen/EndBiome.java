@@ -7,10 +7,8 @@ import java.util.Random;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-
-import org.lwjgl.util.vector.Vector3f;
-
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.Location3I;
 
 public class EndBiome implements IBioDomeBiome
 {
@@ -28,8 +26,8 @@ public class EndBiome implements IBioDomeBiome
 			{
 				for(int z = -25; z <= 25; z++)
 				{
-					Vector3f vector = new Vector3f(x, y, z);
-					float dist = Math.abs(vector.length()) - 25;
+					Location3I loc = new Location3I(x, y, z);
+					float dist = Math.abs(loc.length()) - 25;
 					if(dist < 1)
 					{
 						if(dist >= 0)

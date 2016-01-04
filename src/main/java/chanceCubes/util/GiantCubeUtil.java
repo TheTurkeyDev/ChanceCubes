@@ -43,11 +43,13 @@ public class GiantCubeUtil
 			cx--;
 		while(world.getBlock(cx, cy, cz - 1).equals(CCubesBlocks.chanceCube))
 			cz--;
+		int i = 0;
 		for(int x = cx; x < cx + 3; x++)
 			for(int z = cz; z < cz + 3; z++)
 				for(int y = cy; y < cy + 3; y++)
 				{
-					world.setBlock(x, y, z, CCubesBlocks.chanceGiantCube);
+					i++;
+					world.setBlock(x, y, z, CCubesBlocks.chanceGiantCube, 0, i == 27 ? 3 : 2);
 					TileEntity tile = world.getTileEntity(x, y, z);
 					boolean master = (x == cx && y == cy + 1 && z == cz);
 					if(tile != null && (tile instanceof TileGiantCube))

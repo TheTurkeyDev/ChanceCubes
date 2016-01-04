@@ -41,6 +41,7 @@ import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
@@ -51,6 +52,7 @@ import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
@@ -266,6 +268,8 @@ public class CustomRewardsLoader
 					this.loadSoundReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
 					this.loadChestReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Particle"))
+					this.loadParticleReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
@@ -506,6 +510,23 @@ public class CustomRewardsLoader
 
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
+		return rewards;
+	}
+	
+	public List<IRewardType> loadParticleReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<ParticlePart> particles = new ArrayList<ParticlePart>();
+		for(JsonElement element : rawReward)
+		{
+
+			ParticlePart particle = new ParticlePart(element.getAsJsonObject().get("particle").getAsString());
+
+			if(element.getAsJsonObject().has("delay"))
+				particle.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+
+			particles.add(particle);
+		}
+		rewards.add(new ParticleEffectRewardType(particles.toArray(new ParticlePart[particles.size()])));
 		return rewards;
 	}
 

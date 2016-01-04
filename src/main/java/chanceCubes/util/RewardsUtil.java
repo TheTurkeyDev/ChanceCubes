@@ -8,11 +8,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 
 public class RewardsUtil
 {
-	/**
-	 * 
+	/**	 * 
 	 * @param xSize
 	 * @param ySize
 	 * @param zSize
@@ -65,11 +65,19 @@ public class RewardsUtil
 		return toReturn;
 	}
 
-	public static CommandPart[] executenXCommands(String command, int amount)
+	public static CommandPart[] executeXCommands(String command, int amount)
 	{
 		CommandPart[] toReturn = new CommandPart[amount];
 		for(int i = 0; i < amount; i++)
 			toReturn[i] = new CommandPart(command);
+		return toReturn;
+	}
+	
+	public static ParticlePart[] spawnXParticles(String particle, int amount)
+	{
+		ParticlePart[] toReturn = new ParticlePart[amount];
+		for(int i = 0; i < amount; i++)
+			toReturn[i] = new ParticlePart(particle);
 		return toReturn;
 	}
 }

@@ -65,7 +65,7 @@ public class ExtraUtilsModHook extends BaseModHook
 			stack = GameRegistry.findItemStack(super.modId, "generator.64", 1);
 			stack.setStackDisplayName("Useless Generator");
 			stack.setItemDamage(9);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 30, new ItemRewardType(new ItemPart(stack))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		if(GameRegistry.findItem(super.modId, "watering_can") != null)
