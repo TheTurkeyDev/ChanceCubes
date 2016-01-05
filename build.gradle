@@ -121,12 +121,9 @@ uploadArchives {
 		
 		logger.lifecycle('Starting upload task! Upload to maven repo.')
 		logger.lifecycle('Upload to maven repo.')
-
-        if (project.hasProperty('forgeMavenPass'))
-        {
-             repository(url: "${project.turkey_mavenurl}") {
-				authentication(userName: "${project.turkey_mavenusername}", password: "${project.turkey_mavenpassword}")
-			}
-        }
+		
+        repository(url: "${project.turkey_mavenurl}") {
+			authentication(userName: "${project.turkey_mavenusername}", password: "${project.turkey_mavenpassword}")
+		}
 	}
 }
