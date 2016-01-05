@@ -108,18 +108,20 @@ artifacts {
 	archives sourceJar
 }
 
-uploadArchives {
+task("uploadJars", type:uploadArchives ,dependsOn:build) {
 	onlyIf {
 		return project.hasProperty('turkey_mavenurl')
 	}
-	description = "Uploads the generated jar files to the maven"
-	logger.lifecycle "Uploads the generated jar files to the maven"
-    repositories{
-		mavenDeployer {
-			configuration = configurations.deployerJars
-			repository(url: "${project.turkey_mavenurl}") {
-				authentication(userName: "${project.turkey_mavenusername}", password: "${project.turkey_mavenpassword}")
-			}
-		}
+	
+    description = "uploads JARs"
+
+    logger.lifecycle('Starting upload task! Upload to maven repo.')
+    logger.lifecycle('Upload to maven repo.')
+
+	repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "${project.turkey_mavenurl}") {
+            authentication(userName: "${project.turkey_mavenusername}", password: "${project.turkey_mavenpassword}")
+        }
     }
 }
