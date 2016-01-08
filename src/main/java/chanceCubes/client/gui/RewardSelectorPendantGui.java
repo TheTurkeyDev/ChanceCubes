@@ -53,7 +53,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.rewardField.setTextColor(-1);
 		this.rewardField.setDisabledTextColour(-1);
 		this.rewardField.setEnableBackgroundDrawing(true);
-		this.rewardField.setMaxStringLength(50);
+		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
 		this.buttonList.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0])));
 	}
@@ -93,9 +93,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 	protected void keyTyped(char p_73869_1_, int p_73869_2_)
 	{
 		if(!this.rewardField.textboxKeyTyped(p_73869_1_, p_73869_2_))
-		{
 			super.keyTyped(p_73869_1_, p_73869_2_);
-		}
 	}
 
 	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_)

@@ -17,12 +17,8 @@ public class DiscoReward implements IChanceCubeReward
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		for(int xx = -4; xx < 5; xx++)
-		{
 			for(int zz = -4; zz < 5; zz++)
-			{
 				world.setBlock(x+xx, y-1, z+zz, Blocks.wool, rand.nextInt(16), 3);
-			}
-		}
 		
 		for(int i = 0; i < 10; i++)
 		{

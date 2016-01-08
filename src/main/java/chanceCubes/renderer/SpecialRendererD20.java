@@ -20,9 +20,7 @@ public class SpecialRendererD20 implements ISimpleBlockRenderingHandler
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
 		if(block != CCubesBlocks.chanceIcosahedron)
-		{
 			return;
-		}
 		
 		TileEntity tile = ((BlockChanceD20)block).createNewTileEntity(Minecraft.getMinecraft().theWorld, metadata);
 		tile.setWorldObj(Minecraft.getMinecraft().theWorld);

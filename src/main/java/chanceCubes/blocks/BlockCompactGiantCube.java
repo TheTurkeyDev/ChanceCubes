@@ -1,20 +1,18 @@
 package chanceCubes.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.tileentities.TileGiantCube;
 
-public class BlockCompactGiantCube extends Block
+public class BlockCompactGiantCube extends BaseChanceBlock
 {
+	public static final String blockName = "Compact_Giant_Chance_Cube";
+	
 	public BlockCompactGiantCube()
 	{
-		super(Material.ground);
+		super("Compact_Giant_Chance_Cube");
 		this.setHardness(0.5f);
-		this.setBlockName("Compact_Giant_Chance_Cube");
-		this.setCreativeTab(CCubesCore.modTab);
 		this.setBlockTextureName("chancecubes:chanceCube");
 	}
 

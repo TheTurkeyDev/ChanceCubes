@@ -49,38 +49,21 @@ public class CreativePendantGui extends GuiContainer
 
 	protected void actionPerformed(GuiButton button)
 	{
-		if(button.enabled)
-		{
-			if(button.id == 0)
-			{
-				this.chanceValue -= 1;
-			}
-			else if(button.id == 1)
-			{
-				this.chanceValue += 1;
-			}
-			else if(button.id == 2)
-			{
-				this.chanceValue -= 5;
-			}
-			else if(button.id == 3)
-			{
-				this.chanceValue += 5;
-			}
-			else if(button.id == 4)
-			{
-				this.chanceValue -= 10;
-			}
-			else if(button.id == 5)
-			{
-				this.chanceValue += 10;
-			}
-			else if(button.id == 6)
-			{
-				if(container.getChanceCubesInPendant() != null)
-					CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderName(), this.chanceValue));
-			}
-		}
+		if(button.id == 0)
+			this.chanceValue -= 1;
+		else if(button.id == 1)
+			this.chanceValue += 1;
+		else if(button.id == 2)
+			this.chanceValue -= 5;
+		else if(button.id == 3)
+			this.chanceValue += 5;
+		else if(button.id == 4)
+			this.chanceValue -= 10;
+		else if(button.id == 5)
+			this.chanceValue += 10;
+		else if(button.id == 6 && container.getChanceCubesInPendant() != null)
+			CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderName(), this.chanceValue));
+
 		if(this.chanceValue > 100)
 			this.chanceValue = 100;
 		if(this.chanceValue < -100)

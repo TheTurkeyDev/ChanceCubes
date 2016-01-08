@@ -17,6 +17,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
+import chanceCubes.rewards.giantRewards.ChunkFlipReward;
 import chanceCubes.rewards.giantRewards.ChunkReverserReward;
 import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
@@ -47,6 +48,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new OrePillarReward());
 		INSTANCE.registerReward(new ChunkReverserReward());
 		INSTANCE.registerReward(new FloorIsLavaReward());
+		INSTANCE.registerReward(new ChunkFlipReward());
 	}
 
 	@Override
@@ -91,9 +93,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 	private void redoSort(@Nullable IChanceCubeReward newReward)
 	{
 		if(newReward != null)
-		{
 			sortedRewards.add(newReward);
-		}
 
 		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
 		{

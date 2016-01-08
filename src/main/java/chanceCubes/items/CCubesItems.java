@@ -17,27 +17,17 @@ public class CCubesItems {
 	public static Item scanner;
 	
 	public static void loadItems()
-	{
-		chancePendantT1 = new ItemChancePendant(1, 10);
-		chancePendantT2 = new ItemChancePendant(2, 25);
-		chancePendantT3 = new ItemChancePendant(3, 50);
-		chancePendantT4 = new ItemChancePendant(4, 100);
-		silkPendant = new ItemSilkTouchPendant();
-		creativePendant = new ItemCreativePendant();
-		rewardSelectorPendant = new ItemRewardSelectorPendant();
+	{	
+		GameRegistry.registerItem(chancePendantT1 = new ItemChancePendant(1, 10), "chancePendantTier1");
+		GameRegistry.registerItem(chancePendantT2 = new ItemChancePendant(2, 25), "chancePendantTier2");
+		GameRegistry.registerItem(chancePendantT3 = new ItemChancePendant(3, 50), "chancePendantTier3");
+		GameRegistry.registerItem(chancePendantT4 = new ItemChancePendant(4, 100), "chancePendantTier4");
 		
-		scanner = new ItemScanner();
+		GameRegistry.registerItem(silkPendant = new ItemSilkTouchPendant(), "silkTouchPendant");
+		GameRegistry.registerItem(creativePendant = new ItemCreativePendant(), "creativePendant");
+		GameRegistry.registerItem(rewardSelectorPendant = new ItemRewardSelectorPendant(), "reward_Selector_Pendant");
 		
-		GameRegistry.registerItem(chancePendantT1, "chancePendantTier1");
-		GameRegistry.registerItem(chancePendantT2, "chancePendantTier2");
-		GameRegistry.registerItem(chancePendantT3, "chancePendantTier3");
-		GameRegistry.registerItem(chancePendantT4, "chancePendantTier4");
-		
-		GameRegistry.registerItem(silkPendant, "silkTouchPendant");
-		GameRegistry.registerItem(creativePendant, "creativePendant");
-		GameRegistry.registerItem(rewardSelectorPendant, "reward_Selector_Pendant");
-		
-		GameRegistry.registerItem(scanner, "scanner");
+		GameRegistry.registerItem(scanner = new ItemScanner(), "scanner");
 	}
 
 }

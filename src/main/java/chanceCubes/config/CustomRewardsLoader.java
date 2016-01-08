@@ -109,10 +109,12 @@ public class CustomRewardsLoader
 				{
 					BasicReward basicReward = this.parseReward(reward);
 					if(basicReward == null)
+					{
+						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
+					}
 					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
-
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
 			}
 		}
@@ -152,9 +154,7 @@ public class CustomRewardsLoader
 			}
 
 			if(dateFormat.format(date).equalsIgnoreCase(dateFormat.format(parsed)))
-			{
 				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
-			}
 
 			if(holiday.getAsJsonObject().has("Texture") && !holiday.getAsJsonObject().get("Texture").getAsString().equalsIgnoreCase(""))
 			{
@@ -187,7 +187,6 @@ public class CustomRewardsLoader
 
 		if(!CCubesSettings.holidayRewardTriggered)
 		{
-
 			JsonElement userRewards;
 
 			try
@@ -467,7 +466,6 @@ public class CustomRewardsLoader
 		List<SoundPart> sounds = new ArrayList<SoundPart>();
 		for(JsonElement element : rawReward)
 		{
-
 			SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
 
 			if(element.getAsJsonObject().has("delay"))
@@ -506,19 +504,20 @@ public class CustomRewardsLoader
 				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
 			}
 			else
+			{
 				CCubesCore.logger.log(Level.ERROR, "A chest reward failed to load do to missing params");
+			}
 
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
 		return rewards;
 	}
-	
+
 	public List<IRewardType> loadParticleReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<ParticlePart> particles = new ArrayList<ParticlePart>();
 		for(JsonElement element : rawReward)
 		{
-
 			ParticlePart particle = new ParticlePart(element.getAsJsonObject().get("particle").getAsString());
 
 			if(element.getAsJsonObject().has("delay"))
@@ -567,9 +566,7 @@ public class CustomRewardsLoader
 					{
 						int j = schem.blocks[i];
 						if(j < 0)
-						{
 							j = 128 + (128 + j);
-						}
 
 						Block b = Block.getBlockById(j);
 						if(b != Blocks.air)
@@ -584,7 +581,6 @@ public class CustomRewardsLoader
 							block.setData(schem.data[i]);
 							blocks.add(block);
 						}
-
 						i++;
 					}
 				}
@@ -684,7 +680,9 @@ public class CustomRewardsLoader
 				index = secondQuote;
 			}
 			else
+			{
 				index++;
+			}
 		}
 		return sb.toString();
 	}
@@ -744,9 +742,7 @@ public class CustomRewardsLoader
 		{
 			JsonObject rewardElements = reward.getValue().getAsJsonObject();
 			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-			{
 				rewardinfo.add(rewardElement.getKey());
-			}
 		}
 		return rewardinfo;
 	}
@@ -777,9 +773,7 @@ public class CustomRewardsLoader
 					{
 						JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
 						for(int i = 0; i < rewardTypeArray.size(); i++)
-						{
 							rewardinfo.add(rewardTypeArray.get(i).toString());
-						}
 					}
 					else
 					{
@@ -800,17 +794,11 @@ public class CustomRewardsLoader
 		int sd = second.get(Calendar.DAY_OF_MONTH);
 
 		if(fm < sm)
-		{
 			return 1;
-		}
 		else if(fm == sm)
-		{
 			return fd == sd ? 0 : fd < sm ? 1 : -1;
-		}
 		else
-		{
 			return -1;
-		}
 	}
 
 	public File getFolderFile()

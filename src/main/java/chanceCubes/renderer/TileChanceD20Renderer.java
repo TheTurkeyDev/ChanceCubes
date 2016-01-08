@@ -25,6 +25,8 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	private float baseSpinSpd = 0.5F;
 	private float baseColorSpd = 75F;
 	private float hvrSpd = 12F;
+	
+	Random random = new Random(432L);
 
 	public TileChanceD20Renderer()
 	{
@@ -63,7 +65,6 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		float f1 = ((float) tileEntity.getWorldObj().getTotalWorldTime() % 750 + partialTick) / 750.0F;
 		float f2 = 0F;
 
-		Random random = new Random(432L);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glEnable(GL11.GL_BLEND);

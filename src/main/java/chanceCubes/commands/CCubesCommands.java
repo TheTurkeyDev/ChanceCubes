@@ -24,8 +24,6 @@ public class CCubesCommands implements ICommand
 		this.aliases.add("ChanceCube");
 		this.aliases.add("Chancecube");
 		this.aliases.add("chancecube");
-		this.aliases.add("CC");
-		this.aliases.add("cc");
 		this.aliases.add("CCubes");
 	}
 
@@ -64,7 +62,7 @@ public class CCubesCommands implements ICommand
 		}
 		else if(astring.length > 0 && astring[0].equalsIgnoreCase("version"))
 		{
-			icommandsender.addChatMessage(new ChatComponentText(CCubesCore.VERSION));
+			icommandsender.addChatMessage(new ChatComponentText("Chance Cubes Version " + CCubesCore.VERSION));
 		}
 	}
 

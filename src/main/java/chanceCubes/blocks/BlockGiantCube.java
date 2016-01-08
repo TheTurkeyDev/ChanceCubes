@@ -1,7 +1,13 @@
 package chanceCubes.blocks;
 
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
+import static team.chisel.ctmlib.Dir.BOTTOM;
+import static team.chisel.ctmlib.Dir.LEFT;
+import static team.chisel.ctmlib.Dir.RIGHT;
+import static team.chisel.ctmlib.Dir.TOP;
+
+import java.util.Random;
+
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,10 +28,11 @@ import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import static team.chisel.ctmlib.Dir.*;
 
-public class BlockGiantCube extends BlockContainer
+public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
+	public static final String blockName = "Giant_Chance_Cube";
+	
 	@SideOnly(Side.CLIENT)
 	private TextureSubmap[] subMap;
 	@SideOnly(Side.CLIENT)
@@ -33,17 +40,20 @@ public class BlockGiantCube extends BlockContainer
 
 	public BlockGiantCube()
 	{
-		super(Material.ground);
-		this.setHardness(0.5f);
-		this.setBlockName("Giant_Chance_Cube");
+		super("Giant_Chance_Cube");
 		this.setBlockTextureName("chancecubes:chanceCube");
-		this.setLightLevel(2);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta)
 	{
 		return new TileGiantCube();
+	}
+	
+	@Override
+	public int quantityDropped(Random p_149745_1_)
+	{
+		return 0;
 	}
 
 	@Override
@@ -155,7 +165,7 @@ public class BlockGiantCube extends BlockContainer
 			return this.getIconAt(side, 1, 1);
 		}
 	}
-	
+
 	public IIcon getIconAt(int side, int x, int y)
 	{
 		if(CCubesSettings.hasHolidayTexture)

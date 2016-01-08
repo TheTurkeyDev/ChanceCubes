@@ -12,39 +12,23 @@ import chanceCubes.util.Task;
 
 public class HerobrineReward implements IChanceCubeReward
 {
-	private boolean triggered = false;
-	private int stage = 0;
-	private boolean staying = false;
 	private String[] leaveSayings = new String[] {"I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time."};
 	private String[] staySayings = new String[] {"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end"};
-	private EntityPlayer player;
-	private World world;
-	private int x, y, z;
 
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		if(triggered)
-			return;
-		triggered = true;
-		stage = 0;
-		staying = world.rand.nextInt(5) == 1;
-		this.player = player;
-		this.world = world;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		update();
+		update(world, x, y, z, player, 0, world.rand.nextInt(5) == 1);
 	}
 
-	private void schedule()
+	private void schedule(final World world, final int x, final int y, final int z, final EntityPlayer player, final int stage, final boolean staying)
 	{
 		Task task = new Task("Herobrine Reward", 40)
 		{
 			@Override
 			public void callback()
 			{
-				update();
+				update(world, x, y, z, player, stage, staying);
 			}
 
 		};
@@ -52,7 +36,7 @@ public class HerobrineReward implements IChanceCubeReward
 		Scheduler.scheduleTask(task);
 	}
 
-	private void update()
+	private void update(World world, int x, int y, int z, EntityPlayer player, int stage, boolean staying)
 	{
 		switch(stage)
 		{
@@ -91,9 +75,7 @@ public class HerobrineReward implements IChanceCubeReward
 		stage++;
 
 		if(stage < 3)
-			schedule();
-		else
-			this.triggered = false;
+			schedule(world, x, y, z, player, stage, staying);
 	}
 
 	@Override

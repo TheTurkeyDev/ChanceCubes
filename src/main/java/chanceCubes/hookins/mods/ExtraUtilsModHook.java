@@ -108,14 +108,26 @@ public class ExtraUtilsModHook extends BaseModHook
 
 		if(GameRegistry.findBlock(super.modId, "spike_base") != null)
 		{
-			OffsetBlock[] spikes = new OffsetBlock[50];
+			OffsetBlock[] spikes = new OffsetBlock[34];
+			int index = 0;
 			for(int x = 0; x < 5; x++)
 			{
 				for(int z = 0; z < 5; z++)
 				{
-					spikes[x * 5 + z] = new OffsetBlock(x - 2, -1, z - 2, GameRegistry.findBlock(super.modId, "spike_base"), false).setRelativeToPlayer(true);
-					spikes[x * 5 + z].setData((byte) 1);
-					spikes[25 + (x * 5 + z)] = new OffsetBlock(x - 2, 2, z - 2, GameRegistry.findBlock(super.modId, "spike_base"), false).setRelativeToPlayer(true);
+					if(x == 0 || x == 4 || z == 0 | z == 4)
+					{
+						spikes[index] = new OffsetBlock(x - 2, 0, z - 2, GameRegistry.findBlock(super.modId, "spike_base"), false).setRelativeToPlayer(true);
+						spikes[index].setData((byte) (x == 0 ? 5 : x == 4 ? 4 : z == 0 ? 3 : 2));
+						index++;
+					}
+					else
+					{
+						spikes[index] = new OffsetBlock(x - 2, -1, z - 2, GameRegistry.findBlock(super.modId, "spike_base"), false).setRelativeToPlayer(true);
+						spikes[index].setData((byte) 1);
+						index++;
+						spikes[index] = new OffsetBlock(x - 2, 2, z - 2, GameRegistry.findBlock(super.modId, "spike_base"), false).setRelativeToPlayer(true);
+						index++;
+					}
 
 				}
 			}

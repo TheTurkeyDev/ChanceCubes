@@ -27,6 +27,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 /**
  * Code Referenced and sourced from the EnderCore and CustomThings mods. 
  * All referenced sources and code belong to their original authors and is used with their permission.
+ * View the
  */
 
 public class CustomSoundsLoader

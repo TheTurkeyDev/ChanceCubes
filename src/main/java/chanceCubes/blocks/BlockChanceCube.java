@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
@@ -27,7 +26,7 @@ import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockChanceCube extends Block implements ITileEntityProvider
+public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
 {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
@@ -36,10 +35,7 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 
 	public BlockChanceCube()
 	{
-		super(Material.ground);
-		this.setHardness(0.5f);
-		this.setBlockName("Chance_Cube");
-		this.setCreativeTab(CCubesCore.modTab);
+		super("Chance_Cube");
 		this.setBlockTextureName("chancecubes:chanceCube");
 		this.setLightLevel(2);
 	}
