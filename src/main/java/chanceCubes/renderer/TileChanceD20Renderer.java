@@ -25,6 +25,8 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	private float baseSpinSpd = 0.5F;
 	private float baseColorSpd = 75F;
 	private float hvrSpd = 12F;
+	
+	private Random random = new Random();
 
 	public TileChanceD20Renderer()
 	{
@@ -73,7 +75,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, -1.0F, -2.0F);
 
-		Random random = new Random(432L);
+		random.setSeed(432L);
 		for(int i = 0; i < (16 + (stage / 10)); ++i)
 		{
 			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);

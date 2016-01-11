@@ -64,7 +64,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public boolean startd20(World world, int x, int y, int z, EntityPlayer player)
 	{
-		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
+		if(world.isRemote || player == null || player instanceof FakePlayer)
 			return false;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.Location3I;
+import chanceCubes.util.MathDamageSource;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -65,14 +66,14 @@ public class MathReward implements IChanceCubeReward
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
 				world.spawnEntityInWorld(entitytntprimed);
 				world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
-				entitytntprimed.fuse = 120;
+				entitytntprimed.fuse = 140;
 				tnt.add(entitytntprimed);
 			}
 
 			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, boxBlocks));
 		}
 
-		Task task = new Task("Math", 140)
+		Task task = new Task("Math", 100)
 		{
 			@Override
 			public void callback()
@@ -94,9 +95,15 @@ public class MathReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new ChatComponentText("Correct!"));
-			for(Entity tnt : info.getTnt())
-				tnt.setDead();
 		}
+		else
+		{
+			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+			player.attackEntityFrom(MathDamageSource.mathfail, 32767.0F);
+		}
+		
+		for(Entity tnt : info.getTnt())
+			tnt.setDead();
 
 		for(Location3I b : info.getBlocks())
 			player.worldObj.setBlockToAir(b.getX(), b.getY(), b.getZ());

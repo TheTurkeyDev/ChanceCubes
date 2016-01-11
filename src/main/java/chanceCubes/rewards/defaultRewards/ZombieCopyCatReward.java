@@ -26,10 +26,15 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 			weapon = player.getCurrentEquippedItem().copy();
 		
 		zombie.setCurrentItemOrArmor(0, weapon);
+		zombie.setEquipmentDropChance(0, 0);
 		zombie.setCurrentItemOrArmor(1, player.inventory.armorInventory[0]);
+		zombie.setEquipmentDropChance(1, 0);
 		zombie.setCurrentItemOrArmor(2, player.inventory.armorInventory[1]);
+		zombie.setEquipmentDropChance(2, 0);
 		zombie.setCurrentItemOrArmor(3, player.inventory.armorInventory[2]);
+		zombie.setEquipmentDropChance(3, 0);
 		zombie.setCurrentItemOrArmor(4, player.inventory.armorInventory[3]);
+		zombie.setEquipmentDropChance(4, 0);
 		
 		world.spawnEntityInWorld(zombie);
 	}
@@ -37,7 +42,7 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -90;
+		return -25;
 	}
 
 	@Override

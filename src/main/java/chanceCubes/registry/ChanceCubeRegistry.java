@@ -215,7 +215,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					}
 					else
 					{
-						blocks[i] = new OffsetBlock(x - 2, y, z - 2, Blocks.iron_block, true, i*2);
+						blocks[i] = new OffsetBlock(x - 2, y, z - 2, Blocks.iron_block, true, i*5);
 						i++;
 					}
 				}
