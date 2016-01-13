@@ -15,7 +15,7 @@ public class Scheduler
 	public static void tickTasks()
 	{
 		int numTasks = tasks.size();
-
+		
 		for(int i = numTasks - 1; i >= 0; i--)
 		{
 			Task task = tasks.get(i);

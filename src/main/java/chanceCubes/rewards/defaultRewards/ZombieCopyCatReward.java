@@ -20,22 +20,47 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		{
 			ItemStack stack = player.inventory.mainInventory[i];
 			if(stack != null && stack.getItem() instanceof ItemSword)
+			{
 				weapon = stack.copy();
+				// player.inventory.mainInventory[i] = new ItemStack(Blocks.air);
+			}
 		}
 		if(weapon == null && player.getCurrentEquippedItem() != null)
+		{
 			weapon = player.getCurrentEquippedItem().copy();
-		
+			// player.setCurrentItemOrArmor(0, new ItemStack(Blocks.air));
+		}
+
 		zombie.setCurrentItemOrArmor(0, weapon);
 		zombie.setEquipmentDropChance(0, 0);
-		zombie.setCurrentItemOrArmor(1, player.inventory.armorInventory[0]);
-		zombie.setEquipmentDropChance(1, 0);
-		zombie.setCurrentItemOrArmor(2, player.inventory.armorInventory[1]);
-		zombie.setEquipmentDropChance(2, 0);
-		zombie.setCurrentItemOrArmor(3, player.inventory.armorInventory[2]);
-		zombie.setEquipmentDropChance(3, 0);
-		zombie.setCurrentItemOrArmor(4, player.inventory.armorInventory[3]);
-		zombie.setEquipmentDropChance(4, 0);
-		
+
+		int i = player.inventory.mainInventory.length;
+
+		if(player.inventory.armorInventory[0] != null)
+		{
+			zombie.setCurrentItemOrArmor(1, player.inventory.armorInventory[0].copy());
+			zombie.setEquipmentDropChance(1, 1);
+			player.inventory.setInventorySlotContents(i, null);
+		}
+		if(player.inventory.armorInventory[1] != null)
+		{
+			zombie.setCurrentItemOrArmor(2, player.inventory.armorInventory[1].copy());
+			zombie.setEquipmentDropChance(2, 1);
+			player.inventory.setInventorySlotContents(i + 1, null);
+		}
+		if(player.inventory.armorInventory[2] != null)
+		{
+			zombie.setCurrentItemOrArmor(3, player.inventory.armorInventory[2].copy());
+			zombie.setEquipmentDropChance(3, 1);
+			player.inventory.setInventorySlotContents(i + 2, null);
+		}
+		if(player.inventory.armorInventory[3] != null)
+		{
+			zombie.setCurrentItemOrArmor(4, player.inventory.armorInventory[3].copy());
+			zombie.setEquipmentDropChance(4, 1);
+			player.inventory.setInventorySlotContents(i + 3, null);
+		}
+
 		world.spawnEntityInWorld(zombie);
 	}
 
