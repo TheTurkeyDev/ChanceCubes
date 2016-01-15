@@ -1,4 +1,4 @@
-package chanceCubes.hookins.nei;
+/*package chanceCubes.hookins.nei;
 
 import net.minecraft.item.ItemStack;
 import chanceCubes.CCubesCore;
@@ -25,4 +25,4 @@ public class NEIChanceCubesConfig implements IConfigureNEI
 	{
 		return CCubesCore.MODID;
 	}
-}
+}*/

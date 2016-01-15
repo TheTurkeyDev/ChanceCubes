@@ -60,6 +60,7 @@ dependencies {
 
     compile "codechicken:CodeChickenLib:${mc_version}-${CCL_version}:dev"
     compile "codechicken:CodeChickenCore:${mc_version}-${CCC_version}:dev"
+	compile "codechicken:NotEnoughItems:${mc_version}-${NEI_version}:dev"
 }
 
 processResources
