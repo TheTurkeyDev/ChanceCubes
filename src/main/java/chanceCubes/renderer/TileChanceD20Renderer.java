@@ -1,7 +1,6 @@
 package chanceCubes.renderer;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -11,8 +10,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
 import org.lwjgl.opengl.GL11;
 
@@ -20,24 +18,16 @@ import chanceCubes.tileentities.TileChanceD20;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 {
-	private OBJModel model;
 	private ResourceLocation texture;
 
 	private float baseSpinSpd = 0.5F;
 	private float baseColorSpd = 75F;
 	private float hvrSpd = 12F;
-	
+
 	Random random = new Random(432L);
 
 	public TileChanceD20Renderer()
 	{
-		try
-		{
-			model = (OBJModel) OBJLoader.instance.loadModel(new ResourceLocation("chancecubes", "models/d20.obj"));
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
 		texture = new ResourceLocation("chancecubes", "textures/models/d20.png");
 	}
 
@@ -45,11 +35,11 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick, int var9)
 	{
 		TileChanceD20 d20 = (TileChanceD20) tileEntity;
-		
+
 		int stage = d20.getStage();
 
 		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorld().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
-		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage/15F));
+		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage / 15F));
 		float color = (tileEntity.getWorld().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
 
 		GL11.glPushMatrix();
@@ -60,7 +50,8 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glColor3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		//OBJBakedModel baked = model.bake(state, format, bakedTextureGetter);
+		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(tileEntity.getBlockType().getDefaultState(), tileEntity.getWorld(), tileEntity.getPos());
+		baked.scheduleRebake();
 
 		GL11.glPopMatrix();
 

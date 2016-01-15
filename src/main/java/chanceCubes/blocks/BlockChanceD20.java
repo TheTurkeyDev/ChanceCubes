@@ -1,10 +1,20 @@
 package chanceCubes.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import chanceCubes.config.CCubesSettings;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import chanceCubes.items.CCubesItems;
+import chanceCubes.items.ItemChanceCube;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
@@ -23,36 +33,56 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return new TileChanceD20();
 	}
 
-	@Override
-	public int getRenderType()
-	{
-		return CCubesSettings.d20RenderID;
-	}
-
-	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
-	{
-		return false;
-	}
-
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
-	/*
-	 * @SideOnly(Side.CLIENT) public void randomDisplayTick(World world, int x, int y, int z, Random rand) { }
-	 * 
-	 * public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) { this.startd20(world, pos, player); }
-	 * 
-	 * public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) { return this.startd20(world, pos, player); }
-	 * 
-	 * public boolean startd20(World world, BlockPos pos, EntityPlayer player) { if(world.isRemote || player == null || player instanceof FakePlayer) return false;
-	 * 
-	 * TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos); if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant)) { ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1); ((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance()); this.dropBlockAsItem(world, pos, stack); world.setBlockToAir(pos); world.removeTileEntity(pos); return true; }
-	 * 
-	 * if(te != null) { te.startBreaking(player); CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50)); return true; }
-	 * 
-	 * return false; }
-	 */
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
+	}
 
+	@Override
+	public boolean isVisuallyOpaque()
+	{
+		return false;
+	}
+
+	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
+	{
+		this.startd20(world, pos, player);
+	}
+
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
+		return this.startd20(world, pos, player);
+	}
+
+	public boolean startd20(World world, BlockPos pos, EntityPlayer player)
+	{
+		if(world.isRemote || player == null || player instanceof FakePlayer)
+			return false;
+
+		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
+		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		{
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
+			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+			super.dropBlockAsItem(world, pos, this.getDefaultState(), 1);
+			world.setBlockToAir(pos);
+			world.removeTileEntity(pos);
+			return true;
+		}
+
+		if(te != null)
+		{
+			//te.startBreaking(player);
+			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 50));
+			return true;
+		}
+
+		return false;
+	}
 }

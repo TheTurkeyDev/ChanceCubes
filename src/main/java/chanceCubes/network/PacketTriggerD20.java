@@ -50,7 +50,7 @@ public class PacketTriggerD20 implements IMessage
 		public IMessage onMessage(PacketTriggerD20 message, MessageContext ctx)
 		{
 			TileEntity ico;
-
+			
 			if((ico = CCubesCore.proxy.getClientPlayer().worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z))) != null)
 				if(ico instanceof TileChanceD20)
 					((TileChanceD20) ico).startBreaking(CCubesCore.proxy.getClientPlayer());
