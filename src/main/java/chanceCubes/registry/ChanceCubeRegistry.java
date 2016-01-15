@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -228,6 +229,17 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.beacon, true, 200);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 99, new BlockRewardType(blocks)));
 
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No_Exp", -40)
+		{
+			@Override
+			public void trigger(World world, int x, int y, int z, EntityPlayer player)
+			{
+				player.experienceLevel = 0;
+				player.experienceTotal = 0;
+				player.addChatMessage(new ChatComponentText("Screw you last stand"));
+			}
+		});
+		
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());

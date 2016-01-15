@@ -15,12 +15,12 @@ public class WitherReward implements IChanceCubeReward
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		final EntityWither wither = new EntityWither(world);
-		wither.setLocationAndAngles((double)x + 0.5D, (double)y + 1D, (double)z + 1.5D, 90.0F, 0.0F);
+		wither.setLocationAndAngles((double) x + 0.5D, (double) y + 1D, (double) z + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
 		wither.func_82206_m();
 		wither.setCustomNameTag("Kiwi");
 		world.spawnEntityInWorld(wither);
-		
+
 		player.addChatMessage(new ChatComponentText("\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\""));
 
 		Task task = new Task("Wither Reward", 180)
@@ -37,7 +37,7 @@ public class WitherReward implements IChanceCubeReward
 
 	private void removeEnts(Entity ent)
 	{
-		if(ent.worldObj.rand.nextInt(25) != 1)
+		if(ent.worldObj.rand.nextInt(20) != 1)
 			ent.setDead();
 	}
 
