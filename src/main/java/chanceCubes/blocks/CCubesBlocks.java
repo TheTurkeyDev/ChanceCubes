@@ -12,18 +12,18 @@ import chanceCubes.tileentities.TileGiantCube;
 
 public class CCubesBlocks
 {
-	public static BlockChanceCube chanceCube;
+	public static BaseChanceBlock chanceCube;
 	// public static Block chanceIcosahedron;
-	public static BlockGiantCube chanceGiantCube;
-	public static BlockCompactGiantCube chanceCompactGiantCube;
+	public static BaseChanceBlock chanceGiantCube;
+	public static BaseChanceBlock chanceCompactGiantCube;
 
 	public static void loadBlocks()
 	{
 		// chanceIcosahedron = new BlockChanceD20();
 
-		GameRegistry.registerBlock(chanceCube = new BlockChanceCube(), ItemChanceCube.class, chanceCube.getName());
-		GameRegistry.registerBlock(chanceGiantCube = new BlockGiantCube(), chanceGiantCube.getName());
-		GameRegistry.registerBlock(chanceCompactGiantCube = new BlockCompactGiantCube(), chanceCompactGiantCube.getName());
+		GameRegistry.registerBlock(chanceCube = new BlockChanceCube(), ItemChanceCube.class, chanceCube.getBlockName());
+		GameRegistry.registerBlock(chanceGiantCube = new BlockGiantCube(), chanceGiantCube.getBlockName());
+		GameRegistry.registerBlock(chanceCompactGiantCube = new BlockCompactGiantCube(), chanceCompactGiantCube.getBlockName());
 
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
 		// GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");
@@ -34,8 +34,8 @@ public class CCubesBlocks
 	{
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCube.getName(), "inventory"));
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceGiantCube.getName(), "inventory"));
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCompactGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCompactGiantCube.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCube.getBlockName(), "inventory"));
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceGiantCube.getBlockName(), "inventory"));
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCompactGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCompactGiantCube.getBlockName(), "inventory"));
 	}
 }

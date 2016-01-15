@@ -1,8 +1,8 @@
 package chanceCubes.blocks;
 
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import java.util.Random;
+
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -14,21 +14,23 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 
-public class BlockGiantCube extends BlockContainer
+public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
-	private final String blockNameID = "giant_Chance_Cube";
-
 	public BlockGiantCube()
 	{
-		super(Material.ground);
-		this.setHardness(0.5f);
-		this.setUnlocalizedName(blockNameID);
+		super("giant_Chance_Cube");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta)
 	{
 		return new TileGiantCube();
+	}
+
+	@Override
+	public int quantityDropped(Random rand)
+	{
+		return 0;
 	}
 
 	@Override
@@ -47,6 +49,11 @@ public class BlockGiantCube extends BlockContainer
 
 			if(te != null)
 			{
+				if(!te.hasMaster())
+				{
+					world.setBlockToAir(pos);
+					return false;
+				}
 				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
 				player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
@@ -54,10 +61,5 @@ public class BlockGiantCube extends BlockContainer
 			}
 		}
 		return true;
-	}
-	
-	public String getName()
-	{
-		return this.blockNameID;
 	}
 }

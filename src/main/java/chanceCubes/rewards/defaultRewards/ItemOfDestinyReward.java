@@ -38,7 +38,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 
 	private void changeItem(final EntityItem item, final int iteration, final EntityPlayer player)
 	{
-		Task task = new Task("Item_Of_Destiny_Reward", 10)
+		Task task = new Task("Item_Of_Destiny_Reward", 5)
 		{
 			@Override
 			public void callback()
@@ -61,7 +61,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 
 	private void changeEnchantAmount(final EntityItem item, final EntityPlayer player)
 	{
-		Task task = new Task("Item_Of_Destiny_Reward", 70)
+		Task task = new Task("Item_Of_Destiny_Reward", 50)
 		{
 			@Override
 			public void callback()
@@ -78,7 +78,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	
 	private void changeEnchants(final EntityItem item, final int enchants, final int iteration, final EntityPlayer player)
 	{
-		Task task = new Task("Item_Of_Destiny_Reward", 70)
+		Task task = new Task("Item_Of_Destiny_Reward", 50)
 		{
 			@Override
 			public void callback()

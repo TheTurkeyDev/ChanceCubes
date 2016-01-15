@@ -15,6 +15,8 @@ public class BlockRewardType extends BaseRewardType<OffsetBlock>
 	@Override
 	protected void trigger(OffsetBlock block, World world, int x, int y, int z, EntityPlayer player)
 	{
+		if(block == null)
+			return;
 		if(block.isRelativeToPlayer())
 			block.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
 		else

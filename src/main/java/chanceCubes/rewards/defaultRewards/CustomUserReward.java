@@ -77,7 +77,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "Users/" + userName + ".json");
+			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Users/" + userName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");

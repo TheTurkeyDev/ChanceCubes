@@ -20,12 +20,8 @@ public class DiscoReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		for(int xx = -4; xx < 5; xx++)
-		{
 			for(int zz = -4; zz < 5; zz++)
-			{
 				world.setBlockState(pos.add(xx, -1, zz), Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(rand.nextInt(16))), 3);
-			}
-		}
 
 		for(int i = 0; i < 10; i++)
 		{

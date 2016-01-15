@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
@@ -18,23 +17,18 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 
-public class BlockChanceCube extends Block implements ITileEntityProvider
+public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
 {
-	private final String blockNameID = "chance_Cube";
 
 	public BlockChanceCube()
 	{
-		super(Material.ground);
-		this.setHardness(0.5f);
-		this.setUnlocalizedName(blockNameID);
-		this.setCreativeTab(CCubesCore.modTab);
+		super("chance_Cube");
 		this.setLightLevel(2);
 	}
 
@@ -101,10 +95,5 @@ public class BlockChanceCube extends Block implements ITileEntityProvider
 		{
 			GiantCubeUtil.setupStructure(pos, world);
 		}
-	}
-
-	public String getName()
-	{
-		return this.blockNameID;
 	}
 }

@@ -7,9 +7,6 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-
-import org.lwjgl.util.vector.Vector3f;
-
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 
 public class DesertBiome implements IBioDomeBiome
@@ -28,8 +25,7 @@ public class DesertBiome implements IBioDomeBiome
 			{
 				for(int z = -25; z <= 25; z++)
 				{
-					Vector3f vector = new Vector3f(x, y, z);
-					float dist = Math.abs(vector.length()) - 25;
+					float dist = (float) (Math.abs(Math.sqrt(x * x + y * y + z * z)) - 25);
 					if(dist < 1)
 					{
 						if(dist >= 0)

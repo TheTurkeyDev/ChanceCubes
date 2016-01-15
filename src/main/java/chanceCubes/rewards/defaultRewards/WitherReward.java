@@ -38,7 +38,7 @@ public class WitherReward implements IChanceCubeReward
 
 	private void removeEnts(Entity ent)
 	{
-		if(ent.worldObj.rand.nextInt(25) != 1)
+		if(ent.worldObj.rand.nextInt(20) != 1)
 			ent.setDead();
 	}
 

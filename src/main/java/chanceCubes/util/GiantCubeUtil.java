@@ -44,11 +44,13 @@ public class GiantCubeUtil
 			cx--;
 		while(world.getBlockState(new BlockPos(cx, cy, cz - 1)).getBlock().equals(CCubesBlocks.chanceCube))
 			cz--;
+		int i = 0;
 		for(int x = cx; x < cx + 3; x++)
 			for(int z = cz; z < cz + 3; z++)
 				for(int y = cy; y < cy + 3; y++)
 				{
-					world.setBlockState(new BlockPos(x, y, z), CCubesBlocks.chanceGiantCube.getDefaultState());
+					i++;
+					world.setBlockState(new BlockPos(x, y, z), CCubesBlocks.chanceGiantCube.getDefaultState(), i == 27 ? 3 : 2);
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);

@@ -13,15 +13,9 @@ public class FiveProngReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		for(int xx = pos.getX()-3; xx <= pos.getX()+3; xx++)
-		{
 			for(int zz = pos.getZ()-3; zz <= pos.getZ()+3; zz++)
-			{
 				for(int yy = pos.getY(); yy <= pos.getY()+4; yy++)
-				{
 					world.setBlockToAir(new BlockPos(xx, yy, zz));
-				}
-			}
-		}
 		
 		world.setBlockState(pos, Blocks.quartz_block.getDefaultState());
 		world.setBlockState(pos.add(0, 1, 0), Blocks.quartz_block.getDefaultState());

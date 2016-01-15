@@ -8,16 +8,17 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import chanceCubes.CCubesCore;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 
-public class ReloadRewardsCommand implements ICommand
+public class CCubesCommands implements ICommand
 {
 	private List<String> aliases;
 
-	public ReloadRewardsCommand()
+	public CCubesCommands()
 	{
 		this.aliases = new ArrayList<String>();
 		this.aliases.add("Chancecubes");
@@ -25,8 +26,6 @@ public class ReloadRewardsCommand implements ICommand
 		this.aliases.add("ChanceCube");
 		this.aliases.add("Chancecube");
 		this.aliases.add("chancecube");
-		this.aliases.add("CC");
-		this.aliases.add("cc");
 		this.aliases.add("CCubes");
 	}
 
@@ -39,7 +38,7 @@ public class ReloadRewardsCommand implements ICommand
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/ChanceCubes";
+		return "/ChanceCubes <reload/version>";
 	}
 
 	@Override
@@ -59,8 +58,13 @@ public class ReloadRewardsCommand implements ICommand
 			GiantCubeRegistry.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();
 			CustomRewardsLoader.instance.loadHolidayRewards();
+			ChanceCubeRegistry.loadCustomUserRewards();
 			ModHookUtil.loadCustomModRewards();
 			sender.addChatMessage(new ChatComponentText("RewardsReloaded"));
+		}
+		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
+		{
+			sender.addChatMessage(new ChatComponentText("Chance Cubes Version " + CCubesCore.VERSION));
 		}
 	}
 

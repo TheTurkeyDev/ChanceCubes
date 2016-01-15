@@ -1,27 +1,19 @@
 package chanceCubes.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.items.ItemChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 
-public class BlockChanceD20 extends Block implements ITileEntityProvider
+public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
-	private final String blockNameID = "chanceIcosahedron";
 
 	public BlockChanceD20()
 	{
-		super(Material.iron);
-		GameRegistry.registerBlock(this, ItemChanceCube.class, blockNameID);
+		super("chance_Icosahedron");
 		super.setHardness(-1F);
-		this.setUnlocalizedName(blockNameID);
-		this.setCreativeTab(CCubesCore.modTab);
 		this.setLightLevel(7);
 	}
 
@@ -37,19 +29,30 @@ public class BlockChanceD20 extends Block implements ITileEntityProvider
 		return CCubesSettings.d20RenderID;
 	}
 
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	{
+		return false;
+	}
+
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
 	/*
-	 * public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l) { return false; }
-	 * 
-	 * public boolean isOpaqueCube() { return false; }
-	 * 
 	 * @SideOnly(Side.CLIENT) public void randomDisplayTick(World world, int x, int y, int z, Random rand) { }
 	 * 
-	 * public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) { if(!world.isRemote && player != null && !(player instanceof FakePlayer)) { BlockPos position = new BlockPos(x, y, z); TileChanceD20 te = (TileChanceD20) world.getTileEntity(position); if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant)) { ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1); ((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance()); EntityItem blockstack = new EntityItem(world, x, y, z, stack); world.setBlockToAir(position); world.removeTileEntity(position); world.spawnEntityInWorld(blockstack); return; }
+	 * public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) { this.startd20(world, pos, player); }
 	 * 
-	 * if(te != null) { te.startBreaking(player); CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.getDimensionId(), x, y, z, 50)); } } }
+	 * public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) { return this.startd20(world, pos, player); }
 	 * 
-	 * public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) { BlockPos position = new BlockPos(x, y, z); TileChanceD20 te = (TileChanceD20) world.getTileEntity(position); if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant)) { ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1); ((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance()); EntityItem blockstack = new EntityItem(world, x, y, z, stack); world.setBlockToAir(position); world.removeTileEntity(position); world.spawnEntityInWorld(blockstack); return true; }
+	 * public boolean startd20(World world, BlockPos pos, EntityPlayer player) { if(world.isRemote || player == null || player instanceof FakePlayer) return false;
 	 * 
-	 * if(te != null) { te.startBreaking(player); CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.getDimensionId(), x, y, z, 50)); return true; } return false; }
+	 * TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos); if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant)) { ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1); ((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance()); this.dropBlockAsItem(world, pos, stack); world.setBlockToAir(pos); world.removeTileEntity(pos); return true; }
+	 * 
+	 * if(te != null) { te.startBreaking(player); CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50)); return true; }
+	 * 
+	 * return false; }
 	 */
+
 }

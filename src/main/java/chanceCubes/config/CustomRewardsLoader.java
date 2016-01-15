@@ -1,7 +1,6 @@
 package chanceCubes.config;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,7 +30,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
@@ -45,6 +43,7 @@ import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
@@ -55,6 +54,7 @@ import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
@@ -68,25 +68,28 @@ import com.google.gson.JsonParser;
 public class CustomRewardsLoader
 {
 	public static CustomRewardsLoader instance;
+
 	private File folder;
 	private File source;
 	private static JsonParser json;
 
-	public CustomRewardsLoader(File folder)
+	public CustomRewardsLoader(File folder, File source)
 	{
 		instance = this;
 		this.folder = folder;
+		this.source = source;
 		json = new JsonParser();
-		addCustomSounds();
 
+		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
+		customSounds.addCustomSounds();
+		customSounds.assemble();
 	}
 
 	public void loadCustomRewards()
 	{
-		System.out.println(folder.getAbsolutePath());
 		for(File f : folder.listFiles())
 		{
-			if(!f.isFile())
+			if(!f.isFile() || !f.getName().contains(".json"))
 				continue;
 			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
 			{
@@ -105,7 +108,10 @@ public class CustomRewardsLoader
 				{
 					BasicReward basicReward = this.parseReward(reward);
 					if(basicReward == null)
+					{
+						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
+					}
 					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
 
@@ -264,6 +270,8 @@ public class CustomRewardsLoader
 					this.loadSoundReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Chest"))
 					this.loadChestReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Particle"))
+					this.loadParticleReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
@@ -477,24 +485,6 @@ public class CustomRewardsLoader
 		return rewards;
 	}
 
-	private void addCustomSounds()
-	{
-		JsonObject root = new JsonObject();
-		for(File f : new File(folder.getAbsolutePath() + "/sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
-		{
-			String fileShortName = f.getName().substring(0, f.getName().indexOf('.'));
-			JsonObject event = new JsonObject();
-			event.addProperty("category", "master"); // put under the "record" category for sound options
-			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
-			JsonObject sound = new JsonObject(); // sound object (instead of primitive to use 'stream' flag)
-			sound.addProperty("name", fileShortName); // path to file
-			sound.addProperty("stream", true); // prevents lag for large files
-			sounds.add(sound);
-			event.add("sounds", sounds);
-			root.add(fileShortName, event); // event name (same as name sent to ItemCustomRecord)
-		}
-	}
-
 	public List<IRewardType> loadChestReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<ChestChanceItem> items = Lists.newArrayList();
@@ -518,10 +508,29 @@ public class CustomRewardsLoader
 				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
 			}
 			else
+			{
 				CCubesCore.logger.log(Level.ERROR, "A chest reward failed to load do to missing params");
+			}
 
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
+		return rewards;
+	}
+
+	public List<IRewardType> loadParticleReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<ParticlePart> particles = new ArrayList<ParticlePart>();
+		for(JsonElement element : rawReward)
+		{
+
+			ParticlePart particle = new ParticlePart(element.getAsJsonObject().get("particle").getAsInt());
+
+			if(element.getAsJsonObject().has("delay"))
+				particle.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+
+			particles.add(particle);
+		}
+		rewards.add(new ParticleEffectRewardType(particles.toArray(new ParticlePart[particles.size()])));
 		return rewards;
 	}
 
@@ -562,9 +571,7 @@ public class CustomRewardsLoader
 					{
 						int j = schem.blocks[i];
 						if(j < 0)
-						{
 							j = 128 + (128 + j);
-						}
 
 						Block b = Block.getBlockById(j);
 						if(b != Blocks.air)
@@ -679,7 +686,9 @@ public class CustomRewardsLoader
 				index = secondQuote;
 			}
 			else
+			{
 				index++;
+			}
 		}
 		return sb.toString();
 	}
@@ -739,12 +748,7 @@ public class CustomRewardsLoader
 		{
 			JsonObject rewardElements = reward.getValue().getAsJsonObject();
 			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-			{
-				if(rewardElement.getKey().equalsIgnoreCase("chance"))
-					continue;
-
 				rewardinfo.add(rewardElement.getKey());
-			}
 		}
 		return rewardinfo;
 	}
@@ -771,10 +775,15 @@ public class CustomRewardsLoader
 			{
 				if(rewardElement.getKey().equalsIgnoreCase(type))
 				{
-					JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
-					for(int i = 0; i < rewardTypeArray.size(); i++)
+					if(rewardElement.getValue() instanceof JsonArray)
 					{
-						rewardinfo.add(rewardTypeArray.get(i).toString());
+						JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
+						for(int i = 0; i < rewardTypeArray.size(); i++)
+							rewardinfo.add(rewardTypeArray.get(i).toString());
+					}
+					else
+					{
+						rewardinfo.add(rewardElement.getValue().toString());
 					}
 				}
 			}
@@ -791,16 +800,15 @@ public class CustomRewardsLoader
 		int sd = second.get(Calendar.DAY_OF_MONTH);
 
 		if(fm < sm)
-		{
 			return 1;
-		}
 		else if(fm == sm)
-		{
 			return fd == sd ? 0 : fd < sm ? 1 : -1;
-		}
 		else
-		{
 			return -1;
-		}
+	}
+
+	public File getFolderFile()
+	{
+		return this.folder;
 	}
 }

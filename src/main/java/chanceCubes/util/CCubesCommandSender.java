@@ -22,6 +22,13 @@ public class CCubesCommandSender extends CommandBlockLogic
 		harvester = player;
 		super.setName("Chance Cube");
 	}
+	
+	public CCubesCommandSender(EntityPlayer player, BlockPos pos)
+	{
+		blockLoc = pos;
+		harvester = player;
+		super.setName("Chance Cube");
+	}
 
 	@Override
 	public void addChatMessage(IChatComponent p_145747_1_)

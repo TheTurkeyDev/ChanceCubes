@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ChestChanceItem
 {
+	public static String[] elements = new String[]{"item:I", "chance:I", "meta:I", "amountMin:I", "amountMax:I"};
+	
 	private static Random rand = new Random();
 	private String mod;
 	private String item;

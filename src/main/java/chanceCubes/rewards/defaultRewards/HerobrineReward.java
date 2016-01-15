@@ -13,39 +13,23 @@ import chanceCubes.util.Task;
 
 public class HerobrineReward implements IChanceCubeReward
 {
-	private boolean triggered = false;
-	private int stage = 0;
-	private boolean staying = false;
 	private String[] leaveSayings = new String[] {"I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time."};
 	private String[] staySayings = new String[] {"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end"};
-	private EntityPlayer player;
-	private World world;
-	private int x, y, z;
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		if(triggered)
-			return;
-		triggered = true;
-		stage = 0;
-		staying = world.rand.nextInt(10) == 1;
-		this.player = player;
-		this.world = world;
-		this.x = pos.getX();
-		this.y = pos.getY();
-		this.z = pos.getZ();
-		update();
+		update(world, pos, player, 0, world.rand.nextInt(5) == 1);
 	}
 
-	private void schedule()
+	private void schedule(final World world, final BlockPos pos, final EntityPlayer player, final int stage, final boolean staying)
 	{
 		Task task = new Task("Herobrine Reward", 40)
 		{
 			@Override
 			public void callback()
 			{
-				update();
+				update(world, pos, player, stage, staying);
 			}
 
 		};
@@ -53,7 +37,7 @@ public class HerobrineReward implements IChanceCubeReward
 		Scheduler.scheduleTask(task);
 	}
 
-	private void update()
+	private void update(World world, BlockPos pos, EntityPlayer player, int stage, boolean staying)
 	{
 		switch(stage)
 		{
@@ -76,8 +60,8 @@ public class HerobrineReward implements IChanceCubeReward
 				{
 					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
 					MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-					String command = "/summon Zombie ~ ~1 ~ {Riding:{id:ThrownPotion,Potion:{id:15,Damage:16,tag:{CustomPotionEffects:[{Id:15,Amplifier:0,Duration:3000,ShowParticles:0b}]}}},CustomName:\"Herobrine\",CustomNameVisible:1,CanBreakDoors:1,Equipment:[{id:276,Count:1},{},{},{},{id:397,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[1F,1F,1F,1F,0.0F],Attributes:[{Name:zombie.spawnReinforcements,Base:1.0F}],ActiveEffects:[{Id:5,Amplifier:15,Duration:199980,ShowParticles:0b}, {Id:10,Amplifier:50,Duration:500,ShowParticles:0b}],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500}";
-					CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
+					String command = "/summon Zombie ~ ~ ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,Equipment:[{id:276,Count:1,tag:{ench:[{id:16,lvl:10},{id:20,lvl:2}]}},{id:313,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:312,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:311,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:379,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Attributes:[{Name:generic.maxHealth,Base:500}],HealF:500}";
+					CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 		        	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
 		        	MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 				}
@@ -92,9 +76,7 @@ public class HerobrineReward implements IChanceCubeReward
 		stage++;
 
 		if(stage < 3)
-			schedule();
-		else
-			this.triggered = false;
+			schedule(world, pos, player, stage, staying);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URL;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.zip.ZipEntry;
@@ -20,6 +19,10 @@ import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
 
 import chanceCubes.CCubesCore;
+
+/**
+ * Code Referenced and sourced from the EnderCore and CustomThings mods. All referenced sources and code belong to their original authors and is used with their permission.
+ */
 
 public class FileUtil
 {
@@ -40,6 +43,19 @@ public class FileUtil
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void writeNewFile(File file, String defaultText) throws IOException
+	{
+		FileUtil.safeDelete(file);
+		file.delete();
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+
+		FileWriter fw = new FileWriter(file);
+		fw.write(defaultText);
+		fw.flush();
+		fw.close();
 	}
 
 	@Nonnull
@@ -63,20 +79,6 @@ public class FileUtil
 		} catch(Exception e)
 		{
 			CCubesCore.logger.error("Deleting directory " + file.getAbsolutePath() + " failed.");
-		}
-	}
-
-	public static void copyFromJar(Class<?> jarClass, String filename, File to)
-	{
-		CCubesCore.logger.info("Copying file " + filename + " from jar");
-		URL url = jarClass.getResource("/assets/" + filename);
-
-		try
-		{
-			FileUtils.copyURLToFile(url, to);
-		} catch(IOException e)
-		{
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -143,5 +145,4 @@ public class FileUtil
 			in.close();
 		}
 	}
-
 }

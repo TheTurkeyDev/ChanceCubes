@@ -2,6 +2,8 @@ package chanceCubes.rewards.rewardparts;
 
 public class SoundPart
 {
+	public static String[] elements = new String[]{"sound:S", "delay:I", "serverWide:B", "range:I"};
+	
 	private String sound;
 	
 	private int delay = 0;
