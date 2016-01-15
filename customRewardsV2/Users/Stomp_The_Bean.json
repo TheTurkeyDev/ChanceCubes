@@ -1,0 +1,16 @@
+{
+	"Stomp":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Saw a few of your videos, just wanted to say keep it up!"},
+			{"message":"Oh, your reward! I almost forgot!", "delay":200},
+			{"message":"Don't let him stomp on you!!", "delay":250}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Giant"}, "delay":240}
+		]
+	}
+}

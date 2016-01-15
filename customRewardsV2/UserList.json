@@ -28,5 +28,7 @@
 	{"UUID":"a19cb4a6-4068-4edb-b4ca-a7c317fc2e33", "Name":"Dragoness", "Type":"Streamer"},
 	{"UUID":"29fa9b6c-8eb5-4544-87fb-5be8effbcf70", "Name":"DatFailGamur", "Type":"Streamer"},
 	{"UUID":"dd31242b-4428-4f17-acd0-ad97bd94d8a9", "Name":"Jax_Macky", "Type":"Streamer"},
-	{"UUID":"b5de770e-b972-42c9-b0f7-1d0fa07eba29", "Name":"ButtonBoy", "Type":"Streamer"}
+	{"UUID":"b5de770e-b972-42c9-b0f7-1d0fa07eba29", "Name":"ButtonBoy", "Type":"Streamer"},
+	{"UUID":"8138e191-01cb-4190-a019-d22f4bd8720a", "Name":"Stomp_The_Bean", "Type":"Youtuber"},
+	{"UUID":"5487f835-5874-481d-a59a-c579020ecb26", "Name":"TheGreekMC", "Type":"Streamer"}
 ]
