@@ -51,7 +51,10 @@ public class ExtraUtilsModHook extends BaseModHook
 
 					world.setBlock((int) player.posX, (int) player.posY, (int) player.posZ, Blocks.crafting_table);
 					player.displayGUIWorkbench((int) player.posX, (int) player.posY, (int) player.posZ);
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
+					
+					if(!player.inventory.addItemStackToInventory(stack1))
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
+
 					if((player instanceof EntityPlayerMP))
 					{
 						((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);

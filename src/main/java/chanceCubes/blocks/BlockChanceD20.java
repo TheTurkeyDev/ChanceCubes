@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
-	
+
 	public BlockChanceD20()
 	{
 		super("Chance_Icosahedron");
@@ -43,6 +43,14 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	@Override
 	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	/**
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
+	 */
+	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
