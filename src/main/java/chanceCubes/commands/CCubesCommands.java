@@ -30,7 +30,7 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public String getName()
+	public String getCommandName()
 	{
 		return "ChanceCubes";
 	}
@@ -42,13 +42,13 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public List<String> getAliases()
+	public List<String> getCommandAliases()
 	{
 		return this.aliases;
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
@@ -69,14 +69,13 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public boolean canCommandSenderUse(ICommandSender sender)
+	public boolean canCommandSenderUseCommand(ICommandSender sender)
 	{
 		return true;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
 	{
 		return null;
 	}
@@ -88,7 +87,7 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public int compareTo(Object o)
+	public int compareTo(ICommand o)
 	{
 		return 0;
 	}

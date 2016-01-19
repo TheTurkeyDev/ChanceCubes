@@ -93,7 +93,7 @@ public class CreativePendantContainer extends Container
 
 		if(!this.theWorld.isRemote)
 		{
-			ItemStack itemstack = this.pendantSlot.getStackInSlotOnClosing(0);
+			ItemStack itemstack = this.pendantSlot.getStackInSlot(0);
 
 			if(itemstack != null)
 				player.dropPlayerItemWithRandomChoice(itemstack, false);

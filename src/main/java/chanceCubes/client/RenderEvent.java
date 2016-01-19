@@ -28,7 +28,7 @@ public class RenderEvent
 
 		Minecraft mc = Minecraft.getMinecraft();
 
-		ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int k = scaledresolution.getScaledWidth();
 		int l = scaledresolution.getScaledHeight();
 

@@ -300,7 +300,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.toString());
-				NBTBase nbtbase = JsonToNBT.func_180713_a(jsonEdited);
+				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
@@ -405,7 +405,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsJsonObject().toString());
-				NBTBase nbtbase = JsonToNBT.func_180713_a(jsonEdited);
+				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{

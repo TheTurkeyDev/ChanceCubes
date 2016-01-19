@@ -75,4 +75,10 @@ public class CCubesCommandSender extends CommandBlockLogic
 	{
 		return harvester;
 	}
+	
+	@Override
+	public void updateCommand()
+	{
+		
+	}
 }

@@ -58,7 +58,7 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
-					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
+					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 					MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 					String command = "/summon Zombie ~ ~ ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,Equipment:[{id:276,Count:1,tag:{ench:[{id:16,lvl:10},{id:20,lvl:2}]}},{id:313,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:312,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:311,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:379,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Attributes:[{Name:generic.maxHealth,Base:500}],HealF:500}";
 					CCubesCommandSender sender = new CCubesCommandSender(player, pos);

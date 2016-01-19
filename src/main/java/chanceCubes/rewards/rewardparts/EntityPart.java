@@ -21,7 +21,7 @@ public class EntityPart
 	{
 		try
 		{
-			this.nbtData = (NBTTagCompound) JsonToNBT.func_180713_a(nbtRaw);
+			this.nbtData = (NBTTagCompound) JsonToNBT.getTagFromJson(nbtRaw);
 		} catch(NBTException e)
 		{
 			e.printStackTrace();

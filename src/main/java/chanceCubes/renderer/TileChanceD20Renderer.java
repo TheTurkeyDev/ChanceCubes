@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
@@ -16,7 +20,9 @@ import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
 
-public class TileChanceD20Renderer extends TileEntitySpecialRenderer
+import com.google.common.base.Function;
+
+public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
 {
 	private ResourceLocation texture;
 
@@ -32,81 +38,94 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick, int var9)
+	public void renderTileEntityAt(TileChanceD20 d20, double posX, double posY, double posZ, float partialTick, int var9)
 	{
-		TileChanceD20 d20 = (TileChanceD20) tileEntity;
 
 		int stage = d20.getStage();
 
-		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorld().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
+		float wave = stage == 0 ? MathHelper.sin((d20.getWorld().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
 		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage / 15F));
-		float color = (tileEntity.getWorld().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
+		float color = (d20.getWorld().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
 
 		GL11.glPushMatrix();
 
-		GL11.glTranslated(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
-		GL11.glRotatef(d20.rotationStage, 0F, 1F, 0F);
+		GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
+		GlStateManager.rotate(d20.rotationStage, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
-		GL11.glColor3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
+		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(tileEntity.getBlockType().getDefaultState(), tileEntity.getWorld(), tileEntity.getPos());
+		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(d20.getBlockType().getDefaultState(), d20.getWorld(), d20.getPos());
+		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
+		int r = tmpClr.getRed() & 0xFF;
+		int g = tmpClr.getGreen() & 0xFF;
+		int b = tmpClr.getBlue() & 0xFF;
+		int a = tmpClr.getAlpha() & 0xFF;
+
+		int rgb = (r << 24) + (g << 16) + (b << 8) + (a);
+		baked.getModel().getMatLib().changeMaterialColor("OBJModel.Default.Texture.Name", rgb);
 		baked.scheduleRebake();
+		d20.getWorld().markBlockForUpdate(new BlockPos(posX, posY, posZ));
 
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
 
-		GL11.glTranslated(posX + 0.5F, posY + 1.5F + wave * 0.1F, posZ + 2.5F);
+		GlStateManager.translate(posX + 0.5F, posY + 1.5F + wave * 0.1F, posZ + 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		RenderHelper.disableStandardItemLighting();
-		float f1 = ((float) tileEntity.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
-		float f2 = 0F;
+		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
 
 		random.setSeed(432L);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDepthMask(false);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0.0F, -1.0F, -2.0F);
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		RenderHelper.disableStandardItemLighting();
+
+		GlStateManager.disableTexture2D();
+		GlStateManager.shadeModel(GL11.GL_SMOOTH);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GlStateManager.disableAlpha();
+		GlStateManager.enableCull();
+		GlStateManager.depthMask(false);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0.0F, -1.0F, -2.0F);
+		GlStateManager.scale(0.25, 0.25, 0.25);
+
+		r = tmpClr.getRed();
+		g = tmpClr.getGreen();
+		b = tmpClr.getBlue();
+
+		int alpha = (int) (255.0F * (1.0F));
+		;
 
 		for(int i = 0; i < (16 + (stage / 10)); ++i)
 		{
-			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(random.nextFloat() * 360.0F + f1 * 360.0F, 0.0F, 0.0F, 1.0F);
-			tessellator.getWorldRenderer().startDrawing(6);
-			float f3 = random.nextFloat() * 20.0F + 5.0F + f2 * 10.0F;
-			float f4 = random.nextFloat() * 2.0F + 1.0F + f2 * 2.0F;
+			GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(random.nextFloat() * 360.0F + f1 * 90.0F, 0.0F, 0.0F, 1.0F);
 
-			f3 *= 0.1F;
-			f4 *= 0.1F;
-
-			tessellator.getWorldRenderer().setColorRGBA_I(tmpClr.getRGB(), (int) (255.0F * (1.0F - f2)));
-			tessellator.getWorldRenderer().addVertex(0.0D, 0.0D, 0.0D);
-			tessellator.getWorldRenderer().setColorRGBA_I(tmpClr.getRGB(), 0);
-			tessellator.getWorldRenderer().addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
-			tessellator.getWorldRenderer().addVertex(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
-			tessellator.getWorldRenderer().addVertex(0.0D, (double) f3, (double) (1.0F * f4));
-			tessellator.getWorldRenderer().addVertex(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4));
+			float f3 = random.nextFloat() * 20.0F;
+			float f4 = random.nextFloat() * 2.0F;
+			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
+			worldrenderer.pos(0.0D, 0.0D, 0.0D).color(r, g, b, alpha).endVertex();
+			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(0.0D, (double) f3, (double) (1.0F * f4)).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
 			tessellator.draw();
 		}
 
-		GL11.glPopMatrix();
-		GL11.glDepthMask(true);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GlStateManager.popMatrix();
+		GlStateManager.depthMask(true);
+		GlStateManager.disableCull();
+		GlStateManager.disableBlend();
+		GlStateManager.shadeModel(GL11.GL_FLAT);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableAlpha();
 		RenderHelper.enableStandardItemLighting();
 
 		GL11.glPopMatrix();

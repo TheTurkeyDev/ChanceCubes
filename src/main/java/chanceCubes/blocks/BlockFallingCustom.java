@@ -116,7 +116,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 								}
 							}
 						}
-						else if(this.shouldDropItem && this.worldObj.getGameRules().getGameRuleBooleanValue("doTileDrops"))
+						else if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doTileDrops"))
 						{
 							this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 						}
@@ -124,7 +124,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 				}
 				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos.getY() < 1 || blockpos.getY() > 256) || this.fallTime > 600)
 				{
-					if(this.shouldDropItem && this.worldObj.getGameRules().getGameRuleBooleanValue("doTileDrops"))
+					if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doTileDrops"))
 					{
 						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 					}

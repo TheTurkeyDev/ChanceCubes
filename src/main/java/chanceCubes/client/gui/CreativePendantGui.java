@@ -33,7 +33,6 @@ public class CreativePendantGui extends GuiContainer
 	/**
 	 * Adds the buttons (and other controls) to the screen in question.
 	 */
-	@SuppressWarnings("unchecked")
 	public void initGui()
 	{
 		super.initGui();

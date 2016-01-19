@@ -67,7 +67,6 @@ public class ConfigGui extends GuiScreen
 		parentScreen = screen;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void initGui()
 	{
 		editState = ConfigEditState.Files;
