@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,8 +14,6 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -47,19 +43,30 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return false;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-	 */
 	public boolean renderAsNormalBlock()
 	{
-		return false;
+		return isOpaqueCube();
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand)
+	@Override
+	public int getLightValue()
 	{
+		/*
+		 * BUGFIX:
+		 *  
+		 * Vanilla has a bug here somehow, regarding light levels. See ChunkCache#getLightBrightnessForSkyBlocks.
+		 * 
+		 * It seems that this returns the "low" light value, i.e. 0-15. However, the light value of blocks is on a scale of 0-255 (for some ungodly reason).
+		 * 
+		 * This ruins the bit-packing mojang does for light levels, as the level returned from getLightValue() by defualt is 105 in our case.
+		 * 
+		 * What should be 0xF00070 turns into 0xF00690, causing the block emitting the light to be dark (and the AO to treat it as dark) but the surrounding blocks are lit up.
+		 * 
+		 * Anyways, thanks a lot mojang, as usual.
+		 */
+		return 7;
 	}
-
+	
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
 		this.startd20(world, x, y, z, player);
@@ -72,24 +79,30 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public boolean startd20(World world, int x, int y, int z, EntityPlayer player)
 	{
-		if(world.isRemote || player == null || player instanceof FakePlayer)
+		if (player == null || player instanceof FakePlayer)
 			return false;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
-		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
-			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
-			this.dropBlockAsItem(world, x, y, z, stack);
-			world.setBlockToAir(x, y, z);
-			world.removeTileEntity(x, y, z);
+			if (!world.isRemote)
+			{
+				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+				this.dropBlockAsItem(world, x, y, z, stack);
+				world.setBlockToAir(x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
 			return true;
 		}
 
-		if(te != null)
+		if (te != null)
 		{
-			te.startBreaking(player);
-			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+			if (!world.isRemote)
+			{
+				te.startBreaking(player);
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+			}
 			return true;
 		}
 
