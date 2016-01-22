@@ -8,6 +8,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 
@@ -40,6 +41,13 @@ public class TileChanceD20 extends TileEntity
 	public int getChance()
 	{
 		return this.chance;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		// Expand to cover rising animation and rays
+		return super.getRenderBoundingBox().addCoord(xCoord, yCoord + 3, zCoord).expand(5, 5, 5);
 	}
 
 	@Override
@@ -113,7 +121,6 @@ public class TileChanceD20 extends TileEntity
 	private void writeSyncableDataToNBT(NBTTagCompound syncData)
 	{
 		syncData.setInteger("chance", this.getChance());
-
 	}
 
 	private void readSyncableDataFromNBT(NBTTagCompound nbt)
