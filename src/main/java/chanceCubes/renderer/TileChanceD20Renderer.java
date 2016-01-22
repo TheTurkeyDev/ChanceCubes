@@ -22,9 +22,8 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	private IModelCustom model;
 	private ResourceLocation texture;
 
-	private float baseSpinSpd = 0.5F;
-	private float baseColorSpd = 75F;
-	private float hvrSpd = 12F;
+	private static final float BASE_COLOR_SPEED = 75F;
+	private static final float HOVER_SPEED = 12F;
 	
 	private Random random = new Random();
 
@@ -41,14 +40,14 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		
 		int stage = d20.getStage();
 
-		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
-		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage/15F));
-		float color = (tileEntity.getWorldObj().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
+		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F) * 360F) : ((stage + partialTick) / 10f);
+		float rot = d20.rotation + (d20.rotationDelta * partialTick);
+		float color = (tileEntity.getWorldObj().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
 
 		GL11.glPushMatrix();
 
 		GL11.glTranslated(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
-		GL11.glRotatef(d20.rotationStage, 0F, 1F, 0F);
+		GL11.glRotatef(rot, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
 		GL11.glColor3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 

@@ -13,9 +13,11 @@ import chanceCubes.registry.ChanceCubeRegistry;
 
 public class TileChanceD20 extends TileEntity
 {
+    private static final float BASE_SPIN_SPEED = 0.5F;
+
 	private boolean breaking = false;
 	private int stage = 0;
-	public float rotationStage = 0;
+	public float rotation = 0, rotationDelta = 0;
 	private EntityPlayer player;
 
 	private int chance;
@@ -68,6 +70,9 @@ public class TileChanceD20 extends TileEntity
 				this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
 				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player, this.getChance());
 			}
+		} else if (worldObj.isRemote) {
+		    rotationDelta = (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage() + 1));
+		    rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
 		}
 	}
 
