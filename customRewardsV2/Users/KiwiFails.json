@@ -4,11 +4,11 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"It's Kiwi!!"}
+			{"message":"It's Kiwi time!!!"}
 		],
 		"Command":
 		[
-			{"command":"/summon WitherBoss ~ ~1 ~ {CustomName:\"KiwiFailes\",CustomNameVisible:1}"}
+			{"command":"/summon WitherBoss ~ ~1 ~ {CustomName:\"KiwiFails\",CustomNameVisible:1}", "delay":20}
 		]
 	}
 }

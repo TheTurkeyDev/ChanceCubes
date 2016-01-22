@@ -3,9 +3,9 @@ package chanceCubes.rewards.defaultRewards;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 
@@ -21,7 +21,7 @@ public class WitherReward implements IChanceCubeReward
 		wither.setCustomNameTag("Kiwi");
 		world.spawnEntityInWorld(wither);
 
-		player.addChatMessage(new ChatComponentText("\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\""));
+		RewardsUtil.sendMessageToNearPlayers(world, x, y, z, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");
 
 		Task task = new Task("Wither Reward", 180)
 		{

@@ -1,0 +1,16 @@
+{
+	"Take_This":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"\u00a7eHoneyDew joined the game."},
+			{"message":"<HoneyDew> Take this my freinds. You will need it.", "delay":40},
+			{"message":"\u00a7eHoneyDew left the game.", "delay":80}
+		],
+		"Command":
+		[
+			{"command":"/give @a minecraft:diamond_helmet 1 0 {display:{Name:\"Yogscast Viking Helmet\"},ench:[{id:3,lvl:4}]}", "delay": 60}
+		]
+	}
+}

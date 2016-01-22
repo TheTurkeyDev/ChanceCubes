@@ -30,5 +30,8 @@
 	{"UUID":"dd31242b-4428-4f17-acd0-ad97bd94d8a9", "Name":"Jax_Macky", "Type":"Streamer"},
 	{"UUID":"b5de770e-b972-42c9-b0f7-1d0fa07eba29", "Name":"ButtonBoy", "Type":"Streamer"},
 	{"UUID":"8138e191-01cb-4190-a019-d22f4bd8720a", "Name":"Stomp_The_Bean", "Type":"Youtuber"},
-	{"UUID":"5487f835-5874-481d-a59a-c579020ecb26", "Name":"TheGreekMC", "Type":"Streamer"}
+	{"UUID":"5487f835-5874-481d-a59a-c579020ecb26", "Name":"TheGreekMC", "Type":"Streamer"},
+	{"UUID":"2c6d7b3d-7674-4b18-8d86-bb6a707ea8e4", "Name":"Yogscast", "Type":"Youtube group"},
+	{"UUID":"7dd55e6b-f16b-4804-8df5-2f50f7191b2d", "Name":"Yogscast", "Type":"Youtube group"},
+	{"UUID":"d51754f4-b279-4b18-a536-264bf3b02440", "Name":"Yogscast", "Type":"Youtube group"}
 ]

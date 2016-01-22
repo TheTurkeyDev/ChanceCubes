@@ -15,6 +15,11 @@ public class CommandPart
 	{
 		this.command = command;
 	}
+	public CommandPart(String command, int delay)
+	{
+		this.command = command;
+		this.delay = delay;
+	}
 
 	public String getRawCommand()
 	{

@@ -383,7 +383,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			CommandPart command = new CommandPart(element.getAsJsonObject().get("command").getAsString());
-
+ 
 			if(element.getAsJsonObject().has("delay"))
 				command.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			commands.add(command);

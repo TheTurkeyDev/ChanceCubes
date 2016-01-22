@@ -5,10 +5,10 @@ import java.util.Random;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.util.RewardsUtil;
 
 public class DiscoReward implements IChanceCubeReward
 {
@@ -30,7 +30,7 @@ public class DiscoReward implements IChanceCubeReward
 		
 		world.setBlock(x, y + 3, z, CCubesBlocks.chanceIcosahedron);
 		
-		player.addChatMessage(new ChatComponentText("Disco Party!!!!"));
+		RewardsUtil.sendMessageToNearPlayers(world, x, y, z, 32, "Disco Party!!!!");
 	}
 
 	@Override

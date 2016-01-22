@@ -20,7 +20,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemRewardSelectorPendant  extends Item
+public class ItemRewardSelectorPendant extends Item
 {
 	public ItemRewardSelectorPendant()
 	{
@@ -37,11 +37,9 @@ public class ItemRewardSelectorPendant  extends Item
 		return stack;
 	}
 
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
-		if(world.isRemote)
-			return false;
-		if(player.isSneaking())
+		if(world.isRemote || player.isSneaking())
 			return false;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
@@ -68,7 +66,7 @@ public class ItemRewardSelectorPendant  extends Item
 				GiantCubeUtil.removeStructure(giant.getMasterX(), giant.getMasterY(), giant.getMasterZ(), world);
 			}
 		}
-		return false;
+		return true;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
