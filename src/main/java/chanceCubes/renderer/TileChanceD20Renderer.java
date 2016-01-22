@@ -51,7 +51,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 
 		GL11.glTranslated(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
 		GL11.glRotatef(rot, 0F, 1F, 0F);
-		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
+		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GL11.glColor3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
