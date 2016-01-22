@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.config.CCubesSettings;
@@ -66,7 +67,17 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		 */
 		return 7;
 	}
-	
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+	{
+		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
+		if (te.getStage() > 0)
+			setBlockBounds(0, 0, 0, 0, 0, 0);
+		else
+			setBlockBounds(0, 0, 0, 1, 1, 1);
+	}
+
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
 		this.startd20(world, x, y, z, player);
