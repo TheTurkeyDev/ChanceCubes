@@ -16,6 +16,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
+import chanceCubes.util.RenderUtil;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 {
@@ -25,7 +26,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	private static final float BASE_COLOR_SPEED = 75F;
 	private static final float HOVER_SPEED = 12F;
 	
-	private Random random = new Random();
+	private static final Random random = new Random();
 
 	public TileChanceD20Renderer()
 	{
@@ -38,9 +39,11 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	{
 		TileChanceD20 d20 = (TileChanceD20) tileEntity;
 		
+		random.setSeed(RenderUtil.getCoordinateRandom(d20.xCoord, d20.yCoord, d20.zCoord));
+
 		int stage = d20.getStage();
 
-		float wave = stage == 0 ? MathHelper.sin((tileEntity.getWorldObj().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F) * 360F) : ((stage + partialTick) / 10f);
+		float wave = stage == 0 ? MathHelper.sin((((tileEntity.getWorldObj().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
 		float rot = d20.rotation + (d20.rotationDelta * partialTick);
 		float color = (tileEntity.getWorldObj().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
 
@@ -73,8 +76,8 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glDepthMask(false);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, -1.0F, -2.0F);
+        random.setSeed(432L);
 
-		random.setSeed(432L);
 		for(int i = 0; i < (16 + (stage / 10)); ++i)
 		{
 			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
