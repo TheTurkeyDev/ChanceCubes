@@ -12,6 +12,7 @@ public class CCubesSettings
 	
 	public static int rangeMin = 25;
 	public static int rangeMax = 25;
+	public static boolean d20UseNormalChances = false;
 	
 	public static boolean oreGeneration = true;
 	public static int oreGenAmount = 4;
@@ -19,6 +20,7 @@ public class CCubesSettings
 	public static int surfaceGenAmount = 1;
 	public static String[] blockedWorlds = new String[]{};
 	public static boolean chestLoot = true;
+	public static boolean craftingRecipie = true;
 	
 	public static boolean userSpecificRewards = true;
 	

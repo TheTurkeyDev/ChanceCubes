@@ -22,6 +22,7 @@ public class ConfigLoader
 		
 		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat,  25, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  25, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
 		
 		CCubesSettings.enableHardCodedRewards = config.getBoolean("EnableDefaultRewards", genCat, true, "Set to true if the default rewards should be loaded, false if they shouldn't");
 		
@@ -32,6 +33,7 @@ public class ConfigLoader
 		CCubesSettings.surfaceGenAmount = config.getInt("surfaceGenAmount", genCat, 1, 0, 100, "Percentage chance of a chunk to have a chance cube spawned on the surface.");
 		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes shold not generate in");
 		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");
+		CCubesSettings.craftingRecipie = config.getBoolean("CraftingRecipe", genCat, true, "true if Chance Cubes should have a crafting recipe. false if they should not");
 		
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
 		

@@ -1,10 +1,12 @@
 package chanceCubes.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -119,5 +121,22 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		return false;
 	}
+	
+	@Override
+	public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity)
+	{
+		return false;
+	}
 
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion)
+	{
+
+	}
+
+	@Override
+	public boolean canDropFromExplosion(Explosion explosion)
+	{
+		return false;
+	}
 }

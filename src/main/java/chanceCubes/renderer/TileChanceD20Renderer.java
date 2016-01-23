@@ -25,7 +25,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 
 	private static final float BASE_COLOR_SPEED = 75F;
 	private static final float HOVER_SPEED = 12F;
-	
+
 	private static final Random random = new Random();
 
 	public TileChanceD20Renderer()
@@ -38,7 +38,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float partialTick)
 	{
 		TileChanceD20 d20 = (TileChanceD20) tileEntity;
-		
+
 		random.setSeed(RenderUtil.getCoordinateRandom(d20.xCoord, d20.yCoord, d20.zCoord));
 
 		int stage = d20.getStage();
@@ -76,7 +76,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer
 		GL11.glDepthMask(false);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, -1.0F, -2.0F);
-        random.setSeed(432L);
+		random.setSeed(432L);
 
 		for(int i = 0; i < (16 + (stage / 10)); ++i)
 		{

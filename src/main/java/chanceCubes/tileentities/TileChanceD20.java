@@ -10,11 +10,14 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
 
 public class TileChanceD20 extends TileEntity
 {
-    private static final float BASE_SPIN_SPEED = 0.5F;
+	private static final float BASE_SPIN_SPEED = 0.5F;
+
+	private Random random = new Random();
 
 	private boolean breaking = false;
 	private int stage = 0;
@@ -25,7 +28,10 @@ public class TileChanceD20 extends TileEntity
 
 	public TileChanceD20()
 	{
-		this(new Random().nextBoolean() ? -100 : 100);
+		if(!CCubesSettings.d20UseNormalChances)
+			this.chance = random.nextBoolean() ? -100 : 100;
+		else
+			this.chance = random.nextInt(201) - 100;
 	}
 
 	public TileChanceD20(int initialChance)
@@ -42,7 +48,7 @@ public class TileChanceD20 extends TileEntity
 	{
 		return this.chance;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
@@ -78,9 +84,11 @@ public class TileChanceD20 extends TileEntity
 				this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
 				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player, this.getChance());
 			}
-		} else if (worldObj.isRemote) {
-		    rotationDelta = (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage() + 1));
-		    rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
+		}
+		else if(worldObj.isRemote)
+		{
+			rotationDelta = (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage() + 1));
+			rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
 		}
 	}
 
