@@ -7,14 +7,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 
-public class TileChanceD20 extends TileEntity
+public class TileChanceD20 extends TileEntity implements ITickable
 {
+	private static final float BASE_SPIN_SPEED = 0.5F;
+
 	private boolean breaking = false;
 	private int stage = 0;
-	public float rotationStage = 0;
+	public float rotation = 0, rotationDelta = 0;
 	private EntityPlayer player;
 
 	private int chance;
@@ -53,7 +56,7 @@ public class TileChanceD20 extends TileEntity
 		this.chance = nbt.getInteger("chance");
 	}
 
-	public void updateEntity()
+	public void update()
 	{
 		if(!breaking)
 			return;
@@ -67,6 +70,11 @@ public class TileChanceD20 extends TileEntity
 				this.worldObj.removeTileEntity(this.pos);
 				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.pos, player, this.getChance());
 			}
+		}
+		else if(worldObj.isRemote)
+		{
+			rotationDelta = (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage() + 1));
+			rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
 		}
 	}
 

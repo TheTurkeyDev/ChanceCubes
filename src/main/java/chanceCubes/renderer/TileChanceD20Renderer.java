@@ -8,33 +8,28 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
-
-import com.google.common.base.Function;
+import chanceCubes.util.RenderUtil;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
 {
-	private ResourceLocation texture;
 
-	private float baseSpinSpd = 0.5F;
-	private float baseColorSpd = 75F;
-	private float hvrSpd = 12F;
+	private static final float BASE_COLOR_SPEED = 75F;
+	private static final float HOVER_SPEED = 12F;
 
-	Random random = new Random(432L);
+	private static final Random random = new Random();
 
 	public TileChanceD20Renderer()
 	{
-		texture = new ResourceLocation("chancecubes", "textures/models/d20.png");
+
 	}
 
 	@Override
@@ -43,27 +38,30 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 
 		int stage = d20.getStage();
 
-		float wave = stage == 0 ? MathHelper.sin((d20.getWorld().getTotalWorldTime() % (hvrSpd * 1000F) + partialTick) / (hvrSpd * 1000F) * 360F) : (stage / 10f);
-		d20.rotationStage = (d20.rotationStage % 360) + (baseSpinSpd + (stage / 15F));
-		float color = (d20.getWorld().getTotalWorldTime() % baseColorSpd + partialTick) / baseColorSpd;
+		random.setSeed(RenderUtil.getCoordinateRandom(d20.getPos().getX(), d20.getPos().getY(), d20.getPos().getY()));
+
+		float wave = stage == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
+		float rot = d20.rotation + (d20.rotationDelta * partialTick);
+		float color = (d20.getWorld().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
 
 		GL11.glPushMatrix();
 
 		GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
-		GlStateManager.rotate(d20.rotationStage, 0F, 1F, 0F);
-		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
+		GlStateManager.rotate(rot, 0F, 1F, 0F);
+		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
 		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(d20.getBlockType().getDefaultState(), d20.getWorld(), d20.getPos());
 		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
-		int r = tmpClr.getRed() & 0xFF;
-		int g = tmpClr.getGreen() & 0xFF;
-		int b = tmpClr.getBlue() & 0xFF;
-		int a = tmpClr.getAlpha() & 0xFF;
+		// int r = tmpClr.getRed() & 0xFF;
+		// int g = tmpClr.getGreen() & 0xFF;
+		// int b = tmpClr.getBlue() & 0xFF;
+		// int a = tmpClr.getAlpha() & 0xFF;
 
-		int rgb = (r << 24) + (g << 16) + (b << 8) + (a);
-		baked.getModel().getMatLib().changeMaterialColor("OBJModel.Default.Texture.Name", rgb);
+		int rgb = ((tmpClr.getRed() & 0xFF) << 24) + ((tmpClr.getGreen() & 0xFF) << 16) + ((tmpClr.getBlue() & 0xFF) << 8) + (tmpClr.getAlpha() & 0xFF);
+		//System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
+		baked.getModel().getMatLib().changeMaterialColor("CCIcosahedron", rgb);
 		baked.scheduleRebake();
 		d20.getWorld().markBlockForUpdate(new BlockPos(posX, posY, posZ));
 
@@ -91,12 +89,11 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		GlStateManager.translate(0.0F, -1.0F, -2.0F);
 		GlStateManager.scale(0.25, 0.25, 0.25);
 
-		r = tmpClr.getRed();
-		g = tmpClr.getGreen();
-		b = tmpClr.getBlue();
+		int r = tmpClr.getRed();
+		int g = tmpClr.getGreen();
+		int b = tmpClr.getBlue();
 
 		int alpha = (int) (255.0F * (1.0F));
-		;
 
 		for(int i = 0; i < (16 + (stage / 10)); ++i)
 		{

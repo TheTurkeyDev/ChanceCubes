@@ -1,14 +1,23 @@
 package chanceCubes.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import chanceCubes.items.CCubesItems;
@@ -17,9 +26,10 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 
+import com.google.common.collect.Lists;
+
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
-
 	public BlockChanceD20()
 	{
 		super("chance_Icosahedron");
@@ -78,11 +88,27 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null)
 		{
-			//te.startBreaking(player);
+			// te.startBreaking(player);
 			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			return true;
 		}
 
 		return false;
+	}
+
+	@Override
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		ModelRotation rot = ModelRotation.getModelRotation((int) ((TileChanceD20) world.getTileEntity(pos)).rotation, 0);
+		System.out.println(((TileChanceD20) world.getTileEntity(pos)).rotation);
+		TRSRTransformation transform = new TRSRTransformation(rot);
+		OBJModel.OBJState newState = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
+		return ((IExtendedBlockState) state).withProperty(OBJModel.OBJProperty.instance, newState);
+	}
+
+	@Override
+	public BlockState createBlockState()
+	{
+		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.instance });
 	}
 }
