@@ -17,7 +17,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	private boolean breaking = false;
 	private int stage = 0;
-	public float rotation = 0, rotationDelta = 0;
+	public float rotation = 0, rotationDelta = 0, rotationInc = 0;
 	private EntityPlayer player;
 
 	private int chance;
@@ -76,6 +76,11 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			rotationDelta = (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage() + 1));
 			rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
 		}
+	}
+	
+	public void renderUpdate(float partialTick)
+	{
+		rotationInc = rotation + (rotationDelta * partialTick);
 	}
 
 	public void startBreaking(EntityPlayer player)

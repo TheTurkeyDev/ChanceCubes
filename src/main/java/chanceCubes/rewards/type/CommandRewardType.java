@@ -2,6 +2,7 @@ package chanceCubes.rewards.type;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.util.CCubesCommandSender;
@@ -41,7 +42,7 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 	{
 		String commandToRun = command.getParsedCommand(world, x, y, z, player);
 
-		CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
+		CCubesCommandSender sender = new CCubesCommandSender(player, new BlockPos(x, y, z));
 
 		Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 		MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");

@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
@@ -41,18 +40,19 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		random.setSeed(RenderUtil.getCoordinateRandom(d20.getPos().getX(), d20.getPos().getY(), d20.getPos().getY()));
 
 		float wave = stage == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
-		float rot = d20.rotation + (d20.rotationDelta * partialTick);
+		//float rot = d20.rotation + (d20.rotationDelta * partialTick);
 		float color = (d20.getWorld().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
 
 		GL11.glPushMatrix();
 
 		GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
-		GlStateManager.rotate(rot, 0F, 1F, 0F);
+		//GlStateManager.rotate(rot, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 
 		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(d20.getBlockType().getDefaultState(), d20.getWorld(), d20.getPos());
+		//blockModelRenderer.renderModel(d20.getWorld(), baked, d20.getBlockType().getDefaultState(), new BlockPos(posX, posY, posZ), Tessellator.getInstance().getWorldRenderer(), false);
 		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
 		// int r = tmpClr.getRed() & 0xFF;
 		// int g = tmpClr.getGreen() & 0xFF;
@@ -60,10 +60,9 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		// int a = tmpClr.getAlpha() & 0xFF;
 
 		int rgb = ((tmpClr.getRed() & 0xFF) << 24) + ((tmpClr.getGreen() & 0xFF) << 16) + ((tmpClr.getBlue() & 0xFF) << 8) + (tmpClr.getAlpha() & 0xFF);
-		//System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
+		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
 		baked.getModel().getMatLib().changeMaterialColor("CCIcosahedron", rgb);
 		baked.scheduleRebake();
-		d20.getWorld().markBlockForUpdate(new BlockPos(posX, posY, posZ));
 
 		GL11.glPopMatrix();
 

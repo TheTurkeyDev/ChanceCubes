@@ -6,8 +6,6 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -20,8 +18,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import chanceCubes.items.CCubesItems;
-import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
@@ -76,7 +72,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			return false;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
-		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		/*if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
 			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
@@ -84,7 +80,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			world.setBlockToAir(pos);
 			world.removeTileEntity(pos);
 			return true;
-		}
+		}*/
 
 		if(te != null)
 		{
@@ -99,8 +95,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
-		ModelRotation rot = ModelRotation.getModelRotation((int) ((TileChanceD20) world.getTileEntity(pos)).rotation, 0);
-		System.out.println(((TileChanceD20) world.getTileEntity(pos)).rotation);
+		ModelRotation rot = ModelRotation.getModelRotation((int) ((TileChanceD20) world.getTileEntity(pos)).rotationInc, 0);
+		System.out.println(((TileChanceD20) world.getTileEntity(pos)).rotationInc);
 		TRSRTransformation transform = new TRSRTransformation(rot);
 		OBJModel.OBJState newState = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
 		return ((IExtendedBlockState) state).withProperty(OBJModel.OBJProperty.instance, newState);
