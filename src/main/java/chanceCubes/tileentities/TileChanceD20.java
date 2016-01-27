@@ -7,17 +7,23 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.MathHelper;
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.util.RenderUtil;
 
 public class TileChanceD20 extends TileEntity implements ITickable
 {
 	private static final float BASE_SPIN_SPEED = 0.5F;
+	private static final float HOVER_SPEED = 12F;
+	
+	private static final Random random = new Random();
 
 	private boolean breaking = false;
 	private int stage = 0;
-	public float rotation = 0, rotationDelta = 0, rotationInc = 0;
+	public float rotation = 0, rotationDelta = 0, rotationInc = 0, wave = 0;
 	private EntityPlayer player;
 
 	private int chance;
@@ -78,9 +84,12 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		}
 	}
 	
-	public void renderUpdate(float partialTick)
+	public void renderUpdate(float partialTick, long worldTime, BlockPos pos)
 	{
+		random.setSeed(RenderUtil.getCoordinateRandom(pos.getX(), pos.getY(), pos.getY()));
 		rotationInc = rotation + (rotationDelta * partialTick);
+		wave = stage == 0 ? MathHelper.sin((((worldTime % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
+		System.out.println(wave);
 	}
 
 	public void startBreaking(EntityPlayer player)

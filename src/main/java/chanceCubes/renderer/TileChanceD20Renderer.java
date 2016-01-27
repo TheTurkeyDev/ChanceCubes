@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
 import org.lwjgl.opengl.GL11;
@@ -22,7 +21,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 {
 
 	private static final float BASE_COLOR_SPEED = 75F;
-	private static final float HOVER_SPEED = 12F;
+
 
 	private static final Random random = new Random();
 
@@ -34,18 +33,17 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 	@Override
 	public void renderTileEntityAt(TileChanceD20 d20, double posX, double posY, double posZ, float partialTick, int var9)
 	{
-
+		d20.renderUpdate(partialTick, d20.getWorld().getWorldTime(), d20.getPos());
 		int stage = d20.getStage();
 
 		random.setSeed(RenderUtil.getCoordinateRandom(d20.getPos().getX(), d20.getPos().getY(), d20.getPos().getY()));
 
-		float wave = stage == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
 		//float rot = d20.rotation + (d20.rotationDelta * partialTick);
 		float color = (d20.getWorld().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
 
 		GL11.glPushMatrix();
 
-		GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
+		//GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
 		//GlStateManager.rotate(rot, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
@@ -68,7 +66,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 
 		GL11.glPushMatrix();
 
-		GlStateManager.translate(posX + 0.5F, posY + 1.5F + wave * 0.1F, posZ + 2.5F);
+		GlStateManager.translate(posX + 0.5F, posY + 1.5F + d20.wave * 0.1F, posZ + 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		RenderHelper.disableStandardItemLighting();
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
