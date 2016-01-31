@@ -29,7 +29,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 				if(!skip)
 				{
 					int xxx = xx == 1 ? px + 4 : px - 4;
-					if(world.getBlock(xxx, y,pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 1, pz + zz).equals(Blocks.air) && world.getBlock(xxx, y + 2, pz + zz).equals(Blocks.air))
+					if(!world.getBlock(xxx, y,pz + zz).isOpaqueCube() && !world.getBlock(xxx, y + 1, pz + zz).isOpaqueCube() && !world.getBlock(xxx, y + 2, pz + zz).isOpaqueCube())
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xxx, y, pz + zz, xx == 1 ? 90 : -90, 0);

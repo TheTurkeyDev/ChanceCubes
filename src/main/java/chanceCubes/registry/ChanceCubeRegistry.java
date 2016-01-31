@@ -152,7 +152,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":STRING!", 7, new BlockRewardType(RewardsUtil.fillArea(11, 5, 11, Blocks.tripwire, -5, 0, -5, false, 0, false, true)), new MessageRewardType(new MessagePart("STRING!!!!").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", 10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon LavaSlime ~ ~1 ~ {CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3,Riding:{id:\"Bat\"}}", 10))));
-		
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,Equipment:[{},{id:301,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:300,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:299,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:298,Count:1,tag:{ench:[{id:7,lvl:100}]}}],DropChances:[0.085F,0.0F,0.0F,0.0F,0.0F]}"))));
+
 		ItemStack stack;
 
 		stack = new ItemStack(Items.stick);
