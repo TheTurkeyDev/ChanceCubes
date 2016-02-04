@@ -29,9 +29,15 @@ public class TileChanceD20 extends TileEntity
 	public TileChanceD20()
 	{
 		if(!CCubesSettings.d20UseNormalChances)
+		{
 			this.chance = random.nextBoolean() ? -100 : 100;
+		}
 		else
-			this.chance = random.nextInt(201) - 100;
+		{
+			this.chance = Math.round((float) (random.nextGaussian() * 40));
+			while(this.chance > 100 || this.chance < -100)
+				this.chance = Math.round((float) (random.nextGaussian() * 40));
+		}
 	}
 
 	public TileChanceD20(int initialChance)

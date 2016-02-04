@@ -10,16 +10,20 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileChanceCube extends TileEntity
 {
+	private static Random random = new Random();
 
 	private int chance;
 
 	public TileChanceCube()
 	{
-		this(new Random().nextInt(201) - 100);
+		this(Math.round((float) (random.nextGaussian() * 40)));
 	}
 
 	public TileChanceCube(int initialChance)
 	{
+		while(initialChance > 100 || initialChance < -100)
+			initialChance = Math.round((float) (random.nextGaussian() * 40));
+
 		this.chance = initialChance;
 	}
 
