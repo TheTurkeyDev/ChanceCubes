@@ -44,6 +44,11 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return new TileChanceD20();
 	}
+	
+	/*public int getRenderType()
+	{
+		return 2;
+	}*/
 
 	public boolean isOpaqueCube()
 	{

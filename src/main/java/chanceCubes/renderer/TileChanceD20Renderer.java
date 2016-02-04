@@ -47,7 +47,6 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		//GlStateManager.rotate(rot, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
-
 		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(d20.getBlockType().getDefaultState(), d20.getWorld(), d20.getPos());
 		//blockModelRenderer.renderModel(d20.getWorld(), baked, d20.getBlockType().getDefaultState(), new BlockPos(posX, posY, posZ), Tessellator.getInstance().getWorldRenderer(), false);

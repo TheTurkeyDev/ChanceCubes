@@ -89,7 +89,6 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		random.setSeed(RenderUtil.getCoordinateRandom(pos.getX(), pos.getY(), pos.getY()));
 		rotationInc = rotation + (rotationDelta * partialTick);
 		wave = stage == 0 ? MathHelper.sin((((worldTime % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
-		System.out.println(wave);
 	}
 
 	public void startBreaking(EntityPlayer player)

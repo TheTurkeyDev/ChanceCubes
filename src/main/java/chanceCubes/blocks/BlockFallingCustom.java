@@ -56,7 +56,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 				{
 					this.worldObj.setBlockToAir(blockpos);
 				}
-				else if(!this.worldObj.isRemote)
+				else if(this.worldObj.isRemote)
 				{
 					this.setDead();
 					return;
