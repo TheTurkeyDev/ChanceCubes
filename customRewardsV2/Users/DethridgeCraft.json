@@ -1,0 +1,17 @@
+{
+	"Deth_Knigts":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Deth Knights. ATTACK!"}
+		],
+		"Command":
+		[
+			{"command":"/summon Skeleton ~ ~1 ~ {CustomName:\"Deth Knight\",CustomNameVisible:1,Equipment:[{id:iron_sword,Count:1,tag:{ench:[{id:16,lvl:2}]}},{id:chainmail_boots,Count:1},{id:chainmail_leggings,Count:1},{id:chainmail_chestplate,Count:1},{id:chainmail_helmet,Count:1}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F]}", "delay": 20},
+			{"command":"/summon Skeleton ~ ~1 ~ {CustomName:\"Deth Knight\",CustomNameVisible:1,Equipment:[{id:iron_sword,Count:1,tag:{ench:[{id:16,lvl:2}]}},{id:chainmail_boots,Count:1},{id:chainmail_leggings,Count:1},{id:chainmail_chestplate,Count:1},{id:chainmail_helmet,Count:1}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F]}", "delay": 20},
+			{"command":"/summon Skeleton ~ ~1 ~ {CustomName:\"Deth Knight\",CustomNameVisible:1,Equipment:[{id:iron_sword,Count:1,tag:{ench:[{id:16,lvl:2}]}},{id:chainmail_boots,Count:1},{id:chainmail_leggings,Count:1},{id:chainmail_chestplate,Count:1},{id:chainmail_helmet,Count:1}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F]}", "delay": 20},
+			{"command":"/summon Skeleton ~ ~1 ~ {CustomName:\"Deth Knight\",CustomNameVisible:1,Equipment:[{id:iron_sword,Count:1,tag:{ench:[{id:16,lvl:2}]}},{id:chainmail_boots,Count:1},{id:chainmail_leggings,Count:1},{id:chainmail_chestplate,Count:1},{id:chainmail_helmet,Count:1}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Riding:{id:\"EntityHorse\",Type:0,Variant:7}}", "delay": 20}
+		]
+	}
+}

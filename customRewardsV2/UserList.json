@@ -34,5 +34,6 @@
 	{"UUID":"2c6d7b3d-7674-4b18-8d86-bb6a707ea8e4", "Name":"Yogscast", "Type":"Youtube group"},
 	{"UUID":"7dd55e6b-f16b-4804-8df5-2f50f7191b2d", "Name":"Yogscast", "Type":"Youtube group"},
 	{"UUID":"d51754f4-b279-4b18-a536-264bf3b02440", "Name":"Yogscast", "Type":"Youtube group"},
-	{"UUID":"9ca1c700-d0a2-424a-9912-6e06ffd7217e", "Name":"geektechmedia", "Type":"Streamer"}
+	{"UUID":"9ca1c700-d0a2-424a-9912-6e06ffd7217e", "Name":"geektechmedia", "Type":"Streamer"},
+	{"UUID":"b3cea104-fd35-4a5d-bb7b-00668f133e28", "Name":"DethridgeCraft", "Type":"Streamer"}
 ]
