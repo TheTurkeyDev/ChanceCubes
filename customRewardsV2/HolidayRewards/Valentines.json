@@ -7,9 +7,9 @@
 			{"message":"Happy Valentine's Day from the Chance Cubes Team!"},
 			{"message":"Here is our valentine to you!", "delay":10}
 		],
-		"Entity":
+		"Item":
 		[
-			{"entity":{"id":"wolf"}}
+			{"item":{"id":"minecraft:paper","Count":1,tag:{display:{Name:"A Valentine"}}}}
 		],
 		"Particle":
 		[
