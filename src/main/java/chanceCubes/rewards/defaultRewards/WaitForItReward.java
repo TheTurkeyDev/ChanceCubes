@@ -23,7 +23,7 @@ public class WaitForItReward implements IChanceCubeReward
 	{
 		player.addChatMessage(new ChatComponentText("Wait for it......."));
 
-		Task task = new Task("Charged Creeper Reward", 2400)
+		Task task = new Task("Wait For It", rand.nextInt(4000) + 1000)
 		{
 			@Override
 			public void callback()

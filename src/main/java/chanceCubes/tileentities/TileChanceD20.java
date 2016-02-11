@@ -2,6 +2,10 @@ package chanceCubes.tileentities;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
+import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.util.RenderUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -10,15 +14,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
-import chanceCubes.CCubesCore;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.util.RenderUtil;
 
 public class TileChanceD20 extends TileEntity implements ITickable
 {
 	private static final float BASE_SPIN_SPEED = 0.5F;
 	private static final float HOVER_SPEED = 12F;
-	
+
 	private static final Random random = new Random();
 
 	private boolean breaking = false;
@@ -30,7 +31,16 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public TileChanceD20()
 	{
-		this(new Random().nextBoolean() ? -100 : 100);
+		if(!CCubesSettings.d20UseNormalChances)
+		{
+			this.chance = random.nextBoolean() ? -100 : 100;
+		}
+		else
+		{
+			this.chance = Math.round((float) (random.nextGaussian() * 40));
+			while(this.chance > 100 || this.chance < -100)
+				this.chance = Math.round((float) (random.nextGaussian() * 40));
+		}
 	}
 
 	public TileChanceD20(int initialChance)
@@ -83,7 +93,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			rotation += (float) (BASE_SPIN_SPEED + Math.pow(1.02, getStage()));
 		}
 	}
-	
+
 	public void renderUpdate(float partialTick, long worldTime, BlockPos pos)
 	{
 		random.setSeed(RenderUtil.getCoordinateRandom(pos.getX(), pos.getY(), pos.getY()));

@@ -18,7 +18,7 @@ public class BlindnessFightReward implements IChanceCubeReward
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
-		
+
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 2));
 		player.addChatMessage(new ChatComponentText("Fight!!!"));
 
@@ -26,34 +26,18 @@ public class BlindnessFightReward implements IChanceCubeReward
 		{
 			for(int zz = -2; zz < 3; zz++)
 			{
-				world.setBlockToAir(new BlockPos(x+xx, y, z+zz));
-				world.setBlockToAir(new BlockPos(x+xx, y + 1, z+zz));
+				world.setBlockToAir(new BlockPos(x + xx, y, z + zz));
+				world.setBlockToAir(new BlockPos(x + xx, y + 1, z + zz));
 			}
 		}
-		
-		EntitySkeleton skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
+
+		for(int i = 0; i < 6; i++)
+		{
+			EntitySkeleton skele = new EntitySkeleton(world);
+			skele.onInitialSpawn(world.getDifficultyForLocation(skele.getPosition()), null);
+			skele.setPosition(x, y, z);
+			world.spawnEntityInWorld(skele);
+		}
 	}
 
 	@Override

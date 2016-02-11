@@ -30,6 +30,7 @@ public class RenderUtil
 	}
 
 	@Nullable
+
 	public static Timer getTimer()
 	{
 		if(timerField == null)

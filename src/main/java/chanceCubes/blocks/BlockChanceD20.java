@@ -3,16 +3,25 @@ package chanceCubes.blocks;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
+import com.google.common.collect.Lists;
+
+import chanceCubes.items.CCubesItems;
+import chanceCubes.items.ItemChanceCube;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketTriggerD20;
+import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.TRSRTransformation;
@@ -22,13 +31,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import chanceCubes.items.CCubesItems;
-import chanceCubes.items.ItemChanceCube;
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketTriggerD20;
-import chanceCubes.tileentities.TileChanceD20;
-
-import com.google.common.collect.Lists;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -44,11 +46,6 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return new TileChanceD20();
 	}
-	
-	/*public int getRenderType()
-	{
-		return 2;
-	}*/
 
 	public boolean isOpaqueCube()
 	{
@@ -118,5 +115,23 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public BlockState createBlockState()
 	{
 		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.instance });
+	}
+
+	@Override
+	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity)
+	{
+		return false;
+	}
+
+	@Override
+	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
+	{
+
+	}
+
+	@Override
+	public boolean canDropFromExplosion(Explosion explosion)
+	{
+		return false;
 	}
 }

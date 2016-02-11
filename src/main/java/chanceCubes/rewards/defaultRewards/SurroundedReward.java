@@ -24,7 +24,7 @@ public class SurroundedReward implements IChanceCubeReward
 		{
 			for(int zz = -4; zz < 5; zz++)
 			{
-				if(world.getBlockState(pos.add(xx == 1 ? 4 : -4, 0, zz)).equals(Blocks.air) && world.getBlockState(pos.add(xx == 1 ? 4 : -4, 1, zz)).equals(Blocks.air) && world.getBlockState(pos.add(xx == 1 ? 4 : -4, 2, zz)).equals(Blocks.air))
+				if(!world.getBlockState(pos.add(xx == 1 ? 4 : -4, 0, zz)).getBlock().isFullBlock() && !world.getBlockState(pos.add(xx == 1 ? 4 : -4, 1, zz)).getBlock().isFullBlock() && !world.getBlockState(pos.add(xx == 1 ? 4 : -4, 2, zz)).getBlock().isFullBlock())
 				{
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(xx == 1 ? pos.getX() + 4 : pos.getX() - 4, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
