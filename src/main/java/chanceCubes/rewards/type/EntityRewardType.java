@@ -3,6 +3,7 @@ package chanceCubes.rewards.type;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,9 +43,14 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 			spawnEntity(part, world, x, y, z, player);
 		}
 	}
-	
+
 	public void spawnEntity(EntityPart part, World world, int x, int y, int z, EntityPlayer player)
 	{
+		for(int yy = 0; yy < 4; yy++)
+			for(int xx = -1; xx < 2; xx++)
+				for(int zz = -1; zz < 2; zz++)
+					world.setBlock(x + xx, y + yy, z + zz, Blocks.air);
+		
 		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
 		newEnt.setPosition(x, y, z);
 		world.spawnEntityInWorld(newEnt);

@@ -383,7 +383,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 			CommandPart command = new CommandPart(element.getAsJsonObject().get("command").getAsString());
- 
+			
 			if(element.getAsJsonObject().has("delay"))
 				command.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			commands.add(command);
@@ -796,9 +796,9 @@ public class CustomRewardsLoader
 		if(fm < sm)
 			return 1;
 		else if(fm == sm)
-			return fd == sd ? 0 : fd < sm ? 1 : -1;
+			return fd == sd ? 0 : fd < sd ? 1 : -1;
 		else
-			return -1;
+			return -2;
 	}
 
 	public File getFolderFile()

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -112,7 +113,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 65, new ItemRewardType(new ItemPart(new ItemStack(Items.coal)), new ItemPart(new ItemStack(Items.redstone)), new ItemPart(new ItemStack(Items.iron_ingot)), new ItemPart(new ItemStack(Items.gold_ingot)), new ItemPart(new ItemStack(Items.diamond)), new ItemPart(new ItemStack(Items.emerald)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.chanceCube, 3))), new MessageRewardType(new MessagePart("I hear you like Chance Cubes.").setRange(32), new MessagePart("So I put some Chance Cubes in your Chance Cubes!").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.chanceIcosahedron)))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 35,new MessageRewardType(new MessagePart("Seems you have purchased the saplings DLC").setRange(32)), new ItemRewardType(new ItemPart(new ItemStack(Blocks.sapling, 4, 0)), new ItemPart(new ItemStack(Blocks.sapling, 4, 1)), new ItemPart(new ItemStack(Blocks.sapling, 4, 2)), new ItemPart(new ItemStack(Blocks.sapling, 4, 3)), new ItemPart(new ItemStack(Blocks.sapling, 4, 4)), new ItemPart(new ItemStack(Blocks.sapling, 4, 5)))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 35, new MessageRewardType(new MessagePart("Seems you have purchased the saplings DLC").setRange(32)), new ItemRewardType(new ItemPart(new ItemStack(Blocks.sapling, 4, 0)), new ItemPart(new ItemStack(Blocks.sapling, 4, 1)), new ItemPart(new ItemStack(Blocks.sapling, 4, 2)), new ItemPart(new ItemStack(Blocks.sapling, 4, 3)), new ItemPart(new ItemStack(Blocks.sapling, 4, 4)), new ItemPart(new ItemStack(Blocks.sapling, 4, 5)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType(new MessagePart("Time to farm!").setRange(32)), new ItemRewardType(new ItemPart(new ItemStack(Items.iron_hoe)), new ItemPart(new ItemStack(Items.bucket)), new ItemPart(new ItemStack(Items.wheat_seeds, 16)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.fence, 32)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 90)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 91)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 92)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 30, new MessageRewardType(new MessagePart("SPARTAAA!!!").setRange(32)), new ItemRewardType(new ItemPart(new ItemStack(Items.iron_sword)), new ItemPart(new ItemStack(Items.iron_helmet)), new ItemPart(new ItemStack(Items.iron_chestplate)), new ItemPart(new ItemStack(Items.iron_leggings)), new ItemPart(new ItemStack(Items.iron_boots)))));
@@ -132,7 +133,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SlimeMan", 10, new CommandRewardType(new CommandPart("/summon Slime %x %y %z {CustomName:\"SlimeMan\",CustomNameVisible:1,Size:1,Riding:{id:\"Slime\",Size:2,Riding:{id:\"Slime\",Size:3}}}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 5, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.water, false)), new CommandRewardType(new CommandPart("/summon Boat %x %y %z")), new MessageRewardType(new MessagePart("Come sail away!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -40, new CommandRewardType(new CommandPart("/summon Witch %x %y %z "))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 40, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Wyld\",CustomNameVisible:1,IsBaby:1,Riding:{id:\"Chicken\",CustomName:\"Cluckington\",CustomNameVisible:1,IsChickenJockey:1}}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 40, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Wyld\",CustomNameVisible:1,IsVillager:0,IsBaby:1,Equipment:[{id:267,Count:1,tag:{ench:[{id:16,lvl:3}]}},{id:301,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}},{id:300,Count:1,tag:{ench:[{id:0,lvl:1}],display:{color:16711867}}},{id:299,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}},{id:298,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Riding:{id:\"Chicken\",CustomName:\"Cluckington\",CustomNameVisible:1,IsChickenJockey:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 40, new CommandRewardType(new CommandPart("/summon Slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 40, new CommandRewardType(new CommandPart("/summon Zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 40, new CommandRewardType(new CommandPart("/summon Villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}"))));
@@ -153,6 +154,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", 10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon LavaSlime ~ ~1 ~ {CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3,Riding:{id:\"Bat\"}}", 10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,Equipment:[{},{id:301,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:300,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:299,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:298,Count:1,tag:{ench:[{id:7,lvl:100}]}}],DropChances:[0.085F,0.0F,0.0F,0.0F,0.0F]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Squid_Horde", 5, new MessageRewardType(new MessagePart("Release the horde!").setRange(32), new MessagePart("Of squids!!").setDelay(20).setRange(32)), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Squid"), 15))));
 
 		ItemStack stack;
 
@@ -215,14 +217,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				for(int z = 0; z < 5; z++)
 				{
 					if(y == 1 && (x == 0 || x == 4 || z == 0 || z == 4))
-					{
 						continue;
-					}
-					else
-					{
-						blocks[i] = new OffsetBlock(x - 2, y, z - 2, Blocks.iron_block, true, i*5);
-						i++;
-					}
+					blocks[i] = new OffsetBlock(x - 2, y, z - 2, Blocks.iron_block, true, i * 5);
+					i++;
 				}
 			}
 		}
@@ -239,7 +236,17 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				player.addChatMessage(new ChatComponentText("Screw you last stand"));
 			}
 		});
-		
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Smite", -10)
+		{
+			@Override
+			public void trigger(World world, int x, int y, int z, EntityPlayer player)
+			{
+				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ));
+				player.addChatMessage(new ChatComponentText("Thou has been smitten!"));
+			}
+		});
+
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());

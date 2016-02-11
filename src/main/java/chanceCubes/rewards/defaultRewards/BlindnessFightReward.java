@@ -21,34 +21,18 @@ public class BlindnessFightReward implements IChanceCubeReward
 		{
 			for(int zz = -2; zz < 3; zz++)
 			{
-				world.setBlockToAir(x+xx, y, z+zz);
-				world.setBlockToAir(x+xx, y + 1, z+zz);
+				world.setBlockToAir(x + xx, y, z + zz);
+				world.setBlockToAir(x + xx, y + 1, z + zz);
 			}
 		}
-		
-		EntitySkeleton skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
-		
-		skele = new EntitySkeleton(world);
-		skele.setPosition(x, y, z);
-		world.spawnEntityInWorld(skele);
+
+		for(int i = 0; i < 6; i++)
+		{
+			EntitySkeleton skele = new EntitySkeleton(world);
+			skele.onSpawnWithEgg(null);
+			skele.setPosition(x, y, z);
+			world.spawnEntityInWorld(skele);
+		}
 	}
 
 	@Override
