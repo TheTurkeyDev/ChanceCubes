@@ -21,6 +21,9 @@ public class CCubesSettings
 	public static String[] blockedWorlds = new String[]{};
 	public static boolean chestLoot = true;
 	public static boolean craftingRecipie = true;
+	public static boolean hiddenOverWorldCubes = false;
+	public static boolean hiddenNetherCubes = false;
+	public static boolean hiddenEndCubes = false;
 	
 	public static boolean userSpecificRewards = true;
 	

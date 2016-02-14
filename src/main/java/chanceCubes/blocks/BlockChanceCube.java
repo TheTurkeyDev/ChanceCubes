@@ -2,20 +2,6 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
@@ -25,6 +11,22 @@ import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.ChunkCache;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -32,6 +34,8 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	private IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] specialIcons;
+
+	private boolean tempOverride = false;
 
 	public BlockChanceCube()
 	{
@@ -112,6 +116,54 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
 			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture);
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess acess, int x, int y, int z, int side)
+	{
+		if(tempOverride)
+			return this.getIcon(side, acess.getBlockMetadata(x, y, z));
+		World world = null;
+		if(acess instanceof World)
+		{
+			world = (World) acess;
+		}
+		else if(acess instanceof ChunkCache)
+		{
+			TileEntity te = ((ChunkCache) acess).getTileEntity(x, y, z);
+			if(te == null)
+				return this.getIcon(side, acess.getBlockMetadata(x, y, z));
+			world = te.getWorldObj();
+		}
+		else
+		{
+			return this.getIcon(side, acess.getBlockMetadata(x, y, z));
+		}
+
+		int dim = world.provider.dimensionId;
+		Block block = world.getBlock(x, y - 1, z);
+		if(block instanceof BaseChanceBlock)
+			return this.getIcon(side, acess.getBlockMetadata(x, y, z));
+		if(dim == 0 && CCubesSettings.hiddenOverWorldCubes)
+		{
+			if(block.equals(Blocks.air))
+				return Blocks.stone.getIcon(side, acess.getBlockMetadata(x, y, z));
+			return world.getBlock(x, y - 1, z).getIcon(side, acess.getBlockMetadata(x, y, z));
+		}
+		if(dim == 1 && CCubesSettings.hiddenEndCubes)
+		{
+			if(block.equals(Blocks.air))
+				return Blocks.end_stone.getIcon(side, acess.getBlockMetadata(x, y, z));
+			return world.getBlock(x, y - 1, z).getIcon(side, acess.getBlockMetadata(x, y, z));
+		}
+		if(dim == -1 && CCubesSettings.hiddenNetherCubes)
+		{
+			if(block.equals(Blocks.air))
+				return Blocks.netherrack.getIcon(side, acess.getBlockMetadata(x, y, z));
+			return world.getBlock(x, y - 1, z).getIcon(side, acess.getBlockMetadata(x, y, z));
+		}
+
+		return this.getIcon(side, acess.getBlockMetadata(x, y, z));
 	}
 
 	@SideOnly(Side.CLIENT)

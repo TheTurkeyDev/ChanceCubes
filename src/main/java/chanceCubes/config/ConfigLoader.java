@@ -34,6 +34,9 @@ public class ConfigLoader
 		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes shold not generate in");
 		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");
 		CCubesSettings.craftingRecipie = config.getBoolean("CraftingRecipe", genCat, true, "true if Chance Cubes should have a crafting recipe. false if they should not");
+		CCubesSettings.hiddenOverWorldCubes = config.getBoolean("HiddenOverWorldCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the over world");
+		CCubesSettings.hiddenNetherCubes = config.getBoolean("HiddenNetherCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the nether");
+		CCubesSettings.hiddenEndCubes = config.getBoolean("HiddenEndCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the end");
 		
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
 		
