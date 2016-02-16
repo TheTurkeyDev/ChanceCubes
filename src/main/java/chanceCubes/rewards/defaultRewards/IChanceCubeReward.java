@@ -3,8 +3,9 @@ package chanceCubes.rewards.defaultRewards;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public interface IChanceCubeReward {
-	
+public interface IChanceCubeReward
+{
+
 	/**
 	 * What occurs when the block is "opened"
 	 * @param world
@@ -14,12 +15,12 @@ public interface IChanceCubeReward {
 	 * @param player Player who triggered the block
 	 */
 	public void trigger(World world, int x, int y, int z, EntityPlayer player);
-	
+
 	/**
 	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward.
 	 */
 	public int getChanceValue();
-	
+
 	/**
 	 * @return Unique name for reward (suggested to pre-pend MODID).
 	 */

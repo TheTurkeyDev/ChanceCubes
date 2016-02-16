@@ -111,10 +111,14 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		this.icons[5] = register.registerIcon(CCubesCore.MODID + ":chancecube_face_3");
 		if(CCubesSettings.hasHolidayTexture)
 		{
-			this.specialIcons = new IIcon[2];
+			this.specialIcons = new IIcon[6];
 			String texture = CCubesSettings.holidayTextureName;
-			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture + "Top");
-			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture);
+			this.specialIcons[0] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_1");
+			this.specialIcons[1] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_6");
+			this.specialIcons[2] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_2");
+			this.specialIcons[3] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_5");
+			this.specialIcons[4] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_4");
+			this.specialIcons[5] = register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_3");
 		}
 	}
 
@@ -170,12 +174,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	public IIcon getIcon(int side, int meta)
 	{
 		if(CCubesSettings.hasHolidayTexture)
-		{
-			if(side == 0 || side == 1)
-				return this.specialIcons[0];
-			else
-				return this.specialIcons[1];
-		}
+			return this.specialIcons[side];
 		else
 			return this.icons[side];
 	}

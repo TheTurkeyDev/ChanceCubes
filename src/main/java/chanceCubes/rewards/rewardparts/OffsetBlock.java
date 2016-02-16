@@ -142,4 +142,9 @@ public class OffsetBlock
 		Block bSurface = world.getBlock(xx, yy - 1, zz);
 		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.func_150496_b(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getPitch() * 0.5F);
 	}
+	
+	public Block getBlock()
+	{
+		return this.block;
+	}
 }

@@ -1,5 +1,6 @@
 package chanceCubes.blocks;
 
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -9,7 +10,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
 
 public class BlockFallingCustom extends EntityFallingBlock
 {

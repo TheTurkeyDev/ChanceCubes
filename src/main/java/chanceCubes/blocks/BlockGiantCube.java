@@ -97,10 +97,14 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		this.subMap[5] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":chancecube_face_3"), 3, 3);
 		if(CCubesSettings.hasHolidayTexture)
 		{
-			this.specialIcons = new TextureSubmap[2];
+			this.specialIcons = new TextureSubmap[6];
 			String texture = CCubesSettings.holidayTextureName;
-			this.specialIcons[0] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "Top"), 3, 3);
-			this.specialIcons[1] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture), 3, 3);
+			this.specialIcons[0] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_1"), 3, 3);
+			this.specialIcons[1] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_6"), 3, 3);
+			this.specialIcons[2] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_2"), 3, 3);
+			this.specialIcons[3] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_5"), 3, 3);
+			this.specialIcons[4] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_4"), 3, 3);
+			this.specialIcons[5] = new TextureSubmap(register.registerIcon(CCubesCore.MODID + ":" + texture + "_face_3"), 3, 3);
 		}
 	}
 
@@ -108,12 +112,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	public IIcon getIcon(int side, int meta)
 	{
 		if(CCubesSettings.hasHolidayTexture)
-		{
-			if(side == 0 || side == 1)
-				return this.specialIcons[0].getBaseIcon();
-			else
-				return this.specialIcons[1].getBaseIcon();
-		}
+			return this.specialIcons[side].getBaseIcon();
 		else
 			return this.subMap[side].getBaseIcon();
 	}

@@ -9,21 +9,10 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
@@ -46,6 +35,7 @@ import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.InventoryBombReward;
 import chanceCubes.rewards.defaultRewards.InventoryChestReward;
 import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
+import chanceCubes.rewards.defaultRewards.JukeBoxReward;
 import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.NukeReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
@@ -62,6 +52,7 @@ import chanceCubes.rewards.rewardparts.ExpirencePart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
@@ -75,9 +66,21 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.RewardsUtil;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
@@ -208,6 +211,12 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setStackDisplayName("Why not?");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 70, new ItemRewardType(new ItemPart(stack))));
 
+		
+		TileEntitySign sign = new TileEntitySign();
+		sign.signText[0] = "The broken path";
+		sign.signText[1] = "to succ";
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succ", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.standing_sign, ((TileEntity)sign), true, 20), new OffsetBlock(0, -1, 0, Blocks.cobblestone, true, 0), new OffsetBlock(0, -1, -1, Blocks.cobblestone, true, 4), new OffsetBlock(0, -1, -2, Blocks.cobblestone, true, 8), new OffsetBlock(0, -1, -3, Blocks.cobblestone, true, 12), new OffsetBlock(0, -1, -4, Blocks.cobblestone, true, 16), new OffsetBlock(0, -1, -5, Blocks.cobblestone, true, 20))));
+		
 		OffsetBlock[] blocks = new OffsetBlock[35];
 		int i = 0;
 		for(int y = 0; y < 2; y++)
@@ -269,6 +278,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DiscoReward());
 		INSTANCE.registerReward(new InventoryBombReward());
 		INSTANCE.registerReward(new ClearInventoryReward(), false);
+		INSTANCE.registerReward(new JukeBoxReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
