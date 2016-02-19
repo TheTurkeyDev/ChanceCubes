@@ -80,6 +80,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 					
 					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderName(), this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
+					this.player.closeScreen();
 				}
 				else
 				{

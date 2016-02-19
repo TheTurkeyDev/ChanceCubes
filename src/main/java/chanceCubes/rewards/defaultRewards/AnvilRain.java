@@ -46,19 +46,12 @@ public class AnvilRain implements IChanceCubeReward
 			world.setBlockToAir((int) player.posX, y + yy, (int) player.posZ);
 
 		world.setBlock(x, y + 25, z, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x, y + 25, z, 9, 3);
 		world.setBlock(x1, y + 25, z1, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x1, y + 25, z1, 9, 3);
 		world.setBlock(x2, y + 25, z2, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x2, y + 25, z2, 9, 3);
 		world.setBlock(x3, y + 25, z3, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x3, y + 25, z3, 9, 3);
 		world.setBlock(x4, y + 25, z4, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x4, y + 25, z4, 9, 3);
 		world.setBlock(x5, y + 25, z5, Blocks.anvil);
-		world.setBlockMetadataWithNotify(x5, y + 25, z5, 9, 3);
 		world.setBlock((int) player.posX, y + 25, (int) player.posZ, Blocks.anvil);
-		world.setBlockMetadataWithNotify((int) player.posX, y + 25, (int) player.posZ, 9, 3);
 	}
 
 	@Override

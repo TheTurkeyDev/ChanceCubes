@@ -10,6 +10,8 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 
 public class CCubesCommands implements ICommand
@@ -63,6 +65,21 @@ public class CCubesCommands implements ICommand
 		else if(astring.length > 0 && astring[0].equalsIgnoreCase("version"))
 		{
 			icommandsender.addChatMessage(new ChatComponentText("Chance Cubes Version " + CCubesCore.VERSION));
+		}
+		else if(astring[0].equalsIgnoreCase("handNBT"))
+		{
+			if(icommandsender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) icommandsender;
+				if(player.inventory.getCurrentItem() != null)
+				{
+					NBTTagCompound nbt = player.inventory.getCurrentItem().stackTagCompound;
+					if(nbt != null)
+					{
+						icommandsender.addChatMessage(new ChatComponentText(nbt.toString()));
+					}
+				}
+			}
 		}
 	}
 

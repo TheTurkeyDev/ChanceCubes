@@ -22,6 +22,7 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BlindnessFightReward;
+import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
@@ -39,6 +40,7 @@ import chanceCubes.rewards.defaultRewards.JukeBoxReward;
 import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.NukeReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
+import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
 import chanceCubes.rewards.defaultRewards.TrollHoleReward;
@@ -158,6 +160,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon LavaSlime ~ ~1 ~ {CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3,Riding:{id:\"Bat\"}}", 10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,Equipment:[{},{id:301,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:300,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:299,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:298,Count:1,tag:{ench:[{id:7,lvl:100}]}}],DropChances:[0.085F,0.0F,0.0F,0.0F,0.0F]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Squid_Horde", 5, new MessageRewardType(new MessagePart("Release the horde!").setRange(32), new MessagePart("Of squids!!").setDelay(20).setRange(32)), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Squid"), 15))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":D-rude_SandStorm", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.sand, -2, 0, -2, true, 0, false, true)), new MessageRewardType(new MessagePart("Well that was  D-rude").setDelay(40))));
 
 		ItemStack stack;
 
@@ -211,12 +214,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setStackDisplayName("Why not?");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 70, new ItemRewardType(new ItemPart(stack))));
 
-		
 		TileEntitySign sign = new TileEntitySign();
 		sign.signText[0] = "The broken path";
 		sign.signText[1] = "to succ";
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succ", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.standing_sign, ((TileEntity)sign), true, 20), new OffsetBlock(0, -1, 0, Blocks.cobblestone, true, 0), new OffsetBlock(0, -1, -1, Blocks.cobblestone, true, 4), new OffsetBlock(0, -1, -2, Blocks.cobblestone, true, 8), new OffsetBlock(0, -1, -3, Blocks.cobblestone, true, 12), new OffsetBlock(0, -1, -4, Blocks.cobblestone, true, 16), new OffsetBlock(0, -1, -5, Blocks.cobblestone, true, 20))));
-		
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succ", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.standing_sign, ((TileEntity) sign), true, 20), new OffsetBlock(0, -1, 0, Blocks.cobblestone, true, 0), new OffsetBlock(0, -1, -1, Blocks.cobblestone, true, 4), new OffsetBlock(0, -1, -2, Blocks.cobblestone, true, 8), new OffsetBlock(0, -1, -3, Blocks.cobblestone, true, 12), new OffsetBlock(0, -1, -4, Blocks.cobblestone, true, 16), new OffsetBlock(0, -1, -5, Blocks.cobblestone, true, 20))));
+
 		OffsetBlock[] blocks = new OffsetBlock[35];
 		int i = 0;
 		for(int y = 0; y < 2; y++)
@@ -279,6 +281,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new InventoryBombReward());
 		INSTANCE.registerReward(new ClearInventoryReward(), false);
 		INSTANCE.registerReward(new JukeBoxReward());
+		INSTANCE.registerReward(new BookOfMemesReward());
+		INSTANCE.registerReward(new RemoveUsefulThingsReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
