@@ -39,7 +39,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -30;
+		return -35;
 	}
 
 	@Override

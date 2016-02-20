@@ -38,7 +38,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -60;
+		return -40;
 	}
 
 	@Override

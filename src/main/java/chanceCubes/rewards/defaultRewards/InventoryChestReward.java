@@ -59,13 +59,13 @@ public class InventoryChestReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -95;
+		return -70;
 	}
 
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Inventory_ Chest";
+		return CCubesCore.MODID + ":Inventory_Chest";
 	}
 
 }

@@ -10,8 +10,8 @@ public class CCubesSettings
 	
 	public static boolean enableHardCodedRewards = true;
 	
-	public static int rangeMin = 25;
-	public static int rangeMax = 25;
+	public static int rangeMin = 20;
+	public static int rangeMax = 20;
 	public static boolean d20UseNormalChances = false;
 	
 	public static boolean oreGeneration = true;

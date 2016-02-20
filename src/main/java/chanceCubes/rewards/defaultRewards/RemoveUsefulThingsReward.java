@@ -51,18 +51,26 @@ public class RemoveUsefulThingsReward implements IChanceCubeReward
 			player.addChatMessage(new ChatComponentText("Here, let me give you a helping hand!"));
 
 			for(int yy = -2; yy <= 2; yy++)
+			{
 				for(int xx = -5; xx <= 5; xx++)
+				{
 					for(int zz = -5; zz <= 5; zz++)
+					{
 						if(world.getBlock(x + xx, y + yy, z + zz).isOpaqueCube() && world.getBlock(x + xx, y + yy + 1, z + zz).equals(Blocks.air))
+						{
 							world.setBlock(x + xx, y + yy, z + zz, Blocks.torch);
+							world.setBlockMetadataWithNotify(x + xx, y + yy, z + zz, 0, 2);
+						}
+					}
+				}
+			}
 		}
-
 	}
 
 	@Override
 	public int getChanceValue()
 	{
-		return -20;
+		return -55;
 	}
 
 	@Override
