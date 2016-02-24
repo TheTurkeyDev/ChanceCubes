@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -86,6 +87,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
+	private static Random random = new Random();
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
 
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
@@ -407,14 +409,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		}
 		int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
-		int pick = world.rand.nextInt(range) + lowerIndex;
+		int pick = random.nextInt(range) + lowerIndex;
 		IChanceCubeReward pickedReward = sortedRewards.get(pick);
 		if(lastReward != null)
 		{
 			byte atempts = 0;
 			while(atempts < 5 && lastReward.getName().equals(pickedReward.getName()))
 			{
-				pick = world.rand.nextInt(range) + lowerIndex;
+				pick = random.nextInt(range) + lowerIndex;
 				pickedReward = sortedRewards.get(pick);
 				atempts++;
 			}
