@@ -25,6 +25,8 @@ public class ChunkReverserReward implements IChanceCubeReward
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.stone, Blocks.dirt));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.dirt, Blocks.cobblestone));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.grass, Blocks.stone));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.gravel, Blocks.sand));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.sand, Blocks.gravel));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.iron_ore, Blocks.gold_ore));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.coal_ore, Blocks.diamond_ore));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.diamond_ore, Blocks.coal_ore));

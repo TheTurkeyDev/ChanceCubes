@@ -59,7 +59,7 @@ public class WaitForItReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -50;
+		return -30;
 	}
 
 	@Override

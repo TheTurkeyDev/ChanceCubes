@@ -1,24 +1,17 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.Entity;
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
 
 public class SurroundedReward implements IChanceCubeReward
 {
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		final List<Entity> ents = new ArrayList<Entity>();
 		EntityEnderman enderman;
 		for(int xx = 0; xx < 2; xx++)
 		{
@@ -29,7 +22,6 @@ public class SurroundedReward implements IChanceCubeReward
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(xx == 1 ? pos.getX() + 4 : pos.getX() - 4, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
 					world.spawnEntityInWorld(enderman);
-					ents.add(enderman);
 				}
 			}
 		}
@@ -43,31 +35,9 @@ public class SurroundedReward implements IChanceCubeReward
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(pos.getX() + xx, pos.getY(), zz == 1 ? pos.getZ() + 4 : pos.getZ() - 4, zz == 1 ? 180 : 0, 0);
 					world.spawnEntityInWorld(enderman);
-					ents.add(enderman);
 				}
 			}
 		}
-
-		Task task = new Task("Surrounded Reward", 60)
-		{
-			@Override
-			public void callback()
-			{
-				removeEnts(ents);
-			}
-		};
-
-		Scheduler.scheduleTask(task);
-	}
-
-	private void removeEnts(List<Entity> ents)
-	{
-		for(Entity enderman : ents)
-		{
-			enderman.setDead();
-		}
-
-		ents.clear();
 	}
 
 	@Override

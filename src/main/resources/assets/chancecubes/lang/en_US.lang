@@ -2,9 +2,10 @@ itemGroup.chancecubes=Chance Cubes
 
 tile.chance_Cube.name=Chance Cube
 item.chancecubes_chanceCube.name=Chance Cube
-item.chance_Icosahedron.name=Chance Icosahedron
+item.chance_Icosahedron.name=Chance Icosahedron (WIP)
 tile.giant_Chance_Cube.name=Giant Chance Cube
 tile.compact_Giant_Chance_Cube.name=Compact Giant Chance Cube
+tile.chance_Icosahedron.name=Chance Icosahedron (WIP)
 
 item.chancecubes_chance_Pendant_Tier1.name=Tier 1 Chance Pendant
 item.chancecubes_chance_Pendant_Tier2.name=Tier 2 Chance Pendant
@@ -18,4 +19,4 @@ item.chancecubes_silk_Touch_Pendant.name=Silk Touch Chance Pendant
 
 item.chancecubes_scanner.name=Chance Cube Scanner
 
-death.attack.mathdeath=%1$s 's mind exploded from the power of math
+death.attack.mathdeath=%1$s's mind exploded from the power of math

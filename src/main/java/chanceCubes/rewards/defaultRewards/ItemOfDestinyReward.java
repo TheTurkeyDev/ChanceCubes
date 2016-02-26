@@ -101,18 +101,6 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		Scheduler.scheduleTask(task);
 	}
 
-	@Override
-	public int getChanceValue()
-	{
-		return 70;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Of_Destiny";
-	}
-
 	public Item randomItem()
 	{
 		Item item = Item.getItemById(256 + rand.nextInt(166));
@@ -127,6 +115,18 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		while(ench == null)
 			ench = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
 		return ench;
+	}
+	
+	@Override
+	public int getChanceValue()
+	{
+		return 40;
+	}
+
+	@Override
+	public String getName()
+	{
+		return CCubesCore.MODID + ":Item_Of_Destiny";
 	}
 
 }

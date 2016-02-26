@@ -34,7 +34,7 @@ public class NukeReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -85;
+		return -75;
 	}
 
 	@Override

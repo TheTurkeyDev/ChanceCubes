@@ -1,21 +1,27 @@
 package chanceCubes.rewards.rewardparts;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 public class OffsetTileEntity extends OffsetBlock
 {
 
 	private TileEntity te;
 
-	public OffsetTileEntity(int x, int y, int z, TileEntity te, boolean falling)
+	public OffsetTileEntity(int x, int y, int z, Block block, TileEntity te, boolean falling)
 	{
-		super(x, y, z, te.getBlockType(), falling);
+		this(x, y, z, block, te, falling, 0);
+	}
+
+	public OffsetTileEntity(int x, int y, int z, Block block, TileEntity te, boolean falling, int delay)
+	{
+		super(x, y, z, block, falling, delay);
 		this.te = te;
 	}
 
@@ -31,7 +37,22 @@ public class OffsetTileEntity extends OffsetBlock
 	{
 		if(!falling)
 		{
-			this.placeInWorld(world, x, y, z, true);
+			if(delay != 0)
+			{
+				Task task = new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				{
+					@Override
+					public void callback()
+					{
+						placeInWorld(world, x, y, z, true);
+					}
+				};
+				Scheduler.scheduleTask(task);
+			}
+			else
+			{
+				placeInWorld(world, x, y, z, true);
+			}
 		}
 		else
 		{
@@ -56,6 +77,7 @@ public class OffsetTileEntity extends OffsetBlock
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
+		super.placeInWorld(world, x, y, z, offset);
 		te.getBlockMetadata();
 		if(offset)
 			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), te);

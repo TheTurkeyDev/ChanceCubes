@@ -3,16 +3,18 @@ package chanceCubes.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 
 public class CCubesCommands implements ICommand
 {
@@ -65,6 +67,21 @@ public class CCubesCommands implements ICommand
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
 			sender.addChatMessage(new ChatComponentText("Chance Cubes Version " + CCubesCore.VERSION));
+		}
+		else if(args[0].equalsIgnoreCase("handNBT"))
+		{
+			if(sender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) sender;
+				if(player.inventory.getCurrentItem() != null)
+				{
+					NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
+					if(nbt != null)
+					{
+						sender.addChatMessage(new ChatComponentText(nbt.toString()));
+					}
+				}
+			}
 		}
 	}
 

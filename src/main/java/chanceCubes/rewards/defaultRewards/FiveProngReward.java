@@ -19,7 +19,7 @@ public class FiveProngReward implements IChanceCubeReward
 		
 		world.setBlockState(pos, Blocks.quartz_block.getDefaultState());
 		world.setBlockState(pos.add(0, 1, 0), Blocks.quartz_block.getDefaultState());
-		//world.setBlockState(pos.add(0, 2, 0), CCubesBlocks.chanceIcosahedron.getDefaultState());
+		world.setBlockState(pos.add(0, 2, 0), CCubesBlocks.chanceIcosahedron.getDefaultState());
 		
 		world.setBlockState(pos.add(-3, 0, -3), Blocks.quartz_block.getDefaultState());
 		world.setBlockState(pos.add(-3, 1, -3), CCubesBlocks.chanceCube.getDefaultState());

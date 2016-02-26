@@ -103,13 +103,10 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public void startBreaking(EntityPlayer player)
 	{
-		System.out.println("here");
 		if(!breaking)
 		{
-			System.out.println("here 2");
 			if(!player.worldObj.isRemote)
 			{
-				System.out.println("here 3");
 				player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
 				this.player = player;
 			}

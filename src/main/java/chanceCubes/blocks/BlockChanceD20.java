@@ -92,9 +92,12 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null)
 		{
-			// te.startBreaking(player);
-			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 50));
-			return true;
+			if(!world.isRemote)
+			{
+				te.startBreaking(player);
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 50));
+				return true;
+			}
 		}
 
 		return false;

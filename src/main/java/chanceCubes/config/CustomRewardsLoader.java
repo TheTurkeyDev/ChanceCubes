@@ -238,7 +238,14 @@ public class CustomRewardsLoader
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
-						if(MinecraftServer.getServer().getMinecraftVersion().equalsIgnoreCase(dependencies.getValue().getAsString()))
+						String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
+						String toCheckV = dependencies.getValue().getAsString();
+						if(toCheckV.contains("*"))
+						{
+							currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
+							toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
+						}
+						if(currentMCV.equalsIgnoreCase(toCheckV))
 							gameversion = true;
 					}
 				}
@@ -604,7 +611,13 @@ public class CustomRewardsLoader
 						boolean falling = false;
 						if(element.getAsJsonObject().has("falling"))
 							falling = element.getAsJsonObject().get("falling").getAsBoolean();
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), tileentity, falling);
+						Block b = null;
+						for(OffsetBlock osb : blocks)
+							if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
+								b = osb.getBlock();
+						if(b == null)
+							b = Blocks.stone;
+						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, tileentity, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 						block.setDealy(i1 * multiplier);
