@@ -39,7 +39,6 @@ public class BioDomeReward implements IChanceCubeReward
 
 		Scheduler.scheduleTask(new Task("Entity_Delays", lastTime)
 		{
-
 			@Override
 			public void callback()
 			{

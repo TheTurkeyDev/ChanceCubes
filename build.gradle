@@ -34,6 +34,7 @@ minecraft {
 	
 	replace "@VERSION@", project.version
     replaceIn "CCubesCore.java"
+    replaceIn "mcmod.info"
 }
 
 configurations {

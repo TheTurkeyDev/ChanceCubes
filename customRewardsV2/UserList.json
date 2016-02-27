@@ -18,10 +18,9 @@
 	{"UUID":"0ecc4b24-6575-4f9c-8bb8-929b28a6d9f0", "Name":"xRAIGINx", "Type":"Streamer"},
 	{"UUID":"f6d5909d-3676-4d48-afe7-29c558e64f71", "Name":"Leavaris", "Type":"Streamer and Patreon"},
 	{"UUID":"7e1f08a2-0028-4871-9484-891c02a229ef", "Name":"FamousCobain", "Type":"Streamer"},
-	{"UUID":"37af7398-5a3d-40f1-ac13-e8fcf1bb951f", "Name":"Thevett75", "Type":"Patreon"},
 	{"UUID":"c2024e2a-dd76-4bc9-9ea3-b771f18f23b6", "Name":"tlovetech", "Type":"Streamer"},
 	{"UUID":"69646063-cf85-4e93-a857-4ac9e869a837", "Name":"Matrixis", "Type":"Streamer"},
-	{"UUID":"ef7daeb4-b8ba-4a14-9616-5674a1604f0a", "Name":"K4ileb", "Type":"Streamer and Patreon"},
+	{"UUID":"ef7daeb4-b8ba-4a14-9616-5674a1604f0a", "Name":"K4ileb", "Type":"Streamer"},
 	{"UUID":"8c0fd63c-427b-4ea2-93bb-cc106f005755", "Name":"Oisketchio", "Type":"Streamer"},
 	{"UUID":"de03be7c-e07f-49ae-ab88-ad66a703694f", "Name":"drpoom", "Type":"Streamer"},
 	{"UUID":"752cc2b6-9ad5-4f80-bb5c-7eb073c4ffd1", "Name":"Kornyx", "Type":"Streamer"},
@@ -36,5 +35,6 @@
 	{"UUID":"d51754f4-b279-4b18-a536-264bf3b02440", "Name":"Yogscast", "Type":"Youtube group"},
 	{"UUID":"9ca1c700-d0a2-424a-9912-6e06ffd7217e", "Name":"geektechmedia", "Type":"Streamer"},
 	{"UUID":"b3cea104-fd35-4a5d-bb7b-00668f133e28", "Name":"DethridgeCraft", "Type":"Streamer"},
-	{"UUID":"25d4006e-3475-4608-9c15-519b08525c11", "Name":"FlameGoat", "Type":"Streamer"}
+	{"UUID":"25d4006e-3475-4608-9c15-519b08525c11", "Name":"FlameGoat", "Type":"Streamer"},
+	{"UUID":"77444f80-ee3c-4a98-9fec-ffd1c86268fc", "Name":"Naughtybur", "Type":"Streamer"}
 ]

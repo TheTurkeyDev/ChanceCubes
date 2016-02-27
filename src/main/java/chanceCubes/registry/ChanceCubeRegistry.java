@@ -43,6 +43,7 @@ import chanceCubes.rewards.defaultRewards.NukeReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
 import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
+import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
 import chanceCubes.rewards.defaultRewards.TrollHoleReward;
 import chanceCubes.rewards.defaultRewards.TrollTNTReward;
@@ -287,6 +288,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new JukeBoxReward());
 		INSTANCE.registerReward(new BookOfMemesReward());
 		INSTANCE.registerReward(new RemoveUsefulThingsReward());
+		INSTANCE.registerReward(new TableFlipReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
