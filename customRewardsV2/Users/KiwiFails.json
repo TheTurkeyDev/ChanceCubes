@@ -1,14 +1,15 @@
 {
-	"No_Reward":
+	"Its_Kiwi":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"It's Kiwi time!!!"}
+			{"message":"It's Kiwi time!!!"},
+			{"message":"Uhhhhhhhh, ok then", "delay":30}
 		],
 		"Command":
 		[
-			{"command":"/summon WitherBoss ~ ~1 ~ {CustomName:\"KiwiFails\",CustomNameVisible:1}", "delay":20}
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"KiwiFails\",CustomNameVisible:1,Age:-1000000}", "delay":20}
 		]
 	}
 }

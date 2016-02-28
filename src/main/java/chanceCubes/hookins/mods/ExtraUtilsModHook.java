@@ -1,11 +1,5 @@
 package chanceCubes.hookins.mods;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
@@ -13,6 +7,12 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -82,6 +82,12 @@ public class ExtraUtilsModHook extends BaseModHook
 		{
 			stack = GameRegistry.findItemStack(super.modId, "drum", 1);
 			stack.setItemDamage(1);
+			NBTTagCompound nbt = new NBTTagCompound();
+			NBTTagCompound nbt2 = new NBTTagCompound();
+			nbt2.setString("FluidName", "water");
+			nbt2.setInteger("Amount", 65536000);
+			nbt.setTag("Fluid", nbt2);
+			stack.stackTagCompound = (NBTTagCompound) nbt.copy();
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 

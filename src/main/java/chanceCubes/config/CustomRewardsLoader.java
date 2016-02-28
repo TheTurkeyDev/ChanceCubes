@@ -102,6 +102,7 @@ public class CustomRewardsLoader
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
+					CCubesCore.logger.log(Level.ERROR, "Parse Error: " + e.getMessage());
 					continue;
 				}
 
