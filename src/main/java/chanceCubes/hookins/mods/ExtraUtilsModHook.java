@@ -13,6 +13,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -82,12 +85,15 @@ public class ExtraUtilsModHook extends BaseModHook
 		{
 			stack = GameRegistry.findItemStack(super.modId, "drum", 1);
 			stack.setItemDamage(1);
-			NBTTagCompound nbt = new NBTTagCompound();
-			NBTTagCompound nbt2 = new NBTTagCompound();
-			nbt2.setString("FluidName", "water");
-			nbt2.setInteger("Amount", 65536000);
-			nbt.setTag("Fluid", nbt2);
-			stack.stackTagCompound = (NBTTagCompound) nbt.copy();
+			IFluidContainerItem cont;
+			try
+			{
+				cont = (IFluidContainerItem) stack.getItem();
+				cont.fill(stack, new FluidStack(FluidRegistry.WATER, cont.getCapacity(stack)), true);
+			} catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
