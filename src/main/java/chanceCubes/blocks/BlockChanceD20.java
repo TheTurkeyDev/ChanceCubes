@@ -56,7 +56,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	{
 		/*
 		 * BUGFIX:
-		 *  
+		 * 
 		 * Vanilla has a bug here somehow, regarding light levels. See ChunkCache#getLightBrightnessForSkyBlocks.
 		 * 
 		 * It seems that this returns the "low" light value, i.e. 0-15. However, the light value of blocks is on a scale of 0-255 (for some ungodly reason).
@@ -74,7 +74,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
-		if (te.getStage() > 0)
+		if(te.getStage() > 0)
 			setBlockBounds(0, 0, 0, 0, 0, 0);
 		else
 			setBlockBounds(0, 0, 0, 1, 1, 1);
@@ -92,13 +92,13 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public boolean startd20(World world, int x, int y, int z, EntityPlayer player)
 	{
-		if (player == null || player instanceof FakePlayer)
+		if(player == null || player instanceof FakePlayer)
 			return false;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(x, y, z);
-		if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			if (!world.isRemote)
+			if(!world.isRemote)
 			{
 				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
 				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
@@ -109,19 +109,16 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			return true;
 		}
 
-		if (te != null)
+		if(te != null && !world.isRemote)
 		{
-			if (!world.isRemote)
-			{
-				te.startBreaking(player);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
-			}
+			te.startBreaking(player);
+			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	@Override
 	public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity)
 	{

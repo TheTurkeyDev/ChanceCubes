@@ -93,7 +93,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
-	
+
 	private static IChanceCubeReward lastReward = null;
 
 	/**

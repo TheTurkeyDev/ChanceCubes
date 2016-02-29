@@ -25,7 +25,7 @@ public class TileGiantCube extends TileEntity
 			else
 			{
 				// Constantly check if structure is formed until it is.
-				if(!GiantCubeUtil.checkMultiBlockForm(masterX, masterY, masterZ, worldObj))
+				if(!GiantCubeUtil.checkMultiBlockForm(masterX, masterY, masterZ, worldObj, false))
 					GiantCubeUtil.resetStructure(masterX, masterY, masterZ, worldObj);
 			}
 		}

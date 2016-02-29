@@ -182,9 +182,6 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
-		if(GiantCubeUtil.checkMultiBlockForm(x, y, z, world))
-		{
-			GiantCubeUtil.setupStructure(x, y, z, world);
-		}
+		GiantCubeUtil.checkMultiBlockForm(x, y, z, world, true);
 	}
 }

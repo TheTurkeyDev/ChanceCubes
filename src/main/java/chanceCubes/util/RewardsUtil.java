@@ -43,20 +43,22 @@ public class RewardsUtil
 		return toReturn.toArray(new OffsetBlock[toReturn.size()]);
 	}
 
-	public static OffsetBlock[] addBlocksLists(OffsetBlock[] l1, OffsetBlock[] l2)
+	public static OffsetBlock[] addBlocksLists(OffsetBlock[]... lists)
 	{
-		OffsetBlock[] toReturn = new OffsetBlock[l1.length + l2.length];
+		int size = 0;
+		for(OffsetBlock[] list : lists)
+			size += list.length;
+		
+		OffsetBlock[] toReturn = new OffsetBlock[size];
 
 		int i = 0;
-		for(OffsetBlock osb : l1)
+		for(OffsetBlock[] list : lists)
 		{
-			toReturn[i] = osb;
-			i++;
-		}
-		for(OffsetBlock osb : l2)
-		{
-			toReturn[i] = osb;
-			i++;
+			for(OffsetBlock osb: list)
+			{
+				toReturn[i] = osb;
+				i++;
+			}
 		}
 
 		return toReturn;

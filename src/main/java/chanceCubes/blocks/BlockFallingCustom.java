@@ -35,11 +35,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 			this.prevPosY = this.posY;
 			this.prevPosZ = this.posZ;
 			++this.field_145812_b;
-			this.motionY -= 0.03999999910593033D;
+			this.motionY -= 0.04D;
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
-			this.motionX *= 0.9800000190734863D;
-			this.motionY *= 0.9800000190734863D;
-			this.motionZ *= 0.9800000190734863D;
+			this.motionX *= 0.98;
+			this.motionY *= 0.98;
+			this.motionZ *= 0.98;
 
 			if(!this.worldObj.isRemote)
 			{
@@ -49,9 +49,9 @@ public class BlockFallingCustom extends EntityFallingBlock
 
 				if(this.onGround)
 				{
-					this.motionX *= 0.699999988079071D;
-					this.motionZ *= 0.699999988079071D;
-					this.motionY *= -0.5D;
+					this.motionX *= 0.7;
+					this.motionZ *= 0.7;
+					this.motionY *= -0.5;
 
 					if(this.worldObj.getBlock(i, j, k) != Blocks.piston_extension)
 					{

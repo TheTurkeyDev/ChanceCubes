@@ -124,45 +124,25 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		ctm.buildConnectionMap(world, x, y, z, side, CCubesBlocks.chanceGiantCube, 0);
 
 		if(ctm.connectedAnd(TOP, RIGHT, BOTTOM, LEFT))
-		{
 			return this.getIconAt(side, 1, 1);
-		}
 		else if(ctm.connectedAnd(TOP, BOTTOM, RIGHT))
-		{
 			return this.getIconAt(side, 0, 1);
-		}
 		else if(ctm.connectedAnd(LEFT, RIGHT, BOTTOM))
-		{
 			return this.getIconAt(side, 1, 0);
-		}
 		else if(ctm.connectedAnd(LEFT, RIGHT, TOP))
-		{
 			return this.getIconAt(side, 1, 2);
-		}
 		else if(ctm.connectedAnd(LEFT, BOTTOM, TOP))
-		{
 			return this.getIconAt(side, 2, 1);
-		}
 		else if(ctm.connectedAnd(BOTTOM, RIGHT))
-		{
 			return this.getIconAt(side, 0, 0);
-		}
 		else if(ctm.connectedAnd(TOP, RIGHT))
-		{
 			return this.getIconAt(side, 0, 2);
-		}
 		else if(ctm.connectedAnd(LEFT, BOTTOM))
-		{
 			return this.getIconAt(side, 2, 0);
-		}
 		else if(ctm.connectedAnd(LEFT, TOP))
-		{
 			return this.getIconAt(side, 2, 2);
-		}
 		else
-		{
 			return this.getIconAt(side, 1, 1);
-		}
 	}
 
 	public IIcon getIconAt(int side, int x, int y)

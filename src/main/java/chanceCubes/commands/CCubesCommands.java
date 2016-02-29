@@ -17,6 +17,7 @@ import net.minecraft.util.ChatComponentText;
 public class CCubesCommands implements ICommand
 {
 	private List<String> aliases;
+	List<String> tab;
 
 	public CCubesCommands()
 	{
@@ -27,6 +28,11 @@ public class CCubesCommands implements ICommand
 		this.aliases.add("Chancecube");
 		this.aliases.add("chancecube");
 		this.aliases.add("CCubes");
+
+		tab = new ArrayList<String>();
+		tab.add("reload");
+		tab.add("version");
+		tab.add("handNBT");
 	}
 
 	@Override
@@ -93,6 +99,8 @@ public class CCubesCommands implements ICommand
 	@Override
 	public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
 	{
+		if(astring.length == 0)
+			return tab;
 		return null;
 	}
 

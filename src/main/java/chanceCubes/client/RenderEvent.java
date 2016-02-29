@@ -23,9 +23,7 @@ public class RenderEvent
 	public void onGuiRender(RenderGameOverlayEvent.Post event)
 	{
 		if(event.type != ElementType.HELMET || event.isCancelable())
-		{
 			return;
-		}
 
 		Minecraft mc = Minecraft.getMinecraft();
 

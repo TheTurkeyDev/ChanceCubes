@@ -1,26 +1,22 @@
 package chanceCubes.items;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.RenderEvent;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
-public class ItemScanner extends Item
+public class ItemScanner extends BaseChanceCubesItem
 {
 	public ItemScanner()
 	{
-		this.setUnlocalizedName("scanner");
-		this.setTextureName(CCubesCore.MODID + ":Scanner");
+		super("scanner");
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CCubesCore.modTab);
 	}
 
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)

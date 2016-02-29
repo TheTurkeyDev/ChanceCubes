@@ -40,14 +40,12 @@ public class ExtraUtilsModHook extends BaseModHook
 				{
 					ItemStack stack1 = s.getItemStack().copy();
 					NBTTagCompound ts = new NBTTagCompound();
+					
 					if(ts.hasKey("crafting"))
-					{
 						ts.removeTag("crafting");
-					}
 					if(stack1.getItemDamage() > 0)
-					{
 						return;
-					}
+					
 					ts.setInteger("dimension", world.provider.dimensionId);
 					ts.setLong("time", world.getTotalWorldTime());
 					stack1.setTagCompound(ts);
@@ -59,9 +57,7 @@ public class ExtraUtilsModHook extends BaseModHook
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
 
 					if((player instanceof EntityPlayerMP))
-					{
 						((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);
-					}
 				}
 			}));
 		}

@@ -52,9 +52,10 @@ public class PacketCreativePendant implements IMessage
 		public IMessage onMessage(PacketCreativePendant message, MessageContext ctx)
 		{
 			Container c;
-			try{
-			c = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).openContainer;
-			}catch(Exception NullPointerException)
+			try
+			{
+				c = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).openContainer;
+			} catch(Exception NullPointerException)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
 				return null;
@@ -64,9 +65,8 @@ public class PacketCreativePendant implements IMessage
 			{
 				CreativePendantContainer container = (CreativePendantContainer) c;
 				ItemStack ccubes = container.getChanceCubesInPendant();
-				if(ccubes != null)
-					if(ccubes.getItem() instanceof ItemChanceCube)
-						((ItemChanceCube) ccubes.getItem()).setChance(ccubes, message.chancevalue);
+				if(ccubes != null && ccubes.getItem() instanceof ItemChanceCube)
+					((ItemChanceCube) ccubes.getItem()).setChance(ccubes, message.chancevalue);
 			}
 			return null;
 		}

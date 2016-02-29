@@ -65,10 +65,7 @@ public class PacketParticle implements IMessage
 		public IMessage onMessage(PacketParticle message, MessageContext ctx)
 		{
 			CCubesCore.proxy.getClientPlayer().worldObj.spawnParticle(message.particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
-
 			return null;
-
 		}
 	}
-
 }

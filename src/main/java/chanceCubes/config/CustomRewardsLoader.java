@@ -280,6 +280,7 @@ public class CustomRewardsLoader
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
+				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
 			}
 		}
 		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));

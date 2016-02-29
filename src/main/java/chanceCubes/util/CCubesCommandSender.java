@@ -44,9 +44,7 @@ public class CCubesCommandSender extends CommandBlockLogic
 	public void addChatMessage(IChatComponent p_145747_1_)
 	{
 		if (this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
-		{
 			this.getEntityWorld().markBlockForUpdate(blockLoc.posX, blockLoc.posY, blockLoc.posZ);
-		}
 	}
 
 	@Override

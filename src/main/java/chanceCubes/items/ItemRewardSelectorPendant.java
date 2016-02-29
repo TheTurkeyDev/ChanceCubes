@@ -1,14 +1,5 @@
 package chanceCubes.items;
 
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -17,17 +8,20 @@ import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 
-public class ItemRewardSelectorPendant extends Item
+public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {
 	public ItemRewardSelectorPendant()
 	{
-		this.setUnlocalizedName("reward_Selector_Pendant");
-		this.setTextureName(CCubesCore.MODID + ":RewardSelectorPendant");
+		super("rewardSelectorPendant");
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CCubesCore.modTab);
+		super.addLore("Shift right click to change the reward.");
+		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
@@ -67,13 +61,5 @@ public class ItemRewardSelectorPendant extends Item
 			}
 		}
 		return true;
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
-	{
-		list.add("Shift right click to change the reward.");
-		list.add("Right click a Chance Cube to summon the reward.");
 	}
 }

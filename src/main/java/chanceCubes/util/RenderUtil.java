@@ -33,9 +33,8 @@ public class RenderUtil
 	public static Timer getTimer()
 	{
 		if(timerField == null)
-		{
 			return null;
-		}
+
 		try
 		{
 			return (Timer) timerField.get(Minecraft.getMinecraft());

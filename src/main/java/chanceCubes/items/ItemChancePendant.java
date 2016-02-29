@@ -1,29 +1,28 @@
 package chanceCubes.items;
 
-import java.util.List;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemChancePendant extends Item
+public class ItemChancePendant extends BaseChanceCubesItem
 {
 	private int chanceIncrease;
+	private String itemName = "";
 
 	public ItemChancePendant(int tier, int chancebonus)
 	{
-		this.setUnlocalizedName("chancePendantTier" + tier);
+		super("Chance_Cube_Unnamed");
+		itemName = "chancePendantTier" + tier;
+		this.setUnlocalizedName(itemName);
 		this.setTextureName(CCubesCore.MODID + ":PendantT" + tier);
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CCubesCore.modTab);
 		this.setMaxDamage(CCubesSettings.pendantUses);
 		super.showDurabilityBar(new ItemStack(this));
 		chanceIncrease = chancebonus;
+		super.addLore("Increases the chance of Chance Cubes by:");
+		super.addLore("      +" + chanceIncrease + " when the block is broken");
+		super.addLore("Only needs to be in the players inventory to work");
 	}
 
 	public int getChanceIncrease()
@@ -36,19 +35,15 @@ public class ItemChancePendant extends Item
 		stack.setItemDamage(stack.getItemDamage() + 1);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
-	{
-		list.add("Increases the chance of Chance Cubes by:");
-		list.add("      +" + chanceIncrease + " when the block is broken");
-		list.add("Only needs to be in the players inventory to work");
-	}
-
 	public boolean getIsRepairable(ItemStack stack, ItemStack repairStack)
 	{
 		if(stack.getItem() instanceof ItemChancePendant && repairStack.getItem().equals(Blocks.lapis_block))
 			return true;
 		return false;
+	}
+	
+	public String getItemName()
+	{
+		return this.itemName;
 	}
 }

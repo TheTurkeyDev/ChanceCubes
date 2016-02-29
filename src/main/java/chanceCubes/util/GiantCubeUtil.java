@@ -8,18 +8,22 @@ import chanceCubes.tileentities.TileGiantCube;
 
 public class GiantCubeUtil
 {
-	/** Check that structure is properly formed */
-	public static boolean checkMultiBlockForm(int xCoord, int yCoord, int zCoord, World world)
+	/**
+	 * Check that structure is properly formed
+	 * @param xCoord
+	 * @param yCoord
+	 * @param zCoord
+	 * @param world
+	 * @param build if the giant cube should be built if the structure is valid
+	 * @return if there is a valid 3x3x3 configuration 
+	 */
+	public static boolean checkMultiBlockForm(int xCoord, int yCoord, int zCoord, World world, boolean build)
 	{
-		int cx = xCoord;
-		int cy = yCoord;
-		int cz = zCoord;
-		while(world.getBlock(cx, cy - 1, cz).equals(CCubesBlocks.chanceCube))
-			cy--;
-		while(world.getBlock(cx - 1, cy, cz).equals(CCubesBlocks.chanceCube))
-			cx--;
-		while(world.getBlock(cx, cy, cz - 1).equals(CCubesBlocks.chanceCube))
-			cz--;
+		Location3I bottomLeft = findBottomCorner(xCoord, yCoord, zCoord, world);
+		int cx = bottomLeft.getX();
+		int cy = bottomLeft.getY();
+		int cz = bottomLeft.getZ();
+		
 		int i = 0;
 		// Scan a 3x3x3 area, starting with the bottom left corner
 		for(int x = cx; x < cx + 3; x++)
@@ -27,25 +31,42 @@ public class GiantCubeUtil
 				for(int z = cz; z < cz + 3; z++)
 					if(world.getBlock(x, y, z).equals(CCubesBlocks.chanceCube))
 						i++;
-		// check if there are 27 blocks present (3*3*3)
-		return i > 26;
+		// check if there are 27 blocks present (3*3*3) and if a giant cube should be built
+		if(build)
+		{
+			if(i > 26)
+			{
+				setupStructure(cx, cy, cz, world, true);
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return i > 26;
+		}	
 	}
 
 	/** Setup all the blocks in the structure */
-	public static void setupStructure(int xCoord, int yCoord, int zCoord, World world)
+	public static void setupStructure(int xCoord, int yCoord, int zCoord, World world, boolean areCoordsCorrect)
 	{
 		int cx = xCoord;
 		int cy = yCoord;
 		int cz = zCoord;
-		while(world.getBlock(cx, cy - 1, cz).equals(CCubesBlocks.chanceCube))
-			cy--;
-		while(world.getBlock(cx - 1, cy, cz).equals(CCubesBlocks.chanceCube))
-			cx--;
-		while(world.getBlock(cx, cy, cz - 1).equals(CCubesBlocks.chanceCube))
-			cz--;
+		
+		if(!areCoordsCorrect)
+		{
+			Location3I bottomLeft = findBottomCorner(xCoord, yCoord, zCoord, world);
+			cx = bottomLeft.getX();
+			cy = bottomLeft.getY();
+			cz = bottomLeft.getZ();
+		}
+		
 		int i = 0;
 		for(int x = cx; x < cx + 3; x++)
+		{
 			for(int z = cz; z < cz + 3; z++)
+			{
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
@@ -59,7 +80,23 @@ public class GiantCubeUtil
 						((TileGiantCube) tile).setIsMaster(master);
 					}
 				}
+			}
+		}
 		world.playSoundEffect(xCoord, yCoord, zCoord, CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+	}
+
+	public static Location3I findBottomCorner(int xCoord, int yCoord, int zCoord, World world)
+	{
+		int cx = xCoord;
+		int cy = yCoord;
+		int cz = zCoord;
+		while(world.getBlock(cx, cy - 1, cz).equals(CCubesBlocks.chanceCube))
+			cy--;
+		while(world.getBlock(cx - 1, cy, cz).equals(CCubesBlocks.chanceCube))
+			cx--;
+		while(world.getBlock(cx, cy, cz - 1).equals(CCubesBlocks.chanceCube))
+			cz--;
+		return new Location3I(cx, cy, cz);
 	}
 
 	/** Reset all the parts of the structure */
