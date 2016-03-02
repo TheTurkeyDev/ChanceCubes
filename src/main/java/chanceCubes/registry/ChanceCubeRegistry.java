@@ -93,6 +93,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
+	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
 	private static IChanceCubeReward lastReward = null;
 
@@ -333,14 +334,36 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
 		}
+		else
+		{
+			this.disabledNameToReward.put(reward.getName(), reward);
+		}
+	}
+
+	public boolean enableReward(String reward)
+	{
+		if(this.disabledNameToReward.containsKey(reward))
+			return this.enableReward(this.disabledNameToReward.get(reward));
+		return false;
+	}
+
+	public boolean enableReward(IChanceCubeReward reward)
+	{
+		this.disabledNameToReward.remove(reward.getName());
+		nameToReward.put(reward.getName(), reward);
+		redoSort(reward);
+		return true;
 	}
 
 	@Override
 	public boolean unregisterReward(String name)
 	{
-		Object o = nameToReward.remove(name);
-		if(o != null)
-			return sortedRewards.remove(o);
+		IChanceCubeReward reward = nameToReward.remove(name);
+		if(reward != null)
+		{
+			this.disabledNameToReward.put(name, reward);
+			return sortedRewards.remove(reward);
+		}
 		return false;
 	}
 
@@ -446,5 +469,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	{
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
+		this.disabledNameToReward.clear();
 	}
 }
