@@ -50,6 +50,7 @@ import chanceCubes.rewards.defaultRewards.TrollTNTReward;
 import chanceCubes.rewards.defaultRewards.WaitForItReward;
 import chanceCubes.rewards.defaultRewards.WitherReward;
 import chanceCubes.rewards.defaultRewards.ZombieCopyCatReward;
+import chanceCubes.rewards.giantRewards.PotionsReward;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ExpirencePart;
@@ -290,6 +291,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BookOfMemesReward());
 		INSTANCE.registerReward(new RemoveUsefulThingsReward());
 		INSTANCE.registerReward(new TableFlipReward());
+		INSTANCE.registerReward(new PotionsReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{

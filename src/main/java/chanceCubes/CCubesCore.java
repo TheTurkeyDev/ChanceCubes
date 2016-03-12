@@ -70,9 +70,6 @@ public class CCubesCore
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
 		CraftingRecipies.loadRecipies();
-		ChanceCubeRegistry.loadDefaultRewards();
-		GiantCubeRegistry.loadDefaultRewards();
-		ConfigLoader.config.save();
 		CCubesPacketHandler.init();
 		proxy.registerRenderings();
 		proxy.registerEvents();
@@ -99,6 +96,8 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+		ChanceCubeRegistry.loadDefaultRewards();
+		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		ModHookUtil.loadCustomModRewards();

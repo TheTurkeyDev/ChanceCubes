@@ -2,9 +2,11 @@ package chanceCubes.hookins.mods;
 
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
+import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
+import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -143,6 +145,21 @@ public class ExtraUtilsModHook extends BaseModHook
 				}
 			}
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Spikes", -40, new BlockRewardType(spikes)));
+		}
+		
+		if(GameRegistry.findBlock(super.modId, "cursedearthside") != null)
+		{
+			OffsetBlock[] cursedEarth = new OffsetBlock[49];
+			int index = 0;
+			for(int x = 0; x < 7; x++)
+			{
+				for(int z = 0; z < 7; z++)
+				{
+						cursedEarth[index] = new OffsetBlock(x - 3, 0, z - 3, GameRegistry.findBlock(super.modId, "cursedearthside"), false).setRelativeToPlayer(true);
+						index++;
+				}
+			}
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Cursed", -60, new BlockRewardType(cursedEarth) , new CommandRewardType(new CommandPart("/time set 15000"))));
 		}
 	}
 }

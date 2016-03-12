@@ -3,23 +3,25 @@ package chanceCubes.rewards.giantRewards;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
 import chanceCubes.rewards.biodomeGen.EndBiome;
 import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
+import chanceCubes.rewards.biodomeGen.OceanBiome;
+import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
 public class BioDomeReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
 
-	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), new EndBiome() };
+	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), new EndBiome(), new OceanBiome(), new SnowGlobeBiome() };
 
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, EntityPlayer player)

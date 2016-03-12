@@ -44,7 +44,7 @@ public class CCubesCommands implements ICommand
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/ChanceCubes <reload/version>";
+		return "/ChanceCubes <reload/version/handNBT/enableReward/disableReward>";
 	}
 
 	@Override
@@ -81,11 +81,52 @@ public class CCubesCommands implements ICommand
 				{
 					NBTTagCompound nbt = player.inventory.getCurrentItem().stackTagCompound;
 					if(nbt != null)
-					{
 						icommandsender.addChatMessage(new ChatComponentText(nbt.toString()));
-					}
+					else
+						icommandsender.addChatMessage(new ChatComponentText("This item has not tag nbt data"));
 				}
 			}
+		}
+		else if(astring[0].equalsIgnoreCase("handID"))
+		{
+			if(icommandsender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) icommandsender;
+				if(player.inventory.getCurrentItem() != null)
+					icommandsender.addChatMessage(new ChatComponentText(player.inventory.getCurrentItem().getUnlocalizedName()));
+			}
+		}
+		else if(astring[0].equalsIgnoreCase("disableReward"))
+		{
+			if(astring.length > 1)
+			{
+				if(ChanceCubeRegistry.INSTANCE.unregisterReward(astring[1]))
+					icommandsender.addChatMessage(new ChatComponentText(astring[1] + " Has been temporarily disabled."));
+				else
+					icommandsender.addChatMessage(new ChatComponentText(astring[1] + " is either not currently enabled or is not a valid reward name."));
+			}
+			else
+			{
+				icommandsender.addChatMessage(new ChatComponentText("Try /chancecubes enableReward <Reward Name>"));
+			}
+		}
+		else if(astring[0].equalsIgnoreCase("enableReward"))
+		{
+			if(astring.length > 1)
+			{
+				if(ChanceCubeRegistry.INSTANCE.enableReward(astring[1]))
+					icommandsender.addChatMessage(new ChatComponentText(astring[1] + " Has been enabled."));
+				else
+					icommandsender.addChatMessage(new ChatComponentText(astring[1] + " is either not currently disabled or is not a valid reward name."));
+			}
+			else
+			{
+				icommandsender.addChatMessage(new ChatComponentText("Try /chancecubes disableReward <Reward Name>"));
+			}
+		}
+		else
+		{
+			icommandsender.addChatMessage(new ChatComponentText("Invalid arguments for the Chance Cubes command"));
 		}
 	}
 
