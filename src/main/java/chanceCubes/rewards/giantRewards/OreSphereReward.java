@@ -8,39 +8,50 @@ import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.Location3I;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class OrePillarReward implements IChanceCubeReward
+public class OreSphereReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
-
-	public OrePillarReward()
-	{
-		
-	}
 
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+
+		ArrayList<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
+		Block ore = null;
+		if(ores.size() == 0)
+			ore = Blocks.coal_ore;
+		else
+			ore = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
+
 		int delay = 0;
-		for(int i = 0; i < rand.nextInt(6) + 3; i++)
+		for(int i = 0; i < 5; i++)
 		{
-			int xx = rand.nextInt(30) - 15;
-			int zz = rand.nextInt(30) - 15;
-			for(int yy = 1; yy < 255; yy++)
+			for(int yy = -5; yy < 6; yy++)
 			{
-				ArrayList<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
-				if(ores.size() == 0)
-					continue;
-				Block b = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
-				blocks.add(new OffsetBlock(xx, yy - y, zz, b, false, delay / 3));
-				delay++;
+				for(int zz = -5; zz < 6; zz++)
+				{
+					for(int xx = -5; xx < 6; xx++)
+					{
+						Location3I loc = new Location3I(xx, yy, zz);
+						float dist = Math.abs(loc.length());
+						if(dist <= i && dist > i - 1)
+						{
+							blocks.add(new OffsetBlock(xx, yy, zz, ore, false, delay));
+							delay++;
+						}
+					}
+				}
 			}
+			delay += 10;
 		}
 
 		for(OffsetBlock b : blocks)
@@ -56,7 +67,7 @@ public class OrePillarReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Ore_Pillars";
+		return CCubesCore.MODID + ":Ore_Sphere";
 	}
 
 }

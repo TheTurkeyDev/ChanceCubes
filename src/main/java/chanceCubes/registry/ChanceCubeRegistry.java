@@ -45,6 +45,7 @@ import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
+import chanceCubes.rewards.defaultRewards.TorchesToCreepers;
 import chanceCubes.rewards.defaultRewards.TrollHoleReward;
 import chanceCubes.rewards.defaultRewards.TrollTNTReward;
 import chanceCubes.rewards.defaultRewards.WaitForItReward;
@@ -86,6 +87,7 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
@@ -95,6 +97,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
+	
+	public static List<String> oredicts = new ArrayList<String>();
+	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
 
 	private static IChanceCubeReward lastReward = null;
 
@@ -103,6 +108,19 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
+		oredicts.add("oreGold");
+		oredicts.add("oreIron");
+		oredicts.add("oreLapis");
+		oredicts.add("oreDiamond");
+		oredicts.add("oreRedstone");
+		oredicts.add("oreEmerald");
+		oredicts.add("oreQuartz");
+		oredicts.add("oreCoal");
+
+		for(String oreDict : possibleModOres)
+			if(OreDictionary.doesOreNameExist(oreDict))
+				oredicts.add(oreDict);
+		
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
@@ -292,6 +310,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new RemoveUsefulThingsReward());
 		INSTANCE.registerReward(new TableFlipReward());
 		INSTANCE.registerReward(new PotionsReward());
+		INSTANCE.registerReward(new TorchesToCreepers());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
