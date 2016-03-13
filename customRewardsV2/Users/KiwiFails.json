@@ -5,11 +5,11 @@
 		"Message":
 		[
 			{"message":"It's Kiwi time!!!"},
-			{"message":"Uhhhhhhhh, ok then", "delay":30}
+			{"message":"Shhhhhhh, just accept it", "delay":40}
 		],
 		"Command":
 		[
-			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"KiwiFails\",CustomNameVisible:1,Age:-1000000}", "delay":20}
+			{"command":"/summon Cow ~ ~1 ~ {CustomName:\"KiwiFails\",CustomNameVisible:1,Age:-1000000}", "delay":20}
 		]
 	}
 }

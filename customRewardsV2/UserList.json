@@ -37,5 +37,7 @@
 	{"UUID":"b3cea104-fd35-4a5d-bb7b-00668f133e28", "Name":"DethridgeCraft", "Type":"Streamer"},
 	{"UUID":"25d4006e-3475-4608-9c15-519b08525c11", "Name":"FlameGoat", "Type":"Streamer"},
 	{"UUID":"77444f80-ee3c-4a98-9fec-ffd1c86268fc", "Name":"Naughtybur", "Type":"Streamer"},
-	{"UUID":"f4d6eb50-c197-49d2-8f6f-dc37e0640407", "Name":"Heph", "Type":"Streamer"}
+	{"UUID":"f4d6eb50-c197-49d2-8f6f-dc37e0640407", "Name":"Heph", "Type":"Streamer"},
+	{"UUID":"024a0d05-3e3e-4ec5-b394-6e1a22d23fdc", "Name":"Bacon_Donut", "Type":"Streamer"},
+	{"UUID":"e1d0ee1c-4202-4b89-85d9-540bac457463", "Name":"GiantWaffle", "Type":"Streamer"}
 ]
