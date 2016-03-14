@@ -1,0 +1,35 @@
+{
+	"Easter 1.7":
+	{
+		"chance": 0,
+    "dependencies":
+    {
+      "mcVersion":"1.7.10"
+    },
+		"Message":
+		[
+			{"message":"Happy Easter! From the Chance Cubes Team!"},
+      {"message":"Hmmmm seems the easter bunny is missing..... Have an egg instead!", "delay": 20}
+		],
+    "Item":
+    [
+      {"item":{"id":"minecraft:egg","Count":1,tag:{display:{Name:"Easter Egg"}}}}
+    ]
+	},
+  "Easter 1.8":
+	{
+		"chance": 0,
+    "dependencies":
+    {
+      "mcVersion":"1.8.*"
+    },
+		"Message":
+		[
+			{"message":"Happy Easter! From the Chance Cubes Team!"}
+		],
+    "Command":
+    [
+      {"command":"/summon Rabbit ~ ~1 ~ {CustomName:\"Easter Bunny\",CustomNameVisible:1,RabbitType:1}", "delay": 100}
+    ]
+	}
+}
