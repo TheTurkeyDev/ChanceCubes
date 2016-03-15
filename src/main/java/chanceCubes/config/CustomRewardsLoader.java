@@ -111,7 +111,7 @@ public class CustomRewardsLoader
 					BasicReward basicReward = this.parseReward(reward);
 					if(basicReward == null)
 					{
-						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
+						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
 					}
 					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
