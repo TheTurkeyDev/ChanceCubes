@@ -2,14 +2,14 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class CreeperSurroundedReward implements IChanceCubeReward
 {

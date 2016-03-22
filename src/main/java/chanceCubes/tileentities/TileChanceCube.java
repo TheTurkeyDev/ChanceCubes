@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileChanceCube extends TileEntity
@@ -49,15 +49,15 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public S35PacketUpdateTileEntity getDescriptionPacket()
+	public SPacketUpdateTileEntity getDescriptionPacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
 		this.writeSyncableDataToNBT(syncData);
-		return new S35PacketUpdateTileEntity(this.pos, 1, syncData);
+		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		readSyncableDataFromNBT(pkt.getNbtCompound());
 	}

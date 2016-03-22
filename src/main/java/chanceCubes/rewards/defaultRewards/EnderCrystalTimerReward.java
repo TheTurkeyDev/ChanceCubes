@@ -1,11 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.BlockPos;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class EnderCrystalTimerReward implements IChanceCubeReward
 {
@@ -20,7 +21,7 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 		ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 		world.spawnEntityInWorld(ent);
 
-		EntityArrow arrow = new EntityArrow(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
+		EntityArrow arrow = new EntityTippedArrow(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
 		arrow.motionX = 0;
 		arrow.motionY = -0.25f;
 		arrow.motionZ = 0;

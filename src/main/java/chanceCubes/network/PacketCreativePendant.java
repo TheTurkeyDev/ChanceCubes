@@ -1,5 +1,10 @@
 package chanceCubes.network;
 
+import org.apache.logging.log4j.Level;
+
+import chanceCubes.CCubesCore;
+import chanceCubes.containers.CreativePendantContainer;
+import chanceCubes.items.ItemChanceCube;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -8,12 +13,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.containers.CreativePendantContainer;
-import chanceCubes.items.ItemChanceCube;
 
 public class PacketCreativePendant implements IMessage
 {

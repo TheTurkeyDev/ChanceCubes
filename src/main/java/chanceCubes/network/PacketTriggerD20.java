@@ -1,13 +1,13 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.tileentities.TileChanceD20;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import chanceCubes.CCubesCore;
-import chanceCubes.tileentities.TileChanceD20;
 
 public class PacketTriggerD20 implements IMessage
 {

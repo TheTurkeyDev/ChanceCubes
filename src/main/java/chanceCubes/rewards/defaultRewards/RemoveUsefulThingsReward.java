@@ -6,11 +6,12 @@ import java.util.List;
 import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class RemoveUsefulThingsReward implements IChanceCubeReward
@@ -46,20 +47,26 @@ public class RemoveUsefulThingsReward implements IChanceCubeReward
 		}
 		if(removed > 3)
 		{
-			player.addChatMessage(new ChatComponentText("Look at all these useful things! #RIP"));
+			player.addChatMessage(new TextComponentString("Look at all these useful things! #RIP"));
 		}
 		else
 		{
-			player.addChatMessage(new ChatComponentText("Wow, only " + removed + " useful things around?"));
-			player.addChatMessage(new ChatComponentText("Here, let me give you a helping hand!"));
+			player.addChatMessage(new TextComponentString("Wow, only " + removed + " useful things around?"));
+			player.addChatMessage(new TextComponentString("Here, let me give you a helping hand!"));
 
 			for(int yy = -2; yy <= 2; yy++)
+			{
 				for(int xx = -5; xx <= 5; xx++)
+				{
 					for(int zz = -5; zz <= 5; zz++)
-						if(world.getBlockState(pos.add(xx, yy, zz)).getBlock().isOpaqueCube() && world.getBlockState(pos.add(xx, yy, zz)).getBlock().equals(Blocks.air))
+					{
+						IBlockState blockState = world.getBlockState(pos.add(xx, yy, zz));
+						if(blockState.getBlock().isOpaqueCube(blockState) && blockState.getBlock().equals(Blocks.air))
 							world.setBlockState(pos.add(xx, yy, zz), Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+					}
+				}
+			}
 		}
-
 	}
 
 	@Override

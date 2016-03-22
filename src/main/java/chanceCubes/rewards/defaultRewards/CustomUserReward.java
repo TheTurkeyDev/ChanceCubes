@@ -6,16 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraftforge.common.UsernameCache;
-
 import org.apache.logging.log4j.Level;
+
+import com.google.gson.JsonElement;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
@@ -25,8 +18,14 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-
-import com.google.gson.JsonElement;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.common.UsernameCache;
 
 public class CustomUserReward implements IChanceCubeReward
 {
@@ -91,8 +90,8 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);
-		player.addChatMessage(new ChatComponentText("Seems you have some custom Chance Cubes rewards " + this.userName + "...."));
-		player.addChatMessage(new ChatComponentText("Let the fun begin! >:)"));
+		player.addChatMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + this.userName + "...."));
+		player.addChatMessage(new TextComponentString("Let the fun begin! >:)"));
 	}
 
 	@Override
@@ -101,13 +100,13 @@ public class CustomUserReward implements IChanceCubeReward
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
 		{
-			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You cant have his reward! Try again!"));
+			player.addChatMessage(new TextComponentString("Hey you aren't " + this.userName + "! You cant have his reward! Try again!"));
 			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.chanceCube, 1));
 			world.spawnEntityInWorld(itemEnt);
 			return;
 		}
 
-		player.addChatMessage(new ChatComponentText("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
+		player.addChatMessage(new TextComponentString("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
 		Task task = new Task("Custom Reward", 100)
 		{

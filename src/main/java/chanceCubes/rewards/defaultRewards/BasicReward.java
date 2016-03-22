@@ -1,9 +1,9 @@
 package chanceCubes.rewards.defaultRewards;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.rewards.type.IRewardType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BasicReward implements IChanceCubeReward
 {

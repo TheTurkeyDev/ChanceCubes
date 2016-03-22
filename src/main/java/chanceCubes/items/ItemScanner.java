@@ -1,17 +1,17 @@
 package chanceCubes.items;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.client.RenderEvent;
+import chanceCubes.tileentities.TileChanceCube;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.RenderEvent;
-import chanceCubes.tileentities.TileChanceCube;
 
 public class ItemScanner extends Item
 {
@@ -33,7 +33,7 @@ public class ItemScanner extends Item
 	{
 		return 72000;
 	}
-
+	//TODO: FIX
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
 		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
@@ -48,13 +48,13 @@ public class ItemScanner extends Item
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().equals(stack) && player.getItemInUse() != null && player.getItemInUse().equals(stack))
+			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack) && player.getItemInUse() != null && player.getItemInUse().equals(stack))
 			{
-				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+				RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
 
 				if(movingobjectposition == null)
 					return;
-				if(movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+				if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
 				{
 					int i = movingobjectposition.getBlockPos().getX();
 					int j = movingobjectposition.getBlockPos().getY();

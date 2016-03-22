@@ -1,12 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class ZombieCopyCatReward implements IChanceCubeReward
 {

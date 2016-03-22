@@ -3,14 +3,14 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.ArrayList;
 import java.util.List;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class InventoryChestReward implements IChanceCubeReward
 {
@@ -25,9 +25,10 @@ public class InventoryChestReward implements IChanceCubeReward
 
 		ItemStack[] armor = player.inventory.armorInventory.clone();
 		player.inventory.clear();
-		player.inventory.armorInventory = armor;
+		for(int i = 0; i < armor.length; i++)
+			player.inventory.armorInventory[i] = armor[i];
 
-		player.addChatMessage(new ChatComponentText("At least i didnt delete your items..."));
+		player.addChatMessage(new TextComponentString("At least i didnt delete your items..."));
 
 		world.setBlockState(pos, Blocks.chest.getDefaultState());
 		world.setBlockState(pos.add(1, 0, 0), Blocks.chest.getDefaultState());
@@ -43,7 +44,7 @@ public class InventoryChestReward implements IChanceCubeReward
 		world.setBlockState(pos.add(1, -1, 0), Blocks.obsidian.getDefaultState());
 		world.setBlockState(pos.add(0, 1, 0), Blocks.obsidian.getDefaultState());
 		world.setBlockState(pos.add(1, 1, 0), Blocks.obsidian.getDefaultState());
-		
+
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 
 		for(int i = 0; i < stacks.size(); i++)
@@ -52,7 +53,7 @@ public class InventoryChestReward implements IChanceCubeReward
 				return;
 			else if(i > chest.getSizeInventory())
 				chest = (TileEntityChest) world.getTileEntity(pos.add(1, 0, 0));
-			
+
 			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
 		}
 	}

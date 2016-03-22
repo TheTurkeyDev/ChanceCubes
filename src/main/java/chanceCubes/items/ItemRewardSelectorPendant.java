@@ -2,17 +2,6 @@ package chanceCubes.items;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
@@ -21,6 +10,17 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemRewardSelectorPendant extends Item
 {
@@ -55,7 +55,7 @@ public class ItemRewardSelectorPendant extends Item
 				if(reward != null)
 					reward.trigger(world, pos, player);
 				else
-					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
 			}
 			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceGiantCube))
 			{
@@ -67,7 +67,7 @@ public class ItemRewardSelectorPendant extends Item
 				if(reward != null)
 					reward.trigger(world, giant.getMasterPostion(), player);
 				else
-					player.addChatMessage(new ChatComponentText("That reward does not exist for this cube!"));
+					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 			}
 		}

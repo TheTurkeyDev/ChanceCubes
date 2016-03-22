@@ -1,11 +1,11 @@
 package chanceCubes.rewards.defaultRewards;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class FiveProngReward implements IChanceCubeReward
 {

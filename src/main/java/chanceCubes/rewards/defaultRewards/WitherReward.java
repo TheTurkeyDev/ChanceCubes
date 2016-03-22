@@ -1,14 +1,14 @@
 package chanceCubes.rewards.defaultRewards;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public class WitherReward implements IChanceCubeReward
 {
@@ -22,7 +22,7 @@ public class WitherReward implements IChanceCubeReward
 		wither.setCustomNameTag("Kiwi");
 		world.spawnEntityInWorld(wither);
 		
-		player.addChatMessage(new ChatComponentText("\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\""));
+		player.addChatMessage(new TextComponentString("\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\""));
 
 		Task task = new Task("Wither Reward", 180)
 		{

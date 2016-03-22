@@ -3,15 +3,15 @@ package chanceCubes.rewards.giantRewards;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public class FloorIsLavaReward implements IChanceCubeReward
 {
@@ -19,7 +19,7 @@ public class FloorIsLavaReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		player.addChatMessage(new ChatComponentText("Quick! The Floor is lava!"));
+		player.addChatMessage(new TextComponentString("Quick! The Floor is lava!"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
 		for(int yy = pos.getY() + 5; yy > pos.getY() - 5; yy--)

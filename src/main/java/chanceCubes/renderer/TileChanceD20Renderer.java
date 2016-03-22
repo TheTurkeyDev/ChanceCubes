@@ -3,19 +3,17 @@ package chanceCubes.renderer;
 import java.awt.Color;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
-
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RenderUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
 {
@@ -48,7 +46,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
 		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
 		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelFromBlockState(d20.getBlockType().getDefaultState(), d20.getWorld(), d20.getPos());
+		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(d20.getBlockType().getDefaultState());
 		//blockModelRenderer.renderModel(d20.getWorld(), baked, d20.getBlockType().getDefaultState(), new BlockPos(posX, posY, posZ), Tessellator.getInstance().getWorldRenderer(), false);
 		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
 		// int r = tmpClr.getRed() & 0xFF;

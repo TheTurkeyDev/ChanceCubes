@@ -1,14 +1,16 @@
 package chanceCubes.rewards.defaultRewards;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public class ClearInventoryReward implements IChanceCubeReward
 {
@@ -26,11 +28,11 @@ public class ClearInventoryReward implements IChanceCubeReward
 			else
 				player.inventory.setInventorySlotContents(slotNum, null);
 		}
-
-		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.burp", 1, 1);
-		player.addChatMessage(new ChatComponentText("I hope you didn't have anything of value with you :)"));
+		world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.entity_player_burp, SoundCategory.PLAYERS, 1f, 1f, false);
+		
+		player.addChatMessage(new TextComponentString("I hope you didn't have anything of value with you :)"));
 		if(cubes)
-			player.addChatMessage(new ChatComponentText("Don't worry, I left the cubes for you!"));
+			player.addChatMessage(new TextComponentString("Don't worry, I left the cubes for you!"));
 
 		if(world.rand.nextInt(5) == 1)
 		{
@@ -40,7 +42,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 				public void callback()
 				{
 					player.inventory = inv;
-					player.addChatMessage(new ChatComponentText("AHHHHHH JK!! You should have seen your face!"));
+					player.addChatMessage(new TextComponentString("AHHHHHH JK!! You should have seen your face!"));
 				}
 
 			};

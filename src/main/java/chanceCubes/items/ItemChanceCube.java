@@ -2,6 +2,8 @@ package chanceCubes.items;
 
 import java.util.List;
 
+import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,13 +11,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 
 public class ItemChanceCube extends ItemBlock
 {

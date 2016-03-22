@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
 
 public class EndBiome implements IBioDomeBiome
 {

@@ -9,11 +9,11 @@ import chanceCubes.util.RenderUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class TileChanceD20 extends TileEntity implements ITickable
 {
@@ -121,15 +121,15 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	}
 
 	@Override
-	public S35PacketUpdateTileEntity getDescriptionPacket()
+	public SPacketUpdateTileEntity getDescriptionPacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
 		this.writeSyncableDataToNBT(syncData);
-		return new S35PacketUpdateTileEntity(this.pos, 1, syncData);
+		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		readSyncableDataFromNBT(pkt.getNbtCompound());
 	}

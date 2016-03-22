@@ -1,20 +1,20 @@
 package chanceCubes.hookins.mods;
 
-import net.minecraft.block.BlockWorkbench;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
+import net.minecraft.block.BlockWorkbench;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -47,7 +47,7 @@ public class ExtraUtilsModHook extends BaseModHook
 					{
 						return;
 					}
-					ts.setInteger("dimension", world.provider.getDimensionId());
+					ts.setInteger("dimension", world.provider.getDimension());
 					ts.setLong("time", world.getTotalWorldTime());
 					stack1.setTagCompound(ts);
 

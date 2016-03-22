@@ -1,22 +1,24 @@
 package chanceCubes.rewards.rewardparts;
 
+import net.minecraft.util.SoundEvent;
+
 public class SoundPart
 {
 	public static String[] elements = new String[]{"sound:S", "delay:I", "serverWide:B", "range:I"};
 	
-	private String sound;
+	private SoundEvent sound;
 	
 	private int delay = 0;
 	
 	private boolean serverWide = false;
 	private int range = 16;
 	
-	public SoundPart(String sound)
+	public SoundPart(SoundEvent sound)
 	{
 		this.sound = sound;
 	}
 
-	public String getSound()
+	public SoundEvent getSound()
 	{
 		return sound;
 	}

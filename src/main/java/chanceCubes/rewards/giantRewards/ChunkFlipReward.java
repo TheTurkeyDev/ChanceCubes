@@ -1,16 +1,16 @@
 package chanceCubes.rewards.giantRewards;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public class ChunkFlipReward implements IChanceCubeReward
 {
@@ -29,7 +29,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 		moveLayer(world, xBase, 0, zBase, player);
 
 		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
-		player.addChatMessage(new ChatComponentText("Inception!!!!"));
+		player.addChatMessage(new TextComponentString("Inception!!!!"));
 	}
 
 	public void moveLayer(final World world, final int x, int y, final int z, final EntityPlayer player)

@@ -5,7 +5,8 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class OffsetBlock
@@ -146,7 +147,7 @@ public class OffsetBlock
 		}
 		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
-		world.playSoundEffect((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.stepSound.getPlaceSound(), (bSurface.stepSound.getVolume() + 1.0F) / 2.0F, bSurface.stepSound.getFrequency() * 0.5F);
+		world.playSound((double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getStepSound().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getStepSound().getVolume() + 1.0F) / 2.0F, bSurface.getStepSound().getVolume() * 0.5F, false);
 	}
 
 	public void placeInWorld(World world, BlockPos position, boolean offset)

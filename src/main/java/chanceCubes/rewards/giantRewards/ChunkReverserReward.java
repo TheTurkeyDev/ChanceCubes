@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public class ChunkReverserReward implements IChanceCubeReward
 {
@@ -42,7 +42,7 @@ public class ChunkReverserReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		player.addChatMessage(new ChatComponentText("Initiating Block Inverter"));
+		player.addChatMessage(new TextComponentString("Initiating Block Inverter"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
@@ -82,7 +82,7 @@ public class ChunkReverserReward implements IChanceCubeReward
 			}
 		}
 
-		player.addChatMessage(new ChatComponentText("Inverting " + blocks.size() + " Blocks... May take a minute..."));
+		player.addChatMessage(new TextComponentString("Inverting " + blocks.size() + " Blocks... May take a minute..."));
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}

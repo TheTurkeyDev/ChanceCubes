@@ -5,19 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.MathDamageSource;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MathReward implements IChanceCubeReward
 {
@@ -33,7 +35,7 @@ public class MathReward implements IChanceCubeReward
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
-		player.addChatMessage(new ChatComponentText("Quick, what's " + num1 + "+" + num2 + "?"));
+		player.addChatMessage(new TextComponentString("Quick, what's " + num1 + "+" + num2 + "?"));
 
 		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
 		List<BlockPos> boxBlocks = new ArrayList<BlockPos>();
@@ -66,8 +68,8 @@ public class MathReward implements IChanceCubeReward
 			{
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
 				world.spawnEntityInWorld(entitytntprimed);
-				world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
-				entitytntprimed.fuse = 140;
+				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_tnt_primed, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				entitytntprimed.setFuse(140);
 				tnt.add(entitytntprimed);
 			}
 
@@ -95,7 +97,7 @@ public class MathReward implements IChanceCubeReward
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
-			player.addChatMessage(new ChatComponentText("Correct!"));
+			player.addChatMessage(new TextComponentString("Correct!"));
 		}
 		else
 		{
@@ -128,23 +130,23 @@ public class MathReward implements IChanceCubeReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		EntityPlayer player = event.player;
+		EntityPlayer player = event.getPlayer();
 
 		if(inQuestion.containsKey(player))
 		{
 			int answer = 0;
 			try
 			{
-				answer = Integer.parseInt(event.message);
+				answer = Integer.parseInt(event.getMessage());
 			} catch(NumberFormatException e)
 			{
-				player.addChatMessage(new ChatComponentText("Incorrect!"));
+				player.addChatMessage(new TextComponentString("Incorrect!"));
 			}
 
 			if(inQuestion.get(player).getAnswer() == answer)
 				this.timeUp(player, true);
 			else
-				player.addChatMessage(new ChatComponentText("Incorrect!"));
+				player.addChatMessage(new TextComponentString("Incorrect!"));
 			event.setCanceled(true);
 		}
 	}

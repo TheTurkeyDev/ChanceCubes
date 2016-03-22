@@ -1,10 +1,11 @@
 package chanceCubes.rewards.type;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 
 public class SoundRewardType extends BaseRewardType<SoundPart>
 {
@@ -23,14 +24,14 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 				@Override
 				public void callback()
 				{
-					world.playSoundEffect(x, y, z, sound.getSound(), 1, 1);
+					world.playSound(x, y, z, sound.getSound(), SoundCategory.BLOCKS, 1f, 1f, false);
 				}
 			};
 			Scheduler.scheduleTask(task);
 		}
 		else
 		{
-			world.playSoundEffect(x, y, z, sound.getSound(), 1, 1);
+			world.playSound(x, y, z, sound.getSound(), SoundCategory.BLOCKS, 1f, 1f, false);
 		}
 		
 	}

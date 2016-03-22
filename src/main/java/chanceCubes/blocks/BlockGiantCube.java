@@ -2,17 +2,18 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -34,7 +35,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
 		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
@@ -54,8 +55,8 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					world.setBlockToAir(pos);
 					return false;
 				}
-				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
-				player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
+				player.addChatMessage(new TextComponentString("The Giant Cube and rewards are currently In developement"));
+				player.addChatMessage(new TextComponentString("Please let me know what you think of the idea and leave sugestions!"));
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 			}

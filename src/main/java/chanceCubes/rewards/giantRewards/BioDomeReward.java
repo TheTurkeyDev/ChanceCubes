@@ -3,9 +3,6 @@ package chanceCubes.rewards.giantRewards;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
@@ -15,6 +12,9 @@ import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BioDomeReward implements IChanceCubeReward
 {

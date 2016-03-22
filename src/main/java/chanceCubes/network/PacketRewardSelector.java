@@ -1,5 +1,6 @@
 package chanceCubes.network;
 
+import chanceCubes.items.CCubesItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,7 +9,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import chanceCubes.items.CCubesItems;
 
 public class PacketRewardSelector implements IMessage
 {

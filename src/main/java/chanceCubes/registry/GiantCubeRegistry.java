@@ -7,11 +7,10 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
@@ -24,9 +23,9 @@ import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class GiantCubeRegistry implements IRewardRegistry
 {

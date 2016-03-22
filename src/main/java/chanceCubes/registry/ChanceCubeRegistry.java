@@ -81,8 +81,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -170,7 +169,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		ItemStack stack;
 
 		stack = new ItemStack(Items.stick);
-		stack.addEnchantment(Enchantment.sharpness, 5);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("sharpness"), 5);
 		stack.setStackDisplayName("A Big Stick");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Roosevelt's_Stick", 70, new ItemRewardType(new ItemPart(stack))));
 
@@ -187,23 +186,23 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Star", 100, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.diamond_sword);
-		stack.addEnchantment(Enchantment.sharpness, 10);
-		stack.addEnchantment(Enchantment.unbreaking, 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("sharpness"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
 		stack.setItemDamage(stack.getMaxDamage() - 2);
 		stack.setStackDisplayName("The Divine Sword");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 85, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.wooden_pickaxe);
-		stack.addEnchantment(Enchantment.efficiency, 10);
-		stack.addEnchantment(Enchantment.fortune, 3);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("efficiency"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("fortune"), 3);
 		stack.setStackDisplayName("Giga Breaker");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giga_Breaker", 70, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.bow);
 		stack.setItemDamage(stack.getMaxDamage());
-		stack.addEnchantment(Enchantment.power, 5);
-		stack.addEnchantment(Enchantment.punch, 3);
-		stack.addEnchantment(Enchantment.flame, 2);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("power"), 5);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("punch"), 3);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("flame"), 2);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Shot", 75, new ItemRewardType(new ItemPart(stack), new ItemPart(new ItemStack(Items.arrow, 1)))));
 
 		stack = new ItemStack(Items.fish, 1, 2);
@@ -215,7 +214,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Marlin", 10, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Blocks.fire, 1);
-		stack.addEnchantment(Enchantment.fireAspect, 2);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("fire_aspect"), 2);
 		stack.setStackDisplayName("Why not?");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 60, new ItemRewardType(new ItemPart(stack))));
 
@@ -258,7 +257,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
 			{
-				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ));
+				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
 				player.addChatMessage(new ChatComponentText("Thou has been smitten!"));
 			}
 		});

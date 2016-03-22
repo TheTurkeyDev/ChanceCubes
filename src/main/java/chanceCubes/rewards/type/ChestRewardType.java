@@ -1,13 +1,13 @@
 package chanceCubes.rewards.type;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 {

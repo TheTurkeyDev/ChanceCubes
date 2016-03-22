@@ -2,10 +2,10 @@ package chanceCubes.registry;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public interface IRewardRegistry
 {

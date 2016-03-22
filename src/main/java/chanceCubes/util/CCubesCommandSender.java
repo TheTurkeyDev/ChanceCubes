@@ -1,17 +1,18 @@
 package chanceCubes.util;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.CommandBlockBaseLogic;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CCubesCommandSender extends CommandBlockLogic
+public class CCubesCommandSender extends CommandBlockBaseLogic
 {
 	EntityPlayer harvester;
 	BlockPos blockLoc;
@@ -24,7 +25,7 @@ public class CCubesCommandSender extends CommandBlockLogic
 	}
 
 	@Override
-	public void addChatMessage(IChatComponent p_145747_1_)
+	public void addChatMessage(ITextComponent p_145747_1_)
 	{
 		if(this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
 		{
@@ -49,10 +50,6 @@ public class CCubesCommandSender extends CommandBlockLogic
 	{
 	}
 
-	public void func_145750_b(IChatComponent p_145750_1_)
-	{
-	}
-
 	@Override
 	public BlockPos getPosition()
 	{
@@ -60,9 +57,9 @@ public class CCubesCommandSender extends CommandBlockLogic
 	}
 
 	@Override
-	public Vec3 getPositionVector()
+	public Vec3d getPositionVector()
 	{
-		return new Vec3(blockLoc.getX(), blockLoc.getY(), blockLoc.getZ());
+		return new Vec3d(blockLoc.getX(), blockLoc.getY(), blockLoc.getZ());
 	}
 
 	@Override
@@ -75,5 +72,11 @@ public class CCubesCommandSender extends CommandBlockLogic
 	public void updateCommand()
 	{
 
+	}
+
+	@Override
+	public MinecraftServer getServer()
+	{
+		return null;
 	}
 }

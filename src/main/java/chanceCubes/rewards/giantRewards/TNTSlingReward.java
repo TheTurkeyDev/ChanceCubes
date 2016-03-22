@@ -1,13 +1,13 @@
 package chanceCubes.rewards.giantRewards;
 
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TNTSlingReward implements IChanceCubeReward
 {
@@ -22,7 +22,7 @@ public class TNTSlingReward implements IChanceCubeReward
 	{
 		EntityTNTPrimed tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
 		world.spawnEntityInWorld(tnt);
-		tnt.fuse = 60;
+		tnt.setFuse(60);
 		tnt.motionX = -1 + (Math.random() * 2);
 		tnt.motionY = Math.random();
 		tnt.motionZ = -1 + (Math.random() * 2);
@@ -49,7 +49,7 @@ public class TNTSlingReward implements IChanceCubeReward
 				{
 					tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
 					world.spawnEntityInWorld(tnt);
-					tnt.fuse = 60;
+					tnt.setFuse(60);
 					tnt.motionX = xx;
 					tnt.motionY = Math.random();
 					tnt.motionZ = zz;

@@ -1,15 +1,17 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
 
 public class TrollTNTReward implements IChanceCubeReward
 {
@@ -27,7 +29,7 @@ public class TrollTNTReward implements IChanceCubeReward
 
 		final EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX + 1D, player.posY + 1D, player.posZ, player);
 		world.spawnEntityInWorld(entitytntprimed);
-		world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
+		world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_tnt_primed, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 		if(world.rand.nextInt(5) != 1)
 		{
@@ -47,7 +49,7 @@ public class TrollTNTReward implements IChanceCubeReward
 
 	private void timeUp(Entity ent, EntityPlayer player)
 	{
-		player.addChatMessage(new ChatComponentText("BOOM"));
+		player.addChatMessage(new TextComponentString("BOOM"));
 		ent.setDead();
 	}
 

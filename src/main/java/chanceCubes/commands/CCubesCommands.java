@@ -13,8 +13,9 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 
 public class CCubesCommands implements ICommand
 {
@@ -50,7 +51,7 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
@@ -62,11 +63,11 @@ public class CCubesCommands implements ICommand
 			CustomRewardsLoader.instance.loadHolidayRewards();
 			ChanceCubeRegistry.loadCustomUserRewards();
 			ModHookUtil.loadCustomModRewards();
-			sender.addChatMessage(new ChatComponentText("RewardsReloaded"));
+			sender.addChatMessage(new TextComponentString("RewardsReloaded"));
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
-			sender.addChatMessage(new ChatComponentText("Chance Cubes Version " + CCubesCore.VERSION));
+			sender.addChatMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
 		}
 		else if(args[0].equalsIgnoreCase("handNBT"))
 		{
@@ -78,7 +79,7 @@ public class CCubesCommands implements ICommand
 					NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
 					if(nbt != null)
 					{
-						sender.addChatMessage(new ChatComponentText(nbt.toString()));
+						sender.addChatMessage(new TextComponentString(nbt.toString()));
 					}
 				}
 			}
@@ -86,13 +87,13 @@ public class CCubesCommands implements ICommand
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender)
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
 	{
 		return true;
 	}
 
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
 		return null;
 	}

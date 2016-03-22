@@ -2,13 +2,13 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class InventoryBombReward implements IChanceCubeReward
 {
@@ -38,7 +38,7 @@ public class InventoryBombReward implements IChanceCubeReward
 		
 		player.inventory.clear();
 
-		player.addChatMessage(new ChatComponentText("Inventory Bomb!!!!"));
+		player.addChatMessage(new TextComponentString("Inventory Bomb!!!!"));
 
 	}
 

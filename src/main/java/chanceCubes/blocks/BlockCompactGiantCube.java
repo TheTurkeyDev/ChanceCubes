@@ -1,13 +1,12 @@
 package chanceCubes.blocks;
 
+import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.tileentities.TileGiantCube;
 
 public class BlockCompactGiantCube extends BaseChanceBlock
 {
@@ -42,6 +41,8 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 				}
 			}
 		}
-		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		//TODO: UPDATE SOUNDS
+		//world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvent., SoundCategory.BLOCKS, 1f, 1f, false);
+		//world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 	}
 }

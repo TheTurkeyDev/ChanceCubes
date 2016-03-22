@@ -1,13 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketEntityVelocity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ThrownInAirReward implements IChanceCubeReward
 {
@@ -31,7 +31,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 			{
 				player.isAirBorne = true;
 				player.motionY = 20;
-				((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
+				((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
 			}
 		};
 		Scheduler.scheduleTask(task);

@@ -2,17 +2,17 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
 
 public class ItemOfDestinyReward implements IChanceCubeReward
 {
@@ -24,7 +24,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this.randomItem(), 1));
 		item.setPickupDelay(100000);
 		world.spawnEntityInWorld(item);
-		player.addChatMessage(new ChatComponentText("Selecting random item"));
+		player.addChatMessage(new TextComponentString("Selecting random item"));
 		Task task = new Task("Item_Of_Destiny_Reward", 5)
 		{
 			@Override
@@ -45,8 +45,8 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			{
 				if(iteration + 1 > 17)
 				{
-					player.addChatMessage(new ChatComponentText("Random item selected"));
-					player.addChatMessage(new ChatComponentText("Selecting number of enchants to give item"));
+					player.addChatMessage(new TextComponentString("Random item selected"));
+					player.addChatMessage(new TextComponentString("Selecting number of enchants to give item"));
 					changeEnchantAmount(item, player);
 				}
 				else
@@ -68,8 +68,8 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			{
 				int i = rand.nextInt(9);
 				int amount = i < 5 ? 1 : i < 8 ? 2 : 3;
-				player.addChatMessage(new ChatComponentText(amount + " random enchants will be added!"));
-				player.addChatMessage(new ChatComponentText("Selecting random enchant to give to the item"));
+				player.addChatMessage(new TextComponentString(amount + " random enchants will be added!"));
+				player.addChatMessage(new TextComponentString("Selecting random enchant to give to the item"));
 				changeEnchants(item, amount, 0, player);
 			}
 		};
@@ -88,12 +88,12 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 					Enchantment ench = randomEnchantment();
 					int level = ench.getMinLevel() + rand.nextInt(ench.getMaxLevel());
 					item.getEntityItem().addEnchantment(ench, level);
-					player.addChatMessage(new ChatComponentText(ench.getTranslatedName(level) + " Has been added to the item!"));
+					player.addChatMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
 					changeEnchants(item, enchants, iteration + 1, player);
 				}
 				else
 				{
-					player.addChatMessage(new ChatComponentText("Your item of destiny is complete! Enjoy!"));
+					player.addChatMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
 					item.setPickupDelay(0);
 				}
 			}

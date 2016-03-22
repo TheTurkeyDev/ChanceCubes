@@ -2,6 +2,7 @@ package chanceCubes.blocks;
 
 import java.util.Iterator;
 
+import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
@@ -14,10 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
 
 public class BlockFallingCustom extends EntityFallingBlock
 {
@@ -33,11 +33,12 @@ public class BlockFallingCustom extends EntityFallingBlock
 		this.osb = osb;
 	}
 
+	//TODO: UPDATE
 	public void onUpdate()
 	{
 		Block block = this.fallTile.getBlock();
 
-		if(block.getMaterial() == Material.air)
+		if(block.getMaterial(this.fallTile) == Material.air)
 		{
 			this.setDead();
 		}

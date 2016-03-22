@@ -6,17 +6,17 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.config.CustomRewardsLoader.Schematic;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
-import chanceCubes.config.CustomRewardsLoader;
-import chanceCubes.config.CustomRewardsLoader.Schematic;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 
 public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 {

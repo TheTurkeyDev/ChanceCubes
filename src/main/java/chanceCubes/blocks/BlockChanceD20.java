@@ -12,15 +12,15 @@ import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -53,12 +53,6 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean isFullCube()
-	{
-		return false;
-	}
-
-	@Override
 	public boolean isVisuallyOpaque()
 	{
 		return false;
@@ -69,8 +63,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		this.startd20(world, pos, player);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
-	{
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
 		return this.startd20(world, pos, player);
 	}
 
@@ -95,7 +89,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			if(!world.isRemote)
 			{
 				te.startBreaking(player);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 50));
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 				return true;
 			}
 		}
@@ -115,15 +109,9 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public BlockState createBlockState()
+	public BlockStateContainer createBlockState()
 	{
 		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.instance });
-	}
-
-	@Override
-	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity)
-	{
-		return false;
 	}
 
 	@Override

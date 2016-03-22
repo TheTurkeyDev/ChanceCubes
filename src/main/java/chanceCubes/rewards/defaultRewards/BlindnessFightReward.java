@@ -1,13 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class BlindnessFightReward implements IChanceCubeReward
 {
@@ -20,7 +20,7 @@ public class BlindnessFightReward implements IChanceCubeReward
 		int z = position.getZ();
 
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 2));
-		player.addChatMessage(new ChatComponentText("Fight!!!"));
+		player.addChatMessage(new TextComponentString("Fight!!!"));
 
 		for(int xx = -2; xx < 3; xx++)
 		{
