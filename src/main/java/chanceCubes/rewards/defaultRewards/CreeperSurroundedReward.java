@@ -3,10 +3,11 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,7 +21,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 	{
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;
-		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 1, true, false));
+		player.addPotionEffect(new PotionEffect(MobEffects.blindness, 100, 1, true, false));
 		boolean skip = false;
 		EntityCreeper creeper;
 		for(int xx = 0; xx < 2; xx++)
@@ -30,13 +31,16 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 				if(!skip)
 				{
 					int xxx = xx == 1 ? px + 4 : px - 4;
-					if(!world.getBlockState(new BlockPos(xxx, pos.getY(),pz + zz)).getBlock().isFullBlock() && !world.getBlockState(new BlockPos(xxx, pos.getY() + 1, pz + zz)).getBlock().isFullBlock() && !world.getBlockState(new BlockPos(xxx, pos.getY() + 2, pz + zz)).getBlock().isFullBlock())
+					IBlockState blockState = world.getBlockState(new BlockPos(px + xxx, pos.getY(),pz + zz));
+					IBlockState blockState2 = world.getBlockState(new BlockPos(px + xxx, pos.getY() + 1, pz + zz));
+					IBlockState blockState3 = world.getBlockState(new BlockPos(px + xxx, pos.getY() + 2, pz + zz));
+					if(!blockState.getBlock().isFullBlock(blockState) && !blockState2.getBlock().isFullBlock(blockState2) && !blockState3.getBlock().isFullBlock(blockState3))
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xxx, pos.getY(), pz + zz, xx == 1 ? 90 : -90, 0);
 						if(rand.nextInt(10) == 1)
-							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
-						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));
+							creeper.onStruckByLightning(null);
+						creeper.addPotionEffect(new PotionEffect(MobEffects.resistance, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}
@@ -56,8 +60,8 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(px + xx, pos.getY(), zzz, zz == 1 ? 180 : 0, 0);
 						if(rand.nextInt(10) == 1)
-							creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
-						creeper.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 5));
+							creeper.onStruckByLightning(null);
+						creeper.addPotionEffect(new PotionEffect(MobEffects.resistance, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}

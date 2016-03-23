@@ -40,7 +40,7 @@ public class CCubesBlocks
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceGiantCube.getBlockName(), "inventory"));
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCompactGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCompactGiantCube.getBlockName(), "inventory"));
 
-		OBJLoader.instance.addDomain(CCubesCore.MODID);
+		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chanceIcosahedron), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceIcosahedron.getBlockName(), "inventory"));
 
 	}

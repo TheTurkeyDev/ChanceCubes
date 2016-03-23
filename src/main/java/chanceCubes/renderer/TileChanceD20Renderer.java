@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
@@ -69,7 +70,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
 
 		random.setSeed(432L);
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer worldrenderer = tessellator.getBuffer();
 		RenderHelper.disableStandardItemLighting();
 
 		GlStateManager.disableTexture2D();

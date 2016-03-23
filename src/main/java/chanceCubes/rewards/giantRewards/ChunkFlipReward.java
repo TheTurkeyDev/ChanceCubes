@@ -28,7 +28,8 @@ public class ChunkFlipReward implements IChanceCubeReward
 
 		moveLayer(world, xBase, 0, zBase, player);
 
-		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		//TODO: 
+		//world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 		player.addChatMessage(new TextComponentString("Inception!!!!"));
 	}
 

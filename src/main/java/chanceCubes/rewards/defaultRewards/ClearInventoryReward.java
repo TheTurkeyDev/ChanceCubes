@@ -28,7 +28,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 			else
 				player.inventory.setInventorySlotContents(slotNum, null);
 		}
-		world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.entity_player_burp, SoundCategory.PLAYERS, 1f, 1f, false);
+		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.entity_player_burp, SoundCategory.PLAYERS, 1f, 1f);
 		
 		player.addChatMessage(new TextComponentString("I hope you didn't have anything of value with you :)"));
 		if(cubes)

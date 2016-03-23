@@ -4,7 +4,6 @@ import chanceCubes.items.CCubesItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -47,7 +46,7 @@ public class PacketRewardSelector implements IMessage
 		@Override
 		public IMessage onMessage(PacketRewardSelector message, MessageContext ctx)
 		{
-			ItemStack stack = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).inventory.getCurrentItem();
+			ItemStack stack = ctx.getServerHandler().playerEntity.inventory.getCurrentItem();
 			if(stack != null && stack.getItem().equals(CCubesItems.rewardSelectorPendant))
 			{
 				NBTTagCompound nbt = stack.getTagCompound();

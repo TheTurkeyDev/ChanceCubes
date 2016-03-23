@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,12 +13,17 @@ public class SurroundedReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
+		int px = (int) player.posX;
+		int pz = (int) player.posZ;
 		EntityEnderman enderman;
 		for(int xx = 0; xx < 2; xx++)
 		{
 			for(int zz = -4; zz < 5; zz++)
 			{
-				if(!world.getBlockState(pos.add(xx == 1 ? 4 : -4, 0, zz)).getBlock().isFullBlock() && !world.getBlockState(pos.add(xx == 1 ? 4 : -4, 1, zz)).getBlock().isFullBlock() && !world.getBlockState(pos.add(xx == 1 ? 4 : -4, 2, zz)).getBlock().isFullBlock())
+				IBlockState blockState = world.getBlockState(new BlockPos(px + xx, pos.getY(),pz + zz));
+				IBlockState blockState2 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, pz + zz));
+				IBlockState blockState3 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, pz + zz));
+				if(!blockState.getBlock().isFullBlock(blockState) && !blockState2.getBlock().isFullBlock(blockState2) && !blockState3.getBlock().isFullBlock(blockState3))
 				{
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(xx == 1 ? pos.getX() + 4 : pos.getX() - 4, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);

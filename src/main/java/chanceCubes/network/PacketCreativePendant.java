@@ -8,7 +8,6 @@ import chanceCubes.items.ItemChanceCube;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -54,7 +53,7 @@ public class PacketCreativePendant implements IMessage
 			Container c;
 			try
 			{
-				c = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.playerName).openContainer;
+				c = ctx.getServerHandler().playerEntity.openContainer;
 			} catch(Exception NullPointerException)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");

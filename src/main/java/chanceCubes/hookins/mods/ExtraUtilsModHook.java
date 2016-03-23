@@ -8,7 +8,6 @@ import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -54,8 +53,8 @@ public class ExtraUtilsModHook extends BaseModHook
 					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.crafting_table.getDefaultState());
 					player.displayGui(new BlockWorkbench.InterfaceCraftingTable(world, new BlockPos(player.posX, player.posY, player.posZ)));
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
-					if((player instanceof EntityPlayerMP))
-						((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);
+					// if((player instanceof EntityPlayerMP))
+					// ((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);
 				}
 			}));
 		}

@@ -24,8 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.TRSRTransformation;
 import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -47,7 +47,13 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return new TileChanceD20();
 	}
 
-	public boolean isOpaqueCube()
+	@Override
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
+
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
@@ -58,13 +64,19 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return false;
 	}
 
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
 	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
 	{
 		this.startd20(world, pos, player);
 	}
 
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
-    {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
 		return this.startd20(world, pos, player);
 	}
 
@@ -103,15 +115,15 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		TileChanceD20 d20 = (TileChanceD20) world.getTileEntity(pos);
 		if(d20 == null)
 			return state;
-		TRSRTransformation transform = new TRSRTransformation(new Vector3f(0.5F, 0.5F + d20.wave * 0.1F, 0.5F), null, null, new Quat4f(0, 1, 0, d20.rotationInc));
+		TRSRTransformation transform = new TRSRTransformation(new Vector3f(0.5f, 0.5f + d20.wave * 0.1F, 0.5f), null, null, new Quat4f(0, 1, 0, d20.rotationInc));
 		OBJModel.OBJState newState = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
-		return ((IExtendedBlockState) state).withProperty(OBJModel.OBJProperty.instance, newState);
+		return ((IExtendedBlockState) state).withProperty(OBJModel.OBJProperty.INSTANCE, newState);
 	}
 
 	@Override
 	public BlockStateContainer createBlockState()
 	{
-		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.instance });
+		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
 	}
 
 	@Override

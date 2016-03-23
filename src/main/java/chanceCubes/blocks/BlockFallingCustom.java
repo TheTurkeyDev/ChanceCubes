@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Iterator;
-
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -33,12 +31,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 		this.osb = osb;
 	}
 
-	//TODO: UPDATE
 	public void onUpdate()
 	{
 		Block block = this.fallTile.getBlock();
 
-		if(block.getMaterial(this.fallTile) == Material.air)
+		if(this.fallTile.getMaterial() == Material.air)
 		{
 			this.setDead();
 		}
@@ -47,11 +44,10 @@ public class BlockFallingCustom extends EntityFallingBlock
 			this.prevPosX = this.posX;
 			this.prevPosY = this.posY;
 			this.prevPosZ = this.posZ;
-			BlockPos blockpos;
 
 			if(this.fallTime++ == 0)
 			{
-				blockpos = new BlockPos(this);
+				BlockPos blockpos = new BlockPos(this);
 
 				if(this.worldObj.getBlockState(blockpos).getBlock() == block)
 				{
@@ -64,46 +60,52 @@ public class BlockFallingCustom extends EntityFallingBlock
 				}
 			}
 
-			this.motionY -= 0.03999999910593033D;
+			this.motionY -= 0.04D;
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
-			this.motionX *= 0.9800000190734863D;
-			this.motionY *= 0.9800000190734863D;
-			this.motionZ *= 0.9800000190734863D;
+			this.motionX *= 0.98D;
+			this.motionY *= 0.98D;
+			this.motionZ *= 0.98D;
 
 			if(!this.worldObj.isRemote)
 			{
-				blockpos = new BlockPos(this);
+				BlockPos blockpos1 = new BlockPos(this);
 
 				if(this.onGround)
 				{
-					this.motionX *= 0.699999988079071D;
-					this.motionZ *= 0.699999988079071D;
+					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+
+					if(this.worldObj.isAirBlock(new BlockPos(this.posX, this.posY - 0.01D, this.posZ))) // Forge: Don't indent below.
+						if(BlockFalling.func_185759_i(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))))
+						{
+							this.onGround = false;
+							return;
+						}
+
+					this.motionX *= 0.7D;
+					this.motionZ *= 0.7D;
 					this.motionY *= -0.5D;
 
-					if(this.worldObj.getBlockState(blockpos).getBlock() != Blocks.piston_extension)
+					if(iblockstate.getBlock() != Blocks.piston_extension)
 					{
 						this.setDead();
-
-						if(this.worldObj.canBlockBePlaced(block, blockpos, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.canFallInto(this.worldObj, blockpos.down()) && this.worldObj.setBlockState(blockpos, this.fallTile, 3))
+						if(this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.func_185759_i(this.worldObj.getBlockState(blockpos1.down())) && this.worldObj.setBlockState(blockpos1, this.fallTile, 3))
 						{
 							if(block instanceof BlockFalling)
 							{
-								osb.placeInWorld(worldObj, blockpos, false);
+								osb.placeInWorld(worldObj, blockpos1, false);
 							}
 
 							if(this.tileEntityData != null && block instanceof ITileEntityProvider)
 							{
-								TileEntity tileentity = this.worldObj.getTileEntity(blockpos);
+								TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
 
 								if(tileentity != null)
 								{
 									NBTTagCompound nbttagcompound = new NBTTagCompound();
 									tileentity.writeToNBT(nbttagcompound);
-									Iterator<?> iterator = this.tileEntityData.getKeySet().iterator();
 
-									while(iterator.hasNext())
+									for(String s : this.tileEntityData.getKeySet())
 									{
-										String s = (String) iterator.next();
 										NBTBase nbtbase = this.tileEntityData.getTag(s);
 
 										if(!s.equals("x") && !s.equals("y") && !s.equals("z"))
@@ -117,25 +119,25 @@ public class BlockFallingCustom extends EntityFallingBlock
 								}
 							}
 						}
-						else if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doTileDrops"))
+						else if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
 						{
 							this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 						}
 					}
 				}
-				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos.getY() < 1 || blockpos.getY() > 256) || this.fallTime > 600)
+				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
 				{
-					if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doTileDrops"))
+					if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
 					{
 						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 					}
 
 					this.setDead();
 				}
-				else if(normY == blockpos.getY())
+				else if(normY == blockpos1.getY())
 				{
 					this.setDead();
-					osb.placeInWorld(worldObj, blockpos, false);
+					osb.placeInWorld(worldObj, blockpos1, false);
 				}
 			}
 		}

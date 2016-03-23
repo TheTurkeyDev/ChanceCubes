@@ -27,10 +27,7 @@ public class CCubesCommandSender extends CommandBlockBaseLogic
 	@Override
 	public void addChatMessage(ITextComponent p_145747_1_)
 	{
-		if(this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
-		{
-			this.getEntityWorld().markBlockForUpdate(blockLoc);
-		}
+		
 	}
 
 	@Override
@@ -42,7 +39,7 @@ public class CCubesCommandSender extends CommandBlockBaseLogic
 	@SideOnly(Side.CLIENT)
 	public int func_145751_f()
 	{
-		return 0; // Unknown purpose
+		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)

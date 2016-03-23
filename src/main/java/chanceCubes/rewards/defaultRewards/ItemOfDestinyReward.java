@@ -75,7 +75,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		};
 		Scheduler.scheduleTask(task);
 	}
-	
+
 	private void changeEnchants(final EntityItem item, final int enchants, final int iteration, final EntityPlayer player)
 	{
 		Task task = new Task("Item_Of_Destiny_Reward", 50)
@@ -108,15 +108,16 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			item = Item.getItemById(256 + rand.nextInt(166));
 		return item;
 	}
-	
+
 	public Enchantment randomEnchantment()
 	{
-		Enchantment ench = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
+
+		Enchantment ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.enchantmentRegistry.getKeys().size()));
 		while(ench == null)
-			ench = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
+			ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.enchantmentRegistry.getKeys().size()));
 		return ench;
 	}
-	
+
 	@Override
 	public int getChanceValue()
 	{

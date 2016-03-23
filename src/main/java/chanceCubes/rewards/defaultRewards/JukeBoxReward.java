@@ -4,6 +4,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.block.BlockJukebox;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -20,10 +21,11 @@ public class JukeBoxReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		ItemStack disc = discs[random.nextInt(discs.length)];
 		world.setBlockState(pos, Blocks.jukebox.getDefaultState());
-		((BlockJukebox) Blocks.jukebox).insertRecord(world, pos, Blocks.jukebox.getDefaultState(), disc);
-		world.playAuxSFXAtEntity((EntityPlayer) null, 1005, pos, Item.getIdFromItem(disc.getItem()));
+		IBlockState iblockstate = world.getBlockState(pos);
+		ItemStack disc = discs[random.nextInt(discs.length)];
+		((BlockJukebox) Blocks.jukebox).insertRecord(world, pos, iblockstate, disc);
+		world.playAuxSFXAtEntity((EntityPlayer) null, 1010, pos, Item.getIdFromItem(disc.getItem()));
 	}
 
 	@Override

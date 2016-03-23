@@ -61,7 +61,7 @@ public class CCubesCommands implements ICommand
 			GiantCubeRegistry.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();
 			CustomRewardsLoader.instance.loadHolidayRewards();
-			ChanceCubeRegistry.loadCustomUserRewards();
+			ChanceCubeRegistry.loadCustomUserRewards(server);
 			ModHookUtil.loadCustomModRewards();
 			sender.addChatMessage(new TextComponentString("RewardsReloaded"));
 		}

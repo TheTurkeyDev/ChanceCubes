@@ -2,7 +2,6 @@ package chanceCubes.tileentities;
 
 import java.util.Random;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.util.RenderUtil;
@@ -107,7 +106,8 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		{
 			if(!player.worldObj.isRemote)
 			{
-				player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
+				//TODO: 
+				//player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
 				this.player = player;
 			}
 			breaking = true;

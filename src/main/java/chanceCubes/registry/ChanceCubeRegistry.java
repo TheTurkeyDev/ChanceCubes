@@ -75,13 +75,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -109,11 +111,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sethbling_Reward", 30, new MessageRewardType(new MessagePart("Welcome back, SethBling here :)")), new ItemRewardType(new ItemPart(new ItemStack(Items.redstone, 32)), new ItemPart(new ItemStack(Items.repeater, 3)), new ItemPart(new ItemStack(Items.comparator, 3)), new ItemPart(new ItemStack(Blocks.redstone_lamp, 3)), new ItemPart(new ItemStack(Blocks.redstone_torch, 3)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP", 35, new ExperienceRewardType(new ExpirencePart(100).setNumberofOrbs(10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP_Shower", 35, new ExperienceRewardType(new ExpirencePart(10), new ExpirencePart(10, 10), new ExpirencePart(10, 10), new ExpirencePart(10, 20), new ExpirencePart(10, 30), new ExpirencePart(10, 40), new ExpirencePart(10, 50), new ExpirencePart(10, 60), new ExpirencePart(10, 70), new ExpirencePart(10, 80), new ExpirencePart(10, 90), new ExpirencePart(10, 100), new ExpirencePart(10, 110), new ExpirencePart(10, 120), new ExpirencePart(10, 130), new ExpirencePart(10, 140), new ExpirencePart(10, 150))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Poison", -25, new PotionRewardType(new PotionPart(new PotionEffect(Potion.poison.id, 500)))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Poison", -25, new PotionRewardType(new PotionPart(new PotionEffect(MobEffects.poison, 500)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":ChatMessage", 0, new MessageRewardType(new MessagePart("You have escaped the wrath of the Chance Cubes........."), new MessagePart("For now......"))));
 		// INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 15, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hearts", 0, new ParticleEffectRewardType(RewardsUtil.spawnXParticles(34, 5))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(new SoundPart("random.explode"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(new SoundPart(SoundEvents.entity_generic_explode))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wool", 25, new ItemRewardType(new ItemPart(new ItemStack(Blocks.wool, 4, 0)), new ItemPart(new ItemStack(Blocks.wool, 4, 1)), new ItemPart(new ItemStack(Blocks.wool, 4, 2)), new ItemPart(new ItemStack(Blocks.wool, 4, 3)), new ItemPart(new ItemStack(Blocks.wool, 4, 4)), new ItemPart(new ItemStack(Blocks.wool, 4, 5)), new ItemPart(new ItemStack(Blocks.wool, 4, 6)), new ItemPart(new ItemStack(Blocks.wool, 4, 7)), new ItemPart(new ItemStack(Blocks.wool, 4, 8)), new ItemPart(new ItemStack(Blocks.wool, 4, 9)), new ItemPart(new ItemStack(Blocks.wool, 4, 10)), new ItemPart(new ItemStack(Blocks.wool, 4, 11)), new ItemPart(new ItemStack(Blocks.wool, 4, 12)), new ItemPart(new ItemStack(Blocks.wool, 4, 13)), new ItemPart(new ItemStack(Blocks.wool, 4, 14)), new ItemPart(new ItemStack(Blocks.wool, 4, 15)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cake", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.cake, 1))), new MessageRewardType(new MessagePart("But is it a lie?"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemPart(new ItemStack(Blocks.enchanting_table)))));
@@ -129,19 +131,19 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 30, new MessageRewardType(new MessagePart("Lets go on a journey!")), new ItemRewardType(new ItemPart(new ItemStack(Items.compass)), new ItemPart(new ItemStack(Items.clock)), new ItemPart(new ItemStack(Blocks.torch, 64)), new ItemPart(new ItemStack(Items.iron_pickaxe)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Mitas", 50, new ItemRewardType(new ItemPart(new ItemStack(Items.gold_nugget, 32)), new ItemPart(new ItemStack(Items.gold_ingot, 8)), new ItemPart(new ItemStack(Items.golden_carrot, 16)), new ItemPart(new ItemStack(Items.golden_helmet)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -25, new MessageRewardType(new MessagePart("Release the horde!")), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Zombie"), 15))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -15, new PotionRewardType(new PotionPart(new PotionEffect(Potion.harm.id, 2, 7)))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Insta-Damage", -15, new PotionRewardType(new PotionPart(new PotionEffect(MobEffects.harm, 2, 7)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -40, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 0, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, -1, Blocks.lava, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, -1, Blocks.lava, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -5, new CommandRewardType(new CommandPart("/weather thunder 20000"))));
 		// INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":House", 75, new SchematicRewardType("house.schematic", 3, true, false)));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -20, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.monster_egg, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.monster_egg, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.fish, 5)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 95)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bone_Cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.bone, 5)), new ItemPart(new ItemStack(Items.spawn_egg, 1, 98)))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType(new CommandPart("/summon EnderCrystal %x %y %z {Value:1,Riding:{id:\"XPOrb\"}}"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType(new CommandPart("/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Ozelot\",CatType:0,Sitting:0}}"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SlimeMan", 10, new CommandRewardType(new CommandPart("/summon Slime %x %y %z {CustomName:\"SlimeMan\",CustomNameVisible:1,Size:1,Riding:{id:\"Slime\",Size:2,Riding:{id:\"Slime\",Size:3}}}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType(new CommandPart("/summon XPOrb ~ ~1 ~ {Value:1,Passengers:[{id:\"EnderCrystal\"}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType(new CommandPart("/summon Ozelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"PrimedTnt\",Fuse:80}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SlimeMan", 10, new CommandRewardType(new CommandPart("/summon Slime ~ ~1 ~ {Size:3,Glowing:1b,Passengers:[{id:\"Slime\",Size:2,Glowing:1b,Passengers:[{id:\"Slime\",CustomName:\"Slime Man\",CustomNameVisible:1,Size:1,Glowing:1b}]}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 5, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.water, false)), new CommandRewardType(new CommandPart("/summon Boat %x %y %z")), new MessageRewardType(new MessagePart("Come sail away!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -15, new CommandRewardType(new CommandPart("/summon Witch %x %y %z "))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 40, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Wyld\",CustomNameVisible:1,IsVillager:0,IsBaby:1,Equipment:[{id:267,Count:1,tag:{ench:[{id:16,lvl:3}]}},{id:301,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}},{id:300,Count:1,tag:{ench:[{id:0,lvl:1}],display:{color:16711867}}},{id:299,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}},{id:298,Count:1,tag:{ench:[{id:0,lvl:3}],display:{color:16711867}}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Riding:{id:\"Chicken\",CustomName:\"Cluckington\",CustomNameVisible:1,IsChickenJockey:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 40, new CommandRewardType(new CommandPart("/summon Chicken ~ ~1 ~ {CustomName:\"Cluckington\",CustomNameVisible:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980}],Passengers:[{id:\"Zombie\",CustomName:\"Wyld\",CustomNameVisible:1,IsVillager:0,IsBaby:1}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 40, new CommandRewardType(new CommandPart("/summon Slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 40, new CommandRewardType(new CommandPart("/summon Zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 40, new CommandRewardType(new CommandPart("/summon Villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}"))));
@@ -151,20 +153,20 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.diamond_block, false), new OffsetBlock(0, -1, 0, Blocks.diamond_block, false), new OffsetBlock(1, 0, 0, Blocks.diamond_block, false), new OffsetBlock(-1, 0, 0, Blocks.diamond_block, false), new OffsetBlock(0, 0, 1, Blocks.diamond_block, false), new OffsetBlock(0, 0, -1, Blocks.diamond_block, false)), new CommandRewardType(new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"), new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"), new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Anti_Slab", -15, new BlockRewardType(RewardsUtil.fillArea(3, 1, 3, Blocks.obsidian, -1, 2, -1, false, 0, false, true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chance_Cube_Cube", -10, new MessageRewardType(new MessagePart("Hey, at least it isn't a Giant Chance Cube >:)")), new BlockRewardType(new OffsetBlock(-1, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 0, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-1, 1, -2, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -1, CCubesBlocks.chanceCube, false), new OffsetBlock(-2, 1, -2, CCubesBlocks.chanceCube, false))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart("game.tnt.primed"), new SoundPart("game.tnt.primed"), new SoundPart("game.tnt.primed"), new SoundPart("random.explode").setDelay(120))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart("mob.ghast.scream").setServerWide(true), new SoundPart("mob.ghast.moan").setServerWide(true), new SoundPart("mob.ghast.moan").setServerWide(true))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart(SoundEvents.entity_tnt_primed), new SoundPart(SoundEvents.entity_tnt_primed), new SoundPart(SoundEvents.entity_tnt_primed), new SoundPart(SoundEvents.entity_generic_explode).setDelay(120))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.entity_ghast_scream).setServerWide(true), new SoundPart(SoundEvents.entity_ghast_warn).setServerWide(true), new SoundPart(SoundEvents.entity_ghast_warn).setServerWide(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.chanceCube, false)), new MessageRewardType(new MessagePart("No"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Creeper", -30, new CommandRewardType(new CommandPart("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zobmie", -35, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",IsBaby:1,Equipment:[{id:280,Count:1,tag:{ench:[{id:19,lvl:20}]}},{},{},{},{}],DropChances:[0.0F,0.085F,0.085F,0.085F,0.085F]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zobmie", -35, new CommandRewardType(new CommandPart("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",CustomNameVisible:1,IsVillager:0,IsBaby:1,HandItems:[{id:stick,Count:1,tag:{AttributeModifiers:[{AttributeName:\"generic.knockbackResistance\",Name:\"generic.knockbackResistance\",Amount:100,Operation:0,UUIDLeast:724513,UUIDMost:715230}],ench:[{id:19,lvl:100}],display:{Name:\"The Spartan Kick\"}}},{}],HandDropChances:[0.0F,0.085F],ActiveEffects:[{Id:1,Amplifier:5,Duration:199980,ShowParticles:0b},{Id:8,Amplifier:2,Duration:199980}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Actual_Invisible_Ghast", -80, new CommandRewardType(new CommandPart("/summon Ghast ~ ~10 ~ {ActiveEffects:[{Id:14,Amplifier:0,Duration:2000,ShowParticles:0b}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giant_Chance_Cube", -45, new BlockRewardType(RewardsUtil.fillArea(3, 3, 3, CCubesBlocks.chanceCube, -1, 0, -1, false, 0, true, false))), false);
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fireworks", 0, new CommandRewardType(RewardsUtil.executeXCommands("/summon FireworksRocketEntity ~0 ~0 ~0 {LifeTime:2,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[16711680],FadeColors:[16777215]}]}}}}", 4))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fireworks", 0, new CommandRewardType(RewardsUtil.executeXCommands("/summon FireworksRocketEntity ~ ~1 ~ {FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Colors:[16711680],FadeColors:[16711680]}]}}}}", 4))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":STRING!", 7, new BlockRewardType(RewardsUtil.fillArea(11, 5, 11, Blocks.tripwire, -5, 0, -5, false, 0, false, true)), new MessageRewardType(new MessagePart("STRING!!!!"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -50, new CommandRewardType(RewardsUtil.executeXCommands("/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", 10))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon LavaSlime ~ ~1 ~ {CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3,Riding:{id:\"Bat\"}}", 10))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,Equipment:[{},{id:301,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:300,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:299,Count:1,tag:{ench:[{id:7,lvl:100}]}},{id:298,Count:1,tag:{ench:[{id:7,lvl:100}]}}],DropChances:[0.085F,0.0F,0.0F,0.0F,0.0F]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -50, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"PrimedTnt\",Fuse:80}]}", 10))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"LavaSlime\",CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3}]}", 10))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,ArmorItems:[{},{},{id:diamond_chestplate,Count:1,tag:{ench:[{id:7,lvl:1000}]}},{}],ArmorDropChances:[0.085F,0.085F,0.0F,0.085F]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Squid_Horde", 5, new MessageRewardType(new MessagePart("Release the horde!").setRange(32), new MessagePart("Of squids!!").setDelay(20).setRange(32)), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Squid"), 15))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":D-rude_SandStorm", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.sand, -2, 0, -2, true, 0, false, true)), new MessageRewardType(new MessagePart("Well that was  D-rude").setDelay(40))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":D-rude_SandStorm", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.sand, -2, 0, -2, true, 0, false, true)), new MessageRewardType(new MessagePart("Well that was D-rude").setDelay(40))));
 
 		ItemStack stack;
 
@@ -219,8 +221,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 60, new ItemRewardType(new ItemPart(stack))));
 
 		TileEntitySign sign = new TileEntitySign();
-		sign.signText[0] = new ChatComponentText("The broken path");
-		sign.signText[1] = new ChatComponentText("to succ");
+		sign.signText[0] = new TextComponentString("The broken path");
+		sign.signText[1] = new TextComponentString("to succ");
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succ", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.standing_sign, ((TileEntity) sign), true, 20), new OffsetBlock(0, -1, 0, Blocks.cobblestone, true, 0), new OffsetBlock(0, -1, -1, Blocks.cobblestone, true, 4), new OffsetBlock(0, -1, -2, Blocks.cobblestone, true, 8), new OffsetBlock(0, -1, -3, Blocks.cobblestone, true, 12), new OffsetBlock(0, -1, -4, Blocks.cobblestone, true, 16), new OffsetBlock(0, -1, -5, Blocks.cobblestone, true, 20))));
 
 		OffsetBlock[] blocks = new OffsetBlock[35];
@@ -248,7 +250,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			{
 				player.experienceLevel = 0;
 				player.experienceTotal = 0;
-				player.addChatMessage(new ChatComponentText("Screw you last stand"));
+				player.addChatMessage(new TextComponentString("Screw you last stand"));
 			}
 		});
 
@@ -258,7 +260,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
 			{
 				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
-				player.addChatMessage(new ChatComponentText("Thou has been smitten!"));
+				player.addChatMessage(new TextComponentString("Thou has been smitten!"));
 			}
 		});
 
@@ -302,14 +304,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(math);
 	}
 
-	public static void loadCustomUserRewards()
+	public static void loadCustomUserRewards(MinecraftServer server)
 	{
 		ArrayList<EntityPlayerMP> allp = new ArrayList<EntityPlayerMP>();
 		Iterator<?> iterator;
 
-		for(int i = 0; i < MinecraftServer.getServer().worldServers.length; i++)
+		for(int i = 0; i < server.worldServers.length; i++)
 		{
-			iterator = MinecraftServer.getServer().worldServers[i].playerEntities.listIterator();
+			iterator = server.worldServers[i].playerEntities.listIterator();
 			while(iterator.hasNext())
 				allp.add((EntityPlayerMP) iterator.next());
 		}

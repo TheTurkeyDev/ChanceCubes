@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
@@ -25,33 +26,30 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 				weapon = stack.copy();
 			}
 		}
-		if(weapon == null && player.getCurrentEquippedItem() != null)
+		if(weapon == null && player.inventory.getCurrentItem() != null)
 		{
-			weapon = player.getCurrentEquippedItem().copy();
+			weapon = player.inventory.getCurrentItem().copy();
 		}
 
-		zombie.setCurrentItemOrArmor(0, weapon);
-		zombie.setEquipmentDropChance(0, 0);
+		zombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weapon);
+		//TODO: Change?
+		zombie.setDropItemsWhenDead(true);
 
 		if(player.inventory.armorInventory[0] != null)
 		{
-			zombie.setCurrentItemOrArmor(1, player.inventory.armorInventory[0].copy());
-			zombie.setEquipmentDropChance(1, 0);
+			zombie.setItemStackToSlot(EntityEquipmentSlot.FEET, player.inventory.armorInventory[0].copy());
 		}
 		if(player.inventory.armorInventory[1] != null)
 		{
-			zombie.setCurrentItemOrArmor(2, player.inventory.armorInventory[1].copy());
-			zombie.setEquipmentDropChance(2, 0);
+			zombie.setItemStackToSlot(EntityEquipmentSlot.LEGS, player.inventory.armorInventory[0].copy());
 		}
 		if(player.inventory.armorInventory[2] != null)
 		{
-			zombie.setCurrentItemOrArmor(3, player.inventory.armorInventory[2].copy());
-			zombie.setEquipmentDropChance(3, 0);
+			zombie.setItemStackToSlot(EntityEquipmentSlot.CHEST, player.inventory.armorInventory[0].copy());
 		}
 		if(player.inventory.armorInventory[3] != null)
 		{
-			zombie.setCurrentItemOrArmor(4, player.inventory.armorInventory[3].copy());
-			zombie.setEquipmentDropChance(4, 0);
+			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory[0].copy());
 		}
 
 		world.spawnEntityInWorld(zombie);

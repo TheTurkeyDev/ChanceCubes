@@ -14,23 +14,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -58,12 +48,22 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
-
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CustomRewardsLoader
 {
@@ -229,6 +229,7 @@ public class CustomRewardsLoader
 			else if(rewardElement.getKey().equalsIgnoreCase("dependencies"))
 			{
 				boolean gameversion = false;
+				boolean mcversionused = false;
 				for(Entry<String, JsonElement> dependencies : rewardElement.getValue().getAsJsonObject().entrySet())
 				{
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
@@ -238,7 +239,8 @@ public class CustomRewardsLoader
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
-						String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
+						mcversionused = true;
+						/*String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
 						String toCheckV = dependencies.getValue().getAsString();
 						if(toCheckV.contains("*"))
 						{
@@ -246,10 +248,10 @@ public class CustomRewardsLoader
 							toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
 						}
 						if(currentMCV.equalsIgnoreCase(toCheckV))
-							gameversion = true;
+							gameversion = true;*/
 					}
 				}
-				if(!gameversion)
+				if(!gameversion && mcversionused)
 					return null;
 				continue;
 			}
@@ -461,7 +463,7 @@ public class CustomRewardsLoader
 		List<PotionPart> potionEffects = new ArrayList<PotionPart>();
 		for(JsonElement element : rawReward)
 		{
-			PotionPart exppart = new PotionPart(new PotionEffect(element.getAsJsonObject().get("potionid").getAsInt(), element.getAsJsonObject().get("duration").getAsInt() * 20));
+			PotionPart exppart = new PotionPart(new PotionEffect(Potion.getPotionById(element.getAsJsonObject().get("potionid").getAsInt()), element.getAsJsonObject().get("duration").getAsInt() * 20));
 
 			if(element.getAsJsonObject().has("delay"))
 				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
@@ -477,8 +479,8 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 
-			SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
-
+			//SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
+			SoundPart sound = new SoundPart(SoundEvents.ambient_cave);
 			if(element.getAsJsonObject().has("delay"))
 				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("serverWide"))
@@ -604,7 +606,7 @@ public class CustomRewardsLoader
 				for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
 				{
 					NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-					TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
+					TileEntity tileentity = TileEntity.createTileEntity(null, nbttagcompound4);
 
 					if(tileentity != null)
 					{

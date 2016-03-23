@@ -1,15 +1,18 @@
 package chanceCubes.rewards.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import chanceCubes.rewards.rewardparts.PotionPart;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.PotionPart;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
 
 public class PotionRewardType extends BaseRewardType<PotionPart>
 {
@@ -41,14 +44,13 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
     
     public void triggerPotion(PotionPart part, World world, int x, int y, int z, EntityPlayer player)
 	{
-        ItemStack potion = new ItemStack(Items.potionitem);
-        NBTTagList effects = new NBTTagList();
-        NBTTagCompound effectData = new NBTTagCompound();
-        part.getEffect().writeCustomPotionEffectToNBT(effectData);
-        effects.appendTag(effectData);
-        potion.getSubCompound("CustomPotionEffects", true);
-        potion.getTagCompound().setTag("CustomPotionEffects", effects);
+    	
+        ItemStack potion = new ItemStack(Items.splash_potion);
 
+        List<PotionEffect> effects = new ArrayList<PotionEffect>();
+        effects.add(part.getEffect());
+        PotionUtils.appendEffects(potion, effects);
+        
         EntityPotion entity = new EntityPotion(world, player, potion);
         entity.posX = player.posX;
         entity.posY = player.posY + 2;

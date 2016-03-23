@@ -9,6 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -33,13 +36,13 @@ public class ItemScanner extends Item
 	{
 		return 72000;
 	}
-	//TODO: FIX
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-	{
-		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-		return stack;
-	}
 
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+    {
+        playerIn.setActiveHand(hand);
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+    }
+	
 	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
 	{
 		if(!world.isRemote)
@@ -48,7 +51,7 @@ public class ItemScanner extends Item
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack) && player.getItemInUse() != null && player.getItemInUse().equals(stack))
+			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack) && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack))
 			{
 				RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
 

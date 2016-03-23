@@ -1,6 +1,5 @@
 package chanceCubes.util;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.tileentity.TileEntity;
@@ -61,7 +60,8 @@ public class GiantCubeUtil
 						((TileGiantCube) tile).setIsMaster(master);
 					}
 				}
-		world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		//TODO: 
+		//world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 	}
 
 	/** Reset all the parts of the structure */

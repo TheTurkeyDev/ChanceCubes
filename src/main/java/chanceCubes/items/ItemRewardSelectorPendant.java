@@ -14,7 +14,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -33,19 +36,20 @@ public class ItemRewardSelectorPendant extends Item
 		this.setCreativeTab(CCubesCore.modTab);
 	}
 
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
 	{
+		player.setActiveHand(hand);
 		if(player.isSneaking() && world.isRemote)
 			FMLCommonHandler.instance().showGuiScreen(new RewardSelectorPendantGui(player, stack));
-		return stack;
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		if(world.isRemote)
-			return false;
+			return EnumActionResult.FAIL;
 		if(player.isSneaking())
-			return false;
+			return EnumActionResult.FAIL;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceCube))
@@ -61,7 +65,7 @@ public class ItemRewardSelectorPendant extends Item
 			{
 				TileEntity ent = world.getTileEntity(pos);
 				if(ent == null || !(ent instanceof TileGiantCube))
-					return false;
+					return EnumActionResult.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
@@ -71,7 +75,7 @@ public class ItemRewardSelectorPendant extends Item
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 			}
 		}
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

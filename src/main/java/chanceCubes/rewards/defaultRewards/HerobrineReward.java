@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class HerobrineReward implements IChanceCubeReward
@@ -42,7 +43,7 @@ public class HerobrineReward implements IChanceCubeReward
 		{
 			case 0:
 			{
-				player.addChatMessage(new TextComponentString(EnumChatFormatting.YELLOW + "Herobrine joined the game."));
+				player.addChatMessage(new TextComponentString(TextFormatting.YELLOW + "Herobrine joined the game."));
 				break;
 			}
 			case 1:
@@ -57,16 +58,17 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
-					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-					MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-					String command = "/summon Zombie ~ ~ ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,Equipment:[{id:276,Count:1,tag:{ench:[{id:16,lvl:10},{id:20,lvl:2}]}},{id:313,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:312,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:311,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:379,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Attributes:[{Name:generic.maxHealth,Base:500}],HealF:500}";
+					MinecraftServer server = world.getMinecraftServer();
+					Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+					String command = "/summon Zombie ~ ~1 ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,ArmorItems:[{id:diamond_boots,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_leggings,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_chestplate,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_helmet,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}}],HandItems:[{id:diamond_sword,Count:1,tag:{Unbreakable:1,display:{Name:\"Wrath of Herobrine\"},ench:[{id:16,lvl:5}]}},{}],ArmorDropChances:[0.0F,0.0F,0.0F,0.0F],HandDropChances:[2.0F,0.085F],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500.0f,Glowing:1b}";
 					CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-		        	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
-		        	MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+					server.getCommandManager().executeCommand(sender, command);
+					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 				}
 				else
 				{
-					player.addChatMessage(new TextComponentString(EnumChatFormatting.YELLOW + "Herobrine left the game."));
+					player.addChatMessage(new TextComponentString(TextFormatting.YELLOW + "Herobrine left the game."));
 				}
 				break;
 			}
