@@ -19,4 +19,5 @@ item.silkTouchPendant.name=Silk Touch Chance Pendant
 
 item.scanner.name=Chance Cube Scanner
 
-death.attack.mathdeath=%1$s's mind exploded from the power of math
+death.attack.mathdeath=%1$s's mind exploded from the power of math.
+death.attack.mazedeath=%1$s was forever lost in the Chance Cube maze.

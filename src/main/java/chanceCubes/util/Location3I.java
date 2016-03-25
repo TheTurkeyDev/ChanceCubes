@@ -44,4 +44,9 @@ public class Location3I
 	{
 		return loc.getX() == x && loc.getY() == y && loc.getZ() == z;
 	}
+	
+	public Location3I add(int x, int y, int z)
+	{
+		return new Location3I(this.x + x, this.y + y, this.z + z);
+	}
 }

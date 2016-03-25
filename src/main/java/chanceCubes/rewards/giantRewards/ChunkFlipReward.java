@@ -33,15 +33,20 @@ public class ChunkFlipReward implements IChanceCubeReward
 
 	public void moveLayer(final World world, final int x, int y, final int z, final EntityPlayer player)
 	{
-		if(y > 256)
+		if(y >= world.getActualHeight() / 2)
 			return;
+		
 		for(int zz = 0; zz < 16; zz++)
 		{
 			for(int xx = 0; xx < 16; xx++)
 			{
 				Block b = world.getBlock(x + xx, y, z + zz);
+				Block b2 = world.getBlock(x + xx,  world.getActualHeight() - y, z + zz);
 				if(!b.equals(Blocks.gravel) && !b.equals(CCubesBlocks.chanceGiantCube))
-					world.setBlock(x + xx, 256 - y, z + zz, b, 0, 2);
+				{
+					world.setBlock(x + xx, y, z + zz, b2, 0, 2);
+					world.setBlock(x + xx, world.getActualHeight() - y, z + zz, b, 0, 2);
+				}
 			}
 		}
 

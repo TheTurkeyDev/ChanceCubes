@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.Location3I;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,12 +18,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
-import chanceCubes.CCubesCore;
-import chanceCubes.util.Location3I;
-import chanceCubes.util.MathDamageSource;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MathReward implements IChanceCubeReward
 {
@@ -99,7 +99,7 @@ public class MathReward implements IChanceCubeReward
 		else
 		{
 			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
-			player.attackEntityFrom(MathDamageSource.mathfail, 32767.0F);
+			player.attackEntityFrom(CCubesDamageSource.mathfail, Float.MAX_VALUE);
 		}
 		
 		for(Entity tnt : info.getTnt())
