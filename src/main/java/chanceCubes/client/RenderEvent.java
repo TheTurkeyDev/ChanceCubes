@@ -21,7 +21,7 @@ public class RenderEvent
 	@SideOnly(Side.CLIENT)
 	public void onGuiRender(RenderGameOverlayEvent.Post event)
 	{
-		if(event.type != ElementType.HELMET || event.isCancelable())
+		if(event.getType() != ElementType.HELMET || event.isCancelable())
 		{
 			return;
 		}

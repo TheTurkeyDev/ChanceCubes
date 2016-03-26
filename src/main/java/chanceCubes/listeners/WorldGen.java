@@ -17,13 +17,13 @@ public class WorldGen
 	@SubscribeEvent
 	public void onGenerate(PopulateChunkEvent.Pre event)
 	{
-		if(CCubesSettings.isBlockedWorld(event.world.getWorldInfo().getWorldName()) || CCubesSettings.isBlockedWorld("" + event.world.provider.getDimension()))
+		if(CCubesSettings.isBlockedWorld(event.getWorld().getWorldInfo().getWorldName()) || CCubesSettings.isBlockedWorld("" + event.getWorld().provider.getDimension()))
 			return;
 		if(CCubesSettings.oreGeneration)
-			generateOre(event.world, new Random(), event.chunkX * 16, event.chunkZ * 16);
+			generateOre(event.getWorld(), new Random(), event.getChunkX() * 16, event.getChunkZ() * 16);
 
 		if(CCubesSettings.surfaceGeneration)
-			generateSurface(event.world, new Random(), event.chunkX * 16, event.chunkZ * 16);
+			generateSurface(event.getWorld(), new Random(), event.getChunkX() * 16, event.getChunkZ() * 16);
 	}
 
 	private void generateOre(World world, Random rand, int x, int z)
