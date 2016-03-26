@@ -7,13 +7,20 @@ import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RenderUtil;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
@@ -21,8 +28,9 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 
 	private static final float BASE_COLOR_SPEED = 75F;
 
-
 	private static final Random random = new Random();
+
+	private BlockRendererDispatcher blockRenderer;
 
 	public TileChanceD20Renderer()
 	{
@@ -30,41 +38,60 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 	}
 
 	@Override
-	public void renderTileEntityAt(TileChanceD20 d20, double posX, double posY, double posZ, float partialTick, int var9)
+	public void renderTileEntityAt(TileChanceD20 d20, double x, double y, double z, float partialTick, int var9)
 	{
 		d20.renderUpdate(partialTick, d20.getWorld().getWorldTime(), d20.getPos());
 		int stage = d20.getStage();
 
 		random.setSeed(RenderUtil.getCoordinateRandom(d20.getPos().getX(), d20.getPos().getY(), d20.getPos().getY()));
 
-		//float rot = d20.rotation + (d20.rotationDelta * partialTick);
+		// float rot = d20.rotation + (d20.rotationDelta * partialTick);
 		float color = (d20.getWorld().getTotalWorldTime() % BASE_COLOR_SPEED + partialTick) / BASE_COLOR_SPEED;
-
-		GL11.glPushMatrix();
-
-		//GlStateManager.translate(posX + 0.5F, posY + 0.5F + wave * 0.1F, posZ + 0.5F);
-		//GlStateManager.rotate(rot, 0F, 1F, 0F);
 		Color tmpClr = new Color(Color.HSBtoRGB(color + random.nextFloat(), 1F, 1F));
-		GlStateManager.color(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F);
-		// Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		OBJBakedModel baked = (OBJBakedModel) Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(d20.getBlockType().getDefaultState());
-		//blockModelRenderer.renderModel(d20.getWorld(), baked, d20.getBlockType().getDefaultState(), new BlockPos(posX, posY, posZ), Tessellator.getInstance().getWorldRenderer(), false);
-		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
-		// int r = tmpClr.getRed() & 0xFF;
-		// int g = tmpClr.getGreen() & 0xFF;
-		// int b = tmpClr.getBlue() & 0xFF;
-		// int a = tmpClr.getAlpha() & 0xFF;
 
-		int rgb = ((tmpClr.getRed() & 0xFF) << 24) + ((tmpClr.getGreen() & 0xFF) << 16) + ((tmpClr.getBlue() & 0xFF) << 8) + (tmpClr.getAlpha() & 0xFF);
-		// System.out.println(baked.getModel().getMatLib().getMaterialNames().get(0));
-		baked.getModel().getMatLib().changeMaterialColor("CCIcosahedron", rgb);
-		baked.scheduleRebake();
+		if(blockRenderer == null)
+			blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
+		BlockPos blockpos = d20.getPos();
+		IBlockState iblockstate = d20.getBlockType().getDefaultState();
 
-		GL11.glPopMatrix();
+		if(iblockstate.getMaterial() != Material.air)
+		{
+			Tessellator tessellator = Tessellator.getInstance();
+			VertexBuffer vertexbuffer = tessellator.getBuffer();
+			this.bindTexture(TextureMap.locationBlocksTexture);
+			RenderHelper.disableStandardItemLighting();
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			GlStateManager.enableBlend();
+			GlStateManager.disableCull();
+
+			if(Minecraft.isAmbientOcclusionEnabled())
+				GlStateManager.shadeModel(7425);
+			else
+				GlStateManager.shadeModel(7424);
+
+			vertexbuffer.begin(7, DefaultVertexFormats.BLOCK);
+			vertexbuffer.setTranslation((double) ((float) x - (float) blockpos.getX() + 0.5f), (double) ((float) y - (float) blockpos.getY() + d20.wave + 0.5f), (double) ((float) z - (float) blockpos.getZ() + 0.5f));
+			World world = this.getWorld();
+			
+			IBakedModel model = this.blockRenderer.getModelForState(iblockstate);
+			
+			/*if(model instanceof OBJBakedModel)
+			{
+				OBJBakedModel baked = (OBJBakedModel) model;
+				int rgb = ((tmpClr.getRed() & 0xFF) << 24) + ((tmpClr.getGreen() & 0xFF) << 16) + ((tmpClr.getBlue() & 0xFF) << 8) + (1 & 0xFF);
+				baked.getModel().getMatLib().changeMaterialColor("CCIcosahedron", rgb);
+			}*/
+
+			this.renderStateModel(blockpos, iblockstate, model, vertexbuffer, world, false);
+
+			vertexbuffer.setTranslation(0.0D, 0.0D, 0.0D);
+			tessellator.draw();
+			RenderHelper.enableStandardItemLighting();
+		}
 
 		GL11.glPushMatrix();
 
-		GlStateManager.translate(posX + 0.5F, posY + 1.5F + d20.wave * 0.1F, posZ + 2.5F);
+		GlStateManager.translate(x + 0.5F, y + 1.5F + d20.wave, z + 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		RenderHelper.disableStandardItemLighting();
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTick) / 750.0F;
@@ -121,5 +148,10 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		RenderHelper.enableStandardItemLighting();
 
 		GL11.glPopMatrix();
+	}
+
+	private boolean renderStateModel(BlockPos p_188186_1_, IBlockState p_188186_2_, IBakedModel model, VertexBuffer p_188186_3_, World p_188186_4_, boolean p_188186_5_)
+	{
+		return this.blockRenderer.getBlockModelRenderer().renderModel(p_188186_4_, model, p_188186_2_, p_188186_1_, p_188186_3_, p_188186_5_);
 	}
 }

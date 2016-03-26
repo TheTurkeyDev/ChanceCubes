@@ -98,6 +98,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		random.setSeed(RenderUtil.getCoordinateRandom(pos.getX(), pos.getY(), pos.getY()));
 		rotationInc = rotation + (rotationDelta * partialTick);
 		wave = stage == 0 ? MathHelper.sin((((worldTime % (HOVER_SPEED * 1000F) + partialTick) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((stage + partialTick) / 10f);
+		wave *= 0.1;
 	}
 
 	public void startBreaking(EntityPlayer player)
@@ -106,8 +107,8 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		{
 			if(!player.worldObj.isRemote)
 			{
-				//TODO: 
-				//player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
+				// TODO:
+				// player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
 				this.player = player;
 			}
 			breaking = true;
