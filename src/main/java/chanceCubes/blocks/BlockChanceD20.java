@@ -1,10 +1,5 @@
 package chanceCubes.blocks;
 
-import javax.vecmath.Quat4f;
-import javax.vecmath.Vector3f;
-
-import com.google.common.collect.Lists;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
@@ -25,7 +20,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJModel;
-import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -34,6 +28,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
+	ExtendedBlockState state = new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
+
 	public BlockChanceD20()
 	{
 		super("chance_Icosahedron");
@@ -69,6 +65,10 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return false;
 	}
+
+	/*
+	 * @Override public EnumWorldBlockLayer getBlockLayer() { return EnumWorldBlockLayer.CUTOUT_MIPPED; }
+	 */
 
 	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -112,18 +112,24 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
-		TileChanceD20 d20 = (TileChanceD20) world.getTileEntity(pos);
-		if(d20 == null)
-			return state;
-		TRSRTransformation transform = new TRSRTransformation(new Vector3f(0.5f, 0.5f + d20.wave * 0.1F, 0.5f), null, null, new Quat4f(0, 1, 0, d20.rotationInc));
-		OBJModel.OBJState newState = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
-		return ((IExtendedBlockState) state).withProperty(OBJModel.OBJProperty.INSTANCE, newState);
+		TileEntity tile = world.getTileEntity(pos);
+
+		if(tile != null && tile instanceof TileChanceD20)
+		{
+			TileChanceD20 iTile = (TileChanceD20) tile;
+			if(iTile.state != null)
+			{
+				return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, iTile.state);
+			}
+		}
+
+		return state;
 	}
 
 	@Override
 	public BlockStateContainer createBlockState()
 	{
-		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
 	}
 
 	@Override

@@ -9,8 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
@@ -39,9 +37,6 @@ public class CCubesBlocks
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCube.getBlockName(), "inventory"));
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceGiantCube.getBlockName(), "inventory"));
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCompactGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCompactGiantCube.getBlockName(), "inventory"));
-
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chanceIcosahedron), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceIcosahedron.getBlockName(), "inventory"));
 
 	}
 }
