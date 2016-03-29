@@ -227,6 +227,7 @@ public class CustomRewardsLoader
 			else if(rewardElement.getKey().equalsIgnoreCase("dependencies"))
 			{
 				boolean gameversion = false;
+				boolean versionUsed = false;
 				for(Entry<String, JsonElement> dependencies : rewardElement.getValue().getAsJsonObject().entrySet())
 				{
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
@@ -236,6 +237,7 @@ public class CustomRewardsLoader
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
+						versionUsed = true;
 						String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
 						String toCheckV = dependencies.getValue().getAsString();
 						if(toCheckV.contains("*"))
@@ -247,7 +249,7 @@ public class CustomRewardsLoader
 							gameversion = true;
 					}
 				}
-				if(!gameversion)
+				if(!gameversion && versionUsed)
 					return null;
 				continue;
 			}

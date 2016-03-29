@@ -22,6 +22,7 @@ import chanceCubes.rewards.giantRewards.ChunkReverserReward;
 import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
+import chanceCubes.rewards.giantRewards.PotionsReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,6 +51,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new FloorIsLavaReward());
 		INSTANCE.registerReward(new ChunkFlipReward());
 		INSTANCE.registerReward(new OreSphereReward());
+		INSTANCE.registerReward(new PotionsReward());
 	}
 
 	@Override

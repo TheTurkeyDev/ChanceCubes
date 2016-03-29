@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class PotionsReward implements IChanceCubeReward
@@ -22,6 +23,7 @@ public class PotionsReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
+		player.addChatMessage(new ChatComponentText("It's called art! Look it up!"));
 		throwPoitonCircle(0, world, x, y, z, player);
 
 		Scheduler.scheduleTask(new Task("Potion Circle", 140)
