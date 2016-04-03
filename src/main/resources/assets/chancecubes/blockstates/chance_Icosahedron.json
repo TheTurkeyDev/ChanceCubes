@@ -1,21 +1,23 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "textures": {
-        },
-        "model": "chancecubes:d20.obj"
+        "textures": {},
+        "model": "chancecubes:d20.obj",
+		"custom": {"flip-v":true}
      },
     "variants": {
         "normal": [{}],
         "inventory": [{
-           "transform": {
+            "transform": {
                 "thirdperson": {
-                    "translation": [0, 0.09375, -0.171875],
-                    "rotation": [ { "y": -45}, {"x": 10}, {"z": 170} ],
-                    "scale": 0.375
+                     "translation": [0.1, 0.15, -0.1],
+                    "scale": 0.38
+                },
+                "firstperson": {
+                    "translation": [0.25, 0.25, 0.25]
                 },
                 "gui": {
-                    "rotation": [ {"y": 90} ]
+                    "translation": [0.25, 0.25, 0.25]
                 }
             }
         }]

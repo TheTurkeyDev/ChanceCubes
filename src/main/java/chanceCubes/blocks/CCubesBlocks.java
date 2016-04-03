@@ -1,17 +1,15 @@
 package chanceCubes.blocks;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileGiantCube;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
 {
@@ -39,9 +37,5 @@ public class CCubesBlocks
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCube.getBlockName(), "inventory"));
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceGiantCube.getBlockName(), "inventory"));
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(chanceCompactGiantCube), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceCompactGiantCube.getBlockName(), "inventory"));
-
-		OBJLoader.instance.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chanceIcosahedron), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + chanceIcosahedron.getBlockName(), "inventory"));
-
 	}
 }

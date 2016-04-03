@@ -65,6 +65,8 @@ public class CCubesCore
 			CCubesItems.registerItems();
 			CCubesBlocks.registerBlocks();
 		}
+		
+		proxy.registerRenderings();
 	}
 
 	@EventHandler
@@ -79,7 +81,6 @@ public class CCubesCore
 		GiantCubeRegistry.loadDefaultRewards();
 		ConfigLoader.config.save();
 		CCubesPacketHandler.init();
-		proxy.registerRenderings();
 		proxy.registerEvents();
 
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
