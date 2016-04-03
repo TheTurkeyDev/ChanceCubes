@@ -14,24 +14,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
@@ -56,15 +49,20 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
-
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 
 public class CustomRewardsLoader
 {
@@ -212,6 +210,35 @@ public class CustomRewardsLoader
 		}
 	}
 
+	public void loadDisabledRewards()
+	{
+		JsonElement disabledRewards;
+
+		try
+		{
+			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/DisabledRewards.json");
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
+			CCubesCore.logger.log(Level.ERROR, e.getMessage());
+			return;
+		}
+
+		for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
+		{
+			if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(0, CCubesCore.VERSION.lastIndexOf("."))))
+			{
+				for(JsonElement reward : version.getValue().getAsJsonArray())
+				{
+					boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+					if(!removed)
+						removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+					CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+				}
+			}
+		}
+	}
+
 	public BasicReward parseReward(Entry<String, JsonElement> reward)
 	{
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
@@ -238,7 +265,7 @@ public class CustomRewardsLoader
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
 						versionUsed = true;
-						String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
+						String currentMCV = CCubesCore.gameVersion;
 						String toCheckV = dependencies.getValue().getAsString();
 						if(toCheckV.contains("*"))
 						{

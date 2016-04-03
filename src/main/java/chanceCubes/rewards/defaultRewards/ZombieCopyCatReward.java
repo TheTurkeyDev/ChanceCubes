@@ -47,11 +47,11 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 			zombie.setCurrentItemOrArmor(2, player.inventory.armorInventory[1].copy());
 			zombie.setEquipmentDropChance(2, 2);
 		}
-		if(player.inventory.armorInventory[2] != null)
+		/*if(player.inventory.armorInventory[2] != null)
 		{
 			zombie.setCurrentItemOrArmor(3, player.inventory.armorInventory[2].copy());
 			zombie.setEquipmentDropChance(3, 2);
-		}
+		}*/
 		if(player.inventory.armorInventory[3] != null)
 		{
 			zombie.setCurrentItemOrArmor(4, player.inventory.armorInventory[3].copy());
@@ -67,7 +67,7 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 				player.inventory.setInventorySlotContents(slotToSet, null);
 				player.setCurrentItemOrArmor(1, null);
 				player.setCurrentItemOrArmor(2, null);
-				player.setCurrentItemOrArmor(3, null);
+				//player.setCurrentItemOrArmor(3, null);
 				player.setCurrentItemOrArmor(4, null);
 			}
 
