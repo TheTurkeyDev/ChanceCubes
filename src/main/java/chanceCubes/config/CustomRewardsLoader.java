@@ -48,6 +48,7 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.HTTPUtil;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -62,8 +63,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CustomRewardsLoader
 {
@@ -300,7 +301,7 @@ public class CustomRewardsLoader
 			{
 				String mod = itemInfo.substring(0, itemInfo.indexOf(":"));
 				String name = itemInfo.substring(itemInfo.indexOf(":") + 1);
-				int id = Item.getIdFromItem(GameRegistry.findItem(mod, name));
+				int id = Item.getIdFromItem(Item.itemRegistry.getObject(new ResourceLocation(mod, name)));
 				element.getAsJsonObject().addProperty("id", id);
 			}
 
@@ -352,7 +353,7 @@ public class CustomRewardsLoader
 			int z = element.getAsJsonObject().get("ZOffSet").getAsInt();
 			String mod = element.getAsJsonObject().get("Block").getAsString().substring(0, element.getAsJsonObject().get("Block").getAsString().indexOf(":"));
 			String blockName = element.getAsJsonObject().get("Block").getAsString().substring(element.getAsJsonObject().get("Block").getAsString().indexOf(":") + 1);
-			Block block = GameRegistry.findBlock(mod, blockName);
+			Block block = RewardsUtil.getBlock(mod, blockName);
 			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);

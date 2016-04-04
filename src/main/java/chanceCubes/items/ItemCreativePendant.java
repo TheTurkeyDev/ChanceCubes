@@ -24,6 +24,7 @@ public class ItemCreativePendant extends Item
 		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
+		this.setRegistryName(CCubesCore.MODID, this.itemNameID);
 	}
 	
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)

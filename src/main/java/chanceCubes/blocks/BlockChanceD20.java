@@ -7,7 +7,6 @@ import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -28,7 +27,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
-	ExtendedBlockState state = new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
+	private ExtendedBlockState state = new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
 
 	public BlockChanceD20()
 	{
@@ -116,10 +115,11 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(tile != null && tile instanceof TileChanceD20)
 		{
-			TileChanceD20 iTile = (TileChanceD20) tile;
-			if(iTile.state != null)
+			TileChanceD20 d20 = (TileChanceD20) tile;
+			if(d20.state != null)
 			{
-				return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, iTile.state);
+				System.out.println(d20.state.toString());
+				return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, d20.state);
 			}
 		}
 
@@ -127,7 +127,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public BlockStateContainer createBlockState()
+	public ExtendedBlockState createBlockState()
 	{
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
 	}

@@ -25,16 +25,16 @@ public class CCubesItems
 
 	public static void loadItems()
 	{
-		GameRegistry.registerItem(chancePendantT1 = new ItemChancePendant(1, 10), chancePendantT1.itemNameID);
-		GameRegistry.registerItem(chancePendantT2 = new ItemChancePendant(2, 25), chancePendantT2.itemNameID);
-		GameRegistry.registerItem(chancePendantT3 = new ItemChancePendant(3, 50), chancePendantT3.itemNameID);
-		GameRegistry.registerItem(chancePendantT4 = new ItemChancePendant(4, 100), chancePendantT4.itemNameID);
+		GameRegistry.register(chancePendantT1 = new ItemChancePendant(1, 10));
+		GameRegistry.register(chancePendantT2 = new ItemChancePendant(2, 25));
+		GameRegistry.register(chancePendantT3 = new ItemChancePendant(3, 50));
+		GameRegistry.register(chancePendantT4 = new ItemChancePendant(4, 100));
 
-		GameRegistry.registerItem(silkPendant = new ItemSilkTouchPendant(), silkPendant.itemNameID);
-		GameRegistry.registerItem(creativePendant = new ItemCreativePendant(), creativePendant.itemNameID);
-		GameRegistry.registerItem(rewardSelectorPendant = new ItemRewardSelectorPendant(), rewardSelectorPendant.itemNameID);
-	
-		GameRegistry.registerItem(scanner = new ItemScanner(), scanner.itemNameID);
+		GameRegistry.register(silkPendant = new ItemSilkTouchPendant());
+		GameRegistry.register(creativePendant = new ItemCreativePendant());
+		GameRegistry.register(rewardSelectorPendant = new ItemRewardSelectorPendant());
+
+		GameRegistry.register(scanner = new ItemScanner());
 	}
 
 	public static void registerItems()

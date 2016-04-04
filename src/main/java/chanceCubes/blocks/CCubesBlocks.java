@@ -20,10 +20,13 @@ public class CCubesBlocks
 
 	public static void loadBlocks()
 	{
-		GameRegistry.registerBlock(chanceCube = new BlockChanceCube(), ItemChanceCube.class, chanceCube.getBlockName());
-		GameRegistry.registerBlock(chanceIcosahedron = new BlockChanceD20(), ItemChanceCube.class, chanceIcosahedron.getBlockName());
-		GameRegistry.registerBlock(chanceGiantCube = new BlockGiantCube(), chanceGiantCube.getBlockName());
-		GameRegistry.registerBlock(chanceCompactGiantCube = new BlockCompactGiantCube(), chanceCompactGiantCube.getBlockName());
+		GameRegistry.register(chanceCube = new BlockChanceCube());
+		GameRegistry.register(chanceIcosahedron = new BlockChanceD20());
+		GameRegistry.register(chanceGiantCube = new BlockGiantCube());
+		GameRegistry.register(chanceCompactGiantCube = new BlockCompactGiantCube());
+		
+		GameRegistry.register(new ItemChanceCube(chanceCube).setRegistryName(chanceCube.getRegistryName()));
+		GameRegistry.register(new ItemChanceCube(chanceIcosahedron).setRegistryName(chanceIcosahedron.getRegistryName()));
 
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
 		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");

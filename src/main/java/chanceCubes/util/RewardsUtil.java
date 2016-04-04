@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -80,5 +83,21 @@ public class RewardsUtil
 		for(int i = 0; i < amount; i++)
 			toReturn[i] = new ParticlePart(particle);
 		return toReturn;
+	}
+
+	public static ItemStack getItemStack(String mod, String itemName, int size)
+	{
+		return getItemStack(mod, itemName, size, 0);
+	}
+
+	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
+	{
+		Item item = Item.itemRegistry.getObject(new ResourceLocation(mod, itemName));
+		return item == null ? null : new ItemStack(item, size, meta);
+	}
+
+	public static Block getBlock(String mod, String blockName)
+	{
+		return Block.blockRegistry.getObject(new ResourceLocation(mod, blockName));
 	}
 }

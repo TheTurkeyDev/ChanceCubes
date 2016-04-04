@@ -18,6 +18,7 @@ public class ItemSilkTouchPendant extends Item
 		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CCubesCore.modTab);
+		this.setRegistryName(CCubesCore.MODID, this.itemNameID);
 	}
 	
     @SideOnly(Side.CLIENT)

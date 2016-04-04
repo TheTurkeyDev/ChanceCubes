@@ -26,6 +26,7 @@ public class ItemChancePendant extends Item
 		this.setMaxDamage(CCubesSettings.pendantUses);
 		super.showDurabilityBar(new ItemStack(this));
 		chanceIncrease = chancebonus;
+		this.setRegistryName(CCubesCore.MODID, this.itemNameID);
 	}
 
 	public int getChanceIncrease()
