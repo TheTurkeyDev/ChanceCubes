@@ -51,7 +51,6 @@ import chanceCubes.rewards.defaultRewards.TrollHoleReward;
 import chanceCubes.rewards.defaultRewards.TrollTNTReward;
 import chanceCubes.rewards.defaultRewards.WaitForItReward;
 import chanceCubes.rewards.defaultRewards.WitherReward;
-import chanceCubes.rewards.defaultRewards.ZombieCopyCatReward;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ExpirencePart;
@@ -298,7 +297,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
 		INSTANCE.registerReward(new ChargedCreeperReward());
-		INSTANCE.registerReward(new ZombieCopyCatReward());
+		//INSTANCE.registerReward(new ZombieCopyCatReward());
 		INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
 		INSTANCE.registerReward(new ThrownInAirReward());
