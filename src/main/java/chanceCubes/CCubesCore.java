@@ -42,6 +42,8 @@ public class CCubesCore
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
+	public static final String gameVersion = "1.7.10";
+
 	@Instance(value = MODID)
 	public static CCubesCore instance;
 	@SidedProxy(clientSide = "chanceCubes.proxy.ClientProxy", serverSide = "chanceCubes.proxy.CommonProxy")
@@ -100,6 +102,7 @@ public class CCubesCore
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
+		CustomRewardsLoader.instance.loadDisabledRewards();
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 	}
