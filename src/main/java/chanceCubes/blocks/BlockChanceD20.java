@@ -101,7 +101,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			if(!world.isRemote)
 			{
 				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
-				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 				this.dropBlockAsItem(world, x, y, z, stack);
 				world.setBlockToAir(x, y, z);
 				world.removeTileEntity(x, y, z);

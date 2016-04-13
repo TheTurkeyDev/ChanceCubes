@@ -1,5 +1,6 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,9 +13,11 @@ import chanceCubes.rewards.biodomeGen.OceanBiome;
 import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.Location3I;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class BioDomeReward implements IChanceCubeReward
@@ -23,32 +26,84 @@ public class BioDomeReward implements IChanceCubeReward
 
 	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), new EndBiome(), new OceanBiome(), new SnowGlobeBiome() };
 
+	public static final int delayShorten = 10;
+
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, EntityPlayer player)
 	{
 		// player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 
 		final IBioDomeBiome spawnedBiome = biomes[rand.nextInt(biomes.length)];
-		List<OffsetBlock> blocks = spawnedBiome.genDome(x, y, z, world);
+		this.genDome(x, y, z, world, spawnedBiome);
+	}
 
-		int lastTime = 0;
-		for(OffsetBlock b : blocks)
+	public void genDome(final int centerX, final int centerY, final int centerZ, final World world, final IBioDomeBiome spawnedBiome)
+	{	
+		this.genDomePart(0, -25, centerX, centerY, centerZ, world, spawnedBiome);
+	}
+
+	public void genDomePart(final int yinc, final int xinc, final int centerX, final int centerY, final int centerZ, final World world, final IBioDomeBiome spawnedBiome)
+	{
+		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		int delay = 0;
+		for(int z = -25; z <= 25; z++)
 		{
-			b.spawnInWorld(world, x, y, z);
-			if(lastTime < b.getDelay())
-				lastTime = b.getDelay();
+			Location3I loc = new Location3I(xinc, yinc, z);
+			float dist = Math.abs(loc.length()) - 25;
+			if(dist < 1)
+			{
+				if(dist >= 0)
+				{
+					blocks.add(new OffsetBlock(xinc, yinc, z, Blocks.glass, false, (delay / delayShorten)));
+					delay++;
+				}
+				else if(yinc == 0)
+				{
+					blocks.add(new OffsetBlock(xinc, yinc, z, spawnedBiome.getFloorBlock(), false, (delay / delayShorten)));
+					delay++;
+				}
+				spawnedBiome.getRandomGenBlock(dist, rand, xinc, yinc, z, blocks, delay);
+			}
 		}
 
-		Scheduler.scheduleTask(new Task("Entity_Delays", lastTime)
+		final int nextXinc = xinc + 1 > 25 ? (-25) : xinc + 1;
+		int Yinctemp = yinc;
+		if(nextXinc == -25)
+		{
+			Yinctemp = Yinctemp + 1 > 25 ? -1 : Yinctemp + 1;
+		}
+		
+		if(Yinctemp == -1)
+		{
+			Scheduler.scheduleTask(new Task("Entity_Delays", delay)
+			{
+				@Override
+				public void callback()
+				{
+					spawnedBiome.spawnEntities(centerX, centerY, centerZ, world);
+				}
+			});
+			return;
+		}
+		
+		final int nextYinc = Yinctemp;
+		
+		for(OffsetBlock b : blocks)
+			b.spawnInWorld(world, centerX, centerY, centerZ);
+
+		
+
+		Task task = new Task("BioDome Reward", (delay / delayShorten))
 		{
 			@Override
 			public void callback()
 			{
-				spawnedBiome.spawnEntities(x, y, z, world);
+				genDomePart(nextYinc, nextXinc, centerX, centerY, centerZ, world, spawnedBiome);
 			}
 
-		});
+		};
 
+		Scheduler.scheduleTask(task);
 	}
 
 	@Override

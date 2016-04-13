@@ -46,13 +46,14 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 
 	public void spawnEntity(EntityPart part, World world, int x, int y, int z, EntityPlayer player)
 	{
-		for(int yy = 0; yy < 4; yy++)
-			for(int xx = -1; xx < 2; xx++)
-				for(int zz = -1; zz < 2; zz++)
-					world.setBlock(x + xx, y + yy, z + zz, Blocks.air);
-		
+		if(part.shouldRemovedBlocks())
+			for(int yy = 0; yy < 4; yy++)
+				for(int xx = -1; xx < 2; xx++)
+					for(int zz = -1; zz < 2; zz++)
+						world.setBlock(x + xx, y + yy, z + zz, Blocks.air);
+
 		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
-		newEnt.setPosition(x, y, z);
+		newEnt.setPosition(x + 0.5, y, z + 0.5);
 		world.spawnEntityInWorld(newEnt);
 	}
 

@@ -43,7 +43,7 @@ public class ConfigGui extends GuiScreen
 	private boolean isDeleting = false;
 	private GuiButton buttonNew;
 	private GuiButton buttonSave;
-	private GuiButton buttonDelete;
+	//private GuiButton buttonDelete;
 	private GuiButton buttonCancel;
 	private GuiButton buttonback;
 	private String buttonNewText = "New File";
@@ -224,7 +224,7 @@ public class ConfigGui extends GuiScreen
 					}
 
 					this.textFieldNew.setText("");
-					buttonDelete.visible = true;
+					//buttonDelete.visible = true;
 					buttonCancel.visible = false;
 					buttonback.enabled = true;
 					this.reloadStage();
@@ -232,7 +232,7 @@ public class ConfigGui extends GuiScreen
 				else
 				{
 					buttonNew.displayString = "Create";
-					buttonDelete.visible = false;
+					//buttonDelete.visible = false;
 					buttonCancel.visible = true;
 					buttonback.enabled = false;
 				}
@@ -244,14 +244,14 @@ public class ConfigGui extends GuiScreen
 				{
 					this.isCreatingNew = false;
 					this.buttonNew.displayString = this.buttonNewText;
-					this.buttonDelete.visible = true;
+					//this.buttonDelete.visible = true;
 					this.buttonCancel.visible = false;
 					this.buttonback.enabled = true;
 				}
 				else if(this.isDeleting)
 				{
 					this.isDeleting = false;
-					this.buttonDelete.enabled = true;
+					//this.buttonDelete.enabled = true;
 					this.buttonCancel.visible = false;
 					this.buttonback.enabled = true;
 					this.buttonNew.enabled = true;
@@ -312,14 +312,14 @@ public class ConfigGui extends GuiScreen
 
 				this.textFieldNew.setText("");
 				buttonCancel.visible = false;
-				buttonDelete.visible = true;
+				//buttonDelete.visible = true;
 				buttonback.enabled = true;
 				this.reloadStage();
 			}
 			else if(button.id == 4)
 			{
 				this.isDeleting = true;
-				this.buttonDelete.enabled = false;
+				//this.buttonDelete.enabled = false;
 				this.buttonCancel.visible = true;
 				this.buttonback.enabled = false;
 				this.buttonNew.enabled = false;

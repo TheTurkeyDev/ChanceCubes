@@ -13,6 +13,7 @@ public class TileChanceCube extends TileEntity
 	private static Random random = new Random();
 
 	private int chance;
+	private boolean isScanned = false;
 
 	public TileChanceCube()
 	{
@@ -41,14 +42,14 @@ public class TileChanceCube extends TileEntity
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("chance", this.chance);
+		this.writeSyncableDataToNBT(nbt);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		this.readSyncableDataFromNBT(nbt);
 	}
 
 	@Override
@@ -68,11 +69,20 @@ public class TileChanceCube extends TileEntity
 	private void writeSyncableDataToNBT(NBTTagCompound syncData)
 	{
 		syncData.setInteger("chance", this.getChance());
-
 	}
 
 	private void readSyncableDataFromNBT(NBTTagCompound nbt)
 	{
 		this.chance = nbt.getInteger("chance");
+	}
+
+	public boolean isScanned()
+	{
+		return isScanned;
+	}
+
+	public void setScanned(boolean isScanned)
+	{
+		this.isScanned = isScanned;
 	}
 }

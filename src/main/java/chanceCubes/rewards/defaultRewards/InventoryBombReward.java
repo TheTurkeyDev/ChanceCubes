@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -36,7 +37,10 @@ public class InventoryBombReward implements IChanceCubeReward
 		}
 		
 		player.inventory.openInventory();
-		player.inventory.clearInventory(null, -1);
+		
+		for(int i = 0; i < player.inventory.mainInventory.length; i++)
+			player.inventory.mainInventory[i] = new ItemStack(Blocks.deadbush, 64);
+		
 		player.inventory.closeInventory();
 		
 		player.addChatMessage(new ChatComponentText("Inventory Bomb!!!!"));
