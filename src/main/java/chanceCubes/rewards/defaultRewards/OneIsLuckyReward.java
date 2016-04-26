@@ -11,6 +11,7 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class OneIsLuckyReward implements IChanceCubeReward
@@ -20,6 +21,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, EntityPlayer player)
 	{
+		player.addChatMessage(new ChatComponentText("A Lucky Block Salute"));
 		TileEntitySign sign = new TileEntitySign();
 		sign.signText[0] = "One is lucky";
 		sign.signText[1] = "One is not";
@@ -34,7 +36,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		world.setBlock(x + 1, y, z, CCubesBlocks.chanceCube);
 		world.setTileEntity(x + 1, y, z, rightCube);
 
-		Task task = new Task("Maze_Reward_Update", 20)
+		Task task = new Task("One_Is_Lucky_Reward", 20)
 		{
 			@Override
 			public void callback()
