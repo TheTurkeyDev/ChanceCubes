@@ -6,6 +6,7 @@ tile.Chance_Icosahedron.name=Chance Icosahedron
 item.Chance_Icosahedron.name=Chance Icosahedron
 tile.Giant_Chance_Cube.name=Giant Chance Cube
 tile.Compact_Giant_Chance_Cube.name=Compact Giant Chance Cube
+tile.Cube_Dispenser.name=Chance Cube Dispenser
 
 item.chancePendantTier1.name=Tier 1 Chance Pendant
 item.chancePendantTier2.name=Tier 2 Chance Pendant

@@ -32,7 +32,6 @@ public class PacketTriggerD20 implements IMessage
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-
 	}
 
 	@Override

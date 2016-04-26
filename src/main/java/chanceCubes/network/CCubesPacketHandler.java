@@ -16,5 +16,6 @@ public class CCubesPacketHandler
 		INSTANCE.registerMessage(PacketRewardSelector.Handler.class, PacketRewardSelector.class, id++, Side.SERVER);
 		INSTANCE.registerMessage(PacketTriggerD20.Handler.class, PacketTriggerD20.class, id++, Side.CLIENT);
 		INSTANCE.registerMessage(PacketParticle.Handler.class, PacketParticle.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(PacketCubeScan.Handler.class, PacketCubeScan.class, id++, Side.SERVER);
 	}
 }
