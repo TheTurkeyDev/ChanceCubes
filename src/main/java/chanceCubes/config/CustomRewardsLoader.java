@@ -226,14 +226,17 @@ public class CustomRewardsLoader
 
 		for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
 		{
-			if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(0, CCubesCore.VERSION.lastIndexOf("."))))
+			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
 			{
-				for(JsonElement reward : version.getValue().getAsJsonArray())
+				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(0, CCubesCore.VERSION.lastIndexOf("."))))
 				{
-					boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-					if(!removed)
-						removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-					CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+					for(JsonElement reward : version.getValue().getAsJsonArray())
+					{
+						boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+						if(!removed)
+							removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+						CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+					}
 				}
 			}
 		}

@@ -2,10 +2,10 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chanceCubes.CCubesCore;
 
 public class AnvilRain implements IChanceCubeReward
 {
@@ -52,6 +52,30 @@ public class AnvilRain implements IChanceCubeReward
 		world.setBlock(x4, y + 25, z4, Blocks.anvil);
 		world.setBlock(x5, y + 25, z5, Blocks.anvil);
 		world.setBlock((int) player.posX, y + 25, (int) player.posZ, Blocks.anvil);
+
+		for(int xx = 0; xx < 2; xx++)
+		{
+			int xxx = xx == 1 ? x + 5 : x - 5;
+			for(int zz = -5; zz < 6; zz++)
+			{
+				for(int yyy = 0; yyy < 3; yyy++)
+				{
+					world.setBlock(xxx, yyy + y, zz + z, Blocks.cobblestone);
+				}
+			}
+		}
+
+		for(int xx = -5; xx < 6; xx++)
+		{
+			for(int zz = 0; zz < 2; zz++)
+			{
+				int zzz = zz == 1 ? z + 5 : z - 5;
+				for(int yyy = 0; yyy < 3; yyy++)
+				{
+					world.setBlock(xx + x, yyy + y, zzz, Blocks.cobblestone);
+				}
+			}
+		}
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.RenderEvent;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.entity.Entity;
@@ -57,13 +59,19 @@ public class ItemScanner extends BaseChanceCubesItem
 					boolean flag = false;
 					if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceCube))
 					{
+						TileChanceCube te = ((TileChanceCube) world.getTileEntity(i, j, k));
+						te.setScanned(true);
+						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.xCoord, te.yCoord, te.zCoord));
 						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAtChance(te.getChance());
 					}
 					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceIcosahedron))
 					{
+						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(i, j, k));
+						te.setScanned(true);
+						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.xCoord, te.yCoord, te.zCoord));
 						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(i, j, k)).getChance());
+						RenderEvent.setLookingAtChance(te.getChance());
 					}
 					else if(world.getBlock(i, j, k).equals(CCubesBlocks.chanceGiantCube))
 					{

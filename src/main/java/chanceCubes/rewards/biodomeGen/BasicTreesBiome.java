@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import chanceCubes.rewards.giantRewards.BioDomeReward;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
@@ -11,58 +14,10 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.Location3I;
 
 public class BasicTreesBiome implements IBioDomeBiome
 {
 	private Random rand = new Random();
-
-	@Override
-	public List<OffsetBlock> genDome(int centerX, int centerY, int centerZ, World world)
-	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
-		int delay = 0;
-		int delayShorten = 10;
-		for(int y = 0; y <= 25; y++)
-		{
-			for(int x = -25; x <= 25; x++)
-			{
-				for(int z = -25; z <= 25; z++)
-				{
-					Location3I loc = new Location3I(x, y, z);
-					float dist = Math.abs(loc.length()) - 25;
-					if(dist < 1)
-					{
-						if(dist >= 0)
-						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten)));
-							delay++;
-						}
-						else if(y == 0)
-						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.grass, false, (delay / delayShorten)));
-							delay++;
-							if(dist < 0 && rand.nextInt(5) == 0)
-							{
-								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / delayShorten));
-								osb.setData((byte) 1);
-								blocks.add(osb);
-								delay++;
-							}
-							else if(dist < -5 && rand.nextInt(100) == 0)
-							{
-								List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / delayShorten));
-								blocks.addAll(treeblocks);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return blocks;
-	}
 
 	public List<OffsetBlock> addTree(int x, int y, int z, int delay)
 	{
@@ -109,7 +64,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
 			int ri = rand.nextInt(5);
-			
+
 			if(ri == 0)
 			{
 				EntityChicken chicken = new EntityChicken(world);
@@ -140,6 +95,30 @@ public class BasicTreesBiome implements IBioDomeBiome
 				sheep.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntityInWorld(sheep);
 			}
+		}
+	}
+
+	@Override
+	public Block getFloorBlock()
+	{
+		return Blocks.grass;
+	}
+
+	@Override
+	public void getRandomGenBlock(float dist, Random rand, int x, int y, int z, List<OffsetBlock> blocks, int delay)
+	{
+		if(y != 0)
+			return;
+		if(dist < 0 && rand.nextInt(5) == 0)
+		{
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / BioDomeReward.delayShorten));
+			osb.setData((byte) 1);
+			blocks.add(osb);
+		}
+		else if(dist < -5 && rand.nextInt(100) == 0)
+		{
+			List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / BioDomeReward.delayShorten));
+			blocks.addAll(treeblocks);
 		}
 	}
 }

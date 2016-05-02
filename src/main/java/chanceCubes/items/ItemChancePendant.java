@@ -23,6 +23,7 @@ public class ItemChancePendant extends BaseChanceCubesItem
 		super.addLore("Increases the chance of Chance Cubes by:");
 		super.addLore("      +" + chanceIncrease + " when the block is broken");
 		super.addLore("Only needs to be in the players inventory to work");
+		super.addLore("Note, this is NOT a percentage increase.");
 	}
 
 	public int getChanceIncrease()

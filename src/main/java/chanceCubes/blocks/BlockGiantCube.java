@@ -7,19 +7,6 @@ import static team.chisel.ctmlib.Dir.TOP;
 
 import java.util.Random;
 
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
-import team.chisel.ctmlib.CTM;
-import team.chisel.ctmlib.TextureSubmap;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
@@ -28,6 +15,18 @@ import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
+import team.chisel.ctmlib.CTM;
+import team.chisel.ctmlib.TextureSubmap;
 
 public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -76,8 +75,8 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					world.setBlockToAir(x, y, z);
 					return false;
 				}
-				player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
-				player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
+				//player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
+				//player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
 			}

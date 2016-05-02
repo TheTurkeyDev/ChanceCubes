@@ -25,6 +25,7 @@ public class TileChanceD20 extends TileEntity
 	private EntityPlayer player;
 
 	private int chance;
+	private boolean isScanned = false;
 
 	public TileChanceD20()
 	{
@@ -66,14 +67,14 @@ public class TileChanceD20 extends TileEntity
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("chance", this.chance);
+		this.writeSyncableDataToNBT(nbt);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		this.readSyncableDataFromNBT(nbt);
 	}
 
 	public void updateEntity()
@@ -140,5 +141,15 @@ public class TileChanceD20 extends TileEntity
 	private void readSyncableDataFromNBT(NBTTagCompound nbt)
 	{
 		this.chance = nbt.getInteger("chance");
+	}
+	
+	public boolean isScanned()
+	{
+		return isScanned;
+	}
+
+	public void setScanned(boolean isScanned)
+	{
+		this.isScanned = isScanned;
 	}
 }
