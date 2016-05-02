@@ -10,14 +10,16 @@
         "inventory": [{
             "transform": {
                 "thirdperson": {
-                     "translation": [0.1, 0.15, -0.1],
+                    "translation": [0.25, 0.30, 0.25],
                     "scale": 0.38
                 },
                 "firstperson": {
-                    "translation": [0.25, 0.25, 0.25]
+                    "translation": [0.25, 0.25, 0.25],
+                    "scale": 0.38
                 },
                 "gui": {
-                    "translation": [0.25, 0.25, 0.25]
+                    "translation": [0.4, 0.4, 0],
+                    "scale": 0.75
                 }
             }
         }]
