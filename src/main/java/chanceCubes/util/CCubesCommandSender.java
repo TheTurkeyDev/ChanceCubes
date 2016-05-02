@@ -1,18 +1,20 @@
 package chanceCubes.util;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.command.CommandResultStats.Type;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CCubesCommandSender extends CommandBlockBaseLogic
+public class CCubesCommandSender implements ICommandSender
 {
 	EntityPlayer harvester;
 	BlockPos blockLoc;
@@ -21,13 +23,12 @@ public class CCubesCommandSender extends CommandBlockBaseLogic
 	{
 		blockLoc = pos;
 		harvester = player;
-		super.setName("Chance Cube");
 	}
 
 	@Override
 	public void addChatMessage(ITextComponent p_145747_1_)
 	{
-		
+
 	}
 
 	@Override
@@ -66,14 +67,38 @@ public class CCubesCommandSender extends CommandBlockBaseLogic
 	}
 
 	@Override
-	public void updateCommand()
+	public MinecraftServer getServer()
 	{
-
+		return harvester.getEntityWorld().getMinecraftServer();
 	}
 
 	@Override
-	public MinecraftServer getServer()
+	public String getName()
 	{
-		return null;
+		return "Chance Cubes";
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return new TextComponentString(this.getName());
+	}
+
+	@Override
+	public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean sendCommandFeedback()
+	{
+		return false;
+	}
+
+	@Override
+	public void setCommandStat(Type type, int amount)
+	{
+
 	}
 }
