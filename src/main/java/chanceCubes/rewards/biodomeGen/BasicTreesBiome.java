@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
@@ -19,48 +21,27 @@ public class BasicTreesBiome implements IBioDomeBiome
 	private Random rand = new Random();
 
 	@Override
-	public List<OffsetBlock> genDome(BlockPos center, World world)
+	public Block getFloorBlock()
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
-		int delay = 0;
-		int delayShorten = 10;
-		for(int y = 0; y <= 25; y++)
-		{
-			for(int x = -25; x <= 25; x++)
-			{
-				for(int z = -25; z <= 25; z++)
-				{
-					float dist = (float) (Math.abs(Math.sqrt(x * x + y * y + z * z)) - 25);
-					if(dist < 1)
-					{
-						if(dist >= 0)
-						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.glass, false, (delay / delayShorten)));
-							delay++;
-						}
-						else if(y == 0)
-						{
-							blocks.add(new OffsetBlock(x, y, z, Blocks.grass, false, (delay / delayShorten)));
-							delay++;
-							if(dist < 0 && rand.nextInt(5) == 0)
-							{
-								OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / delayShorten));
-								osb.setData((byte) 1);
-								blocks.add(osb);
-								delay++;
-							}
-							else if(dist < -5 && rand.nextInt(100) == 0)
-							{
-								List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / delayShorten));
-								blocks.addAll(treeblocks);
-							}
-						}
-					}
-				}
-			}
-		}
+		return Blocks.grass;
+	}
 
-		return blocks;
+	@Override
+	public void getRandomGenBlock(float dist, Random rand, int x, int y, int z, List<OffsetBlock> blocks, int delay)
+	{
+		if(y != 0)
+			return;
+		if(dist < 0 && rand.nextInt(5) == 0)
+		{
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / BioDomeReward.delayShorten));
+			osb.setData((byte) 1);
+			blocks.add(osb);
+		}
+		else if(dist < -5 && rand.nextInt(100) == 0)
+		{
+			List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / BioDomeReward.delayShorten));
+			blocks.addAll(treeblocks);
+		}
 	}
 
 	public List<OffsetBlock> addTree(int x, int y, int z, int delay)

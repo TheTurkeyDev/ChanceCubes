@@ -1,19 +1,19 @@
 package chanceCubes.rewards.type;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class EntityRewardType extends BaseRewardType<EntityPart>
 {
@@ -42,11 +42,17 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 			spawnEntity(part, world, x, y, z, player);
 		}
 	}
-	
+
 	public void spawnEntity(EntityPart part, World world, int x, int y, int z, EntityPlayer player)
 	{
+		if(part.shouldRemovedBlocks())
+			for(int yy = 0; yy < 4; yy++)
+				for(int xx = -1; xx < 2; xx++)
+					for(int zz = -1; zz < 2; zz++)
+						world.setBlockToAir(new BlockPos(x + xx, y + yy, z + zz));
+		
 		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
-		newEnt.setPosition(x, y, z);
+		newEnt.setPosition(x + 0.5, y, z + 0.5);
 		world.spawnEntityInWorld(newEnt);
 	}
 

@@ -28,22 +28,28 @@ public class ChunkFlipReward implements IChanceCubeReward
 
 		moveLayer(world, xBase, 0, zBase, player);
 
-		//TODO: 
-		//world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		// TODO:
+		// world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
 		player.addChatMessage(new TextComponentString("Inception!!!!"));
 	}
 
 	public void moveLayer(final World world, final int x, int y, final int z, final EntityPlayer player)
 	{
-		if(y > 256)
+		if(y >= world.getActualHeight() / 2)
 			return;
 		for(int zz = 0; zz < 16; zz++)
 		{
 			for(int xx = 0; xx < 16; xx++)
 			{
-				IBlockState b = world.getBlockState(new BlockPos(x + xx, y, z + zz));
+				BlockPos pos1 = new BlockPos(x + xx, y, z + zz);
+				BlockPos pos2 = new BlockPos(x + xx, world.getActualHeight() - y, z + zz);
+				IBlockState b = world.getBlockState(pos1);
+				IBlockState b2 = world.getBlockState(pos2);
 				if(!b.getBlock().equals(Blocks.gravel) && !b.getBlock().equals(CCubesBlocks.chanceGiantCube))
-					world.setBlockState(new BlockPos(x + xx, 256 - y, z + zz), b, 2);
+				{
+					world.setBlockState(pos1, b2, 2);
+					world.setBlockState(pos2, b, 2);
+				}
 			}
 		}
 

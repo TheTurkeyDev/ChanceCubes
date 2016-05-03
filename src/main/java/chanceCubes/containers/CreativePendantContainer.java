@@ -57,7 +57,6 @@ public class CreativePendantContainer extends Container
 	{
 		ItemStack stack = null;
 		Slot slotObject = (Slot) inventorySlots.get(slot);
-		// System.out.println(slot);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if(slotObject != null && slotObject.getHasStack())

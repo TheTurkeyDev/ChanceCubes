@@ -88,7 +88,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
 			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 1);
-			((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 			super.dropBlockAsItem(world, pos, this.getDefaultState(), 1);
 			world.setBlockToAir(pos);
 			world.removeTileEntity(pos);
@@ -97,12 +97,9 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null)
 		{
-			if(!world.isRemote)
-			{
-				te.startBreaking(player);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
-				return true;
-			}
+			te.startBreaking(player);
+			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+			return true;
 		}
 
 		return false;
@@ -117,10 +114,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
 			if(d20.state != null)
-			{
-				System.out.println(d20.state.toString());
 				return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, d20.state);
-			}
 		}
 
 		return state;

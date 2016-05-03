@@ -18,7 +18,7 @@ public class AnvilRain implements IChanceCubeReward
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
-		
+
 		int x1 = x + (rand.nextInt(9) - 4);
 		int z1 = z + (rand.nextInt(9) - 4);
 
@@ -57,6 +57,30 @@ public class AnvilRain implements IChanceCubeReward
 		world.setBlockState(new BlockPos(x4, y + 25, z4), Blocks.anvil.getDefaultState());
 		world.setBlockState(new BlockPos(x5, y + 25, z5), Blocks.anvil.getDefaultState());
 		world.setBlockState(new BlockPos((int) player.posX, y + 25, (int) player.posZ), Blocks.anvil.getDefaultState());
+
+		for(int xx = 0; xx < 2; xx++)
+		{
+			int xxx = xx == 1 ? x + 5 : x - 5;
+			for(int zz = -5; zz < 6; zz++)
+			{
+				for(int yyy = 0; yyy < 3; yyy++)
+				{
+					world.setBlockState(new BlockPos(xxx, yyy + y, zz + z), Blocks.cobblestone.getDefaultState());
+				}
+			}
+		}
+
+		for(int xx = -5; xx < 6; xx++)
+		{
+			for(int zz = 0; zz < 2; zz++)
+			{
+				int zzz = zz == 1 ? z + 5 : z - 5;
+				for(int yyy = 0; yyy < 3; yyy++)
+				{
+					world.setBlockState(new BlockPos(xx + x, yyy + y, zzz), Blocks.cobblestone.getDefaultState());
+				}
+			}
+		}
 	}
 
 	@Override

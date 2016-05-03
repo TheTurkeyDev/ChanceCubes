@@ -22,5 +22,4 @@ public class BaseChanceBlock extends Block
 	{
 		return this.blockName;
 	}
-
 }

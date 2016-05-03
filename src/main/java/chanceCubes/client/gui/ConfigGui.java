@@ -41,11 +41,14 @@ public class ConfigGui extends GuiScreen
 {
 	private ConfigEditState editState;
 	private boolean isCreatingNew = false;
+	private boolean isDeleting = false;
 	private GuiButton buttonNew;
 	private GuiButton buttonSave;
+	//private GuiButton buttonDelete;
 	private GuiButton buttonCancel;
 	private GuiButton buttonback;
 	private String buttonNewText = "New File";
+	private String deleteWarnText = "WARNING YOU ARE DELETING EVERYTHING YOU CLICK!!";
 	private GuiTextField textFieldNew;
 
 	private String[] prevStage = new String[4];
@@ -74,10 +77,11 @@ public class ConfigGui extends GuiScreen
 		this.buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
-		this.buttonList.add(buttonback = new GuiButton(0, 50, this.height - 40, 98, 20, "Back"));
+		this.buttonList.add(buttonback = new GuiButton(0, this.width / 2 - 175, this.height - 55, 98, 20, "Back"));
 		this.buttonList.add(this.buttonNew = new GuiButton(1, this.width / 2 - 50, this.height - 25, 100, 20, buttonNewText));
 		this.buttonList.add(this.buttonCancel = new GuiButton(2, this.width / 2 - 50, this.height - 55, 100, 20, "Cancel"));
 		this.buttonList.add(this.buttonSave = new GuiButton(3, this.width / 2 - 50, this.height - 25, 100, 20, "Save"));
+		// this.buttonList.add(this.buttonDelete = new GuiButton(4, this.width / 2 - 175, this.height - 25, 98, 20, "Delete"));
 		buttonCancel.visible = false;
 		textFieldNew = new GuiTextField(4, mc.fontRendererObj, this.width - 250, this.height - 40, 200, 20);
 
@@ -99,6 +103,8 @@ public class ConfigGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if(this.isCreatingNew)
 			this.textFieldNew.drawTextBox();
+		if(this.isDeleting)
+			mc.fontRendererObj.drawString(this.deleteWarnText, this.width / 2 - (int) (deleteWarnText.length() * 2.5), this.height / 2, 0xFF0000);
 		mc.fontRendererObj.drawString(this.drawString, this.width / 2 - (int) (drawString.length() * 2.5), 10, 0xFFFFFF);
 	}
 
@@ -218,6 +224,7 @@ public class ConfigGui extends GuiScreen
 					}
 
 					this.textFieldNew.setText("");
+					//buttonDelete.visible = true;
 					buttonCancel.visible = false;
 					buttonback.enabled = true;
 					this.reloadStage();
@@ -225,6 +232,7 @@ public class ConfigGui extends GuiScreen
 				else
 				{
 					buttonNew.displayString = "Create";
+					//buttonDelete.visible = false;
 					buttonCancel.visible = true;
 					buttonback.enabled = false;
 				}
@@ -232,10 +240,22 @@ public class ConfigGui extends GuiScreen
 			}
 			else if(button.id == 2)
 			{
-				this.isCreatingNew = false;
-				buttonNew.displayString = this.buttonNewText;
-				buttonCancel.visible = false;
-				buttonback.enabled = true;
+				if(this.isCreatingNew)
+				{
+					this.isCreatingNew = false;
+					this.buttonNew.displayString = this.buttonNewText;
+					//this.buttonDelete.visible = true;
+					this.buttonCancel.visible = false;
+					this.buttonback.enabled = true;
+				}
+				else if(this.isDeleting)
+				{
+					this.isDeleting = false;
+					//this.buttonDelete.enabled = true;
+					this.buttonCancel.visible = false;
+					this.buttonback.enabled = true;
+					this.buttonNew.enabled = true;
+				}
 			}
 			else if(button.id == 3)
 			{
@@ -291,9 +311,18 @@ public class ConfigGui extends GuiScreen
 				}
 
 				this.textFieldNew.setText("");
+				//buttonDelete.visible = true;
 				buttonCancel.visible = false;
 				buttonback.enabled = true;
 				this.reloadStage();
+			}
+			else if(button.id == 4)
+			{
+				this.isDeleting = true;
+				//this.buttonDelete.enabled = false;
+				this.buttonCancel.visible = true;
+				this.buttonback.enabled = false;
+				this.buttonNew.enabled = false;
 			}
 		}
 	}

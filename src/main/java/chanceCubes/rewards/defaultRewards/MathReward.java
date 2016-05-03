@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.util.MathDamageSource;
+import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
@@ -102,7 +102,7 @@ public class MathReward implements IChanceCubeReward
 		else
 		{
 			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
-			player.attackEntityFrom(MathDamageSource.mathfail, 32767.0F);
+			player.attackEntityFrom(CCubesDamageSource.mathfail, Float.MAX_VALUE);
 		}
 
 		for(Entity tnt : info.getTnt())

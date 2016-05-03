@@ -46,7 +46,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
 				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.chanceCube), 1);
-				((ItemChanceCube) stack.getItem()).setChance(stack, te.getChance());
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 				world.setBlockToAir(pos);
 				world.removeTileEntity(pos);
@@ -90,9 +90,6 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	@Override
 	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock)
 	{
-		if(GiantCubeUtil.checkMultiBlockForm(pos, world))
-		{
-			GiantCubeUtil.setupStructure(pos, world);
-		}
+		GiantCubeUtil.checkMultiBlockForm(pos, world, true);
 	}
 }

@@ -1,8 +1,5 @@
 package chanceCubes.items;
 
-import java.util.List;
-
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -11,7 +8,6 @@ import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
@@ -22,19 +18,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemRewardSelectorPendant extends Item
+public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {
-	public String itemNameID = "reward_Selector_Pendant";
 
 	public ItemRewardSelectorPendant()
 	{
-		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
+		super("reward_Selector_Pendant");
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CCubesCore.modTab);
-		this.setRegistryName(CCubesCore.MODID, this.itemNameID);
+		super.addLore("Shift right click to change the reward.");
+		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
@@ -77,13 +70,5 @@ public class ItemRewardSelectorPendant extends Item
 			}
 		}
 		return EnumActionResult.PASS;
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
-		list.add("Shift right click to change the reward.");
-		list.add("Right click a Chance Cube to summon the reward.");
 	}
 }

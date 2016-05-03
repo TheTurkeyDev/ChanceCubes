@@ -24,6 +24,7 @@ import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
@@ -102,6 +103,7 @@ public class CustomRewardsLoader
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");
+					CCubesCore.logger.log(Level.ERROR, "Parse Error: " + e.getMessage());
 					continue;
 				}
 
@@ -110,7 +112,7 @@ public class CustomRewardsLoader
 					BasicReward basicReward = this.parseReward(reward);
 					if(basicReward == null)
 					{
-						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
+						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
 					}
 					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
@@ -215,6 +217,38 @@ public class CustomRewardsLoader
 		}
 	}
 
+	public void loadDisabledRewards()
+	{
+		JsonElement disabledRewards;
+
+		try
+		{
+			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/DisabledRewards.json");
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
+			CCubesCore.logger.log(Level.ERROR, e.getMessage());
+			return;
+		}
+
+		for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
+		{
+			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
+			{
+				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(0, CCubesCore.VERSION.lastIndexOf("."))))
+				{
+					for(JsonElement reward : version.getValue().getAsJsonArray())
+					{
+						boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+						if(!removed)
+							removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+						CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+					}
+				}
+			}
+		}
+	}
+
 	public BasicReward parseReward(Entry<String, JsonElement> reward)
 	{
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
@@ -241,7 +275,7 @@ public class CustomRewardsLoader
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
 						mcversionused = true;
-						/*String currentMCV = MinecraftServer.getServer().getMinecraftVersion();
+						String currentMCV = CCubesCore.gameVersion;
 						String toCheckV = dependencies.getValue().getAsString();
 						if(toCheckV.contains("*"))
 						{
@@ -249,7 +283,7 @@ public class CustomRewardsLoader
 							toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
 						}
 						if(currentMCV.equalsIgnoreCase(toCheckV))
-							gameversion = true;*/
+							gameversion = true;
 					}
 				}
 				if(!gameversion && mcversionused)
@@ -285,6 +319,7 @@ public class CustomRewardsLoader
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
+				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
 			}
 		}
 		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
@@ -480,7 +515,7 @@ public class CustomRewardsLoader
 		for(JsonElement element : rawReward)
 		{
 
-			//SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
+			// SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
 			SoundPart sound = new SoundPart(SoundEvents.ambient_cave);
 			if(element.getAsJsonObject().has("delay"))
 				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());

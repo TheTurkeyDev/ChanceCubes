@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextComponentString;
 public class CCubesCommands implements ICommand
 {
 	private List<String> aliases;
+	List<String> tab;
 
 	public CCubesCommands()
 	{
@@ -30,6 +31,11 @@ public class CCubesCommands implements ICommand
 		this.aliases.add("Chancecube");
 		this.aliases.add("chancecube");
 		this.aliases.add("CCubes");
+
+		tab = new ArrayList<String>();
+		tab.add("reload");
+		tab.add("version");
+		tab.add("handNBT");
 	}
 
 	@Override
@@ -41,7 +47,7 @@ public class CCubesCommands implements ICommand
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/ChanceCubes <reload/version>";
+		return "/ChanceCubes <reload/version/handNBT/enableReward/disableReward>";
 	}
 
 	@Override
@@ -78,11 +84,52 @@ public class CCubesCommands implements ICommand
 				{
 					NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
 					if(nbt != null)
-					{
 						sender.addChatMessage(new TextComponentString(nbt.toString()));
-					}
+					else
+						sender.addChatMessage(new TextComponentString("This item has not tag nbt data"));
 				}
 			}
+		}
+		else if(args[0].equalsIgnoreCase("handID"))
+		{
+			if(sender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) sender;
+				if(player.inventory.getCurrentItem() != null)
+					sender.addChatMessage(new TextComponentString(player.inventory.getCurrentItem().getUnlocalizedName()));
+			}
+		}
+		else if(args[0].equalsIgnoreCase("disableReward"))
+		{
+			if(args.length > 1)
+			{
+				if(ChanceCubeRegistry.INSTANCE.unregisterReward(args[1]))
+					sender.addChatMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
+				else
+					sender.addChatMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
+			}
+			else
+			{
+				sender.addChatMessage(new TextComponentString("Try /chancecubes enableReward <Reward Name>"));
+			}
+		}
+		else if(args[0].equalsIgnoreCase("enableReward"))
+		{
+			if(args.length > 1)
+			{
+				if(ChanceCubeRegistry.INSTANCE.enableReward(args[1]))
+					sender.addChatMessage(new TextComponentString(args[1] + " Has been enabled."));
+				else
+					sender.addChatMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
+			}
+			else
+			{
+				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
+			}
+		}
+		else
+		{
+			sender.addChatMessage(new TextComponentString("Invalid arguments for the Chance Cubes command"));
 		}
 	}
 
@@ -95,6 +142,8 @@ public class CCubesCommands implements ICommand
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
+		if(args.length == 0)
+			return tab;
 		return null;
 	}
 

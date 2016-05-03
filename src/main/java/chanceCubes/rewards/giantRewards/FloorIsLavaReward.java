@@ -33,7 +33,7 @@ public class FloorIsLavaReward implements IChanceCubeReward
 				if((-16 / 2 <= xx) && (xx <= 16 / 2) && (-16 / 2 <= zz) && (zz <= 16 / 2))
 				{
 					Block blockAt = world.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getY() + zz)).getBlock();
-					if(blockAt.equals(Blocks.grass))
+					if(!blockAt.equals(Blocks.air))
 					{
 						blocks.add(new OffsetBlock(xx, yy - pos.getY(), zz, Blocks.lava, false, delay));
 						delay++;

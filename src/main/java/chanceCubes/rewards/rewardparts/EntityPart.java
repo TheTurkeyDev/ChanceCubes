@@ -6,11 +6,13 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class EntityPart
 {
-	public static String[] elements = new String[]{"entity:S", "delay:I"};
-	
+	public static String[] elements = new String[] { "entity:S", "delay:I" };
+
 	private NBTTagCompound nbtData;
 
 	private int delay = 0;
+
+	private boolean removedBlocks = true;
 
 	public EntityPart(NBTTagCompound nbtData)
 	{
@@ -41,6 +43,17 @@ public class EntityPart
 	public EntityPart setDelay(int delay)
 	{
 		this.delay = delay;
+		return this;
+	}
+
+	public boolean shouldRemovedBlocks()
+	{
+		return removedBlocks;
+	}
+
+	public EntityPart setRemovedBlocks(boolean removedBlocks)
+	{
+		this.removedBlocks = removedBlocks;
 		return this;
 	}
 }

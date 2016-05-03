@@ -1,13 +1,14 @@
 package chanceCubes.items;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.RenderEvent;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -16,16 +17,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class ItemScanner extends Item
+public class ItemScanner extends BaseChanceCubesItem
 {
-	public String itemNameID = "scanner";
-
 	public ItemScanner()
 	{
-		this.setUnlocalizedName(CCubesCore.MODID + "_" + itemNameID);
+		super("scanner");
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CCubesCore.modTab);
-		this.setRegistryName(CCubesCore.MODID, this.itemNameID);
 	}
 
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)
@@ -39,11 +36,11 @@ public class ItemScanner extends Item
 	}
 
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
-    {
-        playerIn.setActiveHand(hand);
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-    }
-	
+	{
+		playerIn.setActiveHand(hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
 	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
 	{
 		if(!world.isRemote)
@@ -72,16 +69,22 @@ public class ItemScanner extends Item
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
 					}
-					/*
-					 * else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron)) { flag = true; RenderEvent.setLookingAtChance(((TileChanceD20) world.getTileEntity(position)).getChance()); }
-					 */
 
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
+					{
+						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
+						te.setScanned(true);
+						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
+						flag = true;
+						RenderEvent.setLookingAtChance(te.getChance());
+					}
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceGiantCube))
 					{
-						flag = false;
-						RenderEvent.setLookingAtChance(-201);
-						RenderEvent.setLookingAt(true);
-						RenderEvent.setChanceIncrease(0);
+						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
+						te.setScanned(true);
+						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
+						flag = true;
+						RenderEvent.setLookingAtChance(te.getChance());
 					}
 
 					if(flag)

@@ -2,9 +2,11 @@ package chanceCubes.hookins.mods;
 
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
+import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.type.BlockRewardType;
+import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -15,6 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -30,7 +35,7 @@ public class ExtraUtilsModHook extends BaseModHook
 	{
 		ItemStack stack;
 		Block block;
-		
+
 		stack = RewardsUtil.getItemStack(super.modId, "unstableingot", 1);
 		if(stack != null)
 		{
@@ -42,13 +47,11 @@ public class ExtraUtilsModHook extends BaseModHook
 					ItemStack stack1 = s.getItemStack().copy();
 					NBTTagCompound ts = new NBTTagCompound();
 					if(ts.hasKey("crafting"))
-					{
 						ts.removeTag("crafting");
-					}
+
 					if(stack1.getItemDamage() > 0)
-					{
 						return;
-					}
+
 					ts.setInteger("dimension", world.provider.getDimension());
 					ts.setLong("time", world.getTotalWorldTime());
 					stack1.setTagCompound(ts);
@@ -81,6 +84,15 @@ public class ExtraUtilsModHook extends BaseModHook
 		if(stack != null)
 		{
 			stack.setItemDamage(1);
+			IFluidContainerItem cont;
+			try
+			{
+				cont = (IFluidContainerItem) stack.getItem();
+				cont.fill(stack, new FluidStack(FluidRegistry.WATER, cont.getCapacity(stack)), true);
+			} catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
@@ -137,6 +149,22 @@ public class ExtraUtilsModHook extends BaseModHook
 				}
 			}
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Spikes", -40, new BlockRewardType(spikes)));
+		}
+
+		block = RewardsUtil.getBlock(super.modId, "cursedearthside");
+		if(block != null)
+		{
+			OffsetBlock[] cursedEarth = new OffsetBlock[49];
+			int index = 0;
+			for(int x = 0; x < 7; x++)
+			{
+				for(int z = 0; z < 7; z++)
+				{
+					cursedEarth[index] = new OffsetBlock(x - 3, 0, z - 3, block, false).setRelativeToPlayer(true);
+					index++;
+				}
+			}
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Cursed", -60, new BlockRewardType(cursedEarth), new CommandRewardType(new CommandPart("/time set 15000"))));
 		}
 	}
 }

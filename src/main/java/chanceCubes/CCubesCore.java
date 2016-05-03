@@ -37,6 +37,8 @@ public class CCubesCore
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
+	
+	public static final String gameVersion = "1.9.*";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
@@ -59,7 +61,7 @@ public class CCubesCore
 		if(event.getSide() == Side.CLIENT)
 		{
 			CCubesItems.registerItems();
-			CCubesBlocks.registerBlocks();
+			CCubesBlocks.registerBlocksItems();
 		}
 		
 		proxy.registerRenderings();
@@ -73,9 +75,6 @@ public class CCubesCore
 
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
-		ChanceCubeRegistry.loadDefaultRewards();
-		GiantCubeRegistry.loadDefaultRewards();
-		ConfigLoader.config.save();
 		CCubesPacketHandler.init();
 		proxy.registerEvents();
 
@@ -101,8 +100,11 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+		ChanceCubeRegistry.loadDefaultRewards();
+		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
+		CustomRewardsLoader.instance.loadDisabledRewards();
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 	}

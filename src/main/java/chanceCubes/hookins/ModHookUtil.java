@@ -13,7 +13,7 @@ public class ModHookUtil
 		if(Loader.isModLoaded("ExtraUtilities"))
 		{
 			new ExtraUtilsModHook();
-			CCubesCore.logger.log(Level.INFO, "Loading custom rewards for the mod ExtraUtilities");
+			CCubesCore.logger.log(Level.INFO, "Loaded custom rewards for the mod ExtraUtilities");
 		}
 	}
 }
