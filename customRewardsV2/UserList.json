@@ -41,5 +41,6 @@
 	{"UUID":"024a0d05-3e3e-4ec5-b394-6e1a22d23fdc", "Name":"Bacon_Donut", "Type":"Streamer"},
 	{"UUID":"e1d0ee1c-4202-4b89-85d9-540bac457463", "Name":"GiantWaffle", "Type":"Streamer"},
 	{"UUID":"6072021c-a6c5-4805-84a0-e41d497ba7a7", "Name":"SSundee", "Type":"YouTuber"},
-	{"UUID":"52def72c-3400-41ed-9441-84433ca8ff09", "Name":"MrCrainer", "Type":"YouTuber"}
+	{"UUID":"52def72c-3400-41ed-9441-84433ca8ff09", "Name":"MrCrainer", "Type":"YouTuber"},
+	{"UUID":"af63c94d-5dbe-4a34-b779-3d44fd9edb2a", "Name":"CrustyMustard", "Type":"Streamer"}
 ]
