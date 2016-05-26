@@ -41,7 +41,7 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 		{
-			pot = new EntityPotion(world, player, new ItemStack(Items.potionitem, 1, metas[rand.nextInt(metas.length)]));
+			pot = new EntityPotion(world, player, new ItemStack(Items.POTIONITEM, 1, metas[rand.nextInt(metas.length)]));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
 			pot.motionY = 1;
@@ -66,7 +66,7 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double yy = -0.2; yy <= 1; yy += 0.1)
 		{
-			pot = new EntityPotion(world, player, new ItemStack(Items.potionitem, 1, metas[rand.nextInt(metas.length)]));
+			pot = new EntityPotion(world, player, new ItemStack(Items.POTIONITEM, 1, metas[rand.nextInt(metas.length)]));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(itteration * (Math.PI / 30));
 			pot.motionY = yy;

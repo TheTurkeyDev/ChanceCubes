@@ -14,15 +14,15 @@ public class CraftingRecipies
 	public static void loadRecipies()
 	{
 		if(CCubesSettings.craftingRecipie)
-			GameRegistry.addShapedRecipe(new ItemStack(CCubesBlocks.chanceCube, 1), "LLL", "LBL", "LLL", 'B', new ItemStack(Blocks.lapis_block), 'L', new ItemStack(Items.dye, 1, 4));
+			GameRegistry.addShapedRecipe(new ItemStack(CCubesBlocks.chanceCube, 1), "LLL", "LBL", "LLL", 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'L', new ItemStack(Items.DYE, 1, 4));
 
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT1, 1), "LBL", "BGB", "LBL", 'G', new ItemStack(Blocks.gold_block), 'B', new ItemStack(Blocks.lapis_block), 'L', new ItemStack(Items.dye, 1, 4));
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT2, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT1), 'B', new ItemStack(Blocks.lapis_block), 'L', new ItemStack(Items.dye, 1, 4));
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT3, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT2), 'B', new ItemStack(Blocks.lapis_block), 'L', new ItemStack(Items.dye, 1, 4));
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT4, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT3), 'B', new ItemStack(Blocks.lapis_block), 'L', new ItemStack(Items.dye, 1, 4));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT1, 1), "LBL", "BGB", "LBL", 'G', new ItemStack(Blocks.GOLD_BLOCK), 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'L', new ItemStack(Items.DYE, 1, 4));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT2, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT1), 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'L', new ItemStack(Items.DYE, 1, 4));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT3, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT2), 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'L', new ItemStack(Items.DYE, 1, 4));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.chancePendantT4, 1), "LBL", "BPB", "LBL", 'P', new ItemStack(CCubesItems.chancePendantT3), 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'L', new ItemStack(Items.DYE, 1, 4));
 
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.silkPendant, 1), "SBS", "SPS", "SBS", 'P', new ItemStack(CCubesItems.chancePendantT2), 'B', new ItemStack(Blocks.lapis_block), 'S', new ItemStack(Items.string));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.silkPendant, 1), "SBS", "SPS", "SBS", 'P', new ItemStack(CCubesItems.chancePendantT2), 'B', new ItemStack(Blocks.LAPIS_BLOCK), 'S', new ItemStack(Items.STRING));
 
-		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.scanner, 1), "IGI", "GPG", "IGI", 'P', new ItemStack(CCubesItems.chancePendantT2), 'G', new ItemStack(Blocks.glass), 'I', new ItemStack(Items.iron_ingot));
+		GameRegistry.addShapedRecipe(new ItemStack(CCubesItems.scanner, 1), "IGI", "GPG", "IGI", 'P', new ItemStack(CCubesItems.chancePendantT2), 'G', new ItemStack(Blocks.GLASS), 'I', new ItemStack(Items.IRON_INGOT));
 	}
 }

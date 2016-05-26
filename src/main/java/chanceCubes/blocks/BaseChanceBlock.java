@@ -10,7 +10,7 @@ public class BaseChanceBlock extends Block
 
 	public BaseChanceBlock(String name)
 	{
-		super(Material.ground);
+		super(Material.GROUND);
 		this.blockName = name;
 		this.setHardness(0.5f);
 		this.setUnlocalizedName(blockName);

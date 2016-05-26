@@ -147,7 +147,7 @@ public class OffsetBlock
 		}
 		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
-		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getStepSound().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getStepSound().getVolume() + 1.0F) / 2.0F, bSurface.getStepSound().getVolume() * 0.5F);
+		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
 	}
 
 	public void placeInWorld(World world, BlockPos position, boolean offset)

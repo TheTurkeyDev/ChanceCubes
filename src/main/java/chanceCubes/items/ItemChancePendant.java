@@ -33,7 +33,7 @@ public class ItemChancePendant extends BaseChanceCubesItem
 
 	public boolean getIsRepairable(ItemStack stack, ItemStack repairStack)
 	{
-		if(stack.getItem() instanceof ItemChancePendant && repairStack.getItem().equals(Blocks.lapis_block))
+		if(stack.getItem() instanceof ItemChancePendant && repairStack.getItem().equals(Blocks.LAPIS_BLOCK))
 			return true;
 		return false;
 	}

@@ -19,7 +19,7 @@ public class BlindnessFightReward implements IChanceCubeReward
 		int y = position.getY();
 		int z = position.getZ();
 
-		player.addPotionEffect(new PotionEffect(MobEffects.blindness, 100, 2));
+		player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 100, 2));
 		player.addChatMessage(new TextComponentString("Fight!!!"));
 
 		for(int xx = -2; xx < 3; xx++)

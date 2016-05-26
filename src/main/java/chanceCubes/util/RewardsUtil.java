@@ -94,12 +94,12 @@ public class RewardsUtil
 
 	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
 	{
-		Item item = Item.itemRegistry.getObject(new ResourceLocation(mod, itemName));
+		Item item = Item.REGISTRY.getObject(new ResourceLocation(mod, itemName));
 		return item == null ? null : new ItemStack(item, size, meta);
 	}
 
 	public static Block getBlock(String mod, String blockName)
 	{
-		return Block.blockRegistry.getObject(new ResourceLocation(mod, blockName));
+		return Block.REGISTRY.getObject(new ResourceLocation(mod, blockName));
 	}
 }

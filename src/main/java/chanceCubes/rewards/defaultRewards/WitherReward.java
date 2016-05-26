@@ -18,7 +18,7 @@ public class WitherReward implements IChanceCubeReward
 		final EntityWither wither = new EntityWither(world);
 		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
-		wither.func_82206_m();
+		wither.ignite();
 		wither.setCustomNameTag("Kiwi");
 		world.spawnEntityInWorld(wither);
 		

@@ -45,7 +45,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
     public void triggerPotion(PotionPart part, World world, int x, int y, int z, EntityPlayer player)
 	{
     	
-        ItemStack potion = new ItemStack(Items.splash_potion);
+        ItemStack potion = new ItemStack(Items.SPLASH_POTION);
 
         List<PotionEffect> effects = new ArrayList<PotionEffect>();
         effects.add(part.getEffect());

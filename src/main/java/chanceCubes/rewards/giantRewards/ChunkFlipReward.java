@@ -45,7 +45,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 				BlockPos pos2 = new BlockPos(x + xx, world.getActualHeight() - y, z + zz);
 				IBlockState b = world.getBlockState(pos1);
 				IBlockState b2 = world.getBlockState(pos2);
-				if(!b.getBlock().equals(Blocks.gravel) && !b.getBlock().equals(CCubesBlocks.chanceGiantCube))
+				if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.chanceGiantCube))
 				{
 					world.setBlockState(pos1, b2, 2);
 					world.setBlockState(pos2, b, 2);

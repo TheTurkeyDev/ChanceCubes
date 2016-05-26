@@ -95,7 +95,7 @@ public class CreativePendantContainer extends Container
 			ItemStack itemstack = this.pendantSlot.getStackInSlot(0);
 
 			if(itemstack != null)
-				player.dropPlayerItemWithRandomChoice(itemstack, false);
+				player.dropItem(itemstack, false);
 		}
 	}
 

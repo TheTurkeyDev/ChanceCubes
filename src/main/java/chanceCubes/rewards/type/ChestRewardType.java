@@ -30,7 +30,7 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 				@Override
 				public void callback()
 				{
-					world.setBlockState(new BlockPos(x, y, z), Blocks.chest.getDefaultState());
+					world.setBlockState(new BlockPos(x, y, z), Blocks.CHEST.getDefaultState());
 					chest = (TileEntityChest) world.getTileEntity(new BlockPos(x, y, z));
 
 					for(ChestChanceItem item : rewards)
@@ -41,7 +41,7 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 		}
 		else
 		{
-			world.setBlockState(new BlockPos(x, y, z), Blocks.chest.getDefaultState());
+			world.setBlockState(new BlockPos(x, y, z), Blocks.CHEST.getDefaultState());
 			chest = (TileEntityChest) world.getTileEntity(new BlockPos(x, y, z));
 
 			for(ChestChanceItem item : rewards)

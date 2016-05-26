@@ -47,7 +47,7 @@ public class TileCubeDispenser extends TileEntity
 
 	public Block getCurrentBlock(DispenseType type)
 	{
-		Block b = Blocks.air;
+		Block b = Blocks.AIR;
 		if(entityItem == null || this.currentType != type)
 		{
 			if(type == DispenseType.ChanceIcosahedron)

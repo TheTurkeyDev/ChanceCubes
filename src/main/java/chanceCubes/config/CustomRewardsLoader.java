@@ -336,7 +336,7 @@ public class CustomRewardsLoader
 			{
 				String mod = itemInfo.substring(0, itemInfo.indexOf(":"));
 				String name = itemInfo.substring(itemInfo.indexOf(":") + 1);
-				int id = Item.getIdFromItem(Item.itemRegistry.getObject(new ResourceLocation(mod, name)));
+				int id = Item.getIdFromItem(Item.REGISTRY.getObject(new ResourceLocation(mod, name)));
 				element.getAsJsonObject().addProperty("id", id);
 			}
 
@@ -516,7 +516,7 @@ public class CustomRewardsLoader
 		{
 
 			// SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
-			SoundPart sound = new SoundPart(SoundEvents.ambient_cave);
+			SoundPart sound = new SoundPart(SoundEvents.AMBIENT_CAVE);
 			if(element.getAsJsonObject().has("delay"))
 				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("serverWide"))
@@ -619,7 +619,7 @@ public class CustomRewardsLoader
 							j = 128 + (128 + j);
 
 						Block b = Block.getBlockById(j);
-						if(b != Blocks.air)
+						if(b != Blocks.AIR)
 						{
 							boolean falling = false;
 							if(element.getAsJsonObject().has("falling"))
@@ -642,7 +642,7 @@ public class CustomRewardsLoader
 				for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
 				{
 					NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-					TileEntity tileentity = TileEntity.createTileEntity(null, nbttagcompound4);
+					TileEntity tileentity = TileEntity.create(nbttagcompound4);
 
 					if(tileentity != null)
 					{
@@ -654,7 +654,7 @@ public class CustomRewardsLoader
 							if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
 								b = osb.getBlock();
 						if(b == null)
-							b = Blocks.stone;
+							b = Blocks.STONE;
 						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, tileentity, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());

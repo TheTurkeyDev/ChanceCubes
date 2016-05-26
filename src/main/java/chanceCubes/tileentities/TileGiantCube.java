@@ -25,9 +25,9 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound data)
+	public NBTTagCompound writeToNBT(NBTTagCompound data)
 	{
-		super.writeToNBT(data);
+		data = super.writeToNBT(data);
 		data.setInteger("masterX", masterPos.getX());
 		data.setInteger("masterY", masterPos.getY());
 		data.setInteger("masterZ", masterPos.getZ());
@@ -37,6 +37,7 @@ public class TileGiantCube extends TileEntity
 		{
 			// Any other values should ONLY BE SAVED TO THE MASTER
 		}
+		return data;
 	}
 
 	@Override

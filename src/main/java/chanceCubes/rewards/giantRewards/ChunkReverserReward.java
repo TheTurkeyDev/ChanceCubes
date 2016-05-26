@@ -22,21 +22,21 @@ public class ChunkReverserReward implements IChanceCubeReward
 
 	public ChunkReverserReward()
 	{
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.stone, Blocks.dirt));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.dirt, Blocks.cobblestone));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.grass, Blocks.stone));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.gravel, Blocks.sand));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.sand, Blocks.gravel));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.iron_ore, Blocks.gold_ore));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.coal_ore, Blocks.diamond_ore));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.diamond_ore, Blocks.coal_ore));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.gold_ore, Blocks.iron_ore));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.lava, Blocks.water));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.water, Blocks.lava));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.log, Blocks.leaves));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.log2, Blocks.leaves2));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.leaves, Blocks.log));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.leaves2, Blocks.log2));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS, Blocks.STONE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRAVEL, Blocks.SAND));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.SAND, Blocks.GRAVEL));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.IRON_ORE, Blocks.GOLD_ORE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.COAL_ORE, Blocks.DIAMOND_ORE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIAMOND_ORE, Blocks.COAL_ORE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LAVA, Blocks.WATER));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.WATER, Blocks.LAVA));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG, Blocks.LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG2, Blocks.LEAVES2));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES, Blocks.LOG));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES2, Blocks.LOG2));
 	}
 
 	@Override

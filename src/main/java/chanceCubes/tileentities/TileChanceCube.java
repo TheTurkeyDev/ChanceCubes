@@ -36,10 +36,9 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
-		this.writeSyncableDataToNBT(nbt);
+		return this.writeSyncableDataToNBT(super.writeToNBT(nbt));
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getDescriptionPacket()
+	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
 		this.writeSyncableDataToNBT(syncData);
@@ -63,9 +62,10 @@ public class TileChanceCube extends TileEntity
 		readSyncableDataFromNBT(pkt.getNbtCompound());
 	}
 
-	private void writeSyncableDataToNBT(NBTTagCompound syncData)
+	private NBTTagCompound writeSyncableDataToNBT(NBTTagCompound syncData)
 	{
 		syncData.setInteger("chance", this.getChance());
+		return syncData;
 	}
 
 	private void readSyncableDataFromNBT(NBTTagCompound nbt)

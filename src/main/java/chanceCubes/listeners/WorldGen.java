@@ -48,7 +48,7 @@ public class WorldGen
 
 			BlockPos pos = new BlockPos(xCord, yCord - 1, zCord);
 			
-			if(world.getBlockState(pos).getBlock().equals(Blocks.bedrock))
+			if(world.getBlockState(pos).getBlock().equals(Blocks.BEDROCK))
 			{
 				for(int y = 0; y < yCord; y++)
 				{

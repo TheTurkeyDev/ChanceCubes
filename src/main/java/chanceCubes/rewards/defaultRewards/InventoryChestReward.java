@@ -30,20 +30,20 @@ public class InventoryChestReward implements IChanceCubeReward
 
 		player.addChatMessage(new TextComponentString("At least i didnt delete your items..."));
 
-		world.setBlockState(pos, Blocks.chest.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.chest.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(2, 0, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 0, -1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 0, -1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 1, 0), Blocks.obsidian.getDefaultState());
+		world.setBlockState(pos, Blocks.CHEST.getDefaultState());
+		world.setBlockState(pos.add(1, 0, 0), Blocks.CHEST.getDefaultState());
+		world.setBlockState(pos.add(0, -1, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(1, -1, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(2, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(0, 0, 1), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(1, 0, 1), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(0, 0, -1), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(1, 0, -1), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(0, -1, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(1, -1, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(0, 1, 0), Blocks.OBSIDIAN.getDefaultState());
+		world.setBlockState(pos.add(1, 1, 0), Blocks.OBSIDIAN.getDefaultState());
 
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 

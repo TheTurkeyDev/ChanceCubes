@@ -47,12 +47,12 @@ public class MathReward implements IChanceCubeReward
 				{
 					if(xx == -2 || xx == 2 || zz == -2 || zz == 2 || yy == 1 || yy == 4)
 					{
-						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.bedrock.getDefaultState());
+						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.BED.getDefaultState());
 						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 					else if(((xx == -1 || xx == 1) && (zz == -1 || zz == 1) && yy == 2))
 					{
-						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.glowstone.getDefaultState());
+						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.GLOWSTONE.getDefaultState());
 						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 				}
@@ -68,7 +68,7 @@ public class MathReward implements IChanceCubeReward
 			{
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
 				world.spawnEntityInWorld(entitytntprimed);
-				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.entity_tnt_primed, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				entitytntprimed.setFuse(140);
 				tnt.add(entitytntprimed);
 			}

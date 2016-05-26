@@ -18,7 +18,7 @@ public class RottenFoodReward implements IChanceCubeReward
 		{
 			ItemStack stack = player.inventory.mainInventory[i];
 			if(stack != null && stack.getItem() instanceof ItemFood)
-				player.inventory.mainInventory[i] = new ItemStack(Items.rotten_flesh, stack.stackSize);
+				player.inventory.mainInventory[i] = new ItemStack(Items.ROTTEN_FLESH, stack.stackSize);
 		}
 
 		player.addChatMessage(new TextComponentString("Ewwww it's all rotten"));

@@ -35,7 +35,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 	{
 		Block block = this.fallTile.getBlock();
 
-		if(this.fallTile.getMaterial() == Material.air)
+		if(this.fallTile.getMaterial() == Material.AIR)
 		{
 			this.setDead();
 		}
@@ -75,7 +75,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
 
 					if(this.worldObj.isAirBlock(new BlockPos(this.posX, this.posY - 0.01D, this.posZ))) // Forge: Don't indent below.
-						if(BlockFalling.func_185759_i(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))))
+						if(BlockFalling.canFallThrough(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))))
 						{
 							this.onGround = false;
 							return;
@@ -85,10 +85,10 @@ public class BlockFallingCustom extends EntityFallingBlock
 					this.motionZ *= 0.7D;
 					this.motionY *= -0.5D;
 
-					if(iblockstate.getBlock() != Blocks.piston_extension)
+					if(iblockstate.getBlock() != Blocks.PISTON_EXTENSION)
 					{
 						this.setDead();
-						if(this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.func_185759_i(this.worldObj.getBlockState(blockpos1.down())) && this.worldObj.setBlockState(blockpos1, this.fallTile, 3))
+						if(this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.canFallThrough(this.worldObj.getBlockState(blockpos1.down())) && this.worldObj.setBlockState(blockpos1, this.fallTile, 3))
 						{
 							if(block instanceof BlockFalling)
 							{

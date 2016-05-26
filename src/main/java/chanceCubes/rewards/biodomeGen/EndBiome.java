@@ -19,7 +19,7 @@ public class EndBiome implements IBioDomeBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.end_stone;
+		return Blocks.END_STONE;
 	}
 
 	@Override
@@ -44,12 +44,12 @@ public class EndBiome implements IBioDomeBiome
 			{
 				for(int zz = -1; zz < 2; zz++)
 				{
-					blocks.add(new OffsetBlock(x + xx, y + yy, z + zz, Blocks.obsidian, false, delay));
+					blocks.add(new OffsetBlock(x + xx, y + yy, z + zz, Blocks.OBSIDIAN, false, delay));
 					delay++;
 				}
 			}
 		}
-		blocks.add(new OffsetBlock(x, y + 10, z, Blocks.bedrock, false, delay));
+		blocks.add(new OffsetBlock(x, y + 10, z, Blocks.BEDROCK, false, delay));
 		return blocks;
 	}
 

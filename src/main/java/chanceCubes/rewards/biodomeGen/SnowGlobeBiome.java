@@ -49,7 +49,7 @@ public class SnowGlobeBiome implements IBioDomeBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.snow;
+		return Blocks.SNOW;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class SnowGlobeBiome implements IBioDomeBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.snow_layer, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SNOW_LAYER, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 		}
 	}

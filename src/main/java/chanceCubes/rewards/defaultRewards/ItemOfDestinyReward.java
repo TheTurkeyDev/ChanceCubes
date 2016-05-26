@@ -112,9 +112,9 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	public Enchantment randomEnchantment()
 	{
 
-		Enchantment ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.enchantmentRegistry.getKeys().size()));
+		Enchantment ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
 		while(ench == null)
-			ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.enchantmentRegistry.getKeys().size()));
+			ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
 		return ench;
 	}
 

@@ -59,7 +59,7 @@ public class MazeReward implements IChanceCubeReward
 			player.attackEntityFrom(CCubesDamageSource.mazefail, Float.MAX_VALUE);
 			return;
 		}
-		else if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.standing_sign))
+		else if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
 		{
 			player.addChatMessage(new TextComponentString("Hey! You won!"));
 			gen.endMaze(world);

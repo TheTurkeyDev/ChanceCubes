@@ -188,10 +188,10 @@ public class MazeGenerator
 							this.tileStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), temp);
 					}
 
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz), Blocks.bedrock.getDefaultState());
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
 					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz));
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz), Blocks.bedrock.getDefaultState());
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
 				}
 				else
 				{
@@ -204,15 +204,15 @@ public class MazeGenerator
 							this.tileStorgae.put(tempPos, temp);
 					}
 					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz));
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.bedrock.getDefaultState());
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz), Blocks.bedrock.getDefaultState());
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.BEDROCK.getDefaultState());
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
 					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz));
 				}
 			}
 		}
 
 		endBlockWorldCords = new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY());
-		world.setBlockState(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()), Blocks.standing_sign.getDefaultState());
+		world.setBlockState(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()), Blocks.STANDING_SIGN.getDefaultState());
 		temp = world.getTileEntity(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()));
 		if(temp instanceof TileEntitySign)
 		{

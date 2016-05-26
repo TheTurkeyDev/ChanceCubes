@@ -101,7 +101,7 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 							NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
 							if(nbttagcompound4.getInteger("x") == xx && nbttagcompound4.getInteger("y") == yy && nbttagcompound4.getInteger("z") == zz)
 							{
-								TileEntity tileentity = TileEntity.createTileEntity(null, nbttagcompound4);
+								TileEntity tileentity = TileEntity.create(nbttagcompound4);
 								if(tileentity != null)
 								{
 									OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, tileentity, falling);
@@ -115,7 +115,7 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 						}
 					}
 					
-					if(b != Blocks.air)
+					if(b != Blocks.AIR)
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(this.relativeToPlayer);

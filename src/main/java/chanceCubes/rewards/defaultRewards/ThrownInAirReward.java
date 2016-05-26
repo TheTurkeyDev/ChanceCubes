@@ -31,7 +31,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 			{
 				player.isAirBorne = true;
 				player.motionY = 20;
-				((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
+				((EntityPlayerMP) player).connection.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
 			}
 		};
 		Scheduler.scheduleTask(task);

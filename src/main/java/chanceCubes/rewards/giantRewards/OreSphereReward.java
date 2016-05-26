@@ -28,7 +28,7 @@ public class OreSphereReward implements IChanceCubeReward
 		List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
 		Block ore = null;
 		if(ores.size() == 0)
-			ore = Blocks.coal_ore;
+			ore = Blocks.COAL_ORE;
 		else
 			ore = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
 

@@ -54,7 +54,7 @@ public class BioDomeReward implements IChanceCubeReward
 			{
 				if(dist >= 0)
 				{
-					blocks.add(new OffsetBlock(xinc, yinc, z, Blocks.glass, false, (delay / delayShorten)));
+					blocks.add(new OffsetBlock(xinc, yinc, z, Blocks.GLASS, false, (delay / delayShorten)));
 					delay++;
 				}
 				else if(yinc == 0)

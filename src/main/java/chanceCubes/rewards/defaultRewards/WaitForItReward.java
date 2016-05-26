@@ -48,7 +48,7 @@ public class WaitForItReward implements IChanceCubeReward
 				}
 				else if(reward == 2)
 				{
-					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.bedrock.getDefaultState());
+					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.BEDROCK.getDefaultState());
 				}
 			}
 		};

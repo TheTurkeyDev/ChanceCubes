@@ -31,7 +31,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);
 		world.setBlockState(pos.add(-1, 0, 0), CCubesBlocks.chanceCube.getDefaultState());
 		world.setTileEntity(pos.add(-1, 0, 0), leftCube);
-		world.setBlockState(pos, Blocks.standing_sign.getDefaultState());
+		world.setBlockState(pos, Blocks.STANDING_SIGN.getDefaultState());
 		world.setTileEntity(pos, sign);
 		world.setBlockState(pos.add(1, 0, 0), CCubesBlocks.chanceCube.getDefaultState());
 		world.setTileEntity(pos.add(1, 0, 0), rightCube);

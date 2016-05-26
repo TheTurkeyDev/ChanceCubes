@@ -20,11 +20,11 @@ public class RemoveUsefulThingsReward implements IChanceCubeReward
 
 	public RemoveUsefulThingsReward()
 	{
-		removables.add(Blocks.torch);
-		removables.add(Blocks.stone_slab);
-		removables.add(Blocks.furnace);
-		removables.add(Blocks.glowstone);
-		removables.add(Blocks.chest);
+		removables.add(Blocks.TORCH);
+		removables.add(Blocks.STONE_SLAB);
+		removables.add(Blocks.FURNACE);
+		removables.add(Blocks.GLOWSTONE);
+		removables.add(Blocks.CHEST);
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class RemoveUsefulThingsReward implements IChanceCubeReward
 					for(int zz = -5; zz <= 5; zz++)
 					{
 						IBlockState blockState = world.getBlockState(pos.add(xx, yy, zz));
-						if(blockState.getBlock().isOpaqueCube(blockState) && blockState.getBlock().equals(Blocks.air))
-							world.setBlockState(pos.add(xx, yy, zz), Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+						if(blockState.isOpaqueCube() && blockState.getBlock().equals(Blocks.AIR))
+							world.setBlockState(pos.add(xx, yy, zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
 					}
 				}
 			}

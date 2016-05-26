@@ -29,7 +29,7 @@ public class OceanBiome implements IBioDomeBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.clay;
+		return Blocks.CLAY;
 	}
 
 	@Override
@@ -37,6 +37,6 @@ public class OceanBiome implements IBioDomeBiome
 	{
 		if(y == 0 || dist >= 0)
 			return;
-		blocks.add(new OffsetBlock(x, y, z, Blocks.water, false, delay / BioDomeReward.delayShorten));
+		blocks.add(new OffsetBlock(x, y, z, Blocks.WATER, false, delay / BioDomeReward.delayShorten));
 	}
 }

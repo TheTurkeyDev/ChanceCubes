@@ -22,7 +22,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 		if (!world.isRemote)
 		{
 			player.addChatMessage(new TextComponentString("Here have some cookies!"));
-			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.cookie, 8));
+			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.COOKIE, 8));
 			world.spawnEntityInWorld(itemEnt);
 
 			Task task = new Task("Cookie Monster", 30)

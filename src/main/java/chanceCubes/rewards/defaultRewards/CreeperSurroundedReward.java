@@ -21,7 +21,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 	{
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;
-		player.addPotionEffect(new PotionEffect(MobEffects.blindness, 100, 1, true, false));
+		player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 100, 1, true, false));
 		boolean skip = false;
 		EntityCreeper creeper;
 		for(int xx = 0; xx < 2; xx++)
@@ -34,13 +34,13 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 					IBlockState blockState = world.getBlockState(new BlockPos(px + xxx, pos.getY(),pz + zz));
 					IBlockState blockState2 = world.getBlockState(new BlockPos(px + xxx, pos.getY() + 1, pz + zz));
 					IBlockState blockState3 = world.getBlockState(new BlockPos(px + xxx, pos.getY() + 2, pz + zz));
-					if(!blockState.getBlock().isFullBlock(blockState) && !blockState2.getBlock().isFullBlock(blockState2) && !blockState3.getBlock().isFullBlock(blockState3))
+					if(!blockState.isFullBlock() && !blockState2.isFullBlock() && !blockState3.isFullBlock())
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xxx, pos.getY(), pz + zz, xx == 1 ? 90 : -90, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
-						creeper.addPotionEffect(new PotionEffect(MobEffects.resistance, 60, 5));
+						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}
@@ -55,13 +55,13 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 				if(!skip)
 				{
 					int zzz = zz == 1 ? pz + 4 : pz - 4;
-					if(world.getBlockState(new BlockPos(px + xx, pos.getY(), zzz)).equals(Blocks.air) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zzz)).equals(Blocks.air) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zzz)).equals(Blocks.air))
+					if(world.getBlockState(new BlockPos(px + xx, pos.getY(), zzz)).equals(Blocks.AIR) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zzz)).equals(Blocks.AIR) && world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zzz)).equals(Blocks.AIR))
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(px + xx, pos.getY(), zzz, zz == 1 ? 180 : 0, 0);
 						if(rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
-						creeper.addPotionEffect(new PotionEffect(MobEffects.resistance, 60, 5));
+						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
 						world.spawnEntityInWorld(creeper);
 					}
 				}

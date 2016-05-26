@@ -23,7 +23,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.grass;
+		return Blocks.GRASS;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.tallgrass, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.TALLGRASS, false, (delay / BioDomeReward.delayShorten));
 			osb.setData((byte) 1);
 			blocks.add(osb);
 		}
@@ -50,7 +50,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 
 		for(int yy = 1; yy < 6; yy++)
 		{
-			blocks.add(new OffsetBlock(x, y + yy, z, Blocks.log, false, delay));
+			blocks.add(new OffsetBlock(x, y + yy, z, Blocks.LOG, false, delay));
 			delay++;
 		}
 
@@ -62,22 +62,22 @@ public class BasicTreesBiome implements IBioDomeBiome
 				{
 					if((xx != 0 || zz != 0))
 					{
-						blocks.add(new OffsetBlock(x + xx, y + 4 + yy, z + zz, Blocks.leaves, false, delay));
+						blocks.add(new OffsetBlock(x + xx, y + 4 + yy, z + zz, Blocks.LEAVES, false, delay));
 						delay++;
 					}
 				}
 			}
 		}
 
-		blocks.add(new OffsetBlock(x + 1, y + 6, z, Blocks.leaves, false, delay));
+		blocks.add(new OffsetBlock(x + 1, y + 6, z, Blocks.LEAVES, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x - 1, y + 6, z, Blocks.leaves, false, delay));
+		blocks.add(new OffsetBlock(x - 1, y + 6, z, Blocks.LEAVES, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z + 1, Blocks.leaves, false, delay));
+		blocks.add(new OffsetBlock(x, y + 6, z + 1, Blocks.LEAVES, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z - 1, Blocks.leaves, false, delay));
+		blocks.add(new OffsetBlock(x, y + 6, z - 1, Blocks.LEAVES, false, delay));
 		delay++;
-		blocks.add(new OffsetBlock(x, y + 6, z, Blocks.leaves, false, delay));
+		blocks.add(new OffsetBlock(x, y + 6, z, Blocks.LEAVES, false, delay));
 		delay++;
 
 		return blocks;

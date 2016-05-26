@@ -15,7 +15,7 @@ public class DesertBiome implements IBioDomeBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.sandstone;
+		return Blocks.SANDSTONE;
 	}
 
 	public void getRandomGenBlock(float dist, Random rand, int x, int y, int z, List<OffsetBlock> blocks, int delay)
@@ -25,20 +25,20 @@ public class DesertBiome implements IBioDomeBiome
 
 		if(dist < 0 && rand.nextInt(50) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.deadbush, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.DEADBUSH, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
 		}
 
 		if(dist < 0 && rand.nextInt(60) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.cactus, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
-			osb = new OffsetBlock(x, y + 2, z, Blocks.cactus, false, (delay / BioDomeReward.delayShorten));
+			osb = new OffsetBlock(x, y + 2, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
-			osb = new OffsetBlock(x, y + 3, z, Blocks.cactus, false, (delay / BioDomeReward.delayShorten));
+			osb = new OffsetBlock(x, y + 3, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
 		}
