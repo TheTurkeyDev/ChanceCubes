@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class TorchesToCreepers implements IChanceCubeReward
 					Block b = world.getBlock(x + xx, y + yy, z + zz);
 					if(b.getLightValue() > 0 && b != Blocks.lava && !b.hasTileEntity(world.getBlockMetadata(x, y, z)))
 					{
-						world.setBlock(x + xx, y + yy, z + zz, Blocks.air);
+						RewardsUtil.placeBlock(Blocks.air, world, x + xx, y + yy, z + zz);
 						EntityCreeper creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(x + xx + 0.5, y + yy, z + zz + 0.5, 0, 0);
 						world.spawnEntityInWorld(creeper);

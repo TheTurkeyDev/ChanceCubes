@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,60 +30,60 @@ public class TableFlipReward implements IChanceCubeReward
 				{
 					case 0:
 					{
-						world.setBlock(x, y, z, Blocks.wooden_slab);
+						RewardsUtil.placeBlock(Blocks.wooden_slab, world, x, y, z);
 						world.setBlockMetadataWithNotify(x, y, z, 8, 3);
-						world.setBlock(x + 1, y, z, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x + 1, y, z);
 						world.setBlockMetadataWithNotify(x + 1, y, z, 5, 3);
-						world.setBlock(x - 1, y, z, Blocks.oak_stairs);
-						world.setBlockMetadataWithNotify(x - 1, y, z, 12, 3);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x - 1, y, z);
+						world.setBlockMetadataWithNotify(x + 1, y, z, 12, 3);
 						break;
 					}
 					case 1:
 					{
-						world.setBlock(x, y, z, Blocks.air);
-						world.setBlock(x + 1, y, z, Blocks.air);
-						world.setBlock(x - 1, y, z, Blocks.air);
-						world.setBlock(x, y + 1, z, Blocks.wooden_slab);
+						RewardsUtil.placeBlock(Blocks.air, world, x, y, z);
+						RewardsUtil.placeBlock(Blocks.air, world, x + 1, y, z);
+						RewardsUtil.placeBlock(Blocks.air, world, x - 1, y, z);
+						RewardsUtil.placeBlock(Blocks.wooden_slab, world, x, y + 1, z);
 						world.setBlockMetadataWithNotify(x, y + 1, z, 8, 3);
-						world.setBlock(x + 1, y + 1, z, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x + 1, y + 1, z);
 						world.setBlockMetadataWithNotify(x + 1, y + 1, z, 5, 3);
-						world.setBlock(x - 1, y + 1, z, Blocks.oak_stairs);
+
 						world.setBlockMetadataWithNotify(x - 1, y + 1, z, 12, 3);
 						break;
 					}
 					case 2:
 					{
-						world.setBlock(x, y + 1, z, Blocks.air);
-						world.setBlock(x + 1, y + 1, z, Blocks.air);
-						world.setBlock(x - 1, y + 1, z, Blocks.air);
-						world.setBlock(x, y + 2, z + 1, Blocks.wooden_slab);
+						RewardsUtil.placeBlock(Blocks.air, world, x, y + 1, z);
+						RewardsUtil.placeBlock(Blocks.air, world, x + 1, y + 1, z);
+						RewardsUtil.placeBlock(Blocks.air, world, x - 1, y + 1, z);
+						RewardsUtil.placeBlock(Blocks.wooden_slab, world, x, y + 2, z + 1);
 						world.setBlockMetadataWithNotify(x, y + 2, z + 1, 8, 3);
-						world.setBlock(x + 1, y + 2, z + 1, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x + 1, y + 2, z + 1);
 						world.setBlockMetadataWithNotify(x + 1, y + 2, z + 1, 5, 3);
-						world.setBlock(x - 1, y + 2, z + 1, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x - 1, y + 2, z + 1);
 						world.setBlockMetadataWithNotify(x - 1, y + 2, z + 1, 12, 3);
 						break;
 					}
 					case 3:
 					{
-						world.setBlock(x, y + 2, z + 1, Blocks.air);
-						world.setBlock(x + 1, y + 2, z + 1, Blocks.air);
-						world.setBlock(x - 1, y + 2, z + 1, Blocks.air);
-						world.setBlock(x, y + 1, z + 2, Blocks.wooden_slab);
-						world.setBlock(x + 1, y + 1, z + 2, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.air, world, x, y + 2, z + 1);
+						RewardsUtil.placeBlock(Blocks.air, world, x + 1, y + 2, z + 1);
+						RewardsUtil.placeBlock(Blocks.air, world, x - 1, y + 2, z + 1);
+						RewardsUtil.placeBlock(Blocks.wooden_slab, world, x, y + 1, z + 2);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x + 1, y + 1, z + 2);
 						world.setBlockMetadataWithNotify(x + 1, y + 1, z + 2, 1, 3);
-						world.setBlock(x - 1, y + 1, z + 2, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x - 1, y + 1, z + 2);
 						break;
 					}
 					case 4:
 					{
-						world.setBlock(x, y + 1, z + 2, Blocks.air);
-						world.setBlock(x + 1, y + 1, z + 2, Blocks.air);
-						world.setBlock(x - 1, y + 1, z + 2, Blocks.air);
-						world.setBlock(x, y, z + 2, Blocks.wooden_slab);
-						world.setBlock(x + 1, y, z + 2, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.air, world, x, y + 1, z + 2);
+						RewardsUtil.placeBlock(Blocks.air, world, x + 1, y + 1, z + 2);
+						RewardsUtil.placeBlock(Blocks.air, world, x - 1, y + 1, z + 2);
+						RewardsUtil.placeBlock(Blocks.wooden_slab, world, x, y, z + 2);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x + 1, y, z + 2);
 						world.setBlockMetadataWithNotify(x + 1, y, z + 2, 1, 3);
-						world.setBlock(x - 1, y, z + 2, Blocks.oak_stairs);
+						RewardsUtil.placeBlock(Blocks.oak_stairs, world, x - 1, y, z + 2);
 						break;
 					}
 				}

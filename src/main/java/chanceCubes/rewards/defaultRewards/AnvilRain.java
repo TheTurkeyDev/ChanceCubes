@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -31,27 +32,27 @@ public class AnvilRain implements IChanceCubeReward
 
 		int yy = 0;
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x, y + yy, z);
+			RewardsUtil.placeBlock(Blocks.air, world, x, y + yy, z);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x1, y + yy, z1);
+			RewardsUtil.placeBlock(Blocks.air, world, x1, y + yy, z1);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x2, y + yy, z2);
+			RewardsUtil.placeBlock(Blocks.air, world, x2, y + yy, z2);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x3, y + yy, z3);
+			RewardsUtil.placeBlock(Blocks.air, world, x3, y + yy, z3);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x4, y + yy, z4);
+			RewardsUtil.placeBlock(Blocks.air, world, x4, y + yy, z4);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir(x5, y + yy, z5);
+			RewardsUtil.placeBlock(Blocks.air, world, x5, y + yy, z5);
 		for(yy = 0; yy < 25; yy++)
-			world.setBlockToAir((int) player.posX, y + yy, (int) player.posZ);
+			RewardsUtil.placeBlock(Blocks.air, world, (int) player.posX, y + yy, (int) player.posZ);
 
-		world.setBlock(x, y + 25, z, Blocks.anvil);
-		world.setBlock(x1, y + 25, z1, Blocks.anvil);
-		world.setBlock(x2, y + 25, z2, Blocks.anvil);
-		world.setBlock(x3, y + 25, z3, Blocks.anvil);
-		world.setBlock(x4, y + 25, z4, Blocks.anvil);
-		world.setBlock(x5, y + 25, z5, Blocks.anvil);
-		world.setBlock((int) player.posX, y + 25, (int) player.posZ, Blocks.anvil);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x, y + 25, z);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x1, y + 25, z1);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x2, y + 25, z2);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x3, y + 25, z3);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x4, y + 25, z4);
+		RewardsUtil.placeBlock(Blocks.anvil, world, x5, y + 25, z5);
+		RewardsUtil.placeBlock(Blocks.anvil, world, (int) player.posX, y + 25, (int) player.posZ);
 
 		for(int xx = 0; xx < 2; xx++)
 		{
@@ -60,7 +61,7 @@ public class AnvilRain implements IChanceCubeReward
 			{
 				for(int yyy = 0; yyy < 3; yyy++)
 				{
-					world.setBlock(xxx, yyy + y, zz + z, Blocks.cobblestone);
+					RewardsUtil.placeBlock(Blocks.cobblestone, world, xxx, yyy + y, zz + z);
 				}
 			}
 		}
@@ -72,7 +73,7 @@ public class AnvilRain implements IChanceCubeReward
 				int zzz = zz == 1 ? z + 5 : z - 5;
 				for(int yyy = 0; yyy < 3; yyy++)
 				{
-					world.setBlock(xx + x, yyy + y, zzz, Blocks.cobblestone);
+					RewardsUtil.placeBlock(Blocks.cobblestone, world, xx + x, yyy + y, zzz);
 				}
 			}
 		}

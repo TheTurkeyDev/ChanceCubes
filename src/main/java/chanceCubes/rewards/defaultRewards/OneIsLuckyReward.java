@@ -6,6 +6,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.Location3I;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,12 +30,13 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		boolean leftLucky = random.nextBoolean();
 		TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100);
 		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);
-		world.setBlock(x - 1, y, z, CCubesBlocks.chanceCube);
-		world.setTileEntity(x - 1, y, z, leftCube);
-		world.setBlock(x, y, z, Blocks.standing_sign);
-		world.setTileEntity(x, y, z, sign);
-		world.setBlock(x + 1, y, z, CCubesBlocks.chanceCube);
-		world.setTileEntity(x + 1, y, z, rightCube);
+
+		if(RewardsUtil.placeBlock(CCubesBlocks.chanceCube, world, x - 1, y, z))
+			world.setTileEntity(x - 1, y, z, leftCube);
+		if(RewardsUtil.placeBlock(Blocks.standing_sign, world, x, y, z))
+			world.setTileEntity(x, y, z, sign);
+		if(RewardsUtil.placeBlock(CCubesBlocks.chanceCube, world, x + 1, y, z))
+			world.setTileEntity(x + 1, y, z, rightCube);
 
 		Task task = new Task("One_Is_Lucky_Reward", 20)
 		{
@@ -62,10 +64,10 @@ public class OneIsLuckyReward implements IChanceCubeReward
 	public void update(final int iteration, final World world, final Location3I loc)
 	{
 		boolean flag = false;
-		
+
 		if(world.isAirBlock(loc.getX() - 1, loc.getY(), loc.getZ()) || world.isAirBlock(loc.getX() + 1, loc.getY(), loc.getZ()))
 			flag = true;
-		
+
 		if(iteration == 300 || flag)
 		{
 			world.setBlockToAir(loc.getX() - 1, loc.getY(), loc.getZ());
