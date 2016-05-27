@@ -64,13 +64,13 @@ public class ItemScanner extends BaseChanceCubesItem
 
 					BlockPos position = new BlockPos(i, j, k);
 
-					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceCube))
+					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCECUBE))
 					{
 						flag = true;
 						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
 					}
 
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceIcosahedron))
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCEICOSAHEDRON))
 					{
 						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
 						te.setScanned(true);
@@ -78,7 +78,7 @@ public class ItemScanner extends BaseChanceCubesItem
 						flag = true;
 						RenderEvent.setLookingAtChance(te.getChance());
 					}
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.chanceGiantCube))
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCEGIANTCUBE))
 					{
 						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
 						te.setScanned(true);

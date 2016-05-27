@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,6 +17,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
@@ -39,7 +42,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	{
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
-		
+
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 		if(player.isSneaking())
 		{
@@ -82,6 +85,24 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
+	{
+		return false;
+	}
+
+	@Override
+	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
+	{
+
+	}
+
+	@Override
+	public boolean canDropFromExplosion(Explosion explosion)
 	{
 		return false;
 	}

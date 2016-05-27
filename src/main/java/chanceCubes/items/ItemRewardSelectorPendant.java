@@ -46,7 +46,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 			return EnumActionResult.FAIL;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
-			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceCube))
+			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCECUBE))
 			{
 				world.setBlockToAir(pos);
 				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
@@ -55,7 +55,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				else
 					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
 			}
-			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.chanceGiantCube))
+			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCEGIANTCUBE))
 			{
 				TileEntity ent = world.getTileEntity(pos);
 				if(ent == null || !(ent instanceof TileGiantCube))

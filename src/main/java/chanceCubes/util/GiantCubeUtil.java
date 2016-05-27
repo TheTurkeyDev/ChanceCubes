@@ -30,7 +30,7 @@ public class GiantCubeUtil
 		for(int x = cx; x < cx + 3; x++)
 			for(int y = cy; y < cy + 3; y++)
 				for(int z = cz; z < cz + 3; z++)
-					if(world.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.chanceCube))
+					if(world.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCECUBE))
 						i++;
 		// check if there are 27 blocks present (3*3*3) and if a giant cube should be built
 		if(build)
@@ -71,7 +71,7 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
-					world.setBlockState(new BlockPos(x, y, z), CCubesBlocks.chanceGiantCube.getDefaultState(), i == 27 ? 3 : 2);
+					RewardsUtil.placeBlock(CCubesBlocks.CHANCEGIANTCUBE.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2);
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);
@@ -93,11 +93,11 @@ public class GiantCubeUtil
 		int cx = pos.getX();
 		int cy = pos.getY();
 		int cz = pos.getZ();
-		while(world.getBlockState(pos.add(0, -1, 0)).equals(CCubesBlocks.chanceCube))
+		while(world.getBlockState(pos.add(0, -1, 0)).equals(CCubesBlocks.CHANCECUBE))
 			cy--;
-		while(world.getBlockState(pos.add(-1, 0, 0)).equals(CCubesBlocks.chanceCube))
+		while(world.getBlockState(pos.add(-1, 0, 0)).equals(CCubesBlocks.CHANCECUBE))
 			cx--;
-		while(world.getBlockState(pos.add(0, 0, -1)).equals(CCubesBlocks.chanceCube))
+		while(world.getBlockState(pos.add(0, 0, -1)).equals(CCubesBlocks.CHANCECUBE))
 			cz--;
 		return new BlockPos(cx, cy, cz);
 	}
@@ -115,7 +115,7 @@ public class GiantCubeUtil
 					{
 						((TileGiantCube) tile).reset();
 						world.removeTileEntity(blockPos);
-						world.setBlockState(blockPos, CCubesBlocks.chanceCube.getDefaultState());
+						world.setBlockState(blockPos, CCubesBlocks.CHANCECUBE.getDefaultState());
 					}
 				}
 	}

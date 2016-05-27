@@ -3,6 +3,8 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +23,7 @@ public class DiscoReward implements IChanceCubeReward
 	{
 		for(int xx = -4; xx < 5; xx++)
 			for(int zz = -4; zz < 5; zz++)
-				world.setBlockState(pos.add(xx, -1, zz), Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(rand.nextInt(16))), 3);
+				RewardsUtil.placeBlock(Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(rand.nextInt(16))), world, pos.add(xx, -1, zz));
 
 		for(int i = 0; i < 10; i++)
 		{
@@ -31,7 +33,7 @@ public class DiscoReward implements IChanceCubeReward
 			world.spawnEntityInWorld(sheep);
 		}
 
-		// world.setBlockState(pos.add(0, 3, 0), CCubesBlocks.chanceIcosahedron);
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCEICOSAHEDRON.getDefaultState(), world, pos.add(0, 3, 0));
 
 		player.addChatMessage(new TextComponentString("Disco Party!!!!"));
 	}

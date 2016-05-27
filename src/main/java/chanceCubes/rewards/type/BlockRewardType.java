@@ -1,8 +1,10 @@
 package chanceCubes.rewards.type;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {
@@ -17,9 +19,9 @@ public class BlockRewardType extends BaseRewardType<OffsetBlock>
 	{
 		if(block == null)
 			return;
-		if(block.isRelativeToPlayer())
+		if(block.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ))))
 			block.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
-		else
+		else if(!RewardsUtil.isBlockUnbreakable(world, new BlockPos(x, y + 3, z)))
 			block.spawnInWorld(world, x, y, z);
 	}
 }

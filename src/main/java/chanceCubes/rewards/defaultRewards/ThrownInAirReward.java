@@ -1,10 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,7 +24,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 		for(int y = 0; y < 40; y++)
 			for(int x = -1; x < 2; x++)
 				for(int z = -1; z < 2; z++)
-					world.setBlockToAir(pos.add(px + x, py + y, pz + z));
+					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(px + x, py + y, pz + z));
 
 		Task task = new Task("Item_Of_Destiny_Reward", 5)
 		{

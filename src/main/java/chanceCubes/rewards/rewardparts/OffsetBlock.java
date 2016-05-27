@@ -2,9 +2,11 @@ package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -92,7 +94,7 @@ public class OffsetBlock
 	{
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
-			world.setBlockToAir(new BlockPos((x + xOff), yyy, (z + zOff)));
+			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)));
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block.getDefaultState(), data, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
@@ -145,7 +147,7 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		world.setBlockState(new BlockPos(xx, yy, zz), block.getDefaultState(), causeUpdate ? 3 : 2);
+		RewardsUtil.placeBlock(block.getDefaultState(), world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
 		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
 	}

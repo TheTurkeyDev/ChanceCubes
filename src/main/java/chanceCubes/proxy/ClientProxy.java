@@ -30,12 +30,12 @@ public class ClientProxy extends CommonProxy
 	{
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		
-		mesher.register(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 0, new ModelResourceLocation(CCubesCore.MODID + ":chance_Icosahedron", "inventory"));
+		mesher.register(Item.getItemFromBlock(CCubesBlocks.CHANCEICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":chance_Icosahedron", "inventory"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		
 		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CCubesBlocks.chanceIcosahedron), 0, new ModelResourceLocation(CCubesCore.MODID + ":chance_Icosahedron", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CCubesBlocks.CHANCEICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":chance_Icosahedron", "inventory"));
 	}
 
 	public void registerEvents()

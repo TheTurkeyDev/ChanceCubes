@@ -48,7 +48,7 @@ public class CCubesCore
 	{
 		public Item getTabIconItem()
 		{
-			return Item.getItemFromBlock(CCubesBlocks.chanceCube);
+			return Item.getItemFromBlock(CCubesBlocks.CHANCECUBE);
 		}
 	};
 	public static Logger logger;

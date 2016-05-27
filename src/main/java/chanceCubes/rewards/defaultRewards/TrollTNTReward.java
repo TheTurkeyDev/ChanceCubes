@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,7 @@ public class TrollTNTReward implements IChanceCubeReward
 		{
 			for(int z = -1; z < 2; z++)
 			{
-				world.setBlockState(new BlockPos(player.posX + x, player.posY, player.posZ + z), Blocks.WEB.getDefaultState());
+				RewardsUtil.placeBlock(Blocks.WEB.getDefaultState(), world, new BlockPos(player.posX + x, player.posY, player.posZ + z));
 			}
 		}
 

@@ -17,7 +17,7 @@ public class MazeReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("Generation maze..... May be some lag..."));
+		player.addChatMessage(new TextComponentString("Generating maze..... May be some lag..."));
 		final MazeGenerator gen = new MazeGenerator();
 		gen.generate(world, pos.getX(), pos.getY(), pos.getZ(), 20, 20);
 		final int px = (int) player.posX;
@@ -35,7 +35,8 @@ public class MazeReward implements IChanceCubeReward
 		};
 		Scheduler.scheduleTask(task);
 		
-		player.addChatMessage(new TextComponentString("Beat the maze! You have 1 minute!"));
+		player.addChatMessage(new TextComponentString("Beat the maze and find the sign!"));
+		player.addChatMessage(new TextComponentString("You have 45 seconds!"));
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class MazeReward implements IChanceCubeReward
 	
 	public void update(final int iteration, final MazeGenerator gen, final World world, final EntityPlayer player, final BlockPos playerLoc)
 	{
-		if(iteration == 60)
+		if(iteration == 45)
 		{
 			gen.endMaze(world);
 			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
@@ -66,27 +67,27 @@ public class MazeReward implements IChanceCubeReward
 			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
 			return;
 		}
-		else if(iteration == 30)
+		else if(iteration == 15)
 		{
 			player.addChatMessage(new TextComponentString("30 seconds left!!"));
 		}
-		else if(iteration == 55)
+		else if(iteration == 40)
 		{
 			player.addChatMessage(new TextComponentString("5..."));
 		}
-		else if(iteration == 56)
+		else if(iteration == 41)
 		{
 			player.addChatMessage(new TextComponentString("4..."));
 		}
-		else if(iteration == 57)
+		else if(iteration == 42)
 		{
 			player.addChatMessage(new TextComponentString("3..."));
 		}
-		else if(iteration == 58)
+		else if(iteration == 43)
 		{
 			player.addChatMessage(new TextComponentString("2..."));
 		}
-		else if(iteration == 59)
+		else if(iteration == 44)
 		{
 			player.addChatMessage(new TextComponentString("1!"));
 		}

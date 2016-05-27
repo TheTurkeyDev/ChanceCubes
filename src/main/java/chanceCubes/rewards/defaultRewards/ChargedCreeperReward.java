@@ -1,11 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +19,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
-		world.setBlockToAir(pos.add(0, 1, 0));
+		RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 		EntityCreeper ent = new EntityCreeper(world);
 		ent.setLocationAndAngles(pos.getX(), pos.getY() + .5, pos.getZ(), 0, 0);
 		ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 1, 99, true, false));

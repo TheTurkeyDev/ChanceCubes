@@ -42,7 +42,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				CCubesBlocks.chanceCompactGiantCube.dropBlockAsItem(world, pos, CCubesBlocks.chanceCompactGiantCube.getDefaultState(), 1);
+				CCubesBlocks.CHANCECOMPACTGIANTCUBE.dropBlockAsItem(world, pos, CCubesBlocks.CHANCECOMPACTGIANTCUBE.getDefaultState(), 1);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 				return true;
 			}
