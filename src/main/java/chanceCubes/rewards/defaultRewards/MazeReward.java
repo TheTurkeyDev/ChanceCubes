@@ -35,7 +35,7 @@ public class MazeReward implements IChanceCubeReward
 		};
 		Scheduler.scheduleTask(task);
 		
-		player.addChatMessage(new ChatComponentText("Beat the maze and find the sign! You have 45 seconds!"));
+		player.addChatMessage(new ChatComponentText("Beat the maze and find the sign!"));
 		player.addChatMessage(new ChatComponentText("You have 45 seconds!"));
 	}
 
