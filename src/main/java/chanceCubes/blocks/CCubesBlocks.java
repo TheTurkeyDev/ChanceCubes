@@ -14,22 +14,22 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
 {
-	public static BaseChanceBlock CHANCECUBE;
-	public static BaseChanceBlock CHANCEICOSAHEDRON;
-	public static BaseChanceBlock CHANCEGIANTCUBE;
-	public static BaseChanceBlock CHANCECOMPACTGIANTCUBE;
-	public static BaseChanceBlock CHANCECUBEDISPENSER;
+	public static BaseChanceBlock CHANCE_CUBE;
+	public static BaseChanceBlock CHANCE_ICOSAHEDRON;
+	public static BaseChanceBlock GIANT_CUBE;
+	public static BaseChanceBlock COMPACT_GIANT_CUBE;
+	public static BaseChanceBlock CUBE_DISPENSER;
 
 	public static void loadBlocks()
 	{
-		GameRegistry.register(CHANCECUBE = new BlockChanceCube());
-		GameRegistry.register(CHANCEGIANTCUBE = new BlockGiantCube());
-		GameRegistry.register(CHANCECOMPACTGIANTCUBE = new BlockCompactGiantCube());
-		GameRegistry.register(CHANCEICOSAHEDRON = new BlockChanceD20());
-		GameRegistry.register(CHANCECUBEDISPENSER = new BlockCubeDispenser());
+		GameRegistry.register(CHANCE_CUBE = new BlockChanceCube());
+		GameRegistry.register(GIANT_CUBE = new BlockGiantCube());
+		GameRegistry.register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
+		GameRegistry.register(CHANCE_ICOSAHEDRON = new BlockChanceD20());
+		GameRegistry.register(CUBE_DISPENSER = new BlockCubeDispenser());
 		
-		GameRegistry.register(new ItemChanceCube(CHANCECUBE).setRegistryName(CHANCECUBE.getRegistryName()));
-		GameRegistry.register(new ItemChanceCube(CHANCEICOSAHEDRON).setRegistryName(CHANCEICOSAHEDRON.getRegistryName()));
+		GameRegistry.register(new ItemChanceCube(CHANCE_CUBE).setRegistryName(CHANCE_CUBE.getRegistryName()));
+		GameRegistry.register(new ItemChanceCube(CHANCE_ICOSAHEDRON).setRegistryName(CHANCE_ICOSAHEDRON.getRegistryName()));
 
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
 		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");
@@ -41,10 +41,9 @@ public class CCubesBlocks
 	{
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-		mesher.register(Item.getItemFromBlock(CHANCECUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCECUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCEGIANTCUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCEGIANTCUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCECOMPACTGIANTCUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCECOMPACTGIANTCUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCECUBEDISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCECUBEDISPENSER.getBlockName(), "inventory"));
-		
+		mesher.register(Item.getItemFromBlock(CHANCE_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
 	}
 }

@@ -87,7 +87,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCEICOSAHEDRON), 1);
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 			super.dropBlockAsItem(world, pos, this.getDefaultState(), 1);
 			world.setBlockToAir(pos);

@@ -6,27 +6,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import chanceCubes.CCubesCore;
+import chanceCubes.util.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.util.FileUtil;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 /**
- * Code Referenced and sourced from the EnderCore and CustomThings mods. 
- * All referenced sources and code belong to their original authors and is used with their permission.
- * View the
+ * Code Referenced and sourced from the EnderCore and CustomThings mods. All referenced sources and code belong to their original authors and is used with their permission. View the
  */
 
 public class CustomSoundsLoader
@@ -58,11 +56,9 @@ public class CustomSoundsLoader
 			String simpleName = f.getName().substring(0, f.getName().indexOf('.'));
 			customsSounds.add(new CustomFile("assets/minecraft/sounds", f));// add record .ogg
 			JsonObject event = new JsonObject();
-			event.addProperty("catagory", "master"); // put under the "record" category for sound options
+			event.addProperty("category", "block"); // put under the "record" category for sound options
 			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
-			JsonObject sound = new JsonObject(); // sound object (instead of primitive to use 'stream' flag)
-			sound.addProperty("name", simpleName); // path to file
-			sound.addProperty("stream", true); // prevents lag for large files
+			JsonPrimitive sound = new JsonPrimitive(CCubesCore.MODID + ":" + simpleName); // sound object (instead of primitive to use 'stream' flag)
 			sounds.add(sound);
 			event.add("sounds", sounds);
 			root.add(CCubesCore.MODID + "." + simpleName, event); // event name (same as name sent to ItemCustomRecord)

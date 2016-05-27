@@ -17,6 +17,8 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.CCubesRecipies;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,7 +39,7 @@ public class CCubesCore
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
-	
+
 	public static final String gameVersion = "1.9.*";
 
 	@Instance(value = MODID)
@@ -48,7 +50,7 @@ public class CCubesCore
 	{
 		public Item getTabIconItem()
 		{
-			return Item.getItemFromBlock(CCubesBlocks.CHANCECUBE);
+			return Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
 	public static Logger logger;
@@ -56,14 +58,15 @@ public class CCubesCore
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		CraftingRecipies.loadRecipies();
+		CCubesRecipies.loadRecipies();
+		CCubesSounds.loadSounds();
 
 		if(event.getSide() == Side.CLIENT)
 		{
 			CCubesItems.registerItems();
 			CCubesBlocks.registerBlocksItems();
 		}
-		
+
 		proxy.registerRenderings();
 	}
 
@@ -84,13 +87,13 @@ public class CCubesCore
 
 		if(CCubesSettings.chestLoot)
 		{
-			//ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			//ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			//ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			//ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
 		}
 

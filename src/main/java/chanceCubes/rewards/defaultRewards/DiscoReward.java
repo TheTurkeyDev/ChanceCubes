@@ -33,7 +33,7 @@ public class DiscoReward implements IChanceCubeReward
 			world.spawnEntityInWorld(sheep);
 		}
 
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCEICOSAHEDRON.getDefaultState(), world, pos.add(0, 3, 0));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState(), world, pos.add(0, 3, 0));
 
 		player.addChatMessage(new TextComponentString("Disco Party!!!!"));
 	}

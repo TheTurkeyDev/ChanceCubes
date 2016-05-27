@@ -20,19 +20,19 @@ public class FiveProngReward implements IChanceCubeReward
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos);
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(0, 1, 0));
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCEICOSAHEDRON.getDefaultState(), world, pos.add(0, 2, 0));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState(), world, pos.add(0, 2, 0));
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(-3, 0, -3));
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCECUBE.getDefaultState(), world, pos.add(-3, 1, -3));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-3, 1, -3));
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(-3, 0, 3));
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCECUBE.getDefaultState(), world, pos.add(-3, 1, 3));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-3, 1, 3));
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(3, 0, -3));
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCECUBE.getDefaultState(), world, pos.add(3, 1, -3));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(3, 1, -3));
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(3, 0, 3));
-		RewardsUtil.placeBlock(CCubesBlocks.CHANCECUBE.getDefaultState(), world, pos.add(3, 1, 3));
+		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(3, 1, 3));
 	}
 
 	@Override

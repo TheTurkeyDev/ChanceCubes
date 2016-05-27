@@ -16,16 +16,16 @@ public class TileCubeDispenser extends TileEntity
 	public EntityItem getRenderEntityItem(DispenseType type)
 	{
 		if(entityItem == null)
-			this.entityItem = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCECUBE, 1));
+			this.entityItem = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 		if(this.currentType != type)
 		{
 			this.currentType = type;
 			if(type == DispenseType.ChanceIcosahedron)
-				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCEICOSAHEDRON, 1));
+				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
 			else if(type == DispenseType.CompactGaintCube)
-				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCECOMPACTGIANTCUBE, 1));
+				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 			else
-				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCECUBE, 1));
+				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 		}
 
 		return this.entityItem;
@@ -36,11 +36,11 @@ public class TileCubeDispenser extends TileEntity
 		EntityItem ent;
 		
 		if(type == DispenseType.ChanceIcosahedron)
-			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCEICOSAHEDRON, 1));
+			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
 		else if(type == DispenseType.CompactGaintCube)
-			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCECOMPACTGIANTCUBE, 1));
+			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 		else
-			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCECUBE, 1));
+			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 
 		return ent;
 	}
@@ -51,11 +51,11 @@ public class TileCubeDispenser extends TileEntity
 		if(entityItem == null || this.currentType != type)
 		{
 			if(type == DispenseType.ChanceIcosahedron)
-				b = CCubesBlocks.CHANCEICOSAHEDRON;
+				b = CCubesBlocks.CHANCE_ICOSAHEDRON;
 			else if(type == DispenseType.CompactGaintCube)
-				b = CCubesBlocks.CHANCECOMPACTGIANTCUBE;
+				b = CCubesBlocks.COMPACT_GIANT_CUBE;
 			else
-				b = CCubesBlocks.CHANCECUBE;
+				b = CCubesBlocks.CHANCE_CUBE;
 		}
 
 		return b;

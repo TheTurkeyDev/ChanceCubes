@@ -44,7 +44,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			TileChanceCube te = (TileChanceCube) world.getTileEntity(pos);
 			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCECUBE), 1);
+				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE), 1);
 				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 				world.setBlockToAir(pos);

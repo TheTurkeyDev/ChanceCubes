@@ -3,6 +3,7 @@ package chanceCubes.rewards.giantRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.state.IBlockState;
@@ -28,8 +29,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 
 		moveLayer(world, xBase, 0, zBase, player);
 
-		// TODO:
-		// world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundEvent(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundCategory(), 1.0F, 1.0F);
 		player.addChatMessage(new TextComponentString("Inception!!!!"));
 	}
 
@@ -45,7 +45,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 				BlockPos pos2 = new BlockPos(x + xx, world.getActualHeight() - y, z + zz);
 				IBlockState b = world.getBlockState(pos1);
 				IBlockState b2 = world.getBlockState(pos2);
-				if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.CHANCEGIANTCUBE))
+				if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE))
 				{
 					world.setBlockState(pos1, b2, 2);
 					world.setBlockState(pos2, b, 2);

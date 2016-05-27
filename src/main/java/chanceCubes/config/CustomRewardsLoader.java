@@ -48,11 +48,11 @@ import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -514,9 +514,7 @@ public class CustomRewardsLoader
 		List<SoundPart> sounds = new ArrayList<SoundPart>();
 		for(JsonElement element : rawReward)
 		{
-
-			// SoundPart sound = new SoundPart(element.getAsJsonObject().get("sound").getAsString());
-			SoundPart sound = new SoundPart(SoundEvents.AMBIENT_CAVE);
+			SoundPart sound = new SoundPart(CCubesSounds.registerSound(element.getAsJsonObject().get("sound").getAsString()));
 			if(element.getAsJsonObject().has("delay"))
 				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 			if(element.getAsJsonObject().has("serverWide"))

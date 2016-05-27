@@ -67,7 +67,7 @@ public class CreativePendantContainer extends Container
 			if(slot > 35)
 				if(!this.mergeItemStack(stackInSlot, 0, 36, true))
 					return null;
-				else if(stack.getItem().equals(CCubesBlocks.CHANCECUBE) /* || stack.getItem().equals(CCubesBlocks.chanceIcosahedron) */)
+				else if(stack.getItem().equals(CCubesBlocks.CHANCE_CUBE) /* || stack.getItem().equals(CCubesBlocks.chanceIcosahedron) */)
 					if(!this.mergeItemStack(stackInSlot, 36, 37, true))
 						return null;
 

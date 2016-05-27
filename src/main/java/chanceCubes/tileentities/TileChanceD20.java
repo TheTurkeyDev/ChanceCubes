@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -126,8 +127,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		{
 			if(!player.worldObj.isRemote)
 			{
-				// TODO:
-				// player.worldObj.playSoundEffect(this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesCore.MODID + ":d20_Break", 1, 1);
+				player.worldObj.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK.getSoundEvent(), CCubesSounds.D20_BREAK.getSoundCategory(), 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;

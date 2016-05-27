@@ -34,7 +34,7 @@ public class WorldGen
 			int firstBlockYCoord = rand.nextInt(100);
 			int firstBlockZCoord = z + rand.nextInt(16);
 
-			(new WorldGenMinable(CCubesBlocks.CHANCECUBE.getDefaultState(), 3)).generate(world, rand, new BlockPos(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord));
+			(new WorldGenMinable(CCubesBlocks.CHANCE_CUBE.getDefaultState(), 3)).generate(world, rand, new BlockPos(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord));
 		}
 	}
 
@@ -60,7 +60,7 @@ public class WorldGen
 					}
 				}
 			}
-			world.setBlockState(new BlockPos(xCord, yCord, zCord), CCubesBlocks.CHANCECUBE.getDefaultState());
+			world.setBlockState(new BlockPos(xCord, yCord, zCord), CCubesBlocks.CHANCE_CUBE.getDefaultState());
 		}
 	}
 }
