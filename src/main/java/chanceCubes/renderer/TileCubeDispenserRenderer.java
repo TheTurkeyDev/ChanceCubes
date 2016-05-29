@@ -1,24 +1,21 @@
 package chanceCubes.renderer;
 
-import org.lwjgl.opengl.GL11;
-
 import chanceCubes.blocks.BlockCubeDispenser;
 import chanceCubes.blocks.BlockCubeDispenser.DispenseType;
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCubeDispenser>
 {
-	private static final float ROTATE_SPEED = 0.3F;
-	private static final float WAVE_SPEED = 0.1F;
-
-	private float rot = 0;
-	private float wave = 0;
+	private static final float ROTATE_SPEED = 0.5F;
+	private static final float WAVE_SPEED = 0.3F;
 
 	public TileCubeDispenserRenderer()
 	{
@@ -30,22 +27,27 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 	{
 		World world = te.getWorld();
 
-		DispenseType type = BlockCubeDispenser.getCurrentState(world.getBlockState(new BlockPos(x,y,z)));
+		if(!world.getBlockState(te.getPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER))
+			return;
+
+		DispenseType type = BlockCubeDispenser.getCurrentState(world.getBlockState(te.getPos()));
 		EntityItem entity = te.getRenderEntityItem(type);
 
-		GL11.glPushMatrix();
-		wave += WAVE_SPEED;
-		wave %= 125;
-		float yy = MathHelper.sin((wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
-		GL11.glTranslated(x + 0.5f, y + yy + 1.25f, z + 0.5f);
+		GlStateManager.pushMatrix();
+		te.wave += WAVE_SPEED;
+		te.wave %= 125;
+		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
+		GlStateManager.translate(x + 0.5f, y + yy + 1f, z + 0.5f);
 		entity.getEntityItem().stackSize = 1;
 		entity.setNoDespawn();
 		entity.rotationYaw = 0;
-		rot += ROTATE_SPEED;
-		rot %= 360;
-		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
-		entity.setLocationAndAngles(x + 0.5f, y + yy + 1.25f, z + 0.5f, 0.0F, 0.0F);
+		te.rot += ROTATE_SPEED;
+		te.rot %= 360;
+		GlStateManager.rotate(te.rot, 0.0F, 1.0F, 0.0F);
+		entity.setLocationAndAngles(x + 0.5f, y + yy + 1f, z + 0.5f, 0.0F, 0.0F);
+		RenderHelper.disableStandardItemLighting();
 		Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
-		GL11.glPopMatrix();
+		RenderHelper.enableStandardItemLighting();
+		GlStateManager.popMatrix();
 	}
 }

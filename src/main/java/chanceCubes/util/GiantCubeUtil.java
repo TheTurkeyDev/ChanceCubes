@@ -93,12 +93,22 @@ public class GiantCubeUtil
 		int cx = pos.getX();
 		int cy = pos.getY();
 		int cz = pos.getZ();
-		while(world.getBlockState(pos.add(0, -1, 0)).equals(CCubesBlocks.CHANCE_CUBE))
+		while(world.getBlockState(pos.add(0, -1, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		{
+			pos = pos.add(0, -1, 0);
 			cy--;
-		while(world.getBlockState(pos.add(-1, 0, 0)).equals(CCubesBlocks.CHANCE_CUBE))
+		}
+		while(world.getBlockState(pos.add(-1, 0, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		{
+			pos = pos.add(-1, 0, 0);
 			cx--;
-		while(world.getBlockState(pos.add(0, 0, -1)).equals(CCubesBlocks.CHANCE_CUBE))
+		}
+		while(world.getBlockState(pos.add(0, 0, -1)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		{
+			pos = pos.add(0, 0, -1);
 			cz--;
+		}
+		
 		return new BlockPos(cx, cy, cz);
 	}
 

@@ -10,6 +10,7 @@ import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -87,8 +88,9 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
-		GiantCubeUtil.checkMultiBlockForm(pos, (World) world, true);
+		GiantCubeUtil.checkMultiBlockForm(pos, worldIn, true);
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 }

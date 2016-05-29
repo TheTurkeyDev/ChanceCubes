@@ -12,18 +12,23 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.MathHelper;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
 {
 	private static final Random random = new Random();
 	private Color tmpClr;
 
+	private static final float HOVER_SPEED = 6F;
+
 	@Override
 	public void renderTileEntityAt(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9)
 	{
+		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) * 0.25f : ((d20.getStage() + partialTicks) / 10f);
+
 		GlStateManager.pushMatrix();
 
-		GlStateManager.translate(x + 0.5F, y + 1.5F, z + 2.5F);
+		GlStateManager.translate(x + 0.5F, y + 1.5F + wave, z + 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTicks) / 750.0F;
 

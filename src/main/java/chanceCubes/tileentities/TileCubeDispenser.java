@@ -11,7 +11,10 @@ import net.minecraft.tileentity.TileEntity;
 public class TileCubeDispenser extends TileEntity
 {
 	private EntityItem entityItem;
-	private DispenseType currentType = DispenseType.ChanceCube;
+	private DispenseType currentType = DispenseType.CHANCE_CUBE;
+	
+	public float rot = 0;
+	public float wave = 0;
 
 	public EntityItem getRenderEntityItem(DispenseType type)
 	{
@@ -20,9 +23,9 @@ public class TileCubeDispenser extends TileEntity
 		if(this.currentType != type)
 		{
 			this.currentType = type;
-			if(type == DispenseType.ChanceIcosahedron)
+			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
-			else if(type == DispenseType.CompactGaintCube)
+			else if(type == DispenseType.COMPACT_GAINTCUBE)
 				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 			else
 				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
@@ -35,9 +38,9 @@ public class TileCubeDispenser extends TileEntity
 	{
 		EntityItem ent;
 		
-		if(type == DispenseType.ChanceIcosahedron)
+		if(type == DispenseType.CHANCE_ICOSAHEDRON)
 			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
-		else if(type == DispenseType.CompactGaintCube)
+		else if(type == DispenseType.COMPACT_GAINTCUBE)
 			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 		else
 			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
@@ -50,9 +53,9 @@ public class TileCubeDispenser extends TileEntity
 		Block b = Blocks.AIR;
 		if(entityItem == null || this.currentType != type)
 		{
-			if(type == DispenseType.ChanceIcosahedron)
+			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				b = CCubesBlocks.CHANCE_ICOSAHEDRON;
-			else if(type == DispenseType.CompactGaintCube)
+			else if(type == DispenseType.COMPACT_GAINTCUBE)
 				b = CCubesBlocks.COMPACT_GIANT_CUBE;
 			else
 				b = CCubesBlocks.CHANCE_CUBE;

@@ -20,6 +20,11 @@
                 "gui": {
                     "translation": [0.4, 0.4, 0],
                     "scale": 0.75
+                },
+                "ground":
+                {
+                  "translation": [0.25, 0.25, 0.25],
+                  "scale": 0.38
                 }
             }
         }]
