@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.BlockSlab;
@@ -33,53 +34,53 @@ public class TableFlipReward implements IChanceCubeReward
 				{
 					case 0:
 					{
-						world.setBlockState(pos, Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));
-						world.setBlockState(pos.add(1, 0, 0), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
-						world.setBlockState(pos.add(-1, 0, 0), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
+						RewardsUtil.placeBlock(Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), world, pos);
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(1, 0, 0));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(-1, 0, 0));
 						break;
 					}
 					case 1:
 					{
-						world.setBlockToAir(pos);
-						world.setBlockToAir(pos.add(1, 0, 0));
-						world.setBlockToAir(pos.add(-1, 0, 0));
-						
-						world.setBlockState(pos.add(0, 1, 0), Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));
-						world.setBlockState(pos.add(1, 1, 0), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
-						world.setBlockState(pos.add(-1, 1, 0), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos);
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(1, 0, 0));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(-1, 0, 0));
+
+						RewardsUtil.placeBlock(Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), world, pos.add(0, 1, 0));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(1, 1, 0));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(-1, 1, 0));
 						break;
 					}
 					case 2:
 					{
-						world.setBlockToAir(pos.add(0, 1, 0));
-						world.setBlockToAir(pos.add(1, 1, 0));
-						world.setBlockToAir(pos.add(-1, 1, 0));
-						
-						world.setBlockState(pos.add(0, 2, 1), Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP));
-						world.setBlockState(pos.add(1, 2, 1), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
-						world.setBlockState(pos.add(-1, 2, 1), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(0, 1, 0));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(1, 1, 0));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(-1, 1, 0));
+
+						RewardsUtil.placeBlock(Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), world, pos.add(0, 2, 1));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(1, 2, 1));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(-1, 2, 1));
 						break;
 					}
 					case 3:
 					{
-						world.setBlockToAir(pos.add(0, 2, 1));
-						world.setBlockToAir(pos.add(1, 2, 1));
-						world.setBlockToAir(pos.add(-1, 2, 1));
-						
-						world.setBlockState(pos.add(0, 1, 2), Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM));
-						world.setBlockState(pos.add(1, 1, 2), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
-						world.setBlockState(pos.add(-1, 1, 2), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(0, 2, 1));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(1, 2, 1));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(-1, 2, 1));
+
+						RewardsUtil.placeBlock(Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM), world, pos.add(0, 1, 2));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(1, 1, 2));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(-1, 1, 2));
 						break;
 					}
 					case 4:
 					{
-						world.setBlockToAir(pos.add(0, 1, 2));
-						world.setBlockToAir(pos.add(1, 1, 2));
-						world.setBlockToAir(pos.add(-1, 1, 2));
-						
-						world.setBlockState(pos.add(0, 0, 2), Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM));
-						world.setBlockState(pos.add(1, 0, 2), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
-						world.setBlockState(pos.add(-1, 0, 2), Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(0, 1, 2));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(1, 1, 2));
+						RewardsUtil.placeBlock(Blocks.air.getDefaultState(), world, pos.add(-1, 1, 2));
+
+						RewardsUtil.placeBlock(Blocks.wooden_slab.getDefaultState().withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM), world, pos.add(0, 0, 2));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(1, 0, 2));
+						RewardsUtil.placeBlock(Blocks.oak_stairs.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(BlockStairs.SHAPE, BlockStairs.EnumShape.STRAIGHT), world, pos.add(-1, 0, 2));
 						break;
 					}
 				}

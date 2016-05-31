@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -30,20 +31,20 @@ public class InventoryChestReward implements IChanceCubeReward
 
 		player.addChatMessage(new TextComponentString("At least i didnt delete your items..."));
 
-		world.setBlockState(pos, Blocks.chest.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.chest.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(2, 0, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 0, -1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 0, -1), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, -1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(0, 1, 0), Blocks.obsidian.getDefaultState());
-		world.setBlockState(pos.add(1, 1, 0), Blocks.obsidian.getDefaultState());
+		RewardsUtil.placeBlock(Blocks.chest.getDefaultState(), world, pos);
+		RewardsUtil.placeBlock(Blocks.chest.getDefaultState(), world, pos.add(1, 0, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(0, -1, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(1, -1, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(-1, 0, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(2, 0, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(0, 0, 1));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(1, 0, 1));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(0, 0, -1));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(1, 0, -1));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(0, -1, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(1, -1, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(0, 1, 0));
+		RewardsUtil.placeBlock(Blocks.obsidian.getDefaultState(), world, pos.add(1, 1, 0));
 
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 

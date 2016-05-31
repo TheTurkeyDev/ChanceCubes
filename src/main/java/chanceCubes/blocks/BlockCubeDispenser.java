@@ -5,8 +5,11 @@ import java.util.Random;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,16 +19,20 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
 {
-	public static final PropertyEnum<BlockCubeDispenser.DispenseType> DISPENSING = PropertyEnum.<BlockCubeDispenser.DispenseType> create("dispenseType", BlockCubeDispenser.DispenseType.class);
+	public static final PropertyEnum<BlockCubeDispenser.DispenseType> DISPENSING = PropertyEnum.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
 		super("cube_Dispenser");
 		this.setHardness(2f);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE));
+		this.setLightOpacity(0);
 	}
 
 	@Override
@@ -39,7 +46,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	{
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
-		
+
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 		if(player.isSneaking())
 		{
@@ -99,9 +106,32 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return 0;
 	}
 
+	@Override
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
+	{
+		return false;
+	}
+
+	@Override
+	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
+	{
+
+	}
+
+	@Override
+	public boolean canDropFromExplosion(Explosion explosion)
+	{
+		return false;
+	}
+	
+	public int getMetaFromState(IBlockState state)
+	{
+		return 0;
+	}
+
 	public static enum DispenseType implements IStringSerializable
 	{
-		ChanceCube("Chance_Cube"), ChanceIcosahedron("Chance_Icosahedron"), CompactGaintCube("Compact_Gaint_Cube");
+		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GAINTCUBE("compact_gaint_cube");
 
 		private String type;
 
@@ -120,14 +150,14 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		{
 			switch(this)
 			{
-				case ChanceCube:
-					return ChanceIcosahedron;
-				case ChanceIcosahedron:
-					return CompactGaintCube;
-				case CompactGaintCube:
-					return ChanceCube;
+				case CHANCE_CUBE:
+					return CHANCE_ICOSAHEDRON;
+				case CHANCE_ICOSAHEDRON:
+					return COMPACT_GAINTCUBE;
+				case COMPACT_GAINTCUBE:
+					return CHANCE_CUBE;
 				default:
-					return ChanceCube;
+					return CHANCE_CUBE;
 
 			}
 		}
@@ -135,11 +165,16 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	public static DispenseType getNextState(IBlockState state)
 	{
-		return state.getValue(BlockCubeDispenser.DISPENSING).getNextState();
+		return state.getValue(DISPENSING).getNextState();
 	}
 
 	public static DispenseType getCurrentState(IBlockState state)
 	{
-		return state.getValue(BlockCubeDispenser.DISPENSING);
+		return state.getValue(DISPENSING);
+	}
+
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, new IProperty[] { DISPENSING });
 	}
 }

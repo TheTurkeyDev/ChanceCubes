@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,7 @@ public class JukeBoxReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		world.setBlockState(pos, Blocks.jukebox.getDefaultState());
+		RewardsUtil.placeBlock(Blocks.jukebox.getDefaultState(), world, pos);
 		IBlockState iblockstate = world.getBlockState(pos);
 		ItemStack disc = discs[random.nextInt(discs.length)];
 		((BlockJukebox) Blocks.jukebox).insertRecord(world, pos, iblockstate, disc);

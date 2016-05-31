@@ -1,6 +1,7 @@
 package chanceCubes.util;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -71,7 +72,7 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
-					world.setBlockState(new BlockPos(x, y, z), CCubesBlocks.chanceGiantCube.getDefaultState(), i == 27 ? 3 : 2);
+					RewardsUtil.placeBlock(CCubesBlocks.chanceGiantCube.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2);
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);
@@ -84,8 +85,7 @@ public class GiantCubeUtil
 				}
 			}
 		}
-		// TODO:
-		// world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), CCubesCore.MODID + ":giant_Cube_Spawn", 1, 1);
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundEvent(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundCategory(), 1.0F, 1.0F);
 	}
 
 	public static BlockPos findBottomCorner(BlockPos pos, World world)

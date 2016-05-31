@@ -1,4 +1,4 @@
 {
-	"d20_Break": {"category": "master", "sounds": [{"name": "d20_Break", "stream": false}]},
-	"giant_Cube_Spawn": {"category": "master", "sounds": [{"name": "giant_Cube_Spawn", "stream": false}]}
+	"d20_Break": {"category": "block", "sounds":["chancecubes:d20_Break"]},
+ 	"giant_Cube_Spawn": {"category": "block", "sounds": ["chancecubes:giant_Cube_Spawn"]}
 }
