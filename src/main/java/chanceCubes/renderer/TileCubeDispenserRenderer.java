@@ -15,9 +15,6 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer
 {
 	private static final float ROTATE_SPEED = 0.3F;
 	private static final float WAVE_SPEED = 0.1F;
-
-	private float rot = 0;
-	private float wave = 0;
 	
 	private RenderBlocks renderer;
 
@@ -39,19 +36,20 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer
 		int z = tileEntity.zCoord;
 
 		int meta = world.getBlockMetadata(x, y, z);
-		EntityItem entity = ((TileCubeDispenser) tileEntity).getRenderEntityItem(meta);
+		TileCubeDispenser te = ((TileCubeDispenser) tileEntity);
+		EntityItem entity = te.getRenderEntityItem(meta);
 
 		GL11.glPushMatrix();
-		wave += WAVE_SPEED;
-		wave %= 125;
-		float yy = MathHelper.sin((wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
+		te.wave += WAVE_SPEED;
+		te.wave %= 125;
+		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
 		GL11.glTranslated(posX + 0.5f, posY + yy + 1.25f, posZ + 0.5f);
 		entity.getEntityItem().stackSize = 1;
 		entity.age = 0;
 		entity.rotationYaw = 0;
-		rot += ROTATE_SPEED;
-		rot %= 360;
-		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
+		te.rot += ROTATE_SPEED;
+		te.rot %= 360;
+		GL11.glRotatef(te.rot, 0.0F, 1.0F, 0.0F);
 		entity.setLocationAndAngles(posX + 0.5f, posY + yy + 1.25f, posZ + 0.5f, 0.0F, 0.0F);
 		RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 		GL11.glPopMatrix();

@@ -11,6 +11,9 @@ public class TileCubeDispenser extends TileEntity
 {
 	private EntityItem entityItem;
 	private int currentMeta = 0;
+	
+	public float rot = 0;
+	public float wave = 0;
 
 	public EntityItem getRenderEntityItem(int meta)
 	{
