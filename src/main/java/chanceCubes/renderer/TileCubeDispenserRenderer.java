@@ -34,10 +34,11 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 		EntityItem entity = te.getRenderEntityItem(type);
 
 		GlStateManager.pushMatrix();
+		GlStateManager.translate((float) x + 0.5F, (float) y, (float) z + 0.5F);
 		te.wave += WAVE_SPEED;
 		te.wave %= 125;
 		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
-		GlStateManager.translate(x + 0.5f, y + yy + 1f, z + 0.5f);
+		GlStateManager.translate(0f, yy + 1f, 0f);
 		entity.getEntityItem().stackSize = 1;
 		entity.setNoDespawn();
 		entity.rotationYaw = 0;

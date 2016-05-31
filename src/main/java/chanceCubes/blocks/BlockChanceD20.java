@@ -18,16 +18,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
 {
-	private ExtendedBlockState state = new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
 
 	public BlockChanceD20()
 	{
@@ -113,8 +113,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		if(tile != null && tile instanceof TileChanceD20)
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
-			if(d20.state != null)
-				return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, d20.state);
+			if(d20.transform != TRSRTransformation.identity())
+				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
 		}
 
 		return state;
@@ -123,7 +123,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	@Override
 	public ExtendedBlockState createBlockState()
 	{
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { OBJModel.OBJProperty.INSTANCE });
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
 	}
 
 	@Override

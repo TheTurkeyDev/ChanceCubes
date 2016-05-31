@@ -24,11 +24,12 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 	@Override
 	public void renderTileEntityAt(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9)
 	{
-		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) * 0.25f : ((d20.getStage() + partialTicks) / 10f);
+		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((d20.getStage() + partialTicks) / 10f);
+		d20.wave = wave;
 
 		GlStateManager.pushMatrix();
 
-		GlStateManager.translate(x + 0.5F, y + 1.5F + wave, z + 2.5F);
+		GlStateManager.translate(x + 0.5F, y + 1.5F + wave * 0.15f, z + 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTicks) / 750.0F;
 

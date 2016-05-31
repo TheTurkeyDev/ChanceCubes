@@ -7,8 +7,6 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
-import com.google.common.collect.Lists;
-
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
@@ -19,13 +17,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class TileChanceD20 extends TileEntity implements ITickable
 {
-	public OBJModel.OBJState state;
-
 	private static final Random random = new Random();
 
 	private boolean breaking = false;
@@ -35,6 +30,8 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	private int chance;
 	private boolean isScanned = false;
+
+	public TRSRTransformation transform = TRSRTransformation.identity();
 
 	public TileChanceD20()
 	{
@@ -48,13 +45,11 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			while(this.chance > 100 || this.chance < -100)
 				this.chance = Math.round((float) (random.nextGaussian() * 40));
 		}
-		this.state = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true);
 	}
 
 	public TileChanceD20(int initialChance)
 	{
 		this.chance = initialChance;
-		this.state = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true);
 	}
 
 	public void setChance(int newChance)
@@ -101,22 +96,25 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			AxisAngle4d pitch = new AxisAngle4d(1, 0, 0, 0F);
 
 			// Translation
-			float wave = stage == 0 ? 0 : ((stage) / 100f);
-			Vector3f offset = new Vector3f(0.5F, 0.5F + wave, 0.5F);
+			Vector3f offset = new Vector3f(0.5F, 0.5F + wave * 0.15f, 0.5F);
 
-			Quat4f rot = new Quat4f(0, 0, 0, 1);
-			Quat4f yawQuat = new Quat4f();
-			Quat4f pitchQuat = new Quat4f();
-			yawQuat.set(yaw);
-			rot.mul(yawQuat);
-			pitchQuat.set(pitch);
-			rot.mul(pitchQuat);
 			Matrix4f matrix = new Matrix4f();
 			matrix.setIdentity();
 			matrix.setTranslation(offset);
-			matrix.setRotation(rot);
-			TRSRTransformation transform = new TRSRTransformation(matrix);
-			this.state = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
+
+			if(breaking)
+			{
+				Quat4f rot = new Quat4f(0, 0, 0, 1);
+				Quat4f yawQuat = new Quat4f();
+				Quat4f pitchQuat = new Quat4f();
+				yawQuat.set(yaw);
+				rot.mul(yawQuat);
+				pitchQuat.set(pitch);
+				rot.mul(pitchQuat);
+				matrix.setRotation(rot);
+			}
+
+			transform = new TRSRTransformation(matrix);
 			this.worldObj.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
 	}
