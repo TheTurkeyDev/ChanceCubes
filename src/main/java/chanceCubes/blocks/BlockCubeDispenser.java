@@ -32,6 +32,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		super("cube_Dispenser");
 		this.setHardness(2f);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE));
+		this.setLightOpacity(0);
 	}
 
 	@Override

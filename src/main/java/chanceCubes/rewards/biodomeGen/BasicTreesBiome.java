@@ -7,6 +7,7 @@ import java.util.Random;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
@@ -34,7 +35,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
 			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.TALLGRASS, false, (delay / BioDomeReward.delayShorten));
-			osb.setData((byte) 1);
+			osb.setBlockState(Blocks.TALLGRASS.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.GRASS));
 			blocks.add(osb);
 		}
 		else if(dist < -5 && rand.nextInt(100) == 0)

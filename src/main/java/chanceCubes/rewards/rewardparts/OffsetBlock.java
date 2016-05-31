@@ -6,6 +6,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,10 @@ public class OffsetBlock
 	public int yOff;
 	public int zOff;
 
+	@Deprecated
 	protected byte data = 0;
+	
+	protected IBlockState state = null;
 
 	protected boolean falling;
 	protected int delay = 0;
@@ -109,9 +113,16 @@ public class OffsetBlock
 		this.delay = delay;
 	}
 
+	@Deprecated
 	public void setData(byte d)
 	{
 		this.data = d;
+	}
+
+	public OffsetBlock setBlockState(IBlockState state)
+	{
+		this.state = state;
+		return this;
 	}
 
 	public OffsetBlock setRelativeToPlayer(boolean relative)
@@ -147,7 +158,7 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		RewardsUtil.placeBlock(block.getDefaultState(), world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2);
+		RewardsUtil.placeBlock(state == null ? block.getDefaultState() : state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
 		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
 	}
