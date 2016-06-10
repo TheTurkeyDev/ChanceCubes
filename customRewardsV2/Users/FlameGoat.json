@@ -48,7 +48,8 @@
 		"Message":
 		[
 			{"message":"Hmmmm seems no flaming goats could be found"},
-			{"message":"Sheep will have to do", "delay":40}
+			{"message":"Sheep will have to do", "delay":40},
+			{"message":"<3 Wyld", "delay":60}
 		],
 		"Command":
 		[

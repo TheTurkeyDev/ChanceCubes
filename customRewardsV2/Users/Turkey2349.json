@@ -9,7 +9,7 @@
 		],
 		"Message":
 		[
-			{"message":"Screw everyone!!!"}
+			{"message":"Screw everyone!!!", "serverWide":true}
 		]
 	}
 }
