@@ -5,5 +5,8 @@
   "2.1.1":[
     "chancecubes:Torches_To_Creepers",
     "chancecubes:Insta-Damage"
+  ],
+  "2.1.2":[
+    "chancecubes:Inventory_Bomb"
   ]
 }
