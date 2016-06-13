@@ -41,6 +41,9 @@ public class InventoryBombReward implements IChanceCubeReward
 		for(int i = 0; i < player.inventory.mainInventory.length; i++)
 			player.inventory.mainInventory[i] = new ItemStack(Blocks.deadbush, 64);
 		
+		for(int i = 0; i < player.inventory.armorInventory.length; i++)
+			player.inventory.armorInventory[i] = new ItemStack(Blocks.deadbush, 64);
+		
 		player.inventory.closeInventory();
 		
 		player.addChatMessage(new ChatComponentText("Inventory Bomb!!!!"));

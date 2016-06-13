@@ -53,12 +53,15 @@ public class MazeReward implements IChanceCubeReward
 	
 	public void update(final int iteration, final MazeGenerator gen, final World world, final EntityPlayer player, final Location3I playerLoc)
 	{
-		if(iteration == 45)
+		if(iteration == 46)
 		{
 			gen.endMaze(world);
+			return;
+		}
+		if(iteration == 45)
+		{
 			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
 			player.attackEntityFrom(CCubesDamageSource.mazefail, Float.MAX_VALUE);
-			return;
 		}
 		else if(!world.getBlock(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ()).equals(Blocks.standing_sign))
 		{

@@ -22,7 +22,6 @@ public class JukeBoxReward implements IChanceCubeReward
 	{
 		ItemStack disc = discs[random.nextInt(discs.length)];
 		RewardsUtil.placeBlock(Blocks.jukebox, world, x, y, z);
-		world.setBlock(x, y, z, Blocks.jukebox);
 		((BlockJukebox) Blocks.jukebox).func_149926_b(world, x, y, z, disc);
 		world.playAuxSFXAtEntity((EntityPlayer) null, 1005, x, y, z, Item.getIdFromItem(disc.getItem()));
 	}
