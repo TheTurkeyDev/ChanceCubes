@@ -515,6 +515,12 @@ public class CustomRewardsLoader
 				sound.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
 			if(element.getAsJsonObject().has("range"))
 				sound.setRange(element.getAsJsonObject().get("range").getAsInt());
+			if(element.getAsJsonObject().has("playAtPlayersLocation"))
+				sound.setAtPlayersLocation(element.getAsJsonObject().get("playAtPlayersLocation").getAsBoolean());
+			if(element.getAsJsonObject().has("volume"))
+				sound.setVolume(element.getAsJsonObject().get("volume").getAsInt());
+			if(element.getAsJsonObject().has("pitch"))
+				sound.setPitch(element.getAsJsonObject().get("pitch").getAsInt());
 
 			sounds.add(sound);
 		}
