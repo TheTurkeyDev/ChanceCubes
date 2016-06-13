@@ -70,7 +70,7 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
-					world.setBlock(x, y, z, CCubesBlocks.chanceGiantCube, 0, i == 27 ? 3 : 2);
+					RewardsUtil.placeBlock(CCubesBlocks.chanceGiantCube, world, x, y, z, 0, i == 27 ? 3 : 2);
 					TileEntity tile = world.getTileEntity(x, y, z);
 					boolean master = (x == cx && y == cy + 1 && z == cz);
 					if(tile != null && (tile instanceof TileGiantCube))

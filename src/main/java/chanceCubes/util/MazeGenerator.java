@@ -17,7 +17,7 @@ public class MazeGenerator
 	private int height;
 	private int[][] map;
 	private ArrayList<Location2I> walls = new ArrayList<Location2I>();
-	private Map<Location3I, Block> blockStorgae = new HashMap<Location3I, Block>();
+	private Map<Location3I, CustomEntry<Block, Integer>> blockStorgae = new HashMap<Location3I, CustomEntry<Block, Integer>>();
 	private Map<Location3I, TileEntity> tileStorgae = new HashMap<Location3I, TileEntity>();
 	private Random r = new Random();
 
@@ -178,12 +178,12 @@ public class MazeGenerator
 				{
 					for(int yy = -1; yy < 3; yy++)
 					{
-						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), world.getBlock(xoff + xx, y + yy, zoff + zz));
+						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), new CustomEntry<Block, Integer>(world.getBlock(xoff + xx, y + yy, zoff + zz), world.getBlockMetadata(xoff + xx, y + yy, zoff + zz)));
 						temp = world.getTileEntity(xoff + xx, y + yy, zoff + zz);
 						if(temp != null)
 							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), temp);
 					}
-					
+
 					world.setBlock(xoff + xx, y - 1, zoff + zz, Blocks.bedrock);
 					world.setBlock(xoff + xx, y, zoff + zz, Blocks.torch);
 					world.setBlockMetadataWithNotify(xoff + xx, y, zoff + zz, 0, 3);
@@ -194,7 +194,7 @@ public class MazeGenerator
 				{
 					for(int yy = -1; yy < 3; yy++)
 					{
-						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), world.getBlock(xoff + xx, y + yy, zoff + zz));
+						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), new CustomEntry<Block, Integer>(world.getBlock(xoff + xx, y + yy, zoff + zz), world.getBlockMetadata(xoff + xx, y + yy, zoff + zz)));
 						temp = world.getTileEntity(xoff + xx, y + yy, zoff + zz);
 						if(temp != null)
 							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), temp);
@@ -206,9 +206,9 @@ public class MazeGenerator
 				}
 			}
 		}
-		
+
 		endBlockWorldCords = new Location3I(xoff + this.endBlock.getX(), y, zoff + this.endBlock.getY());
-		world.setBlock(xoff + this.endBlock.getX(), y, zoff + this.endBlock.getY(), Blocks.standing_sign);
+		world.setBlock(xoff + this.endBlock.getX(), y, zoff + this.endBlock.getY(), Blocks.standing_sign, 6, 2);
 		temp = world.getTileEntity(xoff + this.endBlock.getX(), y, zoff + this.endBlock.getY());
 		if(temp instanceof TileEntitySign)
 		{
@@ -222,7 +222,7 @@ public class MazeGenerator
 	public void endMaze(World world)
 	{
 		for(Location3I loc : this.blockStorgae.keySet())
-			world.setBlock(loc.getX(), loc.getY(), loc.getZ(), this.blockStorgae.get(loc), 0, 2);
+			world.setBlock(loc.getX(), loc.getY(), loc.getZ(), this.blockStorgae.get(loc).getKey(), this.blockStorgae.get(loc).getValue(), 2);
 
 		for(Location3I loc : this.tileStorgae.keySet())
 			world.setTileEntity(loc.getX(), loc.getY(), loc.getZ(), this.tileStorgae.get(loc));

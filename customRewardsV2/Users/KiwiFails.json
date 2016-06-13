@@ -33,5 +33,17 @@
 			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
 			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20}
 		]
+	},
+	"Fence_Gates":
+	{
+		"chance":0,
+		"Message":
+		[
+					{"message":"So fence gates....."}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:fence_gate","Count":64}, "delay":20}
+		]
 	}
 }

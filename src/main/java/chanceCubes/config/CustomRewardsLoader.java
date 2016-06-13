@@ -228,7 +228,7 @@ public class CustomRewardsLoader
 		{
 			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
 			{
-				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(0, CCubesCore.VERSION.lastIndexOf("."))))
+				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(Math.max(0, CCubesCore.VERSION.indexOf("-")), CCubesCore.VERSION.lastIndexOf("."))))
 				{
 					for(JsonElement reward : version.getValue().getAsJsonArray())
 					{

@@ -37,8 +37,11 @@ public class OrePillarReward implements IChanceCubeReward
 				ArrayList<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
 				if(ores.size() == 0)
 					continue;
-				Block b = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
-				blocks.add(new OffsetBlock(xx, yy - y, zz, b, false, delay / 3));
+				ItemStack chosenStack = ores.get(rand.nextInt(ores.size()));
+				Block b = Block.getBlockFromItem(chosenStack.getItem());
+				OffsetBlock osb = new OffsetBlock(xx, yy - y, zz, b, false, delay / 3);
+				osb.setData((byte) chosenStack.getItemDamage());
+				blocks.add(osb);
 				delay++;
 			}
 		}

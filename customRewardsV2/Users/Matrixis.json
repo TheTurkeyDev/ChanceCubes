@@ -27,15 +27,16 @@
 			{"message":"Turkey", "delay":105},
 			{"message":"Turkey", "delay":110},
 			{"message":"Turkey", "delay":115},
-			{"message":"Bomb?", "delay":120},
-			{"message":"Turkey", "delay":125},
-			{"message":"Turkey", "delay":130},
-			{"message":"Turkey", "delay":135},
-			{"message":"Turkey", "delay":140},
-			{"message":"Turkey", "delay":145},
-			{"message":"Turkey", "delay":150},
-			{"message":"Turkey", "delay":155},
-			{"message":"Turkey", "delay":160}
+			{"message":"Jacky!", "delay":120},
+			{"message":"Jacky!", "delay":125},
+			{"message":"Jacky!", "delay":130},
+			{"message":"Jacky!", "delay":135},
+			{"message":"Jacky!", "delay":140},
+			{"message":"Jacky!", "delay":145},
+			{"message":"Jacky!", "delay":150},
+			{"message":"Jacky!", "delay":155},
+			{"message":"Jacky!", "delay":160},
+			{"message":"Can't forget the bomb ;)", "delay":200}
 		],
 		"Item":
 		[
@@ -73,10 +74,19 @@
 		],
 		"Command":
 		[
-			{"command":"/summon PrimedTnt ~ ~1 ~ {Fuse:20}", "delay": 120},
-			{"command":"/summon PrimedTnt ~ ~1 ~ {Fuse:20}", "delay": 120},
-			{"command":"/summon PrimedTnt ~ ~1 ~ {Fuse:20}", "delay": 120},
-			{"command":"/summon PrimedTnt ~ ~1 ~ {Fuse:20}", "delay": 120}
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 120},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 125},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 130},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 135},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 140},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 145},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 150},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 155},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 160},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 210},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 210},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 210},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 210}
 		]
 	}
 }

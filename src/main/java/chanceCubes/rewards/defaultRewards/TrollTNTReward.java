@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 
@@ -20,7 +21,7 @@ public class TrollTNTReward implements IChanceCubeReward
 		{
 			for(int zz = -1; zz < 2; zz++)
 			{
-				world.setBlock((int) player.posX + xx, (int) player.posY, (int) player.posZ + zz, Blocks.web);
+				RewardsUtil.placeBlock(Blocks.web, world, (int) player.posX + xx, (int) player.posY, (int) player.posZ + zz);
 			}
 		}
 

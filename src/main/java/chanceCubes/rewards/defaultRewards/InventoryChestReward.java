@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 
 public class InventoryChestReward implements IChanceCubeReward
 {
@@ -28,21 +29,21 @@ public class InventoryChestReward implements IChanceCubeReward
 
 		player.addChatMessage(new ChatComponentText("At least i didnt delete your items..."));
 
-		world.setBlock(x, y, z, Blocks.chest);
-		world.setBlock(x + 1, y, z, Blocks.chest);
-		world.setBlock(x, y - 1, z, Blocks.obsidian);
-		world.setBlock(x + 1, y - 1, z, Blocks.obsidian);
-		world.setBlock(x - 1, y, z, Blocks.obsidian);
-		world.setBlock(x + 2, y, z, Blocks.obsidian);
-		world.setBlock(x, y, z + 1, Blocks.obsidian);
-		world.setBlock(x + 1, y, z + 1, Blocks.obsidian);
-		world.setBlock(x, y, z - 1, Blocks.obsidian);
-		world.setBlock(x + 1, y, z - 1, Blocks.obsidian);
-		world.setBlock(x, y - 1, z, Blocks.obsidian);
-		world.setBlock(x + 1, y - 1, z, Blocks.obsidian);
-		world.setBlock(x, y + 1, z, Blocks.obsidian);
-		world.setBlock(x + 1, y + 1, z, Blocks.obsidian);
-		
+		RewardsUtil.placeBlock(Blocks.chest, world, x, y, z);
+		RewardsUtil.placeBlock(Blocks.chest, world, x + 1, y, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x, y - 1, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 1, y - 1, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x - 1, y, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 2, y, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x, y, z + 1);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 1, y, z + 1);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x, y, z - 1);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 1, y, z - 1);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x, y - 1, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 1, y - 1, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x, y + 1, z);
+		RewardsUtil.placeBlock(Blocks.obsidian, world, x + 1, y + 1, z);
+
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(x, y, z);
 
 		for(int i = 0; i < stacks.size(); i++)
@@ -51,7 +52,7 @@ public class InventoryChestReward implements IChanceCubeReward
 				return;
 			else if(i > chest.getSizeInventory())
 				chest = (TileEntityChest) world.getTileEntity(x + 1, y, z);
-			
+
 			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
 		}
 	}

@@ -3,15 +3,15 @@ package chanceCubes.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.EntityPart;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import chanceCubes.rewards.rewardparts.CommandPart;
-import chanceCubes.rewards.rewardparts.EntityPart;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.rewardparts.ParticlePart;
 
 public class RewardsUtil
 {
@@ -106,5 +106,30 @@ public class RewardsUtil
 			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
 			entityplayer.addChatMessage(new ChatComponentText(message));
 		}
+	}
+	
+	public static boolean placeBlock(Block b, World world, int x, int y, int z)
+	{
+		return RewardsUtil.placeBlock(b, world, x, y, z, 0);
+	}
+	
+	public static boolean placeBlock(Block b, World world, int x, int y, int z, int meta)
+	{
+		return RewardsUtil.placeBlock(b, world, x, y, z, meta, 3);
+	}
+	
+	public static boolean placeBlock(Block b, World world, int x, int y, int z, int meta, int update)
+	{
+		if(!RewardsUtil.isBlockUnbreakable(world, x, y, z))
+		{
+			world.setBlock(x, y, z, b, meta, update);
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isBlockUnbreakable(World world, int x, int y, int z)
+	{
+		return world.getBlock(x, y, z).getBlockHardness(world, x, y, z) == -1;
 	}
 }
