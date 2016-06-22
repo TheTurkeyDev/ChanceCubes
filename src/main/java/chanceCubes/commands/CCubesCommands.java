@@ -8,9 +8,11 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 
@@ -83,7 +85,7 @@ public class CCubesCommands implements ICommand
 					if(nbt != null)
 						icommandsender.addChatMessage(new ChatComponentText(nbt.toString()));
 					else
-						icommandsender.addChatMessage(new ChatComponentText("This item has not tag nbt data"));
+						icommandsender.addChatMessage(new ChatComponentText("This item has no tag nbt data"));
 				}
 			}
 		}
@@ -92,8 +94,15 @@ public class CCubesCommands implements ICommand
 			if(icommandsender instanceof EntityPlayer)
 			{
 				EntityPlayer player = (EntityPlayer) icommandsender;
-				if(player.inventory.getCurrentItem() != null)
-					icommandsender.addChatMessage(new ChatComponentText(player.inventory.getCurrentItem().getUnlocalizedName()));
+				ItemStack stack = player.inventory.getCurrentItem();
+				if(stack != null)
+				{
+					String info = GameData.getItemRegistry().getNameForObject(stack.getItem());
+					if(info == null || info == "")
+						info = GameData.getBlockRegistry().getNameForObject(stack.getItem());
+					icommandsender.addChatMessage(new ChatComponentText(info));
+					icommandsender.addChatMessage(new ChatComponentText("meta: " + stack.getItemDamage()));
+				}
 			}
 		}
 		else if(astring[0].equalsIgnoreCase("disableReward"))
@@ -123,6 +132,10 @@ public class CCubesCommands implements ICommand
 			{
 				icommandsender.addChatMessage(new ChatComponentText("Try /chancecubes disableReward <Reward Name>"));
 			}
+		}
+		else if(astring[0].equalsIgnoreCase("test"))
+		{
+
 		}
 		else
 		{

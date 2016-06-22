@@ -45,6 +45,7 @@ import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
 import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.RottenFoodReward;
+import chanceCubes.rewards.defaultRewards.SkyblockReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
@@ -88,6 +89,8 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ChanceCubeRegistry implements IRewardRegistry
@@ -99,8 +102,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
-	public static List<String> oredicts = new ArrayList<String>();
+	private static List<String> oredicts = new ArrayList<String>();
 	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
+	private static List<String> fluids = new ArrayList<String>();
 
 	private static IChanceCubeReward lastReward = null;
 
@@ -121,6 +125,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		for(String oreDict : possibleModOres)
 			if(OreDictionary.doesOreNameExist(oreDict))
 				oredicts.add(oreDict);
+
+		for(String s : FluidRegistry.getRegisteredFluids().keySet())
+			fluids.add(s);
 
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
@@ -327,6 +334,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MazeReward());
 		INSTANCE.registerReward(new RottenFoodReward());
 		INSTANCE.registerReward(new OneIsLuckyReward());
+		INSTANCE.registerReward(new SkyblockReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -507,5 +515,18 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
 		this.disabledNameToReward.clear();
+	}
+	
+	public static String getRandomOreDict()
+	{
+		return ChanceCubeRegistry.oredicts.get(random.nextInt(ChanceCubeRegistry.oredicts.size()));
+	}
+
+	public static Fluid getRandomFluid()
+	{
+		Fluid f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
+		while(f == null || f.getBlock() == null)
+			f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
+		return f;
 	}
 }

@@ -13,11 +13,11 @@ import chanceCubes.CCubesCore;
 public class InventoryBombReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
-	
+
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		for(ItemStack stack: player.inventory.mainInventory)
+		for(ItemStack stack : player.inventory.mainInventory)
 		{
 			if(stack == null)
 				continue;
@@ -26,7 +26,7 @@ public class InventoryBombReward implements IChanceCubeReward
 			ient.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(ient);
 		}
-		for(ItemStack stack: player.inventory.armorInventory)
+		for(ItemStack stack : player.inventory.armorInventory)
 		{
 			if(stack == null)
 				continue;
@@ -35,19 +35,32 @@ public class InventoryBombReward implements IChanceCubeReward
 			ient.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(ient);
 		}
-		
+
 		player.inventory.openInventory();
-		
+
 		for(int i = 0; i < player.inventory.mainInventory.length; i++)
 			player.inventory.mainInventory[i] = new ItemStack(Blocks.deadbush, 64);
-		
+
 		for(int i = 0; i < player.inventory.armorInventory.length; i++)
-			player.inventory.armorInventory[i] = new ItemStack(Blocks.deadbush, 64);
-		
+		{
+			ItemStack stack = new ItemStack(Blocks.deadbush, 64);
+			if(i == 0)
+			{
+				stack.setStackDisplayName("ButtonBoy");
+				stack.stackSize = 13;
+			}
+			else if(i == 1)
+			{
+				stack.setStackDisplayName("TheBlackswordsman");
+				stack.stackSize = 13;
+			}
+			player.inventory.armorInventory[i] = stack;
+		}
+
 		player.inventory.closeInventory();
-		
+
 		player.addChatMessage(new ChatComponentText("Inventory Bomb!!!!"));
-		
+
 	}
 
 	@Override
@@ -63,4 +76,3 @@ public class InventoryBombReward implements IChanceCubeReward
 	}
 
 }
-

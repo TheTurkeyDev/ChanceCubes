@@ -20,6 +20,7 @@ import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.ChunkFlipReward;
 import chanceCubes.rewards.giantRewards.ChunkReverserReward;
 import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
+import chanceCubes.rewards.giantRewards.FluidTowerReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
@@ -52,6 +53,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ChunkFlipReward());
 		INSTANCE.registerReward(new OreSphereReward());
 		INSTANCE.registerReward(new PotionsReward());
+		INSTANCE.registerReward(new FluidTowerReward());
 	}
 
 	@Override
