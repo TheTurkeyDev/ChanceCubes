@@ -651,7 +651,7 @@ public class CustomRewardsLoader
 								b = osb.getBlock();
 						if(b == null)
 							b = Blocks.stone;
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, b, tileentity, falling);
+						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, b, nbttagcompound4, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 						block.setDealy(i1 * multiplier);
