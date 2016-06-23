@@ -16,8 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenTrees;
 public class SkyblockReward implements IChanceCubeReward
 {
 
-	private int skyblockHeight = 240;
-
 	// @formatter:off
 	
 	ItemStack[] chestStuff = { 
@@ -31,7 +29,11 @@ public class SkyblockReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
 	{
-
+		int skyblockHeight = world.getActualHeight() - 16;
+		if(world.provider.hasNoSky)
+		{
+			skyblockHeight = y;
+		}
 		Block b = Blocks.dirt;
 		for(int i = 0; i < 3; i++)
 		{
