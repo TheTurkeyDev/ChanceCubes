@@ -86,6 +86,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -201,6 +202,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":DIY_Pie", 5, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.PUMPKIN, false), new OffsetBlock(1, 1, 0, Blocks.REEDS, false)), new CommandRewardType(new CommandPart("/summon Chicken ~ ~1 ~ {CustomName:\"Zeeth_Kyrah\",CustomNameVisible:1}")), new MessageRewardType(new MessagePart("Do it yourself Pumpkin Pie!"))));
 
 		ItemStack stack;
+		NBTTagCompound nbt;
 
 		stack = new ItemStack(Items.STICK);
 		stack.addEnchantment(Enchantment.getEnchantmentByLocation("sharpness"), 5);
@@ -255,7 +257,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		TileEntitySign sign = new TileEntitySign();
 		sign.signText[0] = new TextComponentString("The broken path");
 		sign.signText[1] = new TextComponentString("to succeed");
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.STANDING_SIGN, ((TileEntity) sign), true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
+		nbt = new NBTTagCompound();
+		((TileEntity) sign).writeToNBT(nbt);
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.STANDING_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
 
 		OffsetTileEntity[] signs = new OffsetTileEntity[4];
 		OffsetTileEntity temp;
@@ -263,7 +267,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		{
 			sign = new TileEntitySign();
 			sign.signText[0] = new TextComponentString("Help Me!");
-			temp = new OffsetTileEntity(i == 2 ? -2 : i == 3 ? 2 : 0, 1, i == 0 ? -2 : i == 1 ? 2 : 0, Blocks.WALL_SIGN, ((TileEntity) sign), false, 5);
+			nbt = new NBTTagCompound();
+			((TileEntity) sign).writeToNBT(nbt);
+			temp = new OffsetTileEntity(i == 2 ? -2 : i == 3 ? 2 : 0, 1, i == 0 ? -2 : i == 1 ? 2 : 0, Blocks.WALL_SIGN, nbt, false, 5);
 			temp.setBlockState(Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, EnumFacing.getFront(i + 2)));
 			signs[i] = temp;
 		}
