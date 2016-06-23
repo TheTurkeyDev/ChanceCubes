@@ -33,7 +33,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.17.0.1936,)")
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.17.0.1976,)")
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
@@ -108,13 +108,14 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		CustomRewardsLoader.instance.loadDisabledRewards();
-		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 	}
 
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event)
 	{
+		ModHookUtil.loadCustomModRewards();
+		
 		event.registerServerCommand(new CCubesCommands());
 	}
 }

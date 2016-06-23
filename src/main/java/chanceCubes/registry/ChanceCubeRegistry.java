@@ -24,6 +24,7 @@ import chanceCubes.rewards.defaultRewards.AnvilRain;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BlindnessFightReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
+import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
 import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
@@ -37,6 +38,7 @@ import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.InventoryBombReward;
 import chanceCubes.rewards.defaultRewards.InventoryChestReward;
 import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
+import chanceCubes.rewards.defaultRewards.ItemRenamer;
 import chanceCubes.rewards.defaultRewards.JukeBoxReward;
 import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.MazeReward;
@@ -45,6 +47,7 @@ import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
 import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.RottenFoodReward;
+import chanceCubes.rewards.defaultRewards.SkyblockReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
@@ -92,6 +95,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ChanceCubeRegistry implements IRewardRegistry
@@ -103,8 +108,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
-	public static List<String> oredicts = new ArrayList<String>();
+	private static List<String> oredicts = new ArrayList<String>();
 	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
+	private static List<String> fluids = new ArrayList<String>();
 
 	private static IChanceCubeReward lastReward = null;
 
@@ -126,6 +132,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			if(OreDictionary.doesOreNameExist(oreDict))
 				oredicts.add(oreDict);
 
+		for(String s : FluidRegistry.getRegisteredFluids().keySet())
+			fluids.add(s);
+
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
@@ -141,7 +150,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hearts", 0, new ParticleEffectRewardType(RewardsUtil.spawnXParticles(34, 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(new SoundPart(SoundEvents.ENTITY_GENERIC_EXPLODE))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wool", 25, new ItemRewardType(new ItemPart(new ItemStack(Blocks.WOOL, 4, 0)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 1)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 2)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 3)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 4)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 5)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 6)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 7)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 8)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 9)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 10)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 11)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 12)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 13)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 14)), new ItemPart(new ItemStack(Blocks.WOOL, 4, 15)))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cake", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.CAKE, 1))), new MessageRewardType(new MessagePart("But is it a lie?"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemPart(new ItemStack(Blocks.ENCHANTING_TABLE)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.BOOKSHELF, 8)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 50, new ItemRewardType(new ItemPart(new ItemStack(Items.COAL)), new ItemPart(new ItemStack(Items.REDSTONE)), new ItemPart(new ItemStack(Items.IRON_INGOT)), new ItemPart(new ItemStack(Items.GOLD_INGOT)), new ItemPart(new ItemStack(Items.DIAMOND)), new ItemPart(new ItemStack(Items.EMERALD)))));
@@ -176,7 +184,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.DIAMOND_BLOCK, false)), new CommandRewardType(new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"), new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"), new CommandPart("/summon PrimedTnt %x %y %z {Fuse:40}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Anti_Slab", -15, new BlockRewardType(RewardsUtil.fillArea(3, 1, 3, Blocks.OBSIDIAN, -1, 2, -1, false, 0, false, true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chance_Cube_Cube", -10, new MessageRewardType(new MessagePart("Hey, at least it isn't a Giant Chance Cube >:)")), new BlockRewardType(new OffsetBlock(-1, 0, -1, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-1, 0, -2, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-2, 0, -1, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-2, 0, -2, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-1, 1, -1, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-1, 1, -2, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-2, 1, -1, CCubesBlocks.CHANCE_CUBE, false), new OffsetBlock(-2, 1, -2, CCubesBlocks.CHANCE_CUBE, false))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_GENERIC_EXPLODE).setDelay(120))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_GENERIC_EXPLODE).setDelay(120).setAtPlayersLocation(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_GHAST_SCREAM).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE, false)), new MessageRewardType(new MessagePart("No"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Creeper", -30, new CommandRewardType(new CommandPart("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}"))));
@@ -331,6 +339,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MazeReward());
 		INSTANCE.registerReward(new RottenFoodReward());
 		INSTANCE.registerReward(new OneIsLuckyReward());
+		INSTANCE.registerReward(new SkyblockReward());
+		INSTANCE.registerReward(new CakeIsALieReward());
+		INSTANCE.registerReward(new ItemRenamer());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -511,5 +522,18 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
 		this.disabledNameToReward.clear();
+	}
+
+	public static String getRandomOreDict()
+	{
+		return ChanceCubeRegistry.oredicts.get(random.nextInt(ChanceCubeRegistry.oredicts.size()));
+	}
+
+	public static Fluid getRandomFluid()
+	{
+		Fluid f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
+		while(f == null || f.getBlock() == null)
+			f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
+		return f;
 	}
 }

@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -84,11 +84,11 @@ public class ExtraUtilsModHook extends BaseModHook
 		if(stack != null)
 		{
 			stack.setItemDamage(1);
-			IFluidContainerItem cont;
+			IFluidHandler cont;
 			try
 			{
-				cont = (IFluidContainerItem) stack.getItem();
-				cont.fill(stack, new FluidStack(FluidRegistry.WATER, cont.getCapacity(stack)), true);
+				cont = (IFluidHandler) stack.getItem();
+				cont.fill(new FluidStack(FluidRegistry.WATER, 265000), true);
 			} catch(Exception e)
 			{
 				e.printStackTrace();

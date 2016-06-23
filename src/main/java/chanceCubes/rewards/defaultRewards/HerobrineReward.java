@@ -2,12 +2,12 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesCommandSender;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -43,15 +43,15 @@ public class HerobrineReward implements IChanceCubeReward
 		{
 			case 0:
 			{
-				player.addChatMessage(new TextComponentString(TextFormatting.YELLOW + "Herobrine joined the game."));
+				RewardsUtil.sendMessageToAllPlayers(world, TextFormatting.YELLOW + "Herobrine joined the game.");
 				break;
 			}
 			case 1:
 			{
 				if(staying)
-					player.addChatMessage(new TextComponentString("<Herobrine> " + staySayings[world.rand.nextInt(staySayings.length)]));
+					RewardsUtil.sendMessageToAllPlayers(world, "<Herobrine> " + staySayings[world.rand.nextInt(staySayings.length)]);
 				else
-					player.addChatMessage(new TextComponentString("<Herobrine> " + leaveSayings[world.rand.nextInt(leaveSayings.length)]));
+					RewardsUtil.sendMessageToAllPlayers(world, "<Herobrine> " + leaveSayings[world.rand.nextInt(leaveSayings.length)]);
 				break;
 			}
 			case 2:
@@ -68,7 +68,7 @@ public class HerobrineReward implements IChanceCubeReward
 				}
 				else
 				{
-					player.addChatMessage(new TextComponentString(TextFormatting.YELLOW + "Herobrine left the game."));
+					RewardsUtil.sendMessageToAllPlayers(world, TextFormatting.YELLOW + "Herobrine left the game.");
 				}
 				break;
 			}

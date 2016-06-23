@@ -28,6 +28,8 @@ public class TileGiantCube extends TileEntity
 	public NBTTagCompound writeToNBT(NBTTagCompound data)
 	{
 		data = super.writeToNBT(data);
+		if(masterPos == null)
+			masterPos = new BlockPos(0, 0, 0);
 		data.setInteger("masterX", masterPos.getX());
 		data.setInteger("masterY", masterPos.getY());
 		data.setInteger("masterZ", masterPos.getZ());

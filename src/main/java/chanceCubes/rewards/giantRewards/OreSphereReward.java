@@ -25,12 +25,18 @@ public class OreSphereReward implements IChanceCubeReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 
-		List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
+		List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.getRandomOreDict());
 		Block ore = null;
+		int meta = 0;
 		if(ores.size() == 0)
 			ore = Blocks.COAL_ORE;
 		else
-			ore = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
+		{
+			ItemStack stack = ores.get(rand.nextInt(ores.size()));
+			ore = Block.getBlockFromItem(stack.getItem());
+			meta = stack.getItemDamage();
+		}
+		ore = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
 
 		int delay = 0;
 		for(int i = 0; i < 5; i++)
@@ -45,7 +51,9 @@ public class OreSphereReward implements IChanceCubeReward
 						double dist = Math.abs(loc.getDistance(0, 0, 0));
 						if(dist <= i && dist > i - 1)
 						{
-							blocks.add(new OffsetBlock(xx, yy, zz, ore, false, delay));
+							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);
+							osb.setData((byte) meta);
+							blocks.add(osb);
 							delay++;
 						}
 					}

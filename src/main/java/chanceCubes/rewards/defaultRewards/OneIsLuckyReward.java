@@ -22,7 +22,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("A Lucky Block Salute"));
+		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "A Lucky Block Salute");
 		TileEntitySign sign = new TileEntitySign();
 		sign.signText[0] = new TextComponentString("One is lucky");
 		sign.signText[1] = new TextComponentString("One is not");

@@ -235,7 +235,7 @@ public class CustomRewardsLoader
 		{
 			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
 			{
-				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(Math.max(0, CCubesCore.VERSION.indexOf("-")), CCubesCore.VERSION.lastIndexOf("."))))
+				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION))
 				{
 					for(JsonElement reward : version.getValue().getAsJsonArray())
 					{
@@ -521,6 +521,12 @@ public class CustomRewardsLoader
 				sound.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
 			if(element.getAsJsonObject().has("range"))
 				sound.setRange(element.getAsJsonObject().get("range").getAsInt());
+			if(element.getAsJsonObject().has("playAtPlayersLocation"))
+				sound.setAtPlayersLocation(element.getAsJsonObject().get("playAtPlayersLocation").getAsBoolean());
+			if(element.getAsJsonObject().has("volume"))
+				sound.setVolume(element.getAsJsonObject().get("volume").getAsInt());
+			if(element.getAsJsonObject().has("pitch"))
+				sound.setPitch(element.getAsJsonObject().get("pitch").getAsInt());
 
 			sounds.add(sound);
 		}

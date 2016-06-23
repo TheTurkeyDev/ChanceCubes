@@ -9,11 +9,13 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class RewardsUtil
@@ -90,6 +92,26 @@ public class RewardsUtil
 		return toReturn;
 	}
 
+	public static void sendMessageToNearPlayers(World world, BlockPos pos, int distance, String message)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+		{
+			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
+			if(dist <= distance)
+				entityplayer.addChatMessage(new TextComponentString(message));
+		}
+	}
+
+	public static void sendMessageToAllPlayers(World world, String message)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+		{
+			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+			entityplayer.addChatMessage(new TextComponentString(message));
+		}
+	}
+
 	public static ItemStack getItemStack(String mod, String itemName, int size)
 	{
 		return getItemStack(mod, itemName, size, 0);
@@ -108,7 +130,7 @@ public class RewardsUtil
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
-		return RewardsUtil.placeBlock(b, world, pos, 0);
+		return RewardsUtil.placeBlock(b, world, pos, 3);
 	}
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update)

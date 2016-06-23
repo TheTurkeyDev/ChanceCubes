@@ -41,7 +41,7 @@ public class RenderEvent
 		{
 			if(chance == -201)
 			{
-				fontrenderer.drawString("The chance of this cube is: Desctruction... Probably", (k / 2) - 80, (l / 2) - 30, 16777215);
+				fontrenderer.drawString("The chance of this cube is: Destruction... Probably", (k / 2) - 80, (l / 2) - 30, 16777215);
 			}
 			else
 			{

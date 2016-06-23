@@ -12,8 +12,10 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
@@ -69,7 +71,7 @@ public class CCubesCommands implements ICommand
 			CustomRewardsLoader.instance.loadHolidayRewards();
 			ChanceCubeRegistry.loadCustomUserRewards(server);
 			ModHookUtil.loadCustomModRewards();
-			sender.addChatMessage(new TextComponentString("RewardsReloaded"));
+			sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
@@ -86,7 +88,7 @@ public class CCubesCommands implements ICommand
 					if(nbt != null)
 						sender.addChatMessage(new TextComponentString(nbt.toString()));
 					else
-						sender.addChatMessage(new TextComponentString("This item has not tag nbt data"));
+						sender.addChatMessage(new TextComponentString("This item has no tag nbt data"));
 				}
 			}
 		}
@@ -95,8 +97,13 @@ public class CCubesCommands implements ICommand
 			if(sender instanceof EntityPlayer)
 			{
 				EntityPlayer player = (EntityPlayer) sender;
-				if(player.inventory.getCurrentItem() != null)
-					sender.addChatMessage(new TextComponentString(player.inventory.getCurrentItem().getUnlocalizedName()));
+				ItemStack stack = player.inventory.getCurrentItem();
+				if(stack != null)
+				{
+					ResourceLocation res = stack.getItem().getRegistryName();
+					sender.addChatMessage(new TextComponentString(res.getResourceDomain() + ":" + res.getResourcePath()));
+					sender.addChatMessage(new TextComponentString("meta: " + stack.getItemDamage()));
+				}
 			}
 		}
 		else if(args[0].equalsIgnoreCase("disableReward"))
@@ -126,6 +133,10 @@ public class CCubesCommands implements ICommand
 			{
 				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
 			}
+		}
+		else if(args[0].equalsIgnoreCase("test"))
+		{
+
 		}
 		else
 		{

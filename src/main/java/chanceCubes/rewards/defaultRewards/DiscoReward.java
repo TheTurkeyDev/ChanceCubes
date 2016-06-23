@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class DiscoReward implements IChanceCubeReward
@@ -35,7 +34,7 @@ public class DiscoReward implements IChanceCubeReward
 
 		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState(), world, pos.add(0, 3, 0));
 
-		player.addChatMessage(new TextComponentString("Disco Party!!!!"));
+		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Disco Party!!!!");
 	}
 
 	@Override

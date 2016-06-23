@@ -35,7 +35,7 @@ public class OrePillarReward implements IChanceCubeReward
 			int zz = rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
-				List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.oredicts.get(rand.nextInt(ChanceCubeRegistry.oredicts.size())));
+				List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.getRandomOreDict());
 				if(ores.size() == 0)
 					continue;
 				ItemStack chosenStack = ores.get(rand.nextInt(ores.size()));
