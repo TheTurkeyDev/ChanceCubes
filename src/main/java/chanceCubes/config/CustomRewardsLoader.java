@@ -646,7 +646,7 @@ public class CustomRewardsLoader
 				for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
 				{
 					NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-					TileEntity tileentity = TileEntity.create(nbttagcompound4);
+					TileEntity tileentity = TileEntity.func_190200_a(null, nbttagcompound4);
 
 					if(tileentity != null)
 					{
@@ -659,7 +659,7 @@ public class CustomRewardsLoader
 								b = osb.getBlock();
 						if(b == null)
 							b = Blocks.STONE;
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, tileentity, falling);
+						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 						if(element.getAsJsonObject().has("RelativeToPlayer"))
 							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 						block.setDealy(i1 * multiplier);
