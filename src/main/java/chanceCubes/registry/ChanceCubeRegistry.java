@@ -538,4 +538,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
 		return f;
 	}
+	
+	public int getNumOfRewards()
+	{
+		return this.sortedRewards.size();
+	}
 }

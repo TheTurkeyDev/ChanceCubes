@@ -135,7 +135,7 @@ public class CCubesCommands implements ICommand
 		}
 		else if(astring[0].equalsIgnoreCase("test"))
 		{
-
+			System.out.println(ChanceCubeRegistry.INSTANCE.getNumOfRewards());
 		}
 		else
 		{
