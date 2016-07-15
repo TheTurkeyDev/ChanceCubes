@@ -100,7 +100,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getCommandSenderName()))
 		{
-			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You cant have his reward! Try again!"));
+			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
 			Entity itemEnt = new EntityItem(world, x, y, z, new ItemStack(CCubesBlocks.chanceCube, 1));
 			world.spawnEntityInWorld(itemEnt);
 			return;
