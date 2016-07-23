@@ -1,0 +1,9 @@
+"Kitties":
+{
+  "chance": 0,
+  "Message":
+  [
+    {"message":"01001000 01100101 01101100 01101100 01101111 "},
+    {"message":"<3 Turkey", "delay":10}
+  ]
+}

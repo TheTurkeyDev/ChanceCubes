@@ -44,5 +44,7 @@
 	{"UUID":"52def72c-3400-41ed-9441-84433ca8ff09", "Name":"MrCrainer", "Type":"YouTuber"},
 	{"UUID":"af63c94d-5dbe-4a34-b779-3d44fd9edb2a", "Name":"CrustyMustard", "Type":"Streamer"},
 	{"UUID":"5dd820dc-a379-48da-ac07-8ae569b083f0", "Name":"Lewdicolo", "Type":"Streamer"},
-	{"UUID":"60db82af-b65a-4f82-81a1-c2349ab00796", "Name":"PulpJohnFiction", "Type":"Streamer"}
+	{"UUID":"60db82af-b65a-4f82-81a1-c2349ab00796", "Name":"PulpJohnFiction", "Type":"Streamer"},
+	{"UUID":"510196ef-fff6-4276-86a8-2271ac280cac", "Name":"ReNinjaKitteh", "Type":"Streamer"},
+	{"UUID":"7657b3d4-cfd3-4078-b523-df0e1eb0f307", "Name":"Zeekdageek", "Type":"Streamer"}
 ]
