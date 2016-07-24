@@ -36,7 +36,6 @@ import chanceCubes.rewards.defaultRewards.FiveProngReward;
 import chanceCubes.rewards.defaultRewards.HerobrineReward;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.InventoryBombReward;
-import chanceCubes.rewards.defaultRewards.InventoryChestReward;
 import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
 import chanceCubes.rewards.defaultRewards.ItemRenamer;
 import chanceCubes.rewards.defaultRewards.JukeBoxReward;
@@ -44,6 +43,7 @@ import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.MazeReward;
 import chanceCubes.rewards.defaultRewards.NukeReward;
 import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
+import chanceCubes.rewards.defaultRewards.QuestionsReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
 import chanceCubes.rewards.defaultRewards.RemoveUsefulThingsReward;
 import chanceCubes.rewards.defaultRewards.RottenFoodReward;
@@ -196,6 +196,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Squid_Horde", 5, new MessageRewardType(new MessagePart("Release the horde!").setRange(32), new MessagePart("Of squids!!").setDelay(20).setRange(32)), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Squid"), 15)), new BlockRewardType(RewardsUtil.fillArea(3, 2, 3, Blocks.water, -1, 0, -1, false, 5, true, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":D-rude_SandStorm", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.sand, -2, 0, -2, true, 0, false, true)), new MessageRewardType(new MessagePart("Well that was  D-rude").setDelay(40))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":DIY_Pie", 5, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.pumpkin, false), new OffsetBlock(1, 1, 0, Blocks.reeds, false)), new CommandRewardType(new CommandPart("/summon Chicken ~ ~1 ~ {CustomName:\"Zeeth_Kyrah\",CustomNameVisible:1}")), new MessageRewardType(new MessagePart("Do it yourself Pumpkin Pie!"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Watch_World_Burn", -5, new BlockRewardType(RewardsUtil.fillArea(7, 1, 7, Blocks.fire, -3, 0, -3, false, 0, true, true)), new MessageRewardType(new MessagePart("Some people just want to watch the world burn."))));
 
 		ItemStack stack;
 		NBTTagCompound nbt;
@@ -327,7 +328,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new WaitForItReward());
 		INSTANCE.registerReward(new ChargedCreeperReward());
 		// INSTANCE.registerReward(new ZombieCopyCatReward());
-		INSTANCE.registerReward(new InventoryChestReward());
+		// INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
 		INSTANCE.registerReward(new ThrownInAirReward());
 		INSTANCE.registerReward(new DiscoReward());
@@ -357,6 +358,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
 		INSTANCE.registerReward(math);
+
+		QuestionsReward question = new QuestionsReward();
+		MinecraftForge.EVENT_BUS.register(question);
+		INSTANCE.registerReward(question);
 	}
 
 	public static void loadCustomUserRewards()
@@ -460,6 +465,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					chance += pendant.getChanceIncrease();
 					if(chance > 100)
 						chance = 100;
+					break;
 				}
 			}
 		}
@@ -525,7 +531,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		this.nameToReward.clear();
 		this.disabledNameToReward.clear();
 	}
-	
+
 	public static String getRandomOreDict()
 	{
 		return ChanceCubeRegistry.oredicts.get(random.nextInt(ChanceCubeRegistry.oredicts.size()));
@@ -538,7 +544,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
 		return f;
 	}
-	
+
 	public int getNumOfRewards()
 	{
 		return this.sortedRewards.size();

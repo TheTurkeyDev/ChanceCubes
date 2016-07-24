@@ -11,7 +11,6 @@ tile.Cube_Dispenser.name=Chance Cube Dispenser
 item.chancePendantTier1.name=Tier 1 Chance Pendant
 item.chancePendantTier2.name=Tier 2 Chance Pendant
 item.chancePendantTier3.name=Tier 3 Chance Pendant
-item.chancePendantTier4.name=Tier 4 Chance Pendant
 
 item.creativePendant.name=Creative Chance Pendant
 item.rewardSelectorPendant.name=Reward Selector Pendant
@@ -22,3 +21,4 @@ item.scanner.name=Chance Cube Scanner
 
 death.attack.mathdeath=%1$s's mind exploded from the power of math.
 death.attack.mazedeath=%1$s was forever lost in the Chance Cube maze.
+death.attack.questiondeath=%1$s suffered the consequences of the wrong answer.

@@ -17,11 +17,11 @@ public class ItemRenamer implements IChanceCubeReward
 	// @formatter:off
 	private String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster", 
 			"Vash", "Cazador", "KiwiFails", "Matrixis", "FlameGoat", "iChun", "tibbzeh", "Reninsane", 
-			"PulpJohnFiction"};
+			"PulpJohnFiction", "Zeek", "Sevadus", "Bob Ross", "T-loves", "Headwounds", "JonBams"};
 	
 	private String[] adjectives = {"Destroyer", "Terror", "Wrath", "Smasher", "P90", "Wisdom", "Savior", 
-			"Lightning Bringer", "Rage", "Happiness", "Shocker", " Slayer", "Sunshine", "Giant Crayon", "Blade",
-			"Tamer", "Order"};
+			"Lightning Bringer", "Rage", "Happiness", "Shocker", " Slayer", "Sunshine", "Blade",
+			"Tamer", "Order", "Sharp Edge", "Noodle", "Diamond", "Rod", "Big Giant Sharp Pokey Thing"};
 	
 	// @formatter:on
 

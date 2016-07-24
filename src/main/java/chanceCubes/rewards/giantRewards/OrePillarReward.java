@@ -28,7 +28,7 @@ public class OrePillarReward implements IChanceCubeReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
-		for(int i = 0; i < rand.nextInt(6) + 3; i++)
+		for(int i = 0; i < rand.nextInt(4) + 2; i++)
 		{
 			int xx = rand.nextInt(30) - 15;
 			int zz = rand.nextInt(30) - 15;

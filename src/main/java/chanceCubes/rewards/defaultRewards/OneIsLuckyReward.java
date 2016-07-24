@@ -37,7 +37,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		if(RewardsUtil.placeBlock(CCubesBlocks.chanceCube, world, x + 1, y, z))
 			world.setTileEntity(x + 1, y, z, rightCube);
 
-		Task task = new Task("One_Is_Lucky_Reward", 20)
+		Task task = new Task("One_Is_Lucky_Reward", 10)
 		{
 			@Override
 			public void callback()
@@ -67,7 +67,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		if(world.isAirBlock(loc.getX() - 1, loc.getY(), loc.getZ()) || world.isAirBlock(loc.getX() + 1, loc.getY(), loc.getZ()))
 			flag = true;
 
-		if(iteration == 300 || flag)
+		if(iteration == 600 || flag)
 		{
 			world.setBlockToAir(loc.getX() - 1, loc.getY(), loc.getZ());
 			world.setBlockToAir(loc.getX(), loc.getY(), loc.getZ());
@@ -75,7 +75,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 			return;
 		}
 
-		Task task = new Task("Maze_Reward_Update", 20)
+		Task task = new Task("One_Is_Lucky_Reward", 10)
 		{
 			@Override
 			public void callback()

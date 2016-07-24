@@ -5,6 +5,7 @@ import net.minecraft.util.DamageSource;
 public class CCubesDamageSource extends DamageSource
 {
 	public static CCubesDamageSource mathfail = new CCubesDamageSource("mathdeath");
+	public static CCubesDamageSource questionfail = new CCubesDamageSource("questiondeath");
 	public static CCubesDamageSource mazefail = new CCubesDamageSource("mazedeath");
 	
 	public CCubesDamageSource(String id)
