@@ -3,22 +3,23 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class OffsetTileEntity extends OffsetBlock
 {
 
-	private TileEntity te;
+	private NBTTagCompound nbt;
 
-	public OffsetTileEntity(int x, int y, int z, Block block, TileEntity te, boolean falling)
+	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound nbt, boolean falling)
 	{
-		this(x, y, z, block, te, falling, 0);
+		this(x, y, z, block, nbt, falling, 0);
 	}
-	public OffsetTileEntity(int x, int y, int z, Block block, TileEntity te, boolean falling, int delay)
+	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound nbt, boolean falling, int delay)
 	{
 		super(x, y, z, block, falling, delay);
-		this.te = te;
+		this.nbt = nbt;
 	}
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
@@ -66,6 +67,7 @@ public class OffsetTileEntity extends OffsetBlock
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
 		super.placeInWorld(world, x, y, z, offset);
+		TileEntity te = TileEntity.createAndLoadEntity(nbt);
 		te.blockMetadata = this.data;
 		if(offset)
 			world.setTileEntity(x + xOff, y + yOff, z + zOff, te);

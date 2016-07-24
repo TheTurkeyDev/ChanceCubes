@@ -103,13 +103,14 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		CustomRewardsLoader.instance.loadDisabledRewards();
-		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 	}
 
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event)
 	{
+		ModHookUtil.loadCustomModRewards();
+		
 		event.registerServerCommand(new CCubesCommands());
 	}
 }

@@ -1,10 +1,11 @@
 {
-	"t-Love":
+	"Cookies":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"All the love for t-love!!! -Turkey"}
+			{"message":"Cookies!!! -Turkey"},
+			{"message":"That ain't a cookie O.o", "delay": 250}
 		],
 		"Item":
 		[
@@ -20,6 +21,13 @@
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":200},
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":220},
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":240}
+		],
+		"Command":
+		[
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 260},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 260},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 260},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:20}", "delay": 260}
 		]
 	}
 }

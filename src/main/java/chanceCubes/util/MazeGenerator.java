@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
@@ -18,7 +19,7 @@ public class MazeGenerator
 	private int[][] map;
 	private ArrayList<Location2I> walls = new ArrayList<Location2I>();
 	private Map<Location3I, CustomEntry<Block, Integer>> blockStorgae = new HashMap<Location3I, CustomEntry<Block, Integer>>();
-	private Map<Location3I, TileEntity> tileStorgae = new HashMap<Location3I, TileEntity>();
+	private Map<Location3I, NBTTagCompound> tileStorgae = new HashMap<Location3I, NBTTagCompound>();
 	private Random r = new Random();
 
 	private int currentX = 1;
@@ -170,6 +171,7 @@ public class MazeGenerator
 		int zoff = (z - (this.height / 2));
 
 		TileEntity temp;
+		NBTTagCompound nbt = new NBTTagCompound();
 		for(int xx = 0; xx < this.width; xx++)
 		{
 			for(int zz = 0; zz < this.height; zz++)
@@ -181,7 +183,10 @@ public class MazeGenerator
 						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), new CustomEntry<Block, Integer>(world.getBlock(xoff + xx, y + yy, zoff + zz), world.getBlockMetadata(xoff + xx, y + yy, zoff + zz)));
 						temp = world.getTileEntity(xoff + xx, y + yy, zoff + zz);
 						if(temp != null)
-							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), temp);
+						{
+							temp.writeToNBT(nbt);
+							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), nbt);
+						}
 					}
 
 					world.setBlock(xoff + xx, y - 1, zoff + zz, Blocks.bedrock);
@@ -197,7 +202,10 @@ public class MazeGenerator
 						blockStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), new CustomEntry<Block, Integer>(world.getBlock(xoff + xx, y + yy, zoff + zz), world.getBlockMetadata(xoff + xx, y + yy, zoff + zz)));
 						temp = world.getTileEntity(xoff + xx, y + yy, zoff + zz);
 						if(temp != null)
-							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), temp);
+						{
+							temp.writeToNBT(nbt);
+							this.tileStorgae.put(new Location3I(xoff + xx, y + yy, zoff + zz), nbt);
+						}
 					}
 					world.setBlockToAir(xoff + xx, y - 1, zoff + zz);
 					world.setBlock(xoff + xx, y, zoff + zz, Blocks.bedrock);
@@ -225,6 +233,6 @@ public class MazeGenerator
 			world.setBlock(loc.getX(), loc.getY(), loc.getZ(), this.blockStorgae.get(loc).getKey(), this.blockStorgae.get(loc).getValue(), 2);
 
 		for(Location3I loc : this.tileStorgae.keySet())
-			world.setTileEntity(loc.getX(), loc.getY(), loc.getZ(), this.tileStorgae.get(loc));
+			world.setTileEntity(loc.getX(), loc.getY(), loc.getZ(), TileEntity.createAndLoadEntity(this.tileStorgae.get(loc)));
 	}
 }

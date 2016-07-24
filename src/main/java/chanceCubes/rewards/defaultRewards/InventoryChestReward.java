@@ -19,7 +19,7 @@ public class InventoryChestReward implements IChanceCubeReward
 	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
 	{
 		final List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(ItemStack stack : player.inventory.mainInventory)
+		for(ItemStack stack : player.inventory.mainInventory.clone())
 			if(stack != null)
 				stacks.add(stack);
 

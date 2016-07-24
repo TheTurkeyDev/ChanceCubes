@@ -12,9 +12,9 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 	{
 		super(sounds);
 	}
-	
+
 	@Override
-	public void trigger(final SoundPart sound, final World world, final int x, final int y, final int z, EntityPlayer player)
+	public void trigger(final SoundPart sound, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
 		if(sound.getDelay() != 0)
 		{
@@ -23,16 +23,22 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 				@Override
 				public void callback()
 				{
-					world.playSoundEffect(x, y, z, sound.getSound(), 1, 1);
+					if(sound.playAtPlayersLocation())
+						world.playSoundEffect(player.posX, player.posY, player.posZ, sound.getSound(), sound.getVolume(), sound.getPitch());
+					else
+						world.playSoundEffect(x, y, z, sound.getSound(), sound.getVolume(), sound.getPitch());
 				}
 			};
 			Scheduler.scheduleTask(task);
 		}
 		else
 		{
-			world.playSoundEffect(x, y, z, sound.getSound(), 1, 1);
+			if(sound.playAtPlayersLocation())
+				world.playSoundEffect(player.posX, player.posY, player.posZ, sound.getSound(), sound.getVolume(), sound.getPitch());
+			else
+				world.playSoundEffect(x, y, z, sound.getSound(), sound.getVolume(), sound.getPitch());
 		}
-		
+
 	}
 
 }
