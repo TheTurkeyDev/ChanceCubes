@@ -18,6 +18,15 @@
 		[
 			{"message":"I would've made the text brown but it wasn't an option :("}
 		]
+	},
+
+	"NotKehaan":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Because I'm not Kehaan, I won't blow out your eardrums :)"}
+		]
 	}
 	
 }
