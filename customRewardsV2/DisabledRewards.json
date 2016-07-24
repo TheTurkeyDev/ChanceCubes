@@ -7,6 +7,10 @@
     "chancecubes:Insta-Damage"
   ],
   "2.1.2":[
-    "chancecubes:Inventory_Bomb"
+    "chancecubes:Inventory_Bomb",
+    "chancecubes:Inventory_Chest"
+  ],
+  "2.1.3":[
+    "chancecubes:Inventory_Chest"
   ]
 }
