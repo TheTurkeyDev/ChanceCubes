@@ -6,6 +6,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -36,6 +37,14 @@ public class ItemRenamer implements IChanceCubeReward
 		for(ItemStack stack : player.inventory.armorInventory)
 			if(stack != null)
 				stacks.add(stack);
+		
+		if(stacks.size() == 0)
+		{
+			ItemStack dirt = new ItemStack(Blocks.dirt);
+			dirt.setStackDisplayName("A lonley piece of dirt");
+			player.inventory.addItemStackToInventory(dirt);
+			return;
+		}
 
 		for(int i = 0; i < 3; i++)
 		{
