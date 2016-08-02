@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BlockChanceCube;
+import chanceCubes.blocks.BlockChanceCube.EnumTexture;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -132,11 +134,11 @@ public class CCubesCommands implements ICommand
 			else
 			{
 				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
-			}
+			}	
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-
+			
 		}
 		else
 		{

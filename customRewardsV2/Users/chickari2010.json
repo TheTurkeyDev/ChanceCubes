@@ -5,19 +5,19 @@
 		"Message":
 		[
 			{"message":"Chikari"},
-			{"message":"Chik"},
-			{"message":"Chi"},
-			{"message":"Chic"},
-			{"message":"Chickens"},
-			{"message":"Chickens!!!!!"}
+			{"message":"Chik", "delay":10},
+			{"message":"Chi", "delay":20},
+			{"message":"Chic", "delay":30},
+			{"message":"Chickens", "delay":40},
+			{"message":"Chickens!!!!!", "delay":50}
 		],
 		"Entity":
 		[
-			{"entity":{"id":"Chicken"}},
-			{"entity":{"id":"Chicken"}},
-			{"entity":{"id":"Chicken"}},
-			{"entity":{"id":"Chicken"}},
-			{"entity":{"id":"Chicken"}}
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60}
 		]
 	}
 }

@@ -9,7 +9,7 @@
 		"Item":
 		[
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":20},
-			{"item":{"id":"minecraft:cookie","Count":1}, "delay":60},
+			{"item":{"id":"minecraft:cookie","Count":1}, "delay":40},
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":60},
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":80},
 			{"item":{"id":"minecraft:cookie","Count":1}, "delay":100},

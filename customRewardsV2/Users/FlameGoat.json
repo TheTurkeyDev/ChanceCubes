@@ -1,0 +1,69 @@
+{
+	"Both":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"10 Chance Cubes or 1 Giant Cube?"},
+			{"message":"Why not both!!", "delay":20}
+		],
+		"Command":
+		[
+			{"command":"/give @p chancecubes:Chance_Cube 10 0", "delay": 40},
+			{"command":"/setblock ~ ~ ~ chancecubes:Chance_Cube 0 replace ", "delay": 42}
+		],
+		"Block":
+		[
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":1,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":1,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":1,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":1,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":1,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":1,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":1,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":1,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":2,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":2,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":-1,"YOffSet":2,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":2,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":2,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":2,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":2,"ZOffSet":-1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":2,"ZOffSet":0,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40},
+			{"XOffSet":1,"YOffSet":2,"ZOffSet":1,"Block":"chancecubes:Chance_Cube", "Falling":false, "delay": 40}
+		]
+	},
+	"Flaming_Sheep":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Hmmmm seems no flaming goats could be found"},
+			{"message":"Sheep will have to do", "delay":40},
+			{"message":"<3 Wyld", "delay":60}
+		],
+		"Command":
+		[
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60}
+		]
+	}
+}

@@ -1,11 +1,11 @@
 {
   "parent": "block/cube",
 	"textures": {
-        "down": "chancecubes:blocks/chanceCubeHalloweenTop",
-        "up": "chancecubes:blocks/chanceCubeHalloweenTop",
-        "north": "chancecubes:blocks/chanceCubeHalloween",
-        "east": "chancecubes:blocks/chanceCubeHalloween",
-        "south": "chancecubes:blocks/chanceCubeHalloween",
-        "west": "chancecubes:blocks/chanceCubeHalloween"
+        "down": "chancecubes:blocks/chanceCubeHalloween_face_1",
+        "up": "chancecubes:blocks/chanceCubeHalloween_face_6",
+        "north": "chancecubes:blocks/chanceCubeHalloween_face_2",
+        "east": "chancecubes:blocks/chanceCubeHalloween_face_3",
+        "south": "chancecubes:blocks/chanceCubeHalloween_face_5",
+        "west": "chancecubes:blocks/chanceCubeHalloween_face_4"
     }
 }

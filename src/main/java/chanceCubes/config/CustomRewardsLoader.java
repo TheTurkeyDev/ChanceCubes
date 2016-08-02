@@ -23,6 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BlockChanceCube;
+import chanceCubes.blocks.BlockChanceCube.EnumTexture;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
@@ -174,6 +176,9 @@ public class CustomRewardsLoader
 					{
 						CCubesSettings.hasHolidayTexture = true;
 						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
+						for(EnumTexture t : EnumTexture.values())
+							if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
+								BlockChanceCube.textureToSet = t;
 					}
 				} catch(ParseException e)
 				{
