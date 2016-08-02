@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+	"textures": {
+        "down": "chancecubes:blocks/chanceCubeEasterTop",
+        "up": "chancecubes:blocks/chanceCubeEasterTop",
+        "north": "chancecubes:blocks/chanceCubeEaster",
+        "east": "chancecubes:blocks/chanceCubeEaster",
+        "south": "chancecubes:blocks/chanceCubeEaster",
+        "west": "chancecubes:blocks/chanceCubeEaster"
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+	"textures": {
+        "down": "chancecubes:blocks/chanceCubeHalloweenTop",
+        "up": "chancecubes:blocks/chanceCubeHalloweenTop",
+        "north": "chancecubes:blocks/chanceCubeHalloween",
+        "east": "chancecubes:blocks/chanceCubeHalloween",
+        "south": "chancecubes:blocks/chanceCubeHalloween",
+        "west": "chancecubes:blocks/chanceCubeHalloween"
+    }
+}

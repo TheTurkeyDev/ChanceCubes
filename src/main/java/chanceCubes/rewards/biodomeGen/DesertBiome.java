@@ -25,14 +25,26 @@ public class DesertBiome implements IBioDomeBiome
 
 		if(dist < 0 && rand.nextInt(50) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.DEADBUSH, false, (delay / BioDomeReward.delayShorten));
+			delay++;
+			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeReward.delayShorten) + 1);
+			blocks.add(osb);
+			osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeReward.delayShorten));
+			blocks.add(osb);
+			delay++;
+			osb = new OffsetBlock(x, y + 1, z, Blocks.DEADBUSH, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
 		}
 
 		if(dist < 0 && rand.nextInt(60) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
+			delay++;
+			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeReward.delayShorten) + 1);
+			blocks.add(osb);
+			osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeReward.delayShorten));
+			blocks.add(osb);
+			delay++;
+			osb = new OffsetBlock(x, y + 1, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
 			delay++;
 			osb = new OffsetBlock(x, y + 2, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));

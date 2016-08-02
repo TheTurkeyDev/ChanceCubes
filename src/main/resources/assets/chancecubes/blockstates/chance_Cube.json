@@ -1,5 +1,10 @@
 {
     "variants": {
-        "normal": { "model": "chancecubes:chance_Cube" }
+        "texture=default": { "model": "chancecubes:chance_Cube_Default" },
+        "texture=valentines": { "model": "chancecubes:chance_Cube_Valentines" },
+        "texture=stpatricks": { "model": "chancecubes:chance_Cube_Stpatricks" },
+        "texture=easter": { "model": "chancecubes:chance_Cube_Easter" },
+        "texture=halloween": { "model": "chancecubes:chance_Cube_Halloween" },
+        "texture=holidays": { "model": "chancecubes:chance_Cube_Holidays" }
     }
 }
