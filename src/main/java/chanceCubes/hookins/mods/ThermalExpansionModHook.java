@@ -67,7 +67,7 @@ public class ThermalExpansionModHook extends BaseModHook
 			NBTTagCompound nbt = stack.stackTagCompound;
 			if(nbt == null)
 				nbt = new NBTTagCompound();
-			nbt.setInteger("Energy", 32000);
+			nbt.setInteger("Energy", stack.getMaxDamage());
 			stack.stackTagCompound = nbt;
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Tuberous_Capacitor", 25, new MessageRewardType(new MessagePart("It's a potato!!")), new ItemRewardType(new ItemPart(stack))));
 		}
