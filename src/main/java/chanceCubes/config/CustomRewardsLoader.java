@@ -175,7 +175,7 @@ public class CustomRewardsLoader
 					if(this.compareDates(start, today) >= 0 && this.compareDates(end, today) <= 0)
 					{
 						CCubesSettings.hasHolidayTexture = true;
-						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
+						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Name").getAsString();
 						for(EnumTexture t : EnumTexture.values())
 							if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
 								BlockChanceCube.textureToSet = t;
@@ -858,6 +858,7 @@ public class CustomRewardsLoader
 
 		int fd = first.get(Calendar.DAY_OF_MONTH);
 		int sd = second.get(Calendar.DAY_OF_MONTH);
+
 
 		if(fm < sm)
 			return 1;
