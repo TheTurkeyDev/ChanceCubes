@@ -27,7 +27,17 @@ public enum CCubesSounds
 	
 	public static SoundEvent registerSound(String name)
 	{
-		return new SoundEvent(new ResourceLocation(CCubesCore.MODID, name));
+        if(name.contains(":"))
+        {
+            int loc = name.indexOf(":");
+            return new SoundEvent(new ResourceLocation(name.substring(0, loc), name.substring(loc + 1)));
+        }
+        else
+        {
+            return new SoundEvent(new ResourceLocation(name));
+        }
+            
+
 	}
 
 	public SoundEvent getSoundEvent()

@@ -2,6 +2,7 @@ package chanceCubes.items;
 
 import java.util.List;
 
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
@@ -52,8 +53,12 @@ public class ItemChanceCube extends ItemBlock
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		String chance = this.getChanceAsStringValue(stack);
-		list.add("Chance Value: " + chance);
+        if(stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
+        {
+            String chance = this.getChanceAsStringValue(stack);
+            list.add("Chance Value: " + chance);
+        }
+
 	}
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, IBlockState blockState)

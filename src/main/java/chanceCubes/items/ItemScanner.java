@@ -66,12 +66,6 @@ public class ItemScanner extends BaseChanceCubesItem
 
 					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 					{
-						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
-					}
-
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
-					{
 						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
 						te.setScanned(true);
 						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
@@ -86,6 +80,14 @@ public class ItemScanner extends BaseChanceCubesItem
 						flag = true;
 						RenderEvent.setLookingAtChance(te.getChance());
 					}
+                    else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+                    {
+                        flag = false;
+                        RenderEvent.setLookingAtChance(-201);
+                        RenderEvent.setLookingAt(true);
+                        RenderEvent.setChanceIncrease(0);
+                    }
+
 
 					if(flag)
 					{
