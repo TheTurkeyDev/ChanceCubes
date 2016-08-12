@@ -65,7 +65,7 @@ public class SkyblockReward implements IChanceCubeReward
 		for(int i = 0; i < chestStuff.length; i++)
 		{
 			int slot = ((i < 4 ? 0 : i < 8 ? 1 : 2) * 9) + i % 4;
-			chest.setInventorySlotContents(slot, chestStuff[i]);
+			chest.setInventorySlotContents(slot, chestStuff[i].copy());
 		}
 
 		player.setPositionAndUpdate(pos.getX(), skyblockHeight + 3, pos.getZ());
