@@ -268,15 +268,18 @@ public class CustomRewardsLoader
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
 						versionUsed = true;
-						String currentMCV = CCubesCore.gameVersion;
-						String toCheckV = dependencies.getValue().getAsString();
-						if(toCheckV.contains("*"))
+						String[] versionsToCheck = dependencies.getValue().getAsString().split(",");
+						for(String toCheckV : versionsToCheck)
 						{
-							currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
-							toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
+							String currentMCV = CCubesCore.gameVersion;
+							if(toCheckV.contains("*"))
+							{
+								currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
+								toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
+							}
+							if(currentMCV.equalsIgnoreCase(toCheckV))
+								gameversion = true;
 						}
-						if(currentMCV.equalsIgnoreCase(toCheckV))
-							gameversion = true;
 					}
 				}
 				if(!gameversion && versionUsed)

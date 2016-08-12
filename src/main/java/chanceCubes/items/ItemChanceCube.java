@@ -2,6 +2,11 @@ package chanceCubes.items;
 
 import java.util.List;
 
+import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.tileentities.TileChanceD20;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -9,10 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemChanceCube extends ItemBlock
 {
@@ -49,8 +50,12 @@ public class ItemChanceCube extends ItemBlock
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		String chance = this.getChanceAsStringValue(stack);
-		list.add("Chance Value: " + chance);
+        if(stack.getItem().equals(CCubesBlocks.chanceCubeDispenser))
+        {
+            String chance = this.getChanceAsStringValue(stack);
+            list.add("Chance Value: " + chance);
+        }
+
 	}
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
