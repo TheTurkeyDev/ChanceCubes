@@ -1,0 +1,15 @@
+{
+	"Easter 1.7":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Happy Easter! From the Chance Cubes Team!"},
+      {"message":"Hmmmm seems the easter bunny is missing..... Have an egg instead!", "delay": 20}
+		],
+    "Item":
+    [
+      {"item":{"id":"minecraft:egg","Count":1,tag:{display:{Name:"Easter Egg"}}}}
+    ]
+	}
+}

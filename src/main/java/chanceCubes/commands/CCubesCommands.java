@@ -136,7 +136,7 @@ public class CCubesCommands implements ICommand
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-
+			
 		}
 		else
 		{

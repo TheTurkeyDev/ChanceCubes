@@ -1,0 +1,41 @@
+{
+	"Papper":
+	{
+		"chance": 0,
+		"Command":
+		[
+			{"command":"/summon Item ~ ~20 ~ {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 0},
+			{"command":"/summon Item ~5 ~20 ~ {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 5},
+			{"command":"/summon Item ~ ~20 ~5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 10},
+			{"command":"/summon Item ~2 ~20 ~3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 15},
+			{"command":"/summon Item ~1 ~20 ~-5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 20},
+			{"command":"/summon Item ~-5 ~20 ~-2 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 25},
+			{"command":"/summon Item ~1 ~20 ~1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 30},
+			{"command":"/summon Item ~-5 ~20 ~3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 35},
+			{"command":"/summon Item ~3 ~20 ~-1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 40},
+			{"command":"/summon Item ~5 ~20 ~5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 45},
+			{"command":"/summon Item ~-5 ~20 ~5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 50},
+			{"command":"/summon Item ~-2 ~20 ~5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 55},
+			{"command":"/summon Item ~-1 ~20 ~5 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 60},
+			{"command":"/summon Item ~5 ~20 ~-4 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 65},
+			{"command":"/summon Item ~-5 ~20 ~-1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 70},
+			{"command":"/summon Item ~-5 ~20 ~-3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 75},
+			{"command":"/summon Item ~1 ~20 ~1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 80},
+			{"command":"/summon Item ~1 ~20 ~-3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 85},
+			{"command":"/summon Item ~-3 ~20 ~1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 90},
+			{"command":"/summon Item ~-1 ~20 ~3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 95},
+			{"command":"/summon Item ~3 ~20 ~0 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 100},
+			{"command":"/summon Item ~-1 ~20 ~-2 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 105},
+			{"command":"/summon Item ~1 ~20 ~0 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 110},
+			{"command":"/summon Item ~-3 ~20 ~1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 115},
+			{"command":"/summon Item ~3 ~20 ~0 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 120},
+			{"command":"/summon Item ~2 ~20 ~2 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 125},
+			{"command":"/summon Item ~-2 ~20 ~-3 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 130},
+			{"command":"/summon Item ~-1 ~20 ~1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 135},
+			{"command":"/summon Item ~-1 ~20 ~0 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 140},
+			{"command":"/summon Item ~0 ~20 ~-2 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 145},
+			{"command":"/summon Item ~2 ~20 ~-1 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 150},
+			{"command":"/summon Item ~-3 ~20 ~0 {Item:{id:339,Count:1,tag:{display:{Name:\"#BlameVertex\"}}}}", "delay": 155}
+		]
+	}
+}

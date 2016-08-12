@@ -66,13 +66,15 @@ public class ItemScanner extends BaseChanceCubesItem
 
 					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 					{
+						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
+						te.setScanned(true);
+						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
 						flag = true;
-						RenderEvent.setLookingAtChance(((TileChanceCube) world.getTileEntity(position)).getChance());
+						RenderEvent.setLookingAtChance(te.getChance());
 					}
-
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
 					{
-						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
+						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
 						te.setScanned(true);
 						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
 						flag = true;
@@ -80,11 +82,10 @@ public class ItemScanner extends BaseChanceCubesItem
 					}
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 					{
-						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
+						flag = false;
+						RenderEvent.setLookingAtChance(-201);
+						RenderEvent.setLookingAt(true);
+						RenderEvent.setChanceIncrease(0);
 					}
 
 					if(flag)

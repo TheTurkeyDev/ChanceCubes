@@ -23,6 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BlockChanceCube;
+import chanceCubes.blocks.BlockChanceCube.EnumTexture;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
@@ -173,7 +175,10 @@ public class CustomRewardsLoader
 					if(this.compareDates(start, today) >= 0 && this.compareDates(end, today) <= 0)
 					{
 						CCubesSettings.hasHolidayTexture = true;
-						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
+						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Name").getAsString();
+						for(EnumTexture t : EnumTexture.values())
+							if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
+								BlockChanceCube.textureToSet = t;
 					}
 				} catch(ParseException e)
 				{
@@ -275,15 +280,18 @@ public class CustomRewardsLoader
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
 						mcversionused = true;
-						String currentMCV = CCubesCore.gameVersion;
-						String toCheckV = dependencies.getValue().getAsString();
-						if(toCheckV.contains("*"))
+						String[] versionsToCheck = dependencies.getValue().getAsString().split(",");
+						for(String toCheckV : versionsToCheck)
 						{
-							currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
-							toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
+							String currentMCV = CCubesCore.gameVersion;
+							if(toCheckV.contains("*"))
+							{
+								currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
+								toCheckV = toCheckV.substring(0, toCheckV.lastIndexOf("."));
+							}
+							if(currentMCV.equalsIgnoreCase(toCheckV))
+								gameversion = true;
 						}
-						if(currentMCV.equalsIgnoreCase(toCheckV))
-							gameversion = true;
 					}
 				}
 				if(!gameversion && mcversionused)

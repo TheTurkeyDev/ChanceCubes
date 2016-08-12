@@ -9,6 +9,7 @@ import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
 import chanceCubes.rewards.biodomeGen.EndBiome;
 import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
+import chanceCubes.rewards.biodomeGen.NetherBiome;
 import chanceCubes.rewards.biodomeGen.OceanBiome;
 import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
@@ -24,8 +25,11 @@ public class BioDomeReward implements IChanceCubeReward
 {
 	private Random rand = new Random();
 
-	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), new EndBiome(), new OceanBiome(), new SnowGlobeBiome() };
-
+	// @formatter:off
+	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), 
+			new EndBiome(), new OceanBiome(), new SnowGlobeBiome(), new NetherBiome() };
+	// @formatter:on
+	
 	public static final int delayShorten = 10;
 
 	@Override

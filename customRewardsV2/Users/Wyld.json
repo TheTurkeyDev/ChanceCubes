@@ -1,29 +1,52 @@
 {
-	"Half_Heart":
+	"ZERG_RUSH":
 	{
 		"chance": 0,
+		"Message":
+		[
+			{"message":"ZERG RUSH!!!!!"},
+			{"message":"From: Necrogami", "delay":40}
+		],
 		"Command":
 		[
-			{"command":"/effect %player 19 1 4 false"},
-			{"command":"/effect %player 10 20 0 false"}
-		],
-		"Message":
-		[
-			{"message":"From: Insaneau #GetUp"}
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20},
+			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20}
 		]
 	},
-	
-	"Fake_Creeper":
-	{
-		"chance": 0,
-		"Sound":
-		[
-			{"sound":"creeper.primed"},
-			{"sound":"random.explode", "delay":80}
-		],
-		"Message":
-		[
-			{"message":"From: Nalkrien", "delay":90}
-		]
-	}
+	"Sounds":
+  {
+    "chance": 0,
+    "Message":
+    [
+      {"message":"From: Pokey", "delay":140}
+    ],
+    "Command":
+    [
+      {"command":"/effect @p 15 10 1", "delay":0}
+    ],
+    "Sound":
+    [
+      {"sound":"creeper.primed"},
+      {"sound":"random.bow", "delay": 10},
+      {"sound":"mob.blaze.breathe", "delay": 20},
+      {"sound":"mob.endermen.scream", "delay": 30},
+      {"sound":"mob.ghast.moan", "delay": 40},
+      {"sound":"mob.irongolem.hit", "delay": 50},
+      {"sound":"mob.zombiepig.zpighurt", "delay": 60},
+      {"sound":"mob.spider.say", "delay": 70},
+      {"sound":"mob.wolf.growl", "delay": 80},
+      {"sound":"mob.wither.spawn", "delay": 90},
+      {"sound":"game.player.hurt", "delay": 100},
+      {"sound":"mob.zombie.infect", "delay": 110},
+      {"sound":"mob.enderdragon.growl", "delay": 120}
+    ]
+  }
 }

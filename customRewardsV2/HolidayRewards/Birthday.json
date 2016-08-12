@@ -1,0 +1,24 @@
+{
+	"B-Day":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Happy 1st Birthday Chance Cubes!"},
+      {"message":"Here's a present from us to you!", "delay":40}
+		],
+		"Command":
+		[
+			{"command":"/summon FireworksRocketEntity ~0 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}"},
+			{"command":"/summon FireworksRocketEntity ~1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}"},
+			{"command":"/summon FireworksRocketEntity ~0 ~0 ~1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}"},
+			{"command":"/summon FireworksRocketEntity ~-1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}"},
+			{"command":"/summon FireworksRocketEntity ~0 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}"},
+			{"command":"/summon FireworksRocketEntity ~1 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}"}
+		],
+    "Item":
+    [
+      {"item":{"id":"chancecubes:Chance_Cube","Count":1,tag:{chance:100}}, "delay":40}
+    ]
+	}
+}

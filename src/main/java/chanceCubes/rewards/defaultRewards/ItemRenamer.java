@@ -6,6 +6,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -18,11 +19,11 @@ public class ItemRenamer implements IChanceCubeReward
 	// @formatter:off
 	private String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster", 
 			"Vash", "Cazador", "KiwiFails", "Matrixis", "FlameGoat", "iChun", "tibbzeh", "Reninsane", 
-			"PulpJohnFiction"};
+			"PulpJohnFiction", "Zeek", "Sevadus", "Bob Ross", "T-loves", "Headwounds", "JonBams"};
 	
 	private String[] adjectives = {"Destroyer", "Terror", "Wrath", "Smasher", "P90", "Wisdom", "Savior", 
 			"Lightning Bringer", "Rage", "Happiness", "Shocker", " Slayer", "Sunshine", "Giant Crayon", "Blade",
-			"Tamer", "Order"};
+			"Tamer", "Order", "Sharp Edge", "Noodle", "Diamond", "Rod", "Big Giant Sharp Pokey Thing"};
 	
 	// @formatter:on
 
@@ -37,6 +38,14 @@ public class ItemRenamer implements IChanceCubeReward
 		for(ItemStack stack : player.inventory.armorInventory)
 			if(stack != null)
 				stacks.add(stack);
+
+		if(stacks.size() == 0)
+		{
+			ItemStack dirt = new ItemStack(Blocks.DIRT);
+			dirt.setStackDisplayName("A lonley piece of dirt");
+			player.inventory.addItemStackToInventory(dirt);
+			return;
+		}
 
 		for(int i = 0; i < 3; i++)
 		{

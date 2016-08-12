@@ -1,0 +1,15 @@
+{
+	"Stomp":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"It's Stompy Time!!!!!!!"},
+			{"message":"Don't let him stomp on you!!", "delay":20}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Giant"}, "delay":40}
+		]
+	}
+}

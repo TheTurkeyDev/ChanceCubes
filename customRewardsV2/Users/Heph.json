@@ -1,0 +1,15 @@
+{
+	"chocolate_milk":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"I ain't your personal servant! Make your own damn chocolate milk! ;)"}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:milk_bucket","Count":1}},
+			{"item":{"id":"minecraft:dye", "Damage":3,"Count":6}}
+		]
+	}
+}

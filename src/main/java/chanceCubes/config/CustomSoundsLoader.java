@@ -61,7 +61,7 @@ public class CustomSoundsLoader
 			JsonPrimitive sound = new JsonPrimitive(CCubesCore.MODID + ":" + simpleName); // sound object (instead of primitive to use 'stream' flag)
 			sounds.add(sound);
 			event.add("sounds", sounds);
-			root.add(CCubesCore.MODID + "." + simpleName, event); // event name (same as name sent to ItemCustomRecord)
+			root.add(simpleName, event); // event name (same as name sent to ItemCustomRecord)
 		}
 		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/Sounds/sounds.json", gson.toJson(root))));// add record .ogg
 	}

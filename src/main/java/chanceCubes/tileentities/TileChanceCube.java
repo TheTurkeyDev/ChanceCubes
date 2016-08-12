@@ -23,6 +23,7 @@ public class TileChanceCube extends TileEntity
 	{
 		while(initialChance > 100 || initialChance < -100)
 			initialChance = Math.round((float) (random.nextGaussian() * 40));
+		this.setChance(initialChance);
 	}
 
 	public void setChance(int newChance)
@@ -52,7 +53,7 @@ public class TileChanceCube extends TileEntity
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
-		this.writeSyncableDataToNBT(syncData);
+		syncData = this.writeSyncableDataToNBT(syncData);
 		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
