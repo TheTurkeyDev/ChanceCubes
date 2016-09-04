@@ -24,6 +24,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.CCubesAchievements;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -73,6 +74,7 @@ public class CCubesCore
 		CCubesItems.loadItems();
 		CraftingRecipies.loadRecipies();
 		CCubesPacketHandler.init();
+		CCubesAchievements.loadAchievements();
 		proxy.registerRenderings();
 		proxy.registerEvents();
 

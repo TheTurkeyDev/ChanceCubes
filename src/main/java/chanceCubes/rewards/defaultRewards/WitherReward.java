@@ -5,6 +5,7 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -12,7 +13,7 @@ import chanceCubes.util.Task;
 public class WitherReward implements IChanceCubeReward
 {
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, int x, int y, int z, final EntityPlayer player)
 	{
 		final EntityWither wither = new EntityWither(world);
 		wither.setLocationAndAngles((double) x + 0.5D, (double) y + 1D, (double) z + 1.5D, 90.0F, 0.0F);
@@ -28,17 +29,22 @@ public class WitherReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				removeEnts(wither);
+				if(!removeEnts(wither))
+					player.triggerAchievement(CCubesAchievements.wither);
 			}
 		};
 
 		Scheduler.scheduleTask(task);
 	}
 
-	private void removeEnts(Entity ent)
+	private boolean removeEnts(Entity ent)
 	{
 		if(ent.worldObj.rand.nextInt(10) != 1)
+		{
 			ent.setDead();
+			return true;
+		}
+		return false;
 	}
 
 	@Override

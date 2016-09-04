@@ -16,6 +16,7 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
+import chanceCubes.util.CCubesAchievements;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
@@ -111,6 +112,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null && !world.isRemote)
 		{
+			player.triggerAchievement(CCubesAchievements.chanceIcosahedron);
 			te.startBreaking(player);
 			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 			return true;

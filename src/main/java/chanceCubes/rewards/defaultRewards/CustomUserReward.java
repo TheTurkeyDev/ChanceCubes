@@ -86,7 +86,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 		{
-			customRewards.add(CustomRewardsLoader.instance.parseReward(reward));
+			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);
@@ -97,7 +97,6 @@ public class CustomUserReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getCommandSenderName()))
 		{
 			player.addChatMessage(new ChatComponentText("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));

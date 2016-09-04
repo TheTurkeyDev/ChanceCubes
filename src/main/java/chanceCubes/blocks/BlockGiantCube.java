@@ -12,6 +12,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.GiantCubeUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -77,6 +78,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 				}
 				//player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
 				//player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
+				player.triggerAchievement(CCubesAchievements.GiantChanceCube);
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
 			}

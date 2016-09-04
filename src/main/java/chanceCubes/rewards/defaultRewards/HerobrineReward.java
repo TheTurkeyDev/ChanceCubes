@@ -5,6 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -63,6 +64,7 @@ public class HerobrineReward implements IChanceCubeReward
 					CCubesCommandSender sender = new CCubesCommandSender(player, x, y, z);
 		        	MinecraftServer.getServer().getCommandManager().executeCommand(sender, command);
 		        	MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+		        	player.triggerAchievement(CCubesAchievements.herobrine);
 				}
 				else
 				{
