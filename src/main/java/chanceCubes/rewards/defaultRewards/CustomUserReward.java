@@ -86,7 +86,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 		{
-			customRewards.add(CustomRewardsLoader.instance.parseReward(reward));
+			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 		}
 
 		ChanceCubeRegistry.INSTANCE.registerReward(this);

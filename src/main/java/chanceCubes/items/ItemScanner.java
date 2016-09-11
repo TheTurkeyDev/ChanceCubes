@@ -1,7 +1,7 @@
 package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.RenderEvent;
+import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
@@ -80,22 +80,26 @@ public class ItemScanner extends BaseChanceCubesItem
 						flag = true;
 						RenderEvent.setLookingAtChance(te.getChance());
 					}
-                    else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
-                    {
-                        flag = false;
-                        RenderEvent.setLookingAtChance(-201);
-                        RenderEvent.setLookingAt(true);
-                        RenderEvent.setChanceIncrease(0);
-                    }
-
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+					{
+						flag = false;
+						RenderEvent.setLookingAtChance(-201);
+						RenderEvent.setLookingAt(true);
+						RenderEvent.setChanceIncrease(0);
+					}
 
 					if(flag)
 					{
 						RenderEvent.setLookingAt(true);
 						int chanceInc = 0;
 						for(ItemStack s : player.inventory.mainInventory)
+						{
 							if(s != null && s.getItem() instanceof ItemChancePendant)
+							{
 								chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
+								break;
+							}
+						}
 						RenderEvent.setChanceIncrease(chanceInc);
 					}
 				}

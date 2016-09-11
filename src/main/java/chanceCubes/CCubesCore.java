@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
+import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -18,6 +19,7 @@ import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -79,11 +81,13 @@ public class CCubesCore
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
 		CCubesPacketHandler.init();
+		CCubesAchievements.loadAchievements();
 		proxy.registerEvents();
 
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
+		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 
 		if(CCubesSettings.chestLoot)
 		{

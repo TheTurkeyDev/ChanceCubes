@@ -6,6 +6,7 @@ import java.util.List;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
+import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -134,11 +135,24 @@ public class CCubesCommands implements ICommand
 			else
 			{
 				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
-			}	
+			}
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-			
+			if(args.length >= 2 && sender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) sender;
+				if(args[1].equalsIgnoreCase("1"))
+				{
+					WorldRenderListener.pos1 = new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ);
+					sender.addChatMessage(new TextComponentString("Point 1 set"));
+				}
+				if(args[1].equalsIgnoreCase("2"))
+				{
+					WorldRenderListener.pos2 = new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ);
+					sender.addChatMessage(new TextComponentString("Point 2 set"));
+				}
+			}
 		}
 		else
 		{

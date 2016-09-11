@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -20,7 +21,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 	private Random random = new Random();
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final  EntityPlayer player)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 
@@ -33,7 +34,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 				@Override
 				public void callback()
 				{
-					update(0, world, pos);
+					update(0, world, pos, player);
 				}
 			};
 			Scheduler.scheduleTask(task);
@@ -52,7 +53,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 		return CCubesCore.MODID + ":Cake";
 	}
 
-	public void update(final int iteration, final World world, final BlockPos pos)
+	public void update(final int iteration, final World world, final BlockPos pos, final EntityPlayer player)
 	{
 		if(world.getBlockState(pos).getValue(BlockCake.BITES) > 0)
 		{
@@ -65,6 +66,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 			creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
 			creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
 			world.spawnEntityInWorld(creeper);
+			player.addStat(CCubesAchievements.itsALie);
 			return;
 		}
 
@@ -79,7 +81,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				update(iteration + 1, world, pos);
+				update(iteration + 1, world, pos, player);
 			}
 		};
 		Scheduler.scheduleTask(task);

@@ -19,4 +19,4 @@ item.scanner.name=机会方块扫描器
 
 death.attack.mathdeath=%1$'s 的精神被数学的力量炸死了
 death.attack.mazedeath=%1$ 被永远失去了机会魔方迷宫。
-death.attack.questiondeath=%1$s suffered the consequences of the wrong answer. 
+death.attack.questiondeath=%1$s 遭受到了错误答案的惩罚。 

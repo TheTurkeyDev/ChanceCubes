@@ -2,7 +2,7 @@ package chanceCubes.proxy;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.RenderEvent;
+import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.tileentities.TileChanceD20;

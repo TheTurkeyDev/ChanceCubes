@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -65,6 +66,7 @@ public class HerobrineReward implements IChanceCubeReward
 					CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 					server.getCommandManager().executeCommand(sender, command);
 					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+					player.addStat(CCubesAchievements.herobrine);
 				}
 				else
 				{

@@ -51,6 +51,7 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.CustomEntry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -111,13 +112,17 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					BasicReward basicReward = this.parseReward(reward);
+					CustomEntry<BasicReward, Boolean> parsedReward = this.parseReward(reward);
+					BasicReward basicReward = parsedReward.getKey();
 					if(basicReward == null)
 					{
 						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
 					}
-					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
+					if(parsedReward.getValue())
+						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
+					else
+						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -212,7 +217,7 @@ public class CustomRewardsLoader
 
 			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			{
-				BasicReward basicReward = this.parseReward(reward);
+				BasicReward basicReward = this.parseReward(reward).getKey();
 				if(basicReward == null)
 					continue;
 				CCubesSettings.doesHolidayRewardTrigger = true;
@@ -254,11 +259,12 @@ public class CustomRewardsLoader
 		}
 	}
 
-	public BasicReward parseReward(Entry<String, JsonElement> reward)
+	public CustomEntry<BasicReward, Boolean> parseReward(Entry<String, JsonElement> reward)
 	{
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
 		JsonObject rewardElements = reward.getValue().getAsJsonObject();
 		int chance = 0;
+		boolean isGiantCubeReward = false;
 		for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
 		{
 			if(rewardElement.getKey().equalsIgnoreCase("chance"))
@@ -298,6 +304,10 @@ public class CustomRewardsLoader
 					return null;
 				continue;
 			}
+			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))
+			{
+				isGiantCubeReward = rewardElement.getValue().getAsBoolean();
+			}
 
 			try
 			{
@@ -330,7 +340,7 @@ public class CustomRewardsLoader
 				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
 			}
 		}
-		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
+		return new CustomEntry<BasicReward, Boolean>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])), isGiantCubeReward);
 	}
 
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
