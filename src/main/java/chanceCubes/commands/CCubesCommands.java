@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.Location3I;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -135,7 +137,20 @@ public class CCubesCommands implements ICommand
 		}
 		else if(astring[0].equalsIgnoreCase("test"))
 		{
-			System.out.println(ChanceCubeRegistry.INSTANCE.getNumOfRewards());
+			if(astring.length >= 2 && icommandsender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) icommandsender;
+				if(astring[1].equalsIgnoreCase("1"))
+				{
+					WorldRenderListener.pos1 = new Location3I((int) player.posX, (int) player.posY, (int) player.posZ);
+					icommandsender.addChatMessage(new ChatComponentText("Point 1 set"));
+				}
+				if(astring[1].equalsIgnoreCase("2"))
+				{
+					WorldRenderListener.pos2 = new Location3I((int) player.posX, (int) player.posY, (int) player.posZ);
+					icommandsender.addChatMessage(new ChatComponentText("Point 2 set"));
+				}
+			}
 		}
 		else
 		{

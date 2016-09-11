@@ -1,6 +1,6 @@
 package chanceCubes.proxy;
 
-import chanceCubes.client.RenderEvent;
+import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.renderer.SpecialRendererD20;
 import chanceCubes.renderer.TileChanceD20Renderer;

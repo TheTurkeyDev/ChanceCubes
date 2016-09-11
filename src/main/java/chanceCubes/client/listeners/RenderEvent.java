@@ -1,4 +1,4 @@
-package chanceCubes.client;
+package chanceCubes.client.listeners;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

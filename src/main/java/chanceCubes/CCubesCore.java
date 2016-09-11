@@ -1,16 +1,10 @@
 package chanceCubes;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.MinecraftForge;
-
 import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
+import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -35,6 +29,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
 public class CCubesCore
@@ -81,6 +81,7 @@ public class CCubesCore
 		FMLCommonHandler.instance().bus().register(new PlayerConnectListener());
 		FMLCommonHandler.instance().bus().register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
+		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 
 		if(CCubesSettings.chestLoot)
 		{
