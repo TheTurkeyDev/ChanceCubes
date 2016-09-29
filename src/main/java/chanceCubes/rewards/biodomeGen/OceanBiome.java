@@ -19,9 +19,10 @@ public class OceanBiome implements IBioDomeBiome
 	{
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
-			EntitySquid chicken = new EntitySquid(world);
-			chicken.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
-			world.spawnEntityInWorld(chicken);
+			EntitySquid squid = new EntitySquid(world);
+			squid.setLocationAndAngles(centerX + (rand.nextInt(31) - 15), centerY + 1, centerZ + (rand.nextInt(31) - 15), 0, 0);
+			squid.setCustomNameTag("Mango");
+			world.spawnEntityInWorld(squid);
 		}
 	}
 
