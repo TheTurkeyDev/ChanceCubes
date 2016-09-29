@@ -75,4 +75,8 @@ public class OffsetTileEntity extends OffsetBlock
 			world.setTileEntity(x, y, z, te);
 		te.markDirty();
 	}
+	public void seFalling(boolean falling)
+	{
+		this.falling = falling;
+	}
 }

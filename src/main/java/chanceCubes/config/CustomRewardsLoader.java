@@ -50,6 +50,7 @@ import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.HTTPUtil;
+import chanceCubes.util.SchematicUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -326,6 +327,7 @@ public class CustomRewardsLoader
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
 				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
+				// ex.printStackTrace();
 			}
 		}
 		return new CustomEntry<BasicReward, Boolean>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])), isGiantCubeReward);
@@ -400,7 +402,7 @@ public class CustomRewardsLoader
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
 			if(element.getAsJsonObject().has("delay"))
-				offBlock.setDealy(element.getAsJsonObject().get("delay").getAsInt());
+				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
@@ -594,86 +596,113 @@ public class CustomRewardsLoader
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		for(JsonElement element : rawReward)
 		{
-			Schematic schem = null;
-
-			try
+			String fileName = element.getAsJsonObject().get("fileName").getAsString();
+			if(fileName.endsWith(".schematic"))
 			{
-				schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString(), false);
-			} catch(IOException e)
-			{
-				e.printStackTrace();
-			}
+				Schematic schem = null;
 
-			if(schem == null)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to load the schematic of " + element.getAsJsonObject().get("fileName").getAsString() + ". It seems to be dead :(");
-				continue;
-			}
-
-			int multiplier = 0;
-			if(element.getAsJsonObject().has("delay"))
-				multiplier = element.getAsJsonObject().get("delay").getAsInt();
-
-			int i = 0;
-			short halfLength = (short) (schem.length / 2);
-			short halfWidth = (short) (schem.width / 2);
-
-			for(int yy = 0; yy < schem.height; yy++)
-			{
-				for(int zz = 0; zz < schem.length; zz++)
+				try
 				{
-					for(int xx = 0; xx < schem.width; xx++)
-					{
-						int j = schem.blocks[i];
-						if(j < 0)
-							j = 128 + (128 + j);
+					schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString(), false);
+				} catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 
-						Block b = Block.getBlockById(j);
-						if(b != Blocks.air)
+				if(schem == null)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to load the schematic of " + element.getAsJsonObject().get("fileName").getAsString() + ". It seems to be dead :(");
+					continue;
+				}
+
+				int multiplier = 0;
+				if(element.getAsJsonObject().has("delay"))
+					multiplier = element.getAsJsonObject().get("delay").getAsInt();
+
+				int i = 0;
+				short halfLength = (short) (schem.length / 2);
+				short halfWidth = (short) (schem.width / 2);
+
+				for(int yy = 0; yy < schem.height; yy++)
+				{
+					for(int zz = 0; zz < schem.length; zz++)
+					{
+						for(int xx = 0; xx < schem.width; xx++)
+						{
+							int j = schem.blocks[i];
+							if(j < 0)
+								j = 128 + (128 + j);
+
+							Block b = Block.getBlockById(j);
+							if(b != Blocks.air)
+							{
+								boolean falling = false;
+								if(element.getAsJsonObject().has("falling"))
+									falling = element.getAsJsonObject().get("falling").getAsBoolean();
+								OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+								if(element.getAsJsonObject().has("RelativeToPlayer"))
+									block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+								block.setDelay(i * multiplier);
+								block.setData(schem.data[i]);
+								blocks.add(block);
+							}
+							i++;
+						}
+					}
+				}
+
+				if(schem.tileentities != null)
+				{
+					for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
+					{
+						NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
+						TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
+
+						if(tileentity != null)
 						{
 							boolean falling = false;
 							if(element.getAsJsonObject().has("falling"))
 								falling = element.getAsJsonObject().get("falling").getAsBoolean();
-							OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+							Block b = null;
+							for(OffsetBlock osb : blocks)
+								if(osb.xOff == tileentity.xCoord && osb.yOff == tileentity.yCoord && osb.zOff == tileentity.zCoord)
+									b = osb.getBlock();
+							if(b == null)
+								b = Blocks.stone;
+							OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, b, nbttagcompound4, falling);
 							if(element.getAsJsonObject().has("RelativeToPlayer"))
 								block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-							block.setDealy(i * multiplier);
-							block.setData(schem.data[i]);
+							block.setDelay(i1 * multiplier);
+							block.setData(schem.data[i1]);
 							blocks.add(block);
 						}
-						i++;
 					}
 				}
 			}
-
-			if(schem.tileentities != null)
+			else
 			{
-				for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
-				{
-					NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-					TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound4);
-
-					if(tileentity != null)
-					{
-						boolean falling = false;
-						if(element.getAsJsonObject().has("falling"))
-							falling = element.getAsJsonObject().get("falling").getAsBoolean();
-						Block b = null;
-						for(OffsetBlock osb : blocks)
-							if(osb.xOff == tileentity.xCoord && osb.yOff == tileentity.yCoord && osb.zOff == tileentity.zCoord)
-								b = osb.getBlock();
-						if(b == null)
-							b = Blocks.stone;
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, b, nbttagcompound4, falling);
-						if(element.getAsJsonObject().has("RelativeToPlayer"))
-							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-						block.setDealy(i1 * multiplier);
-						block.setData(schem.data[i1]);
-						blocks.add(block);
-					}
-				}
+				if(!fileName.endsWith(".ccs"))
+					fileName += ".ccs";
+				int xoff = 0;
+				int yoff = 0;
+				int zoff = 0;
+				float delay = 0;
+				boolean falling = true;
+				boolean relativeToPlayer = false;
+				if(element.getAsJsonObject().has("XOffSet"))
+					xoff = element.getAsJsonObject().get("XOffSet").getAsInt();
+				if(element.getAsJsonObject().has("YOffSet"))
+					yoff = element.getAsJsonObject().get("YOffSet").getAsInt();
+				if(element.getAsJsonObject().has("ZOffSet"))
+					zoff = element.getAsJsonObject().get("ZOffSet").getAsInt();
+				if(element.getAsJsonObject().has("delay"))
+					delay = element.getAsJsonObject().get("delay").getAsFloat();
+				if(element.getAsJsonObject().has("falling"))
+					falling = element.getAsJsonObject().get("falling").getAsBoolean();
+				if(element.getAsJsonObject().has("RelativeToPlayer"))
+					relativeToPlayer = element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean();
+				blocks.addAll(SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer).getBlocks());
 			}
-
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
 		return rewards;

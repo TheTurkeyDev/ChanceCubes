@@ -63,7 +63,7 @@ repositories {
 
 dependencies {
     shade "team.chisel.ctmlib:CTMLib:${ctmlib_version}"
-	compile "mcp.mobius.waila:Waila:1.5.9_1.7.10:dev"
+	compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
 	deployerJars "org.apache.maven.wagon:wagon-ftp:2.2"
 	
 }

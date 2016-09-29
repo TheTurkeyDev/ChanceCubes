@@ -14,6 +14,11 @@ public class ItemPart
 	{
 		this.stack = stack;
 	}
+	public ItemPart(ItemStack stack, int delay)
+	{
+		this.stack = stack;
+		this.delay = delay;
+	}
 
 	public ItemStack getItemStack()
 	{

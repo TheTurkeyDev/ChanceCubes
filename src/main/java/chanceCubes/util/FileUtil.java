@@ -1,5 +1,6 @@
 package chanceCubes.util;
 
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.Deque;
@@ -18,6 +20,9 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.io.FileUtils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import chanceCubes.CCubesCore;
 
 /**
@@ -26,6 +31,8 @@ import chanceCubes.CCubesCore;
 
 public class FileUtil
 {
+	private static JsonParser jsonParser = new JsonParser();
+
 	@Nonnull
 	public static File writeToFile(String filepath, String json)
 	{
@@ -43,6 +50,26 @@ public class FileUtil
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static JsonElement readJsonfromFile(String filepath)
+	{
+		String result = "";
+		try
+		{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
+			String line = "";
+			while((line = reader.readLine()) != null)
+			{
+				result += line;
+			}
+			reader.close();
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		return jsonParser.parse(result);
 	}
 
 	public static void writeNewFile(File file, String defaultText) throws IOException

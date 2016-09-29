@@ -79,6 +79,18 @@ public class RewardsUtil
 			toReturn[i] = new CommandPart(command);
 		return toReturn;
 	}
+	
+	public static CommandPart[] executeXCommands(String command, int amount, int delay)
+	{
+		CommandPart[] toReturn = new CommandPart[amount];
+		for(int i = 0; i < amount; i++)
+		{
+			CommandPart part = new CommandPart(command);
+			part.setDelay(delay);
+			toReturn[i] = part;
+		}
+		return toReturn;
+	}
 
 	public static ParticlePart[] spawnXParticles(String particle, int amount)
 	{

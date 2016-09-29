@@ -97,7 +97,7 @@ public class OffsetBlock
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
-	public void setDealy(int delay)
+	public void setDelay(int delay)
 	{
 		this.delay = delay;
 	}
@@ -149,5 +149,15 @@ public class OffsetBlock
 	public Block getBlock()
 	{
 		return this.block;
+	}
+	
+	public boolean isFalling()
+	{
+		return this.falling;
+	}
+	
+	public byte getData()
+	{
+		return data;
 	}
 }

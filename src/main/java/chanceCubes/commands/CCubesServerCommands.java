@@ -4,26 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.util.Location3I;
+import chanceCubes.util.SchematicUtil;
 import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 
-public class CCubesCommands implements ICommand
+public class CCubesServerCommands implements ICommand
 {
 	private List<String> aliases;
 	List<String> tab;
 
-	public CCubesCommands()
+	public CCubesServerCommands()
 	{
 		this.aliases = new ArrayList<String>();
 		this.aliases.add("Chancecubes");
@@ -135,26 +137,63 @@ public class CCubesCommands implements ICommand
 				icommandsender.addChatMessage(new ChatComponentText("Try /chancecubes disableReward <Reward Name>"));
 			}
 		}
-		else if(astring[0].equalsIgnoreCase("test"))
+		if(astring[0].equalsIgnoreCase("schematic"))
 		{
-			if(astring.length >= 2 && icommandsender instanceof EntityPlayer)
+			if(Minecraft.getMinecraft().isSingleplayer())
 			{
-				EntityPlayer player = (EntityPlayer) icommandsender;
-				if(astring[1].equalsIgnoreCase("1"))
+				if(icommandsender instanceof EntityPlayer)
 				{
-					WorldRenderListener.pos1 = new Location3I((int) player.posX, (int) player.posY, (int) player.posZ);
-					icommandsender.addChatMessage(new ChatComponentText("Point 1 set"));
-				}
-				if(astring[1].equalsIgnoreCase("2"))
-				{
-					WorldRenderListener.pos2 = new Location3I((int) player.posX, (int) player.posY, (int) player.posZ);
-					icommandsender.addChatMessage(new ChatComponentText("Point 2 set"));
+					World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
+					EntityPlayer player = (EntityPlayer) icommandsender;
+					if(player.capabilities.isCreativeMode)
+					{
+						if(astring.length >= 3)
+						{
+							if(astring[1].equalsIgnoreCase("setPoint"))
+							{
+								if(astring[2].equalsIgnoreCase("1"))
+								{
+									SchematicUtil.selectionPoints[0] = new Location3I((int) player.posX, (int) player.posY - 1, (int) player.posZ);
+									icommandsender.addChatMessage(new ChatComponentText("Point 1 set"));
+								}
+								if(astring[2].equalsIgnoreCase("2"))
+								{
+									SchematicUtil.selectionPoints[1] = new Location3I((int) player.posX, (int) player.posY - 1, (int) player.posZ);
+									icommandsender.addChatMessage(new ChatComponentText("Point 2 set"));
+								}
+							}
+							else if(astring[1].equalsIgnoreCase("create"))
+							{
+								if(SchematicUtil.selectionPoints[0] == null || SchematicUtil.selectionPoints[1] == null)
+								{
+									icommandsender.addChatMessage(new ChatComponentText("Both points are not set!"));
+									return;
+								}
+								SchematicUtil.createCustomSchematic(world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], astring[2].endsWith(".ccs") ? astring[2] : astring[2] + ".ccs");
+								icommandsender.addChatMessage(new ChatComponentText("Schematic file named " + (astring[2].endsWith(".ccs") ? astring[2] : astring[2] + ".ccs") + " created!"));
+								SchematicUtil.selectionPoints[0] = null;
+								SchematicUtil.selectionPoints[1] = null;
+							}
+						}
+						else
+						{
+							icommandsender.addChatMessage(new ChatComponentText("invalid arguments"));
+						}
+					}
+					else
+					{
+						icommandsender.addChatMessage(new ChatComponentText("Sorry, you need to be in creative to use this command"));
+					}
 				}
 			}
+			else
+			{
+				icommandsender.addChatMessage(new ChatComponentText("Sorry, but this command only works in single player"));
+			}
 		}
-		else
+		else if(astring[0].equalsIgnoreCase("test"))
 		{
-			icommandsender.addChatMessage(new ChatComponentText("Invalid arguments for the Chance Cubes command"));
+
 		}
 	}
 
@@ -182,6 +221,7 @@ public class CCubesCommands implements ICommand
 	@Override
 	public int compareTo(Object o)
 	{
+		System.out.println("TESTING: " + o);
 		return 0;
 	}
 }
