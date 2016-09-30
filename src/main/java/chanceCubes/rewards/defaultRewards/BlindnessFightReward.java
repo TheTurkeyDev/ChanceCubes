@@ -2,11 +2,13 @@ package chanceCubes.rewards.defaultRewards;
 
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 
 public class BlindnessFightReward implements IChanceCubeReward
 {
@@ -21,8 +23,8 @@ public class BlindnessFightReward implements IChanceCubeReward
 		{
 			for(int zz = -2; zz < 3; zz++)
 			{
-				world.setBlockToAir(x + xx, y, z + zz);
-				world.setBlockToAir(x + xx, y + 1, z + zz);
+				RewardsUtil.placeBlock(Blocks.air, world, x + xx, y, z + zz);
+				RewardsUtil.placeBlock(Blocks.air, world, x + xx, y + 1, z + zz);
 			}
 		}
 
@@ -30,7 +32,7 @@ public class BlindnessFightReward implements IChanceCubeReward
 		{
 			EntitySkeleton skele = new EntitySkeleton(world);
 			skele.onSpawnWithEgg(null);
-			skele.setPosition(x, y, z);
+			skele.setPosition(x + 0.5, y, z + 0.5);
 			world.spawnEntityInWorld(skele);
 		}
 	}

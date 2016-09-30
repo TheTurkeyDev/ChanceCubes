@@ -8,6 +8,7 @@ import java.util.Map;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.Location3I;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -44,12 +45,12 @@ public class MathReward implements IChanceCubeReward
 				{
 					if(xx == -2 || xx == 2 || zz == -2 || zz == 2 || yy == 1 || yy == 4)
 					{
-						world.setBlock((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz, Blocks.bedrock);
+						RewardsUtil.placeBlock(Blocks.bedrock, world, (int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz);
 						boxBlocks.add(new Location3I((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz));
 					}
 					else if(((xx == -1 || xx == 1) && (zz == -1 || zz == 1) && yy == 2))
 					{
-						world.setBlock((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz, Blocks.glowstone);
+						RewardsUtil.placeBlock(Blocks.glowstone, world, (int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz);
 						boxBlocks.add(new Location3I((int) player.posX + xx, (int) player.posY + yy, (int) player.posZ + zz));
 					}
 				}
@@ -106,7 +107,7 @@ public class MathReward implements IChanceCubeReward
 			tnt.setDead();
 
 		for(Location3I b : info.getBlocks())
-			player.worldObj.setBlockToAir(b.getX(), b.getY(), b.getZ());
+			RewardsUtil.placeBlock(Blocks.air, player.worldObj, b.getX(), b.getY(), b.getZ());
 
 		inQuestion.remove(player);
 

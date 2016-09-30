@@ -20,7 +20,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 	{
 		RewardsUtil.placeBlock(Blocks.air, world, x, y + 1, z);
 		EntityCreeper ent = new EntityCreeper(world);
-		ent.setLocationAndAngles(x, y + .5, z, 0, 0);
+		ent.setLocationAndAngles(x + 0.5, y + .5, z + 0.5, 0, 0);
 		ent.addPotionEffect(new PotionEffect(Potion.resistance.id, 1, 99, true));
 		ent.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 10, 99, true));
 		world.spawnEntityInWorld(ent);

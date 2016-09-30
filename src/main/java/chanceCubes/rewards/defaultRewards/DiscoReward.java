@@ -25,7 +25,7 @@ public class DiscoReward implements IChanceCubeReward
 		{
 			EntitySheep sheep = new EntitySheep(world);
 			sheep.setCustomNameTag("jeb_");
-			sheep.setLocationAndAngles(x, y, z, 0, 0);
+			sheep.setLocationAndAngles(x, y + 1, z, 0, 0);
 			world.spawnEntityInWorld(sheep);
 		}
 

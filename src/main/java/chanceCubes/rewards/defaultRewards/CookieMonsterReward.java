@@ -35,7 +35,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 				private void SpawnCM()
 				{
 					EntityZombie cm = new EntityZombie(world);
-					cm.setPosition(x, y, z);
+					cm.setPosition(x + 0.5, y, z + 0.5);
 					cm.setChild(true);
 					cm.setCustomNameTag("Cookie Monster");
 					RewardsUtil.sendMessageToNearPlayers(world, x, y, z, 32, "[Cookie Monster] Hey! Those are mine!");

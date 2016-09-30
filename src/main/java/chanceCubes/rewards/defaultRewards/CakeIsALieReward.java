@@ -56,7 +56,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 	{
 		if(world.getBlockMetadata(loc.getX(), loc.getY(), loc.getZ()) > 0)
 		{
-			world.setBlockToAir(loc.getX(), loc.getY(), loc.getZ());
+			RewardsUtil.placeBlock(Blocks.air, world, loc.getX(), loc.getY(), loc.getZ());
 			RewardsUtil.sendMessageToNearPlayers(world, loc.getX(), loc.getY(), loc.getZ(), 32, "It's a lie!!!");
 			EntityCreeper creeper = new EntityCreeper(world);
 			creeper.setLocationAndAngles(loc.getX(), loc.getY(), loc.getZ(), loc.getX() == 1 ? 90 : -90, 0);

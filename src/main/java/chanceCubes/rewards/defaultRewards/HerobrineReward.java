@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -58,6 +59,7 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
+					RewardsUtil.placeBlock(Blocks.air, world, x, y + 1, z);
 					Boolean rule = MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
 					MinecraftServer.getServer().worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 					String command = "/summon Zombie ~ ~ ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,Equipment:[{id:276,Count:1,tag:{ench:[{id:16,lvl:10},{id:20,lvl:2}]}},{id:313,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:312,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:311,Count:1,tag:{ench:[{id:0,lvl:10}]}},{id:379,Damage:3,Count:1,tag:{SkullOwner:Herobrine}}],DropChances:[0.0F,0.0F,0.0F,0.0F,0.0F],Attributes:[{Name:generic.maxHealth,Base:500}],HealF:500}";
