@@ -8,7 +8,7 @@
 		],
 		"Message":
 		[
-			{"message":"Deadpine... more live Livepine!!"}
+			{"message":"Deadpine... more live Livepine!!"},
 			{"message":"I'll show myself out", "delay": 40}
 		]
 	}
