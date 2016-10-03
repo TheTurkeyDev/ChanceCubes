@@ -16,7 +16,7 @@ public class BaseChanceCubesItem extends Item
 	private String itemName = "Chance_Cube_Unnamed";
 	private List<String> lore = Lists.newArrayList();
 	
-	private int number = 0;
+	private bool blink = true;
 	
 	public BaseChanceCubesItem(String name)
 	{
@@ -40,12 +40,8 @@ public class BaseChanceCubesItem extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
 	{
-		if(number = 0}{
-			list.add("Mod created by: Turkey2348");
-			number = 1;
-		} else if(number = 1){
-			number = 0;
-		}
+		if (blink) list.add("Mod created by: Turkey2348");
+		blink = !blink;
 		list.addAll(lore);
 	}
 }
