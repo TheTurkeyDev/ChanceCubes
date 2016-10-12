@@ -68,7 +68,8 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Ok, Ok... No more dragons...."},
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Ok, Ok... No more dragons....", "delay": 20},
 			{"message":"How about some unkillable charged creepers?", "delay":100}
 		],
 		"Command":
@@ -80,6 +81,22 @@
 		"Block":
 		[
 			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:air", "Falling":false}
+		]
+	},
+	"Nicerer":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Hmmmmmm, new reward?"},
+			{"message":"Let's see, What do I have?", "delay":40},
+			{"message":"Dragons?", "delay":60},
+			{"message":"Nah to extreme", "delay":80},
+			{"message":"Oh I know!! I'll be nice for once!", "delay":100}
+		],
+		"Command":
+		[
+			{"command":"/summon Item ~ ~1 ~ {Item:{id:wooden_sword,Count:1,tag:{display:{Name:\"The Crayon\"},ench:[{id:20,lvl:2},{id:51,lvl:1},{id:49,lvl:5},{id:32,lvl:5}]}}}", "delay": 120}
 		]
 	}
 }
