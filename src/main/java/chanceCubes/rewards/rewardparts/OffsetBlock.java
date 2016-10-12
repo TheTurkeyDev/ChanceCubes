@@ -23,7 +23,7 @@ public class OffsetBlock
 
 	@Deprecated
 	protected byte data = 0;
-	
+
 	protected IBlockState state = null;
 
 	protected boolean falling;
@@ -108,7 +108,7 @@ public class OffsetBlock
 		return this.block;
 	}
 
-	public void setDealy(int delay)
+	public void setDelay(int delay)
 	{
 		this.delay = delay;
 	}
@@ -123,6 +123,11 @@ public class OffsetBlock
 	{
 		this.state = state;
 		return this;
+	}
+	
+	public IBlockState getBlockState()
+	{
+		return this.state;
 	}
 
 	public OffsetBlock setRelativeToPlayer(boolean relative)
@@ -145,6 +150,16 @@ public class OffsetBlock
 	{
 		this.causeUpdate = flag;
 		return this;
+	}
+
+	public boolean isFalling()
+	{
+		return this.falling;
+	}
+
+	public void setFalling(boolean falling)
+	{
+		this.falling = falling;
 	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)

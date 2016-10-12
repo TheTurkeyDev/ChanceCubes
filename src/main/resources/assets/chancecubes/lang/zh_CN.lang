@@ -20,3 +20,16 @@ item.scanner.name=机会方块扫描器
 death.attack.mathdeath=%1$'s 的精神被数学的力量炸死了
 death.attack.mazedeath=%1$ 被永远失去了机会魔方迷宫。
 death.attack.questiondeath=%1$s suffered the consequences of the wrong answer.
+
+achievement.chancecubes.chanceIcosahedron=Disco Ball!
+achievement.chancecubes.chanceIcosahedron.desc=Open a Chance Icosahedron
+achievement.chancecubes.GiantChanceCube=BWWWWAAAAAMMMMM!
+achievement.chancecubes.GiantChanceCube.desc=Break a Giant Chance Cube
+achievement.chancecubes.lonelyDirt=Lonely Dirt
+achievement.chancecubes.lonelyDirt.desc=Obtain the Lonely Piece of Dirt
+achievement.chancecubes.wither=It's Real??
+achievement.chancecubes.wither.desc=Have the Kiwi wither actually spawn
+achievement.chancecubes.herobrine=He's Real??
+achievement.chancecubes.herobrine.desc=Have the Herobrine actually spawn
+achievement.chancecubes.itsALie=It's a Lie!
+achievement.chancecubes.itsALie.desc=Yes, the cake is a lie

@@ -51,8 +51,10 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.CustomEntry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -111,13 +113,17 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					BasicReward basicReward = this.parseReward(reward);
+					CustomEntry<BasicReward, Boolean> parsedReward = this.parseReward(reward);
+					BasicReward basicReward = parsedReward.getKey();
 					if(basicReward == null)
 					{
-						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
+						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to load the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
 					}
-					ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
+					if(parsedReward.getValue())
+						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
+					else
+						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -212,7 +218,7 @@ public class CustomRewardsLoader
 
 			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			{
-				BasicReward basicReward = this.parseReward(reward);
+				BasicReward basicReward = this.parseReward(reward).getKey();
 				if(basicReward == null)
 					continue;
 				CCubesSettings.doesHolidayRewardTrigger = true;
@@ -254,11 +260,12 @@ public class CustomRewardsLoader
 		}
 	}
 
-	public BasicReward parseReward(Entry<String, JsonElement> reward)
+	public CustomEntry<BasicReward, Boolean> parseReward(Entry<String, JsonElement> reward)
 	{
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
 		JsonObject rewardElements = reward.getValue().getAsJsonObject();
 		int chance = 0;
+		boolean isGiantCubeReward = false;
 		for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
 		{
 			if(rewardElement.getKey().equalsIgnoreCase("chance"))
@@ -298,6 +305,10 @@ public class CustomRewardsLoader
 					return null;
 				continue;
 			}
+			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))
+			{
+				isGiantCubeReward = rewardElement.getValue().getAsBoolean();
+			}
 
 			try
 			{
@@ -330,7 +341,7 @@ public class CustomRewardsLoader
 				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
 			}
 		}
-		return new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()]));
+		return new CustomEntry<BasicReward, Boolean>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])), isGiantCubeReward);
 	}
 
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
@@ -402,7 +413,7 @@ public class CustomRewardsLoader
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
 			if(element.getAsJsonObject().has("delay"))
-				offBlock.setDealy(element.getAsJsonObject().get("delay").getAsInt());
+				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
@@ -596,87 +607,113 @@ public class CustomRewardsLoader
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		for(JsonElement element : rawReward)
 		{
-			Schematic schem = null;
-
-			try
+			String fileName = element.getAsJsonObject().get("fileName").getAsString();
+			if(fileName.endsWith(".schematic"))
 			{
-				schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString(), false);
-			} catch(IOException e)
-			{
-				e.printStackTrace();
-			}
+				Schematic schem = null;
 
-			if(schem == null)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to load the schematic of " + element.getAsJsonObject().get("fileName").getAsString() + ". It seems to be dead :(");
-				continue;
-			}
-
-			int multiplier = 0;
-			if(element.getAsJsonObject().has("delay"))
-				multiplier = element.getAsJsonObject().get("delay").getAsInt();
-
-			int i = 0;
-			short halfLength = (short) (schem.length / 2);
-			short halfWidth = (short) (schem.width / 2);
-
-			for(int yy = 0; yy < schem.height; yy++)
-			{
-				for(int zz = 0; zz < schem.length; zz++)
+				try
 				{
-					for(int xx = 0; xx < schem.width; xx++)
-					{
-						int j = schem.blocks[i];
-						if(j < 0)
-							j = 128 + (128 + j);
+					schem = parseSchematic(element.getAsJsonObject().get("fileName").getAsString(), false);
+				} catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 
-						Block b = Block.getBlockById(j);
-						if(b != Blocks.AIR)
+				if(schem == null)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to load the schematic of " + element.getAsJsonObject().get("fileName").getAsString() + ". It seems to be dead :(");
+					continue;
+				}
+
+				int multiplier = 0;
+				if(element.getAsJsonObject().has("delay"))
+					multiplier = element.getAsJsonObject().get("delay").getAsInt();
+
+				int i = 0;
+				short halfLength = (short) (schem.length / 2);
+				short halfWidth = (short) (schem.width / 2);
+
+				for(int yy = 0; yy < schem.height; yy++)
+				{
+					for(int zz = 0; zz < schem.length; zz++)
+					{
+						for(int xx = 0; xx < schem.width; xx++)
+						{
+							int j = schem.blocks[i];
+							if(j < 0)
+								j = 128 + (128 + j);
+
+							Block b = Block.getBlockById(j);
+							if(b != Blocks.AIR)
+							{
+								boolean falling = false;
+								if(element.getAsJsonObject().has("falling"))
+									falling = element.getAsJsonObject().get("falling").getAsBoolean();
+								OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+								if(element.getAsJsonObject().has("RelativeToPlayer"))
+									block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+								block.setDelay(i * multiplier);
+								block.setData(schem.data[i]);
+								blocks.add(block);
+							}
+							i++;
+						}
+					}
+				}
+
+				if(schem.tileentities != null)
+				{
+					for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
+					{
+						NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
+						TileEntity tileentity = TileEntity.create(nbttagcompound4);
+
+						if(tileentity != null)
 						{
 							boolean falling = false;
 							if(element.getAsJsonObject().has("falling"))
 								falling = element.getAsJsonObject().get("falling").getAsBoolean();
-							OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+							Block b = null;
+							for(OffsetBlock osb : blocks)
+								if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
+									b = osb.getBlock();
+							if(b == null)
+								b = Blocks.STONE;
+							OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 							if(element.getAsJsonObject().has("RelativeToPlayer"))
 								block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-							block.setDealy(i * multiplier);
-							block.setData(schem.data[i]);
+							block.setDelay(i1 * multiplier);
+							block.setData(schem.data[i1]);
 							blocks.add(block);
 						}
-
-						i++;
 					}
 				}
 			}
-
-			if(schem.tileentities != null)
+			else
 			{
-				for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
-				{
-					NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-					TileEntity tileentity = TileEntity.create(nbttagcompound4);
-
-					if(tileentity != null)
-					{
-						boolean falling = false;
-						if(element.getAsJsonObject().has("falling"))
-							falling = element.getAsJsonObject().get("falling").getAsBoolean();
-						Block b = null;
-						for(OffsetBlock osb : blocks)
-							if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
-								b = osb.getBlock();
-						if(b == null)
-							b = Blocks.STONE;
-						OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
-						if(element.getAsJsonObject().has("RelativeToPlayer"))
-							block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-						block.setDealy(i1 * multiplier);
-						block.setData(schem.data[i1]);
-						blocks.add(block);
-					}
-				}
+				if(!fileName.endsWith(".ccs"))
+					fileName += ".ccs";
+				int xoff = 0;
+				int yoff = 0;
+				int zoff = 0;
+				float delay = 0;
+				boolean falling = true;
+				boolean relativeToPlayer = false;
+				if(element.getAsJsonObject().has("XOffSet"))
+					xoff = element.getAsJsonObject().get("XOffSet").getAsInt();
+				if(element.getAsJsonObject().has("YOffSet"))
+					yoff = element.getAsJsonObject().get("YOffSet").getAsInt();
+				if(element.getAsJsonObject().has("ZOffSet"))
+					zoff = element.getAsJsonObject().get("ZOffSet").getAsInt();
+				if(element.getAsJsonObject().has("delay"))
+					delay = element.getAsJsonObject().get("delay").getAsFloat();
+				if(element.getAsJsonObject().has("falling"))
+					falling = element.getAsJsonObject().get("falling").getAsBoolean();
+				if(element.getAsJsonObject().has("RelativeToPlayer"))
+					relativeToPlayer = element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean();
+				blocks.addAll(SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer).getBlocks());
 			}
-
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
 		return rewards;

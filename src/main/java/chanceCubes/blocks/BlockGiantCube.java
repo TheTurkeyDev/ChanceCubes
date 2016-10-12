@@ -5,6 +5,7 @@ import java.util.Random;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
@@ -54,8 +55,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					world.setBlockToAir(pos);
 					return false;
 				}
-				//player.addChatMessage(new TextComponentString("The Giant Cube and rewards are currently In developement"));
-				//player.addChatMessage(new TextComponentString("Please let me know what you think of the idea and leave sugestions!"));
+				player.addStat(CCubesAchievements.GiantChanceCube);
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 			}

@@ -1,15 +1,17 @@
-"Kitties":
 {
-  "chance": 0,
-  "Message":
-  [
-    {"message":"Kitties!"},
-    {"message":"<3 Turkey", "delay":10}
-  ],
-  "Command":
-  [
-    {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Re\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20},
-    {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Ninja\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20},
-    {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Kitteh\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20}
-  ]
+    "Kitties":
+  {
+    "chance": 0,
+    "Message":
+    [
+      {"message":"Kitties!"},
+      {"message":"<3 Turkey", "delay":10}
+    ],
+    "Command":
+    [
+      {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Re\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20},
+      {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Ninja\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20},
+      {"command":"/summon Ozelot ~ ~1 ~ {CustomName:\"Kitteh\",CustomNameVisible:1,CatType:2,Sitting:1}", "delay": 20}
+    ]
+  }
 }

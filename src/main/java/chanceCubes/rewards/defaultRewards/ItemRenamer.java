@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -44,6 +45,7 @@ public class ItemRenamer implements IChanceCubeReward
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
 			dirt.setStackDisplayName("A lonley piece of dirt");
 			player.inventory.addItemStackToInventory(dirt);
+			player.addStat(CCubesAchievements.lonelyDirt);
 			return;
 		}
 

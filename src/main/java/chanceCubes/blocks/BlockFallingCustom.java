@@ -31,6 +31,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 		this.osb = osb;
 	}
 
+	@Override
 	public void onUpdate()
 	{
 		Block block = this.fallTile.getBlock();
@@ -75,11 +76,13 @@ public class BlockFallingCustom extends EntityFallingBlock
 					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
 
 					if(this.worldObj.isAirBlock(new BlockPos(this.posX, this.posY - 0.01D, this.posZ))) // Forge: Don't indent below.
+					{
 						if(BlockFalling.canFallThrough(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))))
 						{
 							this.onGround = false;
 							return;
 						}
+					}
 
 					this.motionX *= 0.7D;
 					this.motionZ *= 0.7D;

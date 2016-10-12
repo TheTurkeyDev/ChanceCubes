@@ -1,0 +1,19 @@
+{
+	"Time_To_cook":
+	{
+		"chance": 0,
+		"Item":
+		[
+			{"item":{"id":"minecraft:bread","Damage":0,"Count":3}},
+			{"item":{"id":"minecraft:carrot","Damage":0,"Count":3}},
+			{"item":{"id":"minecraft:potato","Damage":0,"Count":3}},
+			{"item":{"id":"minecraft:beef","Damage":0,"Count":1}},
+			{"item":{"id":"minecraft:fish","Damage":1,"Count":1}}
+		],
+		"Message":
+		[
+			{"message":"Time to cook!"},
+			{"message":"<3 Turkey", "delay": 40}
+		]
+	}
+}

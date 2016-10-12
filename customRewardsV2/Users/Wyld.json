@@ -23,6 +23,10 @@
 	},
 	"Sounds":
   {
+		"dependencies":
+		{
+			"mcVersion":"1.7.*"
+		},
     "chance": 0,
     "Message":
     [
@@ -48,5 +52,37 @@
       {"sound":"mob.zombie.infect", "delay": 110},
       {"sound":"mob.enderdragon.growl", "delay": 120}
     ]
-  }
+  },
+	"Sounds":
+	{
+		"dependencies":
+		{
+			"mcVersion":"1.9.*, 1.10.*"
+		},
+		"chance": 0,
+		"Message":
+		[
+			{"message":"From: Pokey", "delay":140}
+		],
+		"Command":
+		[
+			{"command":"/effect @p 15 10 1", "delay":0}
+		],
+		"Sound":
+		[
+			{"sound":"entity.creeper.primed"},
+			{"sound":"entity.arrow.shoot", "delay": 10},
+			{"sound":"entity.blaze.ambient", "delay": 20},
+			{"sound":"entity.endermen.scream", "delay": 30},
+			{"sound":"entity.ghast.scream", "delay": 40},
+			{"sound":"entity.irongolem.hurt", "delay": 50},
+			{"sound":"entity.zombie_pig.hurt", "delay": 60},
+			{"sound":"entity.spider.ambient", "delay": 70},
+			{"sound":"entity.wolf.growl", "delay": 80},
+			{"sound":"entity.wither.spawn", "delay": 90},
+			{"sound":"entity.player.hurt", "delay": 100},
+			{"sound":"entity.shulker.hurt", "delay": 110},
+			{"sound":"entity.enderdragon.growl", "delay": 120}
+		]
+	}
 }

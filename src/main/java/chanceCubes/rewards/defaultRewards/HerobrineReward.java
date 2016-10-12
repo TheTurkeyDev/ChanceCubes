@@ -1,11 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -13,8 +15,8 @@ import net.minecraft.world.World;
 
 public class HerobrineReward implements IChanceCubeReward
 {
-	private String[] leaveSayings = new String[] {"I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time."};
-	private String[] staySayings = new String[] {"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end"};
+	private String[] leaveSayings = new String[] { "I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time." };
+	private String[] staySayings = new String[] { "Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end" };
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -58,6 +60,7 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
+					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 					MinecraftServer server = world.getMinecraftServer();
 					Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
@@ -65,6 +68,7 @@ public class HerobrineReward implements IChanceCubeReward
 					CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 					server.getCommandManager().executeCommand(sender, command);
 					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+					player.addStat(CCubesAchievements.herobrine);
 				}
 				else
 				{

@@ -54,7 +54,7 @@ public class ItemChanceCube extends ItemBlock
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-		if(stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
+		if(!stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
 		{
 			String chance = this.getChanceAsStringValue(stack);
 			list.add("Chance Value: " + chance);
