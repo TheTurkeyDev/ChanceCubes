@@ -32,7 +32,7 @@ import team.chisel.ctmlib.TextureSubmap;
 public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
 	public static final String blockName = "Giant_Chance_Cube";
-	
+
 	@SideOnly(Side.CLIENT)
 	private TextureSubmap[] subMap;
 	@SideOnly(Side.CLIENT)
@@ -49,7 +49,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return new TileGiantCube();
 	}
-	
+
 	@Override
 	public int quantityDropped(Random p_149745_1_)
 	{
@@ -76,8 +76,8 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					world.setBlockToAir(x, y, z);
 					return false;
 				}
-				//player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
-				//player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
+				// player.addChatMessage(new ChatComponentText("The Giant Cube and rewards are currently In developement"));
+				// player.addChatMessage(new ChatComponentText("Please let me know what you think of the idea and leave sugestions!"));
 				player.triggerAchievement(CCubesAchievements.GiantChanceCube);
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterX(), te.getMasterY(), te.getMasterZ(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterX(), te.getMasterY(), te.getMasterZ(), world);
@@ -149,12 +149,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	public IIcon getIconAt(int side, int x, int y)
 	{
 		if(CCubesSettings.hasHolidayTexture)
-		{
-			if(side == 0 || side == 1)
-				return this.specialIcons[0].getSubIcon(x, y);
-			else
-				return this.specialIcons[1].getSubIcon(x, y);
-		}
+			return this.specialIcons[side].getSubIcon(x, y);
 		else
 			return this.subMap[side].getSubIcon(x, y);
 	}
