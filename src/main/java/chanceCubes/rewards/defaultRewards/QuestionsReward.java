@@ -21,17 +21,17 @@ public class QuestionsReward implements IChanceCubeReward
 {
 
 	private Map<EntityPlayer, String> inQuestion = new HashMap<EntityPlayer, String>();
-	
+
 	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<CustomEntry<String, String>>();
-	
+
 	public QuestionsReward()
 	{
-		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey2349");
+		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
-		this.addQuestionAnswer("What is 9 + 10", "19");
+		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
 	}
-	
+
 	public void addQuestionAnswer(String q, String a)
 	{
 		questionsAndAnswers.add(new CustomEntry<String, String>(q, a));
@@ -47,7 +47,6 @@ public class QuestionsReward implements IChanceCubeReward
 
 		player.addChatMessage(new TextComponentString(questionsAndAnswers.get(question).getKey()));
 		player.addChatMessage(new TextComponentString("You have 45 seconds to answer! (Answer is not case sensitive)"));
-
 
 		if(!world.isRemote)
 		{
@@ -107,7 +106,11 @@ public class QuestionsReward implements IChanceCubeReward
 		if(inQuestion.containsKey(player))
 		{
 			String answer = event.getMessage();
-			this.timeUp(player, inQuestion.get(player).equalsIgnoreCase(answer));
+			boolean correct = false;
+			for(String s : inQuestion.get(player).split("-or-"))
+				if(s.trim().equalsIgnoreCase(answer.trim()))
+					correct = true;
+			this.timeUp(player, correct);
 			event.setCanceled(true);
 		}
 	}

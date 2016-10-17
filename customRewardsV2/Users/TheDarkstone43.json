@@ -1,0 +1,56 @@
+{
+	"Dark":
+	{
+		"chance": 0,
+		"Block":
+		[
+			{"XOffSet":-7,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-7,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-7,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-7,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-7,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-6,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-5,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-5,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-5,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-6,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			
+			{"XOffSet":-3,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-3,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-3,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-3,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-2,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-1,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-1,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-2,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-1,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":1,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":1,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":1,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":1,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":2,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":3,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":2,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":3,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":3,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			
+			{"XOffSet":5,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":5,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":5,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":5,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":5,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":7,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":7,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":6,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":7,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true},
+			{"XOffSet":7,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:coal_block", "Falling":true}
+		],
+		"Message":
+		[
+			{"message":"<3 Turkey and Chris_Eclipse"}
+		]
+	}
+}
