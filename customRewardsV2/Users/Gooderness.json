@@ -1,0 +1,15 @@
+{
+	"The_Gooderness":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"To the best voice on twitch and my animal brethern!"},
+			{"message":"Stay frosty sir, <3 Turkey", "delay":10}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:ice","Count":5}, "delay":10}
+		]
+	}
+}
