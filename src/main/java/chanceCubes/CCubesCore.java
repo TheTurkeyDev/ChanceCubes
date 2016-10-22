@@ -38,14 +38,14 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.17.0.1976,)")
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.18.2.2099,)")
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.9.4";
+	public static final String gameVersion = "1.10.2";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
