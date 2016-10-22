@@ -1,5 +1,89 @@
 {
+	"Hard_Enough":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Oh! remember your first ever reward!", "delay":20},
+			{"message":"<3 Turkey", "delay":40}
+		],
+		"Command":
+		[
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40}
+		]
+	},
+	"Hard_Enough_Wither":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Oh! How about that one time where you had withers riding ender dragons!", "delay":20},
+			{"message":"Yeahhhh good times", "delay":60},
+			{"message":"<3 Turkey", "delay":70}
+		],
+		"Command":
+		[
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50}
+		]
+	},
+	"Nice":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Ok... I'll be nice now", "delay": 20},
+			{"message":"LOL JK. GET REKT", "delay": 200}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"EnderDragon"}, "delay": 280},
+			{"entity":{"id":"EnderDragon"}, "delay": 280}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:cookie","Count":32, "delay": 20}}
+		]
+	},
 	"Nicer":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Ok, Ok... No more dragons....", "delay": 20},
+			{"message":"How about some unkillable charged creepers?", "delay":100}
+		],
+		"Command":
+		[
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160}
+		],
+		"Block":
+		[
+			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:air", "Falling":false}
+		]
+	},
+	"Nicerer":
 	{
 		"chance": 0,
 		"Message":
@@ -13,10 +97,6 @@
 		"Command":
 		[
 			{"command":"/summon Item ~ ~1 ~ {Item:{id:wooden_sword,Count:1,tag:{display:{Name:\"The Crayon\"},ench:[{id:20,lvl:2},{id:51,lvl:1},{id:49,lvl:5},{id:32,lvl:5}]}}}", "delay": 120}
-		],
-    "Sound":
-    [
-      {"sound":"mob.enderdragon.growl", "delay": 70}
-    ]
+		]
 	}
 }
