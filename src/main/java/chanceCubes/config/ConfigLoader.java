@@ -10,12 +10,14 @@ public class ConfigLoader
 	public static final String genCat = "General Settings";
 	public static final String rewardCat = "Rewards";
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
+	
+	public static File folder;
 
 	public static void loadConfigSettings(File file, File resources)
 	{
-		File fileFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
-		fileFolder.mkdirs();
-		config = new Configuration(new File(fileFolder + "/" + file.getName()));
+		folder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
+		folder.mkdirs();
+		config = new Configuration(new File(folder + "/" + file.getName()));
 		config.load();
 
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");

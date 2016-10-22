@@ -7,6 +7,7 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
@@ -47,12 +48,12 @@ public class MathReward implements IChanceCubeReward
 				{
 					if(xx == -2 || xx == 2 || zz == -2 || zz == 2 || yy == 1 || yy == 4)
 					{
-						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.BED.getDefaultState());
+						RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, playerPos.add(xx, yy, zz));
 						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 					else if(((xx == -1 || xx == 1) && (zz == -1 || zz == 1) && yy == 2))
 					{
-						world.setBlockState(playerPos.add(xx, yy, zz), Blocks.GLOWSTONE.getDefaultState());
+						RewardsUtil.placeBlock(Blocks.GLOWSTONE.getDefaultState(), world, playerPos.add(xx, yy, zz));
 						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
 					}
 				}
@@ -109,7 +110,7 @@ public class MathReward implements IChanceCubeReward
 			tnt.setDead();
 
 		for(BlockPos b : info.getBlocks())
-			player.worldObj.setBlockToAir(b);
+			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), player.worldObj, b);
 
 		inQuestion.remove(player);
 

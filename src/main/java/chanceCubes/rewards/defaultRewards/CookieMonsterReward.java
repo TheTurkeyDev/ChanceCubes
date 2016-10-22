@@ -19,7 +19,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		if (!world.isRemote)
+		if(!world.isRemote)
 		{
 			RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Here have some cookies!");
 			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.COOKIE, 8));
@@ -36,7 +36,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 				private void SpawnCM()
 				{
 					EntityZombie cm = new EntityZombie(world);
-					cm.setPosition(pos.getX(), pos.getY(), pos.getZ());
+					cm.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 					cm.setChild(true);
 					cm.setCustomNameTag("Cookie Monster");
 					RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "[Cookie Monster] Hey! Those are mine!");

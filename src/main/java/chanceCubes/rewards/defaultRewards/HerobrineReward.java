@@ -7,6 +7,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -59,6 +60,7 @@ public class HerobrineReward implements IChanceCubeReward
 			{
 				if(staying)
 				{
+					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 					MinecraftServer server = world.getMinecraftServer();
 					Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 					server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.blocks.BlockChanceCube;
-import chanceCubes.blocks.BlockChanceCube.EnumTexture;
-import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.SchematicUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -21,13 +20,14 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
-public class CCubesCommands implements ICommand
+public class CCubesServerCommands implements ICommand
 {
 	private List<String> aliases;
 	List<String> tab;
 
-	public CCubesCommands()
+	public CCubesServerCommands()
 	{
 		this.aliases = new ArrayList<String>();
 		this.aliases.add("Chancecubes");
@@ -137,22 +137,63 @@ public class CCubesCommands implements ICommand
 				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
 			}
 		}
-		else if(args[0].equalsIgnoreCase("test"))
+		else if(args[0].equalsIgnoreCase("schematic"))
 		{
-			if(args.length >= 2 && sender instanceof EntityPlayer)
+			if(Minecraft.getMinecraft().isSingleplayer())
 			{
-				EntityPlayer player = (EntityPlayer) sender;
-				if(args[1].equalsIgnoreCase("1"))
+				if(sender instanceof EntityPlayer)
 				{
-					WorldRenderListener.pos1 = new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ);
-					sender.addChatMessage(new TextComponentString("Point 1 set"));
-				}
-				if(args[1].equalsIgnoreCase("2"))
-				{
-					WorldRenderListener.pos2 = new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ);
-					sender.addChatMessage(new TextComponentString("Point 2 set"));
+					World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
+					EntityPlayer player = (EntityPlayer) sender;
+					if(player.capabilities.isCreativeMode)
+					{
+						if(args.length >= 3)
+						{
+							if(args[1].equalsIgnoreCase("setPoint"))
+							{
+								if(args[2].equalsIgnoreCase("1"))
+								{
+									SchematicUtil.selectionPoints[0] = new BlockPos((int) player.posX, (int) player.posY - 1, (int) player.posZ);
+									sender.addChatMessage(new TextComponentString("Point 1 set"));
+								}
+								if(args[2].equalsIgnoreCase("2"))
+								{
+									SchematicUtil.selectionPoints[1] = new BlockPos((int) player.posX, (int) player.posY - 1, (int) player.posZ);
+									sender.addChatMessage(new TextComponentString("Point 2 set"));
+								}
+							}
+							else if(args[1].equalsIgnoreCase("create"))
+							{
+								if(SchematicUtil.selectionPoints[0] == null || SchematicUtil.selectionPoints[1] == null)
+								{
+									sender.addChatMessage(new TextComponentString("Both points are not set!"));
+									return;
+								}
+								SchematicUtil.createCustomSchematic(world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
+								sender.addChatMessage(new TextComponentString("Schematic file named " + (args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs") + " created!"));
+								SchematicUtil.selectionPoints[0] = null;
+								SchematicUtil.selectionPoints[1] = null;
+							}
+						}
+						else
+						{
+							sender.addChatMessage(new TextComponentString("invalid arguments"));
+						}
+					}
+					else
+					{
+						sender.addChatMessage(new TextComponentString("Sorry, you need to be in creative to use this command"));
+					}
 				}
 			}
+			else
+			{
+				sender.addChatMessage(new TextComponentString("Sorry, but this command only works in single player"));
+			}
+		}
+		else if(args[0].equalsIgnoreCase("test"))
+		{
+
 		}
 		else
 		{

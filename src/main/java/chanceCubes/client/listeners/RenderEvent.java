@@ -3,13 +3,12 @@ package chanceCubes.client.listeners;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
 
 public class RenderEvent
 {
@@ -32,10 +31,9 @@ public class RenderEvent
 
 		FontRenderer fontrenderer = mc.fontRendererObj;
 
-		GL11.glPushMatrix();
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		GlStateManager.pushMatrix();
+		GlStateManager.disableLighting();
+		GlStateManager.color(1F, 1F, 1F, 1F);
 
 		if(islookingAt)
 		{
@@ -54,7 +52,7 @@ public class RenderEvent
 			}
 		}
 
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	public static void setLookingAtChance(int c)

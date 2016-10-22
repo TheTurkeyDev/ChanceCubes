@@ -42,6 +42,7 @@ public class ItemChanceCube extends ItemBlock
 			return -101;
 		return stack.getTagCompound().hasKey("Chance") ? stack.getTagCompound().getInteger("Chance") : -101;
 	}
+
 	public String getChanceAsStringValue(ItemStack stack)
 	{
 		if(stack.getTagCompound() == null)
@@ -51,13 +52,13 @@ public class ItemChanceCube extends ItemBlock
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) 
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-        if(stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
-        {
-            String chance = this.getChanceAsStringValue(stack);
-            list.add("Chance Value: " + chance);
-        }
+		if(!stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
+		{
+			String chance = this.getChanceAsStringValue(stack);
+			list.add("Chance Value: " + chance);
+		}
 
 	}
 
@@ -66,19 +67,19 @@ public class ItemChanceCube extends ItemBlock
 		boolean placed = super.placeBlockAt(stack, player, world, pos, facing, hitX, hitY, hitZ, blockState);
 
 		TileEntity te = world.getTileEntity(pos);
-		if (te != null)
+		if(te != null)
 		{
 			if(te instanceof TileChanceCube)
 			{
 				int chance = this.getChance(stack);
 				if(chance != -101)
-					((TileChanceCube)te).setChance(chance);
+					((TileChanceCube) te).setChance(chance);
 			}
 			else if(te instanceof TileChanceD20)
 			{
 				int chance = this.getChance(stack);
 				if(chance != -101)
-					((TileChanceD20)te).setChance(chance);
+					((TileChanceD20) te).setChance(chance);
 			}
 		}
 
