@@ -349,16 +349,7 @@ public class CustomRewardsLoader
 		List<ItemPart> items = new ArrayList<ItemPart>();
 		for(JsonElement fullelement : rawReward)
 		{
-			String itemInfo = fullelement.getAsJsonObject().get("item").getAsJsonObject().get("id").getAsString();
 			JsonElement element = fullelement.getAsJsonObject().get("item").getAsJsonObject();
-			if(itemInfo.contains(":"))
-			{
-				String mod = itemInfo.substring(0, itemInfo.indexOf(":"));
-				String name = itemInfo.substring(itemInfo.indexOf(":") + 1);
-				int id = Item.getIdFromItem(Item.REGISTRY.getObject(new ResourceLocation(mod, name)));
-				element.getAsJsonObject().addProperty("id", id);
-			}
-
 			ItemPart stack;
 
 			try
