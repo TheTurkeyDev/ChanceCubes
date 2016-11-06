@@ -20,7 +20,10 @@ public class WitherReward implements IChanceCubeReward
 		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
 		wither.ignite();
-		wither.setCustomNameTag("Kiwi");
+		if(world.rand.nextBoolean())
+			wither.setCustomNameTag("Kiwi");
+		else
+			wither.setCustomNameTag("Kehaan");
 		world.spawnEntityInWorld(wither);
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");

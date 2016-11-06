@@ -4,11 +4,13 @@ import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.EntityPart;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,7 +51,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 			for(int yy = 0; yy < 4; yy++)
 				for(int xx = -1; xx < 2; xx++)
 					for(int zz = -1; zz < 2; zz++)
-						world.setBlockToAir(new BlockPos(x + xx, y + yy, z + zz));
+						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
 		
 		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
 		newEnt.setPosition(x + 0.5, y, z + 0.5);
