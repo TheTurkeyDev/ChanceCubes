@@ -57,7 +57,6 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
@@ -68,7 +67,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 
 public class CustomRewardsLoader
@@ -645,7 +643,7 @@ public class CustomRewardsLoader
 								if(element.getAsJsonObject().has("RelativeToPlayer"))
 									block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 								block.setDelay(i * multiplier);
-								block.setData(schem.data[i]);
+								block.setBlockState(b.getStateFromMeta(schem.data[i]));
 								blocks.add(block);
 							}
 							i++;
@@ -675,7 +673,7 @@ public class CustomRewardsLoader
 							if(element.getAsJsonObject().has("RelativeToPlayer"))
 								block.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 							block.setDelay(i1 * multiplier);
-							block.setData(schem.data[i1]);
+							block.setBlockState(b.getStateFromMeta(schem.data[i1]));
 							blocks.add(block);
 						}
 					}
@@ -727,7 +725,7 @@ public class CustomRewardsLoader
 		}
 
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
-
+		System.out.println("NBT:" + nbtdata.toString());
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");
