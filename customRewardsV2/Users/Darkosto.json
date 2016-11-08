@@ -4,7 +4,9 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Nope. Still no reward for you Dark. Try again next time."}
+			{"message":"Happy Birthday Darkosto!"},
+			{"message":"Guess what I got you for your birthday present!", "delay":60},
+			{"message":"Nothing....... DarkoLUL darkoBday", "delay":150}
 		]
 	}
 }
