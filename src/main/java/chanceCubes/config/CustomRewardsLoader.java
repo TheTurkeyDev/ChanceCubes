@@ -394,8 +394,9 @@ public class CustomRewardsLoader
 			int x = element.getAsJsonObject().get("XOffSet").getAsInt();
 			int y = element.getAsJsonObject().get("YOffSet").getAsInt();
 			int z = element.getAsJsonObject().get("ZOffSet").getAsInt();
-			String mod = element.getAsJsonObject().get("Block").getAsString().substring(0, element.getAsJsonObject().get("Block").getAsString().indexOf(":"));
-			String blockName = element.getAsJsonObject().get("Block").getAsString().substring(element.getAsJsonObject().get("Block").getAsString().indexOf(":") + 1);
+			String blockDataParts[] = element.getAsJsonObject().get("Block").getAsString().split(":");
+			String mod = blockDataParts[0];
+			String blockName = blockDataParts[1];
 			Block block = RewardsUtil.getBlock(mod, blockName);
 			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
 
@@ -407,6 +408,9 @@ public class CustomRewardsLoader
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 
+			if(blockDataParts.length > 2)
+				offBlock.setBlockState(block.getStateFromMeta(Integer.parseInt(blockDataParts[2])));
+			
 			blocks.add(offBlock);
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));

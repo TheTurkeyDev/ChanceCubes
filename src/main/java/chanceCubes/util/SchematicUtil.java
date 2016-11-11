@@ -176,6 +176,7 @@ public class SchematicUtil
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, (int) delayTotal);
 					// TODO: Find better way?
 					osb.setBlockState(b.getStateFromMeta(Integer.parseInt(dataParts[2])));
+					osb.setRelativeToPlayer(relativeToPlayer);
 					offsetBlocks.add(osb);
 					if(!b.equals(Blocks.AIR))
 						delayTotal += delay;

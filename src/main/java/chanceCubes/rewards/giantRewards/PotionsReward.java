@@ -10,13 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class PotionsReward implements IChanceCubeReward
 {
-	private int[] metas = new int[] { 16385, 16450, 16419, 16420, 16452, 16453, 16422, 16424, 16393, 16426, 16428, 16460, 16461, 16430 };
 	private Random rand = new Random();
 
 	private EntityPotion pot;
@@ -41,7 +42,8 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 		{
-			pot = new EntityPotion(world, player, new ItemStack(Items.POTIONITEM, 1, metas[rand.nextInt(metas.length)]));
+			PotionType potionType = PotionType.REGISTRY.getObjectById(rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
 			pot.motionY = 1;
@@ -66,7 +68,8 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double yy = -0.2; yy <= 1; yy += 0.1)
 		{
-			pot = new EntityPotion(world, player, new ItemStack(Items.POTIONITEM, 1, metas[rand.nextInt(metas.length)]));
+			PotionType potionType = PotionType.REGISTRY.getObjectById(rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(itteration * (Math.PI / 30));
 			pot.motionY = yy;

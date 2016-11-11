@@ -18,6 +18,7 @@ public class CustomSchematic
 		this.xSize = xSize;
 		this.ySize = ySize;
 		this.zSize = zSize;
+		this.relativeToPlayer = relativeToPlayer;
 	}
 
 	public List<OffsetBlock> getBlocks()
