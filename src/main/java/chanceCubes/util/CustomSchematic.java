@@ -11,14 +11,16 @@ public class CustomSchematic
 	private int ySize;
 	private int zSize;
 	private boolean relativeToPlayer;
+	private boolean includeAirBlocks;
 
-	public CustomSchematic(List<OffsetBlock> blocks, int xSize, int ySize, int zSize, boolean relativeToPlayer)
+	public CustomSchematic(List<OffsetBlock> blocks, int xSize, int ySize, int zSize, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
 		this.blocks = blocks;
 		this.xSize = xSize;
 		this.ySize = ySize;
 		this.zSize = zSize;
 		this.relativeToPlayer = relativeToPlayer;
+		this.includeAirBlocks = includeAirBlocks;
 	}
 
 	public List<OffsetBlock> getBlocks()
@@ -40,9 +42,14 @@ public class CustomSchematic
 	{
 		return this.zSize;
 	}
-	
+
 	public boolean isRelativeToPlayer()
 	{
 		return relativeToPlayer;
+	}
+
+	public boolean includeAirBlocks()
+	{
+		return this.includeAirBlocks;
 	}
 }

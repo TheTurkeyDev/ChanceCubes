@@ -21,9 +21,6 @@ public class OffsetBlock
 	public int yOff;
 	public int zOff;
 
-	@Deprecated
-	protected byte data = 0;
-
 	protected IBlockState state = null;
 
 	protected boolean falling;
@@ -99,7 +96,7 @@ public class OffsetBlock
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
 			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)));
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, block.getDefaultState(), data, y + yOff, this);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, this.state, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
@@ -111,12 +108,6 @@ public class OffsetBlock
 	public void setDelay(int delay)
 	{
 		this.delay = delay;
-	}
-
-	@Deprecated
-	public void setData(byte d)
-	{
-		this.data = d;
 	}
 
 	public OffsetBlock setBlockState(IBlockState state)

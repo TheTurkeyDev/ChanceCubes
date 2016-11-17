@@ -130,7 +130,7 @@ public class SchematicUtil
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
-	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer)
+	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
 		if(elem == null)
@@ -173,6 +173,8 @@ public class SchematicUtil
 					}
 					String[] dataParts = blockData.split(":");
 					Block b = Block.REGISTRY.getObject(new ResourceLocation(dataParts[0], dataParts[1]));
+					if(b.equals(Blocks.AIR) && !includeAirBlocks)
+						continue;
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, (int) delayTotal);
 					// TODO: Find better way?
 					osb.setBlockState(b.getStateFromMeta(Integer.parseInt(dataParts[2])));
@@ -209,7 +211,7 @@ public class SchematicUtil
 				offsetBlocks.remove(i);
 		}
 
-		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer);
+		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks);
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)

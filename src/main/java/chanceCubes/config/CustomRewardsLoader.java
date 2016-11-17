@@ -693,6 +693,7 @@ public class CustomRewardsLoader
 				float delay = 0;
 				boolean falling = true;
 				boolean relativeToPlayer = false;
+				boolean includeAirBlocks = false;
 				if(element.getAsJsonObject().has("XOffSet"))
 					xoff = element.getAsJsonObject().get("XOffSet").getAsInt();
 				if(element.getAsJsonObject().has("YOffSet"))
@@ -705,7 +706,9 @@ public class CustomRewardsLoader
 					falling = element.getAsJsonObject().get("falling").getAsBoolean();
 				if(element.getAsJsonObject().has("RelativeToPlayer"))
 					relativeToPlayer = element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean();
-				blocks.addAll(SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer).getBlocks());
+				if(element.getAsJsonObject().has("IncludeAirBlocks"))
+					includeAirBlocks = element.getAsJsonObject().get("IncludeAirBlocks").getAsBoolean();
+				blocks.addAll(SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks).getBlocks());
 			}
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));

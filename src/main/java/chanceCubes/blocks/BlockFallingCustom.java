@@ -23,7 +23,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 	private OffsetBlock osb;
 	private IBlockState fallTile;
 
-	public BlockFallingCustom(World world, double x, double y, double z, IBlockState state, int data, int normY, OffsetBlock osb)
+	public BlockFallingCustom(World world, double x, double y, double z, IBlockState state, int normY, OffsetBlock osb)
 	{
 		super(world, x, y, z, state);
 		fallTile = state;

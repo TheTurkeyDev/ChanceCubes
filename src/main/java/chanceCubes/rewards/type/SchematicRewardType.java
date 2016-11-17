@@ -85,7 +85,7 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 			{
 				for(int xx = 0; xx < schem.width; xx++)
 				{
-					
+
 					int j = schem.blocks[i];
 					if(j < 0)
 					{
@@ -93,11 +93,11 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 					}
 
 					Block b = Block.getBlockById(j);
-					
+
 					if(schem.tileentities != null)
 					{
 						for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
-						{	
+						{
 							NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
 							if(nbttagcompound4.getInteger("x") == xx && nbttagcompound4.getInteger("y") == yy && nbttagcompound4.getInteger("z") == zz)
 							{
@@ -107,20 +107,20 @@ public class SchematicRewardType extends BaseRewardType<OffsetBlock>
 									OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 									block.setRelativeToPlayer(this.relativeToPlayer);
 									block.setDelay(i * delay);
-									block.setData(schem.data[i]);
+									block.setBlockState(b.getStateFromMeta(schem.data[i]));
 									blocks.add(block);
 									continue;
 								}
 							}
 						}
 					}
-					
+
 					if(b != Blocks.AIR)
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(this.relativeToPlayer);
 						block.setDelay(i * delay);
-						block.setData(schem.data[i]);
+						block.setBlockState(b.getStateFromMeta(schem.data[i]));
 						blocks.add(block);
 					}
 
