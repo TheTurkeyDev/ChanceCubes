@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+	"textures": {
+        "down": "chancecubes:blocks/chance_cube_holidays_face_1",
+        "up": "chancecubes:blocks/chance_cube_holidays_face_6",
+        "north": "chancecubes:blocks/chance_cube_holidays_face_2",
+        "east": "chancecubes:blocks/chance_cube_holidays_face_3",
+        "south": "chancecubes:blocks/chance_cube_holidays_face_5",
+        "west": "chancecubes:blocks/chance_cube_holidays_face_4"
+    }
+}

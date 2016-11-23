@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BlockChanceCube;
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -204,30 +206,6 @@ public class CCubesServerCommands extends CommandBase
 			{
 				sender.addChatMessage(new TextComponentString("Sorry, but this command only works in single player"));
 			}
-		}
-		else if(args[0].equalsIgnoreCase("tic"))
-		{
-			int delay = 1;
-			if(args.length >= 2)
-			{
-				try
-				{
-					delay = Integer.parseInt(args[1]);
-				} catch(NumberFormatException e)
-				{
-					e.printStackTrace();
-				}
-			}
-			Task task = new Task("Tic", delay)
-			{
-				@Override
-				public void callback()
-				{
-					sender.addChatMessage(new TextComponentString("Toc"));
-				}
-
-			};
-			Scheduler.scheduleTask(task);
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
