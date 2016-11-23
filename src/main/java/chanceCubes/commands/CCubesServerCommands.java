@@ -8,7 +8,9 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
+import chanceCubes.util.Task;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -62,7 +64,7 @@ public class CCubesServerCommands extends CommandBase
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	public void execute(MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
@@ -202,6 +204,30 @@ public class CCubesServerCommands extends CommandBase
 			{
 				sender.addChatMessage(new TextComponentString("Sorry, but this command only works in single player"));
 			}
+		}
+		else if(args[0].equalsIgnoreCase("tic"))
+		{
+			int delay = 1;
+			if(args.length >= 2)
+			{
+				try
+				{
+					delay = Integer.parseInt(args[1]);
+				} catch(NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			Task task = new Task("Tic", delay)
+			{
+				@Override
+				public void callback()
+				{
+					sender.addChatMessage(new TextComponentString("Toc"));
+				}
+
+			};
+			Scheduler.scheduleTask(task);
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{

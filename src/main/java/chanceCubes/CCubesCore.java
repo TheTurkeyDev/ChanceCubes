@@ -24,7 +24,7 @@ import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -38,14 +38,14 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.18.2.2099,)")
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.10.2";
+	public static final String gameVersion = "1.11";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
@@ -53,9 +53,9 @@ public class CCubesCore
 	public static CommonProxy proxy;
 	public static CreativeTabs modTab = new CreativeTabs(MODID)
 	{
-		public Item getTabIconItem()
+		public ItemStack getTabIconItem()
 		{
-			return Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE);
+			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
 	public static Logger logger;

@@ -71,8 +71,8 @@ public class OffsetTileEntity extends OffsetBlock
 		super.placeInWorld(world, x, y, z, offset);
 		//te.me = this.data;
 		if(offset)
-			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.func_190200_a(world, teNBT));
+			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.create(world, teNBT));
 		else
-			world.setTileEntity(new BlockPos(x, y, z), TileEntity.func_190200_a(world, teNBT));
+			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT));
 	}
 }

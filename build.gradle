@@ -1,18 +1,14 @@
-
-// For those who want the bleeding edge
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 ext.buildnumber = 0
 if (System.getenv('BUILD_NUMBER') != null)
@@ -20,24 +16,49 @@ if (System.getenv('BUILD_NUMBER') != null)
 else
     logger.lifecycle "No build number detected, setting to 0"
 
-	
+
 group= "chanceCubes.CCubesCore"
 archivesBaseName = "ChanceCubes"
 version = "${mc_version}-${mod_version}.${buildnumber}"
 
+sourceCompatibility = targetCompatibility = "1.7" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.7"
+}
+
 minecraft {
     version = "${mc_version}-${forge_version}"
-    runDir = "run-1.10"
-	
-    mappings = "snapshot_20160518"
-	
-	replace "@VERSION@", project.version
+    runDir = "run-1.11"
+
+    mappings = "snapshot_20161111"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    replace "@VERSION@", project.version
     replaceIn "CCubesCore.java"
     replaceIn "mcmod.info"
 }
 
 dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
 
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
 

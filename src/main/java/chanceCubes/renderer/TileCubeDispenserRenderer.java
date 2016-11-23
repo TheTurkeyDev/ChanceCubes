@@ -39,7 +39,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 		te.wave %= 125;
 		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
 		GlStateManager.translate(0f, yy + 1f, 0f);
-		entity.getEntityItem().stackSize = 1;
+		entity.getEntityItem().func_190920_e(1);
 		entity.setNoDespawn();
 		entity.rotationYaw = 0;
 		te.rot += ROTATE_SPEED;

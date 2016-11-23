@@ -6,14 +6,13 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -61,7 +60,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 			}
 
 			this.motionY -= 0.04D;
-			this.moveEntity(this.motionX, this.motionY, this.motionZ);
+			this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 			this.motionX *= 0.98D;
 			this.motionY *= 0.98D;
 			this.motionZ *= 0.98D;
@@ -88,41 +87,41 @@ public class BlockFallingCustom extends EntityFallingBlock
 					if(iblockstate.getBlock() != Blocks.PISTON_EXTENSION)
 					{
 						this.setDead();
-						if(this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.canFallThrough(this.worldObj.getBlockState(blockpos1.down())) && this.worldObj.setBlockState(blockpos1, this.fallTile, 3))
+						// if(!super.canSetAsBlock)
+						// {
+						if(block instanceof BlockFalling)
 						{
-							if(block instanceof BlockFalling)
-							{
-								osb.placeInWorld(worldObj, blockpos1, false);
-							}
+							osb.placeInWorld(worldObj, blockpos1, false);
+						}
 
-							if(this.tileEntityData != null && block instanceof ITileEntityProvider)
-							{
-								TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
+						if(this.tileEntityData != null && block instanceof ITileEntityProvider)
+						{
+							TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
 
-								if(tileentity != null)
+							if(tileentity != null)
+							{
+								NBTTagCompound nbttagcompound = new NBTTagCompound();
+								tileentity.writeToNBT(nbttagcompound);
+
+								for(String s : this.tileEntityData.getKeySet())
 								{
-									NBTTagCompound nbttagcompound = new NBTTagCompound();
-									tileentity.writeToNBT(nbttagcompound);
+									NBTBase nbtbase = this.tileEntityData.getTag(s);
 
-									for(String s : this.tileEntityData.getKeySet())
+									if(!s.equals("x") && !s.equals("y") && !s.equals("z"))
 									{
-										NBTBase nbtbase = this.tileEntityData.getTag(s);
-
-										if(!s.equals("x") && !s.equals("y") && !s.equals("z"))
-										{
-											nbttagcompound.setTag(s, nbtbase.copy());
-										}
+										nbttagcompound.setTag(s, nbtbase.copy());
 									}
-
-									tileentity.readFromNBT(nbttagcompound);
-									tileentity.markDirty();
 								}
+
+								tileentity.readFromNBT(nbttagcompound);
+								tileentity.markDirty();
 							}
 						}
-						else if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
-						{
-							this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
-						}
+						// }
+						// else if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+						// {
+						// this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
+						// }
 					}
 				}
 				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)

@@ -362,14 +362,8 @@ public class CustomRewardsLoader
 				}
 				else
 				{
-					ItemStack itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
-					if(itemstack == null)
-					{
-						CCubesCore.logger.log(Level.ERROR, "Failed to create an itemstack from the JSON of: " + jsonEdited + " and the NBT of: " + ((NBTTagCompound) nbtbase).toString());
-						continue;
-					}
-					else
-						stack = new ItemPart(itemstack);
+					ItemStack itemstack = new ItemStack((NBTTagCompound) nbtbase);
+					stack = new ItemPart(itemstack);
 				}
 			} catch(NBTException e1)
 			{
@@ -410,7 +404,7 @@ public class CustomRewardsLoader
 
 			if(blockDataParts.length > 2)
 				offBlock.setBlockState(block.getStateFromMeta(Integer.parseInt(blockDataParts[2])));
-			
+
 			blocks.add(offBlock);
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
@@ -660,7 +654,7 @@ public class CustomRewardsLoader
 					for(int i1 = 0; i1 < schem.tileentities.tagCount(); ++i1)
 					{
 						NBTTagCompound nbttagcompound4 = schem.tileentities.getCompoundTagAt(i1);
-						TileEntity tileentity = TileEntity.func_190200_a(null, nbttagcompound4);
+						TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
 
 						if(tileentity != null)
 						{

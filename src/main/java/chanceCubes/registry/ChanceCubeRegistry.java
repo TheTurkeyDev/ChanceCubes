@@ -465,9 +465,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		if(player != null)
 		{
-			for(int i = 0; i < player.inventory.mainInventory.length; i++)
+			for(int i = 0; i < player.inventory.mainInventory.size(); i++)
 			{
-				ItemStack stack = player.inventory.mainInventory[i];
+				ItemStack stack = player.inventory.mainInventory.get(i);
 				if(stack != null && stack.getItem() instanceof ItemChancePendant)
 				{
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();

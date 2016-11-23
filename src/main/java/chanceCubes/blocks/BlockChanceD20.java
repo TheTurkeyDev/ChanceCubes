@@ -49,13 +49,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return true;
 	}
 
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
 	@Override
-	public boolean isVisuallyOpaque()
+	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}
