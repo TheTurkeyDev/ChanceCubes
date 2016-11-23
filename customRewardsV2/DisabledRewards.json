@@ -18,5 +18,8 @@
   ],
   "2.3.1":[
     "chancecubes:Question"
+  ],
+  "2.3.2":[
+    "chancecubes:Math"
   ]
 }
