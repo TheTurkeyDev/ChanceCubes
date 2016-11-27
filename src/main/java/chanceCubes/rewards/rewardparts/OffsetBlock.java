@@ -37,6 +37,7 @@ public class OffsetBlock
 		this.zOff = z;
 		this.block = b;
 		this.falling = falling;
+		this.state = b.getDefaultState();
 	}
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
@@ -47,6 +48,7 @@ public class OffsetBlock
 		this.block = b;
 		this.falling = falling;
 		this.delay = delay;
+		this.state = b.getDefaultState();
 	}
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)

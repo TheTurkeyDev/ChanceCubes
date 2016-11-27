@@ -86,6 +86,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -159,7 +160,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 35, new MessageRewardType(new MessagePart("Seems you have purchased the saplings DLC")), new ItemRewardType(new ItemPart(new ItemStack(Blocks.SAPLING, 4, 0)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 1)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 2)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 3)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 4)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 5)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType(new MessagePart("Time to farm!")), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_HOE)), new ItemPart(new ItemStack(Items.BUCKET)), new ItemPart(new ItemStack(Items.WHEAT_SEEDS, 16)))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(new ItemStack(Items.SPAWN_EGG, 1, 90)), new ItemPart(new ItemStack(Items.SPAWN_EGG, 1, 91)), new ItemPart(new ItemStack(Items.SPAWN_EGG, 1, 92)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 25, new MessageRewardType(new MessagePart("SPARTAAA!!!")), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_SWORD)), new ItemPart(new ItemStack(Items.IRON_HELMET)), new ItemPart(new ItemStack(Items.IRON_CHESTPLATE)), new ItemPart(new ItemStack(Items.IRON_LEGGINGS)), new ItemPart(new ItemStack(Items.IRON_BOOTS)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":pssst", -5, new MessageRewardType(new MessagePart("Pssssst.... Over here!")), new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("Creeper")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 30, new MessageRewardType(new MessagePart("Lets go on a journey!")), new ItemRewardType(new ItemPart(new ItemStack(Items.COMPASS)), new ItemPart(new ItemStack(Items.CLOCK)), new ItemPart(new ItemStack(Blocks.TORCH, 64)), new ItemPart(new ItemStack(Items.IRON_PICKAXE)))));
@@ -322,6 +322,15 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				player.addChatMessage(new TextComponentString("Thou has been smitten!"));
 			}
 		});
+		
+		ItemStack pig = new ItemStack(Items.SPAWN_EGG);
+		ItemMonsterPlacer.applyEntityIdToItemStack(pig, "Pig");
+		ItemStack cow = new ItemStack(Items.SPAWN_EGG);
+		ItemMonsterPlacer.applyEntityIdToItemStack(cow, "Cow");
+		ItemStack sheep = new ItemStack(Items.SPAWN_EGG);
+		ItemMonsterPlacer.applyEntityIdToItemStack(sheep, "Sheep");
+		
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(pig), new ItemPart(cow), new ItemPart(sheep))));
 
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
