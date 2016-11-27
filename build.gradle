@@ -72,7 +72,7 @@ uploadArchives {
     repositories.mavenDeployer {
         configuration = configurations.deployerJars
         repository(url: "http://maven.theprogrammingturkey.com") {
-            authentication(userName: "gradle@maven.theprogramminturkey.com", password: "B(P8U9r+IWTP")
+            authentication(userName: "", password: "")
         }
     }
 }
