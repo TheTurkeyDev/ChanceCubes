@@ -11,10 +11,11 @@
 			{"message":"4 Buttons", "delay":80},
 			{"message":"5 Buttons", "delay":100},
 			{"message":"6 Buttons", "delay":120},
-			{"message":".........", "delay":130},
-			{"message":".........", "delay":140},
-			{"message":"I'm tired of counting", "delay":150},
-			{"message":"Have 13 Jacky creepers instead!", "delay":180}
+			{"message":"*Cough* The Matrixis has you! *Cough*", "delay":140},
+			{"message":".........", "delay":150},
+			{"message":".........", "delay":160},
+			{"message":"I'm tired of counting", "delay":180},
+			{"message":"Have 13 Jacky creepers instead!", "delay":200}
 		],
 		"Item":
 		[
@@ -27,19 +28,19 @@
 		],
 		"Command":
 		[
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200}
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Fuse:10,ignited:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200}
 		]
 	},
 	"Scrub":
@@ -66,6 +67,42 @@
 			{"message":"<MrButtonboy13> I'm a Scrub", "delay":120, "serverWide":true},
 			{"message":"<MrButtonboy13> I'm a Scrub", "delay":125, "serverWide":true},
 			{"message":"<MrButtonboy13> I'm a Scrub", "delay":130, "serverWide":true}
+		]
+	},
+	"TheMatrixisHasYou":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"The Matrixis has you!", "delay":20},
+			{"message":"The Matrixis has you!", "delay":25},
+			{"message":"The Matrixis has you!", "delay":30},
+			{"message":"The Matrixis has you!", "delay":35},
+			{"message":"The Matrixis has you!", "delay":40},
+			{"message":"The Matrixis has you!", "delay":45},
+			{"message":"The Matrixis has you!", "delay":50},
+			{"message":"The Matrixis has you!", "delay":55},
+			{"message":"The Matrixis has you!", "delay":60},
+			{"message":"The Matrixis has you!", "delay":65},
+			{"message":"The Matrixis has you!", "delay":70},
+			{"message":"The Matrixis has you!", "delay":75},
+			{"message":"The Matrixis has you!", "delay":80},
+			{"message":"The Matrixis has you!", "delay":85},
+			{"message":"The Matrixis has you!", "delay":90},
+			{"message":"The Matrixis doesn't have you! FeelsBadMan", "delay":120}
+		],
+		"Command":
+		[
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120}
 		]
 	}
 }
