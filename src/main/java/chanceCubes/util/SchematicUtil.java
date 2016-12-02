@@ -1,5 +1,8 @@
 package chanceCubes.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,9 +20,11 @@ import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -128,6 +133,88 @@ public class SchematicUtil
 		json.add("Schematic Data", info);
 
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
+	}
+
+	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
+	{
+		File schematic = new File(ConfigLoader.folder.getParentFile().getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
+		NBTTagCompound nbtdata;
+		try
+		{
+			FileInputStream is = new FileInputStream(schematic);
+			nbtdata = CompressedStreamTools.readCompressed(is);
+			is.close();
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+
+		short width = nbtdata.getShort("Width");
+		short height = nbtdata.getShort("Height");
+		short length = nbtdata.getShort("Length");
+
+		byte[] blocks = nbtdata.getByteArray("Blocks");
+		byte[] data = nbtdata.getByteArray("Data");
+		List<OffsetBlock> offsetBlocks = new ArrayList<OffsetBlock>();
+
+		NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+
+		int multiplier = 0;
+
+		int i = 0;
+		short halfLength = (short) (length / 2);
+		short halfWidth = (short) (width / 2);
+
+		for(int yy = 0; yy < height; yy++)
+		{
+			for(int zz = 0; zz < length; zz++)
+			{
+				for(int xx = 0; xx < width; xx++)
+				{
+					int j = blocks[i];
+					if(j < 0)
+						j = 128 + (128 + j);
+
+					Block b = Block.getBlockById(j);
+					if(b != Blocks.AIR)
+					{
+						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
+						block.setRelativeToPlayer(relativeToPlayer);
+						block.setDelay(i * multiplier);
+						block.setBlockState(b.getStateFromMeta(data[i]));
+						offsetBlocks.add(block);
+					}
+					i++;
+				}
+			}
+		}
+
+		if(tileentities != null)
+		{
+			for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
+			{
+				NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
+				TileEntity tileentity = TileEntity.func_190200_a(null, nbttagcompound4);
+
+				if(tileentity != null)
+				{
+					Block b = null;
+					for(OffsetBlock osb : offsetBlocks)
+						if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
+							b = osb.getBlock();
+					if(b == null)
+						b = Blocks.STONE;
+					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
+					block.setRelativeToPlayer(relativeToPlayer);
+					block.setDelay(i1 * multiplier);
+					block.setBlockState(b.getStateFromMeta(data[i1]));
+					offsetBlocks.add(block);
+				}
+			}
+		}
+
+		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks);
 	}
 
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
