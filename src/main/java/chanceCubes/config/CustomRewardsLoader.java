@@ -67,14 +67,12 @@ public class CustomRewardsLoader
 	public static CustomRewardsLoader instance;
 
 	private File folder;
-	private File source;
 	private static JsonParser json;
 
-	public CustomRewardsLoader(File folder, File source)
+	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
 		this.folder = folder;
-		this.source = source;
 		json = new JsonParser();
 
 		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
@@ -237,7 +235,7 @@ public class CustomRewardsLoader
 		{
 			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
 			{
-				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(Math.max(0, CCubesCore.VERSION.indexOf("-")), CCubesCore.VERSION.lastIndexOf("."))))
+				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(CCubesCore.VERSION.indexOf("-") + 1, CCubesCore.VERSION.lastIndexOf("."))))
 				{
 					for(JsonElement reward : version.getValue().getAsJsonArray())
 					{

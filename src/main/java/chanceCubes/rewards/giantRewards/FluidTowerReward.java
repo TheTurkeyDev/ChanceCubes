@@ -1,7 +1,6 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +13,7 @@ public class FluidTowerReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		for(int i = 0; i < 25; i++)
-			RewardsUtil.placeBlock(ChanceCubeRegistry.getRandomFluid().getBlock().getDefaultState(), world, pos.add(0, i, 0));
+			RewardsUtil.placeBlock(RewardsUtil.getRandomFluid().getBlock().getDefaultState(), world, pos.add(0, i, 0));
 	}
 
 	@Override

@@ -3,12 +3,12 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -21,7 +21,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
-		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this.randomItem(), 1));
+		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
 		item.setPickupDelay(100000);
 		world.spawnEntityInWorld(item);
 		player.addChatMessage(new TextComponentString("Selecting random item"));
@@ -51,7 +51,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 				}
 				else
 				{
-					item.setEntityItemStack(new ItemStack(randomItem(), 1));
+					item.setEntityItemStack(new ItemStack(RewardsUtil.getRandomItem(), 1));
 					changeItem(item, iteration + 1, player);
 				}
 			}
@@ -101,13 +101,6 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		Scheduler.scheduleTask(task);
 	}
 
-	public Item randomItem()
-	{
-		Item item = Item.getItemById(256 + rand.nextInt(166));
-		while(item == null)
-			item = Item.getItemById(256 + rand.nextInt(166));
-		return item;
-	}
 
 	public Enchantment randomEnchantment()
 	{

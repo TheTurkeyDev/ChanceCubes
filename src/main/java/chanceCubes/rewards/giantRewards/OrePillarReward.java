@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.CustomEntry;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class OrePillarReward implements IChanceCubeReward
 {
@@ -35,12 +34,10 @@ public class OrePillarReward implements IChanceCubeReward
 			int zz = rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
-				List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.getRandomOreDict());
-				if(ores.size() == 0)
-					continue;
-				ItemStack chosenStack = ores.get(rand.nextInt(ores.size()));
-				Block b = Block.getBlockFromItem(chosenStack.getItem());
-				blocks.add(new OffsetBlock(xx, yy - pos.getY(), zz, b, false, delay / 3));
+				CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
+				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore.getKey(), false, delay / 3);
+				osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
+				blocks.add(osb);
 				delay++;
 			}
 		}

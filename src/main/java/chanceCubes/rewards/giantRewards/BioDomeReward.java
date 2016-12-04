@@ -27,7 +27,7 @@ public class BioDomeReward implements IChanceCubeReward
 
 	// @formatter:off
 	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), 
-			new EndBiome(), new OceanBiome(), new SnowGlobeBiome(), new NetherBiome() };
+			new EndBiome(), new OceanBiome(), new SnowGlobeBiome(), new NetherBiome()};
 	// @formatter:on
 
 	public static final int delayShorten = 10;

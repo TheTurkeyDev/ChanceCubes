@@ -98,9 +98,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
@@ -111,10 +108,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
-	private static List<String> oredicts = new ArrayList<String>();
-	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
-	private static List<String> fluids = new ArrayList<String>();
-
 	private static IChanceCubeReward lastReward = null;
 
 	/**
@@ -122,21 +115,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
-		oredicts.add("oreGold");
-		oredicts.add("oreIron");
-		oredicts.add("oreLapis");
-		oredicts.add("oreDiamond");
-		oredicts.add("oreRedstone");
-		oredicts.add("oreEmerald");
-		oredicts.add("oreQuartz");
-		oredicts.add("oreCoal");
-
-		for(String oreDict : possibleModOres)
-			if(OreDictionary.doesOreNameExist(oreDict))
-				oredicts.add(oreDict);
-
-		for(String s : FluidRegistry.getRegisteredFluids().keySet())
-			fluids.add(s);
+		RewardsUtil.initData();
 
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
@@ -551,18 +530,5 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
 		this.disabledNameToReward.clear();
-	}
-
-	public static String getRandomOreDict()
-	{
-		return ChanceCubeRegistry.oredicts.get(random.nextInt(ChanceCubeRegistry.oredicts.size()));
-	}
-
-	public static Fluid getRandomFluid()
-	{
-		Fluid f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
-		while(f == null || f.getBlock() == null)
-			f = FluidRegistry.getFluid(ChanceCubeRegistry.fluids.get(random.nextInt(ChanceCubeRegistry.fluids.size())));
-		return f;
 	}
 }
