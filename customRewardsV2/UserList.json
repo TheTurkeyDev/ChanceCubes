@@ -1,7 +1,7 @@
 [
 	{"UUID":"276130dd-8c9a-4814-8328-2578f034e422", "Name":"Turkey2349", "Type":"Mod Creator"},
 	{"UUID":"1454841b-ba54-4071-80c0-5b51c2f2d25d", "Name":"Wyld", "Type":"Streamer"},
-	{"UUID":"10755ea6-9721-467a-8b5c-92adf689072c", "Name":"Darkosto", "Type":"Streamer"},
+	{"UUID":"10755ea6-9721-467a-8b5c-92adf689072c", "Name":"Darkosto", "Type":"Happy Birthday"},
 	{"UUID":"12235d0d-d4a3-4d15-8326-e28cb9e7d93d", "Name":"Deadpine", "Type":"Streamer"},
 	{"UUID":"11688ff5-212a-4bf5-bd9f-2cd0d600949d", "Name":"jbams", "Type":"Streamer"},
 	{"UUID":"5f820c39-5883-4392-b174-3125ac05e38c", "Name":"captainsparklez", "Type":"YouTuber"},
@@ -13,10 +13,10 @@
 	{"UUID":"c4fb643e-540e-43d7-ac5d-b0e53bca9908", "Name":"KiwiFails", "Type":"Streamer"},
 	{"UUID":"9a0c55e2-635d-4b7b-aa62-b8fab574af35", "Name":"Rajecent", "Type":"Streamer"},
 	{"UUID":"92914230-9d52-4333-b3ba-e53d97393b6d", "Name":"Hermyone", "Type":"Streamer"},
-	{"UUID":"89215ee6-ae53-4d53-b524-86da50000a8f", "Name":"Vash505", "Type":"Streamer"},
+	{"UUID":"89215ee6-ae53-4d53-b524-86da50000a8f", "Name":"Vash505", "Type":"Canadian Boss"},
 	{"UUID":"da607695-d0a3-4e88-98e0-883bb16184c4", "Name":"Kiraeyl", "Type":"Streamer"},
 	{"UUID":"0ecc4b24-6575-4f9c-8bb8-929b28a6d9f0", "Name":"xRAIGINx", "Type":"Streamer"},
-	{"UUID":"f6d5909d-3676-4d48-afe7-29c558e64f71", "Name":"Leavaris", "Type":"Streamer and Patreon"},
+	{"UUID":"f6d5909d-3676-4d48-afe7-29c558e64f71", "Name":"Leavaris", "Type":"Streamer"},
 	{"UUID":"7e1f08a2-0028-4871-9484-891c02a229ef", "Name":"FamousCobain", "Type":"Streamer"},
 	{"UUID":"c2024e2a-dd76-4bc9-9ea3-b771f18f23b6", "Name":"tlovetech", "Type":"Streamer"},
 	{"UUID":"69646063-cf85-4e93-a857-4ac9e869a837", "Name":"Matrixis", "Type":"Streamer"},
@@ -27,7 +27,7 @@
 	{"UUID":"a19cb4a6-4068-4edb-b4ca-a7c317fc2e33", "Name":"Dragoness", "Type":"Streamer"},
 	{"UUID":"29fa9b6c-8eb5-4544-87fb-5be8effbcf70", "Name":"DatFailGamur", "Type":"Streamer"},
 	{"UUID":"dd31242b-4428-4f17-acd0-ad97bd94d8a9", "Name":"Jax_Macky", "Type":"Streamer"},
-	{"UUID":"b5de770e-b972-42c9-b0f7-1d0fa07eba29", "Name":"ButtonBoy", "Type":"Streamer"},
+	{"UUID":"b5de770e-b972-42c9-b0f7-1d0fa07eba29", "Name":"ButtonBoy", "Type":"Scrub"},
 	{"UUID":"8138e191-01cb-4190-a019-d22f4bd8720a", "Name":"Stomp_The_Bean", "Type":"Youtuber"},
 	{"UUID":"5487f835-5874-481d-a59a-c579020ecb26", "Name":"TheGreekMC", "Type":"Streamer"},
 	{"UUID":"2c6d7b3d-7674-4b18-8d86-bb6a707ea8e4", "Name":"Yogscast", "Type":"Youtube group"},
@@ -55,5 +55,6 @@
 	{"UUID":"de6721e7-23b4-42ec-95c0-e4c976c7fa85", "Name":"Gooderness", "Type":"Streamer"},
 	{"UUID":"38de3769-70fa-441c-89e8-67280f3068a0", "Name":"Jacky1356400", "Type":"Streamer"},
 	{"UUID":"542e763b-fd30-496f-80d1-ea2278f95f56", "Name":"Xidik", "Type":"Streamer"},
-	{"UUID":"8320df1f-d982-4203-9496-0716d1f565ff", "Name":"Mythiey", "Type":"Streamer"}
+	{"UUID":"8320df1f-d982-4203-9496-0716d1f565ff", "Name":"Mythiey", "Type":"Streamer"},
+	{"UUID":"bacf4b8b-cc04-422d-9342-4a90e1763416", "Name":"Amatt", "Type":"Streamer"}
 ]
