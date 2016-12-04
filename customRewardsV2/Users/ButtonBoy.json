@@ -93,16 +93,16 @@
 		],
 		"Command":
 		[
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:"0"}", "delay": 120}
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
 		]
 	}
 }
