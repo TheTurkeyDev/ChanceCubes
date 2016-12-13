@@ -1,0 +1,26 @@
+{
+	"Australia":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Here have some creepy crawlies from your homeland!"},
+			{"message":"Seems I forgot to flip them right side up Kappa", "delay":20},
+			{"message":"<3 Turkey", "delay":40}
+		],
+		"Command":
+		[
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20},
+			{"command":"/summon Spider ~ ~1 ~ {CustomName:\"Dinnerbone\",CustomNameVisible:1}", "delay": 20}
+		]
+	}
+}
