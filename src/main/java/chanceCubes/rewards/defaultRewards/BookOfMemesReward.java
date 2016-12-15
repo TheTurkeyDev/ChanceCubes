@@ -26,12 +26,14 @@ public class BookOfMemesReward implements IChanceCubeReward
 		memes.add("If the human body is 75% water, how can you be 100% salt?");
 		memes.add(" ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ \n Sorry, I've dropped my bag of Doritos™ brand chips▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ► ▼ ◄ ◄ ▲▲ ► ▼ ◄▼ ◄ ◄ ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ► ▼ ◄ ▲ ►");
 		memes.add("Hey Chat....... \n \n \n \n 123");
+		memes.add("O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA \n O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA");
+		memes.add("Did you just assume this books meme? #Triggered");
 	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		String meme = memes.get(random.nextInt(memes.size()));	
+		String meme = memes.get(random.nextInt(memes.size()));
 		MinecraftServer server = world.getMinecraftServer();
 		Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
@@ -52,5 +54,4 @@ public class BookOfMemesReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":Book_Of_Memes";
 	}
-
 }

@@ -54,7 +54,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 		}
 
 		final int nextY = y + 1;
-		Task task = new Task("Chunk_Flip_Delay", 5)
+		Task task = new Task("Chunk_Flip_Delay", 10)
 		{
 			public void callback()
 			{

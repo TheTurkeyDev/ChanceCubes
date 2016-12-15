@@ -15,12 +15,12 @@ public class TNTSlingReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		this.throwTNT(0, world, pos);
+		this.throwTNT(0, world, pos, player);
 	}
 
-	public void throwTNT(final int count, final World world, final BlockPos pos)
+	public void throwTNT(final int count, final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		EntityTNTPrimed tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
+		EntityTNTPrimed tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), player);
 		world.spawnEntityInWorld(tnt);
 		tnt.setFuse(60);
 		tnt.motionX = -1 + (Math.random() * 2);
@@ -35,7 +35,7 @@ public class TNTSlingReward implements IChanceCubeReward
 				@Override
 				public void callback()
 				{
-					throwTNT(count + 1, world, pos);
+					throwTNT(count + 1, world, pos, player);
 				}
 
 			};
