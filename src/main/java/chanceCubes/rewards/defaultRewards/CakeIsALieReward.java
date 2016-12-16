@@ -21,11 +21,11 @@ public class CakeIsALieReward implements IChanceCubeReward
 	private Random random = new Random();
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final  EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 
-		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world,pos);
+		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world, pos);
 
 		if(random.nextInt(3) == 1)
 		{
@@ -55,6 +55,8 @@ public class CakeIsALieReward implements IChanceCubeReward
 
 	public void update(final int iteration, final World world, final BlockPos pos, final EntityPlayer player)
 	{
+		if(!world.getBlockState(pos).getBlock().equals(Blocks.CAKE))
+			return;
 		if(world.getBlockState(pos).getValue(BlockCake.BITES) > 0)
 		{
 			world.setBlockToAir(pos);

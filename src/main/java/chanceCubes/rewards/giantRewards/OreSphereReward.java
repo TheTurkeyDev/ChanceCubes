@@ -2,41 +2,25 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.CustomEntry;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class OreSphereReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 
-		List<ItemStack> ores = OreDictionary.getOres(ChanceCubeRegistry.getRandomOreDict());
-		Block ore = null;
-		int meta = 0;
-		if(ores.size() == 0)
-			ore = Blocks.COAL_ORE;
-		else
-		{
-			ItemStack stack = ores.get(rand.nextInt(ores.size()));
-			ore = Block.getBlockFromItem(stack.getItem());
-			meta = stack.getItemDamage();
-		}
-		ore = Block.getBlockFromItem(ores.get(rand.nextInt(ores.size())).getItem());
+		CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
 
 		int delay = 0;
 		for(int i = 0; i < 5; i++)
@@ -51,8 +35,8 @@ public class OreSphereReward implements IChanceCubeReward
 						double dist = Math.abs(loc.getDistance(0, 0, 0));
 						if(dist <= i && dist > i - 1)
 						{
-							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);
-							osb.setBlockState(ore.getStateFromMeta(meta));
+							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore.getKey(), false, delay);
+							osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
 							blocks.add(osb);
 							delay++;
 						}

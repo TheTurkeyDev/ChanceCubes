@@ -3,6 +3,7 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -12,15 +13,20 @@ public class OffsetTileEntity extends OffsetBlock
 {
 
 	private NBTTagCompound teNBT;
-
-	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound te, boolean falling)
+	
+	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
 	{
-		this(x, y, z, block, te, falling, 0);
+		this(x, y, z, b.getDefaultState(), te, falling, delay);
 	}
 
-	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound te, boolean falling, int delay)
+	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling)
 	{
-		super(x, y, z, block, falling, delay);
+		this(x, y, z, state, te, falling, 0);
+	}
+
+	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling, int delay)
+	{
+		super(x, y, z, state, falling, delay);
 		this.teNBT = te;
 	}
 

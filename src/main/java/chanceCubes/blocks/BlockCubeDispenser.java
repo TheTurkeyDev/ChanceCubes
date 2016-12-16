@@ -42,7 +42,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
-    {
+	{
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
 
@@ -53,8 +53,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 		else
 		{
-			if(player.inventory.getCurrentItem() != null && Block.getBlockFromItem(player.inventory.getCurrentItem().getItem()).equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
-				player.inventory.decrStackSize(player.inventory.currentItem, 1);
+			if(player.inventory.getCurrentItem() != null)
+			{
+				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
+				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
+					player.inventory.decrStackSize(player.inventory.currentItem, 1);
+			}
 		}
 		return true;
 	}
@@ -120,11 +124,11 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	{
 		return 0;
 	}
-	
+
 	public int getMetaFromState(IBlockState state)
-    {
+	{
 		return 0;
-    }
+	}
 
 	public static enum DispenseType implements IStringSerializable
 	{

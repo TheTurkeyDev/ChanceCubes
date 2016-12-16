@@ -2,6 +2,7 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -20,6 +21,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	public BlockGiantCube()
 	{
 		super("giant_Chance_Cube");
+		this.setCreativeTab(null);
 	}
 
 	@Override

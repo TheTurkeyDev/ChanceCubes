@@ -8,6 +8,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
@@ -23,9 +24,20 @@ public class SnowGlobeBiome implements IBioDomeBiome
 	{
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
-			EntitySnowman snowman = new EntitySnowman(world);
-			snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-			world.spawnEntityInWorld(snowman);
+			int ri = rand.nextInt(2);
+
+			if(ri == 0)
+			{
+				EntitySnowman snowman = new EntitySnowman(world);
+				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(snowman);
+			}
+			else if(ri == 0)
+			{
+				EntityPolarBear polarBear = new EntityPolarBear(world);
+				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				world.spawnEntityInWorld(polarBear);
+			}
 		}
 
 		Scheduler.scheduleTask(new Task("SnowGlobe Snow", 20)

@@ -6,6 +6,7 @@
         "north": "chancecubes:blocks/chance_cube_face_2",
         "east": "chancecubes:blocks/chance_cube_face_3",
         "south": "chancecubes:blocks/chance_cube_face_5",
-        "west": "chancecubes:blocks/chance_cube_face_4"
+        "west": "chancecubes:blocks/chance_cube_face_4",
+        "particle":"chancecubes:blocks/chance_cube_face_1"
     }
 }

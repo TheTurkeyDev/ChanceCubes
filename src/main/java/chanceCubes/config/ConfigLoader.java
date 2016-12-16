@@ -13,7 +13,7 @@ public class ConfigLoader
 	
 	public static File folder;
 
-	public static void loadConfigSettings(File file, File resources)
+	public static void loadConfigSettings(File file)
 	{
 		folder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
 		folder.mkdirs();
@@ -51,6 +51,6 @@ public class ConfigLoader
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Schematics").mkdirs();
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Sounds").mkdirs();
 
-		new CustomRewardsLoader(customConfigFolder, resources);
+		new CustomRewardsLoader(customConfigFolder);
 	}
 }

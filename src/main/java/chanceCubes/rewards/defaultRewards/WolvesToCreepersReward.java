@@ -21,7 +21,7 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, BlockPos pos, EntityPlayer player)
 	{
-		final List<Entity> wolves = new ArrayList<>();
+		final List<Entity> wolves = new ArrayList<Entity>();
 		for(int i = 0; i < 10; i++)
 		{
 			for(int yy = 0; yy < 4; yy++)

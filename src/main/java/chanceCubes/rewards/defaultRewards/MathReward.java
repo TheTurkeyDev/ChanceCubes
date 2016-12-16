@@ -110,7 +110,7 @@ public class MathReward implements IChanceCubeReward
 			tnt.setDead();
 
 		for(BlockPos b : info.getBlocks())
-			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), player.worldObj, b);
+			player.worldObj.setBlockToAir(b);
 
 		inQuestion.remove(player);
 

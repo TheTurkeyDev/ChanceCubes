@@ -61,6 +61,12 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return false;
 	}
 
+	@Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+	{
+		return false;
+	}
+
 	/*
 	 * @Override public EnumWorldBlockLayer getBlockLayer() { return EnumWorldBlockLayer.CUTOUT_MIPPED; }
 	 */
@@ -70,7 +76,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		this.startd20(world, pos, player);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
 	{
 		return this.startd20(world, pos, player);
 	}
