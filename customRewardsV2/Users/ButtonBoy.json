@@ -19,12 +19,12 @@
 		],
 		"Item":
 		[
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ButtonScrub"}}}, "delay":0},
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ScrubTrixis"}}}, "delay":20},
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Gobble Gobble Turkey"}}}, "delay":40},
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Wooden Button"}}}, "delay":80},
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ButtonScrub13"}}}, "delay":100},
-			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Totaly not a button"}}}, "delay":120}
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"ButtonScrub"}}}, "delay":0},
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"ScrubTrixis"}}}, "delay":20},
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"Gobble Gobble Turkey"}}}, "delay":40},
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"Wooden Button"}}}, "delay":80},
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"ButtonScrub13"}}}, "delay":100},
+			{"item":{"id":"minecraft:stone_button","Count":1,"tag":{"display":{"Name":"Totaly not a button"}}}, "delay":120}
 		],
 		"Command":
 		[

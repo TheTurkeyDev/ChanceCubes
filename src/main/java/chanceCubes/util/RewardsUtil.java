@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -243,7 +244,7 @@ public class RewardsUtil
 			item = Item.getItemById(256 + rand.nextInt(166));
 		return item;
 	}
-	
+
 	public static String getRandomOreDict()
 	{
 		return RewardsUtil.getOreDicts().get(rand.nextInt(RewardsUtil.getOreDicts().size()));
@@ -255,5 +256,16 @@ public class RewardsUtil
 		while(f == null || f.getBlock() == null)
 			f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
 		return f;
+	}
+
+	public static ItemStack getSpawnEggForMob(String entity)
+	{
+		ItemStack stack = new ItemStack(Items.SPAWN_EGG);
+		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+		nbttagcompound1.setString("id", entity);
+		nbttagcompound.setTag("EntityTag", nbttagcompound1);
+		stack.setTagCompound(nbttagcompound);
+		return stack;
 	}
 }

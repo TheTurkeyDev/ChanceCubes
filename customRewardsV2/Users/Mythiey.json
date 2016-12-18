@@ -4,10 +4,10 @@
         "chance": 0,
         "Item":
         [
-            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,tag:{display:{Name:"Mayo"}}}, "delay":0},
-            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,tag:{display:{Name:"Mayo"}}}, "delay":5},
-            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,tag:{display:{Name:"Mayo"}}}, "delay":10},
-            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,tag:{display:{Name:"Mayo"}}}, "delay":15}
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":0},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":5},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":10},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":15}
         ],
         "Message":
         [

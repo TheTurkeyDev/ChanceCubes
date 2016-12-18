@@ -6,6 +6,7 @@
         "north": "chancecubes:blocks/chanceCubeValentines_face_2",
         "east": "chancecubes:blocks/chanceCubeValentines_face_3",
         "south": "chancecubes:blocks/chanceCubeValentines_face_5",
-        "west": "chancecubes:blocks/chanceCubeValentines_face_4"
+        "west": "chancecubes:blocks/chanceCubeValentines_face_4",
+        "particle":"chancecubes:blocks/chanceCubeValentines_face_1"
     }
 }

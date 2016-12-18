@@ -1,5 +1,5 @@
 {
-    "parent": "builtin/generated",
+    "parent": "builtIn/generated",
     "textures": {
         "layer0": "chancecubes:items/scanner"
     },

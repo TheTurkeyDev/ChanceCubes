@@ -9,7 +9,7 @@
 		],
     "Item":
     [
-      {"item":{"id":"minecraft:egg","Count":1,tag:{display:{Name:"Easter Egg"}}}}
+      {"item":{"id":"minecraft:egg","Count":1,"tag":{"display":{"Name":"Easter Egg"}}}}
     ]
 	}
 }

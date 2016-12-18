@@ -21,6 +21,7 @@
   ],
   "-2.3.2":[
     "chancecubes:Math",
-    "chancecubes:Cake"
+    "chancecubes:Cake",
+    "Holidays"
   ]
 }

@@ -21,6 +21,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
+import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
@@ -29,6 +30,7 @@ import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
+import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
 import chanceCubes.rewards.defaultRewards.DiscoReward;
 import chanceCubes.rewards.defaultRewards.DoubleRainbow;
 import chanceCubes.rewards.defaultRewards.EnderCrystalTimerReward;
@@ -139,6 +141,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Saplings", 35, new MessageRewardType(new MessagePart("Seems you have purchased the saplings DLC")), new ItemRewardType(new ItemPart(new ItemStack(Blocks.SAPLING, 4, 0)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 1)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 2)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 3)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 4)), new ItemPart(new ItemStack(Blocks.SAPLING, 4, 5)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType(new MessagePart("Time to farm!")), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_HOE)), new ItemPart(new ItemStack(Items.BUCKET)), new ItemPart(new ItemStack(Items.WHEAT_SEEDS, 16)))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(RewardsUtil.getSpawnEggForMob("Pig")), new ItemPart(RewardsUtil.getSpawnEggForMob("Cow")), new ItemPart(RewardsUtil.getSpawnEggForMob("Sheep")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 25, new MessageRewardType(new MessagePart("SPARTAAA!!!")), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_SWORD)), new ItemPart(new ItemStack(Items.IRON_HELMET)), new ItemPart(new ItemStack(Items.IRON_CHESTPLATE)), new ItemPart(new ItemStack(Items.IRON_LEGGINGS)), new ItemPart(new ItemStack(Items.IRON_BOOTS)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":pssst", -5, new MessageRewardType(new MessagePart("Pssssst.... Over here!")), new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("Creeper")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 30, new MessageRewardType(new MessagePart("Lets go on a journey!")), new ItemRewardType(new ItemPart(new ItemStack(Items.COMPASS)), new ItemPart(new ItemStack(Items.CLOCK)), new ItemPart(new ItemStack(Blocks.TORCH, 64)), new ItemPart(new ItemStack(Items.IRON_PICKAXE)))));
@@ -187,6 +190,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hot_Tub", -15, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(7, 1, 7, Blocks.WATER, -3, -1, -3, false, 0, true, true), RewardsUtil.fillArea(7, 1, 7, Blocks.AIR, -3, -1, -3, false, 98, true, true), RewardsUtil.fillArea(7, 1, 7, Blocks.LAVA, -3, -1, -3, false, 100, true, true))), new MessageRewardType(new MessagePart("No no no. I wanted a hot tub!").setDelay(40))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Quidditch", 0, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~ ~ {Passengers:[{id:\"Witch\"}]}", 7)), new MessageRewardType(new MessagePart("quidditch anyone?").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Man_Army", -10, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("PigZombie"))), new CommandRewardType(RewardsUtil.executeXCommands("/summon PigZombie ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -15, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.BRICK_BLOCK, false), new OffsetBlock(0, 1, 0, Blocks.BRICK_BLOCK, false), new OffsetBlock(0, 2, 0, Blocks.BRICK_BLOCK, false)), new CommandRewardType(new CommandPart("/summon ItemFrame ~ ~ ~1 {Item:{id:stick},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon ItemFrame ~ ~1 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon ItemFrame ~ ~2 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
 
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -302,15 +307,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ItemStack pig = new ItemStack(Items.SPAWN_EGG);
-		ItemMonsterPlacer.applyEntityIdToItemStack(pig, "Pig");
-		ItemStack cow = new ItemStack(Items.SPAWN_EGG);
-		ItemMonsterPlacer.applyEntityIdToItemStack(cow, "Cow");
-		ItemStack sheep = new ItemStack(Items.SPAWN_EGG);
-		ItemMonsterPlacer.applyEntityIdToItemStack(sheep, "Sheep");
-
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(pig), new ItemPart(cow), new ItemPart(sheep))));
-
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());
@@ -345,6 +341,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ItemRenamer());
 		INSTANCE.registerReward(new DoubleRainbow());
 		INSTANCE.registerReward(new WolvesToCreepersReward());
+		INSTANCE.registerReward(new DidYouKnowReward());
+		INSTANCE.registerReward(new ArmorStandArmorReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -523,6 +521,16 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
 		});
+	}
+
+	public int getNumberOfLoadedRewards()
+	{
+		return this.sortedRewards.size();
+	}
+
+	public int getNumberOfDisabledRewards()
+	{
+		return this.disabledNameToReward.size();
 	}
 
 	public void ClearRewards()

@@ -8,7 +8,7 @@
 		],
 		"Item":
 		[
-			{"item":{"id":"minecraft:diamond","Count":1,tag:{display:{Name:"Nub"}}}}
+			{"item":{"id":"minecraft:diamond","Count":1,"tag":{"display":{"Name":"Nub"}}}}
 		]
 	}
 }

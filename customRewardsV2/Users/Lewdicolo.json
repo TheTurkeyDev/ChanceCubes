@@ -4,7 +4,7 @@
 		"chance": 0,
 		"Item":
 		[
-			{"item":{"id":"minecraft:diamond_sword","Count":1,tag:{display:{Name:"Sword of the Lewd"}}}}
+			{"item":{"id":"minecraft:diamond_sword","Count":1,"tag":{"display":{"Name":"Sword of the Lewd"}}}}
 		]
 	}
 }

@@ -4,13 +4,13 @@
 		"chance": 0,
 		"Item":
 		[
-			{"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":0},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":5},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":10},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":15},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":20},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":25},
-      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,tag:{display:{Name:"Derp"}}}, "delay":30}
+			{"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":0},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":5},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":10},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":15},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":20},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":25},
+      {"item":{"id":"minecraft:dirt","Damage":0,"Count":64,"tag":{"display":{"Name":"Derp"}}}, "delay":30}
 		],
 		"Message":
 		[

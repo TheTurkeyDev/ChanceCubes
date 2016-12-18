@@ -9,7 +9,7 @@
 		],
 		"Item":
 		[
-			{"item":{"id":"minecraft:paper","Count":1,tag:{display:{Name:"A Valentine"}}}}
+			{"item":{"id":"minecraft:paper","Count":1,"tag":{"display":{"Name":"A Valentine"}}}}
 		],
 		"Particle":
 		[

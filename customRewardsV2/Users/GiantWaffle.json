@@ -8,9 +8,9 @@
 		],
 		"Item":
 		[
-			{"item":{"id":"minecraft:milk_bucket","Count":1,tag:{display:{Name:"Pancake Ingredient"}}}},
-			{"item":{"id":"minecraft:wheat","Count":1,tag:{display:{Name:"Pancake Ingredient"}}}},
-			{"item":{"id":"minecraft:egg","Count":1,tag:{display:{Name:"Pancake Ingredient"}}}}
+			{"item":{"id":"minecraft:milk_bucket","Count":1,"tag":{"display":{"Name":"Pancake Ingredient"}}}},
+			{"item":{"id":"minecraft:wheat","Count":1,"tag":{"display":{"Name":"Pancake Ingredient"}}}},
+			{"item":{"id":"minecraft:egg","Count":1,"tag":{"display":{"Name":"Pancake Ingredient"}}}}
 		]	
 	}
 }

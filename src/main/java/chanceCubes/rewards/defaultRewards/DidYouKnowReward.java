@@ -28,11 +28,11 @@ public class DidYouKnowReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		String meme = dyk.get(random.nextInt(dyk.size()));
+		String meme = "Did you know?\n" + dyk.get(random.nextInt(dyk.size()));
 		MinecraftServer server = world.getMinecraftServer();
 		Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
+		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Did You Know?\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
 		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 		server.getCommandManager().executeCommand(sender, command);
 		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());

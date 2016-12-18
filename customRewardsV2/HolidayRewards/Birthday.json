@@ -4,7 +4,7 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Happy 1st Birthday Chance Cubes!"},
+			{"message":"Happy 2nd Birthday Chance Cubes!"},
       {"message":"Here's a present from us to you!", "delay":40}
 		],
 		"Command":
@@ -18,7 +18,7 @@
 		],
     "Item":
     [
-      {"item":{"id":"chancecubes:Chance_Cube","Count":1,tag:{chance:100}}, "delay":40}
+      {"item":{"id":"chancecubes:Chance_Cube","Count":1,"tag":{"chance":100}}, "delay":40}
     ]
 	}
 }

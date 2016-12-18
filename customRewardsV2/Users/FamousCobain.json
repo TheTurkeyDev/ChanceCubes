@@ -8,7 +8,7 @@
 		],
 		"Item":
 		[
-			{"item":{"id":"minecraft:paper","Count":1,tag:{display:{Name:"klenex"}}}}
+			{"item":{"id":"minecraft:paper","Count":1,"tag":{"display":{"Name":"klenex"}}}}
 		]
 	}
 }
