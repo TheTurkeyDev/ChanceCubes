@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 
 public class SchematicUtil
 {
-	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static Gson gson = new GsonBuilder().create();
 
 	public static BlockPos[] selectionPoints = new BlockPos[2];
 
@@ -98,10 +98,33 @@ public class SchematicUtil
 
 		JsonArray blockArray = new JsonArray();
 
+		int row = 0;
+		int last = -1;
 		for(int i : blocks)
 		{
-			blockArray.add(new JsonPrimitive(i));
+			if(last == i)
+			{
+				row++;
+			}
+			else
+			{
+				if(row != 0)
+				{
+					String value = "" + last;
+					if(row != 1)
+						value += "x" + row;
+					blockArray.add(new JsonPrimitive(value));
+				}
+				last = i;
+				row = 1;
+			}
+
 		}
+
+		String value = "" + last;
+		if(row != 1)
+			value += "x" + row;
+		blockArray.add(new JsonPrimitive(value));
 
 		json.add("Blocks", blockArray);
 
@@ -160,8 +183,6 @@ public class SchematicUtil
 
 		NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
 
-		int multiplier = 0;
-
 		int i = 0;
 		short halfLength = (short) (length / 2);
 		short halfWidth = (short) (width / 2);
@@ -181,7 +202,6 @@ public class SchematicUtil
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(relativeToPlayer);
-						block.setDelay(i * multiplier);
 						block.setBlockState(b.getStateFromMeta(data[i]));
 						offsetBlocks.add(block);
 					}
@@ -207,19 +227,24 @@ public class SchematicUtil
 						b = Blocks.STONE;
 					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 					block.setRelativeToPlayer(relativeToPlayer);
-					block.setDelay(i1 * multiplier);
 					block.setBlockState(b.getStateFromMeta(data[i1]));
 					offsetBlocks.add(block);
 				}
 			}
 		}
 
-		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks);
+		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, delay);
 	}
-
+	
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
+		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, delay, falling, relativeToPlayer, includeAirBlocks);
+	}
+
+	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
+	{
+		
 		if(elem == null)
 			return null;
 		JsonObject json = elem.getAsJsonObject();
@@ -238,17 +263,25 @@ public class SchematicUtil
 				blockDataIds.add(new CustomEntry<Integer, String>(obj.getValue().getAsInt(), obj.getKey()));
 		}
 
-		float delayTotal = 0;
 		int index = 0;
-		JsonArray blockArray = json.get("Blocks").getAsJsonArray();
+		List<Integer> blockArray = new ArrayList<Integer>();
+		for(JsonElement ids : json.get("Blocks").getAsJsonArray())
+		{
+			String entry = ids.getAsString();
+			String[] parts = entry.split("x");
+			int id = Integer.parseInt(parts[0]);
+			int recurse = parts.length > 1 ? Integer.parseInt(parts[1]) : 1;
+			for(int i = 0; i < recurse; i++)
+				blockArray.add(id);
+		}
+
 		for(int yOff = 0; yOff < ySize; yOff++)
 		{
 			for(int xOff = (xSize / 2) - xSize; xOff < (xSize / 2); xOff++)
 			{
 				for(int zOff = (zSize / 2) - zSize; zOff < (zSize / 2); zOff++)
 				{
-					JsonElement element = blockArray.get(index);
-					int id = element.getAsInt();
+					int id = blockArray.get(index);
 					String blockData = "";
 					for(CustomEntry<Integer, String> entry : blockDataIds)
 					{
@@ -260,15 +293,11 @@ public class SchematicUtil
 					}
 					String[] dataParts = blockData.split(":");
 					Block b = Block.REGISTRY.getObject(new ResourceLocation(dataParts[0], dataParts[1]));
-					if(b.equals(Blocks.AIR) && !includeAirBlocks)
-						continue;
-					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, (int) delayTotal);
+					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, 0);
 					// TODO: Find better way?
 					osb.setBlockState(b.getStateFromMeta(Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
 					offsetBlocks.add(osb);
-					if(!b.equals(Blocks.AIR))
-						delayTotal += delay;
 					index++;
 				}
 			}
@@ -294,11 +323,11 @@ public class SchematicUtil
 		for(int i = offsetBlocks.size() - 1; i >= 0; i--)
 		{
 			OffsetBlock osb = offsetBlocks.get(i);
-			if(osb.getBlock().equals(Blocks.AIR))
+			if(osb.getBlock().equals(Blocks.AIR) && !includeAirBlocks)
 				offsetBlocks.remove(i);
 		}
 
-		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks);
+		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks, delay);
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)

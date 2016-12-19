@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.ChunkFlipReward;
@@ -26,6 +27,10 @@ import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
+import chanceCubes.rewards.type.SchematicRewardType;
+import chanceCubes.util.FileUtil;
+import chanceCubes.util.RewardData;
+import chanceCubes.util.SchematicUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -45,6 +50,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.VILLAGE_SCHEMATIC), 0, -1, 0, 0.05f, false, false, false))));
+		
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
 		INSTANCE.registerReward(new ThrowablesReward());
