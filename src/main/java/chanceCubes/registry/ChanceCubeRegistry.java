@@ -21,6 +21,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
+import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
@@ -117,7 +118,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	public static void loadDefaultRewards()
 	{
 		RewardsUtil.initData();
-		
+
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
@@ -152,8 +153,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -20, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.FISH, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("wolf"))))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bone_Cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.BONE, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("ocelot"))))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType(new CommandPart("/summon xp_orb ~ ~1 ~ {Value:1,Passengers:[{id:\"EnderCrystal\"}]}"))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType(new CommandPart("/summon ozelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"tnt\",Fuse:80}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType(new CommandPart("/summon xp_orb ~ ~1 ~ {Value:1,Passengers:[{id:\"ender_crystal \"}]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType(new CommandPart("/summon ocelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"tnt\",Fuse:80}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SlimeMan", 10, new CommandRewardType(new CommandPart("/summon slime ~ ~1 ~ {Size:3,Glowing:1b,Passengers:[{id:\"Slime\",Size:2,Glowing:1b,Passengers:[{id:\"Slime\",CustomName:\"Slime Man\",CustomNameVisible:1,Size:1,Glowing:1b}]}]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 5, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.WATER, false)), new CommandRewardType(new CommandPart("/summon Boat %x %y %z")), new MessageRewardType(new MessagePart("Come sail away!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -15, new CommandRewardType(new CommandPart("/summon witch %x %y %z "))));
@@ -190,6 +191,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Quidditch", 0, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~ ~ {Passengers:[{id:\"Witch\"}]}", 7)), new MessageRewardType(new MessagePart("quidditch anyone?").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Man_Army", -10, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("zombie_pigman"))), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie_pigman ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cuteness", 10, new CommandRewardType(RewardsUtil.executeXCommands("/summon rabbit ~ ~1 ~ {CustomName:\"Fluffy\",CustomNameVisible:1,RabbitType:5}", 25)), new MessageRewardType(new MessagePart("Cuteness overload!").setRange(32))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -15, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.BRICK_BLOCK, false), new OffsetBlock(0, 1, 0, Blocks.BRICK_BLOCK, false), new OffsetBlock(0, 2, 0, Blocks.BRICK_BLOCK, false)), new CommandRewardType(new CommandPart("/summon item_frame ~ ~ ~1 {Item:{id:stick},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon item_frame ~ ~1 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon item_frame ~ ~2 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
 
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -304,7 +307,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				player.addChatMessage(new TextComponentString("Thou has been smitten!"));
 			}
 		});
-		
 
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
@@ -341,6 +343,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DoubleRainbow());
 		INSTANCE.registerReward(new WolvesToCreepersReward());
 		INSTANCE.registerReward(new DidYouKnowReward());
+		INSTANCE.registerReward(new ArmorStandArmorReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -519,6 +522,16 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				return o1.getChanceValue() - o2.getChanceValue();
 			};
 		});
+	}
+
+	public int getNumberOfLoadedRewards()
+	{
+		return this.sortedRewards.size();
+	}
+
+	public int getNumberOfDisabledRewards()
+	{
+		return this.disabledNameToReward.size();
 	}
 
 	public void ClearRewards()

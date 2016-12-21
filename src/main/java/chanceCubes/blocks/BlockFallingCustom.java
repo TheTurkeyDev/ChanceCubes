@@ -73,13 +73,6 @@ public class BlockFallingCustom extends EntityFallingBlock
 				{
 					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
 
-					if(this.worldObj.isAirBlock(new BlockPos(this.posX, this.posY - 0.01D, this.posZ))) // Forge: Don't indent below.
-						if(BlockFalling.canFallThrough(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))))
-						{
-							this.onGround = false;
-							return;
-						}
-
 					this.motionX *= 0.7D;
 					this.motionZ *= 0.7D;
 					this.motionY *= -0.5D;
@@ -90,9 +83,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 						// if(!super.canSetAsBlock)
 						// {
 						if(block instanceof BlockFalling)
-						{
 							osb.placeInWorld(worldObj, blockpos1, false);
-						}
 
 						if(this.tileEntityData != null && block instanceof ITileEntityProvider)
 						{
@@ -108,9 +99,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 									NBTBase nbtbase = this.tileEntityData.getTag(s);
 
 									if(!s.equals("x") && !s.equals("y") && !s.equals("z"))
-									{
 										nbttagcompound.setTag(s, nbtbase.copy());
-									}
 								}
 
 								tileentity.readFromNBT(nbttagcompound);
@@ -127,13 +116,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
 				{
 					if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
-					{
 						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
-					}
 
 					this.setDead();
 				}
-				else if(normY == blockpos1.getY())
+				else if(normY == blockpos1.getY() || this.motionY == 0)
 				{
 					this.setDead();
 					osb.placeInWorld(worldObj, blockpos1, false);

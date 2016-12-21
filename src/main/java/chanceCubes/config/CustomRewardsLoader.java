@@ -45,6 +45,7 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CustomEntry;
@@ -543,7 +544,7 @@ public class CustomRewardsLoader
 				if(obj.has("meta"))
 					meta = obj.get("meta").getAsInt();
 
-				int amountMin = 0;
+				int amountMin = 1;
 				if(obj.has("amountMin"))
 					amountMin = obj.get("amountMin").getAsInt();
 
@@ -582,7 +583,6 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadSchematicReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		for(JsonElement element : rawReward)
 		{
 			String fileName = element.getAsJsonObject().get("fileName").getAsString();
@@ -614,9 +614,9 @@ public class CustomRewardsLoader
 				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
-			blocks.addAll(schematic.getBlocks());
+			else
+				rewards.add(new SchematicRewardType(schematic));
 		}
-		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
 		return rewards;
 	}
 

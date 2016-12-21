@@ -31,8 +31,7 @@ import chanceCubes.CCubesCore;
 
 public class FileUtil
 {
-
-	private static JsonParser jsonParser = new JsonParser();
+	public static final JsonParser JSON_PARSER = new JsonParser();
 
 	public static JsonElement readJsonfromFile(String filepath)
 	{
@@ -51,7 +50,7 @@ public class FileUtil
 			e.printStackTrace();
 			return null;
 		}
-		return jsonParser.parse(result);
+		return JSON_PARSER.parse(result);
 	}
 
 	@Nonnull

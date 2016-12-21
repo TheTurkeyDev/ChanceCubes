@@ -2,8 +2,8 @@ package chanceCubes.rewards.rewardparts;
 
 import java.util.Random;
 
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class ChestChanceItem
@@ -30,8 +30,15 @@ public class ChestChanceItem
 
 	private ItemStack getItemStack(int amount, int meta)
 	{
-		Block b = RewardsUtil.getBlock(mod, item);
-		return b != null ? new ItemStack(b, amount, meta) : RewardsUtil.getItemStack(mod, item, amount, meta);
+		ItemStack stack = RewardsUtil.getItemStack(mod, item, amount, meta);
+		if(stack == null)
+		{
+			stack = new ItemStack(RewardsUtil.getBlock(mod, item), amount, meta);
+			if(stack.getItem() == null)
+				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 1, 0);
+		}
+
+		return stack;
 	}
 
 	public ItemStack getRandomItemStack()

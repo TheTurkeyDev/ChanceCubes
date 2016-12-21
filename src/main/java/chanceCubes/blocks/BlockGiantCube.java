@@ -2,7 +2,6 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -52,13 +51,11 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 
 			if(te != null)
 			{
-				if(!te.hasMaster())
+				if(!te.hasMaster() || !(world.getTileEntity(te.getMasterPostion()) instanceof TileGiantCube))
 				{
 					world.setBlockToAir(pos);
 					return false;
 				}
-				//player.addChatMessage(new TextComponentString("The Giant Cube and rewards are currently In developement"));
-				//player.addChatMessage(new TextComponentString("Please let me know what you think of the idea and leave sugestions!"));
 				player.addStat(CCubesAchievements.GiantChanceCube);
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);

@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.blocks.BlockChanceCube;
-import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
-import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
-import chanceCubes.util.Task;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -206,6 +202,10 @@ public class CCubesServerCommands extends CommandBase
 			{
 				sender.addChatMessage(new TextComponentString("Sorry, but this command only works in single player"));
 			}
+		}
+		else if(args[0].equalsIgnoreCase("rewardsInfo"))
+		{
+			sender.addChatMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{

@@ -58,3 +58,5 @@ ChanceCubeAltNames
 logo(sqaure).png
 logo.png
 logo.xcf
+*.hprof
+run-1.11/
