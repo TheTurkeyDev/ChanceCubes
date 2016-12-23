@@ -1,8 +1,6 @@
-
-// For those who want the bleeding edge
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -25,10 +23,10 @@ if (System.getenv('BUILD_NUMBER') != null)
 else
     logger.lifecycle "No build number detected, setting to 0"
 
-	
-group= "chanceCubes.CCubesCore"
-archivesBaseName = "ChanceCubes"
+
 version = "${mc_version}-${mod_version}.${buildnumber}"
+group= "com.theprogrammingturkey.chancecubes"
+archivesBaseName = "ChanceCubes"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
@@ -54,10 +52,6 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
-
-configurations {
-    deployerJars
 }
 
 build.dependsOn sourceJar
