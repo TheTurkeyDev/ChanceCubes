@@ -24,9 +24,9 @@ else
     logger.lifecycle "No build number detected, setting to 0"
 
 
-version = "${mc_version}-${mod_version}.${buildnumber}"
+version= "${mc_version}-${mod_version}.${buildnumber}"
 group= "com.theprogrammingturkey.chancecubes"
-archivesBaseName = "ChanceCubes"
+archivesBaseName= "ChanceCubes"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
@@ -54,10 +54,6 @@ processResources
     }
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
 
 build.dependsOn sourceJar
 
@@ -65,6 +61,7 @@ publishing {
     tasks.publish.dependsOn 'build'
     publications {
         mavenJava(MavenPublication) {
+        	artifactId 'ChanceCubes'
             from components.java
 
             artifact sourceJar
