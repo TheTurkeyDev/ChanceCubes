@@ -1,0 +1,37 @@
+{
+    "MAYO!":
+    {
+        "chance": 0,
+        "Item":
+        [
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":0},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":5},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":10},
+            {"item":{"id":"minecraft:egg","Damage":0,"Count":64,"tag":{"display":{"Name":"Mayo"}}}, "delay":15}
+        ],
+        "Message":
+        [
+            {"message":"1 I Heard you like..."},
+            {"message":"2 Mayo!...", "delay":5},
+            {"message":"3 Mayo!...", "delay":10},
+            {"message":"*psst*Hey chat 123*psst*", "delay":12},
+            {"message":"4 Mayo!...", "delay":15},
+            {"message":"Bet you wern't expecting that.", "delay":60},
+            {"message":"<3 Turkey", "delay":65}
+        ],
+        "Command":
+        [
+            {"command":"/summon Creeper %px %py %pz", "delay": 35},
+            {"command":"/summon Creeper %px %py %pz", "delay": 36},
+            {"command":"/summon Creeper %px %py %pz", "delay": 37},
+            {"command":"/summon Creeper %px %py %pz", "delay": 38},
+            {"command":"/summon Creeper %px %py %pz", "delay": 39},
+            {"command":"/summon Creeper %px %py %pz", "delay": 40},
+            {"command":"/summon Creeper %px %py %pz", "delay": 41},
+            {"command":"/summon Creeper %px %py %pz", "delay": 42},
+            {"command":"/summon Creeper %px %py %pz", "delay": 43},
+            {"command":"/summon Creeper %px %py %pz", "delay": 44},
+            {"command":"/summon Creeper %px %py %pz", "delay": 45}
+        ]
+    }
+}

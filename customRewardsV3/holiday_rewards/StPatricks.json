@@ -1,0 +1,26 @@
+{
+	"StPatricks":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Happy St. Patricks day! From the Chance Cubes Team!"}
+		],
+    "Item":
+    [
+      	{"item":{"id":"minecraft:grass","Count":1}},
+        {"item":{"id":"minecraft:sapling","Count":1}},
+        {"item":{"id":"minecraft:leaves","Count":1}},
+        {"item":{"id":"minecraft:wool","Count":1, "Damage":5}},
+        {"item":{"id":"minecraft:wool","Count":1, "Damage":13}},
+        {"item":{"id":"minecraft:tallgrass","Count":1, "Damage":2}},
+        {"item":{"id":"minecraft:stained_glass","Count":1, "Damage":5}},
+        {"item":{"id":"minecraft:stained_glass","Count":1, "Damage":13}},
+        {"item":{"id":"minecraft:cactus","Count":1}},
+        {"item":{"id":"minecraft:melon_block","Count":1}},
+        {"item":{"id":"minecraft:vine","Count":1}},
+        {"item":{"id":"minecraft:waterlily","Count":1}},
+        {"item":{"id":"minecraft:emerald_block","Count":1}}
+    ]
+	}
+}

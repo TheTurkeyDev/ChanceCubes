@@ -1,0 +1,18 @@
+{
+	"animals":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Ahhh so you are a vet for animals! Kappa"},
+			{"message":"ok I'll stop now xD -Turkey", "delay":20}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Cow"}},
+			{"entity":{"id":"Chicken"}},
+			{"entity":{"id":"Pig"}},
+			{"entity":{"id":"Sheep"}}
+		]
+	}
+}

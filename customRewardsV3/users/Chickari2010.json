@@ -1,0 +1,23 @@
+{
+	"chickens":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Chikari"},
+			{"message":"Chik", "delay":10},
+			{"message":"Chi", "delay":20},
+			{"message":"Chic", "delay":30},
+			{"message":"Chickens", "delay":40},
+			{"message":"Chickens!!!!!", "delay":50}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60},
+			{"entity":{"id":"Chicken"}, "delay":60}
+		]
+	}
+}

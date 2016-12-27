@@ -1,0 +1,23 @@
+{
+	"Dragon_Breath":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Dragon Breath!"},
+			{"message":"<3 Turkey", "delay":20}
+		],
+		"Block":
+		[
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":-1,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true},
+			{"XOffSet":1,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:fire", "Falling":false, "RelativeToPlayer":true}
+		]
+	}
+}

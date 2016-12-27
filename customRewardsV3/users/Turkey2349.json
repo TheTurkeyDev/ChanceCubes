@@ -1,0 +1,15 @@
+{
+	"Screw_Everyone":
+	{
+		"chance": 0,
+		"Command":
+		[
+			{"command":"/effect @a 20 10 2 false"},
+			{"command":"/effect %player clear"}
+		],
+		"Message":
+		[
+			{"message":"Screw everyone!!!", "serverWide":true}
+		]
+	}
+}

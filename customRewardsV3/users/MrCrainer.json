@@ -1,0 +1,28 @@
+{
+	"CobblestoneEqualsLife":
+	{
+		"chance": 0,
+		"Item":
+		[
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}},
+			{"item":{"id":"minecraft:cobblestone","Damage":0,"Count":64,"tag":{"ench":[{"id":51,"lvl":9001}],"display":{"Name":"\u00A7r\u00A77Cobblestone=Life"}}}}
+		]
+	},
+
+		"NotKehaan":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Because I'm not Kehaan, I won't blow out your eardrums :)"}
+		]
+	}
+	
+}
