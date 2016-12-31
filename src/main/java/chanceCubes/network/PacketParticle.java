@@ -2,6 +2,7 @@ package chanceCubes.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -10,7 +11,8 @@ import chanceCubes.CCubesCore;
 public class PacketParticle implements IMessage
 {
 
-	public int particle;
+	public int particleID = -1;
+	public String particleName = "";
 
 	public double x;
 	public double y;
@@ -20,13 +22,20 @@ public class PacketParticle implements IMessage
 	public double vY;
 	public double vZ;
 
-	public PacketParticle()
+	public PacketParticle(String particle, double x, double y, double z, double vX, double vY, double vZ)
 	{
+		this.particleName = particle;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.vX = vX;
+		this.vY = vY;
+		this.vZ = vZ;
 	}
 
 	public PacketParticle(int particle, double x, double y, double z, double vX, double vY, double vZ)
 	{
-		this.particle = particle;
+		this.particleID = particle;
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -38,7 +47,8 @@ public class PacketParticle implements IMessage
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		buf.writeInt(this.particle);
+		buf.writeInt(this.particleID);
+		ByteBufUtils.writeUTF8String(buf, this.particleName);
 		buf.writeDouble(x);
 		buf.writeDouble(y);
 		buf.writeDouble(z);
@@ -50,7 +60,8 @@ public class PacketParticle implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.particle = buf.readInt();
+		this.particleID = buf.readInt();
+		this.particleName = ByteBufUtils.readUTF8String(buf);
 		this.x = buf.readDouble();
 		this.y = buf.readDouble();
 		this.z = buf.readDouble();
@@ -64,7 +75,8 @@ public class PacketParticle implements IMessage
 		@Override
 		public IMessage onMessage(PacketParticle message, MessageContext ctx)
 		{
-			CCubesCore.proxy.getClientPlayer().worldObj.spawnParticle(EnumParticleTypes.getParticleFromId(message.particle), message.x, message.y, message.z, message.vX, message.vY, message.vZ);
+			EnumParticleTypes particle = message.particleID == -1 ? EnumParticleTypes.getByName(message.particleName) : EnumParticleTypes.getParticleFromId(message.particleID);
+			CCubesCore.proxy.getClientPlayer().worldObj.spawnParticle(particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
 			return null;
 		}
 	}

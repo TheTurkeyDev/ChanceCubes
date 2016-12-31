@@ -1,12 +1,11 @@
 package chanceCubes.rewards.type;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
 public class ItemRewardType extends BaseRewardType<ItemPart>
 {

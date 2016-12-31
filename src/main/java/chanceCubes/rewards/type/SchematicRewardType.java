@@ -2,7 +2,6 @@ package chanceCubes.rewards.type;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomSchematic;

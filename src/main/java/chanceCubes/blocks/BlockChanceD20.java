@@ -83,7 +83,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public boolean startd20(World world, BlockPos pos, EntityPlayer player)
 	{
 		if(world.isRemote || player == null || player instanceof FakePlayer)
-			return false;
+			return true;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
