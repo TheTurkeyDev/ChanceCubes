@@ -183,12 +183,17 @@ public class RewardsUtil
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
-		return RewardsUtil.placeBlock(b, world, pos, 3);
+		return RewardsUtil.placeBlock(b, world, pos, 3, false);
+	}
+	
+	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, boolean ignoreUnbreakable)
+	{
+		return RewardsUtil.placeBlock(b, world, pos, 3, ignoreUnbreakable);
 	}
 
-	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update)
+	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
 	{
-		if(!RewardsUtil.isBlockUnbreakable(world, pos))
+		if(!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable)
 		{
 			world.setBlockState(pos, b, update);
 			return true;
