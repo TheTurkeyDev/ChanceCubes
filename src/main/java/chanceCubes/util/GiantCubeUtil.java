@@ -72,7 +72,7 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
-					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2);
+					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2, false);
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);
@@ -108,7 +108,7 @@ public class GiantCubeUtil
 			pos = pos.add(0, 0, -1);
 			cz--;
 		}
-		
+
 		return new BlockPos(cx, cy, cz);
 	}
 

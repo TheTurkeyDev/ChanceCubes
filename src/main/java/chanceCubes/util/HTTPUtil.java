@@ -15,13 +15,18 @@ public class HTTPUtil
 {
 	private static JsonParser json = new JsonParser();
 
-	public static JsonElement getWebFile(String link) throws Exception
+	@SafeVarargs
+	public static JsonElement getWebFile(String link, CustomEntry<String, String>... extras) throws Exception
 	{
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
 		con.setDoOutput(false);
 		con.setReadTimeout(20000);
 		con.setRequestProperty("Connection", "keep-alive");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0");
+		
+		for(CustomEntry<String, String> property: extras)
+			con.setRequestProperty(property.getKey(), property.getValue());
+		
 		((HttpURLConnection) con).setRequestMethod("GET");
 		con.setConnectTimeout(5000);
 		

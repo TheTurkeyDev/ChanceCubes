@@ -198,7 +198,7 @@ public class CustomRewardsLoader
 
 			try
 			{
-				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
+				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/holiday_rewards/" + holidayName + ".json");
 			} catch(Exception e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
@@ -224,7 +224,7 @@ public class CustomRewardsLoader
 
 		try
 		{
-			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/DisabledRewards.json");
+			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/ChanceCubesInfo.php", new CustomEntry<String, String>("version", CCubesCore.VERSION));
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
@@ -399,6 +399,9 @@ public class CustomRewardsLoader
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+			
+			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
+				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
 
 			if(blockDataParts.length > 2)
 				offBlock.setBlockState(block.getStateFromMeta(Integer.parseInt(blockDataParts[2])));

@@ -44,6 +44,8 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		if(world.isRemote)
+			return false;
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
 
@@ -58,9 +60,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			{
 				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
 				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
-				{
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
-				}
 			}
 		}
 		return true;

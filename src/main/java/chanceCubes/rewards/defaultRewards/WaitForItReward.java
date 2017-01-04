@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
@@ -38,12 +39,12 @@ public class WaitForItReward implements IChanceCubeReward
 
 				if(reward == 0)
 				{
-					world.spawnEntityInWorld(new EntityTNTPrimed(world, player.posX, player.posY, player.posZ, null));
+					world.spawnEntityInWorld(new EntityTNTPrimed(world, player.posX, player.posY + 1, player.posZ, null));
 				}
 				else if(reward == 1)
 				{
 					Entity ent = new EntityCreeper(world);
-					ent.setLocationAndAngles(player.posX, player.posY, player.posZ, 0, 0);
+					ent.setLocationAndAngles(player.posX, player.posY + 1, player.posZ, 0, 0);
 					world.spawnEntityInWorld(ent);
 				}
 				else if(reward == 2)

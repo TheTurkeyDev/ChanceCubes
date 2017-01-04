@@ -1,12 +1,13 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.rewardparts.ParticlePart;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import chanceCubes.CCubesCore;
 
 public class PacketParticle implements IMessage
 {
@@ -22,6 +23,20 @@ public class PacketParticle implements IMessage
 	public double vY;
 	public double vZ;
 
+	public PacketParticle(){}
+	
+	public PacketParticle(ParticlePart part, double x, double y, double z, double vX, double vY, double vZ)
+	{
+		this.particleName = part.getParticleName();
+		this.particleID = part.getParticleID();
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.vX = vX;
+		this.vY = vY;
+		this.vZ = vZ;
+	}
+	
 	public PacketParticle(String particle, double x, double y, double z, double vX, double vY, double vZ)
 	{
 		this.particleName = particle;

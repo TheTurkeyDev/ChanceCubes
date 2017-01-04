@@ -4,6 +4,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.passive.EntitySheep;

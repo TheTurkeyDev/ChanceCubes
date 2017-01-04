@@ -27,6 +27,8 @@ public class OffsetBlock
 	protected int delay = 0;
 
 	protected boolean causeUpdate = false;
+	
+	private boolean removeUnbreakableBlocks = false; 
 
 	protected Block block;
 
@@ -97,7 +99,7 @@ public class OffsetBlock
 	{
 		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
-			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)));
+			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)), removeUnbreakableBlocks);
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, this.state, y + yOff, this);
 		world.spawnEntityInWorld(entityfallingblock);
 	}
@@ -154,6 +156,16 @@ public class OffsetBlock
 	{
 		this.falling = falling;
 	}
+	
+	public void setRemoveUnbreakableBlocks(boolean remove)
+	{
+		removeUnbreakableBlocks = remove;
+	}
+	
+	public boolean doesRemoveUnbreakableBlocks()
+	{
+		return this.removeUnbreakableBlocks;
+	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
@@ -166,7 +178,7 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		RewardsUtil.placeBlock(state == null ? block.getDefaultState() : state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2);
+		RewardsUtil.placeBlock(state == null ? block.getDefaultState() : state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2, this.removeUnbreakableBlocks);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
 		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
 	}

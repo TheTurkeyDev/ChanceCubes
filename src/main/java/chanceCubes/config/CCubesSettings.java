@@ -1,6 +1,6 @@
 package chanceCubes.config;
 
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.rewards.IChanceCubeReward;
 
 public class CCubesSettings
 {

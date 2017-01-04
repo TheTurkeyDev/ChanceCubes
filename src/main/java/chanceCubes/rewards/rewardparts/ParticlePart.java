@@ -4,18 +4,34 @@ public class ParticlePart
 {
 	public static String[] elements = new String[] { "particle:I", "x:I", "y:I", "z:I", "delay:I" };
 
-	private int particle;
+	private int particleID = -1;
+	private String particleName = "";
 
 	private int delay = 0;
 
-	public ParticlePart(int particle)
+	public ParticlePart(int particleID)
 	{
-		this.particle = particle;
+		this.particleID = particleID;
+	}
+	
+	public ParticlePart(String particleName)
+	{
+		this.particleName = particleName;
+	}
+	
+	public boolean useID()
+	{
+		return this.particleID != -1;
 	}
 
-	public int getParticle()
+	public int getParticleID()
 	{
-		return particle;
+		return particleID;
+	}
+	
+	public String getParticleName()
+	{
+		return particleName;
 	}
 
 	public int getDelay()

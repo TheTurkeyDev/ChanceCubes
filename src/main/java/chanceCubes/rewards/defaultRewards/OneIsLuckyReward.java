@@ -4,6 +4,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;

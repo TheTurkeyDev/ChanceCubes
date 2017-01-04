@@ -1,15 +1,27 @@
 {
-	"Clay":
+	"Texas":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Yo dog, I heard you wanted some clay.... Enjoy!"},
-			{"message":"-Turkey"}
+			{"message":"No no no. This is GhostfromTEXAS......", "delay":140},
+			{"message":"Everything is BIGGER in TEXAS!", "delay":180},
+			{"message":"<3 Turkey", "delay":200}
 		],
-		"Item":
+		"Command":
 		[
-			{"item":{"id":"minecraft:clay","Count":8}}
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":0},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":226},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":228},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":230},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":232},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":234},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":236},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":238},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":240},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":242},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":244},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:80}", "delay":246}
 		]
 	}
 }

@@ -4,7 +4,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,10 +40,10 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if(world.isRemote)
-			return EnumActionResult.FAIL;
 		if(player.isSneaking())
 			return EnumActionResult.FAIL;
+		if(world.isRemote)
+			return EnumActionResult.PASS;
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
 		{
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCE_CUBE))

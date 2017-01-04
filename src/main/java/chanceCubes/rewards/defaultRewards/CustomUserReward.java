@@ -15,6 +15,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -58,7 +59,7 @@ public class CustomUserReward implements IChanceCubeReward
 		}
 		for(JsonElement user : users.getAsJsonArray())
 		{
-			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuidTemp.toString()))
+			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(player.getUniqueID().toString()))
 			{
 				userName = user.getAsJsonObject().get("Name").getAsString();
 				uuid = uuidTemp;
@@ -76,7 +77,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Users/" + userName + ".json");
+			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/users/" + userName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");

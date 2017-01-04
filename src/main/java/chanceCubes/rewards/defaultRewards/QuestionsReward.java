@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.Scheduler;
