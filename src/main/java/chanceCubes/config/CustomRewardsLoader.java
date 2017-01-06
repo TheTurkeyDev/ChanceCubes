@@ -272,7 +272,7 @@ public class CustomRewardsLoader
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
 					{
 						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
-							return null;
+							return new CustomEntry<BasicReward, Boolean>(null, false);
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
@@ -292,7 +292,7 @@ public class CustomRewardsLoader
 					}
 				}
 				if(!gameversion && mcversionused)
-					return null;
+					return new CustomEntry<BasicReward, Boolean>(null, false);
 				continue;
 			}
 			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))

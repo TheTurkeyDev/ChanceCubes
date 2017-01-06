@@ -91,11 +91,11 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			world.spawnEntityInWorld(entitem);
 		}
 	}
-
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
+	
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 
 	@Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)

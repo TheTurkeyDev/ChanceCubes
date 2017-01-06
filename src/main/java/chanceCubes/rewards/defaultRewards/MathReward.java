@@ -12,10 +12,12 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -100,6 +102,8 @@ public class MathReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new TextComponentString("Correct!"));
+			player.addChatMessage(new TextComponentString("Here, have a item!"));
+			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX,  player.posY,  player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
