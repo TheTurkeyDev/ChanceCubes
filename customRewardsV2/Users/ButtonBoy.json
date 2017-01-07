@@ -104,5 +104,17 @@
 			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
 			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
 		]
+	},
+	"PotatoWaterCooling":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Remember to use this with an AMD CPU! Kappa"}
+		],
+		"Item":
+     		[
+			{"item":{"id":"minecraft:baked_potato","Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}}
+   		]
 	}
 }
