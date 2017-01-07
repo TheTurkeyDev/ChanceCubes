@@ -77,6 +77,11 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	{
 		return 0;
 	}
+	
+    public float getExplosionResistance(Entity exploder)
+    {
+    	return Float.MAX_VALUE;
+    }
 
 	@Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)

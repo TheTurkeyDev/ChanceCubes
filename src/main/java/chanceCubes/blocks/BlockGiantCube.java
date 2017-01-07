@@ -9,6 +9,7 @@ import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -78,4 +79,9 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		}
 		return true;
 	}
+	
+    public float getExplosionResistance(Entity exploder)
+    {
+    	return Float.MAX_VALUE;
+    }
 }

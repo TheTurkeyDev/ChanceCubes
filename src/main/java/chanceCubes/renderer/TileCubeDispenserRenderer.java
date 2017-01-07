@@ -35,7 +35,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y, (float) z + 0.5F);
-		te.wave += WAVE_SPEED;
+		te.wave += WAVE_SPEED * partialTicks;
 		te.wave %= 125;
 		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
 		GlStateManager.translate(0f, yy + 1f, 0f);
