@@ -15,11 +15,11 @@ public class CCubesCrashCallable implements ICrashCallable {
 
     @Override
     public String getLabel() {
-        return "Last opened chance cube:";
+        return "Last opened chance cube";
     }
 
     @Override
     public String call() throws Exception {
-        return ChanceCubeRegistry.getLastReward().getName();
+        return (ChanceCubeRegistry.getLastReward() != null) ? ChanceCubeRegistry.getLastReward().getName() : "None";
     }
 }
