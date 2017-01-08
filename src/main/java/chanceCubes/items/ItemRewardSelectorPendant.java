@@ -69,6 +69,6 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 			}
 		}
-		return EnumActionResult.PASS;
+		return EnumActionResult.SUCCESS;
 	}
 }

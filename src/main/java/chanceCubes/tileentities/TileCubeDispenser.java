@@ -1,6 +1,7 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.blocks.BlockCubeDispenser;
 import chanceCubes.blocks.BlockCubeDispenser.DispenseType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -11,8 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileCubeDispenser extends TileEntity
 {
 	private EntityItem entityItem;
-	private DispenseType currentType = DispenseType.CHANCE_CUBE;
-	
+
 	public float rot = 0;
 	public float wave = 0;
 
@@ -20,9 +20,8 @@ public class TileCubeDispenser extends TileEntity
 	{
 		if(entityItem == null)
 			this.entityItem = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-		if(this.currentType != type)
+		if(BlockCubeDispenser.getCurrentState(this.worldObj.getBlockState(this.pos)) != type)
 		{
-			this.currentType = type;
 			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
 			else if(type == DispenseType.COMPACT_GAINTCUBE)
@@ -37,7 +36,7 @@ public class TileCubeDispenser extends TileEntity
 	public EntityItem getNewEntityItem(DispenseType type)
 	{
 		EntityItem ent;
-		
+
 		if(type == DispenseType.CHANCE_ICOSAHEDRON)
 			ent = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
 		else if(type == DispenseType.COMPACT_GAINTCUBE)
@@ -51,7 +50,7 @@ public class TileCubeDispenser extends TileEntity
 	public Block getCurrentBlock(DispenseType type)
 	{
 		Block b = Blocks.AIR;
-		if(entityItem == null || this.currentType != type)
+		if(entityItem == null || BlockCubeDispenser.getCurrentState(this.worldObj.getBlockState(this.pos)) != type)
 		{
 			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				b = CCubesBlocks.CHANCE_ICOSAHEDRON;
