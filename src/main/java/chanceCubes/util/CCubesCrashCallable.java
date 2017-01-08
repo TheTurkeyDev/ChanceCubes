@@ -4,9 +4,6 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ICrashCallable;
 
-/**
- * Created by TimeTheCat on 1/8/2017.
- */
 public class CCubesCrashCallable implements ICrashCallable {
 
     public static void init() {
