@@ -20,6 +20,6 @@ public class CCubesCrashCallable implements ICrashCallable {
 
     @Override
     public String call() throws Exception {
-        return ChanceCubeRegistry.lastReward.getName();
+        return ChanceCubeRegistry.getLastReward().getName();
     }
 }
