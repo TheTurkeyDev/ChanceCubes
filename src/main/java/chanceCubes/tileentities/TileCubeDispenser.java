@@ -6,6 +6,7 @@ import chanceCubes.blocks.BlockCubeDispenser.DispenseType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -18,9 +19,10 @@ public class TileCubeDispenser extends TileEntity
 
 	public EntityItem getRenderEntityItem(DispenseType type)
 	{
+		System.out.println(type);
 		if(entityItem == null)
 			this.entityItem = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-		if(BlockCubeDispenser.getCurrentState(this.worldObj.getBlockState(this.pos)) != type)
+		if(!entityItem.getEntityItem().getItem().equals(Item.getItemFromBlock(getCurrentBlock(type))))
 		{
 			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				this.entityItem.setEntityItemStack(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
