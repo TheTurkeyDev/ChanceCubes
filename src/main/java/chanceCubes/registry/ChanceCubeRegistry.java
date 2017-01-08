@@ -109,7 +109,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
-	private static IChanceCubeReward lastReward = null;
+	public static IChanceCubeReward lastReward = null;
 
 	/**
 	 * loads the default rewards of the Chance Cube
