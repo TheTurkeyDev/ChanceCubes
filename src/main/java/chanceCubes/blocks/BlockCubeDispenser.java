@@ -44,8 +44,6 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if(world.isRemote)
-			return false;
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
 
