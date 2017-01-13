@@ -19,7 +19,6 @@ public class TileCubeDispenser extends TileEntity
 
 	public EntityItem getRenderEntityItem(DispenseType type)
 	{
-		System.out.println(entityItem);
 		if(entityItem == null)
 			this.entityItem = new EntityItem(this.worldObj, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 		if(!entityItem.getEntityItem().getItem().equals(Item.getItemFromBlock(getCurrentBlock(type))))

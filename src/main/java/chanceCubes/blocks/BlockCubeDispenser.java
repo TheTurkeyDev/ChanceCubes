@@ -54,6 +54,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		{
 			state = state.cycleProperty(DISPENSING);
 			world.setBlockState(pos, state, 3);
+			return false;
 		}
 		else
 		{
@@ -61,7 +62,10 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			{
 				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
 				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
+				{
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
+					return false;
+				}
 			}
 		}
 		return true;

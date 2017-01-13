@@ -80,7 +80,7 @@ public class ThrowablesReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Trowables";
+		return CCubesCore.MODID + ":Throwables";
 	}
 
 }

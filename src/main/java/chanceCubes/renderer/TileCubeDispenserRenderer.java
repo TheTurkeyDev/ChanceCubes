@@ -30,6 +30,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 		if(!world.getBlockState(te.getPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER))
 			return;
 
+		System.out.println(world.getBlockState(te.getPos()));
 		DispenseType type = BlockCubeDispenser.getCurrentState(world.getBlockState(te.getPos()));
 		EntityItem entity = te.getRenderEntityItem(type);
 
