@@ -1,34 +1,69 @@
 {
-	"TMHY":
+	"HeyChat123":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"The Matrixis has you!"},
-			{"message":"And the Jacky Creepers have you!", "delay":100}
+			{"message":"Hey chat, 123!", "delay":20},
+			{"message":"Hey chat, 123!", "delay":25},
+			{"message":"Hey chat, 123!", "delay":30},
+			{"message":"Hey chat, 123!", "delay":35},
+			{"message":"Hey chat, 123!", "delay":40},
+			{"message":"Hey chat, 123!", "delay":45},
+			{"message":"Hey chat, 123!", "delay":50},
+			{"message":"Hey chat, 123!", "delay":55},
+			{"message":"Hey chat, 123!", "delay":60},
+			{"message":"Hey chat, 123!", "delay":65},
+			{"message":"Hey chat, 123!", "delay":70},
+			{"message":"Hey chat, 123!", "delay":75},
+			{"message":"Hey chat, 123!", "delay":80},
+			{"message":"Hey chat, 123!", "delay":85},
+			{"message":"Hey chat, 123!", "delay":90},
+			{"message":"Have some TNT as well, you are welcome. Kappa", "delay":120}
 		],
 		"Command":
 		[
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 100}
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
+		]
+	},
+	"BatCreepers":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Surprise!", "delay": 200}
+		],
+		"command":
+		[
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200},
+			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1,Riding:{id:\"Bat\"}}", "delay": 200}
 		]
 	}
 }
