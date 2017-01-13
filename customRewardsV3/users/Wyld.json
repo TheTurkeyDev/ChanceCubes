@@ -21,68 +21,29 @@
 			{"command":"/summon Zombie ~ ~1 ~ {IsBaby:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980,ShowParticles:0b}]}", "delay":20}
 		]
 	},
-	"Sounds 1.7":
-  	{
-		"dependencies":
-		{
-			"mcVersion":"1.7.*"
-		},
-    "chance": 0,
-    "Message":
-    [
-      {"message":"From: Pokey", "delay":140}
-    ],
-    "Command":
-    [
-      {"command":"/effect @p 15 10 1", "delay":0}
-    ],
-    "Sound":
-    [
-      {"sound":"creeper.primed"},
-      {"sound":"random.bow", "delay": 10},
-      {"sound":"mob.blaze.breathe", "delay": 20},
-      {"sound":"mob.endermen.scream", "delay": 30},
-      {"sound":"mob.ghast.moan", "delay": 40},
-      {"sound":"mob.irongolem.hit", "delay": 50},
-      {"sound":"mob.zombiepig.zpighurt", "delay": 60},
-      {"sound":"mob.spider.say", "delay": 70},
-      {"sound":"mob.wolf.growl", "delay": 80},
-      {"sound":"mob.wither.spawn", "delay": 90},
-      {"sound":"game.player.hurt", "delay": 100},
-      {"sound":"mob.zombie.infect", "delay": 110},
-      {"sound":"mob.enderdragon.growl", "delay": 120}
-    ]
-  },
-	"Sounds":
+	"Squids_Revenge":
 	{
-		"dependencies":
-		{
-			"mcVersion":"1.9.*, 1.10.*"
-		},
-		"chance": 0,
-		"Message":
-		[
-			{"message":"From: Pokey", "delay":140}
-		],
+		"chance":0,
 		"Command":
 		[
-			{"command":"/effect @p 15 10 1", "delay":0}
+			{"command":"/summon Squid ~ ~ ~ {CustomName:\"Squiddy\",CustomNameVisible:true,Invulnerable:1,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~-1 ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~-1 ~ ~ {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~-1 ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~ ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~ ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~1 ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~1 ~ ~ {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon Squid ~1 ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/execute @e[type=Squid,r=20] ~ ~ ~ summon Ghast ~ ~ ~ {DeathLootTable:\"\"}" , "delay":100},
+			{"command":"/execute @e[type=Squid,CustomName=\"Squiddy\"] ~ ~ ~ summon Ghast ~ ~ ~ {DeathLootTable:\"\"}" , "delay":100},
+			{"command":"/kill @e[type=Squid,r=30]", "delay":101},
+			{"command":"/kill @e[type=Squid,CustomName=\"Squiddy\"]", "delay":101}
 		],
-		"Sound":
+		"Message":
 		[
-			{"sound":"entity.creeper.primed"},
-			{"sound":"entity.arrow.shoot", "delay": 10},
-			{"sound":"entity.blaze.ambient", "delay": 20},
-			{"sound":"entity.endermen.scream", "delay": 30},
-			{"sound":"entity.ghast.scream", "delay": 40},
-			{"sound":"entity.irongolem.hurt", "delay": 50},
-			{"sound":"entity.zombie_pig.hurt", "delay": 60},
-			{"sound":"entity.spider.ambient", "delay": 70},
-			{"sound":"entity.wolf.growl", "delay": 80},
-			{"sound":"entity.wither.spawn", "delay": 90},
-			{"sound":"entity.player.hurt", "delay": 100},
-			{"sound":"entity.shulker.hurt", "delay": 110},
-			{"sound":"entity.enderdragon.growl", "delay": 120}
+			{"message":"For too long poor Squiddy has had to stand by and watch as you butcher her people, Wyld!", "delay":0},
+			{"message":"TODAY THE SQUIDS SHALL HAVE THEIR REVENGE!!!", "delay": 100}
 		]
 	}
 }
