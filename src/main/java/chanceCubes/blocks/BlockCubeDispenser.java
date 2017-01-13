@@ -54,7 +54,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		{
 			state = state.cycleProperty(DISPENSING);
 			world.setBlockState(pos, state, 3);
-			return false;
+			return true;
 		}
 		else
 		{
@@ -64,7 +64,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
 				{
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
-					return false;
+					return true;
 				}
 			}
 		}
@@ -96,16 +96,16 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			world.spawnEntityInWorld(entitem);
 		}
 	}
-	
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-    
-    public float getExplosionResistance(Entity exploder)
-    {
-    	return Float.MAX_VALUE;
-    }
+
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	public float getExplosionResistance(Entity exploder)
+	{
+		return Float.MAX_VALUE;
+	}
 
 	@Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
@@ -140,7 +140,27 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	public int getMetaFromState(IBlockState state)
 	{
-		return 0;
+		DispenseType type = getCurrentState(state);
+		if(type == DispenseType.CHANCE_CUBE)
+			return 0;
+		else if(type == DispenseType.CHANCE_ICOSAHEDRON)
+			return 1;
+		else if(type == DispenseType.COMPACT_GAINTCUBE)
+			return 2;
+		else
+			return 0;
+	}
+
+	public IBlockState getStateFromMeta(int meta)
+	{
+		if(meta == 0)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
+		else if(meta == 1)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
+		else if(meta == 2)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
+		else
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
 	public static enum DispenseType implements IStringSerializable
