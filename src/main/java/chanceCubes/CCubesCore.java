@@ -1,5 +1,6 @@
 package chanceCubes;
 
+import chanceCubes.util.CCubesCrashCallable;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
@@ -91,6 +92,8 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
+
+		CCubesCrashCallable.init();
 
 		if(CCubesSettings.chestLoot)
 		{

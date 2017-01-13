@@ -534,7 +534,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		return this.disabledNameToReward.size();
 	}
 
-	public void ClearRewards()
+    public static IChanceCubeReward getLastReward() {
+        return lastReward;
+    }
+
+    public void ClearRewards()
 	{
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
