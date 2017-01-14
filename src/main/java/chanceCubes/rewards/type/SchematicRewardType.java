@@ -1,6 +1,8 @@
 package chanceCubes.rewards.type;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -24,47 +26,50 @@ public class SchematicRewardType implements IRewardType
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		for(OffsetBlock osb : schematic.getBlocks())
-			stack.add(osb);
+		// ArrayLists are faster for this kind of accessing IIRC
+		List<OffsetBlock> temp = new ArrayList<OffsetBlock>(schematic.getBlocks());
 
-		this.spawnInBlock(stack, schematic, world, x, y, z, true);
+		int blocksPerTick = Math.max((int) (1 / schematic.getdelay()), 1);
+
+		if(blocksPerTick > 1)
+		{
+			for(int start = 0; start < temp.size(); start += 2 * blocksPerTick)
+			{
+				int end = Math.min(start + 2 * blocksPerTick, temp.size());
+
+				for(int i = start; i < end; i += 2)
+				{
+					stack.add(temp.get(i));
+				}
+
+				for(int i = start + 1; i < end; i += 2)
+				{
+					stack.add(temp.get(i));
+				}
+			}
+		}
+
+		this.spawnInBlock(stack, schematic, world, x, y, z);
 	}
 
-	public void spawnInBlock(Queue<OffsetBlock> stack, CustomSchematic schem, World world, int x, int y, int z, boolean tictoc)
+	public void spawnInBlock(final Queue<OffsetBlock> stack, final CustomSchematic schem, World world, final int x, final int y, final int z)
 	{
 		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getdelay() < 1 ? 1 : (int) schem.getdelay())
 		{
 			@Override
 			public void callback()
 			{
-				float lessThan1 = 0;
-				Queue<OffsetBlock> tempstack = new LinkedList<OffsetBlock>();
-				while(lessThan1 < 1 && !stack.isEmpty())
+				// Get # of blocks to spawn this tick, no less than 1
+				int blocksToSpawn = Math.max((int) (1 / schem.getdelay()), 1);
+				// Iterate that many times, as long as the stack isn't empty
+				for(int i = 0; i < blocksToSpawn && !stack.isEmpty(); i++)
 				{
-					if(tictoc)
-					{
-						OffsetBlock osb = stack.remove();
-						osb.spawnInWorld(world, x, y, z);
-						lessThan1 += schem.getdelay();
-						if(stack.size() != 0)
-							tempstack.add(stack.remove());
-						if(stack.size() == 0)
-							lessThan1 = 1;
-					}
-					else
-					{
-						OffsetBlock osb = stack.remove();
-						osb.spawnInWorld(world, x, y, z);
-						lessThan1 += schem.getdelay();
-						if(stack.size() == 0)
-							lessThan1 = 1;
-					}
+					OffsetBlock osb = stack.remove();
+					osb.spawnInWorld(world, x, y, z);
 				}
-				
-				tempstack.addAll(stack);
 
-				if(stack.size() != 0)
-					spawnInBlock(tempstack, schem, world, x, y, z, !tictoc);
+				if(!stack.isEmpty())
+					spawnInBlock(stack, schem, world, x, y, z);
 			}
 		});
 	}
