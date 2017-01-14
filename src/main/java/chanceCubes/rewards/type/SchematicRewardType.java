@@ -48,6 +48,10 @@ public class SchematicRewardType implements IRewardType
 				}
 			}
 		}
+		else
+		{
+			stack.addAll(temp);
+		}
 
 		this.spawnInBlock(stack, schematic, world, x, y, z);
 	}
