@@ -20,7 +20,7 @@ public class HTTPUtil
 	{
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
 		con.setDoOutput(false);
-		con.setReadTimeout(20000);
+		con.setReadTimeout(5000);
 		con.setRequestProperty("Connection", "keep-alive");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0");
 		

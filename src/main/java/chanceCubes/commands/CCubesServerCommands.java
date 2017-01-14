@@ -62,19 +62,27 @@ public class CCubesServerCommands extends CommandBase
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	public void execute(final MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
-			ChanceCubeRegistry.INSTANCE.ClearRewards();
-			GiantCubeRegistry.INSTANCE.ClearRewards();
-			ChanceCubeRegistry.loadDefaultRewards();
-			GiantCubeRegistry.loadDefaultRewards();
-			CustomRewardsLoader.instance.loadCustomRewards();
-			CustomRewardsLoader.instance.loadHolidayRewards();
-			ChanceCubeRegistry.loadCustomUserRewards(server);
-			ModHookUtil.loadCustomModRewards();
-			sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
+			new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ChanceCubeRegistry.INSTANCE.ClearRewards();
+					GiantCubeRegistry.INSTANCE.ClearRewards();
+					ChanceCubeRegistry.loadDefaultRewards();
+					GiantCubeRegistry.loadDefaultRewards();
+					CustomRewardsLoader.instance.loadCustomRewards();
+					CustomRewardsLoader.instance.loadHolidayRewards();
+					ChanceCubeRegistry.loadCustomUserRewards(server);
+					ModHookUtil.loadCustomModRewards();
+					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
+				}
+
+			}).start();
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{

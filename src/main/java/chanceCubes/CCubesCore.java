@@ -112,9 +112,19 @@ public class CCubesCore
 	{
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
-		CustomRewardsLoader.instance.loadCustomRewards();
-		CustomRewardsLoader.instance.loadHolidayRewards();
-		CustomRewardsLoader.instance.loadDisabledRewards();
+		new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				CustomRewardsLoader.instance.loadCustomRewards();
+				CustomRewardsLoader.instance.loadHolidayRewards();
+				CustomRewardsLoader.instance.loadDisabledRewards();
+			}
+
+		}).start();
+
 		ConfigLoader.config.save();
 	}
 
