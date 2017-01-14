@@ -66,23 +66,16 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
-			server.addScheduledTask(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					ChanceCubeRegistry.INSTANCE.ClearRewards();
-					GiantCubeRegistry.INSTANCE.ClearRewards();
-					ChanceCubeRegistry.loadDefaultRewards();
-					GiantCubeRegistry.loadDefaultRewards();
-					CustomRewardsLoader.instance.loadCustomRewards();
-					CustomRewardsLoader.instance.loadHolidayRewards();
-					ChanceCubeRegistry.loadCustomUserRewards(server);
-					ModHookUtil.loadCustomModRewards();
-					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
-				}
-
-			});
+			sender.addChatMessage(new TextComponentString("Reloading..."));
+			ChanceCubeRegistry.INSTANCE.ClearRewards();
+			GiantCubeRegistry.INSTANCE.ClearRewards();
+			ChanceCubeRegistry.loadDefaultRewards();
+			GiantCubeRegistry.loadDefaultRewards();
+			CustomRewardsLoader.instance.loadCustomRewards();
+			CustomRewardsLoader.instance.loadHolidayRewards();
+			ChanceCubeRegistry.loadCustomUserRewards(server);
+			ModHookUtil.loadCustomModRewards();
+			sender.addChatMessage(new TextComponentString("Chance Cubes Reloaded"));
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
@@ -213,7 +206,7 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.addChatMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " +  ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.addChatMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{

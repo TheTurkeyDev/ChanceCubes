@@ -376,7 +376,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 
 		for(EntityPlayerMP player : allp)
-			new CustomUserReward(player);
+		{
+			new CustomUserReward(player.getName(), player.getUniqueID());
+		}
 	}
 
 	@Override

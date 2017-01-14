@@ -17,23 +17,23 @@ public class PlayerConnectListener
 		if(event.player.worldObj.isRemote)
 			return;
 
-		event.player.getServer().addScheduledTask(new Runnable()
+		new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				new CustomUserReward(event.player);
+				new CustomUserReward(event.player.getName(), event.player.getUniqueID());
 			}
 
-		});
+		}).start();
 	}
 
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedOutEvent event)
+	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
 		if(event.player.worldObj.isRemote)
 			return;
 
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":Custom_Reward_For_" + event.player.getCommandSenderEntity().getName());
+		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
 	}
 }
