@@ -1,4 +1,0 @@
-{
-	"d20_Break": {"category": "block", "sounds":["chancecubes:d20_Break"]},
-	"giant_Cube_Spawn": {"category": "block", "sounds": ["chancecubes:giant_Cube_Spawn"]}
-}
