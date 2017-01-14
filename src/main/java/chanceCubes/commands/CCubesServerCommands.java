@@ -66,7 +66,7 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
-			new Thread(new Runnable()
+			server.addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
@@ -82,7 +82,7 @@ public class CCubesServerCommands extends CommandBase
 					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
 				}
 
-			}).start();
+			});
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{

@@ -114,7 +114,6 @@ public class CCubesCore
 		GiantCubeRegistry.loadDefaultRewards();
 		new Thread(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -124,7 +123,6 @@ public class CCubesCore
 			}
 
 		}).start();
-
 		ConfigLoader.config.save();
 	}
 
