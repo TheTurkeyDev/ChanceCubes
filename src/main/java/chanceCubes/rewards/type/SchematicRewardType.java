@@ -26,11 +26,11 @@ public class SchematicRewardType implements IRewardType
 	{
 		for(OffsetBlock osb : schematic.getBlocks())
 			stack.add(osb);
-		
-		this.spawnInBlock(stack, schematic, world, x, y, z);
+
+		this.spawnInBlock(stack, schematic, world, x, y, z, true);
 	}
 
-	public void spawnInBlock(final Queue<OffsetBlock> stack, final CustomSchematic schem, final World world, final int x, final int y, final int z)
+	public void spawnInBlock(Queue<OffsetBlock> stack, CustomSchematic schem, World world, int x, int y, int z, boolean tictoc)
 	{
 		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getdelay() < 1 ? 1 : (int) schem.getdelay())
 		{
@@ -38,16 +38,33 @@ public class SchematicRewardType implements IRewardType
 			public void callback()
 			{
 				float lessThan1 = 0;
+				Queue<OffsetBlock> tempstack = new LinkedList<OffsetBlock>();
 				while(lessThan1 < 1 && !stack.isEmpty())
 				{
-					OffsetBlock osb = stack.remove();
-					osb.spawnInWorld(world, x, y, z);
-					lessThan1 += schem.getdelay();
-					if(stack.size() == 0)
-						lessThan1 = 1;
+					if(tictoc)
+					{
+						OffsetBlock osb = stack.remove();
+						osb.spawnInWorld(world, x, y, z);
+						lessThan1 += schem.getdelay();
+						if(stack.size() != 0)
+							tempstack.add(stack.remove());
+						if(stack.size() == 0)
+							lessThan1 = 1;
+					}
+					else
+					{
+						OffsetBlock osb = stack.remove();
+						osb.spawnInWorld(world, x, y, z);
+						lessThan1 += schem.getdelay();
+						if(stack.size() == 0)
+							lessThan1 = 1;
+					}
 				}
+				
+				tempstack.addAll(stack);
+
 				if(stack.size() != 0)
-					spawnInBlock(stack, schem, world, x, y, z);
+					spawnInBlock(tempstack, schem, world, x, y, z, !tictoc);
 			}
 		});
 	}

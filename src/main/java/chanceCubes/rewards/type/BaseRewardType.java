@@ -7,6 +7,7 @@ public abstract class BaseRewardType<T> implements IRewardType
 {
 	protected T[] rewards;
 
+	@SafeVarargs
 	protected BaseRewardType(T... rewards)
 	{
 		this.rewards = rewards;
