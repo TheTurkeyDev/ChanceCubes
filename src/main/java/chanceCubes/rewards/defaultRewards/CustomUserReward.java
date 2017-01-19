@@ -85,13 +85,13 @@ public class CustomUserReward implements IChanceCubeReward
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 		}
 
-		((ICommandSender) FMLCommonHandler.instance()).getServer().addScheduledTask(new Runnable()
+		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				ChanceCubeRegistry.INSTANCE.registerReward(CustomUserReward.this);
-				EntityPlayer player = ((ICommandSender) FMLCommonHandler.instance()).getServer().getPlayerList().getPlayerByUUID(uuid);
+				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 
 				if(player != null)
 				{
