@@ -18,7 +18,6 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,59 +36,58 @@ public class CustomUserReward implements IChanceCubeReward
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(String userName, UUID uuid)
+	public CustomUserReward(String name, UUID uu)
 	{
 		if(!CCubesSettings.userSpecificRewards)
 			return;
-
-		JsonElement users;
-		try
-		{
-			users = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/UserList.json");
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of users with custom rewards!");
-			return;
-		}
-
-		for(JsonElement user : users.getAsJsonArray())
-		{
-			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
-			{
-				this.userName = user.getAsJsonObject().get("Name").getAsString();
-				this.uuid = uuid;
-				type = user.getAsJsonObject().get("Type").getAsString();
-			}
-		}
-
-		if(userName.equals(""))
-		{
-			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
-			return;
-		}
-
-		JsonElement userRewards;
-
-		try
-		{
-			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/users/" + userName + ".json");
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
-			CCubesCore.logger.log(Level.ERROR, e.getMessage());
-			return;
-		}
-
-		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-		{
-			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
-		}
-
 		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
 		{
 			@Override
 			public void run()
 			{
+				JsonElement users;
+				try
+				{
+					users = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/UserList.json");
+				} catch(Exception e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of users with custom rewards!");
+					return;
+				}
+
+				for(JsonElement user : users.getAsJsonArray())
+				{
+					if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uu.toString()))
+					{
+						userName = user.getAsJsonObject().get("Name").getAsString();
+						uuid = uu;
+						type = user.getAsJsonObject().get("Type").getAsString();
+					}
+				}
+
+				if(userName.equals(""))
+				{
+					CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
+					return;
+				}
+
+				JsonElement userRewards;
+
+				try
+				{
+					userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/users/" + userName + ".json");
+				} catch(Exception e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
+					CCubesCore.logger.log(Level.ERROR, e.getMessage());
+					return;
+				}
+
+				for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
+				{
+					customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
+				}
+
 				ChanceCubeRegistry.INSTANCE.registerReward(CustomUserReward.this);
 				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 
