@@ -36,14 +36,15 @@ public class FileUtil
 
 	public static JsonElement readJsonfromFile(String filepath)
 	{
-		String result = "";
+		StringBuilder builder = new StringBuilder();
 		try
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
+
 			String line = "";
 			while((line = reader.readLine()) != null)
 			{
-				result += line;
+				builder.append(line);
 			}
 			reader.close();
 		} catch(IOException e)
@@ -51,7 +52,7 @@ public class FileUtil
 			e.printStackTrace();
 			return null;
 		}
-		return JSON_PARSER.parse(result);
+		return JSON_PARSER.parse(builder.toString());
 	}
 
 	@Nonnull
