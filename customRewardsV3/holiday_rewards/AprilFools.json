@@ -4,8 +4,9 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":"April Fools!"},
-			{"message":"From the Chance Cubes Team"}
+			{"message":"I hope this isn't near your base, because you have 400 ticks before stuff goes bye bye. Kappa"},
+			{"message":"April Fools!", "delay":400},
+			{"message":"From the Chance Cubes Team", "delay":410}
 		]
 	}
 }
