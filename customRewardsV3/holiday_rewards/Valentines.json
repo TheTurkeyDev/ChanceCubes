@@ -14,14 +14,29 @@
 		"Particle":
 		[
 			{"particle":"heart"},
-			{"particle":"heart", "delay":5},
+			{"particle":"heart", "delay":2},
+			{"particle":"heart", "delay":4},
+			{"particle":"heart", "delay":6},
+			{"particle":"heart", "delay":8},
 			{"particle":"heart", "delay":10},
-			{"particle":"heart", "delay":15},
+			{"particle":"heart", "delay":12},
+			{"particle":"heart", "delay":14},
+			{"particle":"heart", "delay":16},
+			{"particle":"heart", "delay":18},
 			{"particle":"heart", "delay":20},
-			{"particle":"heart", "delay":25},
+			{"particle":"heart", "delay":22},
+			{"particle":"heart", "delay":24},
+			{"particle":"heart", "delay":26},
+			{"particle":"heart", "delay":28},
 			{"particle":"heart", "delay":30},
-			{"particle":"heart", "delay":35},
-			{"particle":"heart", "delay":40}
+			{"particle":"heart", "delay":32},
+			{"particle":"heart", "delay":34},
+			{"particle":"heart", "delay":36},
+			{"particle":"heart", "delay":38},
+			{"particle":"heart", "delay":40},
+			{"particle":"heart", "delay":42},
+			{"particle":"heart", "delay":44},
+			{"particle":"heart", "delay":46}
 		]
 	}
 }
