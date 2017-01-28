@@ -160,7 +160,7 @@ public class SchematicUtil
 
 	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
-		File schematic = new File(ConfigLoader.folder.getParentFile().getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
+		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
 		NBTTagCompound nbtdata;
 		try
 		{
