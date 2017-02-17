@@ -14,8 +14,6 @@ public class SchematicRewardType implements IRewardType
 {
 	private CustomSchematic schematic;
 
-	private List<OffsetBlock> stack = new ArrayList<OffsetBlock>();
-
 	public SchematicRewardType(CustomSchematic schematic)
 	{
 		this.schematic = schematic;
@@ -24,6 +22,7 @@ public class SchematicRewardType implements IRewardType
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
+		List<OffsetBlock> stack = new ArrayList<OffsetBlock>();
 		for(OffsetBlock osb : schematic.getBlocks())
 			stack.add(osb);
 
