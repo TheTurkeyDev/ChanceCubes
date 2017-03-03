@@ -4,11 +4,7 @@
 		"chance": 0,
 		"Message":
 		[
-			{"message":" <3 Jared and Turkey"}
-		],
-		"Item":
-		[
-			{"item":{"id":"minecraft:stone_sword","Count":1,"tag":{"display":{"Name":"FTB Hard Mode Pitchfork"}}}},
+			{"message":" <3 Jared and Turkey"},
 			{"message":"\u00a7eILOVETURTLES joined the game.", "delay":200, "serverWide":true},
 			{"message":"<ILOVETURTLES> Opps, wrong server...", "delay":260, "serverWide":true},
 			{"message":"\u00a7eILOVETURTLES left the game.", "delay":300, "serverWide":true},
@@ -24,6 +20,10 @@
 			{"message":"<Turkey> I'm So confused!!!!!!", "delay":780, "serverWide":true},
 			{"message":"\u00a7eMinecraft left the game.", "delay":820, "serverWide":true},
 			{"message":"Let me know when you guys get that reward I wanna see your reactions xD", "delay":1020, "serverWide":true}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:stone_sword","Count":1,"tag":{"display":{"Name":"FTB Hard Mode Pitchfork"}}}}
 		]
 	}
 }
