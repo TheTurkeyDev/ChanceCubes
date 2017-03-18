@@ -98,12 +98,15 @@ public class MathReward implements IChanceCubeReward
 		if(!inQuestion.containsKey(player))
 			return;
 
+		if(!RewardsUtil.isPlayerOnline(player))
+			return;
+
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
 			player.addChatMessage(new TextComponentString("Correct!"));
 			player.addChatMessage(new TextComponentString("Here, have a item!"));
-			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX,  player.posY,  player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{

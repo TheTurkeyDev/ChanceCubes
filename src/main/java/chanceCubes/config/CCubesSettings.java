@@ -1,6 +1,10 @@
 package chanceCubes.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chanceCubes.rewards.IChanceCubeReward;
+import net.minecraft.block.state.IBlockState;
 
 public class CCubesSettings
 {
@@ -32,6 +36,8 @@ public class CCubesSettings
 	public static String holidayTextureName = "";
 
 	public static int dropHeight = 20;
+
+	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
 
 	public static String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards";
 

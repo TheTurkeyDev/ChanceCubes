@@ -26,7 +26,6 @@ import chanceCubes.rewards.giantRewards.MixedFluidSphereReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
-import chanceCubes.rewards.giantRewards.RandomExplosionReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
 import chanceCubes.rewards.type.SchematicRewardType;
@@ -53,7 +52,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 			return;
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.VILLAGE_SCHEMATIC), 0, -1, 0, 0.1f, false, false, false))));
-		
+
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
 		INSTANCE.registerReward(new ThrowablesReward());
@@ -65,7 +64,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new PotionsReward());
 		INSTANCE.registerReward(new FluidSphereReward());
 		INSTANCE.registerReward(new MixedFluidSphereReward());
-		INSTANCE.registerReward(new RandomExplosionReward());
+		// INSTANCE.registerReward(new RandomExplosionReward());
 	}
 
 	@Override

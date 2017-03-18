@@ -20,7 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -156,7 +155,6 @@ public class CCubesServerCommands extends CommandBase
 			{
 				if(sender instanceof EntityPlayer)
 				{
-					World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
 					EntityPlayer player = (EntityPlayer) sender;
 					if(player.capabilities.isCreativeMode)
 					{
@@ -182,7 +180,7 @@ public class CCubesServerCommands extends CommandBase
 									sender.addChatMessage(new TextComponentString("Both points are not set!"));
 									return;
 								}
-								SchematicUtil.createCustomSchematic(world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
+								SchematicUtil.createCustomSchematic(player.worldObj, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
 								sender.addChatMessage(new TextComponentString("Schematic file named " + (args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs") + " created!"));
 								SchematicUtil.selectionPoints[0] = null;
 								SchematicUtil.selectionPoints[1] = null;
