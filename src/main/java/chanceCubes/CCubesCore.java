@@ -1,13 +1,11 @@
 package chanceCubes;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
 import chanceCubes.client.listeners.WorldRenderListener;
-import chanceCubes.commands.CCubesClientCommands;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -29,7 +27,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -129,7 +126,7 @@ public class CCubesCore
 	{
 		ModHookUtil.loadCustomModRewards();
 
-		if(event.getSide().isClient())
+		/*if(event.getSide().isClient())
 		{
 			CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
 			ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
@@ -138,7 +135,8 @@ public class CCubesCore
 		{
 			CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
 			event.registerServerCommand(new CCubesServerCommands());
-		}
+		}*/
+		event.registerServerCommand(new CCubesServerCommands());
 	}
 
 	@EventHandler

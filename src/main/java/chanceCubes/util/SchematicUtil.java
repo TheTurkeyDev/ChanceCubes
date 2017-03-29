@@ -77,7 +77,7 @@ public class SchematicUtil
 					{
 						TileEntity te = world.getTileEntity(pos);
 						NBTTagCompound nbt = new NBTTagCompound();
-						te.writeToNBT(nbt);
+						nbt = te.writeToNBT(nbt);
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))

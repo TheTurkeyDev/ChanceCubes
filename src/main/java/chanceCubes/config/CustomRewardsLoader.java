@@ -114,6 +114,8 @@ public class CustomRewardsLoader
 						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
 					else
 						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
+
+					ChanceCubeRegistry.INSTANCE.addCustomReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -399,7 +401,7 @@ public class CustomRewardsLoader
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
-			
+
 			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
 				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
 
