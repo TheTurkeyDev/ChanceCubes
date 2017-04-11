@@ -70,6 +70,8 @@ public class CustomRewardsLoader
 	private File folder;
 	private static JsonParser json;
 
+	private boolean reSaveCurrentJson = false;
+
 	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
@@ -601,28 +603,41 @@ public class CustomRewardsLoader
 			int yoff = 0;
 			int zoff = 0;
 			float delay = 0;
+			float spacingDelay = 0;
 			boolean falling = true;
 			boolean relativeToPlayer = false;
 			boolean includeAirBlocks = false;
-			if(element.getAsJsonObject().has("XOffSet"))
-				xoff = element.getAsJsonObject().get("XOffSet").getAsInt();
-			if(element.getAsJsonObject().has("YOffSet"))
-				yoff = element.getAsJsonObject().get("YOffSet").getAsInt();
-			if(element.getAsJsonObject().has("ZOffSet"))
-				zoff = element.getAsJsonObject().get("ZOffSet").getAsInt();
+			for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "IncludeAirBlocks" })
+			{
+				if(element.getAsJsonObject().has(s))
+				{
+					reSaveCurrentJson = true;
+					element.getAsJsonObject().add(s.substring(0, 1).toLowerCase() + s.substring(1), element.getAsJsonObject().get(s));
+					element.getAsJsonObject().remove(s);
+				}
+			}
+
+			if(element.getAsJsonObject().has("xOffSet"))
+				xoff = element.getAsJsonObject().get("xOffSet").getAsInt();
+			if(element.getAsJsonObject().has("yOffSet"))
+				yoff = element.getAsJsonObject().get("yOffSet").getAsInt();
+			if(element.getAsJsonObject().has("zOffSet"))
+				zoff = element.getAsJsonObject().get("zOffSet").getAsInt();
 			if(element.getAsJsonObject().has("delay"))
 				delay = element.getAsJsonObject().get("delay").getAsFloat();
 			if(element.getAsJsonObject().has("falling"))
 				falling = element.getAsJsonObject().get("falling").getAsBoolean();
-			if(element.getAsJsonObject().has("RelativeToPlayer"))
-				relativeToPlayer = element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean();
-			if(element.getAsJsonObject().has("IncludeAirBlocks"))
-				includeAirBlocks = element.getAsJsonObject().get("IncludeAirBlocks").getAsBoolean();
+			if(element.getAsJsonObject().has("relativeToPlayer"))
+				relativeToPlayer = element.getAsJsonObject().get("relativeToPlayer").getAsBoolean();
+			if(element.getAsJsonObject().has("includeAirBlocks"))
+				includeAirBlocks = element.getAsJsonObject().get("includeAirBlocks").getAsBoolean();
+			if(element.getAsJsonObject().has("spacingDelay"))
+				spacingDelay = element.getAsJsonObject().get("spacingDelay").getAsFloat();
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
-				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks);
 			else if(fileName.endsWith(".schematic"))
-				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
 			else

@@ -31,7 +31,7 @@ public class SchematicRewardType implements IRewardType
 
 	public void spawnInBlock(final List<OffsetBlock> stack, final CustomSchematic schem, final World world, final int x, final int y, final int z)
 	{
-		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getdelay() < 1 ? 1 : (int) schem.getdelay())
+		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getSpacingDelay() < 1 ? 1 : (int) schem.getSpacingDelay())
 		{
 			@Override
 			public void callback()
@@ -41,7 +41,7 @@ public class SchematicRewardType implements IRewardType
 				{
 					OffsetBlock osb = stack.remove(0);
 					osb.spawnInWorld(world, x, y, z);
-					lessThan1 += schem.getdelay();
+					lessThan1 += schem.getSpacingDelay();
 					if(stack.size() == 0)
 						lessThan1 = 1;
 				}
