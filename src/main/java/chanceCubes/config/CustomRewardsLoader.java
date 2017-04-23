@@ -602,7 +602,7 @@ public class CustomRewardsLoader
 			int xoff = 0;
 			int yoff = 0;
 			int zoff = 0;
-			float delay = 0;
+			int delay = 0;
 			float spacingDelay = 0;
 			boolean falling = true;
 			boolean relativeToPlayer = false;
@@ -624,7 +624,7 @@ public class CustomRewardsLoader
 			if(element.getAsJsonObject().has("zOffSet"))
 				zoff = element.getAsJsonObject().get("zOffSet").getAsInt();
 			if(element.getAsJsonObject().has("delay"))
-				delay = element.getAsJsonObject().get("delay").getAsFloat();
+				delay = element.getAsJsonObject().get("delay").getAsInt();
 			if(element.getAsJsonObject().has("falling"))
 				falling = element.getAsJsonObject().get("falling").getAsBoolean();
 			if(element.getAsJsonObject().has("relativeToPlayer"))
@@ -635,9 +635,9 @@ public class CustomRewardsLoader
 				spacingDelay = element.getAsJsonObject().get("spacingDelay").getAsFloat();
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
-				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 			else if(fileName.endsWith(".schematic"))
-				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
 			else
