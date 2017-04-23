@@ -1,0 +1,45 @@
+{
+	"Race":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"On Your marks!"},
+			{"message":"Get set!", "delay": 20},
+			{"message":"Go!", "delay": 40},
+      {"message":"<3 Turkey", "delay": 50}
+		],
+    "Block":
+		[
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":2,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":3,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":4,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":5,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":2,"YOffSet":0,"ZOffSet":6,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+
+      {"XOffSet":0,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":2,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":3,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":4,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":5,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":0,"YOffSet":0,"ZOffSet":6,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+
+      {"XOffSet":-2,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":2,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":3,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":4,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":5,"Block":"minecraft:rail", "Falling":false, "delay": 40},
+			{"XOffSet":-2,"YOffSet":0,"ZOffSet":6,"Block":"minecraft:rail", "Falling":false, "delay": 40}
+    ],
+    "command":
+		[
+			{"command":"/summon MinecartRideable ~2 ~1 ~ ", "delay": 45},
+      {"command":"/summon MinecartRideable ~ ~1 ~ ", "delay": 45},
+      {"command":"/summon MinecartRideable ~-2 ~1 ~ ", "delay": 45}
+		]
+	}
+}
