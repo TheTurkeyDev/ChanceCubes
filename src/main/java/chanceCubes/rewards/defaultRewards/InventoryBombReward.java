@@ -1,10 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -14,29 +11,11 @@ import net.minecraft.world.World;
 
 public class InventoryBombReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		for(ItemStack stack : player.inventory.mainInventory)
-		{
-			if(stack == null)
-				continue;
-			EntityItem ient = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-			ient.motionY = rand.nextInt(1) - 0.5;
-			ient.setPickupDelay(40);
-			world.spawnEntityInWorld(ient);
-		}
-		for(ItemStack stack : player.inventory.armorInventory)
-		{
-			if(stack == null)
-				continue;
-			EntityItem ient = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-			ient.motionY = rand.nextInt(1) - 0.5;
-			ient.setPickupDelay(40);
-			world.spawnEntityInWorld(ient);
-		}
+		player.inventory.dropAllItems();
 
 		for(int i = 0; i < player.inventory.mainInventory.length; i++)
 			player.inventory.mainInventory[i] = new ItemStack(Blocks.DEADBUSH, 64);
@@ -56,8 +35,6 @@ public class InventoryBombReward implements IChanceCubeReward
 			}
 			player.inventory.armorInventory[i] = stack;
 		}
-
-		player.inventory.clear();
 
 		player.addChatMessage(new TextComponentString("Inventory Bomb!!!!"));
 
