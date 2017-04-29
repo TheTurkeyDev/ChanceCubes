@@ -47,7 +47,7 @@ public class ThrowablesReward implements IChanceCubeReward
 		else
 		{
 			throwEnt = new EntityTNTPrimed(world);
-			((EntityTNTPrimed) throwEnt).setFuse(20);
+			((EntityTNTPrimed)throwEnt).setFuse(20);
 		}
 		throwEnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 		throwEnt.motionX = -1 + (Math.random() * 2);

@@ -208,17 +208,6 @@ public class RewardsUtil
 		return world.getBlockState(pos).getBlockHardness(world, pos) == -1;
 	}
 
-	public static ItemStack getSpawnEggForEntity(ResourceLocation entityId)
-	{
-		ItemStack stack = new ItemStack(Items.SPAWN_EGG);
-		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-		nbttagcompound1.setString("id", entityId.toString());
-		nbttagcompound.setTag("EntityTag", nbttagcompound1);
-		stack.setTagCompound(nbttagcompound);
-		return stack;
-	}
-
 	public static Block getRandomBlock()
 	{
 		int size = Block.REGISTRY.getKeys().size();
@@ -274,6 +263,17 @@ public class RewardsUtil
 		while(f == null || f.getBlock() == null)
 			f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
 		return f;
+	}
+
+	public static ItemStack getSpawnEggForMob(String entity)
+	{
+		ItemStack stack = new ItemStack(Items.SPAWN_EGG);
+		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+		nbttagcompound1.setString("id", entity);
+		nbttagcompound.setTag("EntityTag", nbttagcompound1);
+		stack.setTagCompound(nbttagcompound);
+		return stack;
 	}
 
 	public static boolean isPlayerOnline(EntityPlayer player)

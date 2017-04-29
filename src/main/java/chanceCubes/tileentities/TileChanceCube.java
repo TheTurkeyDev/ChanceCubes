@@ -56,11 +56,11 @@ public class TileChanceCube extends TileEntity
 	{
 		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
 	}
-
-	public NBTTagCompound getUpdateTag()
-	{
-		return this.writeToNBT(new NBTTagCompound());
-	}
+	
+    public NBTTagCompound getUpdateTag()
+    {
+        return this.writeToNBT(new NBTTagCompound());
+    }
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)

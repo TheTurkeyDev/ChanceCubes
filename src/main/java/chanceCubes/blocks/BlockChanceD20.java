@@ -50,20 +50,19 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return true;
 	}
 
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isVisuallyOpaque()
 	{
 		return false;
 	}
 
 	@Override
 	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return false;
 	}
@@ -77,7 +76,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		this.startd20(world, pos, player);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		return this.startd20(world, pos, player);
 	}
@@ -129,12 +128,11 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
 	}
-
-	@Override
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
-	}
+	
+    public float getExplosionResistance(Entity exploder)
+    {
+    	return Float.MAX_VALUE;
+    }
 
 	@Override
 	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)

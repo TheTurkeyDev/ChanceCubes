@@ -9,16 +9,16 @@ public class ParticlePart
 
 	private int delay = 0;
 
-	public ParticlePart(int particle)
+	public ParticlePart(int particleID)
 	{
-		this.particleID = particle;
+		this.particleID = particleID;
 	}
-
-	public ParticlePart(String particle)
+	
+	public ParticlePart(String particleName)
 	{
-		this.particleName = particle;
+		this.particleName = particleName;
 	}
-
+	
 	public boolean useID()
 	{
 		return this.particleID != -1;
@@ -28,7 +28,7 @@ public class ParticlePart
 	{
 		return particleID;
 	}
-
+	
 	public String getParticleName()
 	{
 		return particleName;

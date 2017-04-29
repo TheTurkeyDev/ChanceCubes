@@ -61,7 +61,7 @@ public class CustomUserReward implements IChanceCubeReward
 			}
 		}
 
-		if(this.userName.equals(""))
+		if(userName.equals(""))
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;

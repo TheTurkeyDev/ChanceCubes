@@ -20,9 +20,8 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 		super.addLore("of the inserted cubes.");
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
 	{
-		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
 		FMLNetworkHandler.openGui(player, CCubesCore.instance, CCubesGuiHandler.CREATIVE_PENDANT_ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);

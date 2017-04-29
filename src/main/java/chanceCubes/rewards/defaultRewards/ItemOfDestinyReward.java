@@ -102,6 +102,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		Scheduler.scheduleTask(task);
 	}
 
+
 	public Enchantment randomEnchantment()
 	{
 

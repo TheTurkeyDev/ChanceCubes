@@ -51,17 +51,17 @@ public class TileGiantCube extends TileEntity
 		hasMaster = data.getBoolean("hasMaster");
 		isMaster = data.getBoolean("isMaster");
 	}
-
+	
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
 	}
-
-	public NBTTagCompound getUpdateTag()
-	{
-		return this.writeToNBT(new NBTTagCompound());
-	}
+	
+    public NBTTagCompound getUpdateTag()
+    {
+        return this.writeToNBT(new NBTTagCompound());
+    }
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)

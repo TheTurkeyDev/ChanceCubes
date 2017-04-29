@@ -35,11 +35,10 @@ public class ItemScanner extends BaseChanceCubesItem
 		return 72000;
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
-		ItemStack stack = player.getHeldItem(hand);
-		player.setActiveHand(hand);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		playerIn.setActiveHand(hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)

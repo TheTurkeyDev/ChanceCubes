@@ -24,7 +24,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	public BlockGiantCube()
 	{
 		super("giant_Chance_Cube");
-		this.setCreativeTab(null);
+		super.setCreativeTab(null);
 	}
 
 	@Override
@@ -38,20 +38,18 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	{
 		return 0;
 	}
+	
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean isOpaqueCube(IBlockState blockState)
-	{
-		return false;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public BlockRenderLayer getBlockLayer()
-	{
-		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
+    }
 
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
@@ -81,10 +79,9 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		}
 		return true;
 	}
-
-	@Override
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
-	}
+	
+    public float getExplosionResistance(Entity exploder)
+    {
+    	return Float.MAX_VALUE;
+    }
 }

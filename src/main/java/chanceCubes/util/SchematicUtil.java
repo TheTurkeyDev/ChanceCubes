@@ -77,7 +77,7 @@ public class SchematicUtil
 					{
 						TileEntity te = world.getTileEntity(pos);
 						NBTTagCompound nbt = new NBTTagCompound();
-						nbt = te.writeToNBT(nbt);
+						te.writeToNBT(nbt);
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))
@@ -118,6 +118,7 @@ public class SchematicUtil
 				last = i;
 				row = 1;
 			}
+
 		}
 
 		String value = "" + last;
@@ -157,7 +158,7 @@ public class SchematicUtil
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
-	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
 		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
 		NBTTagCompound nbtdata;
@@ -214,17 +215,17 @@ public class SchematicUtil
 			for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
 			{
 				NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
-				TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
+				TileEntity tileentity = TileEntity.func_190200_a(null, nbttagcompound4);
 
 				if(tileentity != null)
 				{
 					Block b = null;
 					for(OffsetBlock osb : offsetBlocks)
 						if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
-							b = osb.getBlockState().getBlock();
+							b = osb.getBlock();
 					if(b == null)
 						b = Blocks.STONE;
-					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
+					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 					block.setRelativeToPlayer(relativeToPlayer);
 					block.setBlockState(b.getStateFromMeta(data[i1]));
 					offsetBlocks.add(block);
@@ -232,17 +233,18 @@ public class SchematicUtil
 			}
 		}
 
-		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
+		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, delay);
 	}
 
-	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
-		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, delay, falling, relativeToPlayer, includeAirBlocks);
 	}
 
-	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float delay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks)
 	{
+
 		if(elem == null)
 			return null;
 		JsonObject json = elem.getAsJsonObject();
@@ -272,6 +274,7 @@ public class SchematicUtil
 			for(int i = 0; i < recurse; i++)
 				blockArray.add(id);
 		}
+
 		for(int yOff = 0; yOff < ySize; yOff++)
 		{
 			for(int xOff = (xSize / 2) - xSize; xOff < (xSize / 2); xOff++)
@@ -320,11 +323,11 @@ public class SchematicUtil
 		for(int i = offsetBlocks.size() - 1; i >= 0; i--)
 		{
 			OffsetBlock osb = offsetBlocks.get(i);
-			if(osb.getBlockState().getBlock().equals(Blocks.AIR) && !includeAirBlocks)
+			if(osb.getBlock().equals(Blocks.AIR) && !includeAirBlocks)
 				offsetBlocks.remove(i);
 		}
 
-		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
+		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks, delay);
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)
@@ -341,7 +344,7 @@ public class SchematicUtil
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTTagCompound nbt)
 	{
-		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), nbt, osb.isFalling(), osb.getDelay());
+		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlock(), nbt, osb.isFalling(), osb.getDelay());
 		oste.setBlockState(osb.getBlockState());
 		oste.setDelay(osb.getDelay());
 		oste.setRelativeToPlayer(osb.isRelativeToPlayer());

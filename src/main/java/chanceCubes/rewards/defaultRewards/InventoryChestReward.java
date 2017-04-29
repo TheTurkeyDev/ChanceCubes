@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -22,17 +21,14 @@ public class InventoryChestReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
 		final List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(ItemStack stack : player.inventory.mainInventory)
+		for(ItemStack stack : player.inventory.mainInventory.clone())
 			if(stack != null)
-				stacks.add(stack.copy());
+				stacks.add(stack);
 
-		NonNullList<ItemStack> armor = player.inventory.armorInventory;
-		for(ItemStack stack : player.inventory.armorInventory)
-			if(stack != null)
-				armor.add(stack.copy());
+		ItemStack[] armor = player.inventory.armorInventory.clone();
 		player.inventory.clear();
-		for(int i = 0; i < armor.size(); i++)
-			player.inventory.armorInventory.set(i, armor.get(i));
+		for(int i = 0; i < armor.length; i++)
+			player.inventory.armorInventory[i] = armor[i];
 
 		player.addChatMessage(new TextComponentString("At least i didnt delete your items..."));
 

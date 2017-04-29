@@ -20,7 +20,7 @@ public class OrePillarReward implements IChanceCubeReward
 
 	public OrePillarReward()
 	{
-
+		
 	}
 
 	@Override

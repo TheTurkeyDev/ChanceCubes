@@ -27,32 +27,30 @@ public class OffsetBlock
 	protected int delay = 0;
 
 	protected boolean causeUpdate = false;
+	
+	private boolean removeUnbreakableBlocks = false; 
 
-	private boolean removeUnbreakableBlocks = false;
+	protected Block block;
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
-	{
-		this(x, y, z, b.getDefaultState(), falling);
-	}
-
-	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
-	{
-		this(x, y, z, b.getDefaultState(), falling, delay);
-	}
-
-	public OffsetBlock(int x, int y, int z, IBlockState state, boolean falling)
-	{
-		this(x, y, z, state, falling, 0);
-	}
-
-	public OffsetBlock(int x, int y, int z, IBlockState state, boolean falling, int delay)
 	{
 		this.xOff = x;
 		this.yOff = y;
 		this.zOff = z;
+		this.block = b;
+		this.falling = falling;
+		this.state = b.getDefaultState();
+	}
+
+	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
+	{
+		this.xOff = x;
+		this.yOff = y;
+		this.zOff = z;
+		this.block = b;
 		this.falling = falling;
 		this.delay = delay;
-		this.state = state;
+		this.state = b.getDefaultState();
 	}
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
@@ -106,6 +104,11 @@ public class OffsetBlock
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
+	public Block getBlock()
+	{
+		return this.block;
+	}
+
 	public void setDelay(int delay)
 	{
 		this.delay = delay;
@@ -153,12 +156,12 @@ public class OffsetBlock
 	{
 		this.falling = falling;
 	}
-
+	
 	public void setRemoveUnbreakableBlocks(boolean remove)
 	{
 		removeUnbreakableBlocks = remove;
 	}
-
+	
 	public boolean doesRemoveUnbreakableBlocks()
 	{
 		return this.removeUnbreakableBlocks;
@@ -175,7 +178,7 @@ public class OffsetBlock
 			yy += yOff;
 			zz += zOff;
 		}
-		RewardsUtil.placeBlock(state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2, this.removeUnbreakableBlocks);
+		RewardsUtil.placeBlock(state == null ? block.getDefaultState() : state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2, this.removeUnbreakableBlocks);
 		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
 		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
 	}

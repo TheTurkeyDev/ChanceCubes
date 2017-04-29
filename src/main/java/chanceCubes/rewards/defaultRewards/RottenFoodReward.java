@@ -15,11 +15,11 @@ public class RottenFoodReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+		for(int i = 0; i < player.inventory.mainInventory.length; i++)
 		{
-			ItemStack stack = player.inventory.mainInventory.get(i);
+			ItemStack stack = player.inventory.mainInventory[i];
 			if(stack != null && stack.getItem() instanceof ItemFood)
-				player.inventory.mainInventory.set(i, new ItemStack(Items.ROTTEN_FLESH, stack.func_190916_E()));
+				player.inventory.mainInventory[i] = new ItemStack(Items.ROTTEN_FLESH, stack.stackSize);
 		}
 
 		player.addChatMessage(new TextComponentString("Ewwww it's all rotten"));

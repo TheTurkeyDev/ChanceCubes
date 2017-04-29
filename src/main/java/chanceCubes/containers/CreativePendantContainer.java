@@ -71,14 +71,14 @@ public class CreativePendantContainer extends Container
 					if(!this.mergeItemStack(stackInSlot, 36, 37, true))
 						return null;
 
-			if(stackInSlot.func_190916_E() == 0)
+			if(stackInSlot.stackSize == 0)
 				slotObject.putStack(null);
 			else
 				slotObject.onSlotChanged();
 
-			if(stackInSlot.func_190916_E() == stack.func_190916_E())
+			if(stackInSlot.stackSize == stack.stackSize)
 				return null;
-			slotObject.func_190901_a(player, stackInSlot);
+			slotObject.onPickupFromSlot(player, stackInSlot);
 		}
 		return stack;
 	}

@@ -19,7 +19,7 @@ public class FluidSphereReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
-
+		
 		Block block = RewardsUtil.getRandomFluid().getBlock();
 
 		int delay = 0;
@@ -49,7 +49,7 @@ public class FluidSphereReward implements IChanceCubeReward
 								blocks.add(osb);
 								delay++;
 							}
-
+							
 						}
 					}
 				}

@@ -237,6 +237,6 @@ public class MazeGenerator
 			world.setBlockState(loc, this.blockStorgae.get(loc), 2);
 
 		for(BlockPos loc : this.tileStorgae.keySet())
-			world.setTileEntity(loc, TileEntity.create(world, this.tileStorgae.get(loc)));
+			world.setTileEntity(loc, TileEntity.func_190200_a(world, this.tileStorgae.get(loc)));
 	}
 }

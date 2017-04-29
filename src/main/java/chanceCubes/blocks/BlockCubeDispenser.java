@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -41,7 +42,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if(world.isRemote)
 			return false;
@@ -86,12 +87,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		entitem.setLocationAndAngles(px, py, pz, 0, 0);
 		if(player.isSneaking())
 		{
-			entitem.getEntityItem().func_190920_e(1);
+			entitem.getEntityItem().stackSize = 1;
 			world.spawnEntityInWorld(entitem);
 		}
 		else
 		{
-			entitem.getEntityItem().func_190920_e(64);
+			entitem.getEntityItem().stackSize = 64;
 			world.spawnEntityInWorld(entitem);
 		}
 	}
@@ -101,7 +102,6 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return false;
 	}
 
-	@Override
 	public float getExplosionResistance(Entity exploder)
 	{
 		return Float.MAX_VALUE;

@@ -3,7 +3,6 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -13,20 +12,15 @@ public class OffsetTileEntity extends OffsetBlock
 {
 
 	private NBTTagCompound teNBT;
-	
-	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
+
+	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound te, boolean falling)
 	{
-		this(x, y, z, b.getDefaultState(), te, falling, delay);
+		this(x, y, z, block, te, falling, 0);
 	}
 
-	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling)
+	public OffsetTileEntity(int x, int y, int z, Block block, NBTTagCompound te, boolean falling, int delay)
 	{
-		this(x, y, z, state, te, falling, 0);
-	}
-
-	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling, int delay)
-	{
-		super(x, y, z, state, falling, delay);
+		super(x, y, z, block, falling, delay);
 		this.teNBT = te;
 	}
 
@@ -77,8 +71,8 @@ public class OffsetTileEntity extends OffsetBlock
 		super.placeInWorld(world, x, y, z, offset);
 		//te.me = this.data;
 		if(offset)
-			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.create(world, teNBT));
+			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.func_190200_a(world, teNBT));
 		else
-			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT));
+			world.setTileEntity(new BlockPos(x, y, z), TileEntity.func_190200_a(world, teNBT));
 	}
 }

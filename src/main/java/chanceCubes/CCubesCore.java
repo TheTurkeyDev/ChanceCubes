@@ -27,6 +27,7 @@ import chanceCubes.util.CCubesRecipies;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,14 +44,14 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory", dependencies = "required-after:Forge@[12.18.2.2099,)")
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.11";
+	public static final String gameVersion = "1.10.2";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
@@ -58,9 +59,9 @@ public class CCubesCore
 	public static CommonProxy proxy;
 	public static CreativeTabs modTab = new CreativeTabs(MODID)
 	{
-		public ItemStack getTabIconItem()
+		public Item getTabIconItem()
 		{
-			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
+			return Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
 	public static Logger logger;
@@ -120,7 +121,6 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		CustomRewardsLoader.instance.loadDisabledRewards();
-
 		ConfigLoader.config.save();
 	}
 
@@ -129,17 +129,16 @@ public class CCubesCore
 	{
 		ModHookUtil.loadCustomModRewards();
 
-		// if(event.getSide().isClient())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
-		// ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
-		// }
-		// else if(event.getSide().isServer())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
-		// event.registerServerCommand(new CCubesServerCommands());
-		// }
-		event.registerServerCommand(new CCubesServerCommands());
+		if(event.getSide().isClient())
+		{
+			CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
+			ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
+		}
+		else if(event.getSide().isServer())
+		{
+			CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
+			event.registerServerCommand(new CCubesServerCommands());
+		}
 	}
 
 	@EventHandler

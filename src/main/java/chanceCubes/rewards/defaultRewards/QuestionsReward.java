@@ -32,8 +32,8 @@ public class QuestionsReward implements IChanceCubeReward
 	{
 		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
-		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
-		this.addQuestionAnswer("What year was minecraft officially released", "2011");
+		this.addQuestionAnswer("What is 9 + 10?", "19 -or- 21");
+		this.addQuestionAnswer("What year was minecraft officially released?", "2011");
 		this.addQuestionAnswer("What company developes Java?", "Sun -or- Sun Microsystems -or- Oracle");
 		this.addQuestionAnswer("Who created Minecraft?", "Notch");
 		this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
@@ -48,9 +48,6 @@ public class QuestionsReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
 		if(inQuestion.containsKey(player))
-			return;
-
-		if(!RewardsUtil.isPlayerOnline(player))
 			return;
 
 		int question = world.rand.nextInt(questionsAndAnswers.size());
@@ -79,6 +76,9 @@ public class QuestionsReward implements IChanceCubeReward
 	private void timeUp(EntityPlayer player, boolean correct)
 	{
 		if(!inQuestion.containsKey(player))
+			return;
+
+		if(!RewardsUtil.isPlayerOnline(player))
 			return;
 
 		if(correct)
