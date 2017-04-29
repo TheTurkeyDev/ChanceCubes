@@ -39,6 +39,28 @@ public class PacketParticle implements IMessage
 		this.vZ = vZ;
 	}
 
+	public PacketParticle(String particle, double x, double y, double z, double vX, double vY, double vZ)
+	{
+		this.particleName = particle;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.vX = vX;
+		this.vY = vY;
+		this.vZ = vZ;
+	}
+
+	public PacketParticle(int particle, double x, double y, double z, double vX, double vY, double vZ)
+	{
+		this.particleID = particle;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.vX = vX;
+		this.vY = vY;
+		this.vZ = vZ;
+	}
+
 	@Override
 	public void toBytes(ByteBuf buf)
 	{

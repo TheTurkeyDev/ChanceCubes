@@ -22,7 +22,7 @@ public class PlayerConnectListener
 			@Override
 			public void run()
 			{
-				new CustomUserReward(event.player);
+				new CustomUserReward(event.player.getName(), event.player.getUniqueID());
 			}
 
 		}).start();
