@@ -16,6 +16,7 @@ public class CCubesItems
 	public static BaseChanceCubesItem silkPendant;
 	public static BaseChanceCubesItem creativePendant;
 	public static BaseChanceCubesItem rewardSelectorPendant;
+	public static BaseChanceCubesItem singleUseRewardSelectorPendant;
 
 	public static BaseChanceCubesItem scanner;
 
@@ -28,6 +29,7 @@ public class CCubesItems
 		GameRegistry.register(silkPendant = new ItemSilkTouchPendant());
 		GameRegistry.register(creativePendant = new ItemCreativePendant());
 		GameRegistry.register(rewardSelectorPendant = new ItemRewardSelectorPendant());
+		GameRegistry.register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
 		GameRegistry.register(scanner = new ItemScanner());
 	}
@@ -42,6 +44,7 @@ public class CCubesItems
 		mesher.register(CCubesItems.chancePendantT3, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT3.getItemName(), "inventory"));
 		mesher.register(CCubesItems.creativePendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.getItemName(), "inventory"));
 		mesher.register(CCubesItems.rewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.getItemName(), "inventory"));
+		mesher.register(CCubesItems.singleUseRewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.singleUseRewardSelectorPendant.getItemName(), "inventory"));
 		mesher.register(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.getItemName(), "inventory"));
 	}
 

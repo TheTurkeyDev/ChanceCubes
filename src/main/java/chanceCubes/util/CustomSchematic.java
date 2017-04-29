@@ -12,9 +12,10 @@ public class CustomSchematic
 	private int zSize;
 	private boolean relativeToPlayer;
 	private boolean includeAirBlocks;
+	private float spacingDelay;
 	private float delay;
 
-	public CustomSchematic(List<OffsetBlock> blocks, int xSize, int ySize, int zSize, boolean relativeToPlayer, boolean includeAirBlocks, float delay)
+	public CustomSchematic(List<OffsetBlock> blocks, int xSize, int ySize, int zSize, boolean relativeToPlayer, boolean includeAirBlocks, float spacingDelay, float delay)
 	{
 		this.blocks = blocks;
 		this.xSize = xSize;
@@ -22,6 +23,7 @@ public class CustomSchematic
 		this.zSize = zSize;
 		this.relativeToPlayer = relativeToPlayer;
 		this.includeAirBlocks = includeAirBlocks;
+		this.spacingDelay = spacingDelay;
 		this.delay = delay;
 	}
 
@@ -55,8 +57,13 @@ public class CustomSchematic
 		return this.includeAirBlocks;
 	}
 
-	public float getdelay()
+	public float getSpacingDelay()
 	{
-		return this.delay;
+		return this.spacingDelay;
+	}
+
+	public float getDelay()
+	{
+		return delay;
 	}
 }

@@ -105,6 +105,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
 	private static Random random = new Random();
 
+	private List<IChanceCubeReward> customRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
@@ -427,6 +428,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		return false;
 	}
 
+	public void addCustomReward(IChanceCubeReward reward)
+	{
+		this.customRewards.add(reward);
+	}
+
 	@Override
 	public IChanceCubeReward getRewardByName(String name)
 	{
@@ -436,6 +442,27 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	@Override
 	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
 	{
+		if(CCubesSettings.testRewards)
+		{
+			IChanceCubeReward pickedReward = this.sortedRewards.get(CCubesSettings.testingRewardIndex);
+			pickedReward.trigger(world, pos, player);
+			CCubesSettings.testingRewardIndex++;
+			if(CCubesSettings.testingRewardIndex >= this.sortedRewards.size())
+				CCubesSettings.testingRewardIndex = 0;
+			CCubesCore.logger.log(Level.INFO, "Testing the reward with the name of: " + pickedReward.getName());
+			return;
+		}
+		else if(CCubesSettings.testCustomRewards)
+		{
+			IChanceCubeReward pickedReward = this.customRewards.get(CCubesSettings.testingRewardIndex);
+			pickedReward.trigger(world, pos, player);
+			CCubesSettings.testingRewardIndex++;
+			if(CCubesSettings.testingRewardIndex >= this.customRewards.size())
+				CCubesSettings.testingRewardIndex = 0;
+			CCubesCore.logger.log(Level.INFO, "Testing the reward with the name of: " + pickedReward.getName());
+			return;
+		}
+		
 		if(this.sortedRewards.size() == 0)
 		{
 			CCubesCore.logger.log(Level.WARN, "There are no registered rewards with ChanceCubes and no reward was able to be given");
