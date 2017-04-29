@@ -21,7 +21,7 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		ItemStack weapon = null;
 		for(int i = 0; i < 9; i++)
 		{
-			ItemStack stack = player.inventory.mainInventory[i];
+			ItemStack stack = player.inventory.mainInventory.get(i);
 			if(stack != null && stack.getItem() instanceof ItemSword)
 			{
 				weapon = stack.copy();
@@ -36,21 +36,21 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		//TODO: Change?
 		zombie.setDropItemsWhenDead(true);
 
-		if(player.inventory.armorInventory[0] != null)
+		if(player.inventory.armorInventory.get(0) != null)
 		{
-			zombie.setItemStackToSlot(EntityEquipmentSlot.FEET, player.inventory.armorInventory[0].copy());
+			zombie.setItemStackToSlot(EntityEquipmentSlot.FEET, player.inventory.armorInventory.get(0).copy());
 		}
-		if(player.inventory.armorInventory[1] != null)
+		if(player.inventory.armorInventory.get(1) != null)
 		{
-			zombie.setItemStackToSlot(EntityEquipmentSlot.LEGS, player.inventory.armorInventory[0].copy());
+			zombie.setItemStackToSlot(EntityEquipmentSlot.LEGS, player.inventory.armorInventory.get(1).copy());
 		}
-		if(player.inventory.armorInventory[2] != null)
+		if(player.inventory.armorInventory.get(2) != null)
 		{
-			zombie.setItemStackToSlot(EntityEquipmentSlot.CHEST, player.inventory.armorInventory[0].copy());
+			zombie.setItemStackToSlot(EntityEquipmentSlot.CHEST, player.inventory.armorInventory.get(2).copy());
 		}
-		if(player.inventory.armorInventory[3] != null)
+		if(player.inventory.armorInventory.get(3) != null)
 		{
-			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory[0].copy());
+			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory.get(3).copy());
 		}
 
 		world.spawnEntityInWorld(zombie);

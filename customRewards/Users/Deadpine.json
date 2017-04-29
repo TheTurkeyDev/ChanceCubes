@@ -1,0 +1,14 @@
+{
+	"No_Reward":
+	{
+		"chance": 0,
+		"Item":
+		[
+			{"id":"minecraft:deadbush","Damage":0,"Count":64}
+		],
+		"Message":
+		[
+			{"message":"Deadpine... Dead bush... Meh, close enough"}
+		]
+	}
+}

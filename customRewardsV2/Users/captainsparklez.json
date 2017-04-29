@@ -1,0 +1,17 @@
+{
+	"I_Remeber":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"I remember the cows....."}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"Cow"}},
+			{"entity":{"id":"Cow"}},
+			{"entity":{"id":"Cow"}},
+			{"entity":{"id":"Cow"}}
+		]
+	}
+}

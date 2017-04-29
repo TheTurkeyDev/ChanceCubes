@@ -11,29 +11,28 @@ import net.minecraft.world.World;
 
 public class InventoryBombReward implements IChanceCubeReward
 {
-
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		player.inventory.dropAllItems();
 
-		for(int i = 0; i < player.inventory.mainInventory.length; i++)
-			player.inventory.mainInventory[i] = new ItemStack(Blocks.DEADBUSH, 64);
+		for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+			player.inventory.mainInventory.set(i, new ItemStack(Blocks.DEADBUSH, 64));
 
-		for(int i = 0; i < player.inventory.armorInventory.length; i++)
+		for(int i = 0; i < player.inventory.armorInventory.size(); i++)
 		{
 			ItemStack stack = new ItemStack(Blocks.DEADBUSH, 64);
 			if(i == 0)
 			{
 				stack.setStackDisplayName("ButtonBoy");
-				stack.stackSize = 13;
+				stack.func_190920_e(13);
 			}
 			else if(i == 1)
 			{
 				stack.setStackDisplayName("TheBlackswordsman");
-				stack.stackSize = 13;
+				stack.func_190920_e(13);
 			}
-			player.inventory.armorInventory[i] = stack;
+			player.inventory.armorInventory.set(i, stack);
 		}
 
 		player.addChatMessage(new TextComponentString("Inventory Bomb!!!!"));

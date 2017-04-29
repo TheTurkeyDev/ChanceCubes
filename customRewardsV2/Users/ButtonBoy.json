@@ -1,0 +1,71 @@
+{
+	"13":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"1 Button", "delay":0},
+			{"message":"2 Buttons", "delay":20},
+			{"message":"3 Buttons", "delay":40},
+			{"message":"*Cough* Hey chat, 123 *Cough*", "delay":60},
+			{"message":"4 Buttons", "delay":80},
+			{"message":"5 Buttons", "delay":100},
+			{"message":"6 Buttons", "delay":120},
+			{"message":".........", "delay":130},
+			{"message":".........", "delay":140},
+			{"message":"I'm tired of counting", "delay":150},
+			{"message":"Have 13 Jacky creepers instead!", "delay":180}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ButtonScrub"}}}, "delay":0},
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ScrubTrixis"}}}, "delay":20},
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Gobble Gobble Turkey"}}}, "delay":40},
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Wooden Button"}}}, "delay":80},
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"ButtonScrub13"}}}, "delay":100},
+			{"item":{"id":"minecraft:stone_button","Count":1,tag:{display:{Name:"Totaly not a button"}}}, "delay":120}
+		],
+		"Command":
+		[
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200},
+			{"command":"/summon Creeper ~ ~1 ~ {CustomName:\"Jacky\",CustomNameVisible:1,powered:1,Attributes:[{Name:generic.movementSpeed,Base:1}]}", "delay": 200}
+		]
+	},
+	"Scrub":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":40, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":45, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":50, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":55, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":60, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":65, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":70, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":75, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":80, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":85, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":90, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":95, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":100, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":105, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":110, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":115, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":120, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":125, "serverWide":true},
+			{"message":"<MrButtonboy13> I'm a Scrub", "delay":130, "serverWide":true}
+		]
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"Value":
+	{
+		"chance": 0,
+		"Item":
+		[
+			{"item":{"id":"minecraft:iron_ingot","Damage":0,"Count":64}}
+		],
+		"Message":
+		[
+			{"message":"So this guy I know says that iron is valuable in this pack :)"},
+			{"message":"- Turkey and Cazador", "delay":5}
+		]
+	}
+}

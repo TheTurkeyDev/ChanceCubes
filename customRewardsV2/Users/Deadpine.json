@@ -1,0 +1,15 @@
+{
+	"No_Reward":
+	{
+		"chance": 0,
+		"Item":
+		[
+			{"item":{"id":"minecraft:sapling","Damage":0,"Count":64}}
+		],
+		"Message":
+		[
+			{"message":"Deadpine... more live Livepine!!"},
+			{"message":"I'll show myself out", "delay": 40}
+		]
+	}
+}

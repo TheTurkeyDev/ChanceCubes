@@ -1,0 +1,19 @@
+{
+	"Hard_Enough":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let me guess. Still not hard enough?"}
+		],
+		"Command":
+		[
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"},
+			{"command":"/summon WitherBoss ~ ~1 ~ {Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"WitherBoss\",Riding:{id:\"EnderDragon\"}}}}}}"}
+		]
+	}
+}

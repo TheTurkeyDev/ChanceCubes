@@ -1,0 +1,27 @@
+{
+	"charity":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"For charity!!!!"},
+			{"message":"-Turkey"}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:diamond","Count":6}}
+		]
+	},
+	"pitch_fork":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":" <3 Jared and Turkey"}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:stone_sword","Count":1,tag:{display:{Name:"FTB Hard Mode Pitchfork"}}}}
+		]
+	}
+}

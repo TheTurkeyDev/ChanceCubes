@@ -55,4 +55,5 @@ public class BookOfMemesReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":Book_Of_Memes";
 	}
+
 }

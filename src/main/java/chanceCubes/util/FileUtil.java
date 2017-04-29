@@ -31,7 +31,6 @@ import chanceCubes.CCubesCore;
 
 public class FileUtil
 {
-
 	public static final JsonParser JSON_PARSER = new JsonParser();
 
 	public static JsonElement readJsonfromFile(String filepath)
@@ -40,7 +39,6 @@ public class FileUtil
 		try
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
-
 			String line = "";
 			while((line = reader.readLine()) != null)
 			{

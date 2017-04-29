@@ -1,0 +1,13 @@
+{
+	"Magikarp":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Magikarp use splash!"},
+			{"message":".........", "delay":60},
+			{"message":"It did nothing......", "delay":100},
+			{"message":"<3 Turkey", "delay":120}
+		]
+	}
+}

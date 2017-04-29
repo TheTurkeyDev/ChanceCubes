@@ -1,0 +1,26 @@
+{
+	"Flaming_Sheep":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Hmmmm seems no flaming goats could be found"},
+			{"message":"Sheep will have to do", "delay":40},
+			{"message":"<3 Wyld", "delay":60}
+		],
+		"Command":
+		[
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60},
+			{"command":"/summon Sheep ~ ~1 ~ {Color:14,Fire:1000}", "delay": 60}
+		]
+	}
+}

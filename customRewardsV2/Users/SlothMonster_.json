@@ -1,0 +1,27 @@
+{
+	"Reality":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"\u00a7eTurkey2349 joined the game.", "delay":100, "serverWide":true},
+			{"message":"<Turkey2349> Howdy Sloth", "delay":150, "serverWide":true},
+			{"message":"<SlothMonster_> Howdy Turkey", "delay":200, "serverWide":true},
+			{"message":"<Turkey2349> How are those Chance Cubes going?", "delay":250, "serverWide":true},
+			{"message":"<SlothMonster_> Pretty good. I'm dying a lot....", "delay":300, "serverWide":true},
+			{"message":"<Turkey2349> Well that's a shame", "delay":350, "serverWide":true},
+			{"message":"<SlothMonster_> Yeah", "delay":400, "serverWide":true},
+			{"message":"<Turkey2349> You know this feels realy weird talking to myself", "delay":450, "serverWide":true},
+			{"message":"<SlothMonster_> No kidding", "delay":500, "serverWide":true},
+			{"message":"<LaKeishac> Oh hai guys!", "delay":550, "serverWide":true},
+			{"message":"<SlothMonster_> Oh hai", "delay":580, "serverWide":true},
+			{"message":"<Turkey2349> Hey!", "delay":590, "serverWide":true},
+			{"message":"<Turkey2349> Wait.... Was that one real?", "delay":700, "serverWide":true},
+			{"message":"<Turkey2349> What is real anymore!", "delay":750, "serverWide":true},
+			{"message":"<Baijson> o/", "delay":800, "serverWide":true},
+			{"message":"<Turkey2349> Ahhhhh! I can't take it! I don't even know what reality is anymore!!!", "delay":840, "serverWide":true},
+			{"message":"\u00a7eTurkey2349 left the game.", "delay":860, "serverWide":true},
+			{"message":"<Turkey2349> Hehe, you thought I had left! I never leave.... >:)", "delay":1300, "serverWide":true}
+		]
+	}
+}
