@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

@@ -17,6 +17,6 @@ public class ParticleEffectRewardType extends BaseRewardType<ParticlePart>
 	@Override
 	public void trigger(ParticlePart part, World world, int x, int y, int z, EntityPlayer player)
 	{
-		CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle(part.getParticle(), x + Math.random(), y + Math.random(), z + Math.random(), 0, 0, 0), new TargetPoint(world.provider.getDimension(), x, y, z, 50));
+		CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle(part, x + Math.random(), y + Math.random(), z + Math.random(), 0, 0, 0), new TargetPoint(world.provider.getDimension(), x, y, z, 50));
 	}
 }

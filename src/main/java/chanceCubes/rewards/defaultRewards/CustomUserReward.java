@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -15,6 +14,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class CustomUserReward implements IChanceCubeReward
 {
@@ -35,7 +36,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(EntityPlayer player)
+	public CustomUserReward(String userName, UUID uuid)
 	{
 		if(!CCubesSettings.userSpecificRewards)
 			return;
@@ -50,23 +51,17 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
-		UUID uuidTemp = this.getPlayerUUID(player.getName());
-		if(uuidTemp == null)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the uuid of the user!");
-			return;
-		}
 		for(JsonElement user : users.getAsJsonArray())
 		{
-			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuidTemp.toString()))
+			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
 			{
-				userName = user.getAsJsonObject().get("Name").getAsString();
-				uuid = uuidTemp;
+				this.userName = user.getAsJsonObject().get("Name").getAsString();
+				this.uuid = uuid;
 				type = user.getAsJsonObject().get("Type").getAsString();
 			}
 		}
 
-		if(userName.equals(""))
+		if(this.userName.equals(""))
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;
@@ -76,7 +71,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Users/" + userName + ".json");
+			userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/users/" + userName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
@@ -89,9 +84,21 @@ public class CustomUserReward implements IChanceCubeReward
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 		}
 
-		ChanceCubeRegistry.INSTANCE.registerReward(this);
-		player.addChatMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + this.userName + "...."));
-		player.addChatMessage(new TextComponentString("Let the fun begin! >:)"));
+		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				ChanceCubeRegistry.INSTANCE.registerReward(CustomUserReward.this);
+				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
+
+				if(player != null)
+				{
+					player.addChatMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userName + "...."));
+					player.addChatMessage(new TextComponentString("Let the fun begin! >:)"));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -136,17 +143,4 @@ public class CustomUserReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":CR_" + this.userName;
 	}
-
-	public UUID getPlayerUUID(String username)
-	{
-		for(Map.Entry<UUID, String> entry : UsernameCache.getMap().entrySet())
-		{
-			if(entry.getValue().equalsIgnoreCase(username))
-			{
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
 }

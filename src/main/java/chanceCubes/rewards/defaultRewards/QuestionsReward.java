@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -30,6 +34,9 @@ public class QuestionsReward implements IChanceCubeReward
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
 		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
+		this.addQuestionAnswer("What company developes Java?", "Sun -or- Sun Microsystems -or- Oracle");
+		this.addQuestionAnswer("Who created Minecraft?", "Notch");
+		this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
 	}
 
 	public void addQuestionAnswer(String q, String a)
@@ -43,17 +50,20 @@ public class QuestionsReward implements IChanceCubeReward
 		if(inQuestion.containsKey(player))
 			return;
 
+		if(!RewardsUtil.isPlayerOnline(player))
+			return;
+
 		int question = world.rand.nextInt(questionsAndAnswers.size());
 
 		player.addChatMessage(new TextComponentString(questionsAndAnswers.get(question).getKey()));
-		player.addChatMessage(new TextComponentString("You have 45 seconds to answer! (Answer is not case sensitive)"));
+		player.addChatMessage(new TextComponentString("You have 20 seconds to answer! (Answer is not case sensitive)"));
 
 		if(!world.isRemote)
 		{
 			inQuestion.put(player, questionsAndAnswers.get(question).getValue());
 		}
 
-		Task task = new Task("Question", 900)
+		Task task = new Task("Question", 400)
 		{
 			@Override
 			public void callback()
@@ -74,6 +84,8 @@ public class QuestionsReward implements IChanceCubeReward
 		if(correct)
 		{
 			player.addChatMessage(new TextComponentString("Correct!"));
+			player.addChatMessage(new TextComponentString("Here, have a item!"));
+			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{

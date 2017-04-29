@@ -3,7 +3,7 @@ package chanceCubes.rewards.giantRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;

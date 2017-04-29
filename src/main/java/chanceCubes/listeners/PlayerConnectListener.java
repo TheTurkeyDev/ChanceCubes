@@ -10,22 +10,30 @@ import chanceCubes.rewards.defaultRewards.CustomUserReward;
 public class PlayerConnectListener
 {
 	boolean hasChecked = false;
-	
+
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedInEvent event)
+	public void onPlayerLogin(final PlayerLoggedInEvent event)
 	{
 		if(event.player.worldObj.isRemote)
 			return;
-		
-		new CustomUserReward(event.player);
+
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				new CustomUserReward(event.player);
+			}
+
+		}).start();
 	}
-	
+
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedOutEvent event)
+	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
 		if(event.player.worldObj.isRemote)
 			return;
-		
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":Custom_Reward_For_" + event.player.getCommandSenderEntity().getName());
+
+		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
 	}
 }

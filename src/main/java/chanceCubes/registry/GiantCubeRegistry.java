@@ -15,13 +15,14 @@ import com.google.common.collect.Maps;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.ChunkFlipReward;
 import chanceCubes.rewards.giantRewards.ChunkReverserReward;
 import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
-import chanceCubes.rewards.giantRewards.FluidTowerReward;
+import chanceCubes.rewards.giantRewards.FluidSphereReward;
+import chanceCubes.rewards.giantRewards.MixedFluidSphereReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
@@ -49,8 +50,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 	{
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
-		
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.VILLAGE_SCHEMATIC), 0, -1, 0, 0.05f, false, false, false))));
+
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.VILLAGE_SCHEMATIC), 0, -1, 0, 0.1f, false, false, false))));
 
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
@@ -61,7 +62,9 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ChunkFlipReward());
 		INSTANCE.registerReward(new OreSphereReward());
 		INSTANCE.registerReward(new PotionsReward());
-		INSTANCE.registerReward(new FluidTowerReward());
+		INSTANCE.registerReward(new FluidSphereReward());
+		INSTANCE.registerReward(new MixedFluidSphereReward());
+		// INSTANCE.registerReward(new RandomExplosionReward());
 	}
 
 	@Override

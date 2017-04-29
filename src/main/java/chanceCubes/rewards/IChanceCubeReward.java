@@ -1,4 +1,4 @@
-package chanceCubes.rewards.defaultRewards;
+package chanceCubes.rewards;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

@@ -70,6 +70,8 @@ public class CustomRewardsLoader
 	private File folder;
 	private static JsonParser json;
 
+	private boolean reSaveCurrentJson = false;
+
 	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
@@ -110,10 +112,13 @@ public class CustomRewardsLoader
 						CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
 						continue;
 					}
+
 					if(parsedReward.getValue())
 						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
 					else
 						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
+
+					ChanceCubeRegistry.INSTANCE.addCustomReward(basicReward);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -198,7 +203,7 @@ public class CustomRewardsLoader
 
 			try
 			{
-				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
+				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/holiday_rewards/" + holidayName + ".json");
 			} catch(Exception e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
@@ -224,7 +229,7 @@ public class CustomRewardsLoader
 
 		try
 		{
-			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/DisabledRewards.json");
+			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/ChanceCubesInfo.php", new CustomEntry<String, String>("version", CCubesCore.VERSION));
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
@@ -272,7 +277,7 @@ public class CustomRewardsLoader
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
 					{
 						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
-							return null;
+							return new CustomEntry<BasicReward, Boolean>(null, false);
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
@@ -292,7 +297,7 @@ public class CustomRewardsLoader
 					}
 				}
 				if(!gameversion && mcversionused)
-					return null;
+					return new CustomEntry<BasicReward, Boolean>(null, false);
 				continue;
 			}
 			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))
@@ -393,6 +398,9 @@ public class CustomRewardsLoader
 
 			if(element.getAsJsonObject().has("RelativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+
+			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
+				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
 
 			if(blockDataParts.length > 2)
 				offBlock.setBlockState(block.getStateFromMeta(Integer.parseInt(blockDataParts[2])));
@@ -589,29 +597,42 @@ public class CustomRewardsLoader
 			int xoff = 0;
 			int yoff = 0;
 			int zoff = 0;
-			float delay = 0;
+			int delay = 0;
+			float spacingDelay = 0;
 			boolean falling = true;
 			boolean relativeToPlayer = false;
 			boolean includeAirBlocks = false;
-			if(element.getAsJsonObject().has("XOffSet"))
-				xoff = element.getAsJsonObject().get("XOffSet").getAsInt();
-			if(element.getAsJsonObject().has("YOffSet"))
-				yoff = element.getAsJsonObject().get("YOffSet").getAsInt();
-			if(element.getAsJsonObject().has("ZOffSet"))
-				zoff = element.getAsJsonObject().get("ZOffSet").getAsInt();
+			for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "IncludeAirBlocks" })
+			{
+				if(element.getAsJsonObject().has(s))
+				{
+					reSaveCurrentJson = true;
+					element.getAsJsonObject().add(s.substring(0, 1).toLowerCase() + s.substring(1), element.getAsJsonObject().get(s));
+					element.getAsJsonObject().remove(s);
+				}
+			}
+
+			if(element.getAsJsonObject().has("xOffSet"))
+				xoff = element.getAsJsonObject().get("xOffSet").getAsInt();
+			if(element.getAsJsonObject().has("yOffSet"))
+				yoff = element.getAsJsonObject().get("yOffSet").getAsInt();
+			if(element.getAsJsonObject().has("zOffSet"))
+				zoff = element.getAsJsonObject().get("zOffSet").getAsInt();
 			if(element.getAsJsonObject().has("delay"))
-				delay = element.getAsJsonObject().get("delay").getAsFloat();
+				delay = element.getAsJsonObject().get("delay").getAsInt();
 			if(element.getAsJsonObject().has("falling"))
 				falling = element.getAsJsonObject().get("falling").getAsBoolean();
-			if(element.getAsJsonObject().has("RelativeToPlayer"))
-				relativeToPlayer = element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean();
-			if(element.getAsJsonObject().has("IncludeAirBlocks"))
-				includeAirBlocks = element.getAsJsonObject().get("IncludeAirBlocks").getAsBoolean();
+			if(element.getAsJsonObject().has("relativeToPlayer"))
+				relativeToPlayer = element.getAsJsonObject().get("relativeToPlayer").getAsBoolean();
+			if(element.getAsJsonObject().has("includeAirBlocks"))
+				includeAirBlocks = element.getAsJsonObject().get("includeAirBlocks").getAsBoolean();
+			if(element.getAsJsonObject().has("spacingDelay"))
+				spacingDelay = element.getAsJsonObject().get("spacingDelay").getAsFloat();
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
-				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 			else if(fileName.endsWith(".schematic"))
-				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, delay, falling, relativeToPlayer, includeAirBlocks);
+				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
 			else

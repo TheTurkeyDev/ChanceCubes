@@ -1,7 +1,7 @@
 package chanceCubes.rewards.type;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomSchematic;
@@ -14,8 +14,6 @@ public class SchematicRewardType implements IRewardType
 {
 	private CustomSchematic schematic;
 
-	private Queue<OffsetBlock> stack = new LinkedList<OffsetBlock>();
-
 	public SchematicRewardType(CustomSchematic schematic)
 	{
 		this.schematic = schematic;
@@ -24,15 +22,16 @@ public class SchematicRewardType implements IRewardType
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
+		List<OffsetBlock> stack = new ArrayList<OffsetBlock>();
 		for(OffsetBlock osb : schematic.getBlocks())
 			stack.add(osb);
-		
+
 		this.spawnInBlock(stack, schematic, world, x, y, z);
 	}
 
-	public void spawnInBlock(final Queue<OffsetBlock> stack, final CustomSchematic schem, final World world, final int x, final int y, final int z)
+	public void spawnInBlock(final List<OffsetBlock> stack, final CustomSchematic schem, final World world, final int x, final int y, final int z)
 	{
-		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getdelay() < 1 ? 1 : (int) schem.getdelay())
+		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getSpacingDelay() < 1 ? 1 : (int) schem.getSpacingDelay())
 		{
 			@Override
 			public void callback()
@@ -40,9 +39,9 @@ public class SchematicRewardType implements IRewardType
 				float lessThan1 = 0;
 				while(lessThan1 < 1 && !stack.isEmpty())
 				{
-					OffsetBlock osb = stack.remove();
+					OffsetBlock osb = stack.remove(0);
 					osb.spawnInWorld(world, x, y, z);
-					lessThan1 += schem.getdelay();
+					lessThan1 += schem.getSpacingDelay();
 					if(stack.size() == 0)
 						lessThan1 = 1;
 				}

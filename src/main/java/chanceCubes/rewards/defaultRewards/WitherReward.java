@@ -1,6 +1,9 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Random;
+
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -13,6 +16,8 @@ import net.minecraft.world.World;
 
 public class WitherReward implements IChanceCubeReward
 {
+	private Random random = new Random();
+
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
@@ -21,7 +26,7 @@ public class WitherReward implements IChanceCubeReward
 		wither.renderYawOffset = 90.0F;
 		world.spawnEntityInWorld(wither);
 		wither.ignite();
-		if(world.rand.nextBoolean())
+		if(random.nextBoolean())
 			wither.setCustomNameTag("Kiwi");
 		else
 			wither.setCustomNameTag("Kehaan");
@@ -43,7 +48,7 @@ public class WitherReward implements IChanceCubeReward
 
 	private boolean removeEnts(Entity ent)
 	{
-		if(ent.worldObj.rand.nextInt(10) != 1)
+		if(random.nextInt(10) != 1)
 		{
 			ent.setDead();
 			return true;

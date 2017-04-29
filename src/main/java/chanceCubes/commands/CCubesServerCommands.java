@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -20,7 +21,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -62,19 +62,26 @@ public class CCubesServerCommands extends CommandBase
 	}
 
 	@Override
-	public void execute(MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
+	public void execute(final MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
 		{
-			ChanceCubeRegistry.INSTANCE.ClearRewards();
-			GiantCubeRegistry.INSTANCE.ClearRewards();
-			ChanceCubeRegistry.loadDefaultRewards();
-			GiantCubeRegistry.loadDefaultRewards();
-			CustomRewardsLoader.instance.loadCustomRewards();
-			CustomRewardsLoader.instance.loadHolidayRewards();
-			ChanceCubeRegistry.loadCustomUserRewards(server);
-			ModHookUtil.loadCustomModRewards();
-			sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
+			new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ChanceCubeRegistry.INSTANCE.ClearRewards();
+					GiantCubeRegistry.INSTANCE.ClearRewards();
+					ChanceCubeRegistry.loadDefaultRewards();
+					GiantCubeRegistry.loadDefaultRewards();
+					CustomRewardsLoader.instance.loadCustomRewards();
+					CustomRewardsLoader.instance.loadHolidayRewards();
+					ChanceCubeRegistry.loadCustomUserRewards(server);
+					ModHookUtil.loadCustomModRewards();
+					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
+				}
+			}).start();
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
@@ -155,7 +162,6 @@ public class CCubesServerCommands extends CommandBase
 			{
 				if(sender instanceof EntityPlayer)
 				{
-					World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
 					EntityPlayer player = (EntityPlayer) sender;
 					if(player.capabilities.isCreativeMode)
 					{
@@ -181,7 +187,7 @@ public class CCubesServerCommands extends CommandBase
 									sender.addChatMessage(new TextComponentString("Both points are not set!"));
 									return;
 								}
-								SchematicUtil.createCustomSchematic(world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
+								SchematicUtil.createCustomSchematic(player.worldObj, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
 								sender.addChatMessage(new TextComponentString("Schematic file named " + (args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs") + " created!"));
 								SchematicUtil.selectionPoints[0] = null;
 								SchematicUtil.selectionPoints[1] = null;
@@ -206,6 +212,25 @@ public class CCubesServerCommands extends CommandBase
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
 			sender.addChatMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+		}
+		else if(args[0].equalsIgnoreCase("testRewards"))
+		{
+			CCubesSettings.testRewards = !CCubesSettings.testRewards;
+			CCubesSettings.testingRewardIndex = 0;
+			if(CCubesSettings.testRewards)
+				sender.addChatMessage(new TextComponentString("Reward testing is now enabled for all rewards!"));
+			else
+				sender.addChatMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+		}
+		else if(args[0].equalsIgnoreCase("testCustomRewards"))
+		{
+			CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
+			CCubesSettings.testingRewardIndex = 0;
+			if(CCubesSettings.testCustomRewards)
+				sender.addChatMessage(new TextComponentString("Reward testing is now enabled for custom rewards!"));
+			else
+				sender.addChatMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{

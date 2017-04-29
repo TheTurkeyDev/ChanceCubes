@@ -5,8 +5,10 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
+import chanceCubes.renderer.TileGiantCubeRenderer;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
+import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -32,6 +34,7 @@ public class ClientProxy extends CommonProxy
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		final ModelResourceLocation resloc = new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesBlocks.CHANCE_ICOSAHEDRON.getBlockName(), "inventory");

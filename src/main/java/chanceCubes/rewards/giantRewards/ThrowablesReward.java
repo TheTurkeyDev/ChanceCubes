@@ -3,7 +3,7 @@ package chanceCubes.rewards.giantRewards;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -28,7 +27,7 @@ public class ThrowablesReward implements IChanceCubeReward
 
 	public void throwThing(final int count, final World world, final BlockPos pos)
 	{
-		int entChoice = random.nextInt(5);
+		int entChoice = random.nextInt(4);
 		Entity throwEnt;
 		if(entChoice == 0)
 		{
@@ -45,14 +44,10 @@ public class ThrowablesReward implements IChanceCubeReward
 		{
 			throwEnt = new EntityEgg(world);
 		}
-		else if(entChoice == 3)
-		{
-			throwEnt = new EntityWitherSkull(world);
-		}
 		else
 		{
 			throwEnt = new EntityTNTPrimed(world);
-			((EntityTNTPrimed)throwEnt).setFuse(20);
+			((EntityTNTPrimed) throwEnt).setFuse(20);
 		}
 		throwEnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 		throwEnt.motionX = -1 + (Math.random() * 2);
@@ -85,7 +80,7 @@ public class ThrowablesReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Trowables";
+		return CCubesCore.MODID + ":Throwables";
 	}
 
 }

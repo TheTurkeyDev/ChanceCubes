@@ -1,8 +1,10 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.MazeGenerator;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +26,7 @@ public class MazeReward implements IChanceCubeReward
 		final int py = (int) player.posY;
 		final int pz = (int) player.posZ;
 		player.setPositionAndUpdate(pos.getX() - 8.5, pos.getY(), pos.getZ() - 8.5);
-		
+
 		Task task = new Task("Maze_Reward_Update", 20)
 		{
 			@Override
@@ -34,7 +36,7 @@ public class MazeReward implements IChanceCubeReward
 			}
 		};
 		Scheduler.scheduleTask(task);
-		
+
 		player.addChatMessage(new TextComponentString("Beat the maze and find the sign!"));
 		player.addChatMessage(new TextComponentString("You have 45 seconds!"));
 	}
@@ -50,7 +52,7 @@ public class MazeReward implements IChanceCubeReward
 	{
 		return CCubesCore.MODID + ":Maze";
 	}
-	
+
 	public void update(final int iteration, final MazeGenerator gen, final World world, final EntityPlayer player, final BlockPos playerLoc)
 	{
 		if(iteration == 46)
@@ -61,7 +63,10 @@ public class MazeReward implements IChanceCubeReward
 		if(iteration == 45)
 		{
 			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
-			player.attackEntityFrom(CCubesDamageSource.mazefail, Float.MAX_VALUE);
+			if(RewardsUtil.isPlayerOnline(player))
+			{
+				player.attackEntityFrom(CCubesDamageSource.mazefail, Float.MAX_VALUE);
+			}
 		}
 		else if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
 		{
@@ -94,7 +99,7 @@ public class MazeReward implements IChanceCubeReward
 		{
 			player.addChatMessage(new TextComponentString("1!"));
 		}
-		
+
 		Task task = new Task("Maze_Reward_Update", 20)
 		{
 			@Override

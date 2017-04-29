@@ -1,6 +1,10 @@
 package chanceCubes.config;
 
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import java.util.ArrayList;
+import java.util.List;
+
+import chanceCubes.rewards.IChanceCubeReward;
+import net.minecraft.block.state.IBlockState;
 
 public class CCubesSettings
 {
@@ -33,7 +37,13 @@ public class CCubesSettings
 
 	public static int dropHeight = 20;
 
-	public static String rewardURL = "https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewardsV2";
+	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
+
+	public static boolean testRewards;
+	public static boolean testCustomRewards;
+	public static int testingRewardIndex = 0;
+
+	public static String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards";
 
 	public static boolean isBlockedWorld(String world)
 	{

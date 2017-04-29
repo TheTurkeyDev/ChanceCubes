@@ -43,13 +43,17 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
 	{
+		if(world.isRemote)
+			return false;
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return false;
 
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 		if(player.isSneaking())
 		{
-			world.setBlockState(pos, this.getDefaultState().withProperty(DISPENSING, BlockCubeDispenser.getNextState(state)));
+			state = state.cycleProperty(DISPENSING);
+			world.setBlockState(pos, state, 3);
+			return true;
 		}
 		else
 		{
@@ -57,7 +61,10 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			{
 				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
 				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
+				{
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
+					return true;
+				}
 			}
 		}
 		return true;
@@ -95,6 +102,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
+	public float getExplosionResistance(Entity exploder)
+	{
+		return Float.MAX_VALUE;
+	}
+
+	@Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
 	{
 		return false;
@@ -127,7 +140,27 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	public int getMetaFromState(IBlockState state)
 	{
-		return 0;
+		DispenseType type = getCurrentState(state);
+		if(type == DispenseType.CHANCE_CUBE)
+			return 0;
+		else if(type == DispenseType.CHANCE_ICOSAHEDRON)
+			return 1;
+		else if(type == DispenseType.COMPACT_GAINTCUBE)
+			return 2;
+		else
+			return 0;
+	}
+
+	public IBlockState getStateFromMeta(int meta)
+	{
+		if(meta == 0)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
+		else if(meta == 1)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
+		else if(meta == 2)
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
+		else
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
 	public static enum DispenseType implements IStringSerializable

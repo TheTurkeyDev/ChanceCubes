@@ -1,6 +1,8 @@
 package chanceCubes.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -35,10 +37,6 @@ public class TileGiantCube extends TileEntity
 		data.setInteger("masterZ", masterPos.getZ());
 		data.setBoolean("hasMaster", hasMaster);
 		data.setBoolean("isMaster", isMaster);
-		if(hasMaster() && isMaster())
-		{
-			// Any other values should ONLY BE SAVED TO THE MASTER
-		}
 		return data;
 	}
 
@@ -52,10 +50,23 @@ public class TileGiantCube extends TileEntity
 		this.masterPos = new BlockPos(masterX, masterY, masterZ);
 		hasMaster = data.getBoolean("hasMaster");
 		isMaster = data.getBoolean("isMaster");
-		if(hasMaster() && isMaster())
-		{
-			// Any other values should ONLY BE READ BY THE MASTER
-		}
+	}
+
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
+	}
+
+	public NBTTagCompound getUpdateTag()
+	{
+		return this.writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
+		readFromNBT(pkt.getNbtCompound());
 	}
 
 	public boolean hasMaster()

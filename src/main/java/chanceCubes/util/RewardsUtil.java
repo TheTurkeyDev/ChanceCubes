@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -11,6 +12,7 @@ import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -183,12 +185,17 @@ public class RewardsUtil
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
-		return RewardsUtil.placeBlock(b, world, pos, 3);
+		return RewardsUtil.placeBlock(b, world, pos, 3, false);
 	}
 
-	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update)
+	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, boolean ignoreUnbreakable)
 	{
-		if(!RewardsUtil.isBlockUnbreakable(world, pos))
+		return RewardsUtil.placeBlock(b, world, pos, 3, ignoreUnbreakable);
+	}
+
+	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
+	{
+		if((!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
 		{
 			world.setBlockState(pos, b, update);
 			return true;
@@ -269,4 +276,15 @@ public class RewardsUtil
 		return f;
 	}
 
+	public static boolean isPlayerOnline(EntityPlayer player)
+	{
+		if(player == null)
+			return false;
+
+		for(EntityPlayerMP playerMP : player.worldObj.getMinecraftServer().getPlayerList().getPlayerList())
+			if(playerMP.getUniqueID().equals(player.getUniqueID()))
+				return true;
+
+		return false;
+	}
 }

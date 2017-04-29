@@ -9,6 +9,7 @@ import chanceCubes.util.CCubesAchievements;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -84,7 +85,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public boolean startd20(World world, BlockPos pos, EntityPlayer player)
 	{
 		if(world.isRemote || player == null || player instanceof FakePlayer)
-			return false;
+			return true;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
 		if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
@@ -127,6 +128,12 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public ExtendedBlockState createBlockState()
 	{
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
+	}
+
+	@Override
+	public float getExplosionResistance(Entity exploder)
+	{
+		return Float.MAX_VALUE;
 	}
 
 	@Override

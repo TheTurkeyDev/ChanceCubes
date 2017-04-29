@@ -95,12 +95,12 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	{
 		return false;
 	}
-	
+
 	@Override
-    public float getExplosionResistance(Entity exploder)
-    {
-    	return Float.MAX_VALUE;
-    }
+	public float getExplosionResistance(Entity exploder)
+	{
+		return Float.MAX_VALUE;
+	}
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
@@ -130,11 +130,11 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	{
 		return 0;
 	}
-	
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
-    	return this.getDefaultState().withProperty(TEXTURE, textureToSet);
-    }
+
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	{
+		return this.getDefaultState().withProperty(TEXTURE, textureToSet);
+	}
 
 	protected BlockStateContainer createBlockState()
 	{

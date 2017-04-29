@@ -39,39 +39,33 @@ public class TileChanceCube extends TileEntity
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		return this.writeSyncableDataToNBT(super.writeToNBT(nbt));
+		super.writeToNBT(nbt);
+		nbt.setInteger("chance", this.getChance());
+		return nbt;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.readSyncableDataFromNBT(nbt);
+		this.chance = nbt.getInteger("chance");
 	}
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound syncData = new NBTTagCompound();
-		syncData = this.writeSyncableDataToNBT(syncData);
-		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
+		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
+	}
+
+	public NBTTagCompound getUpdateTag()
+	{
+		return this.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		readSyncableDataFromNBT(pkt.getNbtCompound());
-	}
-
-	private NBTTagCompound writeSyncableDataToNBT(NBTTagCompound syncData)
-	{
-		syncData.setInteger("chance", this.getChance());
-		return syncData;
-	}
-
-	private void readSyncableDataFromNBT(NBTTagCompound nbt)
-	{
-		this.chance = nbt.getInteger("chance");
+		readFromNBT(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

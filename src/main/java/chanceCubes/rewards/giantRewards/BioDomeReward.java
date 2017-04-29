@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
 import chanceCubes.rewards.biodomeGen.EndBiome;
@@ -12,7 +13,6 @@ import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
 import chanceCubes.rewards.biodomeGen.NetherBiome;
 import chanceCubes.rewards.biodomeGen.OceanBiome;
 import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;

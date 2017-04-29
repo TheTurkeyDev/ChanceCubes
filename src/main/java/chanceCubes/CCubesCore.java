@@ -1,6 +1,7 @@
 package chanceCubes;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
@@ -23,6 +24,8 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -32,6 +35,8 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -115,6 +120,7 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.loadHolidayRewards();
 		CustomRewardsLoader.instance.loadDisabledRewards();
+
 		ConfigLoader.config.save();
 	}
 
@@ -123,15 +129,40 @@ public class CCubesCore
 	{
 		ModHookUtil.loadCustomModRewards();
 
-		if(event.getSide().isClient())
+		// if(event.getSide().isClient())
+		// {
+		// CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
+		// ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
+		// }
+		// else if(event.getSide().isServer())
+		// {
+		// CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
+		// event.registerServerCommand(new CCubesServerCommands());
+		// }
+		event.registerServerCommand(new CCubesServerCommands());
+	}
+
+	@EventHandler
+	public void onIMCMessage(IMCEvent e)
+	{
+		Logger logger = LogManager.getLogger(MODID);
+		for(IMCMessage message : e.getMessages())
 		{
-			CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
-			ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
-		}
-		else if(event.getSide().isServer())
-		{
-			CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
-			event.registerServerCommand(new CCubesServerCommands());
+			if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
+			{
+				ItemStack stack = message.getItemStackValue();
+				Block block = Block.getBlockFromItem(stack.getItem());
+				if(block != null)
+				{
+					IBlockState state = block.getStateFromMeta(stack.getItemDamage());
+					CCubesSettings.nonReplaceableBlocks.add(state);
+					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
+				}
+				else
+				{
+					logger.error("Chance Cubes recieved an item stack via IMC from " + message.getSender() + " with an item that cannot be converted to a block. Item: " + stack.getItem().getUnlocalizedName());
+				}
+			}
 		}
 	}
 }

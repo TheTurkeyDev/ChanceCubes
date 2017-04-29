@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.defaultRewards.IChanceCubeReward;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;

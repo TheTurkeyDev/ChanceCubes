@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.state.IBlockState;

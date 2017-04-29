@@ -1,5 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.type.IRewardType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
