@@ -239,7 +239,7 @@ public class SchematicUtil
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
-		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, delay, falling, relativeToPlayer, includeAirBlocks, delay);
+		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 	}
 
 	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
