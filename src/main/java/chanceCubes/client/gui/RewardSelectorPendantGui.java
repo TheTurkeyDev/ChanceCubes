@@ -25,7 +25,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 @SideOnly(Side.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
 {
-	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/guiRewardSelectorPendant.png");
+	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/gui_reward_selector_pendant.png");
 	private GuiTextField rewardField;
 	private String rewardName = "";
 	private EntityPlayer player;

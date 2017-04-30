@@ -17,7 +17,7 @@ import chanceCubes.network.PacketCreativePendant;
 @SideOnly(Side.CLIENT)
 public class CreativePendantGui extends GuiContainer
 {
-	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/guiCreativePendant.png");
+	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/gui_creative_pendant.png");
 	private int chanceValue = 0;
 	private static CreativePendantContainer container;
 	private EntityPlayer player;

@@ -33,6 +33,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 			public void callback()
 			{
 				world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false));
+				ent.setFire(0);
 			}
 		};
 
