@@ -9,9 +9,6 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
  
 ext.buildnumber = 0
 if (System.getenv('BUILD_NUMBER') != null)
@@ -24,9 +21,9 @@ group= "com.theprogrammingturkey.chancecubes"
 archivesBaseName= "ChanceCubes"
 version= "${mc_version}-${mod_version}.${buildnumber}"
 
-sourceCompatibility = targetCompatibility = "1.7" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.7"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
