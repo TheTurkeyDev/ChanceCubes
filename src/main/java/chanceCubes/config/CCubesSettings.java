@@ -27,6 +27,7 @@ public class CCubesSettings
 	public static boolean craftingRecipie = true;
 
 	public static boolean userSpecificRewards = true;
+	public static boolean disabledRewards = true;
 
 	public static boolean holidayRewards = true;
 	public static boolean holidayRewardTriggered = false;

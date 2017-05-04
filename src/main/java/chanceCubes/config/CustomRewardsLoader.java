@@ -224,30 +224,33 @@ public class CustomRewardsLoader
 
 	public void loadDisabledRewards()
 	{
-		JsonElement disabledRewards;
+		if(CCubesSettings.disabledRewards)
+		{
+			JsonElement disabledRewards;
 
-		try
-		{
-			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/ChanceCubesInfo.php", new CustomEntry<String, String>("version", CCubesCore.VERSION));
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
-			CCubesCore.logger.log(Level.ERROR, e.getMessage());
-			return;
-		}
-
-		for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
-		{
-			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
+			try
 			{
-				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(CCubesCore.VERSION.indexOf("-") + 1, CCubesCore.VERSION.lastIndexOf("."))))
+				disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/ChanceCubesInfo.php", new CustomEntry<String, String>("version", CCubesCore.VERSION));
+			} catch(Exception e)
+			{
+				CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
+				CCubesCore.logger.log(Level.ERROR, e.getMessage());
+				return;
+			}
+
+			for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
+			{
+				if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
 				{
-					for(JsonElement reward : version.getValue().getAsJsonArray())
+					if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(CCubesCore.VERSION.indexOf("-") + 1, CCubesCore.VERSION.lastIndexOf("."))))
 					{
-						boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-						if(!removed)
-							removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-						CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+						for(JsonElement reward : version.getValue().getAsJsonArray())
+						{
+							boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+							if(!removed)
+								removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+							CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+						}
 					}
 				}
 			}
