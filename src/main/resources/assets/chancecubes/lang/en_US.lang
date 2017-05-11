@@ -1,7 +1,7 @@
 itemGroup.chancecubes=Chance Cubes
 
 tile.chance_Cube.name=Chance Cube
-tile.chance_Icosahedron.name=Chance Icosahedron (WIP)
+tile.chance_Icosahedron.name=Chance Icosahedron
 tile.giant_Chance_Cube.name=Giant Chance Cube
 tile.compact_Giant_Chance_Cube.name=Compact Giant Chance Cube
 tile.cube_Dispenser.name=Chance Cube Dispenser
