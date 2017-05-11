@@ -1,38 +1,80 @@
 {
-	"HeyChat123":
+	"FluxConfigurator":
+	{
+		"chance": 50,
+		"dependencies": { 
+			"mcVersion":"1.10.2",
+			"mod":"fluxnetworks"
+		},
+		"Message":
+		[
+			{"message":"I will be nice for once"},
+	                {"message":"-Jacky", "delay": 20}
+		],
+		"Item":
+		[
+			{"item":{"id":"fluxnetworks:FluxConfigurator","Damage":0,"Count":1,"tag":{"display":{"Name":"I'm a Potato"}}}}
+		]
+	},
+	"WaterCoolingAndCPU":
+	{
+		"chance": 35,
+		"dependencies": { 
+			"mcVersion":"1.10.2",
+			"mod":"OpenComputers"
+		},
+		"Message":
+		[
+			{"message":"Potato PC in 2017 LUL"}
+		],
+		"Item":
+     		[
+			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}},
+			{"item":{"id":"opencomputers:component","Damage":0,"Count":1,"tag":{"display":{"Name":"AMD FX-8350"}}}}
+   		]
+	},
+	"Matraxis":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Hey chat, 123!", "delay":20},
-			{"message":"Hey chat, 123!", "delay":25},
-			{"message":"Hey chat, 123!", "delay":30},
-			{"message":"Hey chat, 123!", "delay":35},
-			{"message":"Hey chat, 123!", "delay":40},
-			{"message":"Hey chat, 123!", "delay":45},
-			{"message":"Hey chat, 123!", "delay":50},
-			{"message":"Hey chat, 123!", "delay":55},
-			{"message":"Hey chat, 123!", "delay":60},
-			{"message":"Hey chat, 123!", "delay":65},
-			{"message":"Hey chat, 123!", "delay":70},
-			{"message":"Hey chat, 123!", "delay":75},
-			{"message":"Hey chat, 123!", "delay":80},
-			{"message":"Hey chat, 123!", "delay":85},
-			{"message":"Hey chat, 123!", "delay":90},
-			{"message":"Have some TNT as well, you are welcome. Kappa", "delay":120}
+			{"message":"<slowpoke101> Hey there Matraxis", "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":40, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":45, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":50, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":55, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":60, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":65, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":70, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":75, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":80, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":85, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":90, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":95, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":100, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":105, "serverWide":true},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":110, "serverWide":true},
+			{"message":"<MrButtonboy13> Keepo", "delay":120, "serverWide":true},
+			{"message":"<Jacky1356400> Have a big BOOM as well, Matraxis", "delay":200, "serverWide":true},
+			{"message":"<Jacky1356400> LUL", "delay":220, "serverWide":true}
 		],
 		"Command":
 		[
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200}
 		]
 	},
 	"matxSurprise":
