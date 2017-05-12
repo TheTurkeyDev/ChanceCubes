@@ -43,8 +43,6 @@ public class CCubesSettings
 	public static boolean testRewards;
 	public static boolean testCustomRewards;
 	public static int testingRewardIndex = 0;
-	
-	public static String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards";
 
 	public static boolean isBlockedWorld(String world)
 	{

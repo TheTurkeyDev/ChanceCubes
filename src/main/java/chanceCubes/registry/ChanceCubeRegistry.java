@@ -472,6 +472,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(CCubesSettings.doesHolidayRewardTrigger && CCubesSettings.holidayReward != null)
 		{
 			CCubesSettings.holidayReward.trigger(world, pos, player);
+			CCubesCore.logger.log(Level.INFO, "The " + CCubesSettings.holidayReward.getName() + " holiday reward has been triggered!!!!");
 			CCubesSettings.doesHolidayRewardTrigger = false;
 			CCubesSettings.holidayRewardTriggered = true;
 			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(true);

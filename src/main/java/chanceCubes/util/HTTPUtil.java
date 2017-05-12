@@ -59,7 +59,7 @@ public class HTTPUtil
 			buffer.append((char) chars_read);
 
 		String page = buffer.toString();
-
+		
 		return json.parse(page);
 	}
 }
