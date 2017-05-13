@@ -19,6 +19,7 @@ public class WorldGen
 	{
 		if(CCubesSettings.isBlockedWorld(event.getWorld().getWorldInfo().getWorldName()) || CCubesSettings.isBlockedWorld("" + event.getWorld().provider.getDimension()))
 			return;
+
 		if(CCubesSettings.oreGeneration)
 			generateOre(event.getWorld(), new Random(), event.getChunkX() * 16, event.getChunkZ() * 16);
 
@@ -29,30 +30,22 @@ public class WorldGen
 	private void generateOre(World world, Random rand, int x, int z)
 	{
 		for(int k = 0; k < CCubesSettings.oreGenAmount; k++)
-		{
-			int firstBlockXCoord = x + rand.nextInt(16);
-			int firstBlockYCoord = rand.nextInt(100);
-			int firstBlockZCoord = z + rand.nextInt(16);
-
-			(new WorldGenMinable(CCubesBlocks.CHANCE_CUBE.getDefaultState(), 3)).generate(world, rand, new BlockPos(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord));
-		}
+			(new WorldGenMinable(CCubesBlocks.CHANCE_CUBE.getDefaultState(), 3)).generate(world, rand, new BlockPos(x + rand.nextInt(16), rand.nextInt(100), z + rand.nextInt(16)));
 	}
 
 	public void generateSurface(World world, Random rand, int x, int z)
 	{
 		if(rand.nextInt(100) < CCubesSettings.surfaceGenAmount)
 		{
-			int xCord = x + rand.nextInt(16);
-			int zCord = z + rand.nextInt(16);
 			int yCord = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
 
-			BlockPos pos = new BlockPos(xCord, yCord - 1, zCord);
-			
+			BlockPos pos = new BlockPos(x + rand.nextInt(16), yCord - 1, z + rand.nextInt(16));
+
 			if(world.getBlockState(pos).getBlock().equals(Blocks.BEDROCK))
 			{
 				for(int y = 0; y < yCord; y++)
 				{
-					BlockPos pos2 = new BlockPos(xCord, y, zCord);
+					BlockPos pos2 = new BlockPos(pos.getX(), y, pos.getZ());
 					if(world.getBlockState(pos).getBlock().isBlockSolid(world, pos2, EnumFacing.UP) && world.isAirBlock(pos2))
 					{
 						yCord = y;
@@ -60,7 +53,7 @@ public class WorldGen
 					}
 				}
 			}
-			world.setBlockState(new BlockPos(xCord, yCord, zCord), CCubesBlocks.CHANCE_CUBE.getDefaultState());
+			world.setBlockState(new BlockPos(pos.getX(), yCord, pos.getZ()), CCubesBlocks.CHANCE_CUBE.getDefaultState());
 		}
 	}
 }

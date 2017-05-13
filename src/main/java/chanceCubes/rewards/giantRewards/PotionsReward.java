@@ -1,9 +1,8 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +17,6 @@ import net.minecraft.world.World;
 
 public class PotionsReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	private EntityPotion pot;
 
 	@Override
@@ -42,7 +39,7 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 		{
-			PotionType potionType = PotionType.REGISTRY.getObjectById(rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+			PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
 			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
@@ -68,7 +65,7 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		for(double yy = -0.2; yy <= 1; yy += 0.1)
 		{
-			PotionType potionType = PotionType.REGISTRY.getObjectById(rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+			PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
 			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 			pot.motionX = Math.cos(itteration * (Math.PI / 30));

@@ -32,7 +32,7 @@ public class RewardsUtil
 	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
 	private static List<String> fluids = new ArrayList<String>();
 
-	private static Random rand = new Random();
+	public static final Random rand = new Random();
 
 	public static List<String> getOreDicts()
 	{

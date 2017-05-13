@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -12,7 +10,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -70,35 +66,6 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public int quantityDropped(Random rand)
-	{
-		return 0;
-	}
-	
-    public float getExplosionResistance(Entity exploder)
-    {
-    	return Float.MAX_VALUE;
-    }
-
-	@Override
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
-	{
-		return false;
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
-	{
-
-	}
-
-	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
-	{
-		return false;
 	}
 
 	@Override

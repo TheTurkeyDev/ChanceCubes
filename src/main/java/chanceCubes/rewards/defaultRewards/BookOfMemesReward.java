@@ -2,11 +2,11 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesCommandSender;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class BookOfMemesReward implements IChanceCubeReward
 {
-	private Random random = new Random();
 	private List<String> memes = new ArrayList<String>();
 
 	public BookOfMemesReward()
@@ -34,7 +33,7 @@ public class BookOfMemesReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		String meme = memes.get(random.nextInt(memes.size()));
+		String meme = memes.get(RewardsUtil.rand.nextInt(memes.size()));
 		MinecraftServer server = world.getMinecraftServer();
 		Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");

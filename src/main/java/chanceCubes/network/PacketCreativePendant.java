@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketCreativePendant implements IMessage
 {
-
 	private String playerName;
 	private int chancevalue;
 

@@ -1,11 +1,10 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
@@ -18,7 +17,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class RandomExplosionReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
 	private ItemStack[] randomStuff = { new ItemStack(Items.DIAMOND) };
 
 	@Override
@@ -31,9 +29,9 @@ public class RandomExplosionReward implements IChanceCubeReward
 	{
 		if(count < 300)
 		{
-			int xInc = rand.nextInt(3) + 3 * (rand.nextBoolean() ? -1 : 1);
-			int yInc = rand.nextInt(3) + 3 * (rand.nextBoolean() ? -1 : 1);
-			int zInc = rand.nextInt(3) + 3 * (rand.nextBoolean() ? -1 : 1);
+			int xInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
+			int yInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
+			int zInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("cloud", pos.getX() + xInc, pos.getY() + yInc, pos.getZ() + zInc, (xInc * -1) / 4, (yInc * -1) / 4, (zInc * -1) / 4), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			Task task = new Task("Random Explosion", 2)
 			{
@@ -49,7 +47,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 		else
 		{
 			EntityItem item;
-			ItemStack stack = randomStuff[rand.nextInt(randomStuff.length)];
+			ItemStack stack = randomStuff[RewardsUtil.rand.nextInt(randomStuff.length)];
 			for(double xx = 1; xx > -1; xx -= 0.25)
 			{
 				for(double zz = 1; zz > -1; zz -= 0.25)

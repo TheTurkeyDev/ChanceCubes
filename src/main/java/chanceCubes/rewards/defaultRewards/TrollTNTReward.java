@@ -33,7 +33,7 @@ public class TrollTNTReward implements IChanceCubeReward
 		world.spawnEntityInWorld(entitytntprimed);
 		world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-		if(world.rand.nextInt(5) != 1)
+		if(RewardsUtil.rand.nextInt(5) != 1)
 		{
 			Task task = new Task("TrollTNT", 80)
 			{

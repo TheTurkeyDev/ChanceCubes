@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketParticle implements IMessage
 {
-
 	public int particleID = -1;
 	public String particleName = "";
 

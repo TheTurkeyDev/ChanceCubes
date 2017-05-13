@@ -1,7 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesAchievements;
@@ -19,8 +17,6 @@ import net.minecraft.world.World;
 
 public class CakeIsALieReward implements IChanceCubeReward
 {
-	private Random random = new Random();
-
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
@@ -28,7 +24,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 
 		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world, pos);
 
-		if(random.nextInt(3) == 1)
+		if(RewardsUtil.rand.nextInt(3) == 1)
 		{
 			Task task = new Task("Cake_Is_A_Lie", 20)
 			{
@@ -64,7 +60,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 			RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
 			EntityCreeper creeper = new EntityCreeper(world);
 			creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
-			if(random.nextInt(10) == 1)
+			if(RewardsUtil.rand.nextInt(10) == 1)
 				creeper.onStruckByLightning(null);
 			creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
 			creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));

@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -9,7 +7,6 @@ import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -33,23 +30,19 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		return new TileGiantCube();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
-	public int quantityDropped(Random rand)
+	public boolean isOpaqueCube(IBlockState blockState)
 	{
-		return 0;
+		return false;
 	}
-	
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean isOpaqueCube(IBlockState blockState) {
-        return false;
-    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
 
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
@@ -79,9 +72,4 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		}
 		return true;
 	}
-	
-    public float getExplosionResistance(Entity exploder)
-    {
-    	return Float.MAX_VALUE;
-    }
 }
