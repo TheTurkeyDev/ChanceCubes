@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'forge'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -75,37 +75,39 @@ processResources
 {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-
+    
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-
+    
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
 
-
-build.dependsOn sourceJar
-
-publishing {
-    tasks.publish.dependsOn 'build'
-    publications {
-        mavenJava(MavenPublication) {
-        	artifactId 'ChanceCubes'
-            from components.java
-
-            artifact sourceJar
+jar {
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**', '*.info'
         }
     }
+}
 
-    repositories {
-        if (project.hasProperty('mavendir')) {
-            maven { url mavendir }
-        }
-        else{
-        	logger.error('Failed to find maven directory')
-        }
-    }
+task deobfJar(type: Jar) {
+        from sourceSets.main.output
+        appendix = 'deobf'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+build.dependsOn sourceJar, deobfJar
+ 
+artifacts {
+	archives jar
+    archives deobfJar
+	archives sourceJar
 }
