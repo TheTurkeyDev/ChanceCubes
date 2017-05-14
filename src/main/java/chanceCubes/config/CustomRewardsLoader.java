@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -125,125 +126,74 @@ public class CustomRewardsLoader
 		}
 	}
 
-	public void loadHolidayRewards()
+	public void fetchRemoteInfo()
 	{
-		if(!CCubesSettings.holidayRewards)
-			return;
-
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd");
-		Date date = new Date();
-		Calendar today = Calendar.getInstance();
-		today.setTime(date);
-		JsonElement holidays;
-		String holidayName = "";
+		String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php";
 
 		try
 		{
-			holidays = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/Holidays.json");
-		} catch(Exception e1)
+			String today = new SimpleDateFormat("MM/dd").format(new Date());
+			// String today = "12/25";
+			JsonObject json = HTTPUtil.getWebFile(rewardURL, new CustomEntry<String, String>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
+			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
+			this.loadHolidayRewards(json.get("Holiday Rewards"));
+			System.out.println(json.toString());
+
+		} catch(Exception e)
 		{
-			CCubesCore.logger.log(Level.ERROR, "Failed to fetch the list of holiday rewards!");
+			CCubesCore.logger.log(Level.ERROR, "Failed to fetch remote information for the mod!");
+			e.printStackTrace();
 			return;
 		}
+	}
 
-		for(JsonElement holiday : holidays.getAsJsonArray())
-		{
-			Date parsed;
-			try
-			{
-				parsed = dateFormat.parse(holiday.getAsJsonObject().get("Date").getAsString().trim());
-			} catch(ParseException e)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to parse a holiday date. BLAME TURKEY!!!");
-				continue;
-			}
-
-			if(dateFormat.format(date).equalsIgnoreCase(dateFormat.format(parsed)))
-				holidayName = holiday.getAsJsonObject().get("Name").getAsString();
-
-			if(holiday.getAsJsonObject().has("Texture") && !holiday.getAsJsonObject().get("Texture").getAsString().equalsIgnoreCase(""))
-			{
-				try
-				{
-					Calendar start = Calendar.getInstance();
-					Calendar end = Calendar.getInstance();
-					start.setTime(dateFormat.parse(holiday.getAsJsonObject().get("Start").getAsString().trim()));
-					end.setTime(dateFormat.parse(holiday.getAsJsonObject().get("End").getAsString().trim()));
-
-					if(this.compareDates(start, today) >= 0 && this.compareDates(end, today) <= 0)
-					{
-						CCubesSettings.hasHolidayTexture = true;
-						CCubesSettings.holidayTextureName = holiday.getAsJsonObject().get("Texture").getAsString();
-					}
-				} catch(ParseException e)
-				{
-					CCubesCore.logger.log(Level.ERROR, "Failed to parse a holiday date. BLAME TURKEY!!!");
-					continue;
-				}
-			}
-		}
-
-		if(holidayName.equalsIgnoreCase(""))
-		{
-			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(false);
-			ConfigLoader.config.save();
+	private void loadHolidayRewards(JsonElement json)
+	{
+		if(!CCubesSettings.holidayRewards || !json.isJsonObject())
 			return;
+
+		JsonObject holidays = json.getAsJsonObject();
+		if(holidays.has("Texture") && !(holidays.get("Texture") instanceof JsonNull))
+		{
+			CCubesSettings.hasHolidayTexture = true;
+			CCubesSettings.holidayTextureName = holidays.get("Texture").getAsString();
+		}
+		else
+		{
+			CCubesSettings.hasHolidayTexture = false;
+			CCubesSettings.holidayTextureName = "";
 		}
 
 		if(!CCubesSettings.holidayRewardTriggered)
 		{
-			JsonElement userRewards;
-
-			try
+			if(holidays.has("Holiday") && !(holidays.get("Holiday") instanceof JsonNull) && holidays.has("Reward") && !(holidays.get("Reward") instanceof JsonNull))
 			{
-				userRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/HolidayRewards/" + holidayName + ".json");
-			} catch(Exception e)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom reward for the holiday " + holidayName + "!");
-				CCubesCore.logger.log(Level.ERROR, e.getMessage());
-				return;
-			}
-
-			for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-			{
-				BasicReward basicReward = this.parseReward(reward).getKey();
-				if(basicReward == null)
-					continue;
-				CCubesSettings.doesHolidayRewardTrigger = true;
-				CCubesSettings.holidayReward = basicReward;
-				CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
+				String holidayName = holidays.get("Holiday").getAsString();
+				BasicReward basicReward = this.parseReward(new CustomEntry<String, JsonElement>(holidayName, holidays.get("Reward"))).getKey();
+				if(basicReward != null)
+				{
+					CCubesSettings.doesHolidayRewardTrigger = true;
+					CCubesSettings.holidayReward = basicReward;
+					CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
+				}
+				else
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to load the Custom holiday reward \"" + holidayName + "\"!");
+				}
 			}
 		}
 	}
 
-	public void loadDisabledRewards()
+	private void loadDisabledRewards(JsonArray disabledRewards)
 	{
-		JsonElement disabledRewards;
-
-		try
+		if(CCubesSettings.disabledRewards)
 		{
-			disabledRewards = HTTPUtil.getWebFile(CCubesSettings.rewardURL + "/DisabledRewards.json");
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of disabled rewards!");
-			CCubesCore.logger.log(Level.ERROR, e.getMessage());
-			return;
-		}
-
-		for(Entry<String, JsonElement> version : disabledRewards.getAsJsonObject().entrySet())
-		{
-			if(!CCubesCore.VERSION.equalsIgnoreCase("@VERSION@"))
+			for(JsonElement reward : disabledRewards)
 			{
-				if(version.getKey().equalsIgnoreCase(CCubesCore.VERSION.substring(Math.max(0, CCubesCore.VERSION.indexOf("-")), CCubesCore.VERSION.lastIndexOf("."))))
-				{
-					for(JsonElement reward : version.getValue().getAsJsonArray())
-					{
-						boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-						if(!removed)
-							removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-						CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
-					}
-				}
+				boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+				if(!removed)
+					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+				CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
 			}
 		}
 	}

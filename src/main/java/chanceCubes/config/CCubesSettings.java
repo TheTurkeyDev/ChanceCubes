@@ -26,6 +26,7 @@ public class CCubesSettings
 	public static boolean hiddenEndCubes = false;
 	
 	public static boolean userSpecificRewards = true;
+	public static boolean disabledRewards = true;
 	
 	public static boolean holidayRewards = true;
 	public static boolean holidayRewardTriggered = false;
@@ -35,8 +36,6 @@ public class CCubesSettings
 	public static String holidayTextureName = "";
 	
 	public static int dropHeight = 20;
-	
-	public static String rewardURL = "https://raw.githubusercontent.com/wyldmods/ChanceCubes/master/customRewardsV2";
 	
 	public static boolean isBlockedWorld(String world)
 	{

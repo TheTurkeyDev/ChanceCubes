@@ -4,30 +4,30 @@ import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
 
-public class ConfigLoader 
+public class ConfigLoader
 {
 	public static Configuration config;
 	public static final String genCat = "General Settings";
 	public static final String rewardCat = "Rewards";
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
-	
+
 	public static File folder;
-	
+
 	public static void loadConfigSettings(File file, File resources)
 	{
 		folder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
 		folder.mkdirs();
 		config = new Configuration(new File(folder + "/" + file.getName()));
 		config.load();
-		
+
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
-		
-		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat,  20, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
-		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+
+		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat, 20, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
+		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 20, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 75. A chance cube with a chance value of 0 can get rewards of -75 to 75 in chance value.");
 		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
-		
+
 		CCubesSettings.enableHardCodedRewards = config.getBoolean("EnableDefaultRewards", genCat, true, "Set to true if the default rewards should be loaded, false if they shouldn't");
-		
+
 		CCubesSettings.pendantUses = config.getInt("pendantUses", genCat, CCubesSettings.pendantUses, 0, 1000, "Number of uses for a pendant");
 		CCubesSettings.oreGeneration = config.getBoolean("GenerateAsOre", genCat, true, "true if Chance Cubes should generate like ores with in the world. false if they should not");
 		CCubesSettings.oreGenAmount = config.getInt("oreGenAmount", genCat, 4, 1, 100, "Amount of chance cubes to try and spawn, per chunk, as an ore");
@@ -39,21 +39,22 @@ public class ConfigLoader
 		CCubesSettings.hiddenOverWorldCubes = config.getBoolean("HiddenOverWorldCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the over world");
 		CCubesSettings.hiddenNetherCubes = config.getBoolean("HiddenNetherCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the nether");
 		CCubesSettings.hiddenEndCubes = config.getBoolean("HiddenEndCubes", genCat, false, "true if Chance Cubes should blend into it's enviroment in the end");
-		
-		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat,  20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
-		
+
+		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
+
 		CCubesSettings.userSpecificRewards = config.getBoolean("UserSpecificRewards", genCat, true, "true if Chance Cubes should load in user specific rewards (for a select few only)");
+		CCubesSettings.disabledRewards = config.getBoolean("GloballyDisabledRewards", genCat, true, "true if Chance Cubes should check for globally disabled rewards (Rewards that are usually bugged or not working correctly). NOTE: The mod sends your Chance Cubes mod version to the web server to check for disabled rewards for your given version and the version number is subsequently logged. Feel free to make an inquiry if you wish to know more.");
 		CCubesSettings.holidayRewards = config.getBoolean("HolidayRewards", genCat, true, "Set to false if you wish to disable the super special holiday rewards. Why would you want to do that?");
 		CCubesSettings.holidayRewardTriggered = config.getBoolean("HolidayRewardTriggered", genCat, false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.");
-		
+
 		config.save();
-		
+
 		File customConfigFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards");
 		customConfigFolder.mkdirs();
-		
+
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Schematics").mkdirs();
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Sounds").mkdirs();
-		
+
 		new CustomRewardsLoader(customConfigFolder, resources);
 	}
 }

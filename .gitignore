@@ -47,3 +47,5 @@ run-1.9.4/usercache.json
 run-1.10/usercache.json
 OneMillion.PNG
 ChanceCubeAltNames
+*.hprof
+run-1.11/

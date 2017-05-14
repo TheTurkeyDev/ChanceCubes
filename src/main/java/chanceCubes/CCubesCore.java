@@ -107,8 +107,7 @@ public class CCubesCore
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
-		CustomRewardsLoader.instance.loadHolidayRewards();
-		CustomRewardsLoader.instance.loadDisabledRewards();
+		CustomRewardsLoader.instance.fetchRemoteInfo();
 		ConfigLoader.config.save();
 	}
 
