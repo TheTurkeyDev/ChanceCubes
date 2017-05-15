@@ -4,37 +4,11 @@
 		"chance": 0,
 		"Entity":
 		[
-			{"entity":{"id":"EnderDragon"}}
+			{"entity":{"id":"EnderDragon"}, "delay":80}
 		],
 		"Message":
 		[
 			{"message":"Now feel the pain of your own creation!"}
-		]
-	},
-	"Iron_Blocks":
-	{
-		"chance": 0,
-		"Block":
-		[
-			{"XOffSet":-1,"YOffSet":1,"ZOffSet":2,"Block":"minecraft:iron_block", "Falling":true},
-			{"XOffSet":-1,"YOffSet":0,"ZOffSet":2,"Block":"minecraft:iron_block", "Falling":true}
-		]
-	},
-	"Cobble_Stone":
-	{
-		"chance": 0,
-		"Item":
-		[
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}},
-			{"item":{"id":4,"Damage":0,"Count":64}}
 		]
 	}
 }
