@@ -35,15 +35,26 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(1, 0, 0)))
 			world.setTileEntity(pos.add(1, 0, 0), rightCube);
 
-		Task task = new Task("One_Is_Lucky_Reward", 10)
+		Scheduler.scheduleTask(new Task("One_Is_Lucky_Reward", 6000, 10)
 		{
 			@Override
 			public void callback()
 			{
-				update(0, world, pos);
+				world.setBlockToAir(pos.add(-1, 0, 0));
+				world.setBlockToAir(pos);
+				world.setBlockToAir(pos.add(1, 0, 0));
 			}
-		};
-		Scheduler.scheduleTask(task);
+
+			@Override
+			public void update()
+			{
+				if(world.isAirBlock(pos.add(-1, 0, 0)) || world.isAirBlock(pos.add(1, 0, 0)))
+				{
+					this.callback();
+					Scheduler.removeTask(this);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -56,31 +67,5 @@ public class OneIsLuckyReward implements IChanceCubeReward
 	public String getName()
 	{
 		return CCubesCore.MODID + ":One_Is_Lucky";
-	}
-
-	public void update(final int iteration, final World world, final BlockPos pos)
-	{
-		boolean flag = false;
-
-		if(world.isAirBlock(pos.add(-1, 0, 0)) || world.isAirBlock(pos.add(1, 0, 0)))
-			flag = true;
-
-		if(iteration == 600 || flag)
-		{
-			world.setBlockToAir(pos.add(-1, 0, 0));
-			world.setBlockToAir(pos);
-			world.setBlockToAir(pos.add(1, 0, 0));
-			return;
-		}
-
-		Task task = new Task("One_Is_Lucky_Reward", 10)
-		{
-			@Override
-			public void callback()
-			{
-				update(iteration + 1, world, pos);
-			}
-		};
-		Scheduler.scheduleTask(task);
 	}
 }

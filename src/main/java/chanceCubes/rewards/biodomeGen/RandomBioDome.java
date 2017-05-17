@@ -84,7 +84,7 @@ public class RandomBioDome implements IBioDomeBiome
 					{
 						CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
 						OffsetBlock osb = new OffsetBlock(x + xx, y + 1 + yy, z + zz, ore.getKey(), false, delay);
-						osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
+						osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
 						blocks.add(osb);
 						delay++;
 					}
@@ -94,7 +94,7 @@ public class RandomBioDome implements IBioDomeBiome
 
 		CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
 		OffsetBlock osb = new OffsetBlock(x, y + 3, z, ore.getKey(), false, delay);
-		osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
+		osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
 		blocks.add(osb);
 
 		return blocks;

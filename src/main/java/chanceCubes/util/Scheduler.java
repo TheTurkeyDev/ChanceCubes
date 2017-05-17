@@ -9,7 +9,17 @@ public class Scheduler
 
 	public static boolean scheduleTask(Task task)
 	{
+		if(task.delayLeft == 0)
+		{
+			task.callback();
+			return false;
+		}
 		return tasks.add(task);
+	}
+
+	public static boolean removeTask(Task task)
+	{
+		return tasks.remove(task);
 	}
 
 	public static void tickTasks()
@@ -23,6 +33,10 @@ public class Scheduler
 			{
 				task.callback();
 				tasks.remove(i);
+			}
+			else if(task.shouldUpdate())
+			{
+				task.update();
 			}
 		}
 	}

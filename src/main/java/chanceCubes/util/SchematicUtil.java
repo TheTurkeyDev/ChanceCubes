@@ -202,7 +202,7 @@ public class SchematicUtil
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(relativeToPlayer);
-						block.setBlockState(b.getStateFromMeta(data[i]));
+						block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i]));
 						offsetBlocks.add(block);
 					}
 					i++;
@@ -227,7 +227,7 @@ public class SchematicUtil
 						b = Blocks.STONE;
 					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b, nbttagcompound4, falling);
 					block.setRelativeToPlayer(relativeToPlayer);
-					block.setBlockState(b.getStateFromMeta(data[i1]));
+					block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
 					offsetBlocks.add(block);
 				}
 			}
@@ -295,7 +295,7 @@ public class SchematicUtil
 					Block b = Block.REGISTRY.getObject(new ResourceLocation(dataParts[0], dataParts[1]));
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, 0);
 					// TODO: Find better way?
-					osb.setBlockState(b.getStateFromMeta(Integer.parseInt(dataParts[2])));
+					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
 					offsetBlocks.add(osb);
 					index++;

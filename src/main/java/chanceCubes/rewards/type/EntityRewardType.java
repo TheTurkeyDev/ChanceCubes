@@ -27,35 +27,22 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	@Override
 	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		if(part.getDelay() != 0)
+		Scheduler.scheduleTask(new Task("Entity Reward Delay", part.getDelay())
 		{
-			Task task = new Task("Entity Reward Delay", part.getDelay())
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
-				{
-					spawnEntity(part, world, x, y, z, player);
-				}
-			};
-			Scheduler.scheduleTask(task);
-		}
-		else
-		{
-			spawnEntity(part, world, x, y, z, player);
-		}
-	}
+				if(part.shouldRemovedBlocks())
+					for(int yy = 0; yy < 4; yy++)
+						for(int xx = -1; xx < 2; xx++)
+							for(int zz = -1; zz < 2; zz++)
+								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
 
-	public void spawnEntity(EntityPart part, World world, int x, int y, int z, EntityPlayer player)
-	{
-		if(part.shouldRemovedBlocks())
-			for(int yy = 0; yy < 4; yy++)
-				for(int xx = -1; xx < 2; xx++)
-					for(int zz = -1; zz < 2; zz++)
-						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
-		
-		Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
-		newEnt.setPosition(x + 0.5, y, z + 0.5);
-		world.spawnEntityInWorld(newEnt);
+				Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
+				newEnt.setPosition(x + 0.5, y, z + 0.5);
+				world.spawnEntityInWorld(newEnt);
+			}
+		});
 	}
 
 	public static NBTTagCompound getBasicNBTForEntity(String entity)

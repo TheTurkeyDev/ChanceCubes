@@ -20,6 +20,8 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.io.FileUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -33,6 +35,7 @@ public class FileUtil
 {
 
 	public static final JsonParser JSON_PARSER = new JsonParser();
+	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static JsonElement readJsonfromFile(String filepath)
 	{
@@ -59,12 +62,28 @@ public class FileUtil
 	public static File writeToFile(String filepath, String json)
 	{
 		File file = new File(filepath);
-
 		try
 		{
 			file.createNewFile();
 			FileWriter fw = new FileWriter(file);
 			fw.write(json);
+			fw.flush();
+			fw.close();
+			return file;
+		} catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Nonnull
+	public static File writeJsonToFile(File file, JsonElement json)
+	{
+		try
+		{
+			file.createNewFile();
+			FileWriter fw = new FileWriter(file);
+			fw.write(GSON.toJson(json));
 			fw.flush();
 			fw.close();
 			return file;

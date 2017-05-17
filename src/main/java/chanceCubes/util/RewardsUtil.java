@@ -7,6 +7,7 @@ import java.util.Random;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
+import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
@@ -147,6 +148,22 @@ public class RewardsUtil
 		return toReturn;
 	}
 
+	public static ItemPart[] generateItemParts(ItemStack... stacks)
+	{
+		ItemPart[] toReturn = new ItemPart[stacks.length];
+		for(int i = 0; i < stacks.length; i++)
+			toReturn[i] = new ItemPart(stacks[i]);
+		return toReturn;
+	}
+
+	public static ItemPart[] generateItemParts(Item... items)
+	{
+		ItemPart[] toReturn = new ItemPart[items.length];
+		for(int i = 0; i < items.length; i++)
+			toReturn[i] = new ItemPart(new ItemStack(items[i]));
+		return toReturn;
+	}
+
 	public static void sendMessageToNearPlayers(World world, BlockPos pos, int distance, String message)
 	{
 		for(int i = 0; i < world.playerEntities.size(); ++i)
@@ -183,6 +200,12 @@ public class RewardsUtil
 		return Block.REGISTRY.getObject(new ResourceLocation(mod, blockName));
 	}
 
+	@SuppressWarnings("deprecation")
+	public static IBlockState getBlockStateFromBlockMeta(Block b, int meta)
+	{
+		return b.getStateFromMeta(meta);
+	}
+	
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
 		return RewardsUtil.placeBlock(b, world, pos, 3, false);

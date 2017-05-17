@@ -25,7 +25,7 @@ import net.minecraft.util.text.TextComponentString;
 public class CCubesServerCommands extends CommandBase
 {
 	private List<String> aliases;
-	List<String> tab;
+	private List<String> tab;
 
 	public CCubesServerCommands()
 	{
@@ -41,6 +41,13 @@ public class CCubesServerCommands extends CommandBase
 		tab.add("reload");
 		tab.add("version");
 		tab.add("handNBT");
+		tab.add("handID");
+		tab.add("disableReward");
+		tab.add("enableReward");
+		tab.add("schematic");
+		tab.add("rewardsInfo");
+		tab.add("testRewards");
+		tab.add("testCustomRewards");
 	}
 
 	@Override
@@ -246,9 +253,7 @@ public class CCubesServerCommands extends CommandBase
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
 		if(args.length == 0)
-		{
 			return tab;
-		}
 		return null;
 	}
 

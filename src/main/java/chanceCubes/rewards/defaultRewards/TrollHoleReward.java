@@ -36,27 +36,20 @@ public class TrollHoleReward implements IChanceCubeReward
 			}
 		}
 
-		Task task = new Task("TrollHole", 35)
+		Scheduler.scheduleTask(new Task("TrollHole", 35)
 		{
 			@Override
 			public void callback()
 			{
-				fillHole(world, player, px, py, pz, storedBlocks);
+				for(BlockPos loc : storedBlocks.keySet())
+					world.setBlockState(new BlockPos(px + loc.getX(), py - loc.getY(), pz + loc.getZ()), storedBlocks.get(loc));
+
+				player.setPositionAndUpdate(px, py + 1, pz);
+				player.motionY = 0;
+				player.fallDistance = 0;
 			}
 
-		};
-
-		Scheduler.scheduleTask(task);
-	}
-
-	public void fillHole(World world, EntityPlayer player, int x, int y, int z, Map<BlockPos, IBlockState> storedBlocks)
-	{
-		for(BlockPos loc : storedBlocks.keySet())
-			world.setBlockState(new BlockPos(x + loc.getX(), y - loc.getY(), z + loc.getZ()), storedBlocks.get(loc));
-
-		player.setPositionAndUpdate(x, y + 1, z);
-		player.motionY = 0;
-		player.fallDistance = 0;
+		});
 	}
 
 	@Override

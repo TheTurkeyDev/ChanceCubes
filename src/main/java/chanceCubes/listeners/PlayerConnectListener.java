@@ -9,8 +9,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 public class PlayerConnectListener
 {
-	boolean hasChecked = false;
-
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerLoggedInEvent event)
 	{

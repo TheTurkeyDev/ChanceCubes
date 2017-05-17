@@ -26,15 +26,37 @@ public class CakeIsALieReward implements IChanceCubeReward
 
 		if(RewardsUtil.rand.nextInt(3) == 1)
 		{
-			Task task = new Task("Cake_Is_A_Lie", 20)
+			Scheduler.scheduleTask(new Task("Cake_Is_A_Lie", 6000, 20)
 			{
 				@Override
 				public void callback()
 				{
-					update(0, world, pos, player);
+					world.setBlockToAir(pos);
 				}
-			};
-			Scheduler.scheduleTask(task);
+
+				@Override
+				public void update()
+				{
+					if(!world.getBlockState(pos).getBlock().equals(Blocks.CAKE))
+					{
+						Scheduler.removeTask(this);
+					}
+					else if(world.getBlockState(pos).getValue(BlockCake.BITES) > 0)
+					{
+						world.setBlockToAir(pos);
+						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
+						EntityCreeper creeper = new EntityCreeper(world);
+						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
+						if(RewardsUtil.rand.nextInt(10) == 1)
+							creeper.onStruckByLightning(null);
+						creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
+						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
+						world.spawnEntityInWorld(creeper);
+						player.addStat(CCubesAchievements.itsALie);
+						Scheduler.removeTask(this);
+					}
+				}
+			});
 		}
 	}
 
@@ -48,41 +70,5 @@ public class CakeIsALieReward implements IChanceCubeReward
 	public String getName()
 	{
 		return CCubesCore.MODID + ":Cake";
-	}
-
-	public void update(final int iteration, final World world, final BlockPos pos, final EntityPlayer player)
-	{
-		if(!world.getBlockState(pos).getBlock().equals(Blocks.CAKE))
-			return;
-		if(world.getBlockState(pos).getValue(BlockCake.BITES) > 0)
-		{
-			world.setBlockToAir(pos);
-			RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
-			EntityCreeper creeper = new EntityCreeper(world);
-			creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
-			if(RewardsUtil.rand.nextInt(10) == 1)
-				creeper.onStruckByLightning(null);
-			creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
-			creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
-			world.spawnEntityInWorld(creeper);
-			player.addStat(CCubesAchievements.itsALie);
-			return;
-		}
-
-		if(iteration == 300)
-		{
-			world.setBlockToAir(pos);
-			return;
-		}
-
-		Task task = new Task("Cake_Is_A_Lie", 20)
-		{
-			@Override
-			public void callback()
-			{
-				update(iteration + 1, world, pos, player);
-			}
-		};
-		Scheduler.scheduleTask(task);
 	}
 }

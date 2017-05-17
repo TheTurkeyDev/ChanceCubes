@@ -19,53 +19,47 @@ public class ThrowablesReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		this.throwThing(0, world, pos);
-	}
+		Scheduler.scheduleTask(new Task("Throw TNT", 250, 5)
+		{
 
-	public void throwThing(final int count, final World world, final BlockPos pos)
-	{
-		int entChoice = RewardsUtil.rand.nextInt(4);
-		Entity throwEnt;
-		if(entChoice == 0)
-		{
-			throwEnt = new EntityTippedArrow(world);
-		}
-		else if(entChoice == 1)
-		{
-			throwEnt = new EntityLargeFireball(world);
-			((EntityLargeFireball) throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
-			((EntityLargeFireball) throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
-			((EntityLargeFireball) throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
-		}
-		else if(entChoice == 2)
-		{
-			throwEnt = new EntityEgg(world);
-		}
-		else
-		{
-			throwEnt = new EntityTNTPrimed(world);
-			((EntityTNTPrimed) throwEnt).setFuse(20);
-		}
-		throwEnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-		throwEnt.motionX = -1 + (Math.random() * 2);
-		throwEnt.motionY = -1 + (Math.random() * 2);
-		throwEnt.motionZ = -1 + (Math.random() * 2);
-		world.spawnEntityInWorld(throwEnt);
-
-		if(count < 50)
-		{
-			Task task = new Task("Throw TNT", 5)
+			@Override
+			public void callback()
 			{
 
-				@Override
-				public void callback()
-				{
-					throwThing(count + 1, world, pos);
-				}
+			}
 
-			};
-			Scheduler.scheduleTask(task);
-		}
+			@Override
+			public void update()
+			{
+				int entChoice = RewardsUtil.rand.nextInt(4);
+				Entity throwEnt;
+				if(entChoice == 0)
+				{
+					throwEnt = new EntityTippedArrow(world);
+				}
+				else if(entChoice == 1)
+				{
+					throwEnt = new EntityLargeFireball(world);
+					((EntityLargeFireball) throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
+					((EntityLargeFireball) throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
+					((EntityLargeFireball) throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
+				}
+				else if(entChoice == 2)
+				{
+					throwEnt = new EntityEgg(world);
+				}
+				else
+				{
+					throwEnt = new EntityTNTPrimed(world);
+					((EntityTNTPrimed) throwEnt).setFuse(20);
+				}
+				throwEnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+				throwEnt.motionX = -1 + (Math.random() * 2);
+				throwEnt.motionY = -1 + (Math.random() * 2);
+				throwEnt.motionZ = -1 + (Math.random() * 2);
+				world.spawnEntityInWorld(throwEnt);
+			}
+		});
 	}
 
 	@Override

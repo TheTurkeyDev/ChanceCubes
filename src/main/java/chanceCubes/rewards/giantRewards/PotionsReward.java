@@ -24,67 +24,60 @@ public class PotionsReward implements IChanceCubeReward
 	{
 		player.addChatMessage(new TextComponentString("It's called art! Look it up!"));
 		throwPoitonCircle(0, world, pos, player);
-
-		Scheduler.scheduleTask(new Task("Potion Circle", 140)
-		{
-			@Override
-			public void callback()
-			{
-				throwPoiton(0, world, pos, player);
-			}
-		});
 	}
 
 	private void throwPoitonCircle(final int itteration, final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
+		Scheduler.scheduleTask(new Task("Potion Circle", 100, 20)
 		{
-			PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
-			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
-			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-			pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
-			pot.motionY = 1;
-			pot.motionZ = Math.sin(rad) * (0.1 + (0.05 * itteration));
-			world.spawnEntityInWorld(pot);
-		}
-
-		if(itteration < 5)
-		{
-			Scheduler.scheduleTask(new Task("Potion Circle", 20)
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
+				throwPoiton(world, pos, player);
+			}
+
+			@Override
+			public void update()
+			{
+				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 				{
-					throwPoitonCircle(itteration + 1, world, pos, player);
+					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+					pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
+					pot.motionY = 1;
+					pot.motionZ = Math.sin(rad) * (0.1 + (0.05 * itteration));
+					world.spawnEntityInWorld(pot);
 				}
-			});
-		}
+			}
+		});
 	}
 
-	private void throwPoiton(final int itteration, final World world, final BlockPos pos, final EntityPlayer player)
+	private void throwPoiton(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		for(double yy = -0.2; yy <= 1; yy += 0.1)
+		Scheduler.scheduleTask(new Task("Throw potion", 400, 2)
 		{
-			PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
-			pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
-			pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-			pot.motionX = Math.cos(itteration * (Math.PI / 30));
-			pot.motionY = yy;
-			pot.motionZ = Math.sin(itteration * (Math.PI / 30));
-			world.spawnEntityInWorld(pot);
-		}
-
-		if(itteration < 200)
-		{
-			Scheduler.scheduleTask(new Task("Potion Circle", 2)
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
+
+			}
+
+			@Override
+			public void update()
+			{
+				for(double yy = -0.2; yy <= 1; yy += 0.1)
 				{
-					throwPoiton(itteration + 1, world, pos, player);
+					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+					pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.motionX = Math.cos((this.delayLeft / 2) * (Math.PI / 30));
+					pot.motionY = yy;
+					pot.motionZ = Math.sin((this.delayLeft / 2) * (Math.PI / 30));
+					world.spawnEntityInWorld(pot);
 				}
-			});
-		}
+			}
+		});
 	}
 
 	@Override

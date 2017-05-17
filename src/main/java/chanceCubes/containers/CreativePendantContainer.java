@@ -20,7 +20,7 @@ public class CreativePendantContainer extends Container
 	{
 		public boolean isItemValidForSlot(int slot, ItemStack stack)
 		{
-			return stack.getItem() instanceof ItemChanceCube /* || stack.getItem().equals(CCubesBlocks.chanceIcosahedron) */;
+			return stack.getItem() instanceof ItemChanceCube;
 		}
 	};
 
@@ -67,7 +67,7 @@ public class CreativePendantContainer extends Container
 			if(slot > 35)
 				if(!this.mergeItemStack(stackInSlot, 0, 36, true))
 					return null;
-				else if(stack.getItem().equals(CCubesBlocks.CHANCE_CUBE) /* || stack.getItem().equals(CCubesBlocks.chanceIcosahedron) */)
+				else if(stack.getItem().equals(CCubesBlocks.CHANCE_CUBE))
 					if(!this.mergeItemStack(stackInSlot, 36, 37, true))
 						return null;
 

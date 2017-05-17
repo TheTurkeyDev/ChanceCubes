@@ -27,7 +27,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 				for(int z = -1; z < 2; z++)
 					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(px + x, py + y, pz + z));
 
-		Task task = new Task("Item_Of_Destiny_Reward", 5)
+		Scheduler.scheduleTask(new Task("Item_Of_Destiny_Reward", 5)
 		{
 			@Override
 			public void callback()
@@ -36,8 +36,7 @@ public class ThrownInAirReward implements IChanceCubeReward
 				player.motionY = 20;
 				((EntityPlayerMP) player).connection.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
 			}
-		};
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	@Override

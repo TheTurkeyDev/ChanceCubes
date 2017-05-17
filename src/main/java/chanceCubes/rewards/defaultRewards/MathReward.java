@@ -111,7 +111,7 @@ public class MathReward implements IChanceCubeReward
 		else
 		{
 			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
-			player.attackEntityFrom(CCubesDamageSource.mathfail, Float.MAX_VALUE);
+			player.attackEntityFrom(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 
 		for(Entity tnt : info.getTnt())

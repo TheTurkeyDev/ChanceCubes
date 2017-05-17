@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemPart
 {
-	public static String[] elements = new String[] { "experienceAmount:I", "delay:I", "numberOfOrbs:I" };
+	public static String[] elements = new String[] { "item:S", "delay:I" };
 
 	private ItemStack stack;
 

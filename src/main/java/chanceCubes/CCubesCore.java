@@ -22,6 +22,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -125,16 +126,17 @@ public class CCubesCore
 	{
 		ModHookUtil.loadCustomModRewards();
 
-		/*if(event.getSide().isClient())
-		{
-			CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
-			ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
-		}
-		else if(event.getSide().isServer())
-		{
-			CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
-			event.registerServerCommand(new CCubesServerCommands());
-		}*/
+		// if(event.getSide().isClient())
+		// {
+		// CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
+		// ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
+		// }
+		// else if(event.getSide().isServer())
+		// {
+		// CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
+		// event.registerServerCommand(new CCubesServerCommands());
+		// }
+
 		event.registerServerCommand(new CCubesServerCommands());
 	}
 
@@ -150,7 +152,7 @@ public class CCubesCore
 				Block block = Block.getBlockFromItem(stack.getItem());
 				if(block != null)
 				{
-					IBlockState state = block.getStateFromMeta(stack.getItemDamage());
+					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
 					CCubesSettings.nonReplaceableBlocks.add(state);
 					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 				}

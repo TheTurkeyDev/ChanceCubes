@@ -33,7 +33,7 @@ public class OrePillarReward implements IChanceCubeReward
 			{
 				CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
 				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore.getKey(), false, delay / 3);
-				osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
+				osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
 				blocks.add(osb);
 				delay++;
 			}

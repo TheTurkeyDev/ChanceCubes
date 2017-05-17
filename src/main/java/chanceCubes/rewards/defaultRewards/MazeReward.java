@@ -27,15 +27,55 @@ public class MazeReward implements IChanceCubeReward
 		final int pz = (int) player.posZ;
 		player.setPositionAndUpdate(pos.getX() - 8.5, pos.getY(), pos.getZ() - 8.5);
 
-		Task task = new Task("Maze_Reward_Update", 20)
+		Scheduler.scheduleTask(new Task("Maze_Reward_Update", 900, 20)
 		{
 			@Override
 			public void callback()
 			{
-				update(0, gen, world, player, new BlockPos(px, py, pz));
+				player.setPositionAndUpdate(px, py, pz);
+				if(RewardsUtil.isPlayerOnline(player))
+					player.attackEntityFrom(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
+				gen.endMaze(world);
 			}
-		};
-		Scheduler.scheduleTask(task);
+
+			@Override
+			public void update()
+			{
+				int time = this.delayLeft / 20;
+
+				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
+				{
+					player.addChatMessage(new TextComponentString("Hey! You won!"));
+					gen.endMaze(world);
+					player.setPositionAndUpdate(px, py, pz);
+					Scheduler.removeTask(this);
+				}
+				else if(time == 30)
+				{
+					player.addChatMessage(new TextComponentString("30 seconds left!!"));
+				}
+				else if(time == 5)
+				{
+					player.addChatMessage(new TextComponentString("5..."));
+				}
+				else if(time == 4)
+				{
+					player.addChatMessage(new TextComponentString("4..."));
+				}
+				else if(time == 3)
+				{
+					player.addChatMessage(new TextComponentString("3..."));
+				}
+				else if(time == 2)
+				{
+					player.addChatMessage(new TextComponentString("2..."));
+				}
+				else if(time == 1)
+				{
+					player.addChatMessage(new TextComponentString("1!"));
+				}
+			}
+		});
 
 		player.addChatMessage(new TextComponentString("Beat the maze and find the sign!"));
 		player.addChatMessage(new TextComponentString("You have 45 seconds!"));
@@ -51,63 +91,5 @@ public class MazeReward implements IChanceCubeReward
 	public String getName()
 	{
 		return CCubesCore.MODID + ":Maze";
-	}
-
-	public void update(final int iteration, final MazeGenerator gen, final World world, final EntityPlayer player, final BlockPos playerLoc)
-	{
-		if(iteration == 46)
-		{
-			gen.endMaze(world);
-			return;
-		}
-		if(iteration == 45)
-		{
-			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
-			if(RewardsUtil.isPlayerOnline(player))
-			{
-				player.attackEntityFrom(CCubesDamageSource.mazefail, Float.MAX_VALUE);
-			}
-		}
-		else if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
-		{
-			player.addChatMessage(new TextComponentString("Hey! You won!"));
-			gen.endMaze(world);
-			player.setPositionAndUpdate(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ());
-			return;
-		}
-		else if(iteration == 15)
-		{
-			player.addChatMessage(new TextComponentString("30 seconds left!!"));
-		}
-		else if(iteration == 40)
-		{
-			player.addChatMessage(new TextComponentString("5..."));
-		}
-		else if(iteration == 41)
-		{
-			player.addChatMessage(new TextComponentString("4..."));
-		}
-		else if(iteration == 42)
-		{
-			player.addChatMessage(new TextComponentString("3..."));
-		}
-		else if(iteration == 43)
-		{
-			player.addChatMessage(new TextComponentString("2..."));
-		}
-		else if(iteration == 44)
-		{
-			player.addChatMessage(new TextComponentString("1!"));
-		}
-
-		Task task = new Task("Maze_Reward_Update", 20)
-		{
-			@Override
-			public void callback()
-			{
-				update(iteration + 1, gen, world, player, playerLoc);
-			}
-		};
-		Scheduler.scheduleTask(task);
 	}
 }

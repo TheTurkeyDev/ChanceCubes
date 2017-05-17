@@ -50,9 +50,8 @@ public class ItemChanceCube extends ItemBlock
 		return stack.getTagCompound().hasKey("Chance") ? stack.getTagCompound().getInteger("Chance") == -101 ? "Random" : "" + stack.getTagCompound().getInteger("Chance") : "Random";
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean bool)
 	{
 		if(!stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
 		{
@@ -69,16 +68,12 @@ public class ItemChanceCube extends ItemBlock
 		TileEntity te = world.getTileEntity(pos);
 		if(te != null)
 		{
-			if(te instanceof TileChanceCube)
+			int chance = this.getChance(stack);
+			if(chance != -101)
 			{
-				int chance = this.getChance(stack);
-				if(chance != -101)
+				if(te instanceof TileChanceCube)
 					((TileChanceCube) te).setChance(chance);
-			}
-			else if(te instanceof TileChanceD20)
-			{
-				int chance = this.getChance(stack);
-				if(chance != -101)
+				else if(te instanceof TileChanceD20)
 					((TileChanceD20) te).setChance(chance);
 			}
 		}

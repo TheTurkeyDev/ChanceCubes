@@ -36,7 +36,7 @@ public class OreSphereReward implements IChanceCubeReward
 						if(dist <= i && dist > i - 1)
 						{
 							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore.getKey(), false, delay);
-							osb.setBlockState(ore.getKey().getStateFromMeta(ore.getValue()));
+							osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
 							blocks.add(osb);
 							delay++;
 						}

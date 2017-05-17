@@ -16,8 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CCubesCommandSender implements ICommandSender
 {
-	EntityPlayer harvester;
-	BlockPos blockLoc;
+	private EntityPlayer harvester;
+	private BlockPos blockLoc;
 
 	public CCubesCommandSender(EntityPlayer player, BlockPos pos)
 	{

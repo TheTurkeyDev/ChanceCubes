@@ -26,29 +26,37 @@ public class SchematicRewardType implements IRewardType
 		for(OffsetBlock osb : schematic.getBlocks())
 			stack.add(osb);
 
-		this.spawnInBlock(stack, schematic, world, x, y, z);
-	}
-
-	public void spawnInBlock(final List<OffsetBlock> stack, final CustomSchematic schem, final World world, final int x, final int y, final int z)
-	{
-		Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", schem.getSpacingDelay() < 1 ? 1 : (int) schem.getSpacingDelay())
+		Scheduler.scheduleTask(new Task("Schematic_Spawn_Delay", schematic.getDelay())
 		{
 			@Override
 			public void callback()
 			{
-				float lessThan1 = 0;
-				while(lessThan1 < 1 && !stack.isEmpty())
+
+				Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", -1, schematic.getSpacingDelay() < 1 ? 1 : (int) schematic.getSpacingDelay())
 				{
-					OffsetBlock osb = stack.remove(0);
-					osb.spawnInWorld(world, x, y, z);
-					lessThan1 += schem.getSpacingDelay();
-					if(stack.size() == 0)
-						lessThan1 = 1;
-				}
-				if(stack.size() != 0)
-					spawnInBlock(stack, schem, world, x, y, z);
+					@Override
+					public void callback()
+					{
+					}
+
+					@Override
+					public void update()
+					{
+						float lessThan1 = 0;
+						while(lessThan1 < 1 && !stack.isEmpty())
+						{
+							OffsetBlock osb = stack.remove(0);
+							osb.spawnInWorld(world, x, y, z);
+							lessThan1 += schematic.getSpacingDelay();
+							if(stack.size() == 0)
+								lessThan1 = 1;
+						}
+
+						if(stack.size() == 0)
+							Scheduler.removeTask(this);
+					}
+				});
 			}
 		});
 	}
-
 }
