@@ -45,5 +45,32 @@
 			{"message":"For too long poor Squiddy has had to stand by and watch as you butcher her people, Wyld!", "delay":0},
 			{"message":"TODAY THE SQUIDS SHALL HAVE THEIR REVENGE!!!", "delay": 100}
 		]
+	},
+	"Squids_Revenge":
+	{
+		"chance":0,
+		"Command":
+		[
+			{"command":"/summon minecraft:squid ~ ~ ~ {CustomName:\"Squiddy\",CustomNameVisible:true,Invulnerable:1,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~-1 ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~-1 ~ ~ {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~-1 ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~ ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~ ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~1 ~ ~-1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~1 ~ ~ {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/summon minecraft:squid ~1 ~ ~1 {Air:300,DeathLootTable:\"\"}", "delay":0},
+			{"command":"/execute @e[type=Squid,r=20] ~ ~ ~ summon Ghast ~ ~ ~ {DeathLootTable:\"\"}" , "delay":100},
+			{"command":"/execute @e[type=Squid,CustomName=\"Squiddy\"] ~ ~ ~ summon Ghast ~ ~ ~ {DeathLootTable:\"\"}" , "delay":100},
+			{"command":"/kill @e[type=Squid,r=30]", "delay":101},
+			{"command":"/kill @e[type=Squid,CustomName=\"Squiddy\"]", "delay":101}
+
+
+		],
+		"Message":
+		[
+			{"message":"For too long poor Squiddy has had to stand by and watch as you butcher her people, Wyld!", "delay":0},
+			{"message":"TODAY THE SQUIDS SHALL HAVE THEIR REVENGE!!!", "delay": 100}
+		]
 	}
 }
