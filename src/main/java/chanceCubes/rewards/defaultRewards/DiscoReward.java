@@ -1,7 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -16,14 +14,12 @@ import net.minecraft.world.World;
 
 public class DiscoReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		for(int xx = -4; xx < 5; xx++)
 			for(int zz = -4; zz < 5; zz++)
-				RewardsUtil.placeBlock(Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(rand.nextInt(16))), world, pos.add(xx, -1, zz));
+				RewardsUtil.placeBlock(Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))), world, pos.add(xx, -1, zz));
 
 		for(int i = 0; i < 10; i++)
 		{

@@ -26,9 +26,7 @@ import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
-import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
-import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
@@ -48,7 +46,6 @@ import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
 import chanceCubes.rewards.defaultRewards.QuestionsReward;
 import chanceCubes.rewards.defaultRewards.RainingCatsAndCogsReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
-import chanceCubes.rewards.defaultRewards.RottenFoodReward;
 import chanceCubes.rewards.defaultRewards.SkyblockReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
@@ -79,15 +76,22 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -309,6 +313,74 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Charged_Creeper", -40)
+		{
+			@Override
+			public void trigger(final World world, final BlockPos pos, EntityPlayer player)
+			{
+				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
+				EntityCreeper ent = new EntityCreeper(world);
+				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
+				ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 1, 99, true, false));
+				ent.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 10, 99, true, false));
+				world.spawnEntityInWorld(ent);
+
+				Scheduler.scheduleTask(new Task("Charged Creeper Reward", 2)
+				{
+					@Override
+					public void callback()
+					{
+						world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false));
+					}
+				});
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie_Monster", -5)
+		{
+			@Override
+			public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+			{
+				if(!world.isRemote)
+				{
+					RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Here have some cookies!");
+					Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.COOKIE, 8));
+					world.spawnEntityInWorld(itemEnt);
+
+					Scheduler.scheduleTask(new Task("Cookie Monster", 30)
+					{
+						@Override
+						public void callback()
+						{
+							EntityZombie cm = new EntityZombie(world);
+							cm.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+							cm.setChild(true);
+							cm.setCustomNameTag("Cookie Monster");
+							RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "[Cookie Monster] Hey! Those are mine!");
+							world.spawnEntityInWorld(cm);
+						}
+					});
+				}
+
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rotten_Food", -30)
+		{
+			@Override
+			public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+			{
+				for(int i = 0; i < player.inventory.mainInventory.length; i++)
+				{
+					ItemStack stack = player.inventory.mainInventory[i];
+					if(stack != null && stack.getItem() instanceof ItemFood)
+						player.inventory.mainInventory[i] = new ItemStack(Items.ROTTEN_FLESH, stack.stackSize);
+				}
+
+				player.addChatMessage(new TextComponentString("Ewwww it's all rotten"));
+			}
+		});
+
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());
@@ -317,12 +389,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new CreeperSurroundedReward());
 		INSTANCE.registerReward(new RandomTeleportReward());
 		INSTANCE.registerReward(new TrollHoleReward());
-		INSTANCE.registerReward(new CookieMonsterReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
 		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
-		INSTANCE.registerReward(new ChargedCreeperReward());
 		INSTANCE.registerReward(new ClearInventoryReward(), false);
 		// INSTANCE.registerReward(new ZombieCopyCatReward());
 		// INSTANCE.registerReward(new InventoryChestReward());
@@ -335,7 +405,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new TableFlipReward());
 		INSTANCE.registerReward(new TorchesToCreepers());
 		INSTANCE.registerReward(new MazeReward());
-		INSTANCE.registerReward(new RottenFoodReward());
 		INSTANCE.registerReward(new OneIsLuckyReward());
 		INSTANCE.registerReward(new SkyblockReward());
 		INSTANCE.registerReward(new CakeIsALieReward());

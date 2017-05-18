@@ -1,9 +1,8 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -19,19 +18,17 @@ import net.minecraft.world.World;
 
 public class WaitForItReward implements IChanceCubeReward
 {
-	private final Random rand = new Random();
-
 	@Override
 	public void trigger(final World world, BlockPos pos, final EntityPlayer player)
 	{
 		player.addChatMessage(new TextComponentString("Wait for it......."));
 
-		Scheduler.scheduleTask(new Task("Wait For It", rand.nextInt(4000) + 1000)
+		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(4000) + 1000)
 		{
 			@Override
 			public void callback()
 			{
-				int reward = rand.nextInt(3);
+				int reward = RewardsUtil.rand.nextInt(3);
 				player.addChatMessage(new TextComponentString("NOW!"));
 
 				if(reward == 0)
