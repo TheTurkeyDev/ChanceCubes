@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.client.gui.SchematicCreationGui;
+import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
@@ -21,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -157,7 +160,7 @@ public class CCubesServerCommands extends CommandBase
 				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
 			}
 		}
-		else if(args[0].equalsIgnoreCase("schematic"))
+		else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
 		{
 			if(Minecraft.getMinecraft().isSingleplayer())
 			{
@@ -166,37 +169,25 @@ public class CCubesServerCommands extends CommandBase
 					EntityPlayer player = (EntityPlayer) sender;
 					if(player.capabilities.isCreativeMode)
 					{
-						if(args.length >= 3)
+						if(args[1].equalsIgnoreCase("create"))
 						{
-							if(args[1].equalsIgnoreCase("setPoint"))
+							if(RenderEvent.isCreatingSchematic())
 							{
-								if(args[2].equalsIgnoreCase("1"))
-								{
-									SchematicUtil.selectionPoints[0] = new BlockPos((int) player.posX, (int) player.posY - 1, (int) player.posZ);
-									sender.addChatMessage(new TextComponentString("Point 1 set"));
-								}
-								if(args[2].equalsIgnoreCase("2"))
-								{
-									SchematicUtil.selectionPoints[1] = new BlockPos((int) player.posX, (int) player.posY - 1, (int) player.posZ);
-									sender.addChatMessage(new TextComponentString("Point 2 set"));
-								}
+								if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
+									FMLCommonHandler.instance().showGuiScreen(new SchematicCreationGui(player));
+								else
+									sender.addChatMessage(new TextComponentString("Please set both points before moving on!"));
 							}
-							else if(args[1].equalsIgnoreCase("create"))
+							else
 							{
-								if(SchematicUtil.selectionPoints[0] == null || SchematicUtil.selectionPoints[1] == null)
-								{
-									sender.addChatMessage(new TextComponentString("Both points are not set!"));
-									return;
-								}
-								SchematicUtil.createCustomSchematic(player.worldObj, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs");
-								sender.addChatMessage(new TextComponentString("Schematic file named " + (args[2].endsWith(".ccs") ? args[2] : args[2] + ".ccs") + " created!"));
-								SchematicUtil.selectionPoints[0] = null;
-								SchematicUtil.selectionPoints[1] = null;
+								RenderEvent.setCreatingSchematic(true);
 							}
 						}
-						else
+						else if(args[1].equalsIgnoreCase("cancel"))
 						{
-							sender.addChatMessage(new TextComponentString("invalid arguments"));
+							RenderEvent.setCreatingSchematic(false);
+							SchematicUtil.selectionPoints[0] = null;
+							SchematicUtil.selectionPoints[1] = null;
 						}
 					}
 					else

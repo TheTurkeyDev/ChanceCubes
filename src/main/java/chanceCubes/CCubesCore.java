@@ -12,6 +12,7 @@ import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
+import chanceCubes.listeners.BlockListener;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
@@ -95,6 +96,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
+		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
 		if(CCubesSettings.chestLoot)
 		{

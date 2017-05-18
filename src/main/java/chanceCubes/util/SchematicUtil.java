@@ -19,6 +19,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
@@ -35,6 +36,8 @@ public class SchematicUtil
 	private static Gson gson = new GsonBuilder().create();
 
 	public static BlockPos[] selectionPoints = new BlockPos[2];
+	
+	public static List<EntityPlayer> creatingSchematics = new ArrayList<EntityPlayer>();
 
 	public static void createCustomSchematic(World world, BlockPos loc1, BlockPos loc2, String fileName)
 	{
