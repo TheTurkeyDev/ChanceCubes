@@ -5,17 +5,12 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
-import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
-import chanceCubes.listeners.BlockListener;
-import chanceCubes.listeners.PlayerConnectListener;
-import chanceCubes.listeners.TickListener;
-import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -29,7 +24,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -91,12 +85,6 @@ public class CCubesCore
 		CCubesPacketHandler.init();
 		CCubesAchievements.loadAchievements();
 		proxy.registerEvents();
-
-		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
-		MinecraftForge.EVENT_BUS.register(new TickListener());
-		MinecraftForge.EVENT_BUS.register(new WorldGen());
-		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
-		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
 		if(CCubesSettings.chestLoot)
 		{

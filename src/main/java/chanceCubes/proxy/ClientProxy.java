@@ -3,6 +3,8 @@ package chanceCubes.proxy;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.listeners.RenderEvent;
+import chanceCubes.client.listeners.WorldRenderListener;
+import chanceCubes.listeners.BlockListener;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
@@ -31,7 +33,7 @@ public class ClientProxy extends CommonProxy
 	public void registerRenderings()
 	{
 		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
@@ -45,7 +47,10 @@ public class ClientProxy extends CommonProxy
 
 	public void registerEvents()
 	{
+		super.registerEvents();
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
+		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
+		MinecraftForge.EVENT_BUS.register(new BlockListener());
 	}
 
 	@Override
