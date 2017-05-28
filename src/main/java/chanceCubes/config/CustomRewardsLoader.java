@@ -276,7 +276,7 @@ public class CustomRewardsLoader
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
-				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
+				ex.printStackTrace();
 			}
 
 		}
@@ -342,22 +342,22 @@ public class CustomRewardsLoader
 				}
 			}
 
-			int x = element.getAsJsonObject().get("XOffSet").getAsInt();
-			int y = element.getAsJsonObject().get("YOffSet").getAsInt();
-			int z = element.getAsJsonObject().get("ZOffSet").getAsInt();
-			String blockDataParts[] = element.getAsJsonObject().get("Block").getAsString().split(":");
+			int x = element.getAsJsonObject().get("xOffSet").getAsInt();
+			int y = element.getAsJsonObject().get("yOffSet").getAsInt();
+			int z = element.getAsJsonObject().get("zOffSet").getAsInt();
+			String blockDataParts[] = element.getAsJsonObject().get("block").getAsString().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
 			Block block = RewardsUtil.getBlock(mod, blockName);
-			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
+			boolean falling = element.getAsJsonObject().get("falling").getAsBoolean();
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
 			if(element.getAsJsonObject().has("delay"))
 				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 
-			if(element.getAsJsonObject().has("RelativeToPlayer"))
-				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+			if(element.getAsJsonObject().has("relativeToPlayer"))
+				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("relativeToPlayer").getAsBoolean());
 
 			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
 				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());

@@ -65,7 +65,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 					{
 						player.addChatMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
 						item.setPickupDelay(0);
-						Scheduler.scheduleTask(this);
+						Scheduler.removeTask(this);
 					}
 				}
 
