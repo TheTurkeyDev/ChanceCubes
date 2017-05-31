@@ -10,6 +10,9 @@ public class ModHookUtil
 {
 	public static void loadCustomModRewards()
 	{
+		if(!CCubesSettings.enableHardCodedRewards)
+			return;
+		
 		if(Loader.isModLoaded("extrautils2"))
 		{
 			new ExtraUtilsModHook();
