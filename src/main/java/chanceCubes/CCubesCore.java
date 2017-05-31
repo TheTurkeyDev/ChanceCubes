@@ -115,6 +115,7 @@ public class CCubesCore
 	public void serverLoad(FMLServerStartingEvent event)
 	{
 		ModHookUtil.loadCustomModRewards();
+		ConfigLoader.config.save();
 
 		// if(event.getSide().isClient())
 		// {
