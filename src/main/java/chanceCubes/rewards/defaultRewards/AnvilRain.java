@@ -1,7 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
@@ -12,8 +10,6 @@ import net.minecraft.world.World;
 
 public class AnvilRain implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	@Override
 	public void trigger(World world, BlockPos position, EntityPlayer player)
 	{
@@ -21,20 +17,20 @@ public class AnvilRain implements IChanceCubeReward
 		int y = position.getY();
 		int z = position.getZ();
 
-		int x1 = x + (rand.nextInt(9) - 4);
-		int z1 = z + (rand.nextInt(9) - 4);
+		int x1 = x + (RewardsUtil.rand.nextInt(9) - 4);
+		int z1 = z + (RewardsUtil.rand.nextInt(9) - 4);
 
-		int x2 = x + (rand.nextInt(9) - 4);
-		int z2 = z + (rand.nextInt(9) - 4);
+		int x2 = x + (RewardsUtil.rand.nextInt(9) - 4);
+		int z2 = z + (RewardsUtil.rand.nextInt(9) - 4);
 
-		int x3 = x + (rand.nextInt(9) - 4);
-		int z3 = z + (rand.nextInt(9) - 4);
+		int x3 = x + (RewardsUtil.rand.nextInt(9) - 4);
+		int z3 = z + (RewardsUtil.rand.nextInt(9) - 4);
 
-		int x4 = x + (rand.nextInt(9) - 4);
-		int z4 = z + (rand.nextInt(9) - 4);
+		int x4 = x + (RewardsUtil.rand.nextInt(9) - 4);
+		int z4 = z + (RewardsUtil.rand.nextInt(9) - 4);
 
-		int x5 = x + (rand.nextInt(9) - 4);
-		int z5 = z + (rand.nextInt(9) - 4);
+		int x5 = x + (RewardsUtil.rand.nextInt(9) - 4);
+		int z5 = z + (RewardsUtil.rand.nextInt(9) - 4);
 
 		int yy = 0;
 		for(yy = 0; yy < 25; yy++)

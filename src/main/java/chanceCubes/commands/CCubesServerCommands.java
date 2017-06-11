@@ -76,7 +76,7 @@ public class CCubesServerCommands extends CommandBase
 					ChanceCubeRegistry.loadDefaultRewards();
 					GiantCubeRegistry.loadDefaultRewards();
 					CustomRewardsLoader.instance.loadCustomRewards();
-					CustomRewardsLoader.instance.loadHolidayRewards();
+					CustomRewardsLoader.instance.fetchRemoteInfo();
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
 					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));

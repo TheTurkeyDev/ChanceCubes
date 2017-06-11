@@ -26,7 +26,7 @@ public class ExtraUtilsModHook extends BaseModHook
 
 	public ExtraUtilsModHook()
 	{
-		super("ExtraUtilities");
+		super("extrautils2");
 		loadRewards();
 	}
 
@@ -36,93 +36,51 @@ public class ExtraUtilsModHook extends BaseModHook
 		ItemStack stack;
 		Block block;
 
-		stack = RewardsUtil.getItemStack(super.modId, "unstableingot", 1);
+		// stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
+		// if(stack != null)
+		// {
+		// stack.setStackDisplayName("Useless Generator");
+		// stack.setItemDamage(9);
+		// ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
+		// }
+
+		stack = RewardsUtil.getItemStack(super.modId, "wateringcan", 1);
 		if(stack != null)
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":unstableingot", -100, new ItemRewardType(new ItemPart(stack))
-			{
-				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
-				{
-					ItemStack stack1 = s.getItemStack().copy();
-					NBTTagCompound ts = new NBTTagCompound();
-					if(ts.hasKey("crafting"))
-						ts.removeTag("crafting");
-
-					if(stack1.getItemDamage() > 0)
-						return;
-
-					ts.setInteger("dimension", world.provider.getDimension());
-					ts.setLong("time", world.getTotalWorldTime());
-					stack1.setTagCompound(ts);
-
-					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.CRAFTING_TABLE.getDefaultState());
-					player.displayGui(new BlockWorkbench.InterfaceCraftingTable(world, new BlockPos(player.posX, player.posY, player.posZ)));
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, stack1);
-					// if((player instanceof EntityPlayerMP))
-					// ((EntityPlayerMP) player).mcServer.getConfigurationManager().syncPlayerInventory((EntityPlayerMP) player);
-				}
-			}));
-		}
-
-		stack = RewardsUtil.getItemStack(super.modId, "generator.64", 1);
-		if(stack != null)
-		{
-			stack.setStackDisplayName("Useless Generator");
-			stack.setItemDamage(9);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
-		}
-
-		stack = RewardsUtil.getItemStack(super.modId, "watering_can", 1);
-		if(stack != null)
-		{
-			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Broken_Watering_Can", 30, new ItemRewardType(new ItemPart(stack))));
+			stack.setItemDamage(0);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Watering_Can", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "drum", 1);
 		if(stack != null)
 		{
-			stack.setItemDamage(1);
-			IFluidHandler cont;
-			try
-			{
-				cont = (IFluidHandler) stack.getItem();
-				cont.fill(new FluidStack(FluidRegistry.WATER, 265000), true);
-			} catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Bedrockium_Drum", 80, new ItemRewardType(new ItemPart(stack))));
+			stack.setItemDamage(3);
+			NBTTagCompound nbt = new NBTTagCompound();
+			new FluidStack(FluidRegistry.WATER, 65536).writeToNBT(nbt);
+			stack.setTagInfo("Fluid", nbt);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		stack = RewardsUtil.getItemStack(super.modId, "golden_bag", 1);
+		stack = RewardsUtil.getItemStack(super.modId, "bagofholding", 1);
 		if(stack != null)
 		{
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		stack = RewardsUtil.getItemStack(super.modId, "plant/ender_lilly", 3);
+		stack = RewardsUtil.getItemStack(super.modId, "plant/enderlilly", 3);
 		if(stack != null)
 		{
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		stack = RewardsUtil.getItemStack(super.modId, "plant/ender_lilly", 10);
-		if(stack != null)
-		{
-			stack.setItemDamage(2);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Flux_Crystal", 80, new ItemRewardType(new ItemPart(stack))));
-		}
-
-		stack = RewardsUtil.getItemStack(super.modId, "cobblestone_compressed", 4);
+		stack = RewardsUtil.getItemStack(super.modId, "compressedcobblestone", 4);
 		if(stack != null)
 		{
 			stack.setItemDamage(5);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		block = RewardsUtil.getBlock(super.modId, "spike_base");
+		block = RewardsUtil.getBlock(super.modId, "spike_iron");
 		if(block != null)
 		{
 			OffsetBlock[] spikes = new OffsetBlock[34];

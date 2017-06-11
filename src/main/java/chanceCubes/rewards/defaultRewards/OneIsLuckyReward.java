@@ -1,7 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -18,8 +16,6 @@ import net.minecraft.world.World;
 
 public class OneIsLuckyReward implements IChanceCubeReward
 {
-	private Random random = new Random();
-
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
@@ -28,7 +24,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 		sign.signText[0] = new TextComponentString("One is lucky");
 		sign.signText[1] = new TextComponentString("One is not");
 		sign.signText[3] = new TextComponentString("#OGLuckyBlocks");
-		boolean leftLucky = random.nextBoolean();
+		boolean leftLucky = RewardsUtil.rand.nextBoolean();
 		TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100);
 		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);
 

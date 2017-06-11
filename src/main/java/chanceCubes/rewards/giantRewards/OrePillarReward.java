@@ -2,7 +2,6 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -16,8 +15,6 @@ import net.minecraft.world.World;
 
 public class OrePillarReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	public OrePillarReward()
 	{
 
@@ -28,10 +25,10 @@ public class OrePillarReward implements IChanceCubeReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
-		for(int i = 0; i < rand.nextInt(4) + 2; i++)
+		for(int i = 0; i < RewardsUtil.rand.nextInt(4) + 2; i++)
 		{
-			int xx = rand.nextInt(30) - 15;
-			int zz = rand.nextInt(30) - 15;
+			int xx = RewardsUtil.rand.nextInt(30) - 15;
+			int zz = RewardsUtil.rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
 				CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();

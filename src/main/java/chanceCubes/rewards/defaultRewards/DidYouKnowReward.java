@@ -2,11 +2,11 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesCommandSender;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class DidYouKnowReward implements IChanceCubeReward
 {
-	private Random random = new Random();
 	private List<String> dyk = new ArrayList<String>();
 
 	public DidYouKnowReward()
@@ -30,7 +29,7 @@ public class DidYouKnowReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		String fact = "Did you know?\n" + dyk.get(random.nextInt(dyk.size()));
+		String fact = "Did you know?\n" + dyk.get(RewardsUtil.rand.nextInt(dyk.size()));
 		MinecraftServer server = world.getMinecraftServer();
 		Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");

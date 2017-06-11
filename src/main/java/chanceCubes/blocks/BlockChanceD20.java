@@ -9,7 +9,6 @@ import chanceCubes.util.CCubesAchievements;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.model.TRSRTransformation;
@@ -128,23 +126,5 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public ExtendedBlockState createBlockState()
 	{
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
-	}
-
-	@Override
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
-	}
-
-	@Override
-	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
-	{
-
-	}
-
-	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
-	{
-		return false;
 	}
 }

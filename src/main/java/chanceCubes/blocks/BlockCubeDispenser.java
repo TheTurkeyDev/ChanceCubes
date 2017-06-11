@@ -9,7 +9,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,8 +17,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
@@ -101,41 +98,9 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return false;
 	}
 
-	@Override
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
-	}
-
-	@Override
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
-	{
-		return false;
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
-	{
-
-	}
-
-	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
-	{
-		return false;
-	}
-
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{
 		return null;
-	}
-
-	/**
-	 * Returns the quantity of items to drop on block destruction.
-	 */
-	public int quantityDropped(Random p_149745_1_)
-	{
-		return 0;
 	}
 
 	public int getMetaFromState(IBlockState state)

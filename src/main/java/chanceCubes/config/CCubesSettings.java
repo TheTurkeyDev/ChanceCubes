@@ -27,6 +27,7 @@ public class CCubesSettings
 	public static boolean craftingRecipie = true;
 
 	public static boolean userSpecificRewards = true;
+	public static boolean disabledRewards = true;
 
 	public static boolean holidayRewards = true;
 	public static boolean holidayRewardTriggered = false;
@@ -42,8 +43,6 @@ public class CCubesSettings
 	public static boolean testRewards;
 	public static boolean testCustomRewards;
 	public static int testingRewardIndex = 0;
-
-	public static String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards";
 
 	public static boolean isBlockedWorld(String world)
 	{

@@ -1,15 +1,16 @@
 package chanceCubes.util;
 
 import java.io.BufferedInputStream;
+import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.logging.log4j.Level;
 
-import chanceCubes.CCubesCore;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import chanceCubes.CCubesCore;
 
 public class HTTPUtil
 {
@@ -19,16 +20,30 @@ public class HTTPUtil
 	public static JsonElement getWebFile(String link, CustomEntry<String, String>... extras) throws Exception
 	{
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
-		con.setDoOutput(false);
-		con.setReadTimeout(20000);
+		con.setDoOutput(true);
+		con.setReadTimeout(5000);
 		con.setRequestProperty("Connection", "keep-alive");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0");
+		((HttpURLConnection) con).setRequestMethod("POST");
+		con.setConnectTimeout(5000);
+
+		StringBuilder builder = new StringBuilder();
 
 		for(CustomEntry<String, String> property : extras)
-			con.setRequestProperty(property.getKey(), property.getValue());
+		{
+			builder.append(property.getKey());
+			builder.append("=");
+			builder.append(property.getValue());
+			builder.append("&");
+		}
 
-		((HttpURLConnection) con).setRequestMethod("GET");
-		con.setConnectTimeout(5000);
+		if(builder.length() > 0)
+			builder.deleteCharAt(builder.length() - 1);
+
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(builder.toString());
+		wr.flush();
+		wr.close();
 
 		BufferedInputStream in = new BufferedInputStream(con.getInputStream());
 		int responseCode = con.getResponseCode();
@@ -38,7 +53,7 @@ public class HTTPUtil
 		else if(responseCode == HttpURLConnection.HTTP_MOVED_PERM)
 			throw new Exception();
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		int chars_read;
 		while((chars_read = in.read()) != -1)
 			buffer.append((char) chars_read);
