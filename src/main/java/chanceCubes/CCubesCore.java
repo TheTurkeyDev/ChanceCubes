@@ -5,16 +5,12 @@ import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
-import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
-import chanceCubes.listeners.PlayerConnectListener;
-import chanceCubes.listeners.TickListener;
-import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -22,11 +18,11 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -89,11 +85,6 @@ public class CCubesCore
 		CCubesAchievements.loadAchievements();
 		proxy.registerEvents();
 
-		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
-		MinecraftForge.EVENT_BUS.register(new TickListener());
-		MinecraftForge.EVENT_BUS.register(new WorldGen());
-		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
-
 		if(CCubesSettings.chestLoot)
 		{
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
@@ -124,6 +115,7 @@ public class CCubesCore
 	public void serverLoad(FMLServerStartingEvent event)
 	{
 		ModHookUtil.loadCustomModRewards();
+		ConfigLoader.config.save();
 
 		// if(event.getSide().isClient())
 		// {
@@ -150,7 +142,7 @@ public class CCubesCore
 				Block block = Block.getBlockFromItem(stack.getItem());
 				if(block != null)
 				{
-					IBlockState state = block.getStateFromMeta(stack.getItemDamage());
+					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
 					CCubesSettings.nonReplaceableBlocks.add(state);
 					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 				}

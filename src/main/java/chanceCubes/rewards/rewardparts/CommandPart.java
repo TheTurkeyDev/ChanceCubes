@@ -5,8 +5,8 @@ import net.minecraft.world.World;
 
 public class CommandPart
 {
-	public static String[] elements = new String[]{"item:I", "chance:I", "meta:I", "amountMin:I", "amountMax:I"};
-	
+	public static String[] elements = new String[] { "command:S", "delay:I" };
+
 	private String command;
 
 	private int delay = 0;
@@ -15,7 +15,7 @@ public class CommandPart
 	{
 		this.command = command;
 	}
-	
+
 	public CommandPart(String command, int delay)
 	{
 		this.command = command;

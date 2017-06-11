@@ -27,7 +27,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 		ent.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 40, 99, true, false));
 		world.spawnEntityInWorld(ent);
 
-		Task task = new Task("Charged Creeper Reward", 2)
+		Scheduler.scheduleTask(new Task("Charged Creeper Reward", 2)
 		{
 			@Override
 			public void callback()
@@ -35,9 +35,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 				world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false));
 				ent.setFire(0);
 			}
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	@Override

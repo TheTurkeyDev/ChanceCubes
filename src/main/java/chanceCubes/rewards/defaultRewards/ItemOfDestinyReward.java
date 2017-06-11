@@ -26,80 +26,56 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 		item.setPickupDelay(100000);
 		world.spawnEntityInWorld(item);
 		player.addChatMessage(new TextComponentString("Selecting random item"));
-		Task task = new Task("Item_Of_Destiny_Reward", 5)
+		Scheduler.scheduleTask(new Task("Item_Of_Destiny_Reward", -1, 5)
 		{
-			@Override
-			public void callback()
-			{
-				changeItem(item, 0, player);
-			}
-		};
-		Scheduler.scheduleTask(task);
-	}
+			int iteration = 0;
+			int enchants = 0;
 
-	private void changeItem(final EntityItem item, final int iteration, final EntityPlayer player)
-	{
-		Task task = new Task("Item_Of_Destiny_Reward", 5)
-		{
 			@Override
 			public void callback()
 			{
-				if(iteration + 1 > 17)
+
+			}
+
+			@Override
+			public void update()
+			{
+				if(iteration < 17)
+				{
+					item.setEntityItemStack(new ItemStack(RewardsUtil.getRandomItem(), 1));
+				}
+				else if(iteration == 17)
 				{
 					player.addChatMessage(new TextComponentString("Random item selected"));
 					player.addChatMessage(new TextComponentString("Selecting number of enchants to give item"));
-					changeEnchantAmount(item, player);
 				}
-				else
+				else if(iteration == 27)
 				{
-					item.setEntityItemStack(new ItemStack(RewardsUtil.getRandomItem(), 1));
-					changeItem(item, iteration + 1, player);
+					int i = RewardsUtil.rand.nextInt(9);
+					enchants = i < 5 ? 1 : i < 8 ? 2 : 3;
+					player.addChatMessage(new TextComponentString(enchants + " random enchants will be added!"));
+					player.addChatMessage(new TextComponentString("Selecting random enchant to give to the item"));
 				}
-			}
-		};
-		Scheduler.scheduleTask(task);
-	}
+				else if(iteration > 27 && (iteration - 7) % 10 == 0)
+				{
+					if((iteration / 10) - 3 < enchants)
+					{
+						Enchantment ench = randomEnchantment();
+						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
+						item.getEntityItem().addEnchantment(ench, level);
+						player.addChatMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
+					}
+					else
+					{
+						player.addChatMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
+						item.setPickupDelay(0);
+						Scheduler.removeTask(this);
+					}
+				}
 
-	private void changeEnchantAmount(final EntityItem item, final EntityPlayer player)
-	{
-		Task task = new Task("Item_Of_Destiny_Reward", 50)
-		{
-			@Override
-			public void callback()
-			{
-				int i = rand.nextInt(9);
-				int amount = i < 5 ? 1 : i < 8 ? 2 : 3;
-				player.addChatMessage(new TextComponentString(amount + " random enchants will be added!"));
-				player.addChatMessage(new TextComponentString("Selecting random enchant to give to the item"));
-				changeEnchants(item, amount, 0, player);
+				iteration++;
 			}
-		};
-		Scheduler.scheduleTask(task);
-	}
-
-	private void changeEnchants(final EntityItem item, final int enchants, final int iteration, final EntityPlayer player)
-	{
-		Task task = new Task("Item_Of_Destiny_Reward", 50)
-		{
-			@Override
-			public void callback()
-			{
-				if(iteration < enchants)
-				{
-					Enchantment ench = randomEnchantment();
-					int level = ench.getMinLevel() + rand.nextInt(ench.getMaxLevel());
-					item.getEntityItem().addEnchantment(ench, level);
-					player.addChatMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
-					changeEnchants(item, enchants, iteration + 1, player);
-				}
-				else
-				{
-					player.addChatMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
-					item.setPickupDelay(0);
-				}
-			}
-		};
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	public Enchantment randomEnchantment()

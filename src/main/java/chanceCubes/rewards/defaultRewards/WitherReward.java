@@ -29,7 +29,7 @@ public class WitherReward implements IChanceCubeReward
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");
 
-		Task task = new Task("Wither Reward", 180)
+		Scheduler.scheduleTask(new Task("Wither Reward", 180)
 		{
 			@Override
 			public void callback()
@@ -37,19 +37,17 @@ public class WitherReward implements IChanceCubeReward
 				if(!removeEnts(wither))
 					player.addStat(CCubesAchievements.wither);
 			}
-		};
 
-		Scheduler.scheduleTask(task);
-	}
-
-	private boolean removeEnts(Entity ent)
-	{
-		if(RewardsUtil.rand.nextInt(10) != 1)
-		{
-			ent.setDead();
-			return true;
-		}
-		return false;
+			private boolean removeEnts(Entity ent)
+			{
+				if(RewardsUtil.rand.nextInt(10) != 1)
+				{
+					ent.setDead();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	@Override

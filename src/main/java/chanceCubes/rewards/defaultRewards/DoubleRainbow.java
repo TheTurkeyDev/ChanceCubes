@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class DoubleRainbow implements IChanceCubeReward
 {
-	byte[] colorsMeta = { 14, 1, 4, 13, 11, 10};
+	byte[] colorsMeta = { 14, 1, 4, 13, 11, 10 };
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -27,7 +27,7 @@ public class DoubleRainbow implements IChanceCubeReward
 				{
 					int distIndex = (int) (dist - 2);
 					b = new OffsetBlock(x, y, 0, Blocks.WOOL, false);
-					b.setBlockState(Blocks.WOOL.getStateFromMeta(colorsMeta[distIndex]));
+					b.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, colorsMeta[distIndex]));
 					b.setDelay((x + 7) * 10);
 					b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 				}
@@ -43,7 +43,7 @@ public class DoubleRainbow implements IChanceCubeReward
 				{
 					int distIndex = (int) (dist - 12);
 					b = new OffsetBlock(x, y, 0, Blocks.WOOL, false);
-					b.setBlockState(Blocks.WOOL.getStateFromMeta(colorsMeta[distIndex]));
+					b.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, colorsMeta[distIndex]));
 					b.setDelay((x + 12) * 5);
 					b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 				}

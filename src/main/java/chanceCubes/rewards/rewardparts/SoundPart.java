@@ -4,7 +4,7 @@ import net.minecraft.util.SoundEvent;
 
 public class SoundPart
 {
-	public static String[] elements = new String[] { "sound:S", "delay:I", "serverWide:B", "range:I" };
+	public static String[] elements = new String[] { "sound:S", "delay:I", "serverWide:B", "range:I", "playAtPlayersLocation:B", "volume:I", "pitch:I" };
 
 	private SoundEvent sound;
 

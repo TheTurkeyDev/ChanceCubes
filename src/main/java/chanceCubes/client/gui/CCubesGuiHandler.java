@@ -14,10 +14,10 @@ public class CCubesGuiHandler implements IGuiHandler
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
-		switch (ID)
+		switch(ID)
 		{
 			case CREATIVE_PENDANT_ID:
-				if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
+				if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
 					return new CreativePendantGui(player, world);
 				break;
 			default:
@@ -29,10 +29,10 @@ public class CCubesGuiHandler implements IGuiHandler
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
-		switch (ID)
+		switch(ID)
 		{
 			case CREATIVE_PENDANT_ID:
-				if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
+				if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
 					return new CreativePendantContainer(player.inventory, world);
 				break;
 			default:

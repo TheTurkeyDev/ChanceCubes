@@ -107,9 +107,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
 	{
 		this.mc.getTextureManager().bindTexture(guiTextures);
-		int k = (this.width - this.imageWidth) / 2;
-		int l = (this.height - this.imageHeight) / 2;
-		this.drawTexturedModalRect(k, l, 0, 0, this.imageWidth, this.imageHeight);
+		this.drawTexturedModalRect((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		this.rewardField.drawTextBox();

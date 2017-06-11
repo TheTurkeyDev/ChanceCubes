@@ -62,7 +62,7 @@ public class CreativePendantGui extends GuiContainer
 			this.chanceValue += 10;
 		else if(button.id == 6 && container.getChanceCubesInPendant() != null)
 			CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderEntity().getName(), this.chanceValue));
-		
+
 		if(this.chanceValue > 100)
 			this.chanceValue = 100;
 		if(this.chanceValue < -100)
@@ -81,8 +81,6 @@ public class CreativePendantGui extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
 	{
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiTextures);
-		int k = (this.width - this.xSize) / 2;
-		int l = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+		this.drawTexturedModalRect((this.width - this.xSize) / 2, (this.height - this.ySize) / 2, 0, 0, xSize, ySize);
 	}
 }

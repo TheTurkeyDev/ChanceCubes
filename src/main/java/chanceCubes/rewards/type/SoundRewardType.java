@@ -17,27 +17,16 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 	@Override
 	public void trigger(final SoundPart sound, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		if(sound.getDelay() != 0)
+		Scheduler.scheduleTask(new Task("Message Reward Delay", sound.getDelay())
 		{
-			Task task = new Task("Message Reward Delay", sound.getDelay())
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
-				{
-					if(sound.playAtPlayersLocation())
-						world.playSound(null, player.posX, player.posY, player.posZ, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
-					else
-						world.playSound(null, x, y, z, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
-				}
-			};
-			Scheduler.scheduleTask(task);
-		}
-		else
-		{
-			if(sound.playAtPlayersLocation())
-				world.playSound(null, player.posX, player.posY, player.posZ, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
-			else
-				world.playSound(null, x, y, z, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
-		}
+				if(sound.playAtPlayersLocation())
+					world.playSound(null, player.posX, player.posY, player.posZ, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
+				else
+					world.playSound(null, x, y, z, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
+			}
+		});
 	}
 }

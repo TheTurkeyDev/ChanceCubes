@@ -115,21 +115,14 @@ public class CustomUserReward implements IChanceCubeReward
 
 		player.addChatMessage(new TextComponentString("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
-		Task task = new Task("Custom Reward", 100)
+		Scheduler.scheduleTask(new Task("Custom Reward", 100)
 		{
 			@Override
 			public void callback()
 			{
-				triggerAcutalReward(world, pos, player);
+				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
 			}
-		};
-
-		Scheduler.scheduleTask(task);
-	}
-
-	public void triggerAcutalReward(World world, BlockPos pos, EntityPlayer player)
-	{
-		this.customRewards.get(world.rand.nextInt(this.customRewards.size())).trigger(world, pos, player);
+		});
 	}
 
 	@Override

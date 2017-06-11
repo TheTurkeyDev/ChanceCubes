@@ -1,7 +1,6 @@
 package chanceCubes.items;
 
 import chanceCubes.config.CCubesSettings;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class ItemChancePendant extends BaseChanceCubesItem
@@ -29,12 +28,5 @@ public class ItemChancePendant extends BaseChanceCubesItem
 	public void damage(ItemStack stack)
 	{
 		stack.setItemDamage(stack.getItemDamage() + 1);
-	}
-
-	public boolean getIsRepairable(ItemStack stack, ItemStack repairStack)
-	{
-		if(stack.getItem() instanceof ItemChancePendant && repairStack.getItem().equals(Blocks.LAPIS_BLOCK))
-			return true;
-		return false;
 	}
 }

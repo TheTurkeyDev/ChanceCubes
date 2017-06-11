@@ -23,7 +23,6 @@ public class DidYouKnowReward implements IChanceCubeReward
 		dyk.add("Funwayguy created the original D20 model and animation.");
 		dyk.add("Glenn is NOT a refference to the TV show 'The Walking Dead', but is instead a reference to the streamer Sevadus.");
 		dyk.add("Today is Darkosto's Birthday!");
-		dyk.add("One of the original names for Chance Cubes was XYBlocks");
 	}
 
 	@Override

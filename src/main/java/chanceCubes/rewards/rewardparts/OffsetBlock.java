@@ -6,6 +6,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 
 public class OffsetBlock
 {
-	public static String[] elements = new String[] { "XOffSet:I", "YOffSet:I", "ZOffSet:I", "Block:S", "Falling:B", "delay:I", "RelativeToPlayer:B" };
+	public static String[] elements = new String[] { "XOffSet:I", "YOffSet:I", "ZOffSet:I", "Block:S", "Falling:B", "delay:I", "RelativeToPlayer:B", "removeUnbreakableBlocks:B" };
 
 	protected boolean relativeToPlayer = false;
 	public int xOff;
@@ -59,41 +60,25 @@ public class OffsetBlock
 	{
 		if(!falling)
 		{
-			if(delay != 0)
+			Scheduler.scheduleTask(new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
 			{
-				Task task = new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				@Override
+				public void callback()
 				{
-					@Override
-					public void callback()
-					{
-						placeInWorld(world, x, y, z, true);
-					}
-				};
-				Scheduler.scheduleTask(task);
-			}
-			else
-			{
-				placeInWorld(world, x, y, z, true);
-			}
+					placeInWorld(world, x, y, z, true);
+				}
+			});
 		}
 		else
 		{
-			if(delay != 0)
+			Scheduler.scheduleTask(new Task("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
 			{
-				Task task = new Task("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				@Override
+				public void callback()
 				{
-					@Override
-					public void callback()
-					{
-						spawnFallingBlock(world, x, y, z);
-					}
-				};
-				Scheduler.scheduleTask(task);
-			}
-			else
-			{
-				spawnFallingBlock(world, x, y, z);
-			}
+					spawnFallingBlock(world, x, y, z);
+				}
+			});
 		}
 	}
 
@@ -176,8 +161,10 @@ public class OffsetBlock
 			zz += zOff;
 		}
 		RewardsUtil.placeBlock(state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2, this.removeUnbreakableBlocks);
-		Block bSurface = world.getBlockState(new BlockPos(xx, yy - 1, zz)).getBlock();
-		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), bSurface.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (bSurface.getSoundType().getVolume() + 1.0F) / 2.0F, bSurface.getSoundType().getVolume() * 0.5F);
+		BlockPos surfacefPos = new BlockPos(xx, yy - 1, zz);
+		Block bSurface = world.getBlockState(surfacefPos).getBlock();
+		SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
+		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
 	}
 
 	public void placeInWorld(World world, BlockPos position, boolean offset)

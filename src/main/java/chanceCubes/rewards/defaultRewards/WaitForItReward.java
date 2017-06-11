@@ -26,15 +26,10 @@ public class WaitForItReward implements IChanceCubeReward
 	{
 		player.addChatMessage(new TextComponentString("Wait for it......."));
 
-		Task task = new Task("Wait For It", rand.nextInt(4000) + 1000)
+		Scheduler.scheduleTask(new Task("Wait For It", rand.nextInt(4000) + 1000)
 		{
 			@Override
 			public void callback()
-			{
-				triggerRealReward();
-			}
-
-			private void triggerRealReward()
 			{
 				int reward = rand.nextInt(3);
 				player.addChatMessage(new TextComponentString("NOW!"));
@@ -64,12 +59,10 @@ public class WaitForItReward implements IChanceCubeReward
 					zomb.setChild(true);
 					zomb.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 0));
 					zomb.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 0));
-					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.EMERALD_ORE.getDefaultState());
+					world.spawnEntityInWorld(zomb);
 				}
 			}
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	@Override

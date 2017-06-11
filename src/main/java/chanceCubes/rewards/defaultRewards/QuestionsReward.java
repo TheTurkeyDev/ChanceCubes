@@ -63,7 +63,7 @@ public class QuestionsReward implements IChanceCubeReward
 			inQuestion.put(player, questionsAndAnswers.get(question).getValue());
 		}
 
-		Task task = new Task("Question", 400)
+		Scheduler.scheduleTask(new Task("Question", 400)
 		{
 			@Override
 			public void callback()
@@ -71,9 +71,7 @@ public class QuestionsReward implements IChanceCubeReward
 				timeUp(player, false);
 			}
 
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	private void timeUp(EntityPlayer player, boolean correct)
@@ -91,7 +89,7 @@ public class QuestionsReward implements IChanceCubeReward
 		{
 			player.addChatMessage(new TextComponentString("Incorrect! The answer was " + this.inQuestion.get(player)));
 			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
-			player.attackEntityFrom(CCubesDamageSource.questionfail, Float.MAX_VALUE);
+			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}
 
 		inQuestion.remove(player);

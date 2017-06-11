@@ -30,14 +30,14 @@ public class ClearInventoryReward implements IChanceCubeReward
 				player.inventory.setInventorySlotContents(slotNum, null);
 		}
 		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
-		
+
 		player.addChatMessage(new TextComponentString("I hope you didn't have anything of value with you :)"));
 		if(cubes)
 			player.addChatMessage(new TextComponentString("Don't worry, I left the cubes for you!"));
 
 		if(world.rand.nextInt(5) == 1)
 		{
-			Task task = new Task("Replace_Inventory", 200)
+			Scheduler.scheduleTask(new Task("Replace_Inventory", 200)
 			{
 				@Override
 				public void callback()
@@ -46,9 +46,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 					player.addChatMessage(new TextComponentString("AHHHHHH JK!! You should have seen your face!"));
 				}
 
-			};
-
-			Scheduler.scheduleTask(task);
+			});
 		}
 	}
 

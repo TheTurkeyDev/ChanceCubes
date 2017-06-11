@@ -9,8 +9,6 @@ import chanceCubes.rewards.defaultRewards.CustomUserReward;
 
 public class PlayerConnectListener
 {
-	boolean hasChecked = false;
-
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerLoggedInEvent event)
 	{

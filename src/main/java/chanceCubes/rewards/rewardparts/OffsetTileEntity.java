@@ -13,7 +13,7 @@ public class OffsetTileEntity extends OffsetBlock
 {
 
 	private NBTTagCompound teNBT;
-	
+
 	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
 	{
 		this(x, y, z, b.getDefaultState(), te, falling, delay);
@@ -34,48 +34,32 @@ public class OffsetTileEntity extends OffsetBlock
 	{
 		if(!falling)
 		{
-			if(delay != 0)
+			Scheduler.scheduleTask(new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
 			{
-				Task task = new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				@Override
+				public void callback()
 				{
-					@Override
-					public void callback()
-					{
-						placeInWorld(world, x, y, z, true);
-					}
-				};
-				Scheduler.scheduleTask(task);
-			}
-			else
-			{
-				placeInWorld(world, x, y, z, true);
-			}
+					placeInWorld(world, x, y, z, true);
+				}
+			});
 		}
 		else
 		{
-			if(delay != 0)
+			Scheduler.scheduleTask(new Task("Falling_TileEntity_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
 			{
-				Task task = new Task("Falling_TileEntity_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+				@Override
+				public void callback()
 				{
-					@Override
-					public void callback()
-					{
-						spawnFallingBlock(world, x, y, z);
-					}
-				};
-				Scheduler.scheduleTask(task);
-			}
-			else
-			{
-				spawnFallingBlock(world, x, y, z);
-			}
+					spawnFallingBlock(world, x, y, z);
+				}
+			});
 		}
 	}
 
 	public void placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
 		super.placeInWorld(world, x, y, z, offset);
-		//te.me = this.data;
+		// te.me = this.data;
 		if(offset)
 			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.create(world, teNBT));
 		else

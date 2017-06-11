@@ -38,10 +38,10 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 			wolves.add(wolf);
 			world.spawnEntityInWorld(wolf);
 		}
-		
+
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Do they look weird to you?");
 
-		Task task = new Task("Mob_Switch", 200)
+		Scheduler.scheduleTask(new Task("Mob_Switch", 200)
 		{
 			@Override
 			public void callback()
@@ -55,9 +55,7 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 					world.spawnEntityInWorld(creeper);
 				}
 			}
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	@Override

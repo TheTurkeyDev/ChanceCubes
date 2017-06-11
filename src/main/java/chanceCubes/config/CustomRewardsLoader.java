@@ -48,6 +48,7 @@ import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.CustomSchematic;
+import chanceCubes.util.FileUtil;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
@@ -117,6 +118,9 @@ public class CustomRewardsLoader
 						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
 
 					ChanceCubeRegistry.INSTANCE.addCustomReward(basicReward);
+
+					if(this.reSaveCurrentJson)
+						FileUtil.writeJsonToFile(f, fileJson);
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
@@ -126,17 +130,12 @@ public class CustomRewardsLoader
 
 	public void fetchRemoteInfo()
 	{
-		String rewardURL = "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php";
-
 		try
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
-			// String today = "12/25";
-			JsonObject json = HTTPUtil.getWebFile(rewardURL, new CustomEntry<String, String>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
+			JsonObject json = HTTPUtil.getWebFile("https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<String, String>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
-			System.out.println(json.toString());
-
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to fetch remote information for the mod!");
@@ -280,7 +279,7 @@ public class CustomRewardsLoader
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
-				CCubesCore.logger.log(Level.ERROR, ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 		return new CustomEntry<BasicReward, Boolean>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])), isGiantCubeReward);
@@ -329,28 +328,38 @@ public class CustomRewardsLoader
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		for(JsonElement element : rawReward)
 		{
-			int x = element.getAsJsonObject().get("XOffSet").getAsInt();
-			int y = element.getAsJsonObject().get("YOffSet").getAsInt();
-			int z = element.getAsJsonObject().get("ZOffSet").getAsInt();
-			String blockDataParts[] = element.getAsJsonObject().get("Block").getAsString().split(":");
+			for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "Block", "Falling" })
+			{
+				if(element.getAsJsonObject().has(s))
+				{
+					reSaveCurrentJson = true;
+					element.getAsJsonObject().add(s.substring(0, 1).toLowerCase() + s.substring(1), element.getAsJsonObject().get(s));
+					element.getAsJsonObject().remove(s);
+				}
+			}
+
+			int x = element.getAsJsonObject().get("xOffSet").getAsInt();
+			int y = element.getAsJsonObject().get("yOffSet").getAsInt();
+			int z = element.getAsJsonObject().get("zOffSet").getAsInt();
+			String blockDataParts[] = element.getAsJsonObject().get("block").getAsString().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
 			Block block = RewardsUtil.getBlock(mod, blockName);
-			boolean falling = element.getAsJsonObject().get("Falling").getAsBoolean();
+			boolean falling = element.getAsJsonObject().get("falling").getAsBoolean();
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
 			if(element.getAsJsonObject().has("delay"))
 				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 
-			if(element.getAsJsonObject().has("RelativeToPlayer"))
+			if(element.getAsJsonObject().has("relativeToPlayer"))
 				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
 
 			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
 				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
 
 			if(blockDataParts.length > 2)
-				offBlock.setBlockState(block.getStateFromMeta(Integer.parseInt(blockDataParts[2])));
+				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
 
 			blocks.add(offBlock);
 		}

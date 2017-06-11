@@ -44,7 +44,7 @@ public class ConfigGui extends GuiScreen
 	private boolean isDeleting = false;
 	private GuiButton buttonNew;
 	private GuiButton buttonSave;
-	//private GuiButton buttonDelete;
+	// private GuiButton buttonDelete;
 	private GuiButton buttonCancel;
 	private GuiButton buttonback;
 	private String buttonNewText = "New File";
@@ -224,7 +224,7 @@ public class ConfigGui extends GuiScreen
 					}
 
 					this.textFieldNew.setText("");
-					//buttonDelete.visible = true;
+					// buttonDelete.visible = true;
 					buttonCancel.visible = false;
 					buttonback.enabled = true;
 					this.reloadStage();
@@ -232,7 +232,7 @@ public class ConfigGui extends GuiScreen
 				else
 				{
 					buttonNew.displayString = "Create";
-					//buttonDelete.visible = false;
+					// buttonDelete.visible = false;
 					buttonCancel.visible = true;
 					buttonback.enabled = false;
 				}
@@ -244,14 +244,14 @@ public class ConfigGui extends GuiScreen
 				{
 					this.isCreatingNew = false;
 					this.buttonNew.displayString = this.buttonNewText;
-					//this.buttonDelete.visible = true;
+					// this.buttonDelete.visible = true;
 					this.buttonCancel.visible = false;
 					this.buttonback.enabled = true;
 				}
 				else if(this.isDeleting)
 				{
 					this.isDeleting = false;
-					//this.buttonDelete.enabled = true;
+					// this.buttonDelete.enabled = true;
 					this.buttonCancel.visible = false;
 					this.buttonback.enabled = true;
 					this.buttonNew.enabled = true;
@@ -311,7 +311,7 @@ public class ConfigGui extends GuiScreen
 				}
 
 				this.textFieldNew.setText("");
-				//buttonDelete.visible = true;
+				// buttonDelete.visible = true;
 				buttonCancel.visible = false;
 				buttonback.enabled = true;
 				this.reloadStage();
@@ -319,7 +319,7 @@ public class ConfigGui extends GuiScreen
 			else if(button.id == 4)
 			{
 				this.isDeleting = true;
-				//this.buttonDelete.enabled = false;
+				// this.buttonDelete.enabled = false;
 				this.buttonCancel.visible = true;
 				this.buttonback.enabled = false;
 				this.buttonNew.enabled = false;
@@ -606,6 +606,8 @@ public class ConfigGui extends GuiScreen
 								rewardInstance.addProperty(label, value);
 							if(s2.equalsIgnoreCase("B"))
 								rewardInstance.addProperty(label, Boolean.parseBoolean(value));
+							if(s2.equalsIgnoreCase("F"))
+								rewardInstance.addProperty(label, Float.parseFloat(value));
 						}
 					}
 				} catch(Exception e)
@@ -648,7 +650,7 @@ public class ConfigGui extends GuiScreen
 		else if(reward.equalsIgnoreCase("Potion"))
 			return PotionPart.elements;
 		else if(reward.equalsIgnoreCase("Schematic"))
-			return new String[] { "fileName:S", "delay:I" };
+			return new String[] { "fileName:S", "delay:I", "xOffSet:I", "yOffSet:I", "zOffSet:I", "falling:B", "relativeToPlayer:B", "includeAirBlocks:B", "spacingDelay:F" };
 		else if(reward.equalsIgnoreCase("Sound"))
 			return SoundPart.elements;
 		else if(reward.equalsIgnoreCase("Chest"))

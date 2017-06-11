@@ -65,14 +65,16 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		return this.writeSyncableDataToNBT(super.writeToNBT(nbt));
+		nbt.setInteger("chance", this.getChance());
+		nbt = super.writeToNBT(nbt);
+		return nbt;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.readSyncableDataFromNBT(nbt);
+		this.chance = nbt.getInteger("chance");
 	}
 
 	@Override
@@ -142,25 +144,14 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
-		this.writeSyncableDataToNBT(syncData);
+		syncData = this.writeToNBT(syncData);
 		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		readSyncableDataFromNBT(pkt.getNbtCompound());
-	}
-
-	private NBTTagCompound writeSyncableDataToNBT(NBTTagCompound syncData)
-	{
-		syncData.setInteger("chance", this.getChance());
-		return syncData;
-	}
-
-	private void readSyncableDataFromNBT(NBTTagCompound nbt)
-	{
-		this.chance = nbt.getInteger("chance");
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

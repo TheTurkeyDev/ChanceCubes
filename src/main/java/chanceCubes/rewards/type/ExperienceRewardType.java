@@ -19,30 +19,17 @@ public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 	@Override
 	public void trigger(final ExpirencePart levels, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		if(levels.getDelay() != 0)
+		Scheduler.scheduleTask(new Task("Expirence Reward Delay", levels.getDelay())
 		{
-			Task task = new Task("Expirence Reward Delay", levels.getDelay())
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
+				for(int i = 0; i < levels.getNumberofOrbs(); i++)
 				{
-					triggerExpirence(levels, world, x, y, z, player);
+					Entity newEnt = new EntityXPOrb(world, x, y + 1, z, (levels.getAmount() / levels.getNumberofOrbs()));
+					world.spawnEntityInWorld(newEnt);
 				}
-			};
-			Scheduler.scheduleTask(task);
-		}
-		else
-		{
-			triggerExpirence(levels, world, x, y, z, player);
-		}
-	}
-	
-	public void triggerExpirence(ExpirencePart levels, World world, int x, int y, int z, EntityPlayer player)
-	{
-		for(int i = 0; i < levels.getNumberofOrbs(); i++)
-		{
-			Entity newEnt = new EntityXPOrb(world, x, y  +1, z, (levels.getAmount()/levels.getNumberofOrbs()));
-			world.spawnEntityInWorld(newEnt);
-		}
+			}
+		});
 	}
 }

@@ -5,7 +5,6 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,24 +34,17 @@ public class TrollTNTReward implements IChanceCubeReward
 
 		if(RewardsUtil.rand.nextInt(5) != 1)
 		{
-			Task task = new Task("TrollTNT", 80)
+			Scheduler.scheduleTask(new Task("TrollTNT", 80)
 			{
 				@Override
 				public void callback()
 				{
-					timeUp(entitytntprimed, player);
+					player.addChatMessage(new TextComponentString("BOOM"));
+					entitytntprimed.setDead();
 				}
 
-			};
-
-			Scheduler.scheduleTask(task);
+			});
 		}
-	}
-
-	private void timeUp(Entity ent, EntityPlayer player)
-	{
-		player.addChatMessage(new TextComponentString("BOOM"));
-		ent.setDead();
 	}
 
 	@Override

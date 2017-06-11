@@ -68,7 +68,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 
 			if(te != null)
 			{
-				if(!te.hasMaster() || !(world.getTileEntity(te.getMasterPostion()) instanceof TileGiantCube))
+				if(!te.hasMaster() || !te.checkForMaster())
 				{
 					world.setBlockToAir(pos);
 					return false;

@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardparts;
 
 public class ParticlePart
 {
-	public static String[] elements = new String[] { "particle:I", "x:I", "y:I", "z:I", "delay:I" };
+	public static String[] elements = new String[] { "particle:I", "delay:I" };
 
 	private int particleID = -1;
 	private String particleName = "";

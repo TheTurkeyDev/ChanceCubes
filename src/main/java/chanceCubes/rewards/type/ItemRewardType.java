@@ -17,28 +17,15 @@ public class ItemRewardType extends BaseRewardType<ItemPart>
 	@Override
 	public void trigger(final ItemPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		if(part.getDelay() != 0)
+		Scheduler.scheduleTask(new Task("ItemStack Reward Delay", part.getDelay())
 		{
-			Task task = new Task("ItemStack Reward Delay", part.getDelay())
+			@Override
+			public void callback()
 			{
-				@Override
-				public void callback()
-				{
-					spawnStack(part, world, x, y, z, player);
-				}
-			};
-			Scheduler.scheduleTask(task);
-		}
-		else
-		{
-			spawnStack(part, world, x, y, z, player);
-		}
-	}
-
-	public void spawnStack(ItemPart part, World world, int x, int y, int z, EntityPlayer player)
-	{
-		EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, part.getItemStack().copy());
-		world.spawnEntityInWorld(itemEnt);
-		itemEnt.setPickupDelay(10);
+				EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, part.getItemStack().copy());
+				itemEnt.setPickupDelay(10);
+				world.spawnEntityInWorld(itemEnt);
+			}
+		});
 	}
 }

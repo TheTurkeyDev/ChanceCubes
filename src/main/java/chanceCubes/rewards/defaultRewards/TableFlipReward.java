@@ -20,13 +20,11 @@ public class TableFlipReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		RewardsUtil.sendMessageToAllPlayers(world, "(╯°□°）╯︵ ┻━┻)");
-		this.nextStep(0, world, pos);
-	}
 
-	public void nextStep(final int stage, final World world, final BlockPos pos)
-	{
-		Task task = new Task("Table_Flip", 10)
+		Scheduler.scheduleTask(new Task("Table_Flip", 10)
 		{
+			int stage = 0;
+
 			@Override
 			public void callback()
 			{
@@ -86,12 +84,12 @@ public class TableFlipReward implements IChanceCubeReward
 				}
 
 				if(stage < 4)
-					nextStep(stage + 1, world, pos);
+					stage++;
+				else
+					Scheduler.removeTask(this);
 			}
 
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	@Override

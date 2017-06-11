@@ -10,16 +10,10 @@ import chanceCubes.rewards.type.CommandRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWorkbench;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -92,13 +86,13 @@ public class ExtraUtilsModHook extends BaseModHook
 					if(x == 0 || x == 4 || z == 0 | z == 4)
 					{
 						spikes[index] = new OffsetBlock(x - 2, 0, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(block.getStateFromMeta(x == 0 ? 5 : x == 4 ? 4 : z == 0 ? 3 : 2));
+						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, x == 0 ? 5 : x == 4 ? 4 : z == 0 ? 3 : 2));
 						index++;
 					}
 					else
 					{
 						spikes[index] = new OffsetBlock(x - 2, -1, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(block.getStateFromMeta(1));
+						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, 1));
 						index++;
 						spikes[index] = new OffsetBlock(x - 2, 2, z - 2, block, false).setRelativeToPlayer(true);
 						index++;
