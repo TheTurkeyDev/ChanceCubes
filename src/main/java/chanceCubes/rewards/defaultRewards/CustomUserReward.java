@@ -36,7 +36,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(String userName, UUID uuid)
+	public CustomUserReward(String un, UUID uuid)
 	{
 		if(!CCubesSettings.userSpecificRewards)
 			return;
