@@ -39,7 +39,7 @@ public class MathReward implements IChanceCubeReward
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
-		player.addChatMessage(new TextComponentString("Quick, what's " + num1 + "+" + num2 + "?"));
+		player.sendMessage(new TextComponentString("Quick, what's " + num1 + "+" + num2 + "?"));
 
 		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
 		List<BlockPos> boxBlocks = new ArrayList<BlockPos>();
@@ -71,7 +71,7 @@ public class MathReward implements IChanceCubeReward
 			for(int i = 0; i < 5; i++)
 			{
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
-				world.spawnEntityInWorld(entitytntprimed);
+				world.spawnEntity(entitytntprimed);
 				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				entitytntprimed.setFuse(140);
 				tnt.add(entitytntprimed);
@@ -104,13 +104,13 @@ public class MathReward implements IChanceCubeReward
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
-			player.addChatMessage(new TextComponentString("Correct!"));
-			player.addChatMessage(new TextComponentString("Here, have a item!"));
-			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.sendMessage(new TextComponentString("Correct!"));
+			player.sendMessage(new TextComponentString("Here, have a item!"));
+			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
 			player.attackEntityFrom(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 
@@ -118,7 +118,7 @@ public class MathReward implements IChanceCubeReward
 			tnt.setDead();
 
 		for(BlockPos b : info.getBlocks())
-			player.worldObj.setBlockToAir(b);
+			player.world.setBlockToAir(b);
 
 		inQuestion.remove(player);
 
@@ -149,13 +149,13 @@ public class MathReward implements IChanceCubeReward
 				answer = Integer.parseInt(event.getMessage());
 			} catch(NumberFormatException e)
 			{
-				player.addChatMessage(new TextComponentString("Incorrect!"));
+				player.sendMessage(new TextComponentString("Incorrect!"));
 			}
 
 			if(inQuestion.get(player).getAnswer() == answer)
 				this.timeUp(player, true);
 			else
-				player.addChatMessage(new TextComponentString("Incorrect!"));
+				player.sendMessage(new TextComponentString("Incorrect!"));
 			event.setCanceled(true);
 		}
 	}

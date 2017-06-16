@@ -12,7 +12,7 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerLoggedInEvent event)
 	{
-		if(event.player.worldObj.isRemote)
+		if(event.player.world.isRemote)
 			return;
 
 		new Thread(new Runnable()
@@ -29,7 +29,7 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.player.worldObj.isRemote)
+		if(event.player.world.isRemote)
 			return;
 
 		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());

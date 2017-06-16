@@ -53,7 +53,7 @@ public class RainingCatsAndCogsReward implements IChanceCubeReward
 				ent.setCustomNameTag(names[RewardsUtil.rand.nextInt(names.length)]);
 				ent.setAlwaysRenderNameTag(true);
 
-				world.spawnEntityInWorld(ent);
+				world.spawnEntity(ent);
 				Scheduler.scheduleTask(new Task("Despawn Delay", 200)
 				{
 					@Override

@@ -54,19 +54,19 @@ public class CCubesServerCommands extends CommandBase
 	}
 
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "ChanceCubes";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender)
+	public String getUsage(ICommandSender sender)
 	{
 		return "/ChanceCubes <reload/version/handNBT/enableReward/disableReward>";
 	}
 
 	@Override
-	public List<String> getCommandAliases()
+	public List<String> getAliases()
 	{
 		return aliases;
 	}
@@ -89,13 +89,13 @@ public class CCubesServerCommands extends CommandBase
 					CustomRewardsLoader.instance.fetchRemoteInfo();
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
-					sender.addChatMessage(new TextComponentString("Rewards Reloaded"));
+					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 				}
 			}).start();
 		}
 		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
 		{
-			sender.addChatMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
+			sender.sendMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
 		}
 		else if(args[0].equalsIgnoreCase("handNBT"))
 		{
@@ -107,11 +107,11 @@ public class CCubesServerCommands extends CommandBase
 					NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
 					if(nbt != null)
 					{
-						sender.addChatMessage(new TextComponentString(nbt.toString()));
+						sender.sendMessage(new TextComponentString(nbt.toString()));
 					}
 					else
 					{
-						sender.addChatMessage(new TextComponentString("This item has no tag nbt data"));
+						sender.sendMessage(new TextComponentString("This item has no tag nbt data"));
 					}
 				}
 			}
@@ -125,8 +125,8 @@ public class CCubesServerCommands extends CommandBase
 				if(stack != null)
 				{
 					ResourceLocation res = stack.getItem().getRegistryName();
-					sender.addChatMessage(new TextComponentString(res.getResourceDomain() + ":" + res.getResourcePath()));
-					sender.addChatMessage(new TextComponentString("meta: " + stack.getItemDamage()));
+					sender.sendMessage(new TextComponentString(res.getResourceDomain() + ":" + res.getResourcePath()));
+					sender.sendMessage(new TextComponentString("meta: " + stack.getItemDamage()));
 				}
 			}
 		}
@@ -136,16 +136,16 @@ public class CCubesServerCommands extends CommandBase
 			{
 				if(ChanceCubeRegistry.INSTANCE.unregisterReward(args[1]))
 				{
-					sender.addChatMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
+					sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
 				}
 				else
 				{
-					sender.addChatMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
+					sender.sendMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
 				}
 			}
 			else
 			{
-				sender.addChatMessage(new TextComponentString("Try /chancecubes enableReward <Reward Name>"));
+				sender.sendMessage(new TextComponentString("Try /chancecubes enableReward <Reward Name>"));
 			}
 		}
 		else if(args[0].equalsIgnoreCase("enableReward"))
@@ -154,16 +154,16 @@ public class CCubesServerCommands extends CommandBase
 			{
 				if(ChanceCubeRegistry.INSTANCE.enableReward(args[1]))
 				{
-					sender.addChatMessage(new TextComponentString(args[1] + " Has been enabled."));
+					sender.sendMessage(new TextComponentString(args[1] + " Has been enabled."));
 				}
 				else
 				{
-					sender.addChatMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
+					sender.sendMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
 				}
 			}
 			else
 			{
-				sender.addChatMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
+				sender.sendMessage(new TextComponentString("Try /chancecubes disableReward <Reward Name>"));
 			}
 		}
 		else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
@@ -182,7 +182,7 @@ public class CCubesServerCommands extends CommandBase
 								if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 									FMLCommonHandler.instance().showGuiScreen(new SchematicCreationGui(player));
 								else
-									sender.addChatMessage(new TextComponentString("Please set both points before moving on!"));
+									sender.sendMessage(new TextComponentString("Please set both points before moving on!"));
 							}
 							else
 							{
@@ -198,36 +198,36 @@ public class CCubesServerCommands extends CommandBase
 					}
 					else
 					{
-						sender.addChatMessage(new TextComponentString("Sorry, you need to be in creative to use this command"));
+						sender.sendMessage(new TextComponentString("Sorry, you need to be in creative to use this command"));
 					}
 				}
 			}
 			else
 			{
-				sender.addChatMessage(new TextComponentString("Sorry, but this command only works in single player"));
+				sender.sendMessage(new TextComponentString("Sorry, but this command only works in single player"));
 			}
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.addChatMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		}
 		else if(args[0].equalsIgnoreCase("testRewards"))
 		{
 			CCubesSettings.testRewards = !CCubesSettings.testRewards;
 			CCubesSettings.testingRewardIndex = 0;
 			if(CCubesSettings.testRewards)
-				sender.addChatMessage(new TextComponentString("Reward testing is now enabled for all rewards!"));
+				sender.sendMessage(new TextComponentString("Reward testing is now enabled for all rewards!"));
 			else
-				sender.addChatMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+				sender.sendMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
 		}
 		else if(args[0].equalsIgnoreCase("testCustomRewards"))
 		{
 			CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
 			CCubesSettings.testingRewardIndex = 0;
 			if(CCubesSettings.testCustomRewards)
-				sender.addChatMessage(new TextComponentString("Reward testing is now enabled for custom rewards!"));
+				sender.sendMessage(new TextComponentString("Reward testing is now enabled for custom rewards!"));
 			else
-				sender.addChatMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+				sender.sendMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
 
 		}
 		else if(args[0].equalsIgnoreCase("test"))
@@ -236,7 +236,7 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else
 		{
-			sender.addChatMessage(new TextComponentString("Invalid arguments for the Chance Cubes command"));
+			sender.sendMessage(new TextComponentString("Invalid arguments for the Chance Cubes command"));
 		}
 	}
 
@@ -247,11 +247,10 @@ public class CCubesServerCommands extends CommandBase
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
 		if(args.length == 0)
 			return tab;
 		return null;
 	}
-
 }

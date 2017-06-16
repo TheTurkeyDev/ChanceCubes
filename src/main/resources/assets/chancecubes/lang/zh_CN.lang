@@ -12,7 +12,7 @@ item.chance_Pendant_Tier3.name=三级机会吊坠
 
 item.creative_Pendant.name=创造机会吊坠
 item.reward_Selector_Pendant.name=奖励选择吊坠
-item.single_Use_Reward_Selector_Pendant.name=Single Use 奖励选择吊坠
+item.single_use_reward_selector_pendant.name=Single Use 奖励选择吊坠
 
 item.silk_Touch_Pendant.name=精准采集机会吊坠
 

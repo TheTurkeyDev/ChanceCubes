@@ -27,7 +27,7 @@ public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 				for(int i = 0; i < levels.getNumberofOrbs(); i++)
 				{
 					Entity newEnt = new EntityXPOrb(world, x, y + 1, z, (levels.getAmount() / levels.getNumberofOrbs()));
-					world.spawnEntityInWorld(newEnt);
+					world.spawnEntity(newEnt);
 				}
 			}
 		});

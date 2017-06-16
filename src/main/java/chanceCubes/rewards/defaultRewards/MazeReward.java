@@ -19,7 +19,7 @@ public class MazeReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("Generating maze..... May be some lag..."));
+		player.sendMessage(new TextComponentString("Generating maze..... May be some lag..."));
 		final MazeGenerator gen = new MazeGenerator();
 		gen.generate(world, pos.getX(), pos.getY(), pos.getZ(), 20, 20);
 		final int px = (int) player.posX;
@@ -45,40 +45,40 @@ public class MazeReward implements IChanceCubeReward
 
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
 				{
-					player.addChatMessage(new TextComponentString("Hey! You won!"));
+					player.sendMessage(new TextComponentString("Hey! You won!"));
 					gen.endMaze(world);
 					player.setPositionAndUpdate(px, py, pz);
 					Scheduler.removeTask(this);
 				}
 				else if(time == 30)
 				{
-					player.addChatMessage(new TextComponentString("30 seconds left!!"));
+					player.sendMessage(new TextComponentString("30 seconds left!!"));
 				}
 				else if(time == 5)
 				{
-					player.addChatMessage(new TextComponentString("5..."));
+					player.sendMessage(new TextComponentString("5..."));
 				}
 				else if(time == 4)
 				{
-					player.addChatMessage(new TextComponentString("4..."));
+					player.sendMessage(new TextComponentString("4..."));
 				}
 				else if(time == 3)
 				{
-					player.addChatMessage(new TextComponentString("3..."));
+					player.sendMessage(new TextComponentString("3..."));
 				}
 				else if(time == 2)
 				{
-					player.addChatMessage(new TextComponentString("2..."));
+					player.sendMessage(new TextComponentString("2..."));
 				}
 				else if(time == 1)
 				{
-					player.addChatMessage(new TextComponentString("1!"));
+					player.sendMessage(new TextComponentString("1!"));
 				}
 			}
 		});
 
-		player.addChatMessage(new TextComponentString("Beat the maze and find the sign!"));
-		player.addChatMessage(new TextComponentString("You have 45 seconds!"));
+		player.sendMessage(new TextComponentString("Beat the maze and find the sign!"));
+		player.sendMessage(new TextComponentString("You have 45 seconds!"));
 	}
 
 	@Override

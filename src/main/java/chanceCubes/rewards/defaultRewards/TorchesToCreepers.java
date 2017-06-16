@@ -29,12 +29,12 @@ public class TorchesToCreepers implements IChanceCubeReward
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(xx, yy, zz));
 						EntityCreeper creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5, 0, 0);
-						world.spawnEntityInWorld(creeper);
+						world.spawnEntity(creeper);
 					}
 				}
 			}
 		}
-		player.addChatMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
+		player.sendMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
 	}
 
 	@Override

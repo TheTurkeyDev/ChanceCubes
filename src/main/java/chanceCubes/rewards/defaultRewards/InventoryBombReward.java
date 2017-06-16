@@ -25,17 +25,17 @@ public class InventoryBombReward implements IChanceCubeReward
 			if(i == 0)
 			{
 				stack.setStackDisplayName("ButtonBoy");
-				stack.func_190920_e(13);
+				stack.setCount(13);
 			}
 			else if(i == 1)
 			{
 				stack.setStackDisplayName("TheBlackswordsman");
-				stack.func_190920_e(13);
+				stack.setCount(13);
 			}
 			player.inventory.armorInventory.set(i, stack);
 		}
 
-		player.addChatMessage(new TextComponentString("Inventory Bomb!!!!"));
+		player.sendMessage(new TextComponentString("Inventory Bomb!!!!"));
 
 	}
 

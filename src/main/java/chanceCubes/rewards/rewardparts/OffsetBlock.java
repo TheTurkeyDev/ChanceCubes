@@ -88,7 +88,7 @@ public class OffsetBlock
 		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
 			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)), removeUnbreakableBlocks);
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, this.state, y + yOff, this);
-		world.spawnEntityInWorld(entityfallingblock);
+		world.spawnEntity(entityfallingblock);
 	}
 
 	public void setDelay(int delay)

@@ -94,8 +94,8 @@ public class CustomUserReward implements IChanceCubeReward
 
 				if(player != null)
 				{
-					player.addChatMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userName + "...."));
-					player.addChatMessage(new TextComponentString("Let the fun begin! >:)"));
+					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userName + "...."));
+					player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
 				}
 			}
 		});
@@ -107,13 +107,13 @@ public class CustomUserReward implements IChanceCubeReward
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
 		{
-			player.addChatMessage(new TextComponentString("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
+			player.sendMessage(new TextComponentString("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
 			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-			world.spawnEntityInWorld(itemEnt);
+			world.spawnEntity(itemEnt);
 			return;
 		}
 
-		player.addChatMessage(new TextComponentString("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
+		player.sendMessage(new TextComponentString("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
 		Scheduler.scheduleTask(new Task("Custom Reward", 100)
 		{

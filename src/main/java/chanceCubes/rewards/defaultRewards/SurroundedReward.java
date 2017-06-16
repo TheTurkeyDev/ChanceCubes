@@ -29,7 +29,7 @@ public class SurroundedReward implements IChanceCubeReward
 				{
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
-					world.spawnEntityInWorld(enderman);
+					world.spawnEntity(enderman);
 				}
 			}
 		}
@@ -46,7 +46,7 @@ public class SurroundedReward implements IChanceCubeReward
 				{
 					enderman = new EntityEnderman(world);
 					enderman.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
-					world.spawnEntityInWorld(enderman);
+					world.spawnEntity(enderman);
 				}
 			}
 		}

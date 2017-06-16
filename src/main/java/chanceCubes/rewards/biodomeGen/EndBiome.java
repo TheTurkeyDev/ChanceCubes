@@ -60,7 +60,7 @@ public class EndBiome implements IBioDomeBiome
 		{
 			EntityEnderman enderman = new EntityEnderman(world);
 			enderman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-			world.spawnEntityInWorld(enderman);
+			world.spawnEntity(enderman);
 		}
 	}
 }

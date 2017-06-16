@@ -26,7 +26,7 @@ public class CCubesCommandSender implements ICommandSender
 	}
 
 	@Override
-	public void addChatMessage(ITextComponent p_145747_1_)
+	public void sendMessage(ITextComponent p_145747_1_)
 	{
 
 	}
@@ -34,7 +34,7 @@ public class CCubesCommandSender implements ICommandSender
 	@Override
 	public World getEntityWorld()
 	{
-		return harvester != null ? harvester.worldObj : null;
+		return harvester != null ? harvester.world : null;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -85,7 +85,7 @@ public class CCubesCommandSender implements ICommandSender
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+	public boolean canUseCommand(int permLevel, String commandName)
 	{
 		return true;
 	}

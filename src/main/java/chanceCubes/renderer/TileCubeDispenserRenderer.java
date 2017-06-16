@@ -23,7 +23,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 	}
 
 	@Override
-	public void renderTileEntityAt(TileCubeDispenser te, double x, double y, double z, float partialTicks, int destroyStage)
+	public void func_192841_a(TileCubeDispenser te, double x, double y, double z, float partialTicks, int var9, float p_192841_10_)
 	{
 		World world = te.getWorld();
 
@@ -39,7 +39,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 		te.wave %= 125;
 		float yy = MathHelper.sin((te.wave) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
 		GlStateManager.translate(0f, yy + 1f, 0f);
-		entity.getEntityItem().func_190920_e(1);
+		entity.getEntityItem().setCount(1);
 		entity.setNoDespawn();
 		entity.rotationYaw = 0;
 		te.rot += ROTATE_SPEED;

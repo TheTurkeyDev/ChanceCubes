@@ -34,7 +34,7 @@ public class InventoryChestReward implements IChanceCubeReward
 		for(int i = 0; i < armor.size(); i++)
 			player.inventory.armorInventory.set(i, armor.get(i));
 
-		player.addChatMessage(new TextComponentString("At least i didnt delete your items..."));
+		player.sendMessage(new TextComponentString("At least i didnt delete your items..."));
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, pos);
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, pos.add(1, 0, 0));

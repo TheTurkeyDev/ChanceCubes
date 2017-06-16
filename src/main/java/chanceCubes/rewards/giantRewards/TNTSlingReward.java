@@ -26,7 +26,7 @@ public class TNTSlingReward implements IChanceCubeReward
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
 						tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
-						world.spawnEntityInWorld(tnt);
+						world.spawnEntity(tnt);
 						tnt.setFuse(60);
 						tnt.motionX = xx;
 						tnt.motionY = Math.random();
@@ -39,7 +39,7 @@ public class TNTSlingReward implements IChanceCubeReward
 			public void update()
 			{
 				tnt = new EntityTNTPrimed(world, pos.getX(), pos.getY() + 1D, pos.getZ(), player);
-				world.spawnEntityInWorld(tnt);
+				world.spawnEntity(tnt);
 				tnt.setFuse(60);
 				tnt.motionX = -1 + (Math.random() * 2);
 				tnt.motionY = Math.random();

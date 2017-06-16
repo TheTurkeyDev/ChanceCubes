@@ -31,9 +31,9 @@ public class ClearInventoryReward implements IChanceCubeReward
 		}
 		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
 
-		player.addChatMessage(new TextComponentString("I hope you didn't have anything of value with you :)"));
+		player.sendMessage(new TextComponentString("I hope you didn't have anything of value with you :)"));
 		if(cubes)
-			player.addChatMessage(new TextComponentString("Don't worry, I left the cubes for you!"));
+			player.sendMessage(new TextComponentString("Don't worry, I left the cubes for you!"));
 
 		if(world.rand.nextInt(5) == 1)
 		{
@@ -43,7 +43,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 				public void callback()
 				{
 					player.inventory = inv;
-					player.addChatMessage(new TextComponentString("AHHHHHH JK!! You should have seen your face!"));
+					player.sendMessage(new TextComponentString("AHHHHHH JK!! You should have seen your face!"));
 				}
 
 			});

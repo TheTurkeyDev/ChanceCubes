@@ -35,12 +35,12 @@ public class BookOfMemesReward implements IChanceCubeReward
 	{
 		String meme = memes.get(RewardsUtil.rand.nextInt(memes.size()));
 		MinecraftServer server = world.getMinecraftServer();
-		Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
 		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 		server.getCommandManager().executeCommand(sender, command);
-		server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 	}
 
 	@Override

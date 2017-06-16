@@ -24,7 +24,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 		{
 			RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Here have some cookies!");
 			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.COOKIE, 8));
-			world.spawnEntityInWorld(itemEnt);
+			world.spawnEntity(itemEnt);
 
 			Scheduler.scheduleTask(new Task("Cookie Monster", 30)
 			{
@@ -36,7 +36,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 					cm.setChild(true);
 					cm.setCustomNameTag("Cookie Monster");
 					RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "[Cookie Monster] Hey! Those are mine!");
-					world.spawnEntityInWorld(cm);
+					world.spawnEntity(cm);
 				}
 
 			});

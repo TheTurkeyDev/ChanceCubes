@@ -34,7 +34,7 @@ public class SkyblockReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		int skyblockHeight = world.getActualHeight() - 16;
-		if(world.provider.getHasNoSky())
+		if(world.provider.hasNoSky())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());
@@ -51,7 +51,7 @@ public class SkyblockReward implements IChanceCubeReward
 					for(int zz = 0; zz < 3; zz++)
 					{
 						world.setBlockState(skyblockPos.add(xOffset + xx, i, zOffset + zz), b.getDefaultState(), 3);
-						//RewardsUtil.placeBlock(b.getDefaultState(), world, skyblockPos.add(xOffset + xx, i, zOffset + zz));
+						// RewardsUtil.placeBlock(b.getDefaultState(), world, skyblockPos.add(xOffset + xx, i, zOffset + zz));
 					}
 				}
 			}

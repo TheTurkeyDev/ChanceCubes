@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -55,7 +56,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 				world.setBlockToAir(pos);
 				world.removeTileEntity(pos);
-				world.spawnEntityInWorld(blockstack);
+				world.spawnEntity(blockstack);
 				return true;
 			}
 
@@ -75,9 +76,9 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
-		IBlockState iblockstate = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		IBlockState iblockstate = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		return iblockstate.withProperty(TEXTURE, textureToSet);
 	}
 

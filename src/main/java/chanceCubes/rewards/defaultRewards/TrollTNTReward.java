@@ -29,7 +29,7 @@ public class TrollTNTReward implements IChanceCubeReward
 		}
 
 		final EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX + 1D, player.posY + 1D, player.posZ, player);
-		world.spawnEntityInWorld(entitytntprimed);
+		world.spawnEntity(entitytntprimed);
 		world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 		if(RewardsUtil.rand.nextInt(5) != 1)
@@ -39,7 +39,7 @@ public class TrollTNTReward implements IChanceCubeReward
 				@Override
 				public void callback()
 				{
-					player.addChatMessage(new TextComponentString("BOOM"));
+					player.sendMessage(new TextComponentString("BOOM"));
 					entitytntprimed.setDead();
 				}
 

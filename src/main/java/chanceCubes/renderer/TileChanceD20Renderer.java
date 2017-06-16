@@ -6,10 +6,10 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.tileentities.TileChanceD20;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
@@ -22,7 +22,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 	private static final float HOVER_SPEED = 6F;
 
 	@Override
-	public void renderTileEntityAt(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9)
+	public void func_192841_a(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9, float p_192841_10_)
 	{
 		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((d20.getStage() + partialTicks) / 10f);
 		d20.wave = wave;
@@ -34,7 +34,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		float f1 = ((float) d20.getWorld().getTotalWorldTime() % 750 + partialTicks) / 750.0F;
 
 		random.setSeed(432L);
-		VertexBuffer worldrenderer = tessellator.getBuffer();
+		BufferBuilder worldrenderer = tessellator.getBuffer();
 		RenderHelper.disableStandardItemLighting();
 
 		GlStateManager.disableTexture2D();

@@ -48,7 +48,7 @@ public class ArmorStandArmorReward implements IChanceCubeReward
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.FEET, bootsItems[RewardsUtil.rand.nextInt(bootsItems.length)].copy());
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
-		world.spawnEntityInWorld(armorStand);
+		world.spawnEntity(armorStand);
 	}
 
 	@Override

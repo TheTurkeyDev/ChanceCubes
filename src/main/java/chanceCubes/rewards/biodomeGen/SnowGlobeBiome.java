@@ -30,13 +30,13 @@ public class SnowGlobeBiome implements IBioDomeBiome
 			{
 				EntitySnowman snowman = new EntitySnowman(world);
 				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(snowman);
+				world.spawnEntity(snowman);
 			}
 			else if(ri == 0)
 			{
 				EntityPolarBear polarBear = new EntityPolarBear(world);
 				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(polarBear);
+				world.spawnEntity(polarBear);
 			}
 		}
 
@@ -52,7 +52,7 @@ public class SnowGlobeBiome implements IBioDomeBiome
 					snowball.motionY = 0.8;
 					snowball.motionZ = -1 + (Math.random() * 2);
 					snowball.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-					world.spawnEntityInWorld(snowball);
+					world.spawnEntity(snowball);
 				}
 			}
 		});

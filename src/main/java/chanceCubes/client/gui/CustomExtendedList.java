@@ -82,14 +82,15 @@ public class CustomExtendedList extends GuiListExtended
 			this.mc = mc;
 		}
 
+		// Draw
 		@Override
-		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+		public void func_192634_a(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
 		{
 			this.button.displayString = name;
 			this.button.xPosition = x;
 			this.button.yPosition = y;
 			// this.button.enabled = enabled();
-			this.button.drawButton(mc, mouseX, mouseY);
+			this.button.drawButtonForegroundLayer(mouseX, mouseY);
 		}
 
 		@Override
@@ -106,8 +107,9 @@ public class CustomExtendedList extends GuiListExtended
 
 		}
 
+		// Set slected
 		@Override
-		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_)
+		public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
 		{
 
 		}
@@ -131,8 +133,9 @@ public class CustomExtendedList extends GuiListExtended
 			this.label = label + ":";
 		}
 
+		// Draw
 		@Override
-		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+		public void func_192634_a(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
 		{
 			this.text.xPosition = x + 30;
 			this.text.yPosition = y;
@@ -169,8 +172,9 @@ public class CustomExtendedList extends GuiListExtended
 			return this.text;
 		}
 
+		// Set slected
 		@Override
-		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_)
+		public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
 		{
 
 		}

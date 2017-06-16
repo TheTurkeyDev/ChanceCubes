@@ -24,7 +24,7 @@ public class ItemRewardType extends BaseRewardType<ItemPart>
 			{
 				EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, part.getItemStack().copy());
 				itemEnt.setPickupDelay(10);
-				world.spawnEntityInWorld(itemEnt);
+				world.spawnEntity(itemEnt);
 			}
 		});
 	}

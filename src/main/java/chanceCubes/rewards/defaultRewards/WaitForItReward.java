@@ -24,7 +24,7 @@ public class WaitForItReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, BlockPos pos, final EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("Wait for it......."));
+		player.sendMessage(new TextComponentString("Wait for it......."));
 
 		Scheduler.scheduleTask(new Task("Wait For It", rand.nextInt(4000) + 1000)
 		{
@@ -32,18 +32,18 @@ public class WaitForItReward implements IChanceCubeReward
 			public void callback()
 			{
 				int reward = rand.nextInt(3);
-				player.addChatMessage(new TextComponentString("NOW!"));
+				player.sendMessage(new TextComponentString("NOW!"));
 
 				if(reward == 0)
 				{
-					world.spawnEntityInWorld(new EntityTNTPrimed(world, player.posX, player.posY + 1, player.posZ, null));
+					world.spawnEntity(new EntityTNTPrimed(world, player.posX, player.posY + 1, player.posZ, null));
 				}
 				else if(reward == 1)
 				{
 					EntityCreeper ent = new EntityCreeper(world);
 					ent.setLocationAndAngles(player.posX, player.posY + 1, player.posZ, 0, 0);
 					ent.onStruckByLightning(null);
-					world.spawnEntityInWorld(ent);
+					world.spawnEntity(ent);
 				}
 				else if(reward == 2)
 				{
@@ -59,7 +59,7 @@ public class WaitForItReward implements IChanceCubeReward
 					zomb.setChild(true);
 					zomb.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 0));
 					zomb.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 0));
-					world.spawnEntityInWorld(zomb);
+					world.spawnEntity(zomb);
 				}
 			}
 		});

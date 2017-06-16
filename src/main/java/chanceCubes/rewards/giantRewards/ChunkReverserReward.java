@@ -42,7 +42,7 @@ public class ChunkReverserReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("Initiating Block Inverter"));
+		player.sendMessage(new TextComponentString("Initiating Block Inverter"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
@@ -82,7 +82,7 @@ public class ChunkReverserReward implements IChanceCubeReward
 			}
 		}
 
-		player.addChatMessage(new TextComponentString("Inverting " + blocks.size() + " Blocks... May take a minute..."));
+		player.sendMessage(new TextComponentString("Inverting " + blocks.size() + " Blocks... May take a minute..."));
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}

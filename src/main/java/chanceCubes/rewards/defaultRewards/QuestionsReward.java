@@ -55,8 +55,8 @@ public class QuestionsReward implements IChanceCubeReward
 
 		int question = world.rand.nextInt(questionsAndAnswers.size());
 
-		player.addChatMessage(new TextComponentString(questionsAndAnswers.get(question).getKey()));
-		player.addChatMessage(new TextComponentString("You have 20 seconds to answer! (Answer is not case sensitive)"));
+		player.sendMessage(new TextComponentString(questionsAndAnswers.get(question).getKey()));
+		player.sendMessage(new TextComponentString("You have 20 seconds to answer! (Answer is not case sensitive)"));
 
 		if(!world.isRemote)
 		{
@@ -81,14 +81,14 @@ public class QuestionsReward implements IChanceCubeReward
 
 		if(correct)
 		{
-			player.addChatMessage(new TextComponentString("Correct!"));
-			player.addChatMessage(new TextComponentString("Here, have a item!"));
-			player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.sendMessage(new TextComponentString("Correct!"));
+			player.sendMessage(new TextComponentString("Here, have a item!"));
+			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.addChatMessage(new TextComponentString("Incorrect! The answer was " + this.inQuestion.get(player)));
-			player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+			player.sendMessage(new TextComponentString("Incorrect! The answer was " + this.inQuestion.get(player)));
+			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
 			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}
 

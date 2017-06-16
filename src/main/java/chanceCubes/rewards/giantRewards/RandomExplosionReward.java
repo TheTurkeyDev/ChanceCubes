@@ -34,7 +34,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
 						item = new EntityItem(world, pos.getX(), pos.getY() + 1D, pos.getZ(), stack.copy());
-						world.spawnEntityInWorld(item);
+						world.spawnEntity(item);
 						item.motionX = xx;
 						item.motionY = Math.random();
 						item.motionZ = zz;

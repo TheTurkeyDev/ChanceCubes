@@ -40,7 +40,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 
 				Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
 				newEnt.setPosition(x + 0.5, y, z + 0.5);
-				world.spawnEntityInWorld(newEnt);
+				world.spawnEntity(newEnt);
 			}
 		});
 	}

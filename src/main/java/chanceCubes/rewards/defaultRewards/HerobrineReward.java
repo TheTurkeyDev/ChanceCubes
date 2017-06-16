@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -33,13 +32,14 @@ public class HerobrineReward implements IChanceCubeReward
 				RewardsUtil.sendMessageToAllPlayers(world, "<Herobrine> " + "I've changed My Mind!");
 				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 				MinecraftServer server = world.getMinecraftServer();
-				Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-				server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+				Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 				String command = "/summon Zombie ~ ~1 ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,ArmorItems:[{id:diamond_boots,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_leggings,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_chestplate,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_helmet,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}}],HandItems:[{id:diamond_sword,Count:1,tag:{Unbreakable:1,display:{Name:\"Wrath of Herobrine\"},ench:[{id:16,lvl:5}]}},{}],ArmorDropChances:[0.0F,0.0F,0.0F,0.0F],HandDropChances:[2.0F,0.085F],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500.0f,Glowing:1b}";
 				CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 				server.getCommandManager().executeCommand(sender, command);
-				server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
-				player.addStat(CCubesAchievements.herobrine);
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+				// TODO: Update to advancements
+				// player.addStat(CCubesAchievements.herobrine);
 			}
 
 			@Override
@@ -66,13 +66,14 @@ public class HerobrineReward implements IChanceCubeReward
 						{
 							RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 							MinecraftServer server = world.getMinecraftServer();
-							Boolean rule = server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-							server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+							Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+							server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 							String command = "/summon Zombie ~ ~1 ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,ArmorItems:[{id:diamond_boots,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_leggings,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_chestplate,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_helmet,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}}],HandItems:[{id:diamond_sword,Count:1,tag:{Unbreakable:1,display:{Name:\"Wrath of Herobrine\"},ench:[{id:16,lvl:5}]}},{}],ArmorDropChances:[0.0F,0.0F,0.0F,0.0F],HandDropChances:[2.0F,0.085F],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500.0f,Glowing:1b}";
 							CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 							server.getCommandManager().executeCommand(sender, command);
-							server.worldServers[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
-							player.addStat(CCubesAchievements.herobrine);
+							server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+							// TODO: Update to advancements
+							// player.addStat(CCubesAchievements.herobrine);
 							Scheduler.removeTask(this);
 						}
 						else

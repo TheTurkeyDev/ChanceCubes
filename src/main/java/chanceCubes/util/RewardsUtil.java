@@ -171,7 +171,7 @@ public class RewardsUtil
 			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= distance)
-				entityplayer.addChatMessage(new TextComponentString(message));
+				entityplayer.sendMessage(new TextComponentString(message));
 		}
 	}
 
@@ -180,7 +180,7 @@ public class RewardsUtil
 		for(int i = 0; i < world.playerEntities.size(); ++i)
 		{
 			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
-			entityplayer.addChatMessage(new TextComponentString(message));
+			entityplayer.sendMessage(new TextComponentString(message));
 		}
 	}
 
@@ -304,7 +304,7 @@ public class RewardsUtil
 		if(player == null)
 			return false;
 
-		for(EntityPlayerMP playerMP : player.worldObj.getMinecraftServer().getPlayerList().getPlayerList())
+		for(EntityPlayerMP playerMP : player.world.getMinecraftServer().getPlayerList().getPlayers())
 			if(playerMP.getUniqueID().equals(player.getUniqueID()))
 				return true;
 

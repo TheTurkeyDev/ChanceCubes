@@ -93,7 +93,7 @@ public class PacketParticle implements IMessage
 		public IMessage onMessage(PacketParticle message, MessageContext ctx)
 		{
 			EnumParticleTypes particle = message.particleID == -1 ? EnumParticleTypes.getByName(message.particleName) : EnumParticleTypes.getParticleFromId(message.particleID);
-			CCubesCore.proxy.getClientPlayer().worldObj.spawnParticle(particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
+			CCubesCore.proxy.getClientPlayer().world.spawnParticle(particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
 			return null;
 		}
 	}

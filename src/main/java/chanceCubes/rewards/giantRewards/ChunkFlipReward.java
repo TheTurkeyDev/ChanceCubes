@@ -22,7 +22,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 		int z = pos.getZ() - (pos.getZ() % 16);
 		int x = pos.getX() - (pos.getX() % 16);
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundEvent(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundCategory(), 1.0F, 1.0F);
-		player.addChatMessage(new TextComponentString("Inception!!!!"));
+		player.sendMessage(new TextComponentString("Inception!!!!"));
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
 			private int y = 0;

@@ -12,7 +12,7 @@ item.chance_Pendant_Tier3.name=Captain's Devil Charm
 
 item.creative_Pendant.name=Creative Devil Charm
 item.reward_Selector_Pendant.name=Reward Selector Charm
-item.single_Use_Reward_Selector_Pendant.name=One Eye Reward Selector Charm
+item.single_use_reward_selector_pendant.name=One Eye Reward Selector Charm
 
 item.silk_Touch_Pendant.name=Soft Hands Charm
 

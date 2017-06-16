@@ -43,7 +43,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 				entity.motionY = 0.1;
 				entity.motionZ = 0;
 
-				world.spawnEntityInWorld(entity);
+				world.spawnEntity(entity);
 			}
 		});
 	}

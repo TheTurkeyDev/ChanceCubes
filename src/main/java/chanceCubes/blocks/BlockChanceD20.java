@@ -5,7 +5,6 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
-import chanceCubes.util.CCubesAchievements;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -98,7 +97,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null)
 		{
-			player.addStat(CCubesAchievements.chanceIcosahedron);
+			// TODO: Update to advancements
+			// player.addStat(CCubesAchievements.chanceIcosahedron);
 			te.startBreaking(player);
 			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			return true;

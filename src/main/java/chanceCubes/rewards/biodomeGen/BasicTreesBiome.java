@@ -95,31 +95,31 @@ public class BasicTreesBiome implements IBioDomeBiome
 			{
 				EntityChicken chicken = new EntityChicken(world);
 				chicken.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(chicken);
+				world.spawnEntity(chicken);
 			}
 			else if(ri == 1)
 			{
 				EntityCow cow = new EntityCow(world);
 				cow.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(cow);
+				world.spawnEntity(cow);
 			}
 			else if(ri == 2)
 			{
 				EntityHorse horse = new EntityHorse(world);
 				horse.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(horse);
+				world.spawnEntity(horse);
 			}
 			else if(ri == 3)
 			{
 				EntityPig pig = new EntityPig(world);
 				pig.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(pig);
+				world.spawnEntity(pig);
 			}
 			else if(ri == 4)
 			{
 				EntitySheep sheep = new EntitySheep(world);
 				sheep.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(sheep);
+				world.spawnEntity(sheep);
 			}
 		}
 	}

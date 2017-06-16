@@ -24,8 +24,8 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 	{
 		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
 		item.setPickupDelay(100000);
-		world.spawnEntityInWorld(item);
-		player.addChatMessage(new TextComponentString("Selecting random item"));
+		world.spawnEntity(item);
+		player.sendMessage(new TextComponentString("Selecting random item"));
 		Scheduler.scheduleTask(new Task("Item_Of_Destiny_Reward", -1, 5)
 		{
 			int iteration = 0;
@@ -46,15 +46,15 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 				}
 				else if(iteration == 17)
 				{
-					player.addChatMessage(new TextComponentString("Random item selected"));
-					player.addChatMessage(new TextComponentString("Selecting number of enchants to give item"));
+					player.sendMessage(new TextComponentString("Random item selected"));
+					player.sendMessage(new TextComponentString("Selecting number of enchants to give item"));
 				}
 				else if(iteration == 27)
 				{
 					int i = RewardsUtil.rand.nextInt(9);
 					enchants = i < 5 ? 1 : i < 8 ? 2 : 3;
-					player.addChatMessage(new TextComponentString(enchants + " random enchants will be added!"));
-					player.addChatMessage(new TextComponentString("Selecting random enchant to give to the item"));
+					player.sendMessage(new TextComponentString(enchants + " random enchants will be added!"));
+					player.sendMessage(new TextComponentString("Selecting random enchant to give to the item"));
 				}
 				else if(iteration > 27 && (iteration - 7) % 10 == 0)
 				{
@@ -63,11 +63,11 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 						Enchantment ench = randomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
 						item.getEntityItem().addEnchantment(ench, level);
-						player.addChatMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
+						player.sendMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
 					}
 					else
 					{
-						player.addChatMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
+						player.sendMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
 						item.setPickupDelay(0);
 						Scheduler.removeTask(this);
 					}

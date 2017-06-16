@@ -36,7 +36,7 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 			wolf.setOwnerId(player.getUniqueID());
 			wolf.setCustomNameTag("Kehaan");
 			wolves.add(wolf);
-			world.spawnEntityInWorld(wolf);
+			world.spawnEntity(wolf);
 		}
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Do they look weird to you?");
@@ -52,7 +52,7 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 					EntityCreeper creeper = new EntityCreeper(world);
 					creeper.setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
 					creeper.setCustomNameTag("Jacky");
-					world.spawnEntityInWorld(creeper);
+					world.spawnEntity(creeper);
 				}
 			}
 		});

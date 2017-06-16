@@ -22,13 +22,13 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 
 		EntityEnderCrystal ent = new EntityEnderCrystal(world);
 		ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
-		world.spawnEntityInWorld(ent);
+		world.spawnEntity(ent);
 
 		EntityArrow arrow = new EntityTippedArrow(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
 		arrow.motionX = 0;
 		arrow.motionY = -0.25f;
 		arrow.motionZ = 0;
-		world.spawnEntityInWorld(arrow);
+		world.spawnEntity(arrow);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		}
 
 		zombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weapon);
-		//TODO: Change?
+		// TODO: Change?
 		zombie.setDropItemsWhenDead(true);
 
 		if(player.inventory.armorInventory.get(0) != null)
@@ -53,7 +53,7 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory.get(3).copy());
 		}
 
-		world.spawnEntityInWorld(zombie);
+		world.spawnEntity(zombie);
 	}
 
 	@Override

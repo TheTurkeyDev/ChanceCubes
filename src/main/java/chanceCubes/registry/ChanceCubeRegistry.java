@@ -193,7 +193,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Man_Army", -10, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("zombie_pigman"))), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie_pigman ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cuteness", 10, new CommandRewardType(RewardsUtil.executeXCommands("/summon rabbit ~ ~1 ~ {CustomName:\"Fluffy\",CustomNameVisible:1,RabbitType:5}", 25)), new MessageRewardType(new MessagePart("Cuteness overload!").setRange(32))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -15, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(1, 3, 1, Blocks.BRICK_BLOCK, 0, 0, 0, false, 1, false, false), RewardsUtil.fillArea(1, 3, 1, Blocks.AIR, 0, 0, 0, false, 0, false, false))), new CommandRewardType(new CommandPart("/summon ItemFrame ~ ~ ~1 {Item:{id:stick},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon ItemFrame ~ ~1 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon ItemFrame ~ ~2 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(1, 3, 1, Blocks.BRICK_BLOCK, 0, 0, 0, false, 1, false, false), RewardsUtil.fillArea(1, 3, 1, Blocks.AIR, 0, 0, 0, false, 0, false, false))), new CommandRewardType(new CommandPart("/summon item_frame ~ ~ ~1 {Item:{id:stick},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon item_frame ~ ~1 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon item_frame ~ ~2 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Silverfish", -45, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Glowing:1b,ActiveEffects:[{Id:1,Amplifier:1,Duration:200000},{Id:14,Amplifier:0,Duration:20000}],Passengers:[{id:\"Silverfish\",ActiveEffects:[{Id:14,Amplifier:0,Duration:20000}]}]}", 5))));
 
 		ItemStack stack;
@@ -297,7 +297,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				player.experienceLevel = 0;
 				player.experienceTotal = 0;
 				player.experience = 0;
-				player.addChatMessage(new TextComponentString("Rip EXP"));
+				player.sendMessage(new TextComponentString("Rip EXP"));
 			}
 		});
 
@@ -307,7 +307,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
 			{
 				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
-				player.addChatMessage(new TextComponentString("Thou has been smitten!"));
+				player.sendMessage(new TextComponentString("Thou has been smitten!"));
 			}
 		});
 
@@ -371,9 +371,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		List<EntityPlayerMP> allp = new ArrayList<EntityPlayerMP>();
 		Iterator<?> iterator;
 
-		for(int i = 0; i < server.worldServers.length; i++)
+		for(int i = 0; i < server.worlds.length; i++)
 		{
-			iterator = server.worldServers[i].playerEntities.listIterator();
+			iterator = server.worlds[i].playerEntities.listIterator();
 			while(iterator.hasNext())
 				allp.add((EntityPlayerMP) iterator.next());
 		}

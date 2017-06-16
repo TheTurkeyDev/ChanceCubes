@@ -23,7 +23,7 @@ public class OceanBiome implements IBioDomeBiome
 			EntitySquid squid = new EntitySquid(world);
 			squid.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
 			squid.setCustomNameTag("Mango");
-			world.spawnEntityInWorld(squid);
+			world.spawnEntity(squid);
 		}
 	}
 

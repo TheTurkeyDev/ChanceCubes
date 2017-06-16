@@ -14,7 +14,7 @@ public class PacketCubeScan implements IMessage
 	public int x;
 	public int y;
 	public int z;
-	
+
 	public PacketCubeScan()
 	{
 	}
@@ -49,12 +49,12 @@ public class PacketCubeScan implements IMessage
 		@Override
 		public IMessage onMessage(PacketCubeScan message, MessageContext ctx)
 		{
-			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = ctx.getServerHandler().playerEntity.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if(te instanceof TileChanceCube)
-				((TileChanceCube)te).setScanned(true);
+				((TileChanceCube) te).setScanned(true);
 			else if(te instanceof TileChanceD20)
-				((TileChanceD20)te).setScanned(true);
-			
+				((TileChanceD20) te).setScanned(true);
+
 			return null;
 		}
 	}

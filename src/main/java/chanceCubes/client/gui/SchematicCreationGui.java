@@ -70,8 +70,8 @@ public class SchematicCreationGui extends GuiScreen
 			{
 				String fileName = nameField.getText();
 				fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
-				SchematicUtil.createCustomSchematic(player.worldObj, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
-				player.addChatMessage(new TextComponentString("Schematic file named " + fileName + " created!"));
+				SchematicUtil.createCustomSchematic(player.world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
+				player.sendMessage(new TextComponentString("Schematic file named " + fileName + " created!"));
 				RenderEvent.setCreatingSchematic(false);
 				SchematicUtil.selectionPoints[0] = null;
 				SchematicUtil.selectionPoints[1] = null;

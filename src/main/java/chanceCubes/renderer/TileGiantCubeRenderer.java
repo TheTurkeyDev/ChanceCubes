@@ -24,7 +24,7 @@ public class TileGiantCubeRenderer extends TileEntitySpecialRenderer<TileGiantCu
 	}
 
 	@Override
-	public void renderTileEntityAt(TileGiantCube tile, double x, double y, double z, float partialTick, int destroyStage)
+	public void func_192841_a(TileGiantCube tile, double x, double y, double z, float partialTicks, int destroyStage, float p_192841_10_)
 	{
 		if(!tile.isMaster())
 			return;

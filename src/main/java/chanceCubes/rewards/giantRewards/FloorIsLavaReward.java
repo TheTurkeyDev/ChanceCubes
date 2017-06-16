@@ -19,7 +19,7 @@ public class FloorIsLavaReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("Quick! The Floor is lava!"));
+		player.sendMessage(new TextComponentString("Quick! The Floor is lava!"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
 		for(int yy = pos.getY() + 5; yy > pos.getY() - 5; yy--)

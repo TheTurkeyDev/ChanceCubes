@@ -22,7 +22,7 @@ public class TileGiantCube extends TileEntity
 	/** Check that the master exists */
 	public boolean checkForMaster()
 	{
-		TileEntity tile = worldObj.getTileEntity(masterPos);
+		TileEntity tile = world.getTileEntity(masterPos);
 		return(tile != null && (tile instanceof TileGiantCube));
 	}
 

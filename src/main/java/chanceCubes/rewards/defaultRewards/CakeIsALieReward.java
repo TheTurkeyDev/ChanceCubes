@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -51,8 +50,9 @@ public class CakeIsALieReward implements IChanceCubeReward
 							creeper.onStruckByLightning(null);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
-						world.spawnEntityInWorld(creeper);
-						player.addStat(CCubesAchievements.itsALie);
+						world.spawnEntity(creeper);
+						// TODO: Update to advancements
+						// player.addStat(CCubesAchievements.itsALie);
 						Scheduler.removeTask(this);
 					}
 				}

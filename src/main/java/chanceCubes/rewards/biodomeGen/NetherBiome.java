@@ -27,13 +27,13 @@ public class NetherBiome implements IBioDomeBiome
 			{
 				EntityGhast ghast = new EntityGhast(world);
 				ghast.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 5, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(ghast);
+				world.spawnEntity(ghast);
 			}
 			else
 			{
 				EntityPigZombie pigman = new EntityPigZombie(world);
 				pigman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntityInWorld(pigman);
+				world.spawnEntity(pigman);
 			}
 		}
 	}

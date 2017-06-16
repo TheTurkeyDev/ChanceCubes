@@ -55,7 +55,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				if(reward != null)
 					reward.trigger(world, pos, player);
 				else
-					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
+					player.sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 			}
 			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 			{
@@ -67,7 +67,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				if(reward != null)
 					reward.trigger(world, giant.getMasterPostion(), player);
 				else
-					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
+					player.sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 			}
 		}

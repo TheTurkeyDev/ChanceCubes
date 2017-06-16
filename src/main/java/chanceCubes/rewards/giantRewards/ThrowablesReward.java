@@ -57,7 +57,7 @@ public class ThrowablesReward implements IChanceCubeReward
 				throwEnt.motionX = -1 + (Math.random() * 2);
 				throwEnt.motionY = -1 + (Math.random() * 2);
 				throwEnt.motionZ = -1 + (Math.random() * 2);
-				world.spawnEntityInWorld(throwEnt);
+				world.spawnEntity(throwEnt);
 			}
 		});
 	}

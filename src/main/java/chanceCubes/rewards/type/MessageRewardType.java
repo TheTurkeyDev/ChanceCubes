@@ -28,13 +28,13 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 
 					if(entityplayer.equals(player))
 					{
-						entityplayer.addChatMessage(new TextComponentString(message.getMessage()));
+						entityplayer.sendMessage(new TextComponentString(message.getMessage()));
 					}
 					else
 					{
 						double dist = Math.sqrt(Math.pow(x - entityplayer.posX, 2) + Math.pow(y - entityplayer.posY, 2) + Math.pow(z - entityplayer.posZ, 2));
 						if(dist <= message.getRange() || message.isServerWide())
-							entityplayer.addChatMessage(new TextComponentString(message.getMessage()));
+							entityplayer.sendMessage(new TextComponentString(message.getMessage()));
 					}
 				}
 			}

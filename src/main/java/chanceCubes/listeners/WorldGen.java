@@ -45,7 +45,7 @@ public class WorldGen
 				for(int y = 0; y < yCord; y++)
 				{
 					BlockPos pos2 = new BlockPos(pos.getX(), y, pos.getZ());
-					if(world.getBlockState(pos).getBlock().isBlockSolid(world, pos2, EnumFacing.UP) && world.isAirBlock(pos2))
+					if(world.getBlockState(pos).isSideSolid(world, pos2, EnumFacing.UP) && world.isAirBlock(pos2))
 					{
 						yCord = y;
 						return;

@@ -41,7 +41,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
 						if(rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
-						world.spawnEntityInWorld(creeper);
+						world.spawnEntity(creeper);
 					}
 				}
 				skip = !skip;
@@ -65,7 +65,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
 						if(rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
-						world.spawnEntityInWorld(creeper);
+						world.spawnEntity(creeper);
 					}
 				}
 				skip = !skip;

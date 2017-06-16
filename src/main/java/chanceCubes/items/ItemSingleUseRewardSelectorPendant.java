@@ -57,7 +57,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				}
 				else
 				{
-					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
+					player.sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 
 				}
 			}
@@ -76,7 +76,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				}
 				else
 				{
-					player.addChatMessage(new TextComponentString("That reward does not exist for this cube!"));
+					player.sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 				}
 
 			}

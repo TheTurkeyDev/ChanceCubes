@@ -25,7 +25,7 @@ public class ChargedCreeperReward implements IChanceCubeReward
 		ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 		ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 10, 99, true, false));
 		ent.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 40, 99, true, false));
-		world.spawnEntityInWorld(ent);
+		world.spawnEntity(ent);
 
 		Scheduler.scheduleTask(new Task("Charged Creeper Reward", 2)
 		{

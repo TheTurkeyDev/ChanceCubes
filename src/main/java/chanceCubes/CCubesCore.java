@@ -16,7 +16,6 @@ import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
-import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -82,7 +81,8 @@ public class CCubesCore
 		CCubesBlocks.loadBlocks();
 		CCubesItems.loadItems();
 		CCubesPacketHandler.init();
-		CCubesAchievements.loadAchievements();
+		// TODO: Update to advancements
+		// CCubesAchievements.loadAchievements();
 		proxy.registerEvents();
 
 		if(CCubesSettings.chestLoot)

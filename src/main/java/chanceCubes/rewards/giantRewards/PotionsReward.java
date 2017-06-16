@@ -22,7 +22,7 @@ public class PotionsReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		player.addChatMessage(new TextComponentString("It's called art! Look it up!"));
+		player.sendMessage(new TextComponentString("It's called art! Look it up!"));
 		throwPoitonCircle(0, world, pos, player);
 	}
 
@@ -47,7 +47,7 @@ public class PotionsReward implements IChanceCubeReward
 					pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
 					pot.motionY = 1;
 					pot.motionZ = Math.sin(rad) * (0.1 + (0.05 * itteration));
-					world.spawnEntityInWorld(pot);
+					world.spawnEntity(pot);
 				}
 			}
 		});
@@ -74,7 +74,7 @@ public class PotionsReward implements IChanceCubeReward
 					pot.motionX = Math.cos((this.delayLeft / 2) * (Math.PI / 30));
 					pot.motionY = yy;
 					pot.motionZ = Math.sin((this.delayLeft / 2) * (Math.PI / 30));
-					world.spawnEntityInWorld(pot);
+					world.spawnEntity(pot);
 				}
 			}
 		});

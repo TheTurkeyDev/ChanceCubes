@@ -48,11 +48,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 			{
 				BlockPos blockpos = new BlockPos(this);
 
-				if(this.worldObj.getBlockState(blockpos).getBlock() == block)
+				if(this.world.getBlockState(blockpos).getBlock() == block)
 				{
-					this.worldObj.setBlockToAir(blockpos);
+					this.world.setBlockToAir(blockpos);
 				}
-				else if(this.worldObj.isRemote)
+				else if(this.world.isRemote)
 				{
 					this.setDead();
 					return;
@@ -60,18 +60,18 @@ public class BlockFallingCustom extends EntityFallingBlock
 			}
 
 			this.motionY -= 0.04D;
-			this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+			this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 			this.motionX *= 0.98D;
 			this.motionY *= 0.98D;
 			this.motionZ *= 0.98D;
 
-			if(!this.worldObj.isRemote)
+			if(!this.world.isRemote)
 			{
 				BlockPos blockpos1 = new BlockPos(this);
 
 				if(this.onGround)
 				{
-					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+					IBlockState iblockstate = this.world.getBlockState(blockpos1);
 
 					this.motionX *= 0.7D;
 					this.motionZ *= 0.7D;
@@ -83,11 +83,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 						// if(!super.canSetAsBlock)
 						// {
 						if(block instanceof BlockFalling)
-							osb.placeInWorld(worldObj, blockpos1, false);
+							osb.placeInWorld(world, blockpos1, false);
 
 						if(this.tileEntityData != null && block instanceof ITileEntityProvider)
 						{
-							TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
+							TileEntity tileentity = this.world.getTileEntity(blockpos1);
 
 							if(tileentity != null)
 							{
@@ -113,9 +113,9 @@ public class BlockFallingCustom extends EntityFallingBlock
 						// }
 					}
 				}
-				else if(this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
+				else if(this.fallTime > 100 && !this.world.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
 				{
-					if(this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+					if(this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops"))
 						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 
 					this.setDead();
@@ -123,7 +123,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 				else if(normY == blockpos1.getY() || this.motionY == 0)
 				{
 					this.setDead();
-					osb.placeInWorld(worldObj, blockpos1, false);
+					osb.placeInWorld(world, blockpos1, false);
 				}
 			}
 		}

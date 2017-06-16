@@ -85,14 +85,14 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		if(stage > 200)
 		{
 			breaking = false;
-			if(!this.worldObj.isRemote)
+			if(!this.world.isRemote)
 			{
-				this.worldObj.setBlockToAir(this.pos);
-				this.worldObj.removeTileEntity(this.pos);
-				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.worldObj, this.pos, player, this.getChance());
+				this.world.setBlockToAir(this.pos);
+				this.world.removeTileEntity(this.pos);
+				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.world, this.pos, player, this.getChance());
 			}
 		}
-		else if(worldObj.isRemote)
+		else if(world.isRemote)
 		{
 			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Minecraft.getSystemTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
 			AxisAngle4d pitch = new AxisAngle4d(1, 0, 0, 0F);
@@ -117,7 +117,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			}
 
 			transform = new TRSRTransformation(matrix);
-			this.worldObj.markBlockRangeForRenderUpdate(this.pos, this.pos);
+			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
 	}
 
@@ -125,9 +125,9 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	{
 		if(!breaking)
 		{
-			if(!player.worldObj.isRemote)
+			if(!player.world.isRemote)
 			{
-				player.worldObj.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK.getSoundEvent(), CCubesSounds.D20_BREAK.getSoundCategory(), 1.0F, 1.0F);
+				player.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK.getSoundEvent(), CCubesSounds.D20_BREAK.getSoundCategory(), 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;

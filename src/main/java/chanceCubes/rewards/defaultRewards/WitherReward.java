@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -20,7 +19,7 @@ public class WitherReward implements IChanceCubeReward
 		final EntityWither wither = new EntityWither(world);
 		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
-		world.spawnEntityInWorld(wither);
+		world.spawnEntity(wither);
 		wither.ignite();
 		if(RewardsUtil.rand.nextBoolean())
 			wither.setCustomNameTag("Kiwi");
@@ -34,8 +33,10 @@ public class WitherReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				if(!removeEnts(wither))
-					player.addStat(CCubesAchievements.wither);
+				removeEnts(wither);
+				// TODO: Update to advancements
+				// if(!removeEnts(wither))
+				// player.addStat(CCubesAchievements.wither);
 			}
 
 			private boolean removeEnts(Entity ent)
