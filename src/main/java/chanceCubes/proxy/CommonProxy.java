@@ -1,5 +1,7 @@
 package chanceCubes.proxy;
 
+import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
@@ -29,6 +31,8 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
+		MinecraftForge.EVENT_BUS.register(new CCubesBlocks());
+		MinecraftForge.EVENT_BUS.register(new CCubesItems());
 	}
 
 	public EntityPlayer getClientPlayer()

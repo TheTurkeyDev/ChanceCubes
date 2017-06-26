@@ -1,15 +1,17 @@
 package chanceCubes.blocks;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.items.ItemChanceCube;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CCubesBlocks
@@ -20,19 +22,14 @@ public class CCubesBlocks
 	public static BaseChanceBlock COMPACT_GIANT_CUBE;
 	public static BaseChanceBlock CUBE_DISPENSER;
 
-	public static void loadBlocks()
+	@SubscribeEvent
+	public void onBlockRegistry(RegistryEvent.Register<Block> e)
 	{
-		GameRegistry.register(CHANCE_CUBE = new BlockChanceCube());
-		GameRegistry.register(CHANCE_ICOSAHEDRON = new BlockChanceD20());
-		GameRegistry.register(GIANT_CUBE = new BlockGiantCube());
-		GameRegistry.register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
-		GameRegistry.register(CUBE_DISPENSER = new BlockCubeDispenser());
-
-		GameRegistry.register(new ItemChanceCube(CHANCE_CUBE).setRegistryName(CHANCE_CUBE.getRegistryName()));
-		GameRegistry.register(new ItemChanceCube(CHANCE_ICOSAHEDRON).setRegistryName(CHANCE_ICOSAHEDRON.getRegistryName()));
-		GameRegistry.register(new ItemChanceCube(GIANT_CUBE).setRegistryName(GIANT_CUBE.getRegistryName()));
-		GameRegistry.register(new ItemChanceCube(COMPACT_GIANT_CUBE).setRegistryName(COMPACT_GIANT_CUBE.getRegistryName()));
-		GameRegistry.register(new ItemChanceCube(CUBE_DISPENSER).setRegistryName(CUBE_DISPENSER.getRegistryName()));
+		e.getRegistry().register(CHANCE_CUBE = new BlockChanceCube());
+		e.getRegistry().register(CHANCE_ICOSAHEDRON = new BlockChanceD20());
+		e.getRegistry().register(GIANT_CUBE = new BlockGiantCube());
+		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
+		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
 		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
 		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");

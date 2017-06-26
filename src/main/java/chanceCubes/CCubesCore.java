@@ -78,8 +78,6 @@ public class CCubesCore
 		logger = event.getModLog();
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 
-		CCubesBlocks.loadBlocks();
-		CCubesItems.loadItems();
 		CCubesPacketHandler.init();
 		// TODO: Update to advancements
 		// CCubesAchievements.loadAchievements();

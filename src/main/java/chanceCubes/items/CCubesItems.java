@@ -1,10 +1,13 @@
 package chanceCubes.items;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CCubesItems
 {
@@ -20,18 +23,25 @@ public class CCubesItems
 
 	public static BaseChanceCubesItem scanner;
 
-	public static void loadItems()
+	@SubscribeEvent
+	public void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
-		GameRegistry.register(chancePendantT1 = new ItemChancePendant(1, 10));
-		GameRegistry.register(chancePendantT2 = new ItemChancePendant(2, 25));
-		GameRegistry.register(chancePendantT3 = new ItemChancePendant(3, 50));
+		e.getRegistry().register(chancePendantT1 = new ItemChancePendant(1, 10));
+		e.getRegistry().register(chancePendantT2 = new ItemChancePendant(2, 25));
+		e.getRegistry().register(chancePendantT3 = new ItemChancePendant(3, 50));
 
-		GameRegistry.register(silkPendant = new ItemSilkTouchPendant());
-		GameRegistry.register(creativePendant = new ItemCreativePendant());
-		GameRegistry.register(rewardSelectorPendant = new ItemRewardSelectorPendant());
-		GameRegistry.register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
+		e.getRegistry().register(silkPendant = new ItemSilkTouchPendant());
+		e.getRegistry().register(creativePendant = new ItemCreativePendant());
+		e.getRegistry().register(rewardSelectorPendant = new ItemRewardSelectorPendant());
+		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
-		GameRegistry.register(scanner = new ItemScanner());
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_CUBE).setRegistryName(CCubesBlocks.CHANCE_CUBE.getRegistryName()));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON).setRegistryName(CCubesBlocks.CHANCE_ICOSAHEDRON.getRegistryName()));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.GIANT_CUBE).setRegistryName(CCubesBlocks.GIANT_CUBE.getRegistryName()));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE).setRegistryName(CCubesBlocks.COMPACT_GIANT_CUBE.getRegistryName()));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER).setRegistryName(CCubesBlocks.CUBE_DISPENSER.getRegistryName()));
+
+		e.getRegistry().register(scanner = new ItemScanner());
 	}
 
 	public static void registerItems()
