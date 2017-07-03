@@ -1,21 +1,4 @@
 {
-	"FluxConfigurator":
-	{
-		"chance": 50,
-		"dependencies": { 
-			"mcVersion":"1.10.2",
-			"mod":"fluxnetworks"
-		},
-		"Message":
-		[
-			{"message":"I will be nice for once"},
-	                {"message":"-Jacky", "delay": 20}
-		],
-		"Item":
-		[
-			{"item":{"id":"fluxnetworks:FluxConfigurator","Damage":0,"Count":1,"tag":{"display":{"Name":"I'm a Potato"}}}}
-		]
-	},
 	"WaterCoolingAndCPU":
 	{
 		"chance": 35,
@@ -30,7 +13,7 @@
 		"Item":
      		[
 			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}},
-			{"item":{"id":"opencomputers:component","Damage":0,"Count":1,"tag":{"display":{"Name":"AMD FX-8350"}}}}
+			{"item":{"id":"opencomputers:component","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's i7 4790k"}}}}
    		]
 	},
 	"Matraxis":
