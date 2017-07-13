@@ -83,7 +83,7 @@ public class ConfigGui extends GuiScreen
 		this.buttonList.add(this.buttonSave = new GuiButton(3, this.width / 2 - 50, this.height - 25, 100, 20, "Save"));
 		// this.buttonList.add(this.buttonDelete = new GuiButton(4, this.width / 2 - 175, this.height - 25, 98, 20, "Delete"));
 		buttonCancel.visible = false;
-		textFieldNew = new GuiTextField(4, mc.fontRendererObj, this.width - 250, this.height - 40, 200, 20);
+		textFieldNew = new GuiTextField(4, mc.fontRenderer, this.width - 250, this.height - 40, 200, 20);
 
 		entries = new CustomExtendedList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
 
@@ -104,8 +104,8 @@ public class ConfigGui extends GuiScreen
 		if(this.isCreatingNew)
 			this.textFieldNew.drawTextBox();
 		if(this.isDeleting)
-			mc.fontRendererObj.drawString(this.deleteWarnText, this.width / 2 - (int) (deleteWarnText.length() * 2.5), this.height / 2, 0xFF0000);
-		mc.fontRendererObj.drawString(this.drawString, this.width / 2 - (int) (drawString.length() * 2.5), 10, 0xFFFFFF);
+			mc.fontRenderer.drawString(this.deleteWarnText, this.width / 2 - (int) (deleteWarnText.length() * 2.5), this.height / 2, 0xFF0000);
+		mc.fontRenderer.drawString(this.drawString, this.width / 2 - (int) (drawString.length() * 2.5), 10, 0xFFFFFF);
 	}
 
 	protected void actionPerformed(GuiButton button)

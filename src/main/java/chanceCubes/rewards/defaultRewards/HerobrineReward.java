@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -35,11 +36,16 @@ public class HerobrineReward implements IChanceCubeReward
 				Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 				String command = "/summon Zombie ~ ~1 ~ {CustomName:\"Herobrine\",CustomNameVisible:1,IsVillager:0,IsBaby:0,CanBreakDoors:1,ArmorItems:[{id:diamond_boots,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_leggings,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_chestplate,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}},{id:diamond_helmet,Count:1,tag:{Unbreakable:1,ench:[{id:0,lvl:5}]}}],HandItems:[{id:diamond_sword,Count:1,tag:{Unbreakable:1,display:{Name:\"Wrath of Herobrine\"},ench:[{id:16,lvl:5}]}},{}],ArmorDropChances:[0.0F,0.0F,0.0F,0.0F],HandDropChances:[2.0F,0.085F],Attributes:[{Name:generic.maxHealth,Base:500}],Health:500.0f,Glowing:1b}";
+				String advancement = "/advancement grant @p only chancecubes:herobrine";
 				CCubesCommandSender sender = new CCubesCommandSender(player, pos);
+				server.getCommandManager().executeCommand(sender, advancement);
+				try {
+					Thread.sleep(500);
+				} catch(InterruptedException ex) {
+					Thread.currentThread().interrupt();
+				}
 				server.getCommandManager().executeCommand(sender, command);
 				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
-				// TODO: Update to advancements
-				// player.addStat(CCubesAchievements.herobrine);
 			}
 
 			@Override

@@ -34,7 +34,7 @@ public class SchematicCreationGui extends GuiScreen
 	{
 		this.buttonList.clear();
 		int i = this.width / 2;
-		this.nameField = new GuiTextField(0, this.fontRendererObj, i - 70, 10, 140, 12);
+		this.nameField = new GuiTextField(0, this.fontRenderer, i - 70, 10, 140, 12);
 		this.nameField.setTextColor(-1);
 		this.nameField.setDisabledTextColour(-1);
 		this.nameField.setEnableBackgroundDrawing(true);
@@ -116,8 +116,8 @@ public class SchematicCreationGui extends GuiScreen
 		this.drawGradientRect(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		this.nameField.drawTextBox();
 		int i = this.width / 2;
-		this.drawCenteredString(this.fontRendererObj, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
-		this.drawCenteredString(this.fontRendererObj, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
+		this.drawCenteredString(this.fontRenderer, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
+		this.drawCenteredString(this.fontRenderer, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
 		super.drawScreen(mouseX, mouseY, p_73863_3_);
 	}
 }

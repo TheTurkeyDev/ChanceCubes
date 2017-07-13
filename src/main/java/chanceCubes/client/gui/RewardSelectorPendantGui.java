@@ -50,7 +50,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		Keyboard.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.rewardField = new GuiTextField(0, this.fontRendererObj, i + 17, j + 10, 143, 12);
+		this.rewardField = new GuiTextField(0, this.fontRenderer, i + 17, j + 10, 143, 12);
 		this.rewardField.setTextColor(-1);
 		this.rewardField.setDisabledTextColour(-1);
 		this.rewardField.setEnableBackgroundDrawing(true);

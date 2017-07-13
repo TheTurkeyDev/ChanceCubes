@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "chancecubes:compact_giant_chance_cube"
+    },
+    "title": {
+      "translate": "advancements.chancecubes:giant_chance_cube"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:giant_chance_cube.desc"
+    }
+  },
+  "parent": "chancecubes:root",
+  "criteria": {
+    "break_giant_cube": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -79,12 +79,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		entitem.setLocationAndAngles(px, py, pz, 0, 0);
 		if(player.isSneaking())
 		{
-			entitem.getEntityItem().setCount(1);
+			entitem.getItem().setCount(1);
 			world.spawnEntity(entitem);
 		}
 		else
 		{
-			entitem.getEntityItem().setCount(64);
+			entitem.getItem().setCount(64);
 			world.spawnEntity(entitem);
 		}
 	}

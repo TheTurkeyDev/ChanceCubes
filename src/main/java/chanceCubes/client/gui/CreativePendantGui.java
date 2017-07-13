@@ -72,9 +72,9 @@ public class CreativePendantGui extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
-		this.fontRendererObj.drawString("Chance Value", 50, 5, 0);
+		this.fontRenderer.drawString("Chance Value", 50, 5, 0);
 		String cValue = "" + this.chanceValue;
-		this.fontRendererObj.drawString(cValue, (88 - (cValue.length() * 3)), 27, 0);
+		this.fontRenderer.drawString(cValue, (88 - (cValue.length() * 3)), 27, 0);
 	}
 
 	@Override

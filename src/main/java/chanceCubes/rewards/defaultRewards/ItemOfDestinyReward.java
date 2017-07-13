@@ -42,7 +42,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			{
 				if(iteration < 17)
 				{
-					item.setEntityItemStack(new ItemStack(RewardsUtil.getRandomItem(), 1));
+					item.setItem(new ItemStack(RewardsUtil.getRandomItem(), 1));
 				}
 				else if(iteration == 17)
 				{
@@ -62,7 +62,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 					{
 						Enchantment ench = randomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
-						item.getEntityItem().addEnchantment(ench, level);
+						item.getItem().addEnchantment(ench, level);
 						player.sendMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
 					}
 					else
