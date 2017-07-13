@@ -22,7 +22,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 	private static final float HOVER_SPEED = 6F;
 
 	@Override
-	public void func_192841_a(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9, float p_192841_10_)
+	public void render(TileChanceD20 d20, double x, double y, double z, float partialTicks, int var9, float p_192841_10_)
 	{
 		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getTotalWorldTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((d20.getStage() + partialTicks) / 10f);
 		d20.wave = wave;

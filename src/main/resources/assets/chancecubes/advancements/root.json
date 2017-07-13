@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "chancecubes:chance_cube"
+    },
+    "title": {
+      "translate": "itemGroup.chancecubes"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:root.desc"
+    },
+    "background": "chancecubes:textures/gui/advancements/background.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "cube_in_inventory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "chancecubes:chance_cube"
+          }
+        ]
+      }
+    }
+  }
+}

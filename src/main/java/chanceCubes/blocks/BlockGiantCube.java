@@ -4,11 +4,14 @@ import java.util.Random;
 
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.tileentities.TileGiantCube;
+import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
@@ -72,8 +75,13 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					world.setBlockToAir(pos);
 					return false;
 				}
-				// TODO: Update to advancements
-				// player.addStat(CCubesAchievements.GiantChanceCube);
+				MinecraftServer server = world.getMinecraftServer();
+				Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+				CCubesCommandSender sender = new CCubesCommandSender(player, pos);
+				String advancement = "/advancement grant @p only chancecubes:giant_chance_cube";
+				server.getCommandManager().executeCommand(sender, advancement);
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 			}

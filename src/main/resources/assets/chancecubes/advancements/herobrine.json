@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:skull",
+	  "data": 2
+    },
+    "title": {
+      "translate": "advancements.chancecubes:herobrine"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:herobrine.desc"
+    }
+  },
+  "parent": "chancecubes:root",
+  "criteria": {
+    "spawn_herobrine": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

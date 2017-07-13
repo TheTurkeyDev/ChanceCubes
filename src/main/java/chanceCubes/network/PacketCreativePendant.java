@@ -53,7 +53,7 @@ public class PacketCreativePendant implements IMessage
 			Container c;
 			try
 			{
-				c = ctx.getServerHandler().playerEntity.openContainer;
+				c = ctx.getServerHandler().player.openContainer;
 			} catch(Exception NullPointerException)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");

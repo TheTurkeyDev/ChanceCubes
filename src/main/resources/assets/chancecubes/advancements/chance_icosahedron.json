@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "chancecubes:chance_icosahedron"
+    },
+    "title": {
+      "translate": "advancements.chancecubes:chance_icosahedron"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:chance_icosahedron.desc"
+    }
+  },
+  "parent": "chancecubes:root",
+  "criteria": {
+    "placed_icosahedron": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -6,9 +6,12 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.util.CCubesCommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -46,8 +49,13 @@ public class ItemRenamer implements IChanceCubeReward
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
 			dirt.setStackDisplayName("A lonley piece of dirt");
 			player.inventory.addItemStackToInventory(dirt);
-			// TODO: Update to advancements
-			// player.addStat(CCubesAchievements.lonelyDirt);
+			MinecraftServer server = world.getMinecraftServer();
+			Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+			CCubesCommandSender sender = new CCubesCommandSender(player, pos);
+			String advancement = "/advancement grant @p only chancecubes:lonely_dirt";
+			server.getCommandManager().executeCommand(sender, advancement);
+			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 			return;
 		}
 

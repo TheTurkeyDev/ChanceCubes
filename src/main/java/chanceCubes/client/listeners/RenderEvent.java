@@ -31,7 +31,7 @@ public class RenderEvent
 		int k = scaledresolution.getScaledWidth();
 		int l = scaledresolution.getScaledHeight();
 
-		FontRenderer fontrenderer = mc.fontRendererObj;
+		FontRenderer fontrenderer = mc.fontRenderer;
 
 		if(islookingAt)
 		{

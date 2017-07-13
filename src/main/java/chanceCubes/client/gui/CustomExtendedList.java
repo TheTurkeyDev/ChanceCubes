@@ -84,11 +84,11 @@ public class CustomExtendedList extends GuiListExtended
 
 		// Draw
 		@Override
-		public void func_192634_a(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
+		public void drawEntry(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
 		{
 			this.button.displayString = name;
-			this.button.xPosition = x;
-			this.button.yPosition = y;
+			this.button.x = x;
+			this.button.y = y;
 			// this.button.enabled = enabled();
 			this.button.drawButtonForegroundLayer(mouseX, mouseY);
 		}
@@ -109,7 +109,7 @@ public class CustomExtendedList extends GuiListExtended
 
 		// Set slected
 		@Override
-		public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
+		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
 		{
 
 		}
@@ -126,7 +126,7 @@ public class CustomExtendedList extends GuiListExtended
 		public CustomTextEntry(ConfigGui parentScreen, Minecraft mc, String label, String textBoxText)
 		{
 			this.parentScreen = parentScreen;
-			text = new GuiTextField(0, mc.fontRendererObj, 0, 0, 200, 20);
+			text = new GuiTextField(0, mc.fontRenderer, 0, 0, 200, 20);
 			text.setMaxStringLength(1000);
 			text.setText(textBoxText);
 			this.mc = mc;
@@ -135,13 +135,13 @@ public class CustomExtendedList extends GuiListExtended
 
 		// Draw
 		@Override
-		public void func_192634_a(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
+		public void drawEntry(int p_192634_1_, int x, int y, int p_192634_4_, int p_192634_5_, int p_192634_6_, int p_192634_7_, boolean p_192634_8_, float p_192634_9_)
 		{
-			this.text.xPosition = x + 30;
-			this.text.yPosition = y;
+			this.text.x = x + 30;
+			this.text.y = y;
 			// this.button.enabled = enabled();
 			this.text.drawTextBox();
-			mc.fontRendererObj.drawString(this.label, x - (int) (label.length() * 3), y + 7, 0xFFFFFF);
+			mc.fontRenderer.drawString(this.label, x - (int) (label.length() * 3), y + 7, 0xFFFFFF);
 		}
 
 		@Override
@@ -174,7 +174,7 @@ public class CustomExtendedList extends GuiListExtended
 
 		// Set slected
 		@Override
-		public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
+		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
 		{
 
 		}

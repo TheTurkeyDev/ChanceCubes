@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:dirt"
+    },
+    "title": {
+      "translate": "advancements.chancecubes:lonely_dirt"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:lonely_dirt.desc"
+    }
+  },
+  "parent": "chancecubes:root",
+  "criteria": {
+    "rename_dirt": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

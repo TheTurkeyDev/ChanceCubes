@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:cake"
+    },
+    "title": {
+      "translate": "advancements.chancecubes:its_a_lie"
+    },
+    "description": {
+      "translate": "advancements.chancecubes:its_a_lie.desc"
+    }
+  },
+  "parent": "chancecubes:root",
+  "criteria": {
+    "spawn_creeper": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}
