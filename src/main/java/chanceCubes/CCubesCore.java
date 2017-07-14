@@ -42,7 +42,7 @@ public class CCubesCore
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.11";
+	public static final String gameVersion = "1.12";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
@@ -79,8 +79,6 @@ public class CCubesCore
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 
 		CCubesPacketHandler.init();
-		// TODO: Update to advancements
-		// CCubesAchievements.loadAchievements();
 		proxy.registerEvents();
 
 		if(CCubesSettings.chestLoot)

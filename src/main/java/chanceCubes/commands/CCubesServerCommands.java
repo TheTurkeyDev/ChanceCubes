@@ -232,7 +232,6 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-
 		}
 		else
 		{

@@ -133,8 +133,7 @@ public class CustomRewardsLoader
 		try
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
-			JsonObject json = HTTPUtil.getWebFile("https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<String, String>("version", "1.12-3.0.1.196" /* CCubesCore.VERSION */), new CustomEntry<String, String>("date", today)).getAsJsonObject();
-			System.out.println(json.toString());
+			JsonObject json = HTTPUtil.getWebFile("https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<String, String>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
 		} catch(Exception e)

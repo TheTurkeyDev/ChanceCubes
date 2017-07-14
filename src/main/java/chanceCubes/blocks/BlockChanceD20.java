@@ -4,16 +4,14 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
-import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.tileentities.TileChanceD20;
-import chanceCubes.util.CCubesCommandSender;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -100,13 +98,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 		if(te != null)
 		{
-			MinecraftServer server = world.getMinecraftServer();
-			Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-			CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-			String advancement = "/advancement grant @p only chancecubes:chance_icosahedron";
-			server.getCommandManager().executeCommand(sender, advancement);
-			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:chance_icosahedron");
 			te.startBreaking(player);
 			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			return true;

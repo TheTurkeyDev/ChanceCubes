@@ -19,6 +19,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -309,5 +310,14 @@ public class RewardsUtil
 				return true;
 
 		return false;
+	}
+
+	public static void executeCommand(World world, EntityPlayer player, String command)
+	{
+		MinecraftServer server = world.getMinecraftServer();
+		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+		server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 	}
 }
