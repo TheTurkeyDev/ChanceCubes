@@ -115,7 +115,6 @@ public class TileChanceD20 extends TileEntity implements ITickable
 				rot.mul(pitchQuat);
 				matrix.setRotation(rot);
 			}
-
 			transform = new TRSRTransformation(matrix);
 			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
