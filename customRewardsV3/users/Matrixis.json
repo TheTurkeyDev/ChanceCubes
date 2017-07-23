@@ -1,19 +1,14 @@
 {
-	"WaterCoolingAndCPU":
+	"WaterCooling":
 	{
-		"chance": 35,
-		"dependencies": { 
-			"mcVersion":"1.10.2",
-			"mod":"OpenComputers"
-		},
+		"chance": 0,
 		"Message":
 		[
-			{"message":"Potato PC in 2017 LUL"}
+			{"message":"Potato loop in 2017 LUL"}
 		],
 		"Item":
      		[
-			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}},
-			{"item":{"id":"opencomputers:component","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's i7 4790k"}}}}
+			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}}
    		]
 	},
 	"Matraxis":
