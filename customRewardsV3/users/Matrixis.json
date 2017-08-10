@@ -11,30 +11,42 @@
 			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}}
    		]
 	},
+    "LifeLeechCake":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"It's totally a lie! Kappa"}
+		],
+		"Item":
+     		[
+			{"item":{"id":"minecraft:cake","Damage":0,"Count":1,"tag":{"ench":[{"lvl":1,"id":31}]}}}
+   		]
+	},
 	"Matraxis":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"<slowpoke101> Hey there Matraxis", "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":40, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":45, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":50, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":55, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":60, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":65, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":70, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":75, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":80, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":85, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":90, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":95, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":100, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":105, "serverWide":true},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":110, "serverWide":true},
-			{"message":"<MrButtonboy13> Keepo", "delay":120, "serverWide":true},
-			{"message":"<Jacky1356400> Have a big BOOM as well, Matraxis", "delay":200, "serverWide":true},
-			{"message":"<Jacky1356400> LUL", "delay":220, "serverWide":true}
+			{"message":"<slowpoke101> Hey there Matraxis"},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":40},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":45},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":50},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":55},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":60},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":65},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":70},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":75},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":80},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":85},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":90},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":95},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":100},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":105},
+			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":110},
+			{"message":"<MrButtonboy13> Keepo", "delay":120},
+			{"message":"<Jacky1356400> Have a big BOOM as well, Matraxis", "delay":200},
+			{"message":"<Jacky1356400> LUL", "delay":220}
 		],
 		"Command":
 		[
