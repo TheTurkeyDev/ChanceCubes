@@ -86,15 +86,15 @@ public class ExtraUtilsModHook extends BaseModHook
 					if(x == 0 || x == 4 || z == 0 | z == 4)
 					{
 						spikes[index] = new OffsetBlock(x - 2, 0, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, x == 0 ? 5 : x == 4 ? 4 : z == 0 ? 3 : 2));
+						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, x == 0 ? 4 : x == 4 ? 5 : z == 0 ? 2 : 3));
 						index++;
 					}
 					else
 					{
 						spikes[index] = new OffsetBlock(x - 2, -1, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, 1));
 						index++;
 						spikes[index] = new OffsetBlock(x - 2, 2, z - 2, block, false).setRelativeToPlayer(true);
+						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, 1));
 						index++;
 					}
 
