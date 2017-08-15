@@ -27,6 +27,7 @@ import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
+import chanceCubes.rewards.defaultRewards.CoinFlipReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
@@ -431,6 +432,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		QuestionsReward question = new QuestionsReward();
 		MinecraftForge.EVENT_BUS.register(question);
 		INSTANCE.registerReward(question);
+		
+        CoinFlipReward coinFlip = new CoinFlipReward();
+        MinecraftForge.EVENT_BUS.register(coinFlip);
+        INSTANCE.registerReward(coinFlip);
+
 	}
 
 	public static void loadCustomUserRewards(MinecraftServer server)
