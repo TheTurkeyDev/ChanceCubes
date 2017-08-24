@@ -24,6 +24,13 @@ public class NonReplaceableBlockOverride {
     }
 
     public static List<NonReplaceableBlockOverride> parseOverrides(String[] inputs){
+        List<IBlockState> backupList = new ArrayList<>();
+        try {
+            backupList = CCubesSettings.nonReplaceableBlocks;
+        }catch(Exception e){
+            CCubesSettings.nonReplaceableBlocks = CCubesSettings.nonReplaceableBlocksIMC;
+            CCubesCore.logger.warn("Unable to save NRB backup, substituting IMC records.");
+        }
         List<NonReplaceableBlockOverride> ListChanges = new ArrayList<>();
         try {
             for (String block : inputs) {
@@ -66,8 +73,8 @@ public class NonReplaceableBlockOverride {
                     }
             }
         }catch(Exception e){
-            CCubesCore.logger.warn("Unable to parse Non-Replaceable Block overrides from config file, aborting changes.");
-            return new ArrayList<>();
+            CCubesCore.logger.warn("Unable to parse Non-Replaceable Block overrides from config file, substituting old overrides.");
+            CCubesSettings.nonReplaceableBlocks = backupList;
         }
         return ListChanges;
     }
@@ -77,7 +84,9 @@ public class NonReplaceableBlockOverride {
         CCubesCore.logger.info("Applying Non-Replaceable Block overrides");
         for(NonReplaceableBlockOverride override : CCubesSettings.nonReplaceableBlockOverrides){
             if(override.overrideType){ //Add
-                CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
+                if(!CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock)) {
+                    CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
+                }
             }
             else{ //Remove
                 if(CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock)){
