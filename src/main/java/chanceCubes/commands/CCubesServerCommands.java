@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
@@ -11,6 +12,7 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.NonReplaceableBlockOverride;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -89,6 +91,9 @@ public class CCubesServerCommands extends CommandBase
 					CustomRewardsLoader.instance.fetchRemoteInfo();
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
+					ConfigLoader.loadConfigSettings(CCubesCore.cfg);
+					CCubesSettings.nonReplaceableBlocks = CCubesSettings.nonReplaceableBlocksIMC;
+					NonReplaceableBlockOverride.applyOverrides();
 					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 				}
 			}).start();

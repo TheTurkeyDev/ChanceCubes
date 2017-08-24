@@ -3,6 +3,7 @@ package chanceCubes.config;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
+import chanceCubes.util.NonReplaceableBlockOverride;
 
 public class ConfigLoader
 {
@@ -26,6 +27,7 @@ public class ConfigLoader
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 20, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.");
 		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
 
+		CCubesSettings.nonReplaceableBlockOverrides = NonReplaceableBlockOverride.parseOverrides(config.getStringList("Overridden Nonreplaceable blocks",genCat,defaultNonReplaceableBlockOverrides,"Changes to the list of blocks that will not be replaced by chance cube rewards, prefaced with \'+\' to add a block or \'-\' to remove one added by the origin mod, lack of a \'+\' or \'-\' will be interpreted as a \'+\'."));
 		CCubesSettings.enableHardCodedRewards = config.getBoolean("EnableDefaultRewards", genCat, true, "Set to true if the default rewards should be loaded, false if they shouldn't");
 
 		CCubesSettings.pendantUses = config.getInt("pendantUses", genCat, CCubesSettings.pendantUses, 0, 1000, "Number of uses for a pendant");
@@ -54,4 +56,6 @@ public class ConfigLoader
 
 		new CustomRewardsLoader(customConfigFolder);
 	}
+
+	private static String[] defaultNonReplaceableBlockOverrides = {"+minecraft:bedrock","+minecraft:obsidian"};
 }

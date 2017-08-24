@@ -2,6 +2,7 @@ package chanceCubes;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.io.File;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
@@ -18,6 +19,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.NonReplaceableBlockOverride;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -43,6 +45,8 @@ public class CCubesCore
 	public static final String NAME = "Chance Cubes";
 
 	public static final String gameVersion = "1.12.1";
+
+	public static File cfg;
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
@@ -76,7 +80,8 @@ public class CCubesCore
 	public void load(FMLPreInitializationEvent event)
 	{
 		logger = event.getModLog();
-		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
+		cfg = event.getSuggestedConfigurationFile();
+		ConfigLoader.loadConfigSettings(cfg);
 
 		CCubesPacketHandler.init();
 		proxy.registerEvents();
@@ -103,7 +108,8 @@ public class CCubesCore
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
-
+		CCubesSettings.nonReplaceableBlocks = CCubesSettings.nonReplaceableBlocksIMC;
+		NonReplaceableBlockOverride.applyOverrides();
 		ConfigLoader.config.save();
 	}
 
@@ -139,7 +145,7 @@ public class CCubesCore
 				if(block != null)
 				{
 					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
-					CCubesSettings.nonReplaceableBlocks.add(state);
+					CCubesSettings.nonReplaceableBlocksIMC.add(state);
 					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 				}
 				else
