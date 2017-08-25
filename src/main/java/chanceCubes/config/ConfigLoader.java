@@ -1,9 +1,11 @@
 package chanceCubes.config;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
+
 
 public class ConfigLoader
 {
@@ -13,6 +15,7 @@ public class ConfigLoader
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
 
 	public static File folder;
+
 
 	public static void loadConfigSettings(File file)
 	{
@@ -59,4 +62,23 @@ public class ConfigLoader
 	}
 
 	public static final String[] defaultNonreplaceableBlocks = {"minecraft:bedrock","minecraft:obsidian"};
+
+
+
+	public static boolean reloadConfigSettings() {
+		if(config != null) {
+			try {
+				loadConfigSettings(new File(config.getConfigFile().getParentFile().getAbsolutePath() + config.getConfigFile().getName()));
+				return true;
+			}
+			catch(Exception e){
+				CCubesCore.logger.warn("Exception occurred during config reload:\n " + e.getMessage() + ":\n" + e.getStackTrace());
+				return false;
+			}
+		}
+		else{
+			CCubesCore.logger.warn("Internal Config Error: config reload attempted before initialization of config file.");
+			return false;
+		}
+	}
 }

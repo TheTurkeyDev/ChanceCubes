@@ -82,8 +82,7 @@ public class CCubesCore
 	public void load(FMLPreInitializationEvent event)
 	{
 		logger = event.getModLog();
-		cfg = event.getSuggestedConfigurationFile();
-		ConfigLoader.loadConfigSettings(cfg);
+		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 
 		CCubesPacketHandler.init();
 		proxy.registerEvents();
