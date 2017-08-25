@@ -6,6 +6,9 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
+/**
+ * Handles Configuration file management
+ */
 public class ConfigLoader
 {
 	public static Configuration config;
@@ -16,6 +19,11 @@ public class ConfigLoader
 	public static File folder;
 	public static File forgeSuggestedCfgFile;
 
+	/**
+	 * Initializes and loads ChanceCubes settings from the config file.
+	 * <br><br><b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()} instead.
+	 * @param file The default configuration file suggested by forge.
+	 */
 	public static void loadConfigSettings(File file)
 	{
 		forgeSuggestedCfgFile = file;
@@ -63,6 +71,10 @@ public class ConfigLoader
 
 	public static final String[] defaultNonreplaceableBlocks = {"minecraft:bedrock","minecraft:obsidian"};
 
+	/**
+	 *Reloads the ChanceCubes settings from the config file, requires file to be set through {@link #loadConfigSettings(File)} first or it will fail
+	 * @return A boolean indicating success or failure of reload
+	 */
 	public static boolean reloadConfigSettings() {
         if(forgeSuggestedCfgFile != null) {
             try {
