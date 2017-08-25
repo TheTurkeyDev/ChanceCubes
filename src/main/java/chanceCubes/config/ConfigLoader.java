@@ -1,10 +1,14 @@
 package chanceCubes.config;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
+/**
+ * Handles Configuration file management
+ */
 public class ConfigLoader
 {
 	public static Configuration config;
@@ -13,12 +17,19 @@ public class ConfigLoader
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
 
 	public static File folder;
+	public static File forgeSuggestedCfgFile;
 
+	/**
+	 * Initializes and loads ChanceCubes settings from the config file.
+	 * <br><br><b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()} instead.
+	 * @param file The default configuration file suggested by forge.
+	 */
 	public static void loadConfigSettings(File file)
 	{
-		folder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
+		forgeSuggestedCfgFile = file;
+		folder = new File(forgeSuggestedCfgFile.getParentFile().getAbsolutePath() + "/ChanceCubes");
 		folder.mkdirs();
-		config = new Configuration(new File(folder + "/" + file.getName()));
+		config = new Configuration(new File(folder + "/" + forgeSuggestedCfgFile.getName()));
 		config.load();
 
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
@@ -59,4 +70,26 @@ public class ConfigLoader
 	}
 
 	public static final String[] defaultNonreplaceableBlocks = {"minecraft:bedrock","minecraft:obsidian"};
+
+
+	/**
+	 *Reloads the ChanceCubes settings from the config file, requires file to be set through {@link #loadConfigSettings(File)} first or it will fail
+	 * @return A boolean indicating success or failure of reload
+	 */
+	public static boolean reloadConfigSettings() {
+		if(forgeSuggestedCfgFile != null) {
+			try {
+				loadConfigSettings(forgeSuggestedCfgFile);
+				return true;
+			}
+			catch(Exception e){
+				CCubesCore.logger.warn("Exception occurred during config reload:\n " + e.getMessage() + ":\n" + e.getStackTrace());
+				return false;
+			}
+		}
+		else{
+			CCubesCore.logger.warn("Internal Config Error: config reload attempted before initialization of config file.");
+			return false;
+		}
+	}
 }
