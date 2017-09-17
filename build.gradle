@@ -30,7 +30,7 @@ minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run-1.12"
 
-    mappings = "snapshot_20170712"
+    mappings = "snapshot_20170831"
 
     replace "@VERSION@", project.version
     replaceIn "CCubesCore.java"

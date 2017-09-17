@@ -30,13 +30,14 @@ public class ExtraUtilsModHook extends BaseModHook
 		ItemStack stack;
 		Block block;
 
-		// stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
-		// if(stack != null)
-		// {
-		// stack.setStackDisplayName("Useless Generator");
-		// stack.setItemDamage(9);
-		// ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
-		// }
+		stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
+		if(stack != null)
+		{
+			stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setString("Type", "extrautils2:generator_pink");
+			stack.setStackDisplayName("Useless Generator");
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
+		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "wateringcan", 1);
 		if(stack != null)
@@ -50,7 +51,7 @@ public class ExtraUtilsModHook extends BaseModHook
 		{
 			stack.setItemDamage(3);
 			NBTTagCompound nbt = new NBTTagCompound();
-			new FluidStack(FluidRegistry.WATER, 65536).writeToNBT(nbt);
+			new FluidStack(FluidRegistry.WATER, 65536000).writeToNBT(nbt);
 			stack.setTagInfo("Fluid", nbt);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
@@ -61,7 +62,7 @@ public class ExtraUtilsModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
-		stack = RewardsUtil.getItemStack(super.modId, "plant/enderlilly", 3);
+		stack = RewardsUtil.getItemStack(super.modId, "enderlilly", 3);
 		if(stack != null)
 		{
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 65, new ItemRewardType(new ItemPart(stack))));
@@ -103,7 +104,7 @@ public class ExtraUtilsModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Spikes", -40, new BlockRewardType(spikes)));
 		}
 
-		block = RewardsUtil.getBlock(super.modId, "cursedearthside");
+		block = RewardsUtil.getBlock(super.modId, "cursedearth");
 		if(block != null)
 		{
 			OffsetBlock[] cursedEarth = new OffsetBlock[49];
