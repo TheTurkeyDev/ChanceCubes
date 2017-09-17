@@ -252,7 +252,7 @@ public class NonreplaceableBlockOverride
 		{
 			CCubesCore.logger.warn("Whoops, something went wrong with loading the config, replacing NRB array with safety template...");
 			CCubesSettings.nonReplaceableBlocks = CCubesSettings.nonReplaceableBlocksIMC;
-			CCubesSettings.nonReplaceableBlocks.addAll(CCubesSettings.BackupNRB);
+			CCubesSettings.nonReplaceableBlocks.addAll(CCubesSettings.backupNRB);
 		}
 	}
 
