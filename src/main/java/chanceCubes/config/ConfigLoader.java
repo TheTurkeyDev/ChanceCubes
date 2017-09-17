@@ -2,8 +2,12 @@ package chanceCubes.config;
 
 import java.io.File;
 
+import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
 
+/**
+ * Handles Configuration file management
+ */
 public class ConfigLoader
 {
 	public static Configuration config;
@@ -12,16 +16,27 @@ public class ConfigLoader
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
 
 	public static File folder;
+	public static File forgeSuggestedCfgFile;
 
+	/**
+	 * Initializes and loads ChanceCubes settings from the config file. <br>
+	 * <br>
+	 * <b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()} instead.
+	 * 
+	 * @param file
+	 *            The default configuration file suggested by forge.
+	 */
 	public static void loadConfigSettings(File file)
 	{
-		folder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes");
+		forgeSuggestedCfgFile = file;
+		folder = new File(forgeSuggestedCfgFile.getParentFile().getAbsolutePath() + "/ChanceCubes");
 		folder.mkdirs();
-		config = new Configuration(new File(folder + "/" + file.getName()));
+		config = new Configuration(new File(folder + "/" + forgeSuggestedCfgFile.getName()));
 		config.load();
 
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
 
+		CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides", genCat, new String[] { "minecraft:bedrock" }, "Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
 		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat, 20, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.");
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 20, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.");
 		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
@@ -37,7 +52,7 @@ public class ConfigLoader
 		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");
 		CCubesSettings.craftingRecipie = config.getBoolean("CraftingRecipe", genCat, true, "true if Chance Cubes should have a crafting recipe. false if they should not");
 
-		CCubesSettings.dropHeight = config.getInt("FallingBlockDropHeight", genCat, 20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be droped from");
+		CCubesSettings.dropHeight = config.getInt("FallingBlockDropHeight", genCat, 20, 0, 256, "How many blocks above the Chance Cube that a block that will fall should be dropped from");
 
 		CCubesSettings.userSpecificRewards = config.getBoolean("UserSpecificRewards", genCat, true, "true if Chance Cubes should load in user specific rewards (for a select few only)");
 		CCubesSettings.disabledRewards = config.getBoolean("GloballyDisabledRewards", genCat, true, "true if Chance Cubes should check for globally disabled rewards (Rewards that are usually bugged or not working correctly). NOTE: The mod sends your Chance Cubes mod version to the web server to check for disabled rewards for your given version and the version number is subsequently logged. Feel free to make an inquiry if you wish to know more.");
