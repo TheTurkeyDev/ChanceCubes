@@ -1,10 +1,9 @@
 package chanceCubes.config;
 
-import chanceCubes.CCubesCore;
+import java.io.File;
+
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
-
-import java.io.File;
 
 /**
  * Handles Configuration file management
@@ -20,9 +19,12 @@ public class ConfigLoader
 	public static File forgeSuggestedCfgFile;
 
 	/**
-	 * Initializes and loads ChanceCubes settings from the config file.
-	 * <br><br><b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()} instead.
-	 * @param file The default configuration file suggested by forge.
+	 * Initializes and loads ChanceCubes settings from the config file. <br>
+	 * <br>
+	 * <b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()} instead.
+	 * 
+	 * @param file
+	 *            The default configuration file suggested by forge.
 	 */
 	public static void loadConfigSettings(File file)
 	{
@@ -34,8 +36,7 @@ public class ConfigLoader
 
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
 
-
-		CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides",genCat,defaultNonreplaceableBlocks,"Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
+		CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides", genCat, new String[] { "minecraft:bedrock" }, "Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
 		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat, 20, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.");
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 20, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.");
 		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
@@ -68,27 +69,4 @@ public class ConfigLoader
 
 		new CustomRewardsLoader(customConfigFolder);
 	}
-
-	public static final String[] defaultNonreplaceableBlocks = {"minecraft:bedrock","minecraft:obsidian"};
-
-	/**
-	 *Reloads the ChanceCubes settings from the config file, requires file to be set through {@link #loadConfigSettings(File)} first or it will fail
-	 * @return A boolean indicating success or failure of reload
-	 */
-	public static boolean reloadConfigSettings() {
-        if(forgeSuggestedCfgFile != null) {
-            try {
-                loadConfigSettings(forgeSuggestedCfgFile);
-                return true;
-            }
-            catch(Exception e){
-                CCubesCore.logger.warn("Exception occurred during config reload:\n " + e.getMessage() + ":\n" + e.getStackTrace());
-                return false;
-            }
-        }
-        else{
-            CCubesCore.logger.warn("Internal Config Error: config reload attempted before initialization of config file.");
-            return false;
-        }
-    }
 }

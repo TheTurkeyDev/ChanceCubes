@@ -1,5 +1,7 @@
 package chanceCubes;
 
+import static chanceCubes.config.CCubesSettings.BackupNRB;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,8 +19,8 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
-import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,9 +37,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import java.io.File;
-
-import static chanceCubes.config.CCubesSettings.BackupNRB;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
 public class CCubesCore
@@ -60,8 +59,6 @@ public class CCubesCore
 		}
 	};
 	public static Logger logger;
-	public static File cfg;
-	public static boolean gameInitialized = false;
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
@@ -105,15 +102,14 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		BackupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"),0));
-		BackupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"),0));
+		BackupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
+		BackupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
-		gameInitialized = true;
 	}
 
 	@EventHandler

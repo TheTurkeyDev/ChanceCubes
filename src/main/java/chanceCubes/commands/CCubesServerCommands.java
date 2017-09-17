@@ -7,7 +7,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -91,7 +90,7 @@ public class CCubesServerCommands extends CommandBase
 					CustomRewardsLoader.instance.fetchRemoteInfo();
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
-                    NonreplaceableBlockOverride.loadOverrides();
+					NonreplaceableBlockOverride.loadOverrides();
 					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 				}
 			}).start();
