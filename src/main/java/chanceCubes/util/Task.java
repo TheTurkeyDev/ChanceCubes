@@ -8,11 +8,22 @@ public abstract class Task
 
 	public int updateTick;
 
+	/**
+	 * 
+	 * @param name
+	 * @param delay
+	 */
 	public Task(String name, int delay)
 	{
 		this(name, delay, -1);
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param delay
+	 * @param updateTick
+	 */
 	public Task(String name, int delay, int updateTick)
 	{
 		this.name = name;
