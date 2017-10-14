@@ -18,6 +18,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesAchievements;
 import chanceCubes.util.CCubesRecipies;
+import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -104,10 +105,13 @@ public class CCubesCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
+		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
+		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
 	}
 
@@ -144,7 +148,7 @@ public class CCubesCore
 				if(block != null)
 				{
 					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
-					CCubesSettings.nonReplaceableBlocks.add(state);
+					CCubesSettings.nonReplaceableBlocksIMC.add(state);
 					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 				}
 				else

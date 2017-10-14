@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.state.IBlockState;
 
 public class CCubesSettings
@@ -38,7 +39,10 @@ public class CCubesSettings
 
 	public static int dropHeight = 20;
 
+	public static List<IBlockState> nonReplaceableBlocksIMC = new ArrayList<IBlockState>();
 	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
+	public static List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
+	public static List<IBlockState> backupNRB = new ArrayList<>();
 
 	public static boolean testRewards;
 	public static boolean testCustomRewards;

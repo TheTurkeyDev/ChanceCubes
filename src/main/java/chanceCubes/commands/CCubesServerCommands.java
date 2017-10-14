@@ -11,6 +11,7 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -82,6 +83,7 @@ public class CCubesServerCommands extends CommandBase
 			ChanceCubeRegistry.loadDefaultRewards();
 			GiantCubeRegistry.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();
+			NonreplaceableBlockOverride.loadOverrides();
 			CustomRewardsLoader.instance.fetchRemoteInfo();
 			ChanceCubeRegistry.loadCustomUserRewards(server);
 			ModHookUtil.loadCustomModRewards();
