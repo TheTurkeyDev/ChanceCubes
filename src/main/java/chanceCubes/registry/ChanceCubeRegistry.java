@@ -76,9 +76,13 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.util.FileUtil;
+import chanceCubes.util.RewardData;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
+import chanceCubes.util.SchematicUtil;
 import chanceCubes.util.Task;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.enchantment.Enchantment;
@@ -199,7 +203,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -15, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(1, 3, 1, Blocks.BRICK_BLOCK, 0, 0, 0, false, 1, false, false), RewardsUtil.fillArea(1, 3, 1, Blocks.AIR, 0, 0, 0, false, 0, false, false))), new CommandRewardType(new CommandPart("/summon ItemFrame ~ ~ ~1 {Item:{id:stick},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon ItemFrame ~ ~1 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon ItemFrame ~ ~2 ~1 {Item:{id:diamond},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Silverfish", -45, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Glowing:1b,ActiveEffects:[{Id:1,Amplifier:1,Duration:200000},{Id:14,Amplifier:0,Duration:20000}],Passengers:[{id:\"Silverfish\",ActiveEffects:[{Id:14,Amplifier:0,Duration:20000}]}]}", 5))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Trap", -5, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.ARROW_TRAP), 0, 0, 0, 0, false, true, true, 0))));
 
+		
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
 
