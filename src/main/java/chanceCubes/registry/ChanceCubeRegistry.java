@@ -422,7 +422,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DidYouKnowReward());
 		INSTANCE.registerReward(new ArmorStandArmorReward());
 		INSTANCE.registerReward(new RainingCatsAndCogsReward());
-		//INSTANCE.registerReward(new SquidChestReward());
+		INSTANCE.registerReward(new SquidChestReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
