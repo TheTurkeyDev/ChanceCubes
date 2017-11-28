@@ -48,7 +48,7 @@ public class SchematicRewardType implements IRewardType
 							OffsetBlock osb = stack.remove(0);
 							if(schematic.isRelativeToPlayer())
 							{
-								osb.spawnInWorld(world,(int)player.posX - 1,(int)player.posY,(int)player.posZ);
+								osb.spawnInWorld(world, (int)Math.floor(player.posX),(int)Math.floor(player.posY),(int)Math.floor(player.posZ));
 							}
 							else
 							{
