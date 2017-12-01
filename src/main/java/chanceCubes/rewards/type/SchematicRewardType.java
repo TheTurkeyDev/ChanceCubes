@@ -46,7 +46,14 @@ public class SchematicRewardType implements IRewardType
 						while(lessThan1 < 1 && !stack.isEmpty())
 						{
 							OffsetBlock osb = stack.remove(0);
-							osb.spawnInWorld(world, x, y, z);
+							if(schematic.isRelativeToPlayer())
+							{
+								osb.spawnInWorld(world, (int)Math.floor(player.posX),(int)Math.floor(player.posY),(int)Math.floor(player.posZ));
+							}
+							else
+							{
+								osb.spawnInWorld(world, x, y, z);
+							}
 							lessThan1 += schematic.getSpacingDelay();
 							if(stack.size() == 0)
 								lessThan1 = 1;
