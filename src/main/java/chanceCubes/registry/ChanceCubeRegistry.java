@@ -48,6 +48,7 @@ import chanceCubes.rewards.defaultRewards.QuestionsReward;
 import chanceCubes.rewards.defaultRewards.RainingCatsAndCogsReward;
 import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
 import chanceCubes.rewards.defaultRewards.SkyblockReward;
+import chanceCubes.rewards.defaultRewards.SquidChestReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
@@ -421,6 +422,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DidYouKnowReward());
 		INSTANCE.registerReward(new ArmorStandArmorReward());
 		INSTANCE.registerReward(new RainingCatsAndCogsReward());
+		INSTANCE.registerReward(new SquidChestReward());
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
@@ -438,10 +440,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		QuestionsReward question = new QuestionsReward();
 		MinecraftForge.EVENT_BUS.register(question);
 		INSTANCE.registerReward(question);
-		
-        CoinFlipReward coinFlip = new CoinFlipReward();
-        MinecraftForge.EVENT_BUS.register(coinFlip);
-        INSTANCE.registerReward(coinFlip);
+
+		CoinFlipReward coinFlip = new CoinFlipReward();
+		MinecraftForge.EVENT_BUS.register(coinFlip);
+		INSTANCE.registerReward(coinFlip);
 
 	}
 
