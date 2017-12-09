@@ -36,7 +36,7 @@ public class MazeGenerator
 	public BlockPos endBlockWorldCords;
 
 	/**
-	 * 
+	 *
 	 * @param multiple
 	 * @param x1
 	 * @param y1
