@@ -43,7 +43,7 @@ public class CCubesCore
 	public static final String VERSION = "@VERSION@";
 	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.12.1";
+	public static final String gameVersion = "1.12.2";
 
 	@Instance(value = MODID)
 	public static CCubesCore instance;
