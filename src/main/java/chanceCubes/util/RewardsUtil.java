@@ -1,5 +1,6 @@
 package chanceCubes.util;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,9 +17,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -205,7 +210,7 @@ public class RewardsUtil
 	{
 		return b.getStateFromMeta(meta);
 	}
-	
+
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
 		return RewardsUtil.placeBlock(b, world, pos, 3, false);
@@ -275,6 +280,43 @@ public class RewardsUtil
 		return item;
 	}
 
+	public static ItemStack getRandomFirework()
+	{
+		ItemStack stack = new ItemStack(Items.FIREWORKS);
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("Flight", rand.nextInt(3) + 1);
+
+		NBTTagList explosionList = new NBTTagList();
+
+		for(int i = 0; i <= rand.nextInt(2); i++)
+		{
+			NBTTagCompound explosionData = new NBTTagCompound();
+			explosionData.setInteger("Type", rand.nextInt(5));
+			explosionData.setBoolean("Flicker", rand.nextBoolean());
+			explosionData.setBoolean("Trail", rand.nextBoolean());
+			int[] colors = new int[rand.nextInt(2) + 1];
+			for(int j = 0; j < colors.length; j++)
+			{
+				colors[j] = getRandomColor();
+			}
+			explosionData.setIntArray("Colors", colors);
+			int[] fadeColors = new int[rand.nextInt(2) + 1];
+			for(int j = 0; j < fadeColors.length; j++)
+			{
+				fadeColors[j] = getRandomColor();
+			}
+			explosionData.setIntArray("FadeColors", fadeColors);
+			explosionList.appendTag(explosionData);
+		}
+		data.setTag("Explosions", explosionList);
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setTag("Fireworks", data);
+
+		stack.setTagCompound(nbt);
+
+		return stack;
+	}
+
 	public static String getRandomOreDict()
 	{
 		return RewardsUtil.getOreDicts().get(rand.nextInt(RewardsUtil.getOreDicts().size()));
@@ -297,6 +339,30 @@ public class RewardsUtil
 		nbttagcompound.setTag("EntityTag", nbttagcompound1);
 		stack.setTagCompound(nbttagcompound);
 		return stack;
+	}
+
+	public static PotionEffect getRandomPotionEffect()
+	{
+		Potion potion = null;
+		int tries = 0;
+		do
+		{
+			if(tries > 10)
+			{
+				return new PotionEffect(MobEffects.WITHER, 5, 1);
+			}
+			potion = (Potion) Potion.REGISTRY.getObjectById(rand.nextInt(Potion.REGISTRY.getKeys().size()));
+			tries++;
+		} while(potion == null);
+		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
+		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
+
+		return new PotionEffect(potion, duration, amplifier);
+	}
+
+	public static int getRandomColor()
+	{
+		return (new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))).getRGB();
 	}
 
 	public static boolean isPlayerOnline(EntityPlayer player)

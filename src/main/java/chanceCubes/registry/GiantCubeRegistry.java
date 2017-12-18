@@ -20,6 +20,7 @@ import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.ChunkFlipReward;
 import chanceCubes.rewards.giantRewards.ChunkReverserReward;
+import chanceCubes.rewards.giantRewards.FireworkShowReward;
 import chanceCubes.rewards.giantRewards.FloorIsLavaReward;
 import chanceCubes.rewards.giantRewards.FluidSphereReward;
 import chanceCubes.rewards.giantRewards.MixedFluidSphereReward;
@@ -64,6 +65,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new PotionsReward());
 		INSTANCE.registerReward(new FluidSphereReward());
 		INSTANCE.registerReward(new MixedFluidSphereReward());
+		INSTANCE.registerReward(new FireworkShowReward());
 		// INSTANCE.registerReward(new RandomExplosionReward());
 	}
 
