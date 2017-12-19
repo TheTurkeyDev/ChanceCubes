@@ -76,7 +76,7 @@ public class ItemChestReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return 0;
+		return 25;
 	}
 
 	@Override
