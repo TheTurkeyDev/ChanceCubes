@@ -58,7 +58,7 @@ public class CustomSoundsLoader
 			JsonObject event = new JsonObject();
 			event.addProperty("category", "block"); // put under the "record" category for sound options
 			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
-			JsonPrimitive sound = new JsonPrimitive(CCubesCore.MODID + ":" + simpleName); // sound object (instead of primitive to use 'stream' flag)
+			JsonPrimitive sound = new JsonPrimitive(simpleName); // sound object (instead of primitive to use 'stream' flag)
 			sounds.add(sound);
 			event.add("sounds", sounds);
 			root.add(CCubesCore.MODID + "." + simpleName, event); // event name (same as name sent to ItemCustomRecord)

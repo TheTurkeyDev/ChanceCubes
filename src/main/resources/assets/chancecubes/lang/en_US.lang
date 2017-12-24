@@ -21,6 +21,7 @@ item.scanner.name=Chance Cube Scanner
 death.attack.mathdeath=%1$s's mind exploded from the power of math
 death.attack.mazedeath=%1$s was forever lost in the Chance Cube maze.
 death.attack.questiondeath=%1$s suffered the consequences of the wrong answer.
+death.attack.digbuilddeath=%1$s's arms apparently broke.
 
 advancements.chancecubes:root.desc=A Game of Chance and Skill
 advancements.chancecubes:chance_icosahedron=Disco Ball!

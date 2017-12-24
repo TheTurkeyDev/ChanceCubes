@@ -30,18 +30,22 @@ import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CoinFlipReward;
 import chanceCubes.rewards.defaultRewards.CookieMonsterReward;
+import chanceCubes.rewards.defaultRewards.CountDownReward;
 import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
+import chanceCubes.rewards.defaultRewards.DigBuildReward;
 import chanceCubes.rewards.defaultRewards.DiscoReward;
 import chanceCubes.rewards.defaultRewards.DoubleRainbow;
 import chanceCubes.rewards.defaultRewards.EnderCrystalTimerReward;
 import chanceCubes.rewards.defaultRewards.FiveProngReward;
 import chanceCubes.rewards.defaultRewards.HerobrineReward;
 import chanceCubes.rewards.defaultRewards.InventoryBombReward;
+import chanceCubes.rewards.defaultRewards.ItemChestReward;
 import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
 import chanceCubes.rewards.defaultRewards.ItemRenamer;
 import chanceCubes.rewards.defaultRewards.JukeBoxReward;
+import chanceCubes.rewards.defaultRewards.MagicFeetReward;
 import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.MazeReward;
 import chanceCubes.rewards.defaultRewards.NukeReward;
@@ -78,11 +82,18 @@ import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
+import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.util.FileUtil;
+import chanceCubes.util.RewardData;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.SchematicUtil;
+import chanceCubes.util.Task;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -99,9 +110,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
+@SuppressWarnings("deprecation")
 public class ChanceCubeRegistry implements IRewardRegistry
 {
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
@@ -196,6 +209,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -15, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Take_This", 55, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(1, 3, 1, Blocks.BRICK_BLOCK, 0, 0, 0, false, 1, false, false), RewardsUtil.fillArea(1, 3, 1, Blocks.AIR, 0, 0, 0, false, 0, false, false))), new CommandRewardType(new CommandPart("/summon item_frame ~ ~ ~1 {Item:{id:\"minecraft:stick\", Count:1b},Facing:0,ItemRotation:7}", 2), new CommandPart("/summon item_frame ~ ~1 ~1 {Item:{id:\"minecraft:diamond\", Count:1b},Facing:0,ItemRotation:0}", 2), new CommandPart("/summon item_frame ~ ~2 ~1 {Item:{id:\"minecraft:diamond\", Count:1b},Facing:0,ItemRotation:0}", 2)), new MessageRewardType(new MessagePart("It's dangerous to go alone, here take this!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Silverfish", -45, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Glowing:1b,ActiveEffects:[{Id:1,Amplifier:1,Duration:200000},{Id:14,Amplifier:0,Duration:20000}],Passengers:[{id:\"Silverfish\",ActiveEffects:[{Id:14,Amplifier:0,Duration:20000}]}]}", 5))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Trap", -5, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.ARROW_TRAP), 1, -1, 1, 0, false, true, true, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Trampoline", 15, new MessageRewardType(new MessagePart("Time to bounce!")), new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.TRAMPOLINE), 1, -3, 1, 0, false, true, true, 0)), new BlockRewardType(new OffsetBlock(2, -2, -2, Blocks.REDSTONE_BLOCK, false, 3).setRelativeToPlayer(true).setCausesBlockUpdate(true), new OffsetBlock(2, -2, -2, Blocks.REDSTONE_WIRE, false, 5).setRelativeToPlayer(true).setCausesBlockUpdate(true))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Skeleton_Bats", -50, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"Skeleton\",ArmorItems:[{},{},{},{id:leather_helmet,Count:1}],HandItems:[{id:bow,Count:1},{}]}]}", 10))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Death_Skeleton", -60, new CommandRewardType(new CommandPart("/summon Skeleton ~ ~1 ~ {CustomName:\"Death\",CustomNameVisible:1,SkeletonType:1,ArmorItems:[{id:leather_boots,Count:1,tag:{AttributeModifiers:[{AttributeName:\"generic.movementSpeed\",Name:\"generic.movementSpeed\",Amount:1,Operation:0,UUIDLeast:490449,UUIDMost:374228}],ench:[{id:0,lvl:5}],display:{color:0}}},{id:leather_leggings,Count:1,tag:{ench:[{id:0,lvl:5}],display:{color:0}}},{id:leather_chestplate,Count:1,tag:{AttributeModifiers:[{AttributeName:\"generic.knockbackResistance\",Name:\"generic.knockbackResistance\",Amount:5,Operation:0,UUIDLeast:114826,UUIDMost:869447}],ench:[{id:0,lvl:5}],display:{color:0}}},{id:leather_helmet,Count:1,tag:{ench:[{id:0,lvl:5}],display:{color:0}}}],HandItems:[{id:iron_sword,Count:1,tag:{display:{Name:\"Sword of Death\",Lore:[Courtesy of NekoSpiral]},ench:[{id:16,lvl:4},{id:19,lvl:4},{id:20,lvl:2}]}},{}],ArmorDropChances:[0.0F,0.0F,0.0F,0.0F],HandDropChances:[0.2F,0.085F]}"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cave_Spider_Web", -10, new BlockRewardType(RewardsUtil.fillArea(7, 4, 7, Blocks.WEB, -3, 0, -3, false, 0, false, true)), new CommandRewardType(RewardsUtil.executeXCommands("/summon CaveSpider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}", 6))));
 
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -290,6 +308,15 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.BEACON, true, 200);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
 
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			{
+				player.setHealth(1f);
+			}
+		});
+
 		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No_Exp", -40)
 		{
 			@Override
@@ -309,6 +336,46 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			{
 				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
 				player.sendMessage(new TextComponentString("Thou has been smitten!"));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie-splosion", 35)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			{
+				EntityItem cookie;
+				for(double xx = 1; xx > -1; xx -= 0.25)
+				{
+					for(double zz = 1; zz > -1; zz -= 0.25)
+					{
+						cookie = new EntityItem(world, pos.getX(), pos.getY() + 1D, pos.getZ(), new ItemStack(Items.COOKIE));
+						world.spawnEntity(cookie);
+						cookie.motionX = xx;
+						cookie.motionY = Math.random();
+						cookie.motionZ = zz;
+					}
+				}
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			{
+				player.sendMessage(new TextComponentString("Selecting random potion effect to apply..."));
+
+				Scheduler.scheduleTask(new Task("Cookie Monster", 30)
+				{
+					@Override
+					public void callback()
+					{
+						PotionEffect effect = RewardsUtil.getRandomPotionEffect();
+						player.sendMessage(new TextComponentString("You have been given " + I18n.translateToLocal(effect.getEffectName()).trim() + " " + (effect.getAmplifier() + 1) + " for " + (effect.getDuration() / 20) + " seconds!"));
+						player.addPotionEffect(effect);
+					}
+				});
 			}
 		});
 
@@ -348,15 +415,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DidYouKnowReward());
 		INSTANCE.registerReward(new ArmorStandArmorReward());
 		INSTANCE.registerReward(new RainingCatsAndCogsReward());
-
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
-		{
-			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
-			{
-				player.setHealth(1f);
-			}
-		});
+		INSTANCE.registerReward(new ItemChestReward());
+		INSTANCE.registerReward(new MagicFeetReward());
+		INSTANCE.registerReward(new DigBuildReward());
+		INSTANCE.registerReward(new CountDownReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);

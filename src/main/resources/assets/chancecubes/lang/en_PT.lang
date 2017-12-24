@@ -21,6 +21,7 @@ item.scanner.name=Devils Dice Spyglass
 death.attack.mathdeath=%1$s's mind exploded from the power of math
 death.attack.mazedeath=%1$s was forever lost in the Chance Cube maze.
 death.attack.questiondeath=%1$s suffered the consequences of the wrong answer.
+death.attack.digbuilddeath=%1$s failed to conquer the mast.
 
 advancements.chancecubes:chance_icosahedron=Disco Ball!
 advancements.chancecubes:chance_icosahedron.desc=Open a Chance Icosahedron
