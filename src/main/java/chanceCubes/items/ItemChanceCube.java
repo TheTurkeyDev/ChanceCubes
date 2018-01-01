@@ -2,11 +2,14 @@ package chanceCubes.items;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -51,7 +54,7 @@ public class ItemChanceCube extends ItemBlock
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean bool)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn)
 	{
 		if(!stack.getItem().equals(CCubesBlocks.CUBE_DISPENSER))
 		{

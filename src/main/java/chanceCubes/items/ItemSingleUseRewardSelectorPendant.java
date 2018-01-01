@@ -30,16 +30,18 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		player.setActiveHand(hand);
+		ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking() && world.isRemote && player.isCreative())
 			FMLCommonHandler.instance().showGuiScreen(new RewardSelectorPendantGui(player, stack));
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+    	ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking())
 			return EnumActionResult.FAIL;
 		if(world.isRemote)

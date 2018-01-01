@@ -44,9 +44,10 @@ public class CustomUserReward implements IChanceCubeReward
 		JsonElement users;
 		try
 		{
-			users = HTTPUtil.getWebFile("https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/UserList.json");
+			users = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/UserList.json");
 		} catch(Exception e)
 		{
+			e.printStackTrace();
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the list of users with custom rewards!");
 			return;
 		}
@@ -71,7 +72,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile("https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/users/" + userName + ".json");
+			userRewards = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/users/" + userName + ".json");
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
