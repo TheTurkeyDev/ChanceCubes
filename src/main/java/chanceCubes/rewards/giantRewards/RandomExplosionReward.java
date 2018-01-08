@@ -48,7 +48,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 				int xInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int yInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("cloud", pos.getX() + xInc, pos.getY() + yInc, pos.getZ() + zInc, (xInc * -1) / 4, (yInc * -1) / 4, (zInc * -1) / 4), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("cloud", pos.getX() + xInc, pos.getY() + yInc, pos.getZ() + zInc, (xInc * -1) / 4f, (yInc * -1) / 4f, (zInc * -1) / 4f), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			}
 		});
 	}

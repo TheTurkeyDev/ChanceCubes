@@ -33,9 +33,9 @@ public class MazeReward implements IChanceCubeReward
 			public void callback()
 			{
 				player.setPositionAndUpdate(px, py, pz);
+				gen.endMaze(world);
 				if(RewardsUtil.isPlayerOnline(player))
 					player.attackEntityFrom(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
-				gen.endMaze(world);
 			}
 
 			@Override
