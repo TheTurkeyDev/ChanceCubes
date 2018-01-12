@@ -1,27 +1,16 @@
 {
-	"WaterCooling":
+	"JustALittleBit":
 	{
 		"chance": 0,
 		"Message":
 		[
-			{"message":"Potato loop in 2017 LUL"}
+			{"message":"Ooh ah, just a little bit..."},
+			{"message":"Ooh ah, a little bit more...", "delay":20}
 		],
 		"Item":
-     		[
-			{"item":{"id":"minecraft:baked_potato","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}}
-   		]
-	},
-    "LifeLeechCake":
-	{
-		"chance": 0,
-		"Message":
 		[
-			{"message":"It's totally a lie! Kappa"}
-		],
-		"Item":
-     		[
-			{"item":{"id":"minecraft:cake","Damage":0,"Count":1,"tag":{"ench":[{"lvl":1,"id":31}]}}}
-   		]
+			{"item":{"id":"minecraft:gold_nugget","Damage":0,"Count":1,"tag":{"display":{"Name":"1 Bit"}}}}
+		]
 	},
 	"Matraxis":
 	{
@@ -45,8 +34,8 @@
 			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":105},
 			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":110},
 			{"message":"<MrButtonboy13> Keepo", "delay":120},
-			{"message":"<Jacky1356400> Have a big BOOM as well, Matraxis", "delay":200},
-			{"message":"<Jacky1356400> LUL", "delay":220}
+			{"message":"<JackyScrubby> Have a big BOOM as well, Matraxis", "delay":200},
+			{"message":"<JackyScrubby> LUL", "delay":220}
 		],
 		"Command":
 		[
@@ -74,7 +63,7 @@
 		[
 			{"message":"Surprise!", "delay": 200}
 		],
-		"command":
+		"Command":
 		[
 			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
 			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
@@ -96,43 +85,6 @@
 			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
 			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
 			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200}
-		],
-		"Block":
-		[
-			{"XOffSet":0,"YOffSet":-1,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":-1,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":-1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":-1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":-1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":-1,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":-1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":-1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":-1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":0,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":0,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":1,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":1,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":2,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":2,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":2,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":2,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":1,"YOffSet":2,"ZOffSet":-1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":-1,"YOffSet":2,"ZOffSet":1,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200},
-			{"XOffSet":0,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:web", "Falling":false,"RelativeToPlayer":true,"delay": 200}
 		]
 	}
 }
