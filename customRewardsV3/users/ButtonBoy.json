@@ -65,26 +65,6 @@
       {"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
     ]
   },
-  "GamingPC":
-  {
-    "chance": 0,
-    "dependencies": { 
-      "mcVersion":"1.10.2",
-      "mod":"OpenComputers"
-    },
-    "Message":
-    [
-      {"message":"Do it yourself Mat's gaming PC!"}
-    ],
-    "Item":
-    [
-      {"item":{"id":"opencomputers:card","Damage":1,"Count":1,"tag":{"display":{"Name":"Mat's Potato GTX 1080Ti"}}}},
-      {"item":{"id":"opencomputers:component","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Potato i7 4790k"}}}},
-      {"item":{"id":"opencomputers:screen1","Damage":0,"Count":1,"tag":{"display":{"Name":"Mat's Potato 4k screen"}}}},
-      {"item":{"id":"minecraft:baked_potato","Count":1,"tag":{"display":{"Name":"Mat's Water cooling system"}}}},
-      {"item":{"id":"opencomputers:case1","Damage":0,"Count":1,"tag":{"display":{"Name":"Cooler Master MasterCase Maker 5t", "Lore":["The only thing that is not a potato"]}}}}
-    ]
-  },
   "Daisy":
   {
     "chance": 0,
