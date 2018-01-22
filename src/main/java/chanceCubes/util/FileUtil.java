@@ -42,20 +42,12 @@ public class FileUtil
 		StringBuilder builder = new StringBuilder();
 		try
 		{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
-
-			String line = "";
-			while((line = reader.readLine()) != null)
-			{
-				builder.append(line);
-			}
-			reader.close();
+			return JSON_PARSER.parse(new InputStreamReader(new FileInputStream(new File(filepath))));
 		} catch(IOException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		return JSON_PARSER.parse(builder.toString());
 	}
 
 	@Nonnull
