@@ -271,16 +271,23 @@ public class RewardsUtil
 		List<ItemStack> ores = OreDictionary.getOres(RewardsUtil.getRandomOreDict());
 		Block ore = null;
 		int meta = 0;
-		if(ores.size() == 0)
+
+		int iteration = 0;
+		while(ore == null)
 		{
-			ore = Blocks.COAL_ORE;
+			iteration++;
+			if(iteration > 100 || ores.size() == 0)
+			{
+				ore = Blocks.COAL_ORE;
+			}
+			else
+			{
+				ItemStack stack = ores.get(rand.nextInt(ores.size()));
+				ore = Block.getBlockFromItem(stack.getItem());
+				meta = stack.getItemDamage();
+			}
 		}
-		else
-		{
-			ItemStack stack = ores.get(rand.nextInt(ores.size()));
-			ore = Block.getBlockFromItem(stack.getItem());
-			meta = stack.getItemDamage();
-		}
+
 		return new CustomEntry<Block, Integer>(ore, meta);
 	}
 
