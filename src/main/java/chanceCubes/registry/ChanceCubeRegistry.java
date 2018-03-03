@@ -26,6 +26,7 @@ import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
+import chanceCubes.rewards.defaultRewards.ChanceCubeRenameReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CoinFlipReward;
 import chanceCubes.rewards.defaultRewards.CountDownReward;
@@ -482,6 +483,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DigBuildReward());
 		INSTANCE.registerReward(new CountDownReward());
 		INSTANCE.registerReward(new CursedFeetReward());
+		INSTANCE.registerReward(new ChanceCubeRenameReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
@@ -623,7 +625,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
 					if(stack.getItemDamage() >= CCubesSettings.pendantUses)
-						player.inventory.setInventorySlotContents(i, null);
+						player.inventory.mainInventory[i] = null;
 					chance += pendant.getChanceIncrease();
 					if(chance > 100)
 						chance = 100;
