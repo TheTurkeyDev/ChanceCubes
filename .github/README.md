@@ -1,4 +1,5 @@
-# ChanceCubes
+![ChanceCubes Logo](../ChanceCubesLogo.png)
+
 This is the Github repository for the ChanceCubes Minecraft Mod.
 
 If you are here for documentation to make custom rewards, please refer to the [Wiki](http://github.com/wyldmods/chancecubes/wiki).
