@@ -5,6 +5,7 @@ import java.util.Random;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.IChanceCubeReward;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +18,7 @@ public class ChanceCubeRenameReward implements IChanceCubeReward
 
 	// @formatter:off
 	private String[] chanceSyn = {"Lucky", "Fortune", "Unforseen", "Probabalistic", "Favored", 
-			"Charmed", "Auspicious", "Advantageous", ""};
+			"Charmed", "Auspicious", "Advantageous"};
 	
 	private String[] cubeSyn = {"Blocks", "Squares", "Boxes", "Bricks", "Hunks", "Solids"};
 	
@@ -33,8 +34,9 @@ public class ChanceCubeRenameReward implements IChanceCubeReward
 		String newName = name + " " + adj;
 		stack.setStackDisplayName(newName);
 
-		player.addChatMessage(new TextComponentString("Chance Cubes are sooooo 2017. Here have some " + name + " instead!"));
+		player.addChatMessage(new TextComponentString("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
 
+		world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
 	}
 
 	@Override
