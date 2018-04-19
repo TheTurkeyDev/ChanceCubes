@@ -26,6 +26,7 @@ import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
+import chanceCubes.rewards.defaultRewards.ChanceCubeRenameReward;
 import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CoinFlipReward;
@@ -418,6 +419,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new ItemChestReward());
 		INSTANCE.registerReward(new MagicFeetReward());
 		INSTANCE.registerReward(new DigBuildReward());
+		INSTANCE.registerReward(new ChanceCubeRenameReward());
 		INSTANCE.registerReward(new CountDownReward());
 
 		MathReward math = new MathReward();
