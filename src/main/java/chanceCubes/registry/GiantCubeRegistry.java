@@ -66,7 +66,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new FluidSphereReward());
 		INSTANCE.registerReward(new MixedFluidSphereReward());
 		INSTANCE.registerReward(new FireworkShowReward());
-		// INSTANCE.registerReward(new RandomExplosionReward());
+		//INSTANCE.registerReward(new RandomExplosionReward());
 	}
 
 	@Override

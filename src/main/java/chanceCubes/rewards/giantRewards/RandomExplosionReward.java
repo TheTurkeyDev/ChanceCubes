@@ -9,6 +9,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -22,11 +23,13 @@ public class RandomExplosionReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
+		RewardsUtil.placeBlock(Blocks.OBSIDIAN.getDefaultState(), world, pos);
 		Scheduler.scheduleTask(new Task("Random Explosion", 600, 2)
 		{
 			@Override
 			public void callback()
 			{
+				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos);
 				EntityItem item;
 				ItemStack stack = randomStuff[RewardsUtil.rand.nextInt(randomStuff.length)];
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -48,7 +51,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 				int xInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int yInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(3) + 3 * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
-				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("cloud", pos.getX() + xInc, pos.getY() + yInc, pos.getZ() + zInc, (xInc * -1) / 4, (yInc * -1) / 4, (zInc * -1) / 4), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+				CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("cloud", pos.getX() + xInc, pos.getY() + yInc, pos.getZ() + zInc, (xInc * -1), (yInc * -1), (zInc * -1)), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
 			}
 		});
 	}

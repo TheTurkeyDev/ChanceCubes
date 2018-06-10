@@ -1,15 +1,16 @@
 package chanceCubes.containers;
 
+import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.items.ItemChanceCube;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.items.ItemChanceCube;
 
 public class CreativePendantContainer extends Container
 {
@@ -67,7 +68,7 @@ public class CreativePendantContainer extends Container
 			if(slot > 35)
 				if(!this.mergeItemStack(stackInSlot, 0, 36, true))
 					return null;
-				else if(stack.getItem().equals(CCubesBlocks.CHANCE_CUBE))
+				else if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
 					if(!this.mergeItemStack(stackInSlot, 36, 37, true))
 						return null;
 
