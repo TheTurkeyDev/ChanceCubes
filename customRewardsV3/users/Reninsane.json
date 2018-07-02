@@ -44,25 +44,6 @@
 			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50}
 		]
 	},
-	"Nice":
-	{
-		"chance": 0,
-		"Message":
-		[
-			{"message":"Let's take a trip down memory lane!"},
-			{"message":"Ok... I'll be nice now", "delay": 20},
-			{"message":"LOL JK. GET REKT", "delay": 200}
-		],
-		"Entity":
-		[
-			{"entity":{"id":"EnderDragon"}, "delay": 280},
-			{"entity":{"id":"EnderDragon"}, "delay": 280}
-		],
-		"Item":
-		[
-			{"item":{"id":"minecraft:cookie","Count":32, "delay": 20}}
-		]
-	},
 	"Nicer":
 	{
 		"chance": 0,
