@@ -1,53 +1,60 @@
 package chanceCubes.sounds;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public enum CCubesSounds
+public class CCubesSounds
 {
-	D20_BREAK(SoundCategory.BLOCKS, "d20_Break"), GIANT_CUBE_SPAWN(SoundCategory.BLOCKS, "giant_Cube_Spawn");
+	public static SoundEvent D20_BREAK;
+	public static SoundEvent GIANT_CUBE_SPAWN;
 
-	private ResourceLocation resourceLocation;
-	private SoundCategory soundCategory;
-	private SoundEvent soundEvent = null;
+	public static Map<String, SoundEvent> customSounds = new HashMap<>();
 
-	private CCubesSounds(SoundCategory soundCategory, String name)
+	private static boolean registered = false;
+
+	@SubscribeEvent
+	public static void registerSoundEvents(RegistryEvent.Register<SoundEvent> event)
 	{
-		this.soundCategory = soundCategory;
-		this.resourceLocation = new ResourceLocation(CCubesCore.MODID, name);
+		ResourceLocation res = new ResourceLocation(CCubesCore.MODID, "d20_Break");
+		D20_BREAK = new SoundEvent(res).setRegistryName(res);
+		event.getRegistry().register(D20_BREAK);
+
+		res = new ResourceLocation(CCubesCore.MODID, "giant_Cube_Spawn");
+		GIANT_CUBE_SPAWN = new SoundEvent(res).setRegistryName(res);
+		event.getRegistry().register(D20_BREAK);
+
+		for(String soundID : customSounds.keySet())
+			event.getRegistry().register(customSounds.get(soundID));
+
+		registered = true;
 	}
 
-	public static void loadSounds()
+	public static SoundEvent registerSound(String soundID)
 	{
-		for(CCubesSounds sound : values())
-			sound.soundEvent = new SoundEvent(sound.resourceLocation);
-	}
-	
-	public static SoundEvent registerSound(String name)
-	{
-        if(name.contains(":"))
-        {
-            int loc = name.indexOf(":");
-            return new SoundEvent(new ResourceLocation(name.substring(0, loc), name.substring(loc + 1)));
-        }
-        else
-        {
-            return new SoundEvent(new ResourceLocation(name));
-        }
-            
+		SoundEvent sound;
+		if(!customSounds.containsKey(soundID))
+		{
+			// TODO: I guess we should do something here, but idk what yet
+			if(registered)
+				CCubesCore.logger.log(Level.WARN, "A new sound was added after the sounds were registered and therefore the new sound could not be added!");
+			ResourceLocation res = new ResourceLocation(soundID);
+			sound = new SoundEvent(res).setRegistryName(res);
+			customSounds.put(soundID, sound);
+		}
+		else
+		{
+			sound = customSounds.get(soundID);
+		}
 
-	}
-
-	public SoundEvent getSoundEvent()
-	{
-		return soundEvent;
-	}
-
-	public SoundCategory getSoundCategory()
-	{
-		return soundCategory;
+		return sound;
 	}
 
 }

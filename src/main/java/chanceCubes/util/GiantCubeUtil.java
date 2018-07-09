@@ -4,6 +4,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -85,7 +86,7 @@ public class GiantCubeUtil
 				}
 			}
 		}
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundEvent(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundCategory(), 1.0F, 1.0F);
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 	public static BlockPos findBottomCorner(BlockPos pos, World world)

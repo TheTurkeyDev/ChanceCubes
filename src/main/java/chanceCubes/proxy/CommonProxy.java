@@ -5,6 +5,7 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
+import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,6 +34,7 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
 		MinecraftForge.EVENT_BUS.register(new CCubesBlocks());
 		MinecraftForge.EVENT_BUS.register(new CCubesItems());
+		MinecraftForge.EVENT_BUS.register(new CCubesSounds());
 	}
 
 	public EntityPlayer getClientPlayer()

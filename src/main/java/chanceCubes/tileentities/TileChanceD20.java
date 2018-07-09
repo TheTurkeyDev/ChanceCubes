@@ -17,6 +17,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class TileChanceD20 extends TileEntity implements ITickable
@@ -126,7 +127,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 		{
 			if(!player.world.isRemote)
 			{
-				player.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK.getSoundEvent(), CCubesSounds.D20_BREAK.getSoundCategory(), 1.0F, 1.0F);
+				player.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;

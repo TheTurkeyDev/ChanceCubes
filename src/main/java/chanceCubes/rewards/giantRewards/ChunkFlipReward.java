@@ -10,6 +10,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -21,7 +22,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 	{
 		int z = pos.getZ() - (pos.getZ() % 16);
 		int x = pos.getX() - (pos.getX() % 16);
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundEvent(), CCubesSounds.GIANT_CUBE_SPAWN.getSoundCategory(), 1.0F, 1.0F);
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		player.sendMessage(new TextComponentString("Inception!!!!"));
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
