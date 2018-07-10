@@ -8,6 +8,7 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -27,7 +28,7 @@ public class ClearInventoryReward implements IChanceCubeReward
 			if(player.inventory.getStackInSlot(slotNum) != null && player.inventory.getStackInSlot(slotNum).getItem() instanceof ItemChanceCube)
 				cubes = true;
 			else
-				player.inventory.setInventorySlotContents(slotNum, null);
+				player.inventory.setInventorySlotContents(slotNum, ItemStack.EMPTY);
 		}
 		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
 

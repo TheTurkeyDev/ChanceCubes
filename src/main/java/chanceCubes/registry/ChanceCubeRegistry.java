@@ -584,7 +584,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
 					if(stack.getItemDamage() >= CCubesSettings.pendantUses)
-						player.inventory.setInventorySlotContents(i, null);
+						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 					chance += pendant.getChanceIncrease();
 					if(chance > 100)
 						chance = 100;
