@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class RainingCatsAndCogsReward implements IChanceCubeReward
 {
-	private String[] names = { "EmoKiba", "Turkey", "MrComputerGhost", "Valsis", "Silver", "Amatt", "Musician", "ReNinjaKitteh" };
+	private String[] names = { "Radiant_Sora", "Turkey", "MrComputerGhost", "Valsis", "Silver", "Amatt", "Musician", "ReNinjaKitteh", "QuirkyGeek17" };
 
 	@Override
 	public void trigger(final World world, BlockPos position, EntityPlayer player)

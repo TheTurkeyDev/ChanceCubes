@@ -46,6 +46,7 @@ import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.sounds.CustomSoundsLoader;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.FileUtil;

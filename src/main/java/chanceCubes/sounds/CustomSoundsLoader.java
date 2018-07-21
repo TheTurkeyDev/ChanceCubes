@@ -1,4 +1,4 @@
-package chanceCubes.config;
+package chanceCubes.sounds;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -13,12 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.FileResourcePack;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -58,10 +58,12 @@ public class CustomSoundsLoader
 			JsonObject event = new JsonObject();
 			event.addProperty("category", "block"); // put under the "record" category for sound options
 			JsonArray sounds = new JsonArray(); // array of sounds (will only ever be one)
-			JsonPrimitive sound = new JsonPrimitive(simpleName); // sound object (instead of primitive to use 'stream' flag)
-			sounds.add(sound);
+			JsonObject soundsObj = new JsonObject();
+			soundsObj.addProperty("name", simpleName);
+			soundsObj.addProperty("stream", false);// sound object (instead of primitive to use 'stream' flag)
+			sounds.add(soundsObj);
 			event.add("sounds", sounds);
-			root.add(CCubesCore.MODID + "." + simpleName, event); // event name (same as name sent to ItemCustomRecord)
+			root.add(simpleName, event); // event name (same as name sent to ItemCustomRecord)
 		}
 		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/Sounds/sounds.json", gson.toJson(root))));// add record .ogg
 	}
@@ -106,6 +108,8 @@ public class CustomSoundsLoader
 				FileUtil.safeDelete(zip);
 				FileUtil.writeNewFile(new File(dest.getParent() + "/readme.txt"), "This is the resource pack for loading in custom sounds to chance cubes. Feel free to ignore this file and folder.");
 				defaultResourcePacks.add(new FileResourcePack(dest));
+				
+				((IReloadableResourceManager)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "mcResourceManager", "field_110451_am")).reloadResources(defaultResourcePacks);
 			} catch(Exception e)
 			{
 				CCubesCore.logger.error("Failed to inject the resource pack for the custom sounds in the Chance Cubes rewards: ", e);

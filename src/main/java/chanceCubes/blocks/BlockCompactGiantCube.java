@@ -30,7 +30,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 
 		GiantCubeUtil.setupStructure(pos.add(-1, 0, -1), world, true);
 
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 	@Override

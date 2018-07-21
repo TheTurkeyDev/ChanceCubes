@@ -34,7 +34,6 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
 		MinecraftForge.EVENT_BUS.register(new CCubesBlocks());
 		MinecraftForge.EVENT_BUS.register(new CCubesItems());
-		MinecraftForge.EVENT_BUS.register(new CCubesSounds());
 	}
 
 	public EntityPlayer getClientPlayer()

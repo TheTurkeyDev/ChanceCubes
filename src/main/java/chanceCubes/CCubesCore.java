@@ -15,6 +15,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
@@ -79,6 +80,7 @@ public class CCubesCore
 
 		CCubesPacketHandler.init();
 		proxy.registerEvents();
+		CCubesSounds.loadSolunds();
 
 		if(CCubesSettings.chestLoot)
 		{
