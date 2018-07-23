@@ -23,12 +23,12 @@ public class InventoryChestReward implements IChanceCubeReward
 	{
 		final List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ItemStack stack : player.inventory.mainInventory)
-			if(stack != null)
+			if(!stack.isEmpty())
 				stacks.add(stack.copy());
 
 		NonNullList<ItemStack> armor = player.inventory.armorInventory;
 		for(ItemStack stack : player.inventory.armorInventory)
-			if(stack != null)
+			if(!stack.isEmpty())
 				armor.add(stack.copy());
 		player.inventory.clear();
 		for(int i = 0; i < armor.size(); i++)

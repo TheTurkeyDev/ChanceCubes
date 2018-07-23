@@ -35,11 +35,11 @@ public class ItemRenamer implements IChanceCubeReward
 	{
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ItemStack stack : player.inventory.mainInventory)
-			if(stack != null)
+			if(!stack.isEmpty())
 				stacks.add(stack);
 
 		for(ItemStack stack : player.inventory.armorInventory)
-			if(stack != null)
+			if(!stack.isEmpty())
 				stacks.add(stack);
 
 		if(stacks.size() == 0)

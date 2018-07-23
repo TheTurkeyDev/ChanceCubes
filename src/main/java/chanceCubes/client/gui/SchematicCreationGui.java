@@ -45,12 +45,8 @@ public class SchematicCreationGui extends GuiScreen
 		this.buttonList.add(new GuiButton(10, i - 50, this.height - 40, 100, 20, "Create"));
 
 		for(int j = 0; j < 2; j++)
-		{
 			for(int k = 0; k < 6; k++)
-			{
 				this.buttonList.add(new GuiButton(11 + ((j * 6) + k), (i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k]));
-			}
-		}
 	}
 
 	public void onGuiClosed()
@@ -94,7 +90,6 @@ public class SchematicCreationGui extends GuiScreen
 					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, -1);
 				else if(id == 5)
 					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, 1);
-
 			}
 		}
 	}

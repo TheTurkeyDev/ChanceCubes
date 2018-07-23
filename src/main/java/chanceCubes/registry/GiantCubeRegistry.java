@@ -82,9 +82,9 @@ public class GiantCubeRegistry implements IRewardRegistry
 	@Override
 	public boolean unregisterReward(String name)
 	{
-		Object o = nameToReward.remove(name);
-		if(o != null)
-			return sortedRewards.remove(o);
+		IChanceCubeReward reward = nameToReward.remove(name);
+		if(reward != null)
+			return sortedRewards.remove(reward);
 		return false;
 	}
 

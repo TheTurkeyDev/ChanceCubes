@@ -60,12 +60,8 @@ public class AnvilRain implements IChanceCubeReward
 		{
 			int xxx = xx == 1 ? x + 5 : x - 5;
 			for(int zz = -5; zz < 6; zz++)
-			{
 				for(int yyy = 0; yyy < 3; yyy++)
-				{
 					RewardsUtil.placeBlock(Blocks.COBBLESTONE.getDefaultState(), world, new BlockPos(xxx, yyy + y, zz + z));
-				}
-			}
 		}
 
 		for(int xx = -5; xx < 6; xx++)
@@ -74,9 +70,7 @@ public class AnvilRain implements IChanceCubeReward
 			{
 				int zzz = zz == 1 ? z + 5 : z - 5;
 				for(int yyy = 0; yyy < 3; yyy++)
-				{
 					RewardsUtil.placeBlock(Blocks.COBBLESTONE.getDefaultState(), world, new BlockPos(xx + x, yyy + y, zzz));
-				}
 			}
 		}
 	}

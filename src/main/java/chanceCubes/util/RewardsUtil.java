@@ -198,7 +198,7 @@ public class RewardsUtil
 	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
 	{
 		Item item = Item.REGISTRY.getObject(new ResourceLocation(mod, itemName));
-		return item == null ? null : new ItemStack(item, size, meta);
+		return item == null ? ItemStack.EMPTY : new ItemStack(item, size, meta);
 	}
 
 	public static Block getBlock(String mod, String blockName)

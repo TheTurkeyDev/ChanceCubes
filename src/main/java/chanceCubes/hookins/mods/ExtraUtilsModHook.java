@@ -31,7 +31,7 @@ public class ExtraUtilsModHook extends BaseModHook
 		Block block;
 
 		stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			stack.setTagCompound(new NBTTagCompound());
 			stack.getTagCompound().setString("Type", "extrautils2:generator_pink");
@@ -40,14 +40,14 @@ public class ExtraUtilsModHook extends BaseModHook
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "wateringcan", 1);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(0);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Watering_Can", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "drum", 1);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(3);
 			NBTTagCompound nbt = new NBTTagCompound();
@@ -57,19 +57,19 @@ public class ExtraUtilsModHook extends BaseModHook
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "bagofholding", 1);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "enderlilly", 3);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedcobblestone", 4);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(5);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 45, new ItemRewardType(new ItemPart(stack))));

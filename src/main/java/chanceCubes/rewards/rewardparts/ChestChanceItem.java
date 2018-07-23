@@ -31,10 +31,10 @@ public class ChestChanceItem
 	private ItemStack getItemStack(int amount, int meta)
 	{
 		ItemStack stack = RewardsUtil.getItemStack(mod, item, amount, meta);
-		if(stack == null)
+		if(stack.isEmpty())
 		{
 			stack = new ItemStack(RewardsUtil.getBlock(mod, item), amount, meta);
-			if(stack.getItem() == null)
+			if(stack.isEmpty())
 				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 1, 0);
 		}
 

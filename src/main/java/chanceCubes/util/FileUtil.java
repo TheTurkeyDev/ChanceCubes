@@ -44,9 +44,8 @@ public class FileUtil
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
 			String line = "";
 			while((line = reader.readLine()) != null)
-			{
 				builder.append(line);
-			}
+			
 			reader.close();
 		} catch(IOException e)
 		{

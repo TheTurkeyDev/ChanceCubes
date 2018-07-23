@@ -5,7 +5,6 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
-import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 

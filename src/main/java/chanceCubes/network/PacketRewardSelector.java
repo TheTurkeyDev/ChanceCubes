@@ -47,7 +47,7 @@ public class PacketRewardSelector implements IMessage
 		public IMessage onMessage(PacketRewardSelector message, MessageContext ctx)
 		{
 			ItemStack stack = ctx.getServerHandler().player.inventory.getCurrentItem();
-			if(stack != null && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
+			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
 			{
 				NBTTagCompound nbt = stack.getTagCompound();
 				if(nbt == null)

@@ -64,7 +64,7 @@ public class PacketCreativePendant implements IMessage
 			{
 				CreativePendantContainer container = (CreativePendantContainer) c;
 				ItemStack ccubes = container.getChanceCubesInPendant();
-				if(ccubes != null && ccubes.getItem() instanceof ItemChanceCube)
+				if(!ccubes.isEmpty() && ccubes.getItem() instanceof ItemChanceCube)
 					((ItemChanceCube) ccubes.getItem()).setChance(ccubes, message.chancevalue);
 			}
 			return null;

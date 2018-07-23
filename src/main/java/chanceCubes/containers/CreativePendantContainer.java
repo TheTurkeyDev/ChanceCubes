@@ -56,7 +56,7 @@ public class CreativePendantContainer extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slot)
 	{
-		ItemStack stack = null;
+		ItemStack stack = ItemStack.EMPTY;
 		Slot slotObject = (Slot) inventorySlots.get(slot);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
@@ -67,18 +67,18 @@ public class CreativePendantContainer extends Container
 
 			if(slot > 35)
 				if(!this.mergeItemStack(stackInSlot, 0, 36, true))
-					return null;
+					return ItemStack.EMPTY;
 				else if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
 					if(!this.mergeItemStack(stackInSlot, 36, 37, true))
-						return null;
+						return ItemStack.EMPTY;
 
 			if(stackInSlot.getCount() == 0)
-				slotObject.putStack(null);
+				slotObject.putStack(ItemStack.EMPTY);
 			else
 				slotObject.onSlotChanged();
 
 			if(stackInSlot.getCount() == stack.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slotObject.onTake(player, stackInSlot);
 		}
 		return stack;
@@ -95,7 +95,7 @@ public class CreativePendantContainer extends Container
 		{
 			ItemStack itemstack = this.pendantSlot.getStackInSlot(0);
 
-			if(itemstack != null)
+			if(!itemstack.isEmpty())
 				player.dropItem(itemstack, false);
 		}
 	}

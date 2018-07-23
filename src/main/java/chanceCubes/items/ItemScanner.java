@@ -50,7 +50,7 @@ public class ItemScanner extends BaseChanceCubesItem
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack) && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack))
+			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().equals(stack) && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack))
 			{
 				RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
 
@@ -95,7 +95,7 @@ public class ItemScanner extends BaseChanceCubesItem
 						int chanceInc = 0;
 						for(ItemStack s : player.inventory.mainInventory)
 						{
-							if(s != null && s.getItem() instanceof ItemChancePendant)
+							if(!s.isEmpty() && s.getItem() instanceof ItemChancePendant)
 							{
 								chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
 								break;

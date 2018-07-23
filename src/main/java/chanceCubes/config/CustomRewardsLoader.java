@@ -353,7 +353,7 @@ public class CustomRewardsLoader
 				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
 
 			if(element.getAsJsonObject().has("relativeToPlayer"))
-				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("RelativeToPlayer").getAsBoolean());
+				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("relativeToPlayer").getAsBoolean());
 
 			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
 				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
@@ -646,7 +646,7 @@ public class CustomRewardsLoader
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return null;
+			return new ArrayList<String>();
 		}
 
 		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
@@ -668,7 +668,7 @@ public class CustomRewardsLoader
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return null;
+			return new ArrayList<String>();
 		}
 
 		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
@@ -692,7 +692,7 @@ public class CustomRewardsLoader
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return null;
+			return new ArrayList<String>();
 		}
 
 		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
