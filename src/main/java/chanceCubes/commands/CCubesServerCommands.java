@@ -1,6 +1,7 @@
 package chanceCubes.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
@@ -104,18 +105,11 @@ public class CCubesServerCommands extends CommandBase
 			if(sender instanceof EntityPlayer)
 			{
 				EntityPlayer player = (EntityPlayer) sender;
-				if(player.inventory.getCurrentItem() != null)
-				{
-					NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
-					if(nbt != null)
-					{
-						sender.sendMessage(new TextComponentString(nbt.toString()));
-					}
-					else
-					{
-						sender.sendMessage(new TextComponentString("This item has no tag nbt data"));
-					}
-				}
+				NBTTagCompound nbt = player.inventory.getCurrentItem().getTagCompound();
+				if(nbt != null)
+					sender.sendMessage(new TextComponentString(nbt.toString()));
+				else
+					sender.sendMessage(new TextComponentString("This item has no tag nbt data"));
 			}
 		}
 		else if(args[0].equalsIgnoreCase("handID"))
@@ -124,7 +118,7 @@ public class CCubesServerCommands extends CommandBase
 			{
 				EntityPlayer player = (EntityPlayer) sender;
 				ItemStack stack = player.inventory.getCurrentItem();
-				if(stack != null)
+				if(!stack.isEmpty())
 				{
 					ResourceLocation res = stack.getItem().getRegistryName();
 					sender.sendMessage(new TextComponentString(res.getResourceDomain() + ":" + res.getResourcePath()));
@@ -252,6 +246,6 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(args.length == 0)
 			return tab;
-		return null;
+		return Collections.<String> emptyList();
 	}
 }
