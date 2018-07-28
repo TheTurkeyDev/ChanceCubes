@@ -4,7 +4,7 @@
 		"chance": 0,
 		"command":
 		[
-			{"command":"/summon Creeper ~ ~1 ~ {CustomName:Jacky,CustomNameVisible:1,Attributes:[{Name:\"generic.followRange\",Base:0}],ExplosionRadius:0,Fuse:12000}"}
+			{"command":"/summon minecraft:creeper ~ ~1 ~ {CustomName:Jacky,CustomNameVisible:1,Attributes:[{Name:\"generic.followRange\",Base:0}],ExplosionRadius:0,Fuse:12000}"}
 		],
 		"Message":
 		[
