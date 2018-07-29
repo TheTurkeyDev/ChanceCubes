@@ -1,90 +1,90 @@
 {
-	"JustALittleBit":
-	{
-		"chance": 0,
-		"Message":
-		[
-			{"message":"Ooh ah, just a little bit..."},
-			{"message":"Ooh ah, a little bit more...", "delay":20}
-		],
-		"Item":
-		[
-			{"item":{"id":"minecraft:gold_nugget","Damage":0,"Count":1,"tag":{"display":{"Name":"1 Bit"}}}}
-		]
-	},
-	"Matraxis":
-	{
-		"chance": 0,
-		"Message":
-		[
-			{"message":"<slowpoke101> Hey there Matraxis"},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":40},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":45},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":50},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":55},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":60},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":65},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":70},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":75},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":80},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":85},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":90},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":95},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":100},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":105},
-			{"message":"<MrButtonboy13> The Matraxis has you!", "delay":110},
-			{"message":"<MrButtonboy13> Keepo", "delay":120},
-			{"message":"<JackyScrubby> Have a big BOOM as well, Matraxis", "delay":200},
-			{"message":"<JackyScrubby> LUL", "delay":220}
-		],
-		"Command":
-		[
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
-			{"command":"/summon PrimedTnt %px %py %pz {Fuse:\"0\"}", "delay": 200}
-		]
-	},
-	"matxSurprise":
-	{
-		"chance": 0,
-		"Message":
-		[
-			{"message":"Surprise!", "delay": 200}
-		],
-		"Command":
-		[
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
-			{"command":"/summon Creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200}
-		]
-	}
+    "JustALittleBit":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"Ooh ah, just a little bit..."},
+            {"message":"Ooh ah, a little bit more...", "delay":20}
+        ],
+        "Item":
+        [
+            {"item":{"id":"minecraft:gold_nugget","Damage":0,"Count":1,"tag":{"display":{"Name":"1 Bit"}}}}
+        ]
+    },
+    "Matraxis":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"<slowpoke101> Hey there Matraxis"},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":40},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":45},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":50},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":55},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":60},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":65},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":70},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":75},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":80},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":85},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":90},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":95},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":100},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":105},
+            {"message":"<MrButton_> The Matraxis has you!", "delay":110},
+            {"message":"<MrButton_> Keepo", "delay":120},
+            {"message":"<JackyyTV> Have a big BOOM as well, Matraxis", "delay":200},
+            {"message":"<JackyyTV> LUL", "delay":220}
+        ],
+        "Command":
+        [
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 200}
+        ]
+    },
+    "matxSurprise":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"Surprise!", "delay": 200}
+        ],
+        "Command":
+        [
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200},
+            {"command":"/summon minecraft:creeper %px %py %pz {CustomName:\"Jacky\",CustomNameVisible:1}", "delay": 200}
+        ]
+    }
 }

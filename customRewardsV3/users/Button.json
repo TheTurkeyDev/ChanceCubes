@@ -1,0 +1,106 @@
+{
+    "TheMattressesHasYou":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"The Mattresses has you!", "delay":20, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":25, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":30, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":35, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":40, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":45, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":50, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":55, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":60, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":65, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":70, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":75, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":80, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":85, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":90, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":95, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":100, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":105, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":110, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":115, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":120, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":125, "serverWide":true},
+            {"message":"The Mattresses has you!", "delay":130, "serverWide":true}
+        ],
+        "Item":
+        [
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":20},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":25},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":30},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":35},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":40},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":45},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":50},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":55},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":60},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":65},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":70},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":75},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":80},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":85},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":90},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":95},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":100},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":105},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":110},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":115},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":120},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":125},
+            {"item":{"id":"minecraft:bed","Damage":0,"Count":1,"tag":{"display":{"Name":"Mattress"}}}, "delay":130}
+        ]
+    },
+    "TheMatrixisHasYou":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"The Matrixis has you!", "delay":20},
+            {"message":"The Matrixis has you!", "delay":25},
+            {"message":"The Matrixis has you!", "delay":30},
+            {"message":"The Matrixis has you!", "delay":35},
+            {"message":"The Matrixis has you!", "delay":40},
+            {"message":"The Matrixis has you!", "delay":45},
+            {"message":"The Matrixis has you!", "delay":50},
+            {"message":"The Matrixis has you!", "delay":55},
+            {"message":"The Matrixis has you!", "delay":60},
+            {"message":"The Matrixis has you!", "delay":65},
+            {"message":"The Matrixis has you!", "delay":70},
+            {"message":"The Matrixis has you!", "delay":75},
+            {"message":"The Matrixis has you!", "delay":80},
+            {"message":"The Matrixis has you!", "delay":85},
+            {"message":"The Matrixis has you!", "delay":90},
+            {"message":"The Matrixis doesn't have you! FeelsBadMan", "delay":120}
+        ],
+        "Command":
+        [
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120},
+            {"command":"/summon minecraft:tnt %px %py %pz {Fuse:\"0\"}", "delay": 120}
+        ]
+    },
+    "Daisy":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"Daisyyyyyy Daisyyyyyyyyyyyy"}
+        ],
+        "Item":
+        [
+            {"item":{"id":"minecraft:red_flower","Damage":8,"Count":1,"tag":{"display":{"Name":"Daisy"}}}}
+        ]
+    }
+}
