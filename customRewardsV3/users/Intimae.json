@@ -1,0 +1,16 @@
+{
+	"Kitty_Cat":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"LET THE TNT RAIN DOWN!!!"},
+			{"message":"JK", "delay":40},
+			{"message":"<3 Turkey", "delay":40}
+		],
+		"Command":
+		[
+			{"command":"/summon ocelot %x %y %z {CatType:2,Owner:Intimae,OwnerUUID:a4542414-6725-4f2f-8512-1d5d68b7ede9,Sitting:0}", "delay":40}
+		]
+    }
+}
