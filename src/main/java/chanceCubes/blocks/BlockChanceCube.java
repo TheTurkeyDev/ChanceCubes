@@ -46,7 +46,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
-		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
+		if(!world.isRemote && player != null && !(player instanceof FakePlayer) && world.getTileEntity(pos) instanceof TileChanceCube)
 		{
 			TileChanceCube te = (TileChanceCube) world.getTileEntity(pos);
 			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
