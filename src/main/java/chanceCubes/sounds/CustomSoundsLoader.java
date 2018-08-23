@@ -109,7 +109,7 @@ public class CustomSoundsLoader
 				FileUtil.writeNewFile(new File(dest.getParent() + "/readme.txt"), "This is the resource pack for loading in custom sounds to chance cubes. Feel free to ignore this file and folder.");
 				defaultResourcePacks.add(new FileResourcePack(dest));
 				
-				((IReloadableResourceManager)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "mcResourceManager", "field_110451_am")).reloadResources(defaultResourcePacks);
+				Minecraft.getMinecraft().refreshResources();
 			} catch(Exception e)
 			{
 				CCubesCore.logger.error("Failed to inject the resource pack for the custom sounds in the Chance Cubes rewards: ", e);
