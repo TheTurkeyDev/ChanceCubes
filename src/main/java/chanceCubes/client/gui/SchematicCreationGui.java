@@ -109,7 +109,8 @@ public class SchematicCreationGui extends GuiScreen
 	public void drawScreen(int mouseX, int mouseY, float p_73863_3_)
 	{
 		this.drawGradientRect(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
-		this.nameField.drawTextBox();
+		if(this.nameField != null)
+			this.nameField.drawTextBox();
 		int i = this.width / 2;
 		this.drawCenteredString(this.fontRenderer, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
 		this.drawCenteredString(this.fontRenderer, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);

@@ -39,9 +39,9 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-    	ItemStack stack = player.getHeldItem(hand);
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking())
 			return EnumActionResult.FAIL;
 		if(world.isRemote)
@@ -55,7 +55,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				if(reward != null)
 				{
 					reward.trigger(world, pos, player);
-					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
+					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}
 				else
 				{
@@ -74,7 +74,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				{
 					reward.trigger(world, giant.getMasterPostion(), player);
 					GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
-					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
+					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}
 				else
 				{
