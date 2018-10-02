@@ -25,7 +25,7 @@ public class ClientProxy extends CommonProxy
 
 	public void registerRenderings()
 	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 	}

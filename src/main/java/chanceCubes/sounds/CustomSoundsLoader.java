@@ -18,7 +18,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;

@@ -1,6 +1,7 @@
 package chanceCubes.blocks;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.renderer.TileChanceD20ItemRenderer;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
@@ -10,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -36,10 +38,10 @@ public class CCubesBlocks
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
-		GameRegistry.registerTileEntity(TileChanceCube.class, "tileChanceCube");
-		GameRegistry.registerTileEntity(TileChanceD20.class, "tileChanceIcosahedron");
-		GameRegistry.registerTileEntity(TileGiantCube.class, "tileChanceGiant");
-		GameRegistry.registerTileEntity(TileCubeDispenser.class, "tileCubeDispenser");
+		GameRegistry.registerTileEntity(TileChanceCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceCube"));
+		GameRegistry.registerTileEntity(TileChanceD20.class, new ResourceLocation(CCubesCore.MODID, "tileChanceIcosahedron"));
+		GameRegistry.registerTileEntity(TileGiantCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceGiant"));
+		GameRegistry.registerTileEntity(TileCubeDispenser.class, new ResourceLocation(CCubesCore.MODID, "tileCubeDispenser"));
 	}
 
 	@SubscribeEvent
@@ -57,6 +59,9 @@ public class CCubesBlocks
 		mesher.register(Item.getItemFromBlock(GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+		//mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+		
+		Item.getItemFromBlock(CHANCE_ICOSAHEDRON).setTileEntityItemStackRenderer(new TileChanceD20ItemRenderer());
+		
 	}
 }
