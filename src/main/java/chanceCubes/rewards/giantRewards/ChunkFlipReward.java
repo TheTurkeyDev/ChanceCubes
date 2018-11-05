@@ -2,8 +2,10 @@ package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.state.IBlockState;
@@ -54,7 +56,7 @@ public class ChunkFlipReward implements IChanceCubeReward
 						TileEntity te1 = world.getTileEntity(pos1);
 						TileEntity te2 = world.getTileEntity(pos2);
 
-						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE))
+						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE) && !RewardsUtil.isBlockUnbreakable(world, pos) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
 						{
 							world.setBlockState(pos1, b2, 2);
 							world.setBlockState(pos2, b, 2);

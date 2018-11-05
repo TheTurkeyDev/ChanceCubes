@@ -36,7 +36,7 @@ public class MagicFeetReward implements IChanceCubeReward
 				if(!world.isAirBlock(beneth) && world.getTileEntity(beneth) == null && !last.equals(beneth))
 				{
 					CustomEntry<Block, Integer> block = RewardsUtil.getRandomOre();
-					world.setBlockState(beneth, RewardsUtil.getBlockStateFromBlockMeta(block.getKey(), block.getValue()));
+					RewardsUtil.placeBlock(RewardsUtil.getBlockStateFromBlockMeta(block.getKey(), block.getValue()), world, beneth);
 					last = beneth;
 				}
 			}

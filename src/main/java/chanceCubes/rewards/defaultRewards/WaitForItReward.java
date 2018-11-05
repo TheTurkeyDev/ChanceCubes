@@ -4,6 +4,7 @@ import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -47,11 +48,11 @@ public class WaitForItReward implements IChanceCubeReward
 				}
 				else if(reward == 2)
 				{
-					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.BEDROCK.getDefaultState());
+					RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, new BlockPos(player.posX, player.posY, player.posZ));
 				}
 				else if(reward == 3)
 				{
-					world.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), Blocks.EMERALD_ORE.getDefaultState());
+					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.getDefaultState(), world, new BlockPos(player.posX, player.posY, player.posZ));
 				}
 				else if(reward == 4)
 				{

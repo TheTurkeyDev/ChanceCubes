@@ -38,15 +38,15 @@ public class CountDownReward implements IChanceCubeReward
 
 				if(thing == 0)
 				{
-					world.setBlockState(pos, Blocks.DIAMOND_BLOCK.getDefaultState());
+					RewardsUtil.placeBlock(Blocks.DIAMOND_BLOCK.getDefaultState(), world, pos);
 				}
 				else if(thing == 1)
 				{
-					world.setBlockState(pos, Blocks.GLASS.getDefaultState());
+					RewardsUtil.placeBlock(Blocks.GLASS.getDefaultState(), world, pos);
 				}
 				else if(thing == 2)
 				{
-					world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState());
+					RewardsUtil.placeBlock(Blocks.COBBLESTONE.getDefaultState(), world, pos);
 				}
 				else if(thing == 3)
 				{
@@ -88,7 +88,7 @@ public class CountDownReward implements IChanceCubeReward
 				}
 				else if(thing == 9)
 				{
-					world.setBlockState(pos, RewardsUtil.getRandomFluid().getBlock().getDefaultState());
+					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid().getBlock().getDefaultState(), world, pos);
 				}
 			}
 

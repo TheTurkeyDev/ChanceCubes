@@ -1,6 +1,7 @@
 package chanceCubes.rewards.type;
 
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +29,7 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 			@Override
 			public void callback()
 			{
-				world.setBlockState(new BlockPos(x, y, z), Blocks.CHEST.getDefaultState());
+				RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, new BlockPos(x, y, z));
 				chest = (TileEntityChest) world.getTileEntity(new BlockPos(x, y, z));
 
 				for(ChestChanceItem item : rewards)
