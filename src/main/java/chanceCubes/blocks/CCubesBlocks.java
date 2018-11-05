@@ -60,8 +60,5 @@ public class CCubesBlocks
 		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
 		//mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
-		
-		Item.getItemFromBlock(CHANCE_ICOSAHEDRON).setTileEntityItemStackRenderer(new TileChanceD20ItemRenderer());
-		
 	}
 }
