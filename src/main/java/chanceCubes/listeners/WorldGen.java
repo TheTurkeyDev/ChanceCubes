@@ -34,7 +34,7 @@ public class WorldGen
 
 	public void generateSurface(World world, Random rand, int x, int z)
 	{
-		if(rand.nextInt(100) < CCubesSettings.surfaceGenAmount)
+		if(rand.nextInt(CCubesSettings.surfaceGenAmount + 1) == 1)
 		{
 			int yCord = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
 
