@@ -80,7 +80,14 @@ public class CustomRewardsLoader
 
 		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
 		customSounds.addCustomSounds();
-		customSounds.assemble();
+		try
+		{
+			customSounds.assemble();
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to create a file or folder neccesary to have custom sound rewards. No custom sounds will be added.");
+		}
 	}
 
 	public void loadCustomRewards()
