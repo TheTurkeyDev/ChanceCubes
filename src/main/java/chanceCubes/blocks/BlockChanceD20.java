@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -66,9 +67,11 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return false;
 	}
 
-	/*
-	 * @Override public EnumWorldBlockLayer getBlockLayer() { return EnumWorldBlockLayer.CUTOUT_MIPPED; }
-	 */
+	@Override
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
 
 	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -111,7 +114,6 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		TileEntity tile = world.getTileEntity(pos);
-
 		if(tile != null && tile instanceof TileChanceD20)
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
