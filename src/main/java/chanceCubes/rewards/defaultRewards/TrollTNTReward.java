@@ -34,7 +34,7 @@ public class TrollTNTReward implements IChanceCubeReward
 
 		if(RewardsUtil.rand.nextInt(5) != 1)
 		{
-			Scheduler.scheduleTask(new Task("TrollTNT", 80)
+			Scheduler.scheduleTask(new Task("TrollTNT", 77)
 			{
 				@Override
 				public void callback()

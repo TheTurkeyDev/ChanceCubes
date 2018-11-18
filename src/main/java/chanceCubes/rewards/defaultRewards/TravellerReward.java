@@ -18,8 +18,8 @@ public class TravellerReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		int x = RewardsUtil.rand.nextInt(1000) + 1000;
-		int z = RewardsUtil.rand.nextInt(1000) + 1000;
+		int x = RewardsUtil.rand.nextInt(1000) + 200;
+		int z = RewardsUtil.rand.nextInt(1000) + 200;
 
 		BlockPos newPos = pos.add(x, 0, z);
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.WEST), world, newPos);
