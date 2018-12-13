@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class PotionsReward implements IChanceCubeReward
@@ -22,7 +22,7 @@ public class PotionsReward implements IChanceCubeReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
-		player.sendMessage(new TextComponentString("It's called art! Look it up!"));
+		player.sendMessage(new TextComponentTranslation("chancecubes.reward.raining_potions"));
 		throwPoitonCircle(0, world, pos, player);
 	}
 
