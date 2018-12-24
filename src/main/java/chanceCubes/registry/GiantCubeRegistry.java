@@ -27,10 +27,10 @@ import chanceCubes.rewards.giantRewards.MixedFluidSphereReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
+import chanceCubes.rewards.giantRewards.SphereSnakeReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
 import chanceCubes.rewards.type.SchematicRewardType;
-import chanceCubes.util.FileUtil;
 import chanceCubes.util.RewardData;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +52,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(FileUtil.JSON_PARSER.parse(RewardData.VILLAGE_SCHEMATIC), 0, -1, 0, 0.1f, false, false, false, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, 0))));
 
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
@@ -66,6 +67,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new FluidSphereReward());
 		INSTANCE.registerReward(new MixedFluidSphereReward());
 		INSTANCE.registerReward(new FireworkShowReward());
+		INSTANCE.registerReward(new SphereSnakeReward());
 		//INSTANCE.registerReward(new RandomExplosionReward());
 	}
 

@@ -25,7 +25,7 @@ public class BaseChanceBlock extends Block
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setRegistryName(CCubesCore.MODID, this.blockName);
 	}
-
+	
 	public String getBlockName()
 	{
 		return this.blockName;

@@ -7,7 +7,9 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class SchematicRewardType implements IRewardType
@@ -47,10 +49,24 @@ public class SchematicRewardType implements IRewardType
 						{
 							OffsetBlock osb = stack.remove(0);
 							if(schematic.isRelativeToPlayer())
-								osb.spawnInWorld(world, (int)Math.floor(player.posX),(int)Math.floor(player.posY),(int)Math.floor(player.posZ));
+							{
+								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff, (int) Math.floor(player.posY) + osb.yOff, (int) Math.floor(player.posZ) + osb.zOff);
+								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
+								{
+									continue;
+								}
+								osb.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+							}
 							else
+							{
+								BlockPos pos = new BlockPos(x + osb.xOff, y + osb.yOff, z + osb.zOff);
+								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
+								{
+									continue;
+								}
 								osb.spawnInWorld(world, x, y, z);
-							
+							}
+
 							lessThan1 += schematic.getSpacingDelay();
 							if(stack.size() == 0)
 								lessThan1 = 1;
