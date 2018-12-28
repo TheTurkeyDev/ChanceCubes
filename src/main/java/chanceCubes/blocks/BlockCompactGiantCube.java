@@ -38,5 +38,4 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 	{
 		return 1;
 	}
-
 }

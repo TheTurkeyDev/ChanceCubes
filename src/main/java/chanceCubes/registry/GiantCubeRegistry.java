@@ -27,6 +27,7 @@ import chanceCubes.rewards.giantRewards.MixedFluidSphereReward;
 import chanceCubes.rewards.giantRewards.OrePillarReward;
 import chanceCubes.rewards.giantRewards.OreSphereReward;
 import chanceCubes.rewards.giantRewards.PotionsReward;
+import chanceCubes.rewards.giantRewards.RandomExplosionReward;
 import chanceCubes.rewards.giantRewards.SphereSnakeReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
@@ -68,7 +69,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MixedFluidSphereReward());
 		INSTANCE.registerReward(new FireworkShowReward());
 		INSTANCE.registerReward(new SphereSnakeReward());
-		//INSTANCE.registerReward(new RandomExplosionReward());
+		INSTANCE.registerReward(new RandomExplosionReward());
 	}
 
 	@Override

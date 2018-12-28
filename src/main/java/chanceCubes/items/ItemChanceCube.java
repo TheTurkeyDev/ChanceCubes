@@ -63,6 +63,10 @@ public class ItemChanceCube extends ItemBlock
 			list.add("Chance Value: " + chance);
 		}
 
+		if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
+		{
+			list.add("WARNING: The Giant Chance Cube may cause some damage and/or place a lot of blocks down... You've been warned.");
+		}
 	}
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, IBlockState blockState)

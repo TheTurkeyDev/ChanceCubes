@@ -17,7 +17,7 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 	@Override
 	public void trigger(final SoundPart sound, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
-		Scheduler.scheduleTask(new Task("Message Reward Delay", sound.getDelay())
+		Scheduler.scheduleTask(new Task("Sound Reward Delay", sound.getDelay())
 		{
 			@Override
 			public void callback()
