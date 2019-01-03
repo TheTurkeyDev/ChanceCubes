@@ -25,7 +25,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
-		if(world.isRemote || RewardsUtil.isBlockUnbreakable(world, pos.add(0, 1, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 1, 0))))
+		if(world.isRemote || (RewardsUtil.isBlockUnbreakable(world, pos.add(0, 1, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 1, 0)))))
 			return;
 
 		GiantCubeUtil.setupStructure(pos.add(-1, 0, -1), world, true);

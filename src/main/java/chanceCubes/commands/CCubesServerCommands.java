@@ -12,7 +12,10 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.sounds.CCubesSounds;
+import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -23,8 +26,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class CCubesServerCommands extends CommandBase
@@ -53,6 +58,7 @@ public class CCubesServerCommands extends CommandBase
 		tab.add("rewardsInfo");
 		tab.add("testRewards");
 		tab.add("testCustomRewards");
+		tab.add("spawnGiantCube");
 	}
 
 	@Override
@@ -228,6 +234,25 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
+		}
+		else if(args[0].equalsIgnoreCase("spawnGiantCube"))
+		{
+			if(args.length < 4)
+			{
+				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes spawnGiantCube <x> <y> <z> (NOTE: You may use ~ with offsets)"));
+				return;
+			}
+
+			BlockPos pos = parseBlockPos(sender, args, 1, false);
+
+			World world = sender.getEntityWorld();
+
+			if(RewardsUtil.isBlockUnbreakable(world, pos.add(0, 0, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 0, 0))))
+				return;
+
+			GiantCubeUtil.setupStructure(pos.add(-1, -1, -1), world, true);
+
+			world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		}
 		else
 		{
