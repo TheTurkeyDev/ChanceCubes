@@ -17,7 +17,9 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
+import chanceCubes.rewards.giantRewards.BeaconArenaReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
+import chanceCubes.rewards.giantRewards.BlockInfectionReward;
 import chanceCubes.rewards.giantRewards.ChunkFlipReward;
 import chanceCubes.rewards.giantRewards.ChunkReverserReward;
 import chanceCubes.rewards.giantRewards.FireworkShowReward;
@@ -70,6 +72,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new FireworkShowReward());
 		INSTANCE.registerReward(new SphereSnakeReward());
 		INSTANCE.registerReward(new RandomExplosionReward());
+		INSTANCE.registerReward(new BeaconArenaReward());
+		INSTANCE.registerReward(new BlockInfectionReward());
 	}
 
 	@Override
