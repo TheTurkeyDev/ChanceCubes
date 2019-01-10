@@ -22,8 +22,7 @@ public class BlockInfectionReward implements IChanceCubeReward
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
 			Blocks.MELON_BLOCK.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
 			Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))),
-			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
-			Blocks.NETHERRACK.getDefaultState()};
+			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 
 	private BlockPos[] touchingPos = { new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0) };
@@ -32,8 +31,9 @@ public class BlockInfectionReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		int delay = 0;
-		int delayShorten = 10;
+		int delayShorten = 20;
 
+		BlockPos lastPos = pos;
 		List<BlockPos> possibleBlocks = new ArrayList<>();
 		List<BlockPos> changedBlocks = new ArrayList<>();
 		changedBlocks.add(new BlockPos(0, 0, 0));
@@ -42,15 +42,24 @@ public class BlockInfectionReward implements IChanceCubeReward
 
 		for(int i = 0; i < 5000; i++)
 		{
-
-			int index = RewardsUtil.rand.nextInt(possibleBlocks.size());
-			BlockPos nextPos = possibleBlocks.get(index);
-			possibleBlocks.remove(index);
+			BlockPos nextPos;
+			if(possibleBlocks.size() > 0)
+			{
+				int index = RewardsUtil.rand.nextInt(possibleBlocks.size());
+				nextPos = possibleBlocks.get(index);
+				possibleBlocks.remove(index);
+			}
+			else
+			{
+				nextPos = lastPos.add(touchingPos[RewardsUtil.rand.nextInt(touchingPos.length)]);
+			}
+			
 			changedBlocks.add(nextPos);
 			addSurroundingBlocks(world, pos, nextPos, changedBlocks, possibleBlocks);
 			IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 			blocks.add(new OffsetBlock(nextPos.getX(), nextPos.getY(), nextPos.getZ(), state, false, (delay / delayShorten)));
 			delay++;
+			lastPos = nextPos;
 		}
 
 		for(OffsetBlock b : blocks)
@@ -82,7 +91,7 @@ public class BlockInfectionReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + "_WorldInfection";
+		return CCubesCore.MODID + ":WorldInfection";
 	}
 
 }
