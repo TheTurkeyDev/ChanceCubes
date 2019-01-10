@@ -3,6 +3,7 @@ package chanceCubes.items;
 import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.CCubesGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -14,8 +15,7 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 {
 	public ItemCreativePendant()
 	{
-		super("creative_Pendant");
-		this.setMaxStackSize(1);
+		super((new Item.Builder()).maxStackSize(1), "creative_Pendant");
 		super.addLore("Right click to change the chance");
 		super.addLore("of the inserted cubes.");
 	}

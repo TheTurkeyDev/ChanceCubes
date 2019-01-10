@@ -34,7 +34,7 @@ public class BookOfMemesReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		String meme = memes.get(RewardsUtil.rand.nextInt(memes.size()));
-		MinecraftServer server = world.getMinecraftServer();
+		MinecraftServer server = world.getServer();
 		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";

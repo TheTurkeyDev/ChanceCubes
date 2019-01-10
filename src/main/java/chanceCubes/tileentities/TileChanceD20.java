@@ -12,12 +12,14 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Util;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class TileChanceD20 extends TileEntity implements ITickable
@@ -64,22 +66,22 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound write(NBTTagCompound nbt)
 	{
-		nbt.setInteger("chance", this.getChance());
-		nbt = super.writeToNBT(nbt);
+		nbt.setInt("chance", this.getChance());
+		nbt = super.write(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void read(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		super.read(nbt);
+		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
-	public void update()
+	public void tick()
 	{
 		if(breaking)
 			stage++;
@@ -88,14 +90,14 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			breaking = false;
 			if(!this.world.isRemote)
 			{
-				this.world.setBlockToAir(this.pos);
+				this.world.setBlockState(this.pos, Blocks.AIR.getDefaultState());
 				this.world.removeTileEntity(this.pos);
 				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.world, this.pos, player, this.getChance());
 			}
 		}
 		else if(world.isRemote)
 		{
-			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Minecraft.getSystemTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
+			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Util.nanoTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
 			AxisAngle4d pitch = new AxisAngle4d(1, 0, 0, 0F);
 
 			// Translation
@@ -144,14 +146,14 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		NBTTagCompound syncData = new NBTTagCompound();
-		syncData = this.writeToNBT(syncData);
+		syncData = this.write(syncData);
 		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
+		this.read(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

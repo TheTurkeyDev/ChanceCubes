@@ -22,7 +22,9 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -34,36 +36,41 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
+@Mod(CCubesCore.MODID)
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
-	public static final String NAME = "Chance Cubes";
 
 	public static final String gameVersion = "1.12.1";
 
-	@Instance(value = MODID)
-	public static CCubesCore instance;
 	@SidedProxy(clientSide = "chanceCubes.proxy.ClientProxy", serverSide = "chanceCubes.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	public static CreativeTabs modTab = new CreativeTabs(MODID)
+	public static ItemGroup modTab = new ItemGroup(MODID)
 	{
-		public ItemStack getTabIconItem()
+
+		@Override
+		public ItemStack createIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
 	public static Logger logger;
+	
+	public CCubesCore() {
+        FMLModLoadingContext.get().getModEventBus().addListener(this::preInit);
+        FMLModLoadingContext.get().getModEventBus().addListener(this::init);
+        FMLModLoadingContext.get().getModEventBus().addListener(this::postInit);
+	}
 
-	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		CCubesRecipies.loadRecipies();
 
-		if(event.getSide() == Side.CLIENT)
+		if(event.getSide() == Dist.CLIENT)
 		{
 			CCubesItems.registerItems();
 			CCubesBlocks.registerBlocksItems();
@@ -72,10 +79,9 @@ public class CCubesCore
 		proxy.registerRenderings();
 	}
 
-	@EventHandler
-	public void load(FMLPreInitializationEvent event)
+	public void preInit(FMLPreInitializationEvent event)
 	{
-		logger = event.getModLog();
+		logger = LogManager.getLogger(MODID);
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 
 		CCubesPacketHandler.init();

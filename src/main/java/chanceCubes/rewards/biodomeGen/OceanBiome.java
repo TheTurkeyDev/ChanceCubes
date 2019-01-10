@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class OceanBiome implements IBioDomeBiome
@@ -22,7 +23,7 @@ public class OceanBiome implements IBioDomeBiome
 		{
 			EntitySquid squid = new EntitySquid(world);
 			squid.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-			squid.setCustomNameTag("Mango");
+			squid.setCustomName(new TextComponentString("Mango"));
 			world.spawnEntity(squid);
 		}
 	}

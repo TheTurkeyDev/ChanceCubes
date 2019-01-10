@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
@@ -55,13 +56,12 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.ModList;
 
 public class CustomRewardsLoader
 {
@@ -229,7 +229,7 @@ public class CustomRewardsLoader
 				{
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
 					{
-						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
+						if(!ModList.get().isLoaded(dependencies.getValue().getAsString()))
 							return new CustomEntry<BasicReward, Boolean>(null, false);
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
@@ -303,7 +303,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.toString());
-				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
+				INBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
@@ -312,10 +312,10 @@ public class CustomRewardsLoader
 				}
 				else
 				{
-					ItemStack itemstack = new ItemStack((NBTTagCompound) nbtbase);
+					ItemStack itemstack = ItemStack.read((NBTTagCompound) nbtbase);
 					stack = new ItemPart(itemstack);
 				}
-			} catch(NBTException e1)
+			} catch(CommandSyntaxException e1)
 			{
 				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
 				continue;
@@ -419,7 +419,7 @@ public class CustomRewardsLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsJsonObject().toString());
-				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
+				INBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
 				{
@@ -511,10 +511,6 @@ public class CustomRewardsLoader
 			JsonObject obj = element.getAsJsonObject();
 			if(obj.has("item") && obj.has("chance"))
 			{
-				int meta = 0;
-				if(obj.has("meta"))
-					meta = obj.get("meta").getAsInt();
-
 				int amountMin = 1;
 				if(obj.has("amountMin"))
 					amountMin = obj.get("amountMin").getAsInt();
@@ -523,7 +519,7 @@ public class CustomRewardsLoader
 				if(obj.has("amountMax"))
 					amountMax = obj.get("amountMax").getAsInt();
 
-				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
+				items.add(new ChestChanceItem(obj.get("item").getAsString(), obj.get("chance").getAsInt(), amountMin, amountMax));
 			}
 			else
 			{

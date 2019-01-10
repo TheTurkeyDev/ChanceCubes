@@ -4,12 +4,13 @@ import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.common.network.ForgeMessage;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketParticle implements IMessage
+public class PacketParticle extends ForgeMessage
 {
 
 	public int particleID = -1;
@@ -87,14 +88,14 @@ public class PacketParticle implements IMessage
 		this.vZ = buf.readDouble();
 	}
 
-	public static final class Handler implements IMessageHandler<PacketParticle, IMessage>
-	{
-		@Override
-		public IMessage onMessage(PacketParticle message, MessageContext ctx)
-		{
-			EnumParticleTypes particle = message.particleID == -1 ? EnumParticleTypes.getByName(message.particleName) : EnumParticleTypes.getParticleFromId(message.particleID);
-			CCubesCore.proxy.getClientPlayer().world.spawnParticle(particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
-			return null;
-		}
-	}
+//	public static final class Handler implements IMessageHandler<PacketParticle, IMessage>
+//	{
+//		@Override
+//		public IMessage onMessage(PacketParticle message, MessageContext ctx)
+//		{
+//			EnumParticleTypes particle = message.particleID == -1 ? EnumParticleTypes.getByName(message.particleName) : EnumParticleTypes.getParticleFromId(message.particleID);
+//			CCubesCore.proxy.getClientPlayer().world.spawnParticle(particle, message.x, message.y, message.z, message.vX, message.vY, message.vZ);
+//			return null;
+//		}
+//	}
 }

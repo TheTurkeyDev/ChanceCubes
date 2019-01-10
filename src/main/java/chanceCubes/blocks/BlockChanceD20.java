@@ -18,6 +18,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -32,13 +33,12 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public BlockChanceD20()
 	{
-		super("chance_Icosahedron");
-		super.setHardness(-1F);
-		this.setLightLevel(7);
+		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE), "chance_Icosahedron");
+		//this.setLightLevel(7);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return new TileChanceD20();
 	}
@@ -50,7 +50,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos)
 	{
 		return false;
 	}
@@ -62,7 +62,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+	public boolean doesSideBlockRendering(IBlockState state, IBlockReader world, BlockPos pos, EnumFacing face)
 	{
 		return false;
 	}
@@ -111,7 +111,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
+	public IBlockState getExtendedState(IBlockState state, IBlockReader world, BlockPos pos)
 	{
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile != null && tile instanceof TileChanceD20)

@@ -23,6 +23,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
@@ -36,7 +37,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(String un, UUID uuid)
+	public CustomUserReward(UUID uuid)
 	{
 		if(!CCubesSettings.userSpecificRewards)
 			return;
@@ -106,7 +107,7 @@ public class CustomUserReward implements IChanceCubeReward
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
 
-		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
+		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getString()))
 		{
 			player.sendMessage(new TextComponentString("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
 			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));

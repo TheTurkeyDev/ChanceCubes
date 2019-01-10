@@ -3,6 +3,7 @@ package chanceCubes.util;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileGiantCube;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -144,7 +145,7 @@ public class GiantCubeUtil
 					{
 						((TileGiantCube) tile).reset();
 						world.removeTileEntity(blockPos);
-						world.setBlockToAir(blockPos);
+						world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 					}
 				}
 	}

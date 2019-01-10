@@ -9,23 +9,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BaseChanceBlock extends Block
 {
 	private String blockName = "Chance_Cube_Unnamed";
 
-	public BaseChanceBlock(String name)
+	public BaseChanceBlock(Builder builder, String name)
 	{
-		super(Material.GROUND);
+		super(builder);
 		this.blockName = name;
-		this.setHardness(0.5f);
-		this.setUnlocalizedName(blockName);
-		this.setCreativeTab(CCubesCore.modTab);
 		this.setRegistryName(CCubesCore.MODID, this.blockName);
 	}
-	
+
 	public String getBlockName()
 	{
 		return this.blockName;
@@ -37,13 +33,7 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
-	{
-		return false;
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
+	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn)
 	{
 
 	}
@@ -55,8 +45,13 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public int quantityDropped(Random rand)
+	public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random)
 	{
 		return 0;
+	}
+	
+	protected static Builder getBuilder()
+	{
+		return Builder.create(Material.GROUND).hardnessAndResistance(0.5f, Float.MAX_VALUE);
 	}
 }

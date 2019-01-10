@@ -18,8 +18,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 
 	public BlockCompactGiantCube()
 	{
-		super("compact_Giant_Chance_Cube");
-		this.setHardness(0.5f);
+		super(getBuilder(), "compact_Giant_Chance_Cube");
 	}
 
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
@@ -34,7 +33,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 	}
 
 	@Override
-	public int quantityDropped(Random rand)
+	public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random)
 	{
 		return 1;
 	}

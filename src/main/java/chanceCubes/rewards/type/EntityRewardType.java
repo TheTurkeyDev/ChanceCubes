@@ -2,17 +2,18 @@ package chanceCubes.rewards.type;
 
 import org.apache.logging.log4j.Level;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -38,7 +39,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 							for(int zz = -1; zz < 2; zz++)
 								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
 
-				Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
+				Entity newEnt = EntityType.create(part.getNBT(), world);
 				newEnt.setPosition(x + 0.5, y, z + 0.5);
 				world.spawnEntity(newEnt);
 			}
@@ -52,7 +53,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 		try
 		{
 			nbt = (NBTTagCompound) JsonToNBT.getTagFromJson(json);
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;

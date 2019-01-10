@@ -17,19 +17,19 @@ public class InventoryBombReward implements IChanceCubeReward
 		player.inventory.dropAllItems();
 
 		for(int i = 0; i < player.inventory.mainInventory.size(); i++)
-			player.inventory.mainInventory.set(i, new ItemStack(Blocks.DEADBUSH, 64));
+			player.inventory.mainInventory.set(i, new ItemStack(Blocks.DEAD_BUSH, 64));
 
 		for(int i = 0; i < player.inventory.armorInventory.size(); i++)
 		{
-			ItemStack stack = new ItemStack(Blocks.DEADBUSH, 64);
+			ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 			if(i == 0)
 			{
-				stack.setStackDisplayName("ButtonBoy");
+				stack.setDisplayName(new TextComponentString("ButtonBoy"));
 				stack.setCount(13);
 			}
 			else if(i == 1)
 			{
-				stack.setStackDisplayName("TheBlackswordsman");
+				stack.setDisplayName(new TextComponentString("TheBlackswordsman"));
 				stack.setCount(13);
 			}
 			player.inventory.armorInventory.set(i, stack);

@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class RewardsUtil
 {
@@ -197,13 +198,13 @@ public class RewardsUtil
 
 	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
 	{
-		Item item = Item.REGISTRY.getObject(new ResourceLocation(mod, itemName));
-		return item == null ? ItemStack.EMPTY : new ItemStack(item, size, meta);
+		Item item = Item.REGISTRY.get(new ResourceLocation(mod, itemName));
+		return item == null ? ItemStack.EMPTY : new ItemStack(item, size);
 	}
 
 	public static Block getBlock(String mod, String blockName)
 	{
-		return Block.REGISTRY.getObject(new ResourceLocation(mod, blockName));
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(mod, blockName));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -237,22 +238,12 @@ public class RewardsUtil
 		return world.getBlockState(pos).getBlockHardness(world, pos) == -1;
 	}
 
-	public static ItemStack getSpawnEggForEntity(ResourceLocation entityId)
-	{
-		ItemStack stack = new ItemStack(Items.SPAWN_EGG);
-		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-		nbttagcompound1.setString("id", entityId.toString());
-		nbttagcompound.setTag("EntityTag", nbttagcompound1);
-		stack.setTagCompound(nbttagcompound);
-		return stack;
-	}
-
 	public static Block getRandomBlock()
 	{
-		int size = Block.REGISTRY.getKeys().size();
+		int size = ForgeRegistries.BLOCKS.getValues().size();
 		int randomblock = rand.nextInt(size);
-		Block b = Block.REGISTRY.getObjectById(randomblock);
+		//TODO: PLZ IMPROVE
+		Block b = ForgeRegistries.BLOCKS.getValues().toArray(new Block[0])[size];
 		int iteration = 0;
 		while(b == null)
 		{
@@ -261,7 +252,8 @@ public class RewardsUtil
 			if(iteration > 100)
 				b = Blocks.COBBLESTONE;
 			else
-				b = Block.REGISTRY.getObjectById(randomblock);
+				b = ForgeRegistries.BLOCKS.getValues().toArray(new Block[0])[size];
+			//TODO: PLZ IMPROVE
 		}
 		return b;
 	}
@@ -284,7 +276,7 @@ public class RewardsUtil
 			{
 				ItemStack stack = ores.get(rand.nextInt(ores.size()));
 				ore = Block.getBlockFromItem(stack.getItem());
-				meta = stack.getItemDamage();
+				meta = stack.getDamage();
 			}
 		}
 
@@ -301,16 +293,16 @@ public class RewardsUtil
 
 	public static ItemStack getRandomFirework()
 	{
-		ItemStack stack = new ItemStack(Items.FIREWORKS);
+		ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
 		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("Flight", rand.nextInt(3) + 1);
+		data.setInt("Flight", rand.nextInt(3) + 1);
 
 		NBTTagList explosionList = new NBTTagList();
 
 		for(int i = 0; i <= rand.nextInt(2); i++)
 		{
 			NBTTagCompound explosionData = new NBTTagCompound();
-			explosionData.setInteger("Type", rand.nextInt(5));
+			explosionData.setInt("Type", rand.nextInt(5));
 			explosionData.setBoolean("Flicker", rand.nextBoolean());
 			explosionData.setBoolean("Trail", rand.nextBoolean());
 			int[] colors = new int[rand.nextInt(2) + 1];
@@ -325,13 +317,13 @@ public class RewardsUtil
 				fadeColors[j] = getRandomColor();
 			}
 			explosionData.setIntArray("FadeColors", fadeColors);
-			explosionList.appendTag(explosionData);
+			explosionList.add(explosionData);
 		}
 		data.setTag("Explosions", explosionList);
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setTag("Fireworks", data);
 
-		stack.setTagCompound(nbt);
+		stack.setTag(nbt);
 
 		return stack;
 	}
@@ -378,7 +370,7 @@ public class RewardsUtil
 		if(player == null)
 			return false;
 
-		for(EntityPlayerMP playerMP : player.world.getMinecraftServer().getPlayerList().getPlayers())
+		for(EntityPlayerMP playerMP : player.world.getServer().getPlayerList().getPlayers())
 			if(playerMP.getUniqueID().equals(player.getUniqueID()))
 				return true;
 
@@ -387,10 +379,10 @@ public class RewardsUtil
 
 	public static void executeCommand(World world, EntityPlayer player, String command)
 	{
-		MinecraftServer server = world.getMinecraftServer();
+		MinecraftServer server = world.getServer();
 		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-		server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
+		server.getCommandManager().handleCommand(new CCubesCommandSender(player, player.getPosition()), command);
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
 	}
 }

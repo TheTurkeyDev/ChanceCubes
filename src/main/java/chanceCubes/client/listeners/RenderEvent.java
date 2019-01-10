@@ -5,11 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class RenderEvent
 {
@@ -19,13 +19,13 @@ public class RenderEvent
 	private static int chanceIncrease = 0;
 
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderGameOverlayEvent.Post event)
 	{
 		if(event.getType() != ElementType.HELMET || event.isCancelable())
 			return;
 
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
 		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int k = scaledresolution.getScaledWidth();
@@ -37,7 +37,7 @@ public class RenderEvent
 		{
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			if(chance == -201)
 			{
 				fontrenderer.drawString("The chance of this cube is: Destruction... Probably", (k / 2) - 80, (l / 2) - 30, 16777215);
@@ -58,7 +58,7 @@ public class RenderEvent
 		{
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 
 			String text1 = "--- Creating A Chance Cube Schematic ---";
 			String text2 = "Right or left click a block or air to set positions.";

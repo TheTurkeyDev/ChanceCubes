@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class JukeBoxReward implements IChanceCubeReward
 {
-	private ItemStack[] discs = new ItemStack[] { new ItemStack(Items.RECORD_11), new ItemStack(Items.RECORD_13), new ItemStack(Items.RECORD_BLOCKS), new ItemStack(Items.RECORD_CAT), new ItemStack(Items.RECORD_CHIRP), new ItemStack(Items.RECORD_FAR), new ItemStack(Items.RECORD_MALL), new ItemStack(Items.RECORD_MELLOHI), new ItemStack(Items.RECORD_STAL), new ItemStack(Items.RECORD_STRAD), new ItemStack(Items.RECORD_WAIT), new ItemStack(Items.RECORD_WARD) };
+	private ItemStack[] discs = new ItemStack[] { new ItemStack(Items.MUSIC_DISC_11), new ItemStack(Items.MUSIC_DISC_13), new ItemStack(Items.MUSIC_DISC_BLOCKS), new ItemStack(Items.MUSIC_DISC_CAT), new ItemStack(Items.MUSIC_DISC_CHIRP), new ItemStack(Items.MUSIC_DISC_FAR), new ItemStack(Items.MUSIC_DISC_MALL), new ItemStack(Items.MUSIC_DISC_MELLOHI), new ItemStack(Items.MUSIC_DISC_STAL), new ItemStack(Items.MUSIC_DISC_STRAD), new ItemStack(Items.MUSIC_DISC_WAIT), new ItemStack(Items.MUSIC_DISC_WARD) };
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)

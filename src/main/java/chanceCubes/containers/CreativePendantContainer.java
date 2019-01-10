@@ -10,6 +10,7 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class CreativePendantContainer extends Container
@@ -17,7 +18,7 @@ public class CreativePendantContainer extends Container
 
 	private World theWorld;
 
-	private IInventory pendantSlot = new InventoryBasic("CreativePendant", true, 1)
+	private IInventory pendantSlot = new InventoryBasic(new TextComponentString("CreativePendant"), 1)
 	{
 		public boolean isItemValidForSlot(int slot, ItemStack stack)
 		{
@@ -30,13 +31,13 @@ public class CreativePendantContainer extends Container
 		this.theWorld = world;
 
 		for(int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 142));
+			this.addSlot(new Slot(player, i, 8 + i * 18, 142));
 
 		for(int y = 0; y < 3; y++)
 			for(int x = 0; x < 9; x++)
-				this.addSlotToContainer(new Slot(player, 9 + (9 * y + x), 8 + x * 18, 84 + y * 18));
+				this.addSlot(new Slot(player, 9 + (9 * y + x), 8 + x * 18, 84 + y * 18));
 
-		this.addSlotToContainer(new Slot(pendantSlot, 0, 80, 50)
+		this.addSlot(new Slot(pendantSlot, 0, 80, 50)
 		{
 			public boolean isItemValid(ItemStack stack)
 			{

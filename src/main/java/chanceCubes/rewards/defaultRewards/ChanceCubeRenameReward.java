@@ -32,7 +32,7 @@ public class ChanceCubeRenameReward implements IChanceCubeReward
 		String adj = cubeSyn[rand.nextInt(cubeSyn.length)];
 
 		String newName = name + " " + adj;
-		stack.setStackDisplayName(newName);
+		stack.setDisplayName(new TextComponentString(newName));
 
 		player.sendMessage(new TextComponentString("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
 

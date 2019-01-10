@@ -12,6 +12,7 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -33,23 +34,23 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setString("Type", "extrautils2:generator_pink");
-			stack.setStackDisplayName("Useless Generator");
+			stack.setTag(new NBTTagCompound());
+			stack.getTag().setString("Type", "extrautils2:generator_pink");
+			stack.setDisplayName(new TextComponentString("Useless Generator"));
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "wateringcan", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(0);
+			stack.setDamage(0);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Watering_Can", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "drum", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(3);
+			stack.setDamage(3);
 			NBTTagCompound nbt = new NBTTagCompound();
 			new FluidStack(FluidRegistry.WATER, 65536000).writeToNBT(nbt);
 			stack.setTagInfo("Fluid", nbt);
@@ -71,7 +72,7 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "compressedcobblestone", 4);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(5);
+			stack.setDamage(5);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 

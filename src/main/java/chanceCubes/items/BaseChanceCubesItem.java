@@ -10,21 +10,22 @@ import chanceCubes.CCubesCore;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BaseChanceCubesItem extends Item
 {
 	private String itemName = "Chance_Cube_Unnamed";
 	private List<String> lore = Lists.newArrayList();
 
-	public BaseChanceCubesItem(String name)
+	public BaseChanceCubesItem(Item.Builder builder, String name)
 	{
+		super(builder.group(CCubesCore.modTab));
 		itemName = name;
-		this.setUnlocalizedName(name);
 		this.setRegistryName(CCubesCore.MODID, this.itemName);
-		this.setCreativeTab(CCubesCore.modTab);
 	}
 
 	public String getItemName()
@@ -37,9 +38,12 @@ public class BaseChanceCubesItem extends Item
 		lore.add(info);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn)
+	@OnlyIn(Dist.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
 	{
-		list.addAll(lore);
+		for(String s : lore)
+		{
+			list.add(new TextComponentString(s));
+		}
 	}
 }

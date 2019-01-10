@@ -23,19 +23,13 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	public BlockGiantCube()
 	{
 		super("giant_Chance_Cube");
-		this.setCreativeTab(null);
+		//this.setCreativeTab(null);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return new TileGiantCube();
-	}
-
-	@Override
-	public int quantityDropped(Random rand)
-	{
-		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -1,7 +1,8 @@
 package chanceCubes.rewards.rewardparts;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class EntityPart
@@ -24,7 +25,7 @@ public class EntityPart
 		try
 		{
 			this.nbtData = (NBTTagCompound) JsonToNBT.getTagFromJson(nbtRaw);
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			e.printStackTrace();
 		}

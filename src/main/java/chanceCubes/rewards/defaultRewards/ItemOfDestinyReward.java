@@ -63,7 +63,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 						Enchantment ench = randomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
 						item.getItem().addEnchantment(ench, level);
-						player.sendMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
+						player.sendMessage(new TextComponentString(ench.getName() + " Has been added to the item!"));
 					}
 					else
 					{

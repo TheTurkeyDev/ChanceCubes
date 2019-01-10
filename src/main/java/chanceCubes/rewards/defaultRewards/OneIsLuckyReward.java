@@ -30,7 +30,7 @@ public class OneIsLuckyReward implements IChanceCubeReward
 
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-1, 0, 0)))
 			world.setTileEntity(pos.add(-1, 0, 0), leftCube);
-		if(RewardsUtil.placeBlock(Blocks.STANDING_SIGN.getDefaultState(), world, pos))
+		if(RewardsUtil.placeBlock(Blocks.SIGN.getDefaultState(), world, pos))
 			world.setTileEntity(pos, sign);
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(1, 0, 0)))
 			world.setTileEntity(pos.add(1, 0, 0), rightCube);
@@ -40,9 +40,9 @@ public class OneIsLuckyReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos.add(-1, 0, 0));
-				world.setBlockToAir(pos);
-				world.setBlockToAir(pos.add(1, 0, 0));
+				world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
 			}
 
 			@Override

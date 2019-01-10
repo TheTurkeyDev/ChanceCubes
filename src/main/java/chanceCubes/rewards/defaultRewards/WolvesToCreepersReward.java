@@ -14,6 +14,7 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class WolvesToCreepersReward implements IChanceCubeReward
@@ -34,7 +35,7 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 			wolf.setPosition(pos.getX(), pos.getY(), pos.getZ());
 			wolf.setTamed(true);
 			wolf.setOwnerId(player.getUniqueID());
-			wolf.setCustomNameTag("Kehaan");
+			wolf.setCustomName(new TextComponentString("Kehaan"));
 			wolves.add(wolf);
 			world.spawnEntity(wolf);
 		}
@@ -48,10 +49,10 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 			{
 				for(Entity wolf : wolves)
 				{
-					wolf.setDead();
+					wolf.remove();
 					EntityCreeper creeper = new EntityCreeper(world);
 					creeper.setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
-					creeper.setCustomNameTag("Jacky");
+					creeper.setCustomName(new TextComponentString("Jacky"));
 					world.spawnEntity(creeper);
 				}
 			}

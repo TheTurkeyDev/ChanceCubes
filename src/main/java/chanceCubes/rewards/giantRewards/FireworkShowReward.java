@@ -19,8 +19,8 @@ public class FireworkShowReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-		MinecraftServer server = world.getMinecraftServer();
-		server.getCommandManager().executeCommand(sender, "/time set 15000");
+		MinecraftServer server = world.getServer();
+		server.getCommandManager().handleCommand(sender, "/time set 15000");
 		stage1(world, pos, player);
 	}
 

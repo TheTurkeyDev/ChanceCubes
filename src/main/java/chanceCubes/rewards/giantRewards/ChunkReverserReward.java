@@ -33,10 +33,16 @@ public class ChunkReverserReward implements IChanceCubeReward
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LAVA, Blocks.WATER));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.WATER, Blocks.LAVA));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG, Blocks.LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG2, Blocks.LEAVES2));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES, Blocks.LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES2, Blocks.LOG2));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.OAK_LOG, Blocks.OAK_LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.OAK_LEAVES, Blocks.OAK_LOG));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DARK_OAK_LEAVES, Blocks.DARK_OAK_LOG));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.ACACIA_LOG, Blocks.ACACIA_LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.ACACIA_LEAVES, Blocks.ACACIA_LOG));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.BIRCH_LEAVES, Blocks.BIRCH_LOG));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.JUNGLE_LOG, Blocks.JUNGLE_LEAVES));
+		swappedMap.add(new CustomEntry<Block, Block>(Blocks.JUNGLE_LEAVES, Blocks.JUNGLE_LOG));
 	}
 
 	@Override

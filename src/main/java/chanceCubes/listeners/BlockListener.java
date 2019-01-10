@@ -12,7 +12,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickEmpty;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BlockListener
 {
@@ -46,9 +46,9 @@ public class BlockListener
 
 	public boolean setSchematicPoint(int point, EntityPlayer player, BlockPos pos)
 	{
-		if(Minecraft.getMinecraft().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
+		if(Minecraft.getInstance().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
 		{
-			if(player.capabilities.isCreativeMode)
+			if(player.abilities.isCreativeMode)
 			{
 				boolean flag = false;
 				if(point == 1)

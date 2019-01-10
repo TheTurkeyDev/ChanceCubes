@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class DiscoReward implements IChanceCubeReward
@@ -28,7 +29,7 @@ public class DiscoReward implements IChanceCubeReward
 		for(int i = 0; i < 10; i++)
 		{
 			EntitySheep sheep = new EntitySheep(world);
-			sheep.setCustomNameTag("jeb_");
+			sheep.setCustomName(new TextComponentString("jeb_"));
 			sheep.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);
 			world.spawnEntity(sheep);
 		}

@@ -27,26 +27,26 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound data)
+	public NBTTagCompound write(NBTTagCompound data)
 	{
-		data = super.writeToNBT(data);
+		data = super.write(data);
 		if(masterPos == null)
 			masterPos = new BlockPos(0, 0, 0);
-		data.setInteger("masterX", masterPos.getX());
-		data.setInteger("masterY", masterPos.getY());
-		data.setInteger("masterZ", masterPos.getZ());
+		data.setInt("masterX", masterPos.getX());
+		data.setInt("masterY", masterPos.getY());
+		data.setInt("masterZ", masterPos.getZ());
 		data.setBoolean("hasMaster", hasMaster);
 		data.setBoolean("isMaster", isMaster);
 		return data;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound data)
+	public void read(NBTTagCompound data)
 	{
-		super.readFromNBT(data);
-		int masterX = data.getInteger("masterX");
-		int masterY = data.getInteger("masterY");
-		int masterZ = data.getInteger("masterZ");
+		super.read(data);
+		int masterX = data.getInt("masterX");
+		int masterY = data.getInt("masterY");
+		int masterZ = data.getInt("masterZ");
 		this.masterPos = new BlockPos(masterX, masterY, masterZ);
 		hasMaster = data.getBoolean("hasMaster");
 		isMaster = data.getBoolean("isMaster");
@@ -60,13 +60,13 @@ public class TileGiantCube extends TileEntity
 
 	public NBTTagCompound getUpdateTag()
 	{
-		return this.writeToNBT(new NBTTagCompound());
+		return this.write(new NBTTagCompound());
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		readFromNBT(pkt.getNbtCompound());
+		read(pkt.getNbtCompound());
 	}
 
 	public boolean hasMaster()

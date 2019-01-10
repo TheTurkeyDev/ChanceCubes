@@ -10,6 +10,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,7 +33,7 @@ public class TrollHoleReward implements IChanceCubeReward
 				for(int z = -2; z < 3; z++)
 				{
 					storedBlocks.put(new BlockPos(x, y, z), world.getBlockState(new BlockPos(px + x, py - y, pz + z)));
-					world.setBlockToAir(new BlockPos(px + x, py - y, pz + z));
+					world.setBlockState(new BlockPos(px + x, py - y, pz + z), Blocks.AIR.getDefaultState());
 				}
 			}
 		}

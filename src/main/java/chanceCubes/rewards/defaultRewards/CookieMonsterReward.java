@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class CookieMonsterReward implements IChanceCubeReward
@@ -32,7 +33,7 @@ public class CookieMonsterReward implements IChanceCubeReward
 				EntityZombie cm = new EntityZombie(world);
 				cm.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 				cm.setChild(true);
-				cm.setCustomNameTag("Cookie Monster");
+				cm.setCustomName(new TextComponentString("Cookie Monster"));
 				RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "[Cookie Monster] Hey! Those are mine!");
 				world.spawnEntity(cm);
 			}

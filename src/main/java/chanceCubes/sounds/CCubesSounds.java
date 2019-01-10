@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CCubesSounds
 {

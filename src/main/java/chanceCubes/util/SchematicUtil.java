@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -22,13 +23,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class SchematicUtil
 {
@@ -77,7 +78,7 @@ public class SchematicUtil
 					{
 						TileEntity te = world.getTileEntity(pos);
 						NBTTagCompound nbt = new NBTTagCompound();
-						nbt = te.writeToNBT(nbt);
+						nbt = te.write(nbt);
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))
@@ -180,7 +181,7 @@ public class SchematicUtil
 		byte[] data = nbtdata.getByteArray("Data");
 		List<OffsetBlock> offsetBlocks = new ArrayList<OffsetBlock>();
 
-		NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+		NBTTagList tileentities = nbtdata.getList("TileEntities", 10);
 
 		int i = 0;
 		short halfLength = (short) (length / 2);
@@ -211,10 +212,10 @@ public class SchematicUtil
 
 		if(tileentities != null)
 		{
-			for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
+			for(int i1 = 0; i1 < tileentities.size(); ++i1)
 			{
-				NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
-				TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
+				NBTTagCompound nbttagcompound4 = tileentities.getCompound(i1);
+				TileEntity tileentity = TileEntity.create(nbttagcompound4);
 
 				if(tileentity != null)
 				{
@@ -289,7 +290,7 @@ public class SchematicUtil
 						}
 					}
 					String[] dataParts = blockData.split(":");
-					Block b = Block.REGISTRY.getObject(new ResourceLocation(dataParts[0], dataParts[1]));
+					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(dataParts[0], dataParts[1]));
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, 0);
 					// TODO: Find better way?
 					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
@@ -332,7 +333,7 @@ public class SchematicUtil
 		try
 		{
 			return OffsetBlockToTileEntity(osb, (NBTTagCompound) JsonToNBT.getTagFromJson(nbt));
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			e.printStackTrace();
 			return null;

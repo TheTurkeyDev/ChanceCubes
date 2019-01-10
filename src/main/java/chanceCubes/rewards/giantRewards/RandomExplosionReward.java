@@ -60,7 +60,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 						else if(rand == 3)
 						{
 							ent = new EntityItem(world);
-							((EntityItem) ent).setItem(new ItemStack(Items.MELON));
+							((EntityItem) ent).setItem(new ItemStack(Items.MELON_SLICE));
 						}
 						else if(rand == 4)
 						{

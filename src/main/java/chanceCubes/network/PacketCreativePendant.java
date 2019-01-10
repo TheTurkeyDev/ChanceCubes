@@ -1,5 +1,7 @@
 package chanceCubes.network;
 
+import javax.xml.ws.handler.MessageContext;
+
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
@@ -8,12 +10,12 @@ import chanceCubes.items.ItemChanceCube;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.network.ForgeMessage;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketCreativePendant implements IMessage
+public class PacketCreativePendant extends ForgeMessage
 {
 
 	private String playerName;
@@ -29,7 +31,6 @@ public class PacketCreativePendant implements IMessage
 		this.chancevalue = chance;
 	}
 
-	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		ByteBufUtils.writeUTF8String(buf, playerName);
@@ -37,7 +38,6 @@ public class PacketCreativePendant implements IMessage
 
 	}
 
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		this.playerName = ByteBufUtils.readUTF8String(buf);
@@ -45,30 +45,30 @@ public class PacketCreativePendant implements IMessage
 
 	}
 
-	public static final class Handler implements IMessageHandler<PacketCreativePendant, IMessage>
-	{
-		@Override
-		public IMessage onMessage(PacketCreativePendant message, MessageContext ctx)
-		{
-			Container c;
-			try
-			{
-				c = ctx.getServerHandler().player.openContainer;
-			} catch(Exception NullPointerException)
-			{
-				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
-				return null;
-			}
-
-			if(c instanceof CreativePendantContainer)
-			{
-				CreativePendantContainer container = (CreativePendantContainer) c;
-				ItemStack ccubes = container.getChanceCubesInPendant();
-				if(!ccubes.isEmpty() && ccubes.getItem() instanceof ItemChanceCube)
-					((ItemChanceCube) ccubes.getItem()).setChance(ccubes, message.chancevalue);
-			}
-			return null;
-		}
-	}
+//	public static final class Handler implements IMessageHandler<PacketCreativePendant, IMessage>
+//	{
+//		@Override
+//		public IMessage onMessage(PacketCreativePendant message, MessageContext ctx)
+//		{
+//			Container c;
+//			try
+//			{
+//				c = ctx.getServerHandler().player.openContainer;
+//			} catch(Exception NullPointerException)
+//			{
+//				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
+//				return null;
+//			}
+//
+//			if(c instanceof CreativePendantContainer)
+//			{
+//				CreativePendantContainer container = (CreativePendantContainer) c;
+//				ItemStack ccubes = container.getChanceCubesInPendant();
+//				if(!ccubes.isEmpty() && ccubes.getItem() instanceof ItemChanceCube)
+//					((ItemChanceCube) ccubes.getItem()).setChance(ccubes, message.chancevalue);
+//			}
+//			return null;
+//		}
+//	}
 
 }

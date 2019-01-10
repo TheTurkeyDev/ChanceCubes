@@ -2,6 +2,7 @@ package chanceCubes.tileentities;
 
 import java.util.Random;
 
+import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -21,6 +22,7 @@ public class TileChanceCube extends TileEntity
 
 	public TileChanceCube(int initialChance)
 	{
+		super(CCubesBlocks.TILE_CHANCE_CUBE);
 		while(initialChance > 100 || initialChance < -100)
 			initialChance = Math.round((float) (random.nextGaussian() * 40));
 		this.setChance(initialChance);
@@ -37,18 +39,18 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound write(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
-		nbt.setInteger("chance", this.getChance());
+		super.write(nbt);
+		nbt.setInt("chance", this.getChance());
 		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void read(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		super.read(nbt);
+		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
@@ -59,13 +61,13 @@ public class TileChanceCube extends TileEntity
 
 	public NBTTagCompound getUpdateTag()
 	{
-		return this.writeToNBT(new NBTTagCompound());
+		return this.write(new NBTTagCompound());
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		readFromNBT(pkt.getNbtCompound());
+		read(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

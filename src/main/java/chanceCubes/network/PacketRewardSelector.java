@@ -4,12 +4,13 @@ import chanceCubes.items.CCubesItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.network.ForgeMessage;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketRewardSelector implements IMessage
+public class PacketRewardSelector extends ForgeMessage
 {
 
 	private String playerName;
@@ -41,22 +42,22 @@ public class PacketRewardSelector implements IMessage
 
 	}
 
-	public static final class Handler implements IMessageHandler<PacketRewardSelector, IMessage>
-	{
-		@Override
-		public IMessage onMessage(PacketRewardSelector message, MessageContext ctx)
-		{
-			ItemStack stack = ctx.getServerHandler().player.inventory.getCurrentItem();
-			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
-			{
-				NBTTagCompound nbt = stack.getTagCompound();
-				if(nbt == null)
-					nbt = new NBTTagCompound();
-				nbt.setString("Reward", message.reward);
-				stack.setTagCompound(nbt);
-			}
-			return null;
-		}
-	}
+//	public static final class Handler implements IMessageHandler<PacketRewardSelector, IMessage>
+//	{
+//		@Override
+//		public IMessage onMessage(PacketRewardSelector message, MessageContext ctx)
+//		{
+//			ItemStack stack = ctx.getServerHandler().player.inventory.getCurrentItem();
+//			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
+//			{
+//				NBTTagCompound nbt = stack.getTagCompound();
+//				if(nbt == null)
+//					nbt = new NBTTagCompound();
+//				nbt.setString("Reward", message.reward);
+//				stack.setTagCompound(nbt);
+//			}
+//			return null;
+//		}
+//	}
 
 }

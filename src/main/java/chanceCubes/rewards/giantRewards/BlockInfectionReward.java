@@ -20,9 +20,9 @@ public class BlockInfectionReward implements IChanceCubeReward
 {
 	// @formatter:off
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
-			Blocks.MELON_BLOCK.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
+			Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
 			Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))),
-			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
+			Blocks.BRICKS.getDefaultState(), Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 

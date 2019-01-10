@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CCubesItems
 {
@@ -46,16 +46,16 @@ public class CCubesItems
 
 	public static void registerItems()
 	{
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		ItemModelMesher mesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher();
 
-		mesher.register(CCubesItems.silkPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.silkPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT1, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT1.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT2, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT2.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT3, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT3.getItemName(), "inventory"));
-		mesher.register(CCubesItems.creativePendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.rewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.singleUseRewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.singleUseRewardSelectorPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.getItemName(), "inventory"));
+		mesher.register(CCubesItems.silkPendant, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.silkPendant.getItemName(), "inventory"));
+		mesher.register(CCubesItems.chancePendantT1, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT1.getItemName(), "inventory"));
+		mesher.register(CCubesItems.chancePendantT2, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT2.getItemName(), "inventory"));
+		mesher.register(CCubesItems.chancePendantT3, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT3.getItemName(), "inventory"));
+		mesher.register(CCubesItems.creativePendant, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.getItemName(), "inventory"));
+		mesher.register(CCubesItems.rewardSelectorPendant, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.getItemName(), "inventory"));
+		mesher.register(CCubesItems.singleUseRewardSelectorPendant, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.singleUseRewardSelectorPendant.getItemName(), "inventory"));
+		mesher.register(CCubesItems.scanner, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.getItemName(), "inventory"));
 	}
 
 }

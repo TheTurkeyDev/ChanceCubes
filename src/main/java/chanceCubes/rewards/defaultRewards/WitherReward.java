@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class WitherReward implements IChanceCubeReward
@@ -22,9 +23,9 @@ public class WitherReward implements IChanceCubeReward
 		world.spawnEntity(wither);
 		wither.ignite();
 		if(RewardsUtil.rand.nextBoolean())
-			wither.setCustomNameTag("Kiwi");
+			wither.setCustomName(new TextComponentString("Kiwi"));
 		else
-			wither.setCustomNameTag("Kehaan");
+			wither.setCustomName(new TextComponentString("Kehaan"));
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");
 
@@ -42,7 +43,7 @@ public class WitherReward implements IChanceCubeReward
 			{
 				if(RewardsUtil.rand.nextInt(10) != 1)
 				{
-					ent.setDead();
+					ent.remove();
 					return true;
 				}
 				return false;

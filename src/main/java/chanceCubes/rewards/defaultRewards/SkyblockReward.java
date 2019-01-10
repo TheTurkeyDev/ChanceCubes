@@ -23,9 +23,9 @@ public class SkyblockReward implements IChanceCubeReward
 	// @formatter:off
 	
 	ItemStack[] chestStuff = { 
-		new ItemStack(Items.STRING, 12), new ItemStack(Items.LAVA_BUCKET), new ItemStack(Items.BONE), new ItemStack(Items.REEDS), 
-		new ItemStack(Blocks.RED_MUSHROOM), new ItemStack(Blocks.ICE, 2), new ItemStack(Items.PUMPKIN_SEEDS), new ItemStack(Blocks.SAPLING), 
-		new ItemStack(Blocks.BROWN_MUSHROOM), new ItemStack(Items.MELON), new ItemStack(Blocks.CACTUS), new ItemStack(Blocks.LOG, 6)
+		new ItemStack(Items.STRING, 12), new ItemStack(Items.LAVA_BUCKET), new ItemStack(Items.BONE), new ItemStack(Blocks.SUGAR_CANE), 
+		new ItemStack(Blocks.RED_MUSHROOM), new ItemStack(Blocks.ICE, 2), new ItemStack(Items.PUMPKIN_SEEDS), new ItemStack(Blocks.OAK_SAPLING), 
+		new ItemStack(Blocks.BROWN_MUSHROOM), new ItemStack(Items.MELON_SLICE), new ItemStack(Blocks.CACTUS), new ItemStack(Blocks.OAK_LOG, 6)
 		};
 
 	// @formatter:on

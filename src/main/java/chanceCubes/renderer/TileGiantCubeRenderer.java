@@ -4,10 +4,10 @@ import chanceCubes.CCubesCore;
 import chanceCubes.model.ModelGiantCube;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class TileGiantCubeRenderer extends TileEntitySpecialRenderer<TileGiantCube>
+public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 {
 	protected final ModelGiantCube model;
 	private ResourceLocation blockTexture = new ResourceLocation(CCubesCore.MODID, "textures/models/giant_chance_cube.png");
@@ -24,7 +24,7 @@ public class TileGiantCubeRenderer extends TileEntitySpecialRenderer<TileGiantCu
 	}
 
 	@Override
-	public void render(TileGiantCube tile, double x, double y, double z, float partialTicks, int destroyStage, float p_192841_10_)
+	public void render(TileGiantCube tile, double x, double y, double z, float partialTicks, int destroyStage)
 	{
 		if(!tile.isMaster())
 			return;
@@ -33,17 +33,17 @@ public class TileGiantCubeRenderer extends TileEntitySpecialRenderer<TileGiantCu
 			this.bindTexture(DESTROY_STAGES[destroyStage]);
 			GlStateManager.matrixMode(5890);
 			GlStateManager.pushMatrix();
-			GlStateManager.scale(4.0F, 4.0F, 1.0F);
-			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
+			GlStateManager.scalef(4.0F, 4.0F, 1.0F);
+			GlStateManager.translatef(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(5888);
 		}
 
 		GlStateManager.pushMatrix();
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.translate((float) x + 2.5f, (float) y + 1.5f, (float) z + 2.5F);
+		GlStateManager.translatef((float) x + 2.5f, (float) y + 1.5f, (float) z + 2.5F);
 		bindTexture(this.blockTexture);
-		GlStateManager.translate(-1, -1, -1);
-		GlStateManager.scale(3f, 3f, 3f);
+		GlStateManager.translatef(-1, -1, -1);
+		GlStateManager.scalef(3f, 3f, 3f);
 		GlStateManager.pushMatrix();
 
 		model.renderAll();

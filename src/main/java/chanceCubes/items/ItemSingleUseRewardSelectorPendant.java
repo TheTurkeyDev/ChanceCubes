@@ -8,7 +8,9 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
@@ -25,8 +27,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemSingleUseRewardSelectorPendant()
 	{
-		super("single_use_reward_selector_pendant");
-		this.setMaxStackSize(1);
+		super((new Item.Builder()).maxStackSize(1), "single_use_reward_selector_pendant");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
@@ -46,12 +47,12 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			return EnumActionResult.FAIL;
 		if(world.isRemote)
 			return EnumActionResult.PASS;
-		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
+		if(stack.getTag() != null && stack.getTag().hasKey("Reward"))
 		{
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 			{
-				world.setBlockToAir(pos);
-				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTag().getString("Reward"));
 				if(reward != null)
 				{
 					reward.trigger(world, pos, player);
@@ -69,7 +70,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				if(ent == null || !(ent instanceof TileGiantCube))
 					return EnumActionResult.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
-				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTag().getString("Reward"));
 				if(reward != null)
 				{
 					reward.trigger(world, giant.getMasterPostion(), player);

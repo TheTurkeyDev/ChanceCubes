@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class RainingCatsAndCogsReward implements IChanceCubeReward
@@ -50,8 +51,8 @@ public class RainingCatsAndCogsReward implements IChanceCubeReward
 				ent.setPositionAndRotation(player.getPosition().getX() + xInc, 256, player.getPosition().getZ() + zInc, 0, 0);
 				ent.setTamed(true);
 				ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 500, 1000));
-				ent.setCustomNameTag(names[RewardsUtil.rand.nextInt(names.length)]);
-				ent.setAlwaysRenderNameTag(true);
+				ent.setCustomName(new TextComponentString(names[RewardsUtil.rand.nextInt(names.length)]));
+				ent.setCustomNameVisible(true);
 
 				world.spawnEntity(ent);
 				Scheduler.scheduleTask(new Task("Despawn Delay", 200)
@@ -59,7 +60,7 @@ public class RainingCatsAndCogsReward implements IChanceCubeReward
 					@Override
 					public void callback()
 					{
-						ent.setDead();
+						ent.remove();
 					}
 				});
 			}

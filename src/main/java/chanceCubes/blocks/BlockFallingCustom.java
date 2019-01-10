@@ -10,7 +10,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +36,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 
 		if(this.fallTile.getMaterial() == Material.AIR)
 		{
-			this.setDead();
+			this.remove();
 		}
 		else
 		{
@@ -50,11 +50,11 @@ public class BlockFallingCustom extends EntityFallingBlock
 
 				if(this.world.getBlockState(blockpos).getBlock() == block)
 				{
-					this.world.setBlockToAir(blockpos);
+					this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
 				}
 				else if(this.world.isRemote)
 				{
-					this.setDead();
+					this.remove();
 					return;
 				}
 			}
@@ -77,9 +77,9 @@ public class BlockFallingCustom extends EntityFallingBlock
 					this.motionZ *= 0.7D;
 					this.motionY *= -0.5D;
 
-					if(iblockstate.getBlock() != Blocks.PISTON_EXTENSION)
+					if(iblockstate.getBlock() != Blocks.PISTON_HEAD)
 					{
-						this.setDead();
+						this.remove();
 						// if(!super.canSetAsBlock)
 						// {
 						if(block instanceof BlockFalling)
@@ -92,17 +92,17 @@ public class BlockFallingCustom extends EntityFallingBlock
 							if(tileentity != null)
 							{
 								NBTTagCompound nbttagcompound = new NBTTagCompound();
-								tileentity.writeToNBT(nbttagcompound);
+								tileentity.write(nbttagcompound);
 
-								for(String s : this.tileEntityData.getKeySet())
+								for(String s : this.tileEntityData.keySet())
 								{
-									NBTBase nbtbase = this.tileEntityData.getTag(s);
+									INBTBase nbtbase = this.tileEntityData.getTag(s);
 
 									if(!s.equals("x") && !s.equals("y") && !s.equals("z"))
 										nbttagcompound.setTag(s, nbtbase.copy());
 								}
 
-								tileentity.readFromNBT(nbttagcompound);
+								tileentity.read(nbttagcompound);
 								tileentity.markDirty();
 							}
 						}
@@ -116,13 +116,13 @@ public class BlockFallingCustom extends EntityFallingBlock
 				else if(this.fallTime > 100 && !this.world.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
 				{
 					if(this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops"))
-						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
+						this.entityDropItem(new ItemStack(block, 1), 0.0F);
 
-					this.setDead();
+					this.remove();
 				}
 				else if(normY == blockpos1.getY() || this.motionY == 0)
 				{
-					this.setDead();
+					this.remove();
 					osb.placeInWorld(world, blockpos1, false);
 				}
 			}

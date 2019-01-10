@@ -1,6 +1,7 @@
 package chanceCubes.items;
 
 import chanceCubes.config.CCubesSettings;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemChancePendant extends BaseChanceCubesItem
@@ -9,9 +10,7 @@ public class ItemChancePendant extends BaseChanceCubesItem
 
 	public ItemChancePendant(int tier, int chancebonus)
 	{
-		super("chance_Pendant_Tier" + tier);
-		this.setMaxStackSize(1);
-		this.setMaxDamage(CCubesSettings.pendantUses);
+		super((new Item.Builder()).maxStackSize(1).defaultMaxDamage(CCubesSettings.pendantUses), "chance_Pendant_Tier" + tier);
 		super.showDurabilityBar(new ItemStack(this));
 		chanceIncrease = chancebonus;
 		super.addLore("Increases the chance of Chance Cubes by:");
@@ -27,6 +26,6 @@ public class ItemChancePendant extends BaseChanceCubesItem
 
 	public void damage(ItemStack stack)
 	{
-		stack.setItemDamage(stack.getItemDamage() + 1);
+		stack.setDamage(stack.getDamage() + 1);
 	}
 }

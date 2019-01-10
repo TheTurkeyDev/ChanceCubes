@@ -43,7 +43,7 @@ public class MazeReward implements IChanceCubeReward
 			{
 				int time = this.delayLeft / 20;
 
-				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
+				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.SIGN))
 				{
 					player.sendMessage(new TextComponentString("Hey! You won!"));
 					gen.endMaze(world);

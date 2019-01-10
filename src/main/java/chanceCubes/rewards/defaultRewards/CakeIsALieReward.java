@@ -30,7 +30,7 @@ public class CakeIsALieReward implements IChanceCubeReward
 				@Override
 				public void callback()
 				{
-					world.setBlockToAir(pos);
+					world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				}
 
 				@Override
@@ -40,9 +40,9 @@ public class CakeIsALieReward implements IChanceCubeReward
 					{
 						Scheduler.removeTask(this);
 					}
-					else if(world.getBlockState(pos).getValue(BlockCake.BITES) > 0)
+					else if(world.getBlockState(pos).get(BlockCake.BITES) > 0)
 					{
-						world.setBlockToAir(pos);
+						world.setBlockState(pos, Blocks.AIR.getDefaultState());
 						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
 						EntityCreeper creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);

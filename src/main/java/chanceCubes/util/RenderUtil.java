@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 
 import javax.annotation.Nullable;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Timer;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import chanceCubes.CCubesCore;
 
 public class RenderUtil
 {
@@ -38,7 +38,7 @@ public class RenderUtil
 		
 		try
 		{
-			return (Timer) timerField.get(Minecraft.getMinecraft());
+			return (Timer) timerField.get(Minecraft.getInstance());
 		} catch(Exception e)
 		{
 			e.printStackTrace();

@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -188,14 +186,14 @@ public class MazeGenerator
 						temp = world.getTileEntity(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz));
 						if(temp != null)
 						{
-							temp.writeToNBT(nbt);
+							temp.write(nbt);
 							this.tileStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), nbt);
 						}
 					}
 
 					world.setBlockState(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz));
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.TORCH.getDefaultState());
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz), Blocks.AIR.getDefaultState());
 					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
 				}
 				else
@@ -207,20 +205,20 @@ public class MazeGenerator
 						temp = world.getTileEntity(tempPos);
 						if(temp != null)
 						{
-							temp.writeToNBT(nbt);
+							temp.write(nbt);
 							this.tileStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), nbt);
 						}
 					}
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz));
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz), Blocks.AIR.getDefaultState());
 					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.BEDROCK.getDefaultState());
 					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz));
+					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz), Blocks.AIR.getDefaultState());
 				}
 			}
 		}
 
 		endBlockWorldCords = new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY());
-		world.setBlockState(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()), Blocks.STANDING_SIGN.getDefaultState());
+		world.setBlockState(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()), Blocks.SIGN.getDefaultState());
 		temp = world.getTileEntity(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()));
 		if(temp instanceof TileEntitySign)
 		{
@@ -237,6 +235,6 @@ public class MazeGenerator
 			world.setBlockState(loc, this.blockStorgae.get(loc), 2);
 
 		for(BlockPos loc : this.tileStorgae.keySet())
-			world.setTileEntity(loc, TileEntity.create(world, this.tileStorgae.get(loc)));
+			world.setTileEntity(loc, TileEntity.create(this.tileStorgae.get(loc)));
 	}
 }

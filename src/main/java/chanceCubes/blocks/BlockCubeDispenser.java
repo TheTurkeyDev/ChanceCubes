@@ -5,34 +5,34 @@ import java.util.Random;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.BlockStateContainer;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
 {
-	public static final PropertyEnum<BlockCubeDispenser.DispenseType> DISPENSING = PropertyEnum.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
+	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
-		super("cube_Dispenser");
-		this.setHardness(2f);
+		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_Dispenser");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE));
-		this.setLightOpacity(0);
+		//this.setLightOpacity(0);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return new TileCubeDispenser();
 	}
@@ -115,13 +115,13 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	public IBlockState getStateFromMeta(int meta)
 	{
 		if(meta == 0)
-			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
+			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
 		else if(meta == 1)
-			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
+			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
 		else if(meta == 2)
-			return this.getDefaultState().withProperty(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
+			return this.getDefaultState().with(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
 		else
-			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
+			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
 	public static enum DispenseType implements IStringSerializable
@@ -160,12 +160,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	public static DispenseType getNextState(IBlockState state)
 	{
-		return state.getValue(DISPENSING).getNextState();
+		return state.get(DISPENSING).getNextState();
 	}
 
 	public static DispenseType getCurrentState(IBlockState state)
 	{
-		return state.getValue(DISPENSING);
+		return state.get(DISPENSING);
 	}
 
 	protected BlockStateContainer createBlockState()

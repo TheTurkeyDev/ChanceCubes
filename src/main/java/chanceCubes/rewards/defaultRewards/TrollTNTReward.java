@@ -24,7 +24,7 @@ public class TrollTNTReward implements IChanceCubeReward
 		{
 			for(int z = -1; z < 2; z++)
 			{
-				RewardsUtil.placeBlock(Blocks.WEB.getDefaultState(), world, new BlockPos(player.posX + x, player.posY, player.posZ + z));
+				RewardsUtil.placeBlock(Blocks.COBWEB.getDefaultState(), world, new BlockPos(player.posX + x, player.posY, player.posZ + z));
 			}
 		}
 
@@ -40,7 +40,7 @@ public class TrollTNTReward implements IChanceCubeReward
 				public void callback()
 				{
 					player.sendMessage(new TextComponentString("BOOM"));
-					entitytntprimed.setDead();
+					entitytntprimed.remove();
 				}
 
 			});

@@ -28,11 +28,11 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 				String commandToRun = command.getParsedCommand(world, x, y, z, player);
 
 				CCubesCommandSender sender = new CCubesCommandSender(player, new BlockPos(x, y, z));
-				MinecraftServer server = world.getMinecraftServer();
+				MinecraftServer server = world.getServer();
 				Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-				server.getCommandManager().executeCommand(sender, commandToRun);
-				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
+				server.getCommandManager().handleCommand(sender, commandToRun);
+				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
 			}
 		});
 	}

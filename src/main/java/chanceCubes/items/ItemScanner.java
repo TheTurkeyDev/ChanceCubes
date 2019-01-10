@@ -9,6 +9,7 @@ import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -21,8 +22,7 @@ public class ItemScanner extends BaseChanceCubesItem
 {
 	public ItemScanner()
 	{
-		super("scanner");
-		this.setMaxStackSize(1);
+		super((new Item.Builder()).maxStackSize(1), "scanner");
 	}
 
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)
@@ -56,7 +56,7 @@ public class ItemScanner extends BaseChanceCubesItem
 
 				if(movingobjectposition == null)
 					return;
-				if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
+				if(movingobjectposition.type == RayTraceResult.Type.BLOCK)
 				{
 					int i = movingobjectposition.getBlockPos().getX();
 					int j = movingobjectposition.getBlockPos().getY();

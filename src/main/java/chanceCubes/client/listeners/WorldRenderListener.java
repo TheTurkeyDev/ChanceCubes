@@ -7,15 +7,15 @@ import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class WorldRenderListener
 {
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
 	{
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
@@ -27,12 +27,12 @@ public class WorldRenderListener
 	        double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
 	        double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
 
-	        GlStateManager.translate(-interpPosX, -interpPosY, -interpPosZ);
+	        GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
 	        GlStateManager.disableTexture2D();
 	        GlStateManager.enableBlend();
-	        GlStateManager.enableAlpha();
+	        GlStateManager.enableAlphaTest();
 	        GlStateManager.disableLighting();
-	        GlStateManager.glLineWidth(2f);
+	        GlStateManager.lineWidth(2f);
 	        GlStateManager.glBegin(GL11.GL_LINES);
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
@@ -44,7 +44,7 @@ public class WorldRenderListener
 			int lowZ = pos1.getZ() < pos2.getZ() ? pos1.getZ() : pos2.getZ();
 			int highZ = pos1.getZ() > pos2.getZ() ? pos1.getZ() : pos2.getZ();
 
-			GlStateManager.color(0.9f, 0.0f, 0.5f, 1f);
+			GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
 
 			
 			GL11.glVertex3d(lowX, lowY, lowZ);

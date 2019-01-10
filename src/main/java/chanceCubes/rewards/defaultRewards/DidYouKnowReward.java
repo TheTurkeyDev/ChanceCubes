@@ -29,7 +29,7 @@ public class DidYouKnowReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		String fact = "Did you know?\n" + dyk.get(RewardsUtil.rand.nextInt(dyk.size()));
-		MinecraftServer server = world.getMinecraftServer();
+		MinecraftServer server = world.getServer();
 		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Did You know?\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + fact + "\\\",color:black}\"]}}}";

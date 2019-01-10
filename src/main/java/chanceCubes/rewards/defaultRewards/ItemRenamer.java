@@ -45,7 +45,7 @@ public class ItemRenamer implements IChanceCubeReward
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			dirt.setStackDisplayName("A lonley piece of dirt");
+			dirt.setDisplayName(new TextComponentString("A lonley piece of dirt"));
 			player.inventory.addItemStackToInventory(dirt);
 			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
@@ -61,7 +61,7 @@ public class ItemRenamer implements IChanceCubeReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(rand.nextInt(stacks.size())).setStackDisplayName(newName);
+			stacks.get(rand.nextInt(stacks.size())).setDisplayName(new TextComponentString(newName));
 		}
 
 		player.sendMessage(new TextComponentString("Those items of yours need a little personality!"));

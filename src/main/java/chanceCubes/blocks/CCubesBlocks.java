@@ -1,5 +1,8 @@
 package chanceCubes.blocks;
 
+import com.mojang.datafixers.DataFixUtils;
+import com.mojang.datafixers.types.Type;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
@@ -10,13 +13,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedConstants;
+import net.minecraft.util.datafix.DataFixesManager;
+import net.minecraft.util.datafix.TypeReferences;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID)
@@ -28,6 +36,11 @@ public class CCubesBlocks
 	public static BaseChanceBlock COMPACT_GIANT_CUBE;
 	public static BaseChanceBlock CUBE_DISPENSER;
 
+	public static TileEntityType<TileChanceCube> TILE_CHANCE_CUBE;
+	public static TileEntityType<TileChanceD20> TILE_CHANCE_ICOSAHEDRON;
+	public static TileEntityType<TileGiantCube> TILE_CHANCE_GIANT;
+	public static TileEntityType<TileCubeDispenser> TILE_CUBE_DISPENSER;
+
 	@SubscribeEvent
 	public void onBlockRegistry(RegistryEvent.Register<Block> e)
 	{
@@ -37,27 +50,50 @@ public class CCubesBlocks
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
-		GameRegistry.registerTileEntity(TileChanceCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceCube"));
-		GameRegistry.registerTileEntity(TileChanceD20.class, new ResourceLocation(CCubesCore.MODID, "tileChanceIcosahedron"));
-		GameRegistry.registerTileEntity(TileGiantCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceGiant"));
-		GameRegistry.registerTileEntity(TileCubeDispenser.class, new ResourceLocation(CCubesCore.MODID, "tileCubeDispenser"));
+		TILE_CHANCE_CUBE = register("tileChanceCube", TileEntityType.Builder.create(TileChanceCube::new));
+		TILE_CHANCE_ICOSAHEDRON = register("tileChanceIcosahedron", TileEntityType.Builder.create(TileChanceD20::new));
+		TILE_CHANCE_GIANT = register("tileChanceGiant", TileEntityType.Builder.create(TileGiantCube::new));
+		TILE_CUBE_DISPENSER = register("tileCubeDispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
 	}
 
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
 		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
 	}
 
 	public static void registerBlocksItems()
 	{
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		ItemModelMesher mesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher();
 
-		mesher.register(Item.getItemFromBlock(CHANCE_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(CHANCE_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(GIANT_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+	}
+
+	//TODO: USE FORGES CUSTOM ONE WHEN MADE
+	public static <T extends TileEntity> TileEntityType<T> register(String id, TileEntityType.Builder<T> builder)
+	{
+		Type<?> type = null;
+
+		try
+		{
+			type = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1519)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
+		} catch(IllegalArgumentException illegalstateexception)
+		{
+			if(SharedConstants.developmentMode)
+			{
+				throw illegalstateexception;
+			}
+
+			//LOGGER.warn("No data fixer registered for block entity {}", (Object)id);
+		}
+
+		TileEntityType<T> tileentitytype = builder.build(type);
+		TileEntityType.REGISTRY.put(new ResourceLocation(CCubesCore.MODID, id), tileentitytype);
+		return tileentitytype;
 	}
 }

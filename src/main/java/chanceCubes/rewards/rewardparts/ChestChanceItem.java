@@ -13,29 +13,27 @@ public class ChestChanceItem
 	private static Random rand = new Random();
 	private String mod;
 	private String item;
-	private int meta;
 	private int amountMin;
 	private int amountMax;
 	private int chance;
 
-	public ChestChanceItem(String item, int meta, int chance, int amountMin, int amountMax)
+	public ChestChanceItem(String item, int chance, int amountMin, int amountMax)
 	{
 		this.mod = item.substring(0, item.indexOf(":"));
 		this.item = item.substring(item.indexOf(":") + 1);
-		this.meta = meta;
 		this.chance = chance;
 		this.amountMin = amountMin;
 		this.amountMax = amountMax;
 	}
 
-	private ItemStack getItemStack(int amount, int meta)
+	private ItemStack getItemStack(int amount)
 	{
-		ItemStack stack = RewardsUtil.getItemStack(mod, item, amount, meta);
+		ItemStack stack = RewardsUtil.getItemStack(mod, item, amount);
 		if(stack.isEmpty())
 		{
-			stack = new ItemStack(RewardsUtil.getBlock(mod, item), amount, meta);
+			stack = new ItemStack(RewardsUtil.getBlock(mod, item), amount);
 			if(stack.isEmpty())
-				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 1, 0);
+				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 1);
 		}
 
 		return stack;
@@ -43,7 +41,7 @@ public class ChestChanceItem
 
 	public ItemStack getRandomItemStack()
 	{
-		return this.getItemStack(rand.nextInt(amountMax - amountMin) + amountMin, meta);
+		return this.getItemStack(rand.nextInt(amountMax - amountMin) + amountMin);
 	}
 
 	public int getChance()
