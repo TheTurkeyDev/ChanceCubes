@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -10,9 +8,14 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ShapeUtils;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,26 +25,23 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 {
 	public BlockGiantCube()
 	{
-		super("giant_Chance_Cube");
+		super(getBuilder(), "giant_Chance_Cube");
 		//this.setCreativeTab(null);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader world)
+	public TileEntity createNewTileEntity(IBlockReader paramIBlockReader)
 	{
 		return new TileGiantCube();
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean isOpaqueCube(IBlockState blockState)
+	public static boolean isOpaque(VoxelShape shape)
 	{
 		return false;
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
-	public BlockRenderLayer getBlockLayer()
+	public BlockRenderLayer getRenderLayer()
 	{
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
@@ -64,7 +64,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 			{
 				if(!te.hasMaster() || !te.checkForMaster())
 				{
-					world.setBlockToAir(pos);
+					world.setBlockState(pos, Blocks.AIR.getDefaultState());
 					return false;
 				}
 				RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:giant_chance_cube");

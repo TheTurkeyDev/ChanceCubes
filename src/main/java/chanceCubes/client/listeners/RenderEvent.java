@@ -3,7 +3,6 @@ package chanceCubes.client.listeners;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,9 +26,8 @@ public class RenderEvent
 
 		Minecraft mc = Minecraft.getInstance();
 
-		ScaledResolution scaledresolution = new ScaledResolution(mc);
-		int k = scaledresolution.getScaledWidth();
-		int l = scaledresolution.getScaledHeight();
+		int k = mc.currentScreen.width;
+		int l = mc.currentScreen.height;
 
 		FontRenderer fontrenderer = mc.fontRenderer;
 

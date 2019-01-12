@@ -50,10 +50,10 @@ public class CCubesBlocks
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
-		TILE_CHANCE_CUBE = register("tileChanceCube", TileEntityType.Builder.create(TileChanceCube::new));
-		TILE_CHANCE_ICOSAHEDRON = register("tileChanceIcosahedron", TileEntityType.Builder.create(TileChanceD20::new));
-		TILE_CHANCE_GIANT = register("tileChanceGiant", TileEntityType.Builder.create(TileGiantCube::new));
-		TILE_CUBE_DISPENSER = register("tileCubeDispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
+		TILE_CHANCE_CUBE = TileEntityType.register(CCubesCore.MODID + ":tileChanceCube", TileEntityType.Builder.create(TileChanceCube::new));
+		TILE_CHANCE_ICOSAHEDRON = TileEntityType.register(CCubesCore.MODID + ":tileChanceIcosahedron", TileEntityType.Builder.create(TileChanceD20::new));
+		TILE_CHANCE_GIANT = TileEntityType.register(CCubesCore.MODID + ":tileChanceGiant", TileEntityType.Builder.create(TileGiantCube::new));
+		TILE_CUBE_DISPENSER = TileEntityType.register(CCubesCore.MODID + ":tileCubeDispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
 	}
 
 	@SubscribeEvent
@@ -72,28 +72,5 @@ public class CCubesBlocks
 		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
-	}
-
-	//TODO: USE FORGES CUSTOM ONE WHEN MADE
-	public static <T extends TileEntity> TileEntityType<T> register(String id, TileEntityType.Builder<T> builder)
-	{
-		Type<?> type = null;
-
-		try
-		{
-			type = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1519)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
-		} catch(IllegalArgumentException illegalstateexception)
-		{
-			if(SharedConstants.developmentMode)
-			{
-				throw illegalstateexception;
-			}
-
-			//LOGGER.warn("No data fixer registered for block entity {}", (Object)id);
-		}
-
-		TileEntityType<T> tileentitytype = builder.build(type);
-		TileEntityType.REGISTRY.put(new ResourceLocation(CCubesCore.MODID, id), tileentitytype);
-		return tileentitytype;
 	}
 }

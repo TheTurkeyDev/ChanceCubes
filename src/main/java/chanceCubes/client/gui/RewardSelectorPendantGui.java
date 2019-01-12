@@ -2,6 +2,15 @@ package chanceCubes.client.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+
+import chanceCubes.CCubesCore;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketRewardSelector;
+import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
+import net.java.games.input.Keyboard;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -10,19 +19,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketRewardSelector;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
-
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
 {
 	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/gui_reward_selector_pendant.png");
@@ -37,8 +37,8 @@ public class RewardSelectorPendantGui extends GuiScreen
 	{
 		this.stack = stack;
 		this.player = player;
-		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Reward"))
-			this.rewardName = stack.getTagCompound().getString("Reward");
+		if(stack.getTag() != null && stack.getTag().hasKey("Reward"))
+			this.rewardName = stack.getTag().getString("Reward");
 	}
 
 	/**
@@ -46,8 +46,8 @@ public class RewardSelectorPendantGui extends GuiScreen
 	 */
 	public void initGui()
 	{
-		this.buttonList.clear();
-		Keyboard.enableRepeatEvents(true);
+		this.buttons.clear();
+		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
 		this.rewardField = new GuiTextField(0, this.fontRenderer, i + 17, j + 10, 143, 12);
@@ -56,13 +56,13 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
-		this.buttonList.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0])));
+		this.buttons.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0])));
 	}
 
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		Keyboard.enableRepeatEvents(false);
+		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 	}
 
 	protected void actionPerformed(GuiButton button)
@@ -73,11 +73,11 @@ public class RewardSelectorPendantGui extends GuiScreen
 			{
 				if(ChanceCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
 				{
-					NBTTagCompound nbt = stack.getTagCompound();
+					NBTTagCompound nbt = stack.getTag();
 					if(nbt == null)
 						nbt = new NBTTagCompound();
 					nbt.setString("Reward", this.rewardName);
-					stack.setTagCompound(nbt);
+					stack.setTag(nbt);
 
 					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderEntity().getName(), this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
@@ -98,19 +98,20 @@ public class RewardSelectorPendantGui extends GuiScreen
 			super.keyTyped(p_73869_1_, p_73869_2_);
 	}
 
-	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) throws IOException
+	@Override
+	public boolean mouseClicked(double x, double y, int mouseEvent)
 	{
-		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-		this.rewardField.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+		super.mouseClicked(x, y, mouseEvent);
+		return this.rewardField.mouseClicked(x, y, mouseEvent);
 	}
 
-	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
 		this.mc.getTextureManager().bindTexture(guiTextures);
 		this.drawTexturedModalRect((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		this.rewardField.drawTextBox();
-		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 }

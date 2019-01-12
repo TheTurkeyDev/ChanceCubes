@@ -1,5 +1,7 @@
 package chanceCubes.blocks;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
@@ -7,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -54,4 +57,34 @@ public class BaseChanceBlock extends Block
 	{
 		return Builder.create(Material.GROUND).hardnessAndResistance(0.5f, Float.MAX_VALUE);
 	}
+	
+
+	/**
+	 * Grabbed from 1.12
+	 */
+    public <T extends Comparable<T>> IBlockState cycleProperty(IBlockState state, IProperty<T> property)
+    {
+        return state.with(property, cyclePropertyValue(property.getAllowedValues(), state.get(property)));
+    }
+
+
+    protected static <T> T cyclePropertyValue(Collection<T> values, T currentValue)
+    {
+        Iterator<T> iterator = values.iterator();
+
+        while (iterator.hasNext())
+        {
+            if (iterator.next().equals(currentValue))
+            {
+                if (iterator.hasNext())
+                {
+                    return iterator.next();
+                }
+
+                return values.iterator().next();
+            }
+        }
+
+        return iterator.next();
+    }
 }

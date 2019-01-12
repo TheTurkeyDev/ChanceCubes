@@ -8,26 +8,19 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
@@ -39,9 +32,8 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 
 	public BlockChanceCube()
 	{
-		super(getBuilder(), "chance_Cube");
-		//this.setLightLevel(2);
-		//this.setDefaultState(this.blockState.getBaseState().withProperty(TEXTURE, textureToSet));
+		super(getBuilder().lightValue(2), "chance_Cube");
+		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, textureToSet));
 	}
 
 	@Override
@@ -81,36 +73,10 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public IBlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		IBlockState iblockstate = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
+		IBlockState iblockstate = super.getStateForPlacement(context);
 		return iblockstate.with(TEXTURE, textureToSet);
-	}
-
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return this.getDefaultState().with(TEXTURE, textureToSet);
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	public int getMetaFromState(IBlockState state)
-	{
-		return 0;
-	}
-
-	public IBlockState getActualState(IBlockState state, IBlockReader worldIn, BlockPos pos)
-	{
-		return this.getDefaultState().with(TEXTURE, textureToSet);
-	}
-
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] { TEXTURE });
 	}
 
 	public static enum EnumTexture implements IStringSerializable

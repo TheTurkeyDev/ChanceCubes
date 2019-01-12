@@ -7,9 +7,9 @@ import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,13 +17,10 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
@@ -33,8 +30,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE), "chance_Icosahedron");
-		//this.setLightLevel(7);
+		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).lightValue(7), "chance_Icosahedron");
 	}
 
 	@Override
@@ -62,13 +58,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean doesSideBlockRendering(IBlockState state, IBlockReader world, BlockPos pos, EnumFacing face)
-	{
-		return false;
-	}
-
-	@Override
-	public BlockRenderLayer getBlockLayer()
+	public BlockRenderLayer getRenderLayer()
 	{
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
@@ -93,8 +83,8 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		{
 			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			super.dropBlockAsItem(world, pos, this.getDefaultState(), 1);
-			world.setBlockToAir(pos);
+			spawnAsEntity(world, pos, stack);
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			world.removeTileEntity(pos);
 			return true;
 		}
@@ -122,11 +112,5 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		}
 
 		return state;
-	}
-
-	@Override
-	public ExtendedBlockState createBlockState()
-	{
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
 	}
 }

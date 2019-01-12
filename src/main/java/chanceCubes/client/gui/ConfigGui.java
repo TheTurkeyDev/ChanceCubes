@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-
 import org.apache.logging.log4j.Level;
-import org.lwjgl.input.Keyboard;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.CustomExtendedList.CustomTextEntry;
@@ -29,13 +30,11 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 public class ConfigGui extends GuiScreen
 {
@@ -74,13 +73,13 @@ public class ConfigGui extends GuiScreen
 	{
 		editState = ConfigEditState.Files;
 
-		this.buttonList.clear();
-		Keyboard.enableRepeatEvents(true);
+		this.buttons.clear();()
+		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 
-		this.buttonList.add(buttonback = new GuiButton(0, this.width / 2 - 175, this.height - 55, 98, 20, "Back"));
-		this.buttonList.add(this.buttonNew = new GuiButton(1, this.width / 2 - 50, this.height - 25, 100, 20, buttonNewText));
-		this.buttonList.add(this.buttonCancel = new GuiButton(2, this.width / 2 - 50, this.height - 55, 100, 20, "Cancel"));
-		this.buttonList.add(this.buttonSave = new GuiButton(3, this.width / 2 - 50, this.height - 25, 100, 20, "Save"));
+		this.buttons.add(buttonback = new GuiButton(0, this.width / 2 - 175, this.height - 55, 98, 20, "Back"));
+		this.buttons.add(this.buttonNew = new GuiButton(1, this.width / 2 - 50, this.height - 25, 100, 20, buttonNewText));
+		this.buttons.add(this.buttonCancel = new GuiButton(2, this.width / 2 - 50, this.height - 55, 100, 20, "Cancel"));
+		this.buttons.add(this.buttonSave = new GuiButton(3, this.width / 2 - 50, this.height - 25, 100, 20, "Save"));
 		// this.buttonList.add(this.buttonDelete = new GuiButton(4, this.width / 2 - 175, this.height - 25, 98, 20, "Delete"));
 		buttonCancel.visible = false;
 		textFieldNew = new GuiTextField(4, mc.fontRenderer, this.width - 250, this.height - 40, 200, 20);
@@ -96,13 +95,13 @@ public class ConfigGui extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawDefaultBackground();
 		entries.drawScreen(mouseX, mouseY, partialTicks);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 		if(this.isCreatingNew)
-			this.textFieldNew.drawTextBox();
+			this.textFieldNew.ren.drawTextBox();
 		if(this.isDeleting)
 			mc.fontRenderer.drawString(this.deleteWarnText, this.width / 2 - (int) (deleteWarnText.length() * 2.5), this.height / 2, 0xFF0000);
 		mc.fontRenderer.drawString(this.drawString, this.width / 2 - (int) (drawString.length() * 2.5), 10, 0xFFFFFF);
@@ -328,13 +327,14 @@ public class ConfigGui extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int mouseEvent) throws IOException
+	public boolean mouseClicked(double x, double y, int mouseEvent)
 	{
 		this.textFieldNew.mouseClicked(x, y, mouseEvent);
 		this.entries.mouseClicked(x, y, mouseEvent);
-		super.mouseClicked(x, y, mouseEvent);
+		return super.mouseClicked(x, y, mouseEvent);
 	}
 
+	@Override
 	protected void keyTyped(char p_73869_1_, int p_73869_2_)
 	{
 		if(!this.textFieldNew.textboxKeyTyped(p_73869_1_, p_73869_2_))

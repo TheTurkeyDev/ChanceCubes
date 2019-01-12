@@ -27,7 +27,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	public BlockCubeDispenser()
 	{
 		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_Dispenser");
-		this.setDefaultState(this.blockState.getBaseState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE));
+		this.setDefaultState(this.stateContainer.getBaseState().with(DISPENSING, DispenseType.CHANCE_CUBE));
 		//this.setLightOpacity(0);
 	}
 
@@ -48,7 +48,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 		if(player.isSneaking())
 		{
-			state = state.cycleProperty(DISPENSING);
+			state = this.cycleProperty(state, DISPENSING);
 			world.setBlockState(pos, state, 3);
 		}
 		else
@@ -166,10 +166,5 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	public static DispenseType getCurrentState(IBlockState state)
 	{
 		return state.get(DISPENSING);
-	}
-
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] { DISPENSING });
 	}
 }
