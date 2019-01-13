@@ -226,6 +226,7 @@ public class RewardsUtil
 	{
 		if((!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
 		{
+			world.getBlockState(pos).getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 			world.setBlockState(pos, b, update);
 			return true;
 		}

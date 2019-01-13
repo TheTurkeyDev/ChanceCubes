@@ -47,6 +47,7 @@ public class SchematicUtil
 		int smallY = loc1.getY() < loc2.getY() ? loc1.getY() : loc2.getY();
 		int largeZ = loc1.getZ() > loc2.getZ() ? loc1.getZ() : loc2.getZ();
 		int smallZ = loc1.getZ() < loc2.getZ() ? loc1.getZ() : loc2.getZ();
+		StringBuilder blockData = new StringBuilder();
 		for(int y = smallY; y < largeY; y++)
 		{
 			for(int x = smallX; x < largeX; x++)
@@ -55,13 +56,16 @@ public class SchematicUtil
 				{
 					BlockPos pos = new BlockPos(x, y, z);
 					IBlockState blockState = world.getBlockState(pos);
-					String blockData = blockState.getBlock().getRegistryName().toString();
+					blockData.append(blockState.getBlock().getRegistryName().toString());
 					// TODO: Find better way?
-					blockData += ":" + blockState.getBlock().getMetaFromState(blockState);
+					blockData.setLength(0);
+					blockData.append(":");
+					blockData.append(blockState.getBlock().getMetaFromState(blockState));
+					String blockString = blockData.toString();
 					int id = -1;
 					for(CustomEntry<Integer, String> data : blockDataIds)
 					{
-						if(blockData.equalsIgnoreCase(data.getValue()))
+						if(blockString.equalsIgnoreCase(data.getValue()))
 						{
 							id = data.getKey();
 						}
@@ -69,7 +73,7 @@ public class SchematicUtil
 					if(id == -1)
 					{
 						id = blockDataIds.size();
-						blockDataIds.add(new CustomEntry<Integer, String>(id, blockData));
+						blockDataIds.add(new CustomEntry<Integer, String>(id, blockString));
 					}
 					blocks.add(id);
 

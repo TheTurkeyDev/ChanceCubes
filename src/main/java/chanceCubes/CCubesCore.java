@@ -1,5 +1,6 @@
 package chanceCubes;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +37,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.config.ConfigGuiFactory")
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME)
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
@@ -108,6 +109,8 @@ public class CCubesCore
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
+		
+		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
 
 	@EventHandler

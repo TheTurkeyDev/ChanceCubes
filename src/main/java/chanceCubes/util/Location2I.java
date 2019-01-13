@@ -71,4 +71,9 @@ public class Location2I
 			return true;
 		return false;
 	}
+	
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
+	}
 }

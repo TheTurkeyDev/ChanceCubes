@@ -53,41 +53,18 @@ public class MazeGenerator
 				map[x][y] = wall;
 
 		map[1][1] = nonWall;
-		currentX = 1;
-		currentY = 1;
-		Location2I current = new Location2I(currentX, currentY);
-		Location2I north = current.add(0, -1);
-		Location2I east = current.add(1, 0);
-		Location2I south = current.add(0, 1);
-		Location2I west = current.add(-1, 0);
-
-		if((north.getY() > 0) && (map[(int) north.getX()][(int) north.getY()] == wall))
-		{
-			if(map[(int) north.getX()][(int) (north.getY() - 1)] == wall)
-				walls.add(north);
-		}
-		if((east.getX() < width) && (map[(int) east.getX()][(int) east.getY()] == wall))
-		{
-			if(map[(int) (east.getX() + 1)][(int) east.getY()] == wall)
-				walls.add(east);
-		}
-		if((south.getY() < height) && (map[(int) south.getX()][(int) south.getY()] == wall))
-		{
-			if(map[(int) south.getX()][(int) (south.getY() + 1)] == wall)
-				walls.add(south);
-		}
-		if((west.getX() > 0) && (map[(int) west.getX()][(int) west.getY()] == wall))
-		{
-			if(map[(int) (west.getX() - 1)][(int) west.getY()] == wall)
-				walls.add(west);
-		}
-
-		int randomLoc = 0;
-		while(walls.size() > 0)
-		{
-			randomLoc = r.nextInt(walls.size());
-			currentX = (int) ((Location2I) walls.get(randomLoc)).getX();
-			currentY = (int) ((Location2I) walls.get(randomLoc)).getY();
+		
+		walls.add(new Location2I(1, 1));
+		Location2I current = new Location2I(0, 0);
+		Location2I north = new Location2I(0, 0);
+		Location2I east = new Location2I(0, 0);
+		Location2I south = new Location2I(0, 0);
+		Location2I west = new Location2I(0, 0);
+		
+		do {
+			int randomLoc = r.nextInt(walls.size());
+			currentX = walls.get(randomLoc).getX();
+			currentY = walls.get(randomLoc).getY();
 			current.setXY(currentX, currentY);
 			north = current.add(0, -1);
 			east = current.add(1, 0);
@@ -99,32 +76,29 @@ public class MazeGenerator
 				map[currentX][currentY] = nonWall;
 				walls.remove(randomLoc);
 
-				if((north.getY() - 1 > 0) && (map[(int) north.getX()][(int) north.getY()] == wall))
-				{
-					if(map[(int) north.getX()][(int) (north.getY() - 1)] == wall)
+				if((north.getY() > 0) && (map[north.getX()][north.getY()] == wall))
+					if(map[north.getX()][north.getY() - 1] == wall && !walls.contains(north))
 						walls.add(north);
-				}
-				if((east.getX() + 1 < width) && (map[(int) east.getX()][(int) east.getY()] == wall))
-				{
-					if(map[(int) (east.getX() + 1)][(int) east.getY()] == wall)
+					
+				if((east.getX() + 1 < width) && (map[east.getX()][east.getY()] == wall))
+					if(map[east.getX() + 1][east.getY()] == wall && !walls.contains(east))
 						walls.add(east);
-				}
-				if((south.getY() + 1 < height) && (map[(int) south.getX()][(int) south.getY()] == wall))
-				{
-					if(map[(int) south.getX()][(int) (south.getY() + 1)] == wall)
+				
+				if((south.getY() + 1 < height) && (map[south.getX()][south.getY()] == wall))
+					if(map[south.getX()][south.getY() + 1] == wall && !walls.contains(south))
 						walls.add(south);
-				}
-				if((west.getX() - 1 > 0) && (map[(int) west.getX()][(int) west.getY()] == wall))
-				{
-					if(map[(int) (west.getX() - 1)][(int) west.getY()] == wall)
+				
+				if((west.getX() > 0) && (map[west.getX()][west.getY()] == wall))
+					if(map[west.getX() - 1][west.getY()] == wall && !walls.contains(west))
 						walls.add(west);
-				}
 			}
 			else
 			{
 				walls.remove(randomLoc);
 			}
-		}
+		}while(walls.size() > 0);
+		
+
 		int endBlockX = width - 1;
 		int endBlockZ = height - 1;
 		boolean run = true;

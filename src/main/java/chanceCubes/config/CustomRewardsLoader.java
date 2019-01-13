@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
+import chanceCubes.config.script.ScriptParser;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
@@ -297,32 +298,13 @@ public class CustomRewardsLoader
 		List<ItemPart> items = new ArrayList<ItemPart>();
 		for(JsonElement fullelement : rawReward)
 		{
-			JsonElement element = fullelement.getAsJsonObject().get("item").getAsJsonObject();
-			ItemPart stack;
-
-			try
-			{
-				String jsonEdited = this.removedKeyQuotes(element.toString());
-				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
-
-				if(!(nbtbase instanceof NBTTagCompound))
-				{
-					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
-					continue;
-				}
-				else
-				{
-					ItemStack itemstack = new ItemStack((NBTTagCompound) nbtbase);
-					stack = new ItemPart(itemstack);
-				}
-			} catch(NBTException e1)
-			{
-				CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+			NBTTagCompound nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
+			if(nbt == null)
 				continue;
-			}
 
-			if(fullelement.getAsJsonObject().has("delay"))
-				stack.setDelay(fullelement.getAsJsonObject().get("delay").getAsInt());
+			ItemPart stack = new ItemPart(new ItemStack(nbt));
+
+			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
 
 			items.add(stack);
 		}
@@ -333,37 +315,25 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadBlockReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "Block", "Falling" })
-			{
-				if(element.getAsJsonObject().has(s))
-				{
-					reSaveCurrentJson = true;
-					element.getAsJsonObject().add(s.substring(0, 1).toLowerCase() + s.substring(1), element.getAsJsonObject().get(s));
-					element.getAsJsonObject().remove(s);
-				}
-			}
+			JsonObject element = elementElem.getAsJsonObject();
+			this.fixOldJsonKeys(element);
 
-			int x = element.getAsJsonObject().get("xOffSet").getAsInt();
-			int y = element.getAsJsonObject().get("yOffSet").getAsInt();
-			int z = element.getAsJsonObject().get("zOffSet").getAsInt();
-			String blockDataParts[] = element.getAsJsonObject().get("block").getAsString().split(":");
+			int x = this.getInt(element, "xOffSet", 0);
+			int y = this.getInt(element, "yOffSet", 0);
+			int z = this.getInt(element, "zOffSet", 0);
+			String blockDataParts[] = this.getString(element, "block", "minecraft:dirt").split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
 			Block block = RewardsUtil.getBlock(mod, blockName);
-			boolean falling = element.getAsJsonObject().get("falling").getAsBoolean();
+			boolean falling = this.getBoolean(element, "falling", false);
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
-			if(element.getAsJsonObject().has("delay"))
-				offBlock.setDelay(element.getAsJsonObject().get("delay").getAsInt());
-
-			if(element.getAsJsonObject().has("relativeToPlayer"))
-				offBlock.setRelativeToPlayer(element.getAsJsonObject().get("relativeToPlayer").getAsBoolean());
-
-			if(element.getAsJsonObject().has("removeUnbreakableBlocks"))
-				offBlock.setRemoveUnbreakableBlocks(element.getAsJsonObject().get("removeUnbreakableBlocks").getAsBoolean());
+			offBlock.setDelay(this.getInt(element, "delay", offBlock.getDelay()));
+			offBlock.setRelativeToPlayer(this.getBoolean(element, "relativeToPlayer", offBlock.isRelativeToPlayer()));
+			offBlock.setRemoveUnbreakableBlocks(this.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
 
 			if(blockDataParts.length > 2)
 				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
@@ -377,16 +347,14 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadMessageReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<MessagePart> msgs = new ArrayList<MessagePart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			MessagePart message = new MessagePart(element.getAsJsonObject().get("message").getAsString());
+			JsonObject element = elementElem.getAsJsonObject();
+			MessagePart message = new MessagePart(this.getString(element, "message", "No message was specified to send lel"));
 
-			if(element.getAsJsonObject().has("delay"))
-				message.setDelay(element.getAsJsonObject().get("delay").getAsInt());
-			if(element.getAsJsonObject().has("serverWide"))
-				message.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
-			if(element.getAsJsonObject().has("range"))
-				message.setRange(element.getAsJsonObject().get("range").getAsInt());
+			message.setDelay(this.getInt(element, "delay", message.getDelay()));
+			message.setServerWide(this.getBoolean(element, "serverWide", message.isServerWide()));
+			message.setRange(this.getInt(element, "range", message.getRange()));
 
 			msgs.add(message);
 		}
@@ -397,12 +365,13 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadCommandReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<CommandPart> commands = new ArrayList<CommandPart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			CommandPart command = new CommandPart(element.getAsJsonObject().get("command").getAsString());
+			JsonObject element = elementElem.getAsJsonObject();
+			CommandPart command = new CommandPart(this.getString(element, "command", "/help"));
 
-			if(element.getAsJsonObject().has("delay"))
-				command.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			command.setDelay(this.getInt(element, "delay", command.getDelay()));
+
 			commands.add(command);
 		}
 		rewards.add(new CommandRewardType(commands.toArray(new CommandPart[commands.size()])));
@@ -412,13 +381,14 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<EntityPart> entities = new ArrayList<EntityPart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
+			JsonObject element = elementElem.getAsJsonObject();
 			EntityPart ent;
 
 			try
 			{
-				String jsonEdited = this.removedKeyQuotes(element.getAsJsonObject().get("entity").getAsJsonObject().toString());
+				String jsonEdited = this.removedKeyQuotes(element.get("entity").getAsJsonObject().toString());
 				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
 				if(!(nbtbase instanceof NBTTagCompound))
@@ -438,8 +408,8 @@ public class CustomRewardsLoader
 				continue;
 			}
 
-			if(element.getAsJsonObject().has("delay"))
-				ent.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			ent.setDelay(this.getInt(element, "delay", ent.getDelay()));
+
 			entities.add(ent);
 		}
 		rewards.add(new EntityRewardType(entities.toArray(new EntityPart[entities.size()])));
@@ -449,14 +419,14 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadExperienceReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<ExpirencePart> exp = new ArrayList<ExpirencePart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			ExpirencePart exppart = new ExpirencePart(element.getAsJsonObject().get("experienceAmount").getAsInt());
+			JsonObject element = elementElem.getAsJsonObject();
+			ExpirencePart exppart = new ExpirencePart(this.getInt(element, "experienceAmount", 1));
 
-			if(element.getAsJsonObject().has("delay"))
-				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
-			if(element.getAsJsonObject().has("numberOfOrbs"))
-				exppart.setNumberofOrbs(element.getAsJsonObject().get("numberOfOrbs").getAsInt());
+			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
+			exppart.setNumberofOrbs(this.getInt(element, "numberOfOrbs", exppart.getDelay()));
+
 			exp.add(exppart);
 		}
 		rewards.add(new ExperienceRewardType(exp.toArray(new ExpirencePart[exp.size()])));
@@ -466,12 +436,13 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadPotionReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<PotionPart> potionEffects = new ArrayList<PotionPart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			PotionPart exppart = new PotionPart(new PotionEffect(Potion.getPotionById(element.getAsJsonObject().get("potionid").getAsInt()), element.getAsJsonObject().get("duration").getAsInt() * 20));
+			JsonObject element = elementElem.getAsJsonObject();
+			PotionPart exppart = new PotionPart(new PotionEffect(Potion.getPotionById(this.getInt(element, "potionid", 0)), this.getInt(element, "duration", 1) * 20));
 
-			if(element.getAsJsonObject().has("delay"))
-				exppart.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
+
 			potionEffects.add(exppart);
 		}
 		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[potionEffects.size()])));
@@ -481,21 +452,17 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadSoundReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<SoundPart> sounds = new ArrayList<SoundPart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			SoundPart sound = new SoundPart(CCubesSounds.registerSound(element.getAsJsonObject().get("sound").getAsString()));
-			if(element.getAsJsonObject().has("delay"))
-				sound.setDelay(element.getAsJsonObject().get("delay").getAsInt());
-			if(element.getAsJsonObject().has("serverWide"))
-				sound.setServerWide(element.getAsJsonObject().get("serverWide").getAsBoolean());
-			if(element.getAsJsonObject().has("range"))
-				sound.setRange(element.getAsJsonObject().get("range").getAsInt());
-			if(element.getAsJsonObject().has("playAtPlayersLocation"))
-				sound.setAtPlayersLocation(element.getAsJsonObject().get("playAtPlayersLocation").getAsBoolean());
-			if(element.getAsJsonObject().has("volume"))
-				sound.setVolume(element.getAsJsonObject().get("volume").getAsInt());
-			if(element.getAsJsonObject().has("pitch"))
-				sound.setPitch(element.getAsJsonObject().get("pitch").getAsInt());
+			JsonObject element = elementElem.getAsJsonObject();
+			SoundPart sound = new SoundPart(CCubesSounds.registerSound(this.getString(element, "sound", "")));
+
+			sound.setDelay(this.getInt(element, "delay", sound.getDelay()));
+			sound.setServerWide(this.getBoolean(element, "serverWide", sound.isServerWide()));
+			sound.setRange(this.getInt(element, "range", sound.getRange()));
+			sound.setAtPlayersLocation(this.getBoolean(element, "playAtPlayersLocation", sound.playAtPlayersLocation()));
+			sound.setVolume(this.getInt(element, "volume", sound.getVolume()));
+			sound.setPitch(this.getInt(element, "pitch", sound.getPitch()));
 
 			sounds.add(sound);
 		}
@@ -511,19 +478,12 @@ public class CustomRewardsLoader
 			JsonObject obj = element.getAsJsonObject();
 			if(obj.has("item") && obj.has("chance"))
 			{
-				int meta = 0;
-				if(obj.has("meta"))
-					meta = obj.get("meta").getAsInt();
+				int meta = this.getInt(obj, "meta", 0);
+				int amountMin = this.getInt(obj, "amountMin", 1);
+				int amountMax = this.getInt(obj, "amountMax", 8);
+				int chance = this.getInt(obj, "chance", 50);
 
-				int amountMin = 1;
-				if(obj.has("amountMin"))
-					amountMin = obj.get("amountMin").getAsInt();
-
-				int amountMax = 8;
-				if(obj.has("amountMax"))
-					amountMax = obj.get("amountMax").getAsInt();
-
-				items.add(new ChestChanceItem(obj.get("item").getAsString(), meta, obj.get("chance").getAsInt(), amountMin, amountMax));
+				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt"), meta, chance, amountMin, amountMax));
 			}
 			else
 			{
@@ -538,13 +498,12 @@ public class CustomRewardsLoader
 	public List<IRewardType> loadParticleReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
 		List<ParticlePart> particles = new ArrayList<ParticlePart>();
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
+			JsonObject element = elementElem.getAsJsonObject();
+			ParticlePart particle = new ParticlePart(this.getInt(element, "particle", 0));
 
-			ParticlePart particle = new ParticlePart(element.getAsJsonObject().get("particle").getAsInt());
-
-			if(element.getAsJsonObject().has("delay"))
-				particle.setDelay(element.getAsJsonObject().get("delay").getAsInt());
+			particle.setDelay(this.getInt(element, "delay", particle.getDelay()));
 
 			particles.add(particle);
 		}
@@ -554,43 +513,21 @@ public class CustomRewardsLoader
 
 	public List<IRewardType> loadSchematicReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		for(JsonElement element : rawReward)
+		for(JsonElement elementElem : rawReward)
 		{
-			String fileName = element.getAsJsonObject().get("fileName").getAsString();
-			int xoff = 0;
-			int yoff = 0;
-			int zoff = 0;
-			int delay = 0;
-			float spacingDelay = 0;
-			boolean falling = true;
-			boolean relativeToPlayer = false;
-			boolean includeAirBlocks = false;
-			for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "IncludeAirBlocks" })
-			{
-				if(element.getAsJsonObject().has(s))
-				{
-					reSaveCurrentJson = true;
-					element.getAsJsonObject().add(s.substring(0, 1).toLowerCase() + s.substring(1), element.getAsJsonObject().get(s));
-					element.getAsJsonObject().remove(s);
-				}
-			}
+			JsonObject element = elementElem.getAsJsonObject();
+			String fileName = element.get("fileName").getAsString();
+			this.fixOldJsonKeys(element);
 
-			if(element.getAsJsonObject().has("xOffSet"))
-				xoff = element.getAsJsonObject().get("xOffSet").getAsInt();
-			if(element.getAsJsonObject().has("yOffSet"))
-				yoff = element.getAsJsonObject().get("yOffSet").getAsInt();
-			if(element.getAsJsonObject().has("zOffSet"))
-				zoff = element.getAsJsonObject().get("zOffSet").getAsInt();
-			if(element.getAsJsonObject().has("delay"))
-				delay = element.getAsJsonObject().get("delay").getAsInt();
-			if(element.getAsJsonObject().has("falling"))
-				falling = element.getAsJsonObject().get("falling").getAsBoolean();
-			if(element.getAsJsonObject().has("relativeToPlayer"))
-				relativeToPlayer = element.getAsJsonObject().get("relativeToPlayer").getAsBoolean();
-			if(element.getAsJsonObject().has("includeAirBlocks"))
-				includeAirBlocks = element.getAsJsonObject().get("includeAirBlocks").getAsBoolean();
-			if(element.getAsJsonObject().has("spacingDelay"))
-				spacingDelay = element.getAsJsonObject().get("spacingDelay").getAsFloat();
+			int xoff = this.getInt(element, "xOffSet", 0);
+			int yoff = this.getInt(element, "yOffSet", 0);
+			int zoff = this.getInt(element, "zOffSet", 0);
+			int delay = this.getInt(element, "delay", 0);
+			boolean falling = this.getBoolean(element, "falling", true);
+			boolean relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
+			boolean includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
+			float spacingDelay = this.getFloat(element, "spacingDelay", 0);
+
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
 				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
@@ -627,102 +564,100 @@ public class CustomRewardsLoader
 		return sb.toString();
 	}
 
-	public List<String> getRewardsFiles()
+	public int getInt(JsonObject json, String key, int defaultVal)
 	{
-		List<String> files = Lists.newArrayList();
-		for(File f : folder.listFiles())
+		if(json.has(key))
 		{
-			if(!f.isFile())
-				continue;
-			if(f.getName().substring(f.getName().indexOf(".")).equalsIgnoreCase(".json"))
-				files.add(f.getName());
-		}
-		return files;
-	}
-
-	public List<String> getRewardsFromFile(String file)
-	{
-		List<String> rewards = Lists.newArrayList();
-
-		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
-
-		JsonElement fileJson;
-		try
-		{
-			fileJson = json.parse(new FileReader(rewardsFile));
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return new ArrayList<String>();
-		}
-
-		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
-			rewards.add(reward.getKey());
-
-		return rewards;
-	}
-
-	public List<String> getReward(String file, String rewardName)
-	{
-		List<String> rewardinfo = Lists.newArrayList();
-
-		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
-		JsonElement fileJson;
-
-		try
-		{
-			fileJson = json.parse(new FileReader(rewardsFile));
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return new ArrayList<String>();
-		}
-
-		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
-		{
-			JsonObject rewardElements = reward.getValue().getAsJsonObject();
-			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
-				rewardinfo.add(rewardElement.getKey());
-		}
-		return rewardinfo;
-	}
-
-	public List<String> getRewardType(String file, String s, String type)
-	{
-		List<String> rewardinfo = Lists.newArrayList();
-
-		File rewardsFile = new File(this.folder.getPath() + "\\" + file);
-		JsonElement fileJson;
-		try
-		{
-			fileJson = json.parse(new FileReader(rewardsFile));
-		} catch(Exception e)
-		{
-			CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + rewardsFile.getName() + ". Skipping file loading.");
-			return new ArrayList<String>();
-		}
-
-		for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
-		{
-			JsonObject rewardElements = reward.getValue().getAsJsonObject();
-			for(Entry<String, JsonElement> rewardElement : rewardElements.entrySet())
+			String input = json.get(key).getAsString().replaceAll(" ", "");
+			
+//			if(input.matches(".+%.+%.+"))
+//			{
+//				int firstIndex = input.indexOf("%");
+//				int lastIndex = input.lastIndexOf("%");
+//				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+//				input = input.substring(0, firstIndex) + input.substring(Math.min(lastIndex + 1, input.length()));
+//			
+//				if(part.startsWith("rnd"))
+//				{
+//					String result = ScriptParser.parseRandom(part, String.valueOf(defaultVal));
+//					if(ScriptParser.isInteger(input))
+//						return Integer.parseInt(result);
+//					else
+//						CCubesCore.logger.log(Level.ERROR, "A nonInteger Value");
+//				}
+//				
+//			}
+			
+			if(ScriptParser.isInteger(input))
 			{
-				if(rewardElement.getKey().equalsIgnoreCase(type))
-				{
-					if(rewardElement.getValue() instanceof JsonArray)
-					{
-						JsonArray rewardTypeArray = rewardElement.getValue().getAsJsonArray();
-						for(int i = 0; i < rewardTypeArray.size(); i++)
-							rewardinfo.add(rewardTypeArray.get(i).toString());
-					}
-					else
-					{
-						rewardinfo.add(rewardElement.getValue().toString());
-					}
-				}
+				return Integer.parseInt(input);
+			}
+			else
+			{
+				CCubesCore.logger.log(Level.ERROR, "A number was expected, but " + input + " was recieved!");
+				CCubesCore.logger.log(Level.ERROR, "If " + input + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
+				return defaultVal;
 			}
 		}
-		return rewardinfo;
+		return defaultVal;
+	}
+
+	public float getFloat(JsonObject json, String key, float defaultVal)
+	{
+		if(json.has(key))
+			return json.get(key).getAsFloat();
+		return defaultVal;
+	}
+
+	public boolean getBoolean(JsonObject json, String key, boolean defaultVal)
+	{
+		if(json.has(key))
+			return json.get(key).getAsBoolean();
+		return defaultVal;
+	}
+
+	public String getString(JsonObject json, String key, String defaultVal)
+	{
+		if(json.has(key))
+			return json.get(key).getAsString();
+		return defaultVal;
+	}
+
+	public NBTTagCompound getNBT(JsonObject json, String key)
+	{
+		if(!json.has(key))
+			return null;
+
+		JsonObject itemJson = json.getAsJsonObject(key);
+
+		try
+		{
+			String jsonEdited = this.removedKeyQuotes(itemJson.toString());
+			NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
+
+			if(nbtbase instanceof NBTTagCompound)
+				return (NBTTagCompound) nbtbase;
+
+		} catch(NBTException e1)
+		{
+			CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+		}
+
+		CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + itemJson.toString());
+		return null;
+	}
+
+	public void fixOldJsonKeys(JsonObject json)
+	{
+		for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "Block", "Falling", "IncludeAirBlocks" })
+		{
+			if(json.has(s))
+			{
+				reSaveCurrentJson = true;
+				json.add(s.substring(0, 1).toLowerCase() + s.substring(1), json.get(s));
+				json.remove(s);
+			}
+		}
 	}
 
 	public File getFolderFile()
