@@ -1,21 +1,25 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.IntVar;
 import net.minecraft.item.ItemStack;
 
 public class ItemPart
 {
-	public static String[] elements = new String[] { "item:S", "delay:I" };
-
 	private ItemStack stack;
 
-	private int delay = 0;
+	private IntVar delay = new IntVar(0);
 
 	public ItemPart(ItemStack stack)
 	{
-		this.stack = stack;
+		this(stack, 0);
 	}
 
 	public ItemPart(ItemStack stack, int delay)
+	{
+		this(stack, new IntVar(delay));
+	}
+
+	public ItemPart(ItemStack stack, IntVar delay)
 	{
 		this.stack = stack;
 		this.delay = delay;
@@ -28,10 +32,15 @@ public class ItemPart
 
 	public int getDelay()
 	{
-		return delay;
+		return delay.getValue();
 	}
 
 	public ItemPart setDelay(int delay)
+	{
+		return this.setDelay(new IntVar(delay));
+	}
+
+	public ItemPart setDelay(IntVar delay)
 	{
 		this.delay = delay;
 		return this;

@@ -1,5 +1,7 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
@@ -11,7 +13,6 @@ import net.minecraft.world.World;
 
 public class OffsetTileEntity extends OffsetBlock
 {
-
 	private NBTTagCompound teNBT;
 
 	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
@@ -23,8 +24,18 @@ public class OffsetTileEntity extends OffsetBlock
 	{
 		this(x, y, z, state, te, falling, 0);
 	}
+	
+	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, BoolVar falling)
+	{
+		this(new IntVar(x), new IntVar(y), new IntVar(z), state, te, falling, new IntVar(0));
+	}
 
 	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling, int delay)
+	{
+		this(new IntVar(x), new IntVar(y), new IntVar(z), state, te, new BoolVar(falling), new IntVar(delay));
+	}
+
+	public OffsetTileEntity(IntVar x, IntVar y, IntVar z, IBlockState state, NBTTagCompound te, BoolVar falling, IntVar delay)
 	{
 		super(x, y, z, state, falling, delay);
 		this.teNBT = te;
@@ -32,9 +43,9 @@ public class OffsetTileEntity extends OffsetBlock
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
 	{
-		if(!falling)
+		if(!falling.getValue())
 		{
-			Scheduler.scheduleTask(new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getValue())
 			{
 				@Override
 				public void callback()
@@ -45,7 +56,7 @@ public class OffsetTileEntity extends OffsetBlock
 		}
 		else
 		{
-			Scheduler.scheduleTask(new Task("Falling_TileEntity_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+			Scheduler.scheduleTask(new Task("Falling_TileEntity", delay.getValue())
 			{
 				@Override
 				public void callback()
@@ -56,13 +67,14 @@ public class OffsetTileEntity extends OffsetBlock
 		}
 	}
 
-	public void placeInWorld(World world, int x, int y, int z, boolean offset)
+	public BlockPos placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
-		super.placeInWorld(world, x, y, z, offset);
+		BlockPos pos = super.placeInWorld(world, x, y, z, offset);
 		// te.me = this.data;
 		if(offset)
-			world.setTileEntity(new BlockPos(x + xOff, y + yOff, z + zOff), TileEntity.create(world, teNBT));
+			world.setTileEntity(pos, TileEntity.create(world, teNBT));
 		else
 			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT));
+		return pos;
 	}
 }

@@ -1,32 +1,44 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
+
 public class MessagePart
 {
-	public static String[] elements = new String[]{"message:S", "delay:I", "serverWide:B", "range:I"};
-	
-	private String message;
-	
-	private int delay = 0;
-	
-	private boolean serverWide = false;
-	private int range = 32;
-	
+	private StringVar message;
+
+	private IntVar delay = new IntVar(0);
+
+	private BoolVar serverWide = new BoolVar(false);
+	private IntVar range = new IntVar(32);
+
 	public MessagePart(String message)
+	{
+		this(new StringVar(message));
+	}
+
+	public MessagePart(StringVar message)
 	{
 		this.message = message;
 	}
 
 	public String getMessage()
 	{
-		return message;
+		return message.getValue();
 	}
 
 	public int getDelay()
 	{
-		return delay;
+		return delay.getValue();
 	}
 
 	public MessagePart setDelay(int delay)
+	{
+		return this.setDelay(new IntVar(delay));
+	}
+
+	public MessagePart setDelay(IntVar delay)
 	{
 		this.delay = delay;
 		return this;
@@ -34,10 +46,15 @@ public class MessagePart
 
 	public boolean isServerWide()
 	{
-		return serverWide;
+		return serverWide.getValue();
 	}
 
 	public MessagePart setServerWide(boolean serverWide)
+	{
+		return this.setServerWide(new BoolVar(serverWide));
+	}
+
+	public MessagePart setServerWide(BoolVar serverWide)
 	{
 		this.serverWide = serverWide;
 		return this;
@@ -45,10 +62,15 @@ public class MessagePart
 
 	public int getRange()
 	{
-		return range;
+		return range.getValue();
 	}
 
 	public MessagePart setRange(int range)
+	{
+		return this.setRange(new IntVar(range));
+	}
+
+	public MessagePart setRange(IntVar range)
 	{
 		this.range = range;
 		return this;

@@ -3,22 +3,26 @@ package chanceCubes.rewards.rewardparts;
 import java.util.Random;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.item.ItemStack;
 
 public class ChestChanceItem
 {
-	public static String[] elements = new String[] { "item:I", "chance:I", "meta:I", "amountMin:I", "amountMax:I" };
-
 	private static Random rand = new Random();
 	private String mod;
 	private String item;
-	private int meta;
-	private int amountMin;
-	private int amountMax;
-	private int chance;
+	private IntVar meta;
+	private IntVar amountMin;
+	private IntVar amountMax;
+	private IntVar chance;
 
 	public ChestChanceItem(String item, int meta, int chance, int amountMin, int amountMax)
+	{
+		this(item, new IntVar(meta), new IntVar(chance), new IntVar(amountMin), new IntVar(amountMax));
+	}
+
+	public ChestChanceItem(String item, IntVar meta, IntVar chance, IntVar amountMin, IntVar amountMax)
 	{
 		this.mod = item.substring(0, item.indexOf(":"));
 		this.item = item.substring(item.indexOf(":") + 1);
@@ -43,11 +47,11 @@ public class ChestChanceItem
 
 	public ItemStack getRandomItemStack()
 	{
-		return this.getItemStack(rand.nextInt(amountMax - amountMin) + amountMin, meta);
+		return this.getItemStack(rand.nextInt(amountMax.getValue() - amountMin.getValue()) + amountMin.getValue(), meta.getValue());
 	}
 
 	public int getChance()
 	{
-		return this.chance;
+		return this.chance.getValue();
 	}
 }

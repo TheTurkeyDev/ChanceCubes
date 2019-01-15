@@ -1,31 +1,48 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.IntVar;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class PotionPart
 {
-	public static String[] elements = new String[]{"potionid:I", "duration:I", "delay:I"};
-	
-	private PotionEffect effect;
+	private IntVar id = new IntVar(0);
+	private IntVar duration = new IntVar(0);
 
-	private int delay = 0;
+	private IntVar delay = new IntVar(0);
 
-	public PotionPart(PotionEffect effect)
+	public PotionPart(Potion pot, int duration)
 	{
-		this.effect = effect;
+		this(new IntVar(Potion.getIdFromPotion(pot)), new IntVar(duration));
+	}
+	
+	public PotionPart(int id, int duration)
+	{
+		this(new IntVar(id), new IntVar(duration));
+	}
+
+	public PotionPart(IntVar id, IntVar duration)
+	{
+		this.id = id;
+		this.duration = duration;
 	}
 
 	public PotionEffect getEffect()
 	{
-		return effect;
+		return new PotionEffect(Potion.getPotionById(id.getValue()), duration.getValue() * 20);
 	}
 
 	public int getDelay()
 	{
-		return delay;
+		return delay.getValue();
 	}
 
 	public void setDelay(int delay)
+	{
+		this.setDelay(new IntVar(delay));
+	}
+
+	public void setDelay(IntVar delay)
 	{
 		this.delay = delay;
 	}

@@ -9,6 +9,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,7 +27,8 @@ public class SchematicRewardType implements IRewardType
 	{
 		List<OffsetBlock> stack = new ArrayList<OffsetBlock>();
 		for(OffsetBlock osb : schematic.getBlocks())
-			stack.add(osb);
+			if(schematic.includeAirBlocks() || !osb.getBlockState().getBlock().equals(Blocks.AIR))
+				stack.add(osb);
 
 		Scheduler.scheduleTask(new Task("Schematic_Spawn_Delay", schematic.getDelay())
 		{
@@ -50,7 +52,7 @@ public class SchematicRewardType implements IRewardType
 							OffsetBlock osb = stack.remove(0);
 							if(schematic.isRelativeToPlayer())
 							{
-								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff, (int) Math.floor(player.posY) + osb.yOff, (int) Math.floor(player.posZ) + osb.zOff);
+								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff.getValue(), (int) Math.floor(player.posY) + osb.yOff.getValue(), (int) Math.floor(player.posZ) + osb.zOff.getValue());
 								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
 								{
 									continue;
@@ -59,7 +61,7 @@ public class SchematicRewardType implements IRewardType
 							}
 							else
 							{
-								BlockPos pos = new BlockPos(x + osb.xOff, y + osb.yOff, z + osb.zOff);
+								BlockPos pos = new BlockPos(x + osb.xOff.getValue(), y + osb.yOff.getValue(), z + osb.zOff.getValue());
 								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
 								{
 									continue;

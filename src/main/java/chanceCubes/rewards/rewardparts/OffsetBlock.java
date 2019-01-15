@@ -2,6 +2,8 @@ package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.blocks.BlockFallingCustom;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -15,25 +17,33 @@ import net.minecraft.world.World;
 
 public class OffsetBlock
 {
-	public static String[] elements = new String[] { "XOffSet:I", "YOffSet:I", "ZOffSet:I", "Block:S", "Falling:B", "delay:I", "RelativeToPlayer:B", "removeUnbreakableBlocks:B" };
-
-	protected boolean relativeToPlayer = false;
-	public int xOff;
-	public int yOff;
-	public int zOff;
+	protected BoolVar relativeToPlayer = new BoolVar(false);
+	public IntVar xOff = new IntVar();
+	public IntVar yOff = new IntVar();
+	public IntVar zOff = new IntVar();
 
 	protected IBlockState state = null;
 
-	protected boolean falling;
-	protected int delay = 0;
+	protected BoolVar falling;
+	protected IntVar delay = new IntVar();
 
-	protected boolean causeUpdate = false;
+	protected BoolVar causeUpdate = new BoolVar(false);
 
-	private boolean removeUnbreakableBlocks = false;
+	private BoolVar removeUnbreakableBlocks = new BoolVar(false);
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
 		this(x, y, z, b.getDefaultState(), falling);
+	}
+	
+	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling)
+	{
+		this(x, y, z, b, falling, new IntVar(0));
+	}
+	
+	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling, IntVar delay)
+	{
+		this(new IntVar(x), new IntVar(y), new IntVar(z), b.getDefaultState(), falling, delay);
 	}
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
@@ -48,6 +58,16 @@ public class OffsetBlock
 
 	public OffsetBlock(int x, int y, int z, IBlockState state, boolean falling, int delay)
 	{
+		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new BoolVar(falling), new IntVar(delay));
+	}
+
+	public OffsetBlock(IntVar x, IntVar y, IntVar z, Block b, BoolVar falling)
+	{
+		this(x, y, z, b.getDefaultState(), falling, new IntVar(0));
+	}
+
+	public OffsetBlock(IntVar x, IntVar y, IntVar z, IBlockState state, BoolVar falling, IntVar delay)
+	{
 		this.xOff = x;
 		this.yOff = y;
 		this.zOff = z;
@@ -58,9 +78,9 @@ public class OffsetBlock
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
 	{
-		if(!falling)
+		if(!falling.getValue())
 		{
-			Scheduler.scheduleTask(new Task("Delayed_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getValue())
 			{
 				@Override
 				public void callback()
@@ -71,7 +91,7 @@ public class OffsetBlock
 		}
 		else
 		{
-			Scheduler.scheduleTask(new Task("Falling_Block_At_(" + xOff + "," + yOff + "," + zOff + ")", delay)
+			Scheduler.scheduleTask(new Task("Falling_Block", delay.getValue())
 			{
 				@Override
 				public void callback()
@@ -84,14 +104,22 @@ public class OffsetBlock
 
 	protected void spawnFallingBlock(World world, int x, int y, int z)
 	{
-		double yy = (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOff + CCubesSettings.dropHeight)) + 0.5);
-		for(int yyy = (int) yy; yyy >= y + yOff; yyy--)
-			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOff), yyy, (z + zOff)), removeUnbreakableBlocks);
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOff)) + 0.5, yy, ((double) (z + zOff)) + 0.5, this.state, y + yOff, this);
+		int xOffVal = xOff.getValue();
+		int yOffVal = yOff.getValue();
+		int zOffVal = zOff.getValue();
+		double yy = (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5);
+		for(int yyy = (int) yy; yyy >= y + yOffVal; yyy--)
+			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOffVal), yyy, (z + zOffVal)), removeUnbreakableBlocks.getValue());
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
 		world.spawnEntity(entityfallingblock);
 	}
 
 	public void setDelay(int delay)
+	{
+		this.setDelay(new IntVar(delay));
+	}
+
+	public void setDelay(IntVar delay)
 	{
 		this.delay = delay;
 	}
@@ -109,21 +137,36 @@ public class OffsetBlock
 
 	public OffsetBlock setRelativeToPlayer(boolean relative)
 	{
+		return this.setRelativeToPlayer(new BoolVar(relative));
+	}
+
+	public OffsetBlock setRelativeToPlayer(BoolVar relative)
+	{
 		this.relativeToPlayer = relative;
 		return this;
 	}
 
 	public boolean isRelativeToPlayer()
 	{
-		return this.relativeToPlayer;
+		return this.relativeToPlayer.getValue();
 	}
 
 	public int getDelay()
+	{
+		return this.delay.getValue();
+	}
+
+	public IntVar getDelayVar()
 	{
 		return this.delay;
 	}
 
 	public OffsetBlock setCausesBlockUpdate(boolean flag)
+	{
+		return this.setCausesBlockUpdate(new BoolVar(flag));
+	}
+
+	public OffsetBlock setCausesBlockUpdate(BoolVar flag)
 	{
 		this.causeUpdate = flag;
 		return this;
@@ -131,40 +174,56 @@ public class OffsetBlock
 
 	public boolean isFalling()
 	{
+		return this.falling.getValue();
+	}
+	public BoolVar isFallingVar()
+	{
 		return this.falling;
 	}
 
 	public void setFalling(boolean falling)
+	{
+		this.setFalling(new BoolVar(falling));
+	}
+
+	public void setFalling(BoolVar falling)
 	{
 		this.falling = falling;
 	}
 
 	public void setRemoveUnbreakableBlocks(boolean remove)
 	{
+		this.setRemoveUnbreakableBlocks(new BoolVar(remove));
+	}
+
+	public void setRemoveUnbreakableBlocks(BoolVar remove)
+	{
 		removeUnbreakableBlocks = remove;
 	}
 
 	public boolean doesRemoveUnbreakableBlocks()
 	{
-		return this.removeUnbreakableBlocks;
+		return this.removeUnbreakableBlocks.getValue();
 	}
 
-	public void placeInWorld(World world, int x, int y, int z, boolean offset)
+	public BlockPos placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
 		int xx = x;
 		int yy = y;
 		int zz = z;
 		if(offset)
 		{
-			xx += xOff;
-			yy += yOff;
-			zz += zOff;
+			xx += xOff.getValue();
+			yy += yOff.getValue();
+			zz += zOff.getValue();
 		}
-		RewardsUtil.placeBlock(state, world, new BlockPos(xx, yy, zz), causeUpdate ? 3 : 2, this.removeUnbreakableBlocks);
-		BlockPos surfacefPos = new BlockPos(xx, yy - 1, zz);
+		BlockPos placePos = new BlockPos(xx, yy, zz);
+		RewardsUtil.placeBlock(state, world, placePos, causeUpdate.getValue() ? 3 : 2, this.removeUnbreakableBlocks.getValue());
+		BlockPos surfacefPos = placePos.add(0, -1, 0);
 		Block bSurface = world.getBlockState(surfacefPos).getBlock();
 		SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
 		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
+		return placePos;
 	}
 
 	public void placeInWorld(World world, BlockPos position, boolean offset)

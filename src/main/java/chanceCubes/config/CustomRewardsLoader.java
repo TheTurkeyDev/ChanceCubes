@@ -20,7 +20,6 @@ import com.google.gson.JsonParser;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
-import chanceCubes.config.script.ScriptParser;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
@@ -46,6 +45,10 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.FloatVar;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.sounds.CustomSoundsLoader;
 import chanceCubes.util.CustomEntry;
@@ -60,8 +63,6 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.fml.common.Loader;
 
 public class CustomRewardsLoader
@@ -320,14 +321,15 @@ public class CustomRewardsLoader
 			JsonObject element = elementElem.getAsJsonObject();
 			this.fixOldJsonKeys(element);
 
-			int x = this.getInt(element, "xOffSet", 0);
-			int y = this.getInt(element, "yOffSet", 0);
-			int z = this.getInt(element, "zOffSet", 0);
-			String blockDataParts[] = this.getString(element, "block", "minecraft:dirt").split(":");
+			IntVar x = this.getInt(element, "xOffSet", 0);
+			IntVar y = this.getInt(element, "yOffSet", 0);
+			IntVar z = this.getInt(element, "zOffSet", 0);
+			//TODO: Change to Block instead of String
+			String[] blockDataParts = this.getString(element, "block", "minecraft:dirt").getValue().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
 			Block block = RewardsUtil.getBlock(mod, blockName);
-			boolean falling = this.getBoolean(element, "falling", false);
+			BoolVar falling = this.getBoolean(element, "falling", false);
 
 			OffsetBlock offBlock = new OffsetBlock(x, y, z, block, falling);
 
@@ -439,7 +441,7 @@ public class CustomRewardsLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart exppart = new PotionPart(new PotionEffect(Potion.getPotionById(this.getInt(element, "potionid", 0)), this.getInt(element, "duration", 1) * 20));
+			PotionPart exppart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1));
 
 			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
 
@@ -455,7 +457,8 @@ public class CustomRewardsLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			SoundPart sound = new SoundPart(CCubesSounds.registerSound(this.getString(element, "sound", "")));
+			//TODO: Handle sounds
+			SoundPart sound = new SoundPart(CCubesSounds.registerSound(this.getString(element, "sound", "").getValue()));
 
 			sound.setDelay(this.getInt(element, "delay", sound.getDelay()));
 			sound.setServerWide(this.getBoolean(element, "serverWide", sound.isServerWide()));
@@ -478,12 +481,13 @@ public class CustomRewardsLoader
 			JsonObject obj = element.getAsJsonObject();
 			if(obj.has("item") && obj.has("chance"))
 			{
-				int meta = this.getInt(obj, "meta", 0);
-				int amountMin = this.getInt(obj, "amountMin", 1);
-				int amountMax = this.getInt(obj, "amountMax", 8);
-				int chance = this.getInt(obj, "chance", 50);
+				IntVar meta = this.getInt(obj, "meta", 0);
+				IntVar amountMin = this.getInt(obj, "amountMin", 1);
+				IntVar amountMax = this.getInt(obj, "amountMax", 8);
+				IntVar chance = this.getInt(obj, "chance", 50);
 
-				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt"), meta, chance, amountMin, amountMax));
+				//TODO: Handle items
+				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amountMin, amountMax));
 			}
 			else
 			{
@@ -519,14 +523,15 @@ public class CustomRewardsLoader
 			String fileName = element.get("fileName").getAsString();
 			this.fixOldJsonKeys(element);
 
-			int xoff = this.getInt(element, "xOffSet", 0);
-			int yoff = this.getInt(element, "yOffSet", 0);
-			int zoff = this.getInt(element, "zOffSet", 0);
-			int delay = this.getInt(element, "delay", 0);
-			boolean falling = this.getBoolean(element, "falling", true);
-			boolean relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
-			boolean includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
-			float spacingDelay = this.getFloat(element, "spacingDelay", 0);
+			//TODO: Make this support IntVar?
+			int xoff = this.getInt(element, "xOffSet", 0).getValue();
+			int yoff = this.getInt(element, "yOffSet", 0).getValue();
+			int zoff = this.getInt(element, "zOffSet", 0).getValue();
+			IntVar delay = this.getInt(element, "delay", 0);
+			BoolVar falling = this.getBoolean(element, "falling", true);
+			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
+			BoolVar includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
+			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0);
 
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
@@ -564,63 +569,113 @@ public class CustomRewardsLoader
 		return sb.toString();
 	}
 
-	public int getInt(JsonObject json, String key, int defaultVal)
+	public IntVar getInt(JsonObject json, String key, int defaultVal)
 	{
 		if(json.has(key))
 		{
 			String input = json.get(key).getAsString().replaceAll(" ", "");
-			
-//			if(input.matches(".+%.+%.+"))
-//			{
-//				int firstIndex = input.indexOf("%");
-//				int lastIndex = input.lastIndexOf("%");
-//				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
-//				input = input.substring(0, firstIndex) + input.substring(Math.min(lastIndex + 1, input.length()));
-//			
-//				if(part.startsWith("rnd"))
-//				{
-//					String result = ScriptParser.parseRandom(part, String.valueOf(defaultVal));
-//					if(ScriptParser.isInteger(input))
-//						return Integer.parseInt(result);
-//					else
-//						CCubesCore.logger.log(Level.ERROR, "A nonInteger Value");
-//				}
-//				
-//			}
-			
-			if(ScriptParser.isInteger(input))
+
+			if(input.matches(".*%.+%.*"))
 			{
-				return Integer.parseInt(input);
+				int firstIndex = input.indexOf("%");
+				int lastIndex = input.lastIndexOf("%");
+				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+
+				if(part.startsWith("rnd"))
+				{
+					return IntVar.parseRandom(part, defaultVal);
+				}
+
+			}
+
+			if(IntVar.isInteger(input))
+			{
+				return new IntVar(Integer.parseInt(input));
 			}
 			else
 			{
 				CCubesCore.logger.log(Level.ERROR, "A number was expected, but " + input + " was recieved!");
 				CCubesCore.logger.log(Level.ERROR, "If " + input + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-				return defaultVal;
+				return new IntVar(defaultVal);
 			}
 		}
-		return defaultVal;
+		return new IntVar(defaultVal);
 	}
 
-	public float getFloat(JsonObject json, String key, float defaultVal)
+	public FloatVar getFloat(JsonObject json, String key, float defaultVal)
 	{
 		if(json.has(key))
-			return json.get(key).getAsFloat();
-		return defaultVal;
+		{
+			String input = json.get(key).getAsString().replaceAll(" ", "");
+
+			if(input.matches(".*%.+%.*"))
+			{
+				int firstIndex = input.indexOf("%");
+				int lastIndex = input.lastIndexOf("%");
+				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+
+				if(part.startsWith("rnd"))
+				{
+					return FloatVar.parseRandom(part, defaultVal);
+				}
+
+			}
+
+			if(IntVar.isInteger(input))
+			{
+				return new FloatVar(Integer.parseInt(input));
+			}
+			else
+			{
+				CCubesCore.logger.log(Level.ERROR, "A number was expected, but " + input + " was recieved!");
+				CCubesCore.logger.log(Level.ERROR, "If " + input + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
+				return new FloatVar(defaultVal);
+			}
+		}
+		return new FloatVar(defaultVal);
 	}
 
-	public boolean getBoolean(JsonObject json, String key, boolean defaultVal)
+	public BoolVar getBoolean(JsonObject json, String key, boolean defaultVal)
 	{
 		if(json.has(key))
-			return json.get(key).getAsBoolean();
-		return defaultVal;
+		{
+			String input = json.get(key).getAsString();
+			if(input.matches(".*%.+%.*"))
+			{
+				int firstIndex = input.indexOf("%");
+				int lastIndex = input.lastIndexOf("%");
+				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+
+				if(part.startsWith("rnd"))
+				{
+					return BoolVar.parseRandom(part, defaultVal);
+				}
+			}
+			return new BoolVar(json.get(key).getAsBoolean());
+		}
+		return new BoolVar(defaultVal);
 	}
 
-	public String getString(JsonObject json, String key, String defaultVal)
+	public StringVar getString(JsonObject json, String key, String defaultVal)
 	{
 		if(json.has(key))
-			return json.get(key).getAsString();
-		return defaultVal;
+		{
+			String input = json.get(key).getAsString();
+			if(input.matches(".*%.+%.*"))
+			{
+				int firstIndex = input.indexOf("%");
+				int lastIndex = input.lastIndexOf("%");
+				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+
+				if(part.startsWith("rnd"))
+				{
+					return StringVar.parseRandom(part, defaultVal);
+				}
+
+			}
+			return new StringVar(json.get(key).getAsString());
+		}
+		return new StringVar(defaultVal);
 	}
 
 	public NBTTagCompound getNBT(JsonObject json, String key)
