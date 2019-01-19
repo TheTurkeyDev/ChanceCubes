@@ -19,9 +19,9 @@ public class RandomPart<T> implements IPart
 		if(upper instanceof Boolean)
 			return String.valueOf(RewardsUtil.rand.nextBoolean());
 		else if(upper instanceof Integer)
-			return String.valueOf(RewardsUtil.rand.nextInt((int) upper - (int) lower) + (int) lower);
+			return String.valueOf(RewardsUtil.rand.nextInt((Integer) upper - (Integer) lower) + (Integer) lower);
 		else if(upper instanceof Float)
-			return String.valueOf((float) lower + ((float) upper - (float) lower) * RewardsUtil.rand.nextFloat());
+			return String.valueOf((Float) lower + ((Float) upper - (Float) lower) * RewardsUtil.rand.nextFloat());
 		else
 			return String.valueOf(RewardsUtil.rand.nextInt());
 	}
