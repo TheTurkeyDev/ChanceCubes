@@ -30,7 +30,7 @@ public class MessagePart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public MessagePart setDelay(int delay)
@@ -46,7 +46,7 @@ public class MessagePart
 
 	public boolean isServerWide()
 	{
-		return serverWide.getValue();
+		return serverWide.getBoolValue();
 	}
 
 	public MessagePart setServerWide(boolean serverWide)
@@ -62,7 +62,7 @@ public class MessagePart
 
 	public int getRange()
 	{
-		return range.getValue();
+		return range.getIntValue();
 	}
 
 	public MessagePart setRange(int range)

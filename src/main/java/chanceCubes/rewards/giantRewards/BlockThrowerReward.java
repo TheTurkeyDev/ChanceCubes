@@ -11,6 +11,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
@@ -65,7 +66,7 @@ public class BlockThrowerReward implements IChanceCubeReward
 					BlockPos newPos = pos.add(x, y, z);
 					IBlockState state = world.getBlockState(newPos);
 
-					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR))
+					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof BlockLiquid)
 						state = Blocks.DIRT.getDefaultState();
 					else
 						world.setBlockToAir(newPos);

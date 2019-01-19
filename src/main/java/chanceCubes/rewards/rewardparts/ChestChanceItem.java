@@ -47,11 +47,11 @@ public class ChestChanceItem
 
 	public ItemStack getRandomItemStack()
 	{
-		return this.getItemStack(rand.nextInt(amountMax.getValue() - amountMin.getValue()) + amountMin.getValue(), meta.getValue());
+		return this.getItemStack(rand.nextInt(amountMax.getIntValue() - amountMin.getIntValue()) + amountMin.getIntValue(), meta.getIntValue());
 	}
 
 	public int getChance()
 	{
-		return this.chance.getValue();
+		return this.chance.getIntValue();
 	}
 }

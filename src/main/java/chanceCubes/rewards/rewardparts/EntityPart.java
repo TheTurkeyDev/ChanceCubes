@@ -36,7 +36,7 @@ public class EntityPart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public EntityPart setDelay(int delay)

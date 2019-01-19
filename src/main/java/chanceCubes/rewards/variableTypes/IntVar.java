@@ -1,73 +1,56 @@
 package chanceCubes.rewards.variableTypes;
 
-import java.util.Arrays;
+import org.apache.logging.log4j.Level;
 
-import chanceCubes.util.RewardsUtil;
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.variableParts.ListPart;
+import chanceCubes.rewards.variableParts.RandomPart;
+import chanceCubes.rewards.variableParts.StringPart;
 
-public class IntVar extends CustomVar<Integer>
+public class IntVar extends CustomVar
 {
-	private int lower = 0;
-	private int upper = 1;
-
 	public IntVar()
 	{
-		this(0);
-	}
-
-	public IntVar(int lower, int upper)
-	{
-		super(VarType.Random);
-		this.lower = lower;
-		this.upper = upper;
+		
 	}
 
 	public IntVar(int val)
 	{
-		super(VarType.Single);
-		this.upper = val;
+		super.addPart(new StringPart(val));
 	}
 
 	public IntVar(Integer[] val)
 	{
-		super(VarType.List, val);
+		this.addPart(new ListPart<Integer>(val));
 	}
 
-	@Override
-	public Integer getValue()
+	public int getIntValue()
 	{
-		if(this.isRandom == VarType.Random)
-			return RewardsUtil.rand.nextInt(upper - lower) + lower;
-		else if(this.isRandom == VarType.List)
-			return this.getRandomListVal(0);
-		return upper;
+		String val = super.getValue();
+		if(isInteger(val))
+			return Integer.parseInt(val);
+		else
+			CCubesCore.logger.log(Level.ERROR, "An Error occurred while processing a Reward value! " + val + " is not an integer!");
+		return 0;
 	}
 
-	public static IntVar parseRandom(String input, int defaultVal)
+	public static RandomPart<Integer> parseRandom(String input)
 	{
 		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");
 			if(randParams.length == 1 && isInteger(randParams[0]))
-			{
-				return new IntVar(0, Integer.parseInt(randParams[0]));
-			}
+				return new RandomPart<Integer>(0, Integer.parseInt(randParams[0]));
 			else if(randParams.length == 2 && isInteger(randParams[0]) && isInteger(randParams[1]))
-			{
-				return new IntVar(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
-			}
+				return new RandomPart<Integer>(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
 			//TODO: Maybe add step random?
 		}
-		else if(input.charAt(3) == '[' && input.indexOf(']', 3) != -1)
-		{
-			return new IntVar(Arrays.stream(input.substring(4, input.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new));
-		}
-		return new IntVar(defaultVal);
+		return new RandomPart<Integer>(0,1);
 	}
 
 	public static boolean isInteger(String input)
 	{
 		//TODO: Check that it is within the range of an integer?
-		return input.matches("[0-9]*");
+		return input.matches("[-+]?[0-9]*");
 	}
-
 }

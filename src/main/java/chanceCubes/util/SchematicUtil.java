@@ -227,7 +227,7 @@ public class SchematicUtil
 				{
 					Block b = null;
 					for(OffsetBlock osb : offsetBlocks)
-						if(osb.xOff.getValue() == tileentity.getPos().getX() && osb.yOff.getValue() == tileentity.getPos().getY() && osb.zOff.getValue() == tileentity.getPos().getZ())
+						if(osb.xOff.getIntValue() == tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == tileentity.getPos().getZ())
 							b = osb.getBlockState().getBlock();
 					if(b == null)
 						b = Blocks.STONE;

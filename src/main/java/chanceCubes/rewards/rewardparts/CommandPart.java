@@ -39,7 +39,7 @@ public class CommandPart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public void setDelay(int delay)

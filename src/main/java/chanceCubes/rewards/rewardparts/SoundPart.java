@@ -1,6 +1,7 @@
 package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import net.minecraft.util.SoundEvent;
 
@@ -13,8 +14,8 @@ public class SoundPart
 	private BoolVar serverWide = new BoolVar(false);
 	private IntVar range = new IntVar(16);
 
-	private IntVar volume = new IntVar(1);
-	private IntVar pitch = new IntVar(1);
+	private FloatVar volume = new FloatVar(1);
+	private FloatVar pitch = new FloatVar(1);
 
 	private BoolVar atPlayersLocation = new BoolVar(false);
 
@@ -30,7 +31,7 @@ public class SoundPart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public SoundPart setDelay(int delay)
@@ -46,7 +47,7 @@ public class SoundPart
 
 	public boolean isServerWide()
 	{
-		return serverWide.getValue();
+		return serverWide.getBoolValue();
 	}
 
 	public SoundPart setServerWide(boolean serverWide)
@@ -62,7 +63,7 @@ public class SoundPart
 
 	public int getRange()
 	{
-		return range.getValue();
+		return range.getIntValue();
 	}
 
 	public SoundPart setRange(int range)
@@ -76,39 +77,39 @@ public class SoundPart
 		return this;
 	}
 
-	public int getVolume()
+	public float getVolume()
 	{
-		return volume.getValue();
+		return volume.getFloatValue();
 	}
 
-	public void setVolume(int volume)
+	public void setVolume(float volume)
 	{
-		this.setVolume(new IntVar(volume));
+		this.setVolume(new FloatVar(volume));
 	}
 
-	public void setVolume(IntVar volume)
+	public void setVolume(FloatVar volume)
 	{
 		this.volume = volume;
 	}
 
-	public int getPitch()
+	public float getPitch()
 	{
-		return pitch.getValue();
+		return pitch.getFloatValue();
 	}
 
-	public void setPitch(int pitch)
+	public void setPitch(float pitch)
 	{
-		this.setPitch(new IntVar(pitch));
+		this.setPitch(new FloatVar(pitch));
 	}
 
-	public void setPitch(IntVar pitch)
+	public void setPitch(FloatVar pitch)
 	{
 		this.pitch = pitch;
 	}
 
 	public boolean playAtPlayersLocation()
 	{
-		return atPlayersLocation.getValue();
+		return atPlayersLocation.getBoolValue();
 	}
 
 	public SoundPart setAtPlayersLocation(boolean atPlayersLocation)

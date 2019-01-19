@@ -1,67 +1,51 @@
 package chanceCubes.rewards.variableTypes;
 
-import java.util.Arrays;
+import org.apache.logging.log4j.Level;
 
-import chanceCubes.util.RewardsUtil;
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.variableParts.ListPart;
+import chanceCubes.rewards.variableParts.RandomPart;
+import chanceCubes.rewards.variableParts.StringPart;
 
-public class FloatVar extends CustomVar<Float>
+public class FloatVar extends CustomVar
 {
-	private float lower = 0;
-	private float upper = 1;
-
 	public FloatVar()
 	{
-		this(0);
-	}
-
-	public FloatVar(float lower, float upper)
-	{
-		super(VarType.Random);
-		this.lower = lower;
-		this.upper = upper;
+		
 	}
 
 	public FloatVar(float val)
 	{
-		super(VarType.Single);
-		this.upper = val;
+		super.addPart(new StringPart(val));
 	}
 
 	public FloatVar(Float[] val)
 	{
-		super(VarType.List, val);
+		this.addPart(new ListPart<Float>(val));
 	}
 
-	@Override
-	public Float getValue()
+	public float getFloatValue()
 	{
-		if(this.isRandom == VarType.Random)
-			return lower + RewardsUtil.rand.nextFloat() * (upper - lower);
-		else if(this.isRandom == VarType.List)
-			return this.getRandomListVal(0f);
-		return upper;
+		String val = super.getValue();
+		if(isFloat(val))
+			return Float.parseFloat(val);
+		else
+			CCubesCore.logger.log(Level.ERROR, "An Error occurred while processing a Reward value! " + val + " is not a float!");
+		return 0;
 	}
 
-	public static FloatVar parseRandom(String input, float defaultVal)
+	public static RandomPart<Float> parseRandom(String input)
 	{
 		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");
 			if(randParams.length == 1 && isFloat(randParams[0]))
-			{
-				return new FloatVar(0, Integer.parseInt(randParams[0]));
-			}
+				return new RandomPart<Float>(0f, Float.parseFloat(randParams[0]));
 			else if(randParams.length == 2 && isFloat(randParams[0]) && isFloat(randParams[1]))
-			{
-				return new FloatVar(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
-			}
+				return new RandomPart<Float>(Float.parseFloat(randParams[0]), Float.parseFloat(randParams[1]));
 			//TODO: Maybe add step random?
 		}
-		else if(input.charAt(3) == '[' && input.indexOf(']', 3) != -1)
-		{
-			return new FloatVar(Arrays.stream(input.substring(4, input.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new));
-		}
-		return new FloatVar(defaultVal);
+		return new RandomPart<Float>(0f, 1f);
 	}
 
 	public static boolean isFloat(String input)

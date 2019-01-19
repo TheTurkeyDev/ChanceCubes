@@ -32,12 +32,12 @@ public class ParticlePart
 
 	public boolean useID()
 	{
-		return this.particleID.getValue() != -1;
+		return this.particleID.getIntValue() != -1;
 	}
 
 	public int getParticleID()
 	{
-		return particleID.getValue();
+		return particleID.getIntValue();
 	}
 
 	public String getParticleName()
@@ -47,7 +47,7 @@ public class ParticlePart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public void setDelay(int delay)

@@ -1,40 +1,33 @@
 package chanceCubes.rewards.variableTypes;
 
-import chanceCubes.util.RewardsUtil;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class CustomVar<T>
+import chanceCubes.rewards.variableParts.IPart;
+
+public abstract class CustomVar
 {
-	protected VarType isRandom;
+	protected List<IPart> parts = new ArrayList<>();
 
-	protected T[] list;
-
-	public CustomVar(VarType random)
-	{
-		this.isRandom = random;
+	public String getValue() {
+		StringBuilder builder = new StringBuilder();
+		for(IPart part: parts) {
+			String val = part.getValue();
+			System.out.print(val);
+			builder.append(val);
+		}
+		System.out.println();
+		return builder.toString();
 	}
 
-	public CustomVar(VarType random, T[] list)
+	public void addPart(IPart part)
 	{
-		this(random);
-		this.list = list;
+		this.parts.add(part);
+	}
+	
+	public boolean isEmpty()
+	{
+		return this.parts.isEmpty();
 	}
 
-	public abstract T getValue();
-
-	protected T getRandomListVal(T defaultVal)
-	{
-		if(list == null || list.length == 0)
-			return defaultVal;
-		return list[RewardsUtil.rand.nextInt(list.length)];
-	}
-
-	public VarType isRandom()
-	{
-		return isRandom;
-	}
-
-	public enum VarType
-	{
-		Random, List, Single;
-	}
 }

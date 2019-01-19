@@ -1,56 +1,39 @@
 package chanceCubes.rewards.variableTypes;
 
-import java.util.Arrays;
+import chanceCubes.rewards.variableParts.IPart;
+import chanceCubes.rewards.variableParts.ListPart;
+import chanceCubes.rewards.variableParts.RandomPart;
+import chanceCubes.rewards.variableParts.StringPart;
 
-import chanceCubes.util.RewardsUtil;
-
-public class BoolVar extends CustomVar<Boolean>
+public class BoolVar extends CustomVar
 {
-	private Boolean val;
-
 	public BoolVar()
 	{
-		super(VarType.Random);
+		
 	}
-
-	public BoolVar(Boolean val)
+	
+	public BoolVar(boolean val)
 	{
-		super(VarType.Single);
-		this.val = val;
+		this.addPart(new StringPart(val));
 	}
 
 	public BoolVar(Boolean[] val)
 	{
-		super(VarType.List, val);
+		this.addPart(new ListPart<Boolean>(val));
 	}
-
-	@Override
-	public Boolean getValue()
+	
+	public BoolVar(IPart part)
 	{
-		if(this.isRandom == VarType.Random)
-			return RewardsUtil.rand.nextBoolean();
-		else if(this.isRandom == VarType.List)
-			return this.getRandomListVal(true);
-		return val;
+		this.addPart(part);
 	}
 
-	public static BoolVar parseRandom(String input, Boolean defaultVal)
+	public Boolean getBoolValue()
 	{
-		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
-		{
-			return new BoolVar();
-		}
-		else if(input.charAt(3) == '[' && input.indexOf(']', 3) != -1)
-		{
-			return new BoolVar(Arrays.stream(input.substring(4, input.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new));
-		}
-		return new BoolVar(defaultVal);
+		return Boolean.parseBoolean(super.getValue());
 	}
-
-	public static boolean isInteger(String input)
+	
+	public static RandomPart<Boolean> parseRandom(String input)
 	{
-		//TODO: Check that it is within the range of an integer?
-		return input.matches("[0-9]*");
+		return new RandomPart<Boolean>(false, true);
 	}
-
 }

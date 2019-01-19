@@ -43,9 +43,9 @@ public class OffsetTileEntity extends OffsetBlock
 
 	public void spawnInWorld(final World world, final int x, final int y, final int z)
 	{
-		if(!falling.getValue())
+		if(!falling.getBoolValue())
 		{
-			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getValue())
+			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getIntValue())
 			{
 				@Override
 				public void callback()
@@ -56,7 +56,7 @@ public class OffsetTileEntity extends OffsetBlock
 		}
 		else
 		{
-			Scheduler.scheduleTask(new Task("Falling_TileEntity", delay.getValue())
+			Scheduler.scheduleTask(new Task("Falling_TileEntity", delay.getIntValue())
 			{
 				@Override
 				public void callback()

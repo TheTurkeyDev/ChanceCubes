@@ -32,7 +32,7 @@ public class ItemPart
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public ItemPart setDelay(int delay)

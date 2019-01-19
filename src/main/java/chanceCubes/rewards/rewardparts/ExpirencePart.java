@@ -32,12 +32,12 @@ public class ExpirencePart
 
 	public int getAmount()
 	{
-		return amount.getValue();
+		return amount.getIntValue();
 	}
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public void setDelay(int delay)
@@ -52,7 +52,7 @@ public class ExpirencePart
 
 	public int getNumberofOrbs()
 	{
-		return orbs.getValue();
+		return orbs.getIntValue();
 	}
 
 	public ExpirencePart setNumberofOrbs(int orbs)

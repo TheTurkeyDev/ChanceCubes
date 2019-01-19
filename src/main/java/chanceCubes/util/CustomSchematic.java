@@ -58,21 +58,21 @@ public class CustomSchematic
 
 	public boolean isRelativeToPlayer()
 	{
-		return relativeToPlayer.getValue();
+		return relativeToPlayer.getBoolValue();
 	}
 
 	public boolean includeAirBlocks()
 	{
-		return this.includeAirBlocks.getValue();
+		return this.includeAirBlocks.getBoolValue();
 	}
 
 	public float getSpacingDelay()
 	{
-		return this.spacingDelay.getValue();
+		return this.spacingDelay.getFloatValue();
 	}
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 }

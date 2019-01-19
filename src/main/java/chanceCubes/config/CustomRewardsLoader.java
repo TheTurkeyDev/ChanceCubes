@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -45,6 +46,8 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.rewards.variableParts.ListPart;
+import chanceCubes.rewards.variableParts.StringPart;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -73,6 +76,9 @@ public class CustomRewardsLoader
 	private static JsonParser json;
 
 	private boolean reSaveCurrentJson = false;
+
+	private String currentParsingReward = "";
+	private String currentParsingPart = "";
 
 	public CustomRewardsLoader(File folder)
 	{
@@ -114,6 +120,7 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
+					currentParsingReward = reward.getKey();
 					CustomEntry<BasicReward, Boolean> parsedReward = this.parseReward(reward);
 					BasicReward basicReward = parsedReward.getKey();
 					if(basicReward == null)
@@ -263,6 +270,7 @@ public class CustomRewardsLoader
 			try
 			{
 				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
+				currentParsingPart = rewardElement.getKey();
 				if(rewardElement.getKey().equalsIgnoreCase("Item"))
 					this.loadItemReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Block"))
@@ -287,7 +295,7 @@ public class CustomRewardsLoader
 					this.loadParticleReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. I will try better next time.");
+				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. The " + this.currentParsingPart + " part of the \"" + this.currentParsingReward + "\" reward may be the issue! I will try better next time.");
 				ex.printStackTrace();
 			}
 		}
@@ -404,7 +412,7 @@ public class CustomRewardsLoader
 				}
 			} catch(Exception e1)
 			{
-				CCubesCore.logger.log(Level.ERROR, "The Entiy loading failed for a custom reward!");
+				CCubesCore.logger.log(Level.ERROR, "The Entiy loading failed for custom reward \"" + this.currentParsingReward + "\"");
 				CCubesCore.logger.log(Level.ERROR, "-------------------------------------------");
 				e1.printStackTrace();
 				continue;
@@ -464,8 +472,8 @@ public class CustomRewardsLoader
 			sound.setServerWide(this.getBoolean(element, "serverWide", sound.isServerWide()));
 			sound.setRange(this.getInt(element, "range", sound.getRange()));
 			sound.setAtPlayersLocation(this.getBoolean(element, "playAtPlayersLocation", sound.playAtPlayersLocation()));
-			sound.setVolume(this.getInt(element, "volume", sound.getVolume()));
-			sound.setPitch(this.getInt(element, "pitch", sound.getPitch()));
+			sound.setVolume(this.getFloat(element, "volume", sound.getVolume()));
+			sound.setPitch(this.getFloat(element, "pitch", sound.getPitch()));
 
 			sounds.add(sound);
 		}
@@ -491,7 +499,7 @@ public class CustomRewardsLoader
 			}
 			else
 			{
-				CCubesCore.logger.log(Level.ERROR, "A chest reward failed to load do to missing params");
+				CCubesCore.logger.log(Level.ERROR, "A chest reward part for the reward \"" + this.currentParsingReward + "\" failed to load do to missing params");
 			}
 
 		}
@@ -505,7 +513,7 @@ public class CustomRewardsLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			ParticlePart particle = new ParticlePart(this.getInt(element, "particle", 0));
+			ParticlePart particle = new ParticlePart(this.getString(element, "particle", "explode"));
 
 			particle.setDelay(this.getInt(element, "delay", particle.getDelay()));
 
@@ -524,9 +532,9 @@ public class CustomRewardsLoader
 			this.fixOldJsonKeys(element);
 
 			//TODO: Make this support IntVar?
-			int xoff = this.getInt(element, "xOffSet", 0).getValue();
-			int yoff = this.getInt(element, "yOffSet", 0).getValue();
-			int zoff = this.getInt(element, "zOffSet", 0).getValue();
+			int xoff = this.getInt(element, "xOffSet", 0).getIntValue();
+			int yoff = this.getInt(element, "yOffSet", 0).getIntValue();
+			int zoff = this.getInt(element, "zOffSet", 0).getIntValue();
 			IntVar delay = this.getInt(element, "delay", 0);
 			BoolVar falling = this.getBoolean(element, "falling", true);
 			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
@@ -571,111 +579,161 @@ public class CustomRewardsLoader
 
 	public IntVar getInt(JsonObject json, String key, int defaultVal)
 	{
+		IntVar var = new IntVar();
 		if(json.has(key))
 		{
-			String input = json.get(key).getAsString().replaceAll(" ", "");
+			String input = json.get(key).getAsString();
 
-			if(input.matches(".*%.+%.*"))
+			String[] parts = input.split("%%");
+			int index = -1;
+			for(String part : parts)
 			{
-				int firstIndex = input.indexOf("%");
-				int lastIndex = input.lastIndexOf("%");
-				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+				index++;
+				if(part.isEmpty())
+					continue;
 
-				if(part.startsWith("rnd"))
+				if(index % 2 == 0)
 				{
-					return IntVar.parseRandom(part, defaultVal);
+					if(IntVar.isInteger(part))
+					{
+						var.addPart(new StringPart(part));
+					}
+					else
+					{
+						CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
+						CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
+					}
 				}
-
-			}
-
-			if(IntVar.isInteger(input))
-			{
-				return new IntVar(Integer.parseInt(input));
-			}
-			else
-			{
-				CCubesCore.logger.log(Level.ERROR, "A number was expected, but " + input + " was recieved!");
-				CCubesCore.logger.log(Level.ERROR, "If " + input + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-				return new IntVar(defaultVal);
+				else
+				{
+					part = part.replaceAll(" ", "");
+					if(part.startsWith("RND"))
+						var.addPart(IntVar.parseRandom(part));
+					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+						var.addPart(new ListPart<Integer>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
+				}
 			}
 		}
-		return new IntVar(defaultVal);
+
+		if(var.isEmpty())
+			var.addPart(new StringPart(defaultVal));
+
+		return var;
 	}
 
 	public FloatVar getFloat(JsonObject json, String key, float defaultVal)
 	{
+		FloatVar var = new FloatVar();
 		if(json.has(key))
 		{
-			String input = json.get(key).getAsString().replaceAll(" ", "");
+			String input = json.get(key).getAsString();
 
-			if(input.matches(".*%.+%.*"))
+			String[] parts = input.split("%%");
+			int index = -1;
+			for(String part : parts)
 			{
-				int firstIndex = input.indexOf("%");
-				int lastIndex = input.lastIndexOf("%");
-				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+				index++;
+				if(part.isEmpty())
+					continue;
 
-				if(part.startsWith("rnd"))
+				if(index % 2 == 0)
 				{
-					return FloatVar.parseRandom(part, defaultVal);
+					if(FloatVar.isFloat(part))
+					{
+						var.addPart(new StringPart(part));
+					}
+					else
+					{
+						CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
+						CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
+					}
+				}
+				else
+				{
+					part = part.replaceAll(" ", "");
+					if(part.startsWith("RND"))
+						var.addPart(FloatVar.parseRandom(part));
+					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+						var.addPart(new ListPart<Float>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
 				}
 
 			}
-
-			if(IntVar.isInteger(input))
-			{
-				return new FloatVar(Integer.parseInt(input));
-			}
-			else
-			{
-				CCubesCore.logger.log(Level.ERROR, "A number was expected, but " + input + " was recieved!");
-				CCubesCore.logger.log(Level.ERROR, "If " + input + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-				return new FloatVar(defaultVal);
-			}
 		}
-		return new FloatVar(defaultVal);
+		if(var.isEmpty())
+			var.addPart(new StringPart(defaultVal));
+
+		return var;
 	}
 
 	public BoolVar getBoolean(JsonObject json, String key, boolean defaultVal)
 	{
+		BoolVar var = new BoolVar();
 		if(json.has(key))
 		{
 			String input = json.get(key).getAsString();
-			if(input.matches(".*%.+%.*"))
-			{
-				int firstIndex = input.indexOf("%");
-				int lastIndex = input.lastIndexOf("%");
-				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
 
-				if(part.startsWith("rnd"))
+			String[] parts = input.split("%%");
+			int index = -1;
+			for(String part : parts)
+			{
+				index++;
+				if(part.isEmpty())
+					continue;
+
+				if(index % 2 == 0)
 				{
-					return BoolVar.parseRandom(part, defaultVal);
+					var.addPart(new StringPart(part));
 				}
+				else
+				{
+					part = part.replaceAll(" ", "");
+					if(part.startsWith("RND"))
+						var.addPart(BoolVar.parseRandom(part));
+					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+						var.addPart(new ListPart<Boolean>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
+				}
+
 			}
-			return new BoolVar(json.get(key).getAsBoolean());
 		}
-		return new BoolVar(defaultVal);
+		if(var.isEmpty())
+			var.addPart(new StringPart(defaultVal));
+
+		return var;
 	}
 
 	public StringVar getString(JsonObject json, String key, String defaultVal)
 	{
+		StringVar var = new StringVar();
 		if(json.has(key))
 		{
 			String input = json.get(key).getAsString();
-			if(input.matches(".*%.+%.*"))
+			String[] parts = input.split("%%");
+			int index = -1;
+			for(String part : parts)
 			{
-				int firstIndex = input.indexOf("%");
-				int lastIndex = input.lastIndexOf("%");
-				String part = input.substring(firstIndex + 1, lastIndex).toLowerCase();
+				index++;
+				if(part.isEmpty())
+					continue;
 
-				if(part.startsWith("rnd"))
+				if(index % 2 == 0)
 				{
-					return StringVar.parseRandom(part, defaultVal);
+					var.addPart(new StringPart(part));
+				}
+				else
+				{
+					part = part.replaceAll(" ", "");
+					if(part.startsWith("RND"))
+						var.addPart(IntVar.parseRandom(part));
+					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+						var.addPart(new ListPart<String>(part.substring(1, part.lastIndexOf(']')).split(",")));
 				}
 
 			}
-			return new StringVar(json.get(key).getAsString());
 		}
-		return new StringVar(defaultVal);
+		if(var.isEmpty())
+			var.addPart(new StringPart(defaultVal));
+
+		return var;
 	}
 
 	public NBTTagCompound getNBT(JsonObject json, String key)

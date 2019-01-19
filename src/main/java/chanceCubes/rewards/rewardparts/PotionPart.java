@@ -29,12 +29,12 @@ public class PotionPart
 
 	public PotionEffect getEffect()
 	{
-		return new PotionEffect(Potion.getPotionById(id.getValue()), duration.getValue() * 20);
+		return new PotionEffect(Potion.getPotionById(id.getIntValue()), duration.getIntValue() * 20);
 	}
 
 	public int getDelay()
 	{
-		return delay.getValue();
+		return delay.getIntValue();
 	}
 
 	public void setDelay(int delay)
