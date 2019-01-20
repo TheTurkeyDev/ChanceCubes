@@ -11,12 +11,8 @@ public abstract class CustomVar
 
 	public String getValue() {
 		StringBuilder builder = new StringBuilder();
-		for(IPart part: parts) {
-			String val = part.getValue();
-			System.out.print(val);
-			builder.append(val);
-		}
-		System.out.println();
+		for(IPart part: parts)
+			builder.append(part.getValue());
 		return builder.toString();
 	}
 

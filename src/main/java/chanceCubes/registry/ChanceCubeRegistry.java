@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -531,6 +532,16 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	public IChanceCubeReward getRewardByName(String name)
 	{
 		return nameToReward.get(name);
+	}
+	
+	public Set<String> getRewardNames()
+	{
+		return nameToReward.keySet();
+	}
+	
+	public Set<String> getDisabledRewardNames()
+	{
+		return disabledNameToReward.keySet();
 	}
 
 	@Override

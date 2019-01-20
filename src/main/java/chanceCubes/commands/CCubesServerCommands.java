@@ -1,6 +1,7 @@
 package chanceCubes.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -271,6 +272,16 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(args.length == 0)
 			return tab;
-		return Collections.<String> emptyList();
+		else
+		{
+			if(args[0].equalsIgnoreCase("disableReward"))
+				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getRewardNames());
+			else if(args[0].equalsIgnoreCase("enableReward"))
+				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getDisabledRewardNames());
+			else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
+				return Arrays.asList("create", "cancel");
+			else
+				return Collections.<String> emptyList();
+		}
 	}
 }
