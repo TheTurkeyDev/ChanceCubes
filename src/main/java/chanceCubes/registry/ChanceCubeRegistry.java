@@ -289,7 +289,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			nbt = new NBTTagCompound();
 			((TileEntity) sign).writeToNBT(nbt);
 			temp = new OffsetTileEntity(i == 2 ? -2 : i == 3 ? 2 : 0, 1, i == 0 ? -2 : i == 1 ? 2 : 0, Blocks.WALL_SIGN, nbt, false, 5);
-			temp.setBlockState(Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, EnumFacing.getFront(i + 2)));
+			temp.setBlockState(Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, EnumFacing.byHorizontalIndex(i + 2)));
 			signs[i] = temp;
 		}
 

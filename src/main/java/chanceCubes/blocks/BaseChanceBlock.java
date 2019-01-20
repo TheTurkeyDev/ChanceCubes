@@ -21,7 +21,7 @@ public class BaseChanceBlock extends Block
 		super(Material.GROUND);
 		this.blockName = name;
 		this.setHardness(0.5f);
-		this.setUnlocalizedName(blockName);
+		this.setTranslationKey(blockName);
 		this.setCreativeTab(CCubesCore.modTab);
 		this.setRegistryName(CCubesCore.MODID, this.blockName);
 	}
@@ -43,7 +43,7 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
+	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn)
 	{
 
 	}
