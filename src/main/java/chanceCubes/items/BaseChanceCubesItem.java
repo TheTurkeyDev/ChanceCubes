@@ -22,7 +22,7 @@ public class BaseChanceCubesItem extends Item
 	public BaseChanceCubesItem(String name)
 	{
 		itemName = name;
-		this.setUnlocalizedName(name);
+		this.setTranslationKey(name);
 		this.setRegistryName(CCubesCore.MODID, this.itemName);
 		this.setCreativeTab(CCubesCore.modTab);
 	}

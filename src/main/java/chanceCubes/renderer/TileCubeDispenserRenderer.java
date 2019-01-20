@@ -47,7 +47,7 @@ public class TileCubeDispenserRenderer extends TileEntitySpecialRenderer<TileCub
 		GlStateManager.rotate(te.rot, 0.0F, 1.0F, 0.0F);
 		entity.setLocationAndAngles(x + 0.5f, y + yy + 1f, z + 0.5f, 0.0F, 0.0F);
 		RenderHelper.disableStandardItemLighting();
-		Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
+		Minecraft.getMinecraft().getRenderManager().renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
 		RenderHelper.enableStandardItemLighting();
 		GlStateManager.popMatrix();
 	}
