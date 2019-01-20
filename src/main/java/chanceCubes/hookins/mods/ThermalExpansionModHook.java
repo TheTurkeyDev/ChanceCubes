@@ -7,6 +7,7 @@ import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.util.RewardsUtil;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -47,6 +48,20 @@ public class ThermalExpansionModHook extends BaseModHook
 					}
 				}
 			}));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "reservoir", 1, 4);
+		if(!stack.isEmpty())
+		{
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("Active", false);
+			NBTTagCompound nbtFluid = new NBTTagCompound();
+			nbtFluid.setString("FluidName", "water");
+			nbtFluid.setInteger("Amount", 750000);
+			nbt.setTag("Fluid", nbtFluid);
+			stack.setTagCompound(nbt);
+			stack.addEnchantment(Enchantment.getEnchantmentByLocation("cofhcore:holding"), 4);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Stay_Hydrated", 10, new MessageRewardType(new MessagePart("Remember to stay hydrated!")), new ItemRewardType(new ItemPart(stack))));
 		}
 	}
 }
