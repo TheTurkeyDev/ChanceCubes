@@ -52,7 +52,7 @@ public class CCubesCore
 	public static CommonProxy proxy;
 	public static CreativeTabs modTab = new CreativeTabs(MODID)
 	{
-		public ItemStack getTabIconItem()
+		public ItemStack createIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
@@ -150,7 +150,7 @@ public class CCubesCore
 				}
 				else
 				{
-					logger.error("Chance Cubes recieved an item stack via IMC from " + message.getSender() + " with an item that cannot be converted to a block. Item: " + stack.getItem().getUnlocalizedName());
+					logger.error("Chance Cubes recieved an item stack via IMC from " + message.getSender() + " with an item that cannot be converted to a block. Item: " + stack.getItem().getTranslationKey());
 				}
 			}
 		}

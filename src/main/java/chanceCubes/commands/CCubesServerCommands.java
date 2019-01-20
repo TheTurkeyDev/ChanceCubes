@@ -127,7 +127,7 @@ public class CCubesServerCommands extends CommandBase
 				if(!stack.isEmpty())
 				{
 					ResourceLocation res = stack.getItem().getRegistryName();
-					sender.sendMessage(new TextComponentString(res.getResourceDomain() + ":" + res.getResourcePath()));
+					sender.sendMessage(new TextComponentString(res.getNamespace() + ":" + res.getPath()));
 					sender.sendMessage(new TextComponentString("meta: " + stack.getItemDamage()));
 				}
 			}
