@@ -5,11 +5,9 @@ import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class CommandPart
+public class CommandPart extends BasePart
 {
 	private StringVar command;
-
-	private IntVar delay = new IntVar(0);
 
 	public CommandPart(String command)
 	{
@@ -29,27 +27,12 @@ public class CommandPart
 	public CommandPart(StringVar command, IntVar delay)
 	{
 		this.command = command;
-		this.delay = delay;
+		this.setDelay(delay);
 	}
 
 	public String getRawCommand()
 	{
 		return command.getValue();
-	}
-
-	public int getDelay()
-	{
-		return delay.getIntValue();
-	}
-
-	public void setDelay(int delay)
-	{
-		this.setDelay(new IntVar(delay));
-	}
-
-	public void setDelay(IntVar delay)
-	{
-		this.delay = delay;
 	}
 
 	public String getParsedCommand(World world, int x, int y, int z, EntityPlayer player)

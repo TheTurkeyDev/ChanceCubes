@@ -1,21 +1,24 @@
 package chanceCubes.rewards.rewardparts;
 
-import chanceCubes.rewards.variableTypes.IntVar;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class EntityPart
+public class EntityPart extends BasePart
 {
 	private NBTTagCompound nbtData;
-
-	private IntVar delay = new IntVar(0);
 
 	private boolean removedBlocks = true;
 
 	public EntityPart(NBTTagCompound nbtData)
 	{
+		this(nbtData, 0);
+	}
+
+	public EntityPart(NBTTagCompound nbtData, int delay)
+	{
 		this.nbtData = nbtData;
+		this.setDelay(delay);
 	}
 
 	public EntityPart(String nbtRaw)
@@ -32,22 +35,6 @@ public class EntityPart
 	public NBTTagCompound getNBT()
 	{
 		return nbtData;
-	}
-
-	public int getDelay()
-	{
-		return delay.getIntValue();
-	}
-
-	public EntityPart setDelay(int delay)
-	{
-		return this.setDelay(new IntVar(delay));
-	}
-
-	public EntityPart setDelay(IntVar delay)
-	{
-		this.delay = delay;
-		return this;
 	}
 
 	public boolean shouldRemovedBlocks()

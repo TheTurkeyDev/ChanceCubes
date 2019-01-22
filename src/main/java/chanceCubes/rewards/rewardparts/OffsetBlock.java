@@ -15,7 +15,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class OffsetBlock
+public class OffsetBlock extends BasePart
 {
 	protected BoolVar relativeToPlayer = new BoolVar(false);
 	public IntVar xOff = new IntVar();
@@ -25,7 +25,6 @@ public class OffsetBlock
 	protected IBlockState state = null;
 
 	protected BoolVar falling;
-	protected IntVar delay = new IntVar();
 
 	protected BoolVar causeUpdate = new BoolVar(false);
 
@@ -72,7 +71,7 @@ public class OffsetBlock
 		this.yOff = y;
 		this.zOff = z;
 		this.falling = falling;
-		this.delay = delay;
+		this.setDelay(delay);
 		this.state = state;
 	}
 
@@ -80,7 +79,7 @@ public class OffsetBlock
 	{
 		if(!falling.getBoolValue())
 		{
-			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getIntValue())
+			Scheduler.scheduleTask(new Task("Delayed_Block", this.getDelay())
 			{
 				@Override
 				public void callback()
@@ -91,7 +90,7 @@ public class OffsetBlock
 		}
 		else
 		{
-			Scheduler.scheduleTask(new Task("Falling_Block", delay.getIntValue())
+			Scheduler.scheduleTask(new Task("Falling_Block", this.getDelay())
 			{
 				@Override
 				public void callback()
@@ -112,16 +111,6 @@ public class OffsetBlock
 			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOffVal), yyy, (z + zOffVal)), removeUnbreakableBlocks.getBoolValue());
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
 		world.spawnEntity(entityfallingblock);
-	}
-
-	public void setDelay(int delay)
-	{
-		this.setDelay(new IntVar(delay));
-	}
-
-	public void setDelay(IntVar delay)
-	{
-		this.delay = delay;
 	}
 
 	public OffsetBlock setBlockState(IBlockState state)
@@ -149,11 +138,6 @@ public class OffsetBlock
 	public boolean isRelativeToPlayer()
 	{
 		return this.relativeToPlayer.getBoolValue();
-	}
-
-	public int getDelay()
-	{
-		return this.delay.getIntValue();
 	}
 
 	public IntVar getDelayVar()

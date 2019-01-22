@@ -449,11 +449,11 @@ public class CustomRewardsLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart exppart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1));
+			PotionPart potPart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
-			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
+			potPart.setDelay(this.getInt(element, "delay", potPart.getDelay()));
 
-			potionEffects.add(exppart);
+			potionEffects.add(potPart);
 		}
 		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[potionEffects.size()])));
 		return rewards;

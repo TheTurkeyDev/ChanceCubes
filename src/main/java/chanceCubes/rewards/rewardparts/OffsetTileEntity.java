@@ -45,7 +45,7 @@ public class OffsetTileEntity extends OffsetBlock
 	{
 		if(!falling.getBoolValue())
 		{
-			Scheduler.scheduleTask(new Task("Delayed_Block", delay.getIntValue())
+			Scheduler.scheduleTask(new Task("Delayed_Block", this.getDelay())
 			{
 				@Override
 				public void callback()
@@ -56,7 +56,7 @@ public class OffsetTileEntity extends OffsetBlock
 		}
 		else
 		{
-			Scheduler.scheduleTask(new Task("Falling_TileEntity", delay.getIntValue())
+			Scheduler.scheduleTask(new Task("Falling_TileEntity", this.getDelay())
 			{
 				@Override
 				public void callback()
