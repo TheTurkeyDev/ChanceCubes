@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -36,21 +37,33 @@ import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.rewards.variableTypes.FloatVar;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import scala.actors.threadpool.Arrays;
 
-public class LuckyBlockRewardLoader
+public class LuckyBlockRewardLoader extends BaseLoader
 {
 	public static LuckyBlockRewardLoader instance;
+	private static Map<String, String> staticHashVars = new HashMap<>();
+
+	static
+	{
+		staticHashVars.put("luckyHelmetEnchantments", "[{id:0,lvl:4},{id:1,lvl:4},{id:3,lvl:4},{id:4,lvl:4},{id:5,lvl:3},{id:6,lvl:1},{id:34,lvl:3}]");
+		staticHashVars.put("luckyChestplateEnchantments", "[{id:0,lvl:4},{id:1,lvl:4},{id:3,lvl:4},{id:4,lvl:4},{id:7,lvl:3},{id:34,lvl:3}]");
+		staticHashVars.put("luckyLeggingsEnchantments", "[{id:0,lvl:4},{id:1,lvl:4},{id:3,lvl:4},{id:4,lvl:4},{id:7,lvl:3},{id:34,lvl:3}]");
+		staticHashVars.put("luckyBootsEnchantments", "[{id:0,lvl:4},{id:1,lvl:4},{id:2,lvl:4},{id:3,lvl:4},{id:4,lvl:4},{id:7,lvl:3},{id:34,lvl:3}]");
+		staticHashVars.put("luckySwordEnchantments", "[{id:16,lvl:5},{id:17,lvl:5},{id:18,lvl:5},{id:19,lvl:2},{id:20,lvl:2},{id:21,lvl:3},{id:34,lvl:3}]");
+		staticHashVars.put("luckyAxeEnchantments", "[{id:16,lvl:5},{id:17,lvl:5},{id:18,lvl:5},{id:32,lvl:5},{id:34,lvl:3},{id:35,lvl:3}]");
+		staticHashVars.put("luckyBowEnchantments", "[{id:34,lvl:3},{id:48,lvl:5},{id:49,lvl:2},{id:50,lvl:1},{id:51,lvl:1}]");
+	}
+
 	private File lbFolder;
 
 	public LuckyBlockRewardLoader(File folder)
@@ -61,6 +74,7 @@ public class LuckyBlockRewardLoader
 
 	public void parseLuckyBlockRewards()
 	{
+		System.out.println(lbFolder);
 		for(File f : lbFolder.listFiles())
 		{
 			if(f.getName().contains(".zip"))
@@ -95,7 +109,6 @@ public class LuckyBlockRewardLoader
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void parseDropsFile(String fileName, InputStream stream) throws IOException
 	{
 		int rewardNumber = 0;
@@ -104,6 +117,8 @@ public class LuckyBlockRewardLoader
 		String line;
 		while((line = reader.readLine()) != null)
 		{
+			currentParsingReward = fileName + "_" + rewardNumber;
+			lineNumber++;
 			line = line.trim();
 			if(line.isEmpty() || line.startsWith("/"))
 			{
@@ -123,6 +138,23 @@ public class LuckyBlockRewardLoader
 				multiLine.setLength(0);
 			}
 
+			String chance = getAtValue(line, "chance");
+			String luck = getAtValue(line, "luck");
+			if(luck.isEmpty())
+				luck = "0";
+
+			int endindex = 0;
+
+			if(line.lastIndexOf("@luck") > 0)
+				endindex = line.lastIndexOf("@luck");
+
+			if(line.lastIndexOf("@chance") > 0)
+				endindex = Math.min(endindex, line.lastIndexOf("@chance"));
+
+			line = line.substring(0, endindex);
+
+			line = replaceStaticPlaceHolders(line);
+
 			Map<String, List<IRewardType>> rewards = new HashMap<String, List<IRewardType>>();
 			try
 			{
@@ -139,6 +171,7 @@ public class LuckyBlockRewardLoader
 			List<IRewardType> rewardTypes = new ArrayList<IRewardType>();
 			for(String key : rewards.keySet())
 			{
+				currentParsingPart = key;
 				switch(key)
 				{
 					case "item":
@@ -208,41 +241,89 @@ public class LuckyBlockRewardLoader
 				}
 			}
 
-			int chance = 0;
-			if(line.indexOf("@luck") > -1)
-				chance = Integer.parseInt(line.substring(line.indexOf("@luck") + 6));
-			BasicReward reward = new BasicReward(fileName + "_" + rewardNumber, chance, rewardTypes.toArray(new IRewardType[rewards.size()]));
+			BasicReward reward = new BasicReward(fileName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
 			System.out.println(reward.getName() + " @ " + reward.getChanceValue());
 			ChanceCubeRegistry.INSTANCE.registerReward(reward);
 			rewardNumber++;
 		}
 	}
 
+	public String getAtValue(String in, String key)
+	{
+		int index = in.lastIndexOf("@" + key);
+		if(index != -1)
+		{
+			int indexNextAt = in.indexOf("@", index + 1);
+			if(indexNextAt != -1)
+				return in.substring(index + 6, indexNextAt);
+			else
+				return in.substring(index + 6);
+		}
+		return "";
+	}
+
+	private String replaceStaticPlaceHolders(String line)
+	{
+		int index = line.indexOf("#");
+		String s;
+		while(index != -1)
+		{
+			s = line.substring(index + 1);
+			s = this.parseStringPart(s, true, Arrays.asList(':', ','));
+			if(staticHashVars.keySet().contains(s))
+			{
+				line = line.replace("#" + s, staticHashVars.get(s));
+			}
+			else
+			{
+				if(s.startsWith("randList("))
+				{
+					s = s.substring(s.indexOf("("));
+					s = this.parseStringPart(s, true, new ArrayList<Character>());
+					line = line.substring(0, (index + s.length() + 7)) + "]";
+					line = line.replace("#randList(", "[");
+				}
+				else if(s.startsWith("rand("))
+				{
+					line = line.replace("#rand", "RND");
+				}
+			}
+			index = line.indexOf("#", index + 1);
+		}
+
+		return line;
+	}
+
 	public void parseGroup(String in, Map<String, List<IRewardType>> rewards)
 	{
 		if(in.contains("group:"))
 			in = in.replaceFirst(":.*:", "");
-		String[] items = in.substring(in.indexOf("(") + 1, in.lastIndexOf(")")).split(";");
-		for(String item : items)
+		in = in.substring(6).trim();
+		String item;
+		while(!in.isEmpty())
 		{
+			item = this.parseStringPart(in, true, Arrays.asList(';'));
 			if(item.startsWith("group"))
 				parseGroup(item, rewards);
 			else
 				parseItem(item, rewards);
+			in = in.substring(Math.min(item.length() + 1, in.length()));
 		}
+
 	}
 
 	public void parseItem(String in, Map<String, List<IRewardType>> rewards)
 	{
+		StringBuilder builder = new StringBuilder();
 		Map<String, String> typeMap = new HashMap<String, String>();
-		do
+		while(!in.isEmpty())
 		{
 			String key = parseNextKey(in);
 			in = in.substring(Math.min(key.length() + 1, in.length()));
-			String value = parseKeyValue(key, in);
-			in = in.substring(Math.min(value.length() + 1, in.length()));
+			String value = parseStringPart(in, false, Arrays.asList(','));
+			in = in.substring(Math.min(value.length() + 1, in.length())).trim();
 			typeMap.put(key, value);
-		} while(!in.isEmpty());
+		}
 
 		String type = "item";
 		if(typeMap.containsKey("type"))
@@ -253,31 +334,38 @@ public class LuckyBlockRewardLoader
 			case "item":
 			{
 				String item = typeMap.get("ID");
-				NBTTagCompound itemNBT = new NBTTagCompound();
-				itemNBT.setString("id", item);
+
+				builder.setLength(0);
+				builder.append("{");
 
 				if(typeMap.containsKey("damage"))
-					itemNBT.setString("damage", typeMap.get("damage"));
-
-				ItemStack stack = new ItemStack(itemNBT);
-
-				if(typeMap.containsKey("amount"))
-					stack.setCount(Integer.parseInt(typeMap.get("amount")));
-
-				try
 				{
-					if(typeMap.containsKey("NBTTag"))
-						stack.setTagCompound(JsonToNBT.getTagFromJson(convertLBNBTToMCNBT(typeMap.get("NBTTag"))));
-				} catch(NBTException e)
-				{
-					CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to parse the given NBTData: " + convertLBNBTToMCNBT(typeMap.get("NBTTag")));
-					e.printStackTrace();
+					builder.append("damage:");
+					builder.append(typeMap.get("damage"));
+					builder.append(",");
 				}
 
-				ItemPart itemPart = new ItemPart(stack);
+				if(typeMap.containsKey("amount"))
+				{
+					builder.append("Count:");
+					builder.append(typeMap.get("amount"));
+					builder.append(",");
+				}
+
+				if(typeMap.containsKey("NBTTag"))
+				{
+					builder.append("tag:");
+					builder.append(convertLBNBTToMCNBT(typeMap.get("NBTTag")));
+					builder.append(",");
+				}
+
+				if(builder.charAt(builder.length() - 1) != '{')
+					builder.setLength(builder.length() - 1);
+
+				ItemPart itemPart = new ItemPart(item, builder.toString());
 
 				if(typeMap.containsKey("delay"))
-					itemPart.setDelay(Integer.parseInt(typeMap.get("delay")));
+					itemPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("item");
 				if(itemTypes == null)
@@ -305,7 +393,7 @@ public class LuckyBlockRewardLoader
 					z = Integer.parseInt(typeMap.get("posOffsetZ"));
 
 				Block block;
-				String[] blockDataParts = typeMap.get("posOffsetZ").split(":");
+				String[] blockDataParts = typeMap.get("ID").split(":");
 				if(blockDataParts.length == 2)
 					block = RewardsUtil.getBlock(blockDataParts[0], blockDataParts[1]);
 				else
@@ -320,10 +408,10 @@ public class LuckyBlockRewardLoader
 					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(typeMap.get("state"))));
 
 				if(typeMap.containsKey("blockUpdate"))
-					osb.setCausesBlockUpdate(Boolean.parseBoolean(typeMap.get("blockUpdate")));
+					osb.setCausesBlockUpdate(super.getBoolean(typeMap.get("blockUpdate"), false));
 
 				if(typeMap.containsKey("delay"))
-					osb.setDelay(Integer.parseInt(typeMap.get("delay")));
+					osb.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				try
 				{
@@ -348,23 +436,27 @@ public class LuckyBlockRewardLoader
 			}
 			case "entity":
 			{
-				NBTTagCompound nbt = new NBTTagCompound();
+				String nbt = "";
 
-				try
-				{
-					if(typeMap.containsKey("NBTTag"))
-						nbt = JsonToNBT.getTagFromJson(convertLBNBTToMCNBT(typeMap.get("NBTTag")));
-				} catch(NBTException e)
-				{
-					e.printStackTrace();
-				}
+				if(typeMap.containsKey("NBTTag"))
+					nbt = convertLBNBTToMCNBT(typeMap.get("NBTTag"));
 
-				nbt.setString("id", typeMap.get("ID"));
+				if(nbt.isEmpty())
+					nbt = "{}";
 
-				EntityPart entPart = new EntityPart(nbt);
+				builder.setLength(0);
+				builder.append(nbt.substring(0, 1));
+				builder.append("id:\"");
+				builder.append(typeMap.get("ID"));
+				builder.append("\"");
+				if(nbt.charAt(1) != '}')
+					builder.append(",");
+				builder.append(nbt.substring(1));
+
+				EntityPart entPart = new EntityPart(super.getNBT(builder.toString()));
 
 				if(typeMap.containsKey("delay"))
-					entPart.setDelay(Integer.parseInt(typeMap.get("delay")));
+					entPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("entity");
 				if(itemTypes == null)
@@ -391,11 +483,11 @@ public class LuckyBlockRewardLoader
 			}
 			case "command":
 			{
-				String commandString = typeMap.get("ID").trim();
-				CommandPart command = new CommandPart(commandString.substring(1, commandString.length() - 2));
+				StringVar commandString = super.getString(typeMap.get("ID"), "/help");
+				CommandPart command = new CommandPart(commandString);
 
 				if(typeMap.containsKey("delay"))
-					command.setDelay(Integer.parseInt(typeMap.get("delay")));
+					command.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("command");
 				if(itemTypes == null)
@@ -410,17 +502,17 @@ public class LuckyBlockRewardLoader
 			case "effect":
 			{
 				//TODO Create an effect reward type
-				int duration = 30;
+				IntVar duration = new IntVar(30);
 				if(typeMap.containsKey("duration"))
-					duration = Integer.parseInt(typeMap.get("duration"));
-				int amplifier = 0;
+					duration = super.getInt(typeMap.get("duration"), 30);
+				IntVar amplifier = new IntVar(0);
 				if(typeMap.containsKey("amplifier"))
-					duration = Integer.parseInt(typeMap.get("amplifier"));
+					duration = super.getInt(typeMap.get("amplifier"), 0);
 
-				PotionPart potPart = new PotionPart(Potion.getPotionFromResourceLocation(typeMap.get("ID")), duration, amplifier);
+				PotionPart potPart = new PotionPart(super.getInt(typeMap.get("ID"), 1), duration, amplifier);
 
 				if(typeMap.containsKey("delay"))
-					potPart.setDelay(Integer.parseInt(typeMap.get("delay")));
+					potPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("effect");
 				if(itemTypes == null)
@@ -473,10 +565,10 @@ public class LuckyBlockRewardLoader
 			}
 			case "message":
 			{
-				MessagePart message = new MessagePart(typeMap.get("ID"));
+				MessagePart message = new MessagePart(super.getString(typeMap.get("ID"), "Hmmm Broken...."));
 
 				if(typeMap.containsKey("delay"))
-					message.setDelay(Integer.parseInt(typeMap.get("delay")));
+					message.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("message");
 				if(itemTypes == null)
@@ -490,10 +582,10 @@ public class LuckyBlockRewardLoader
 			}
 			case "particle":
 			{
-				ParticlePart particle = new ParticlePart(typeMap.get("ID"));
+				ParticlePart particle = new ParticlePart(this.getString(typeMap.get("ID"), "explode"));
 
 				if(typeMap.containsKey("delay"))
-					particle.setDelay(Integer.parseInt(typeMap.get("delay")));
+					particle.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("particle");
 				if(itemTypes == null)
@@ -510,12 +602,12 @@ public class LuckyBlockRewardLoader
 				SoundPart sound = new SoundPart(SoundEvent.REGISTRY.getObject(new ResourceLocation(typeMap.get("ID"))));
 
 				if(typeMap.containsKey("volume"))
-					sound.setVolume(Float.parseFloat(typeMap.get("volume")));
+					sound.setVolume(super.getFloat(typeMap.get("volume"), 1f));
 				if(typeMap.containsKey("pitch"))
-					sound.setPitch(Float.parseFloat(typeMap.get("pitch")));
+					sound.setPitch(super.getFloat(typeMap.get("pitch"), 1f));
 
 				if(typeMap.containsKey("delay"))
-					sound.setDelay(Integer.parseInt(typeMap.get("delay")));
+					sound.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> itemTypes = rewards.get("sound");
 				if(itemTypes == null)
@@ -563,7 +655,7 @@ public class LuckyBlockRewardLoader
 		return s.substring(0, index);
 	}
 
-	public String parseKeyValue(String key, String s)
+	public String parseStringPart(String s, boolean ignoreStackOverflow, List<Character> endChars)
 	{
 		Map<Character, Character> matches = new HashMap<>();
 		matches.put(')', '(');
@@ -581,14 +673,19 @@ public class LuckyBlockRewardLoader
 			}
 			else if(matches.keySet().contains(currentChar))
 			{
-				if(stack.get(stack.size() - 1) == matches.get(currentChar))
+				if(stack.size() > 0 && stack.get(stack.size() - 1) == matches.get(currentChar))
 				{
 					stack.remove(stack.size() - 1);
 				}
 				else
 				{
-					System.out.println("Error at index: " + index + "! Closing \"" + currentChar + "\", but not next in stack!");
-					// ERROR!
+					if(!ignoreStackOverflow)
+					{
+						//CCubesCore.logger.log(Level.ERROR, "Error at: " + s.substring(Math.max(index - 20, 0), Math.min(index + 1, s.length())) + "<-[HERE]! Closing \"" + currentChar + "\", but not next in stack (Expecting " + (stack.size() > 0 ? stack.get(stack.size() - 1) : "Nothing") + ")!");
+						System.out.println("Error on line " + lineNumber + ": " + s.substring(Math.max(index - 20, 0), Math.min(index + 1, s.length())) + "<-[HERE]! Closing \"" + currentChar + "\", but not next in stack (" + (stack.size() > 0 ? "Expecting " + stack.get(stack.size() - 1) : "Too many") + ")!");
+						// ERROR!
+					}
+					break;
 				}
 			}
 			else if(currentChar == '"')
@@ -615,12 +712,19 @@ public class LuckyBlockRewardLoader
 			currentChar = s.charAt(index);
 			if(escaped > 0)
 				escaped--;
-		} while(stack.size() > 0 || (currentChar != ',' && currentChar != '@'));
+		} while(stack.size() > 0 || (endChars.size() > 0 && !endChars.contains(currentChar)));
 		return s.substring(0, index);
 	}
 
 	public String convertLBNBTToMCNBT(String in)
 	{
-		return in.replace("=", ":").replace("(", "{").replace(")", "}");
+		return in.replace("=", ":").replaceAll("[^D]\\(", "{").replace(")", "}");
+	}
+
+	public String parseLBDelay(String delay)
+	{
+		if(FloatVar.isFloat(delay))
+			return String.valueOf(Math.round(20 * Float.parseFloat(delay)));
+		return delay;
 	}
 }
