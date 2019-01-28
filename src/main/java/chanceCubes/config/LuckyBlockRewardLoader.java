@@ -43,6 +43,8 @@ import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.util.ResourceLocation;
@@ -280,12 +282,15 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				{
 					s = s.substring(s.indexOf("("));
 					s = this.parseStringPart(s, true, new ArrayList<Character>());
-					line = line.substring(0, (index + s.length() + 7)) + "]";
-					line = line.replace("#randList(", "[");
+					line = line.substring(0, (index + s.length() + 7)) + "]%%";
+					line = line.replace("#randList(", "%%[");
 				}
 				else if(s.startsWith("rand("))
 				{
-					line = line.replace("#rand", "RND");
+					s = s.substring(s.indexOf("("));
+					s = this.parseStringPart(s, true, new ArrayList<Character>());
+					line = line.substring(0, (index + s.length() + 7)) + ")%%";
+					line = line.replace("#rand", "%%RND");
 				}
 			}
 			index = line.indexOf("#", index + 1);
@@ -552,6 +557,25 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 			case "fill":
 			{
+				int meta = 0;
+				if(typeMap.containsKey("meta"))
+					meta = Integer.parseInt(typeMap.get("meta"));
+				if(typeMap.containsKey("damage"))
+					meta = Integer.parseInt(typeMap.get("meta"));
+				if(typeMap.containsKey("state"))
+					meta = Integer.parseInt(typeMap.get("meta"));
+				
+				IBlockState block = Blocks.AIR.getDefaultState();
+				String blockID = typeMap.get("ID");
+				if(IntVar.isInteger(blockID))
+					block = Block.getBlockById(Integer.parseInt(blockID)).getStateFromMeta(meta);
+				else
+					block = Block.getBlockFromName(blockID).getStateFromMeta(meta);
+				
+				IntVar length = this.getInt(typeMap.get("length"), 1);
+				IntVar width = this.getInt(typeMap.get("width"), 1);
+				IntVar height = this.getInt(typeMap.get("height"), 1);
+				
 				//TODO
 				List<IRewardType> itemTypes = rewards.get("fill");
 				if(itemTypes == null)
