@@ -11,11 +11,8 @@ import chanceCubes.rewards.variableParts.StringPart;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class BaseLoader
 {
@@ -29,32 +26,28 @@ public class BaseLoader
 	{
 		IntVar var = new IntVar();
 		String[] parts = input.split("%%");
-		int index = -1;
 		for(String part : parts)
 		{
-			index++;
 			if(part.isEmpty())
 				continue;
 
-			if(index % 2 == 0)
+			part = part.replaceAll(" ", "");
+			if(part.startsWith("RND"))
 			{
-				if(IntVar.isInteger(part))
-				{
-					var.addPart(new StringPart(part));
-				}
-				else
-				{
-					CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
-					CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-				}
+				var.addPart(IntVar.parseRandom(part));
+			}
+			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+			{
+				var.addPart(new ListPart<Integer>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
+			}
+			else if(IntVar.isInteger(part))
+			{
+				var.addPart(new StringPart(part));
 			}
 			else
 			{
-				part = part.replaceAll(" ", "");
-				if(part.startsWith("RND"))
-					var.addPart(IntVar.parseRandom(part));
-				else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-					var.addPart(new ListPart<Integer>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
+				CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
+				CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
 			}
 		}
 
@@ -69,32 +62,28 @@ public class BaseLoader
 		FloatVar var = new FloatVar();
 
 		String[] parts = input.split("%%");
-		int index = -1;
 		for(String part : parts)
 		{
-			index++;
 			if(part.isEmpty())
 				continue;
 
-			if(index % 2 == 0)
+			part = part.replaceAll(" ", "");
+			if(part.startsWith("RND"))
 			{
-				if(FloatVar.isFloat(part))
-				{
-					var.addPart(new StringPart(part));
-				}
-				else
-				{
-					CCubesCore.logger.log(Level.ERROR, "An float was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
-					CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-				}
+				var.addPart(FloatVar.parseRandom(part));
+			}
+			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+			{
+				var.addPart(new ListPart<Float>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
+			}
+			if(FloatVar.isFloat(part))
+			{
+				var.addPart(new StringPart(part));
 			}
 			else
 			{
-				part = part.replaceAll(" ", "");
-				if(part.startsWith("RND"))
-					var.addPart(FloatVar.parseRandom(part));
-				else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-					var.addPart(new ListPart<Float>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
+				CCubesCore.logger.log(Level.ERROR, "An float was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
+				CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
 			}
 
 		}
@@ -108,25 +97,18 @@ public class BaseLoader
 	{
 		BoolVar var = new BoolVar();
 		String[] parts = input.split("%%");
-		int index = -1;
 		for(String part : parts)
 		{
-			index++;
 			if(part.isEmpty())
 				continue;
 
-			if(index % 2 == 0)
-			{
-				var.addPart(new StringPart(part));
-			}
+			part = part.replaceAll(" ", "");
+			if(part.startsWith("RND"))
+				var.addPart(BoolVar.parseRandom(part));
+			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+				var.addPart(new ListPart<Boolean>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
 			else
-			{
-				part = part.replaceAll(" ", "");
-				if(part.startsWith("RND"))
-					var.addPart(BoolVar.parseRandom(part));
-				else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-					var.addPart(new ListPart<Boolean>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
-			}
+				var.addPart(new StringPart(part));
 
 		}
 		if(var.isEmpty())
@@ -139,25 +121,18 @@ public class BaseLoader
 	{
 		StringVar var = new StringVar();
 		String[] parts = input.split("%%");
-		int index = -1;
 		for(String part : parts)
 		{
-			index++;
 			if(part.isEmpty())
 				continue;
 
-			if(index % 2 == 0)
-			{
-				var.addPart(new StringPart(part));
-			}
+			part = part.replaceAll(" ", "");
+			if(part.startsWith("RND"))
+				var.addPart(IntVar.parseRandom(part));
+			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+				var.addPart(new ListPart<String>(part.substring(1, part.lastIndexOf(']')).split(",")));
 			else
-			{
-				part = part.replaceAll(" ", "");
-				if(part.startsWith("RND"))
-					var.addPart(IntVar.parseRandom(part));
-				else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-					var.addPart(new ListPart<String>(part.substring(1, part.lastIndexOf(']')).split(",")));
-			}
+				var.addPart(new StringPart(part));
 		}
 		if(var.isEmpty())
 			var.addPart(new StringPart(defaultVal));
@@ -165,21 +140,26 @@ public class BaseLoader
 		return var;
 	}
 
-	public NBTTagCompound getNBT(String input)
+	public NBTVar getNBT(String input)
 	{
-		try
+		NBTVar var = new NBTVar();
+		String[] parts = input.split("%%");
+		for(String part : parts)
 		{
-			NBTBase nbtbase = JsonToNBT.getTagFromJson(input);
+			if(part.isEmpty())
+				continue;
 
-			if(nbtbase instanceof NBTTagCompound)
-				return (NBTTagCompound) nbtbase;
-
-		} catch(NBTException e1)
-		{
-			CCubesCore.logger.log(Level.ERROR, e1.getMessage());
+			part = part.replaceAll(" ", "");
+			if(part.startsWith("RND"))
+				var.addPart(IntVar.parseRandom(part));
+			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
+				var.addPart(new ListPart<String>(part.substring(1, part.lastIndexOf(']')).split(",")));
+			else
+				var.addPart(new StringPart(part));
 		}
+		if(var.isEmpty())
+			var.addPart(new StringPart(""));
 
-		CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for reward \"" + this.currentParsingReward + "\": " + input);
-		return new NBTTagCompound();
+		return var;
 	}
 }

@@ -11,6 +11,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -45,8 +47,6 @@ import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -76,7 +76,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 	public void parseLuckyBlockRewards()
 	{
-		System.out.println(lbFolder);
 		for(File f : lbFolder.listFiles())
 		{
 			if(f.getName().contains(".zip"))
@@ -155,7 +154,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 			line = line.substring(0, endindex);
 
-			line = replaceStaticPlaceHolders(line);
+			line = replaceStaticPlaceHolders(line, true);
 
 			Map<String, List<IRewardType>> rewards = new HashMap<String, List<IRewardType>>();
 			try
@@ -246,6 +245,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			BasicReward reward = new BasicReward(fileName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
 			System.out.println(reward.getName() + " @ " + reward.getChanceValue());
 			ChanceCubeRegistry.INSTANCE.registerReward(reward);
+			ChanceCubeRegistry.INSTANCE.addCustomReward(reward);
 			rewardNumber++;
 		}
 	}
@@ -264,7 +264,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		return "";
 	}
 
-	private String replaceStaticPlaceHolders(String line)
+	private String replaceStaticPlaceHolders(String line, boolean topLevel)
 	{
 		int index = line.indexOf("#");
 		String s;
@@ -276,24 +276,34 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			{
 				line = line.replace("#" + s, staticHashVars.get(s));
 			}
-			else
+			else if(s.startsWith("randList("))
 			{
-				if(s.startsWith("randList("))
-				{
-					s = s.substring(s.indexOf("("));
-					s = this.parseStringPart(s, true, new ArrayList<Character>());
-					line = line.substring(0, (index + s.length() + 7)) + "]%%";
-					line = line.replace("#randList(", "%%[");
-				}
-				else if(s.startsWith("rand("))
-				{
-					s = s.substring(s.indexOf("("));
-					s = this.parseStringPart(s, true, new ArrayList<Character>());
-					line = line.substring(0, (index + s.length() + 7)) + ")%%";
-					line = line.replace("#rand", "%%RND");
-				}
+				String inner = s.substring(9, s.length() - 1);
+				inner = replaceStaticPlaceHolders(inner, false);
+				String replace = "[" + inner + "]";
+				if(topLevel)
+					replace = "%%" + replace + "%%";
+				line = line.replace("#" + s, replace);
+			}
+			else if(s.startsWith("rand("))
+			{
+				String inner = s.substring(5, s.length() - 1);
+				inner = replaceStaticPlaceHolders(inner, false);
+				String replace = "RND(" + inner + ")";
+				if(topLevel)
+					replace = "%%" + replace + "%%";
+				line = line.replace("#" + s, replace);
 			}
 			index = line.indexOf("#", index + 1);
+		}
+
+		Pattern p = Pattern.compile("[^']\\$[^']");
+		Matcher m = p.matcher(line);
+		while(m.find())
+		{
+			String s1 = m.group(0);
+			//TODO: Java not liking the § character?
+			line = line.replace(s1, s1.replace("$", "§"));
 		}
 
 		return line;
@@ -350,22 +360,24 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					builder.append(",");
 				}
 
+				String count = "1";
 				if(typeMap.containsKey("amount"))
-				{
-					builder.append("Count:");
-					builder.append(typeMap.get("amount"));
-					builder.append(",");
-				}
+					count = typeMap.get("amount");
+
+				builder.append("Count:");
+				builder.append(count);
+				builder.append(",");
 
 				if(typeMap.containsKey("NBTTag"))
 				{
 					builder.append("tag:");
 					builder.append(convertLBNBTToMCNBT(typeMap.get("NBTTag")));
-					builder.append(",");
 				}
 
-				if(builder.charAt(builder.length() - 1) != '{')
+				if(builder.charAt(builder.length() - 1) == ',')
 					builder.setLength(builder.length() - 1);
+
+				builder.append("}");
 
 				ItemPart itemPart = new ItemPart(item, builder.toString());
 
@@ -386,10 +398,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			{
 				int x = 0, y = 0, z = 0;
 
-				//TODO: parse out the x, y ans y of this
-				if(typeMap.containsKey("posX"))
-					x = x;
-
 				if(typeMap.containsKey("posOffsetX"))
 					x = Integer.parseInt(typeMap.get("posOffsetX"));
 				if(typeMap.containsKey("posOffsetY"))
@@ -406,11 +414,11 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 				OffsetBlock osb = new OffsetBlock(x, y, z, block, false);
 				if(typeMap.containsKey("meta"))
-					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(typeMap.get("meta"))));
+					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, this.getInt(typeMap.get("meta"), 0).getIntValue()));
 				if(typeMap.containsKey("damage"))
-					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(typeMap.get("damage"))));
+					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, this.getInt(typeMap.get("damage"), 0).getIntValue()));
 				if(typeMap.containsKey("state"))
-					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(typeMap.get("state"))));
+					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, this.getInt(typeMap.get("state"), 0).getIntValue()));
 
 				if(typeMap.containsKey("blockUpdate"))
 					osb.setCausesBlockUpdate(super.getBoolean(typeMap.get("blockUpdate"), false));
@@ -418,16 +426,10 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				if(typeMap.containsKey("delay"))
 					osb.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
-				try
-				{
-					if(typeMap.containsKey("tileEntity"))
-						osb = SchematicUtil.OffsetBlockToTileEntity(osb, JsonToNBT.getTagFromJson(convertLBNBTToMCNBT(typeMap.get("tileEntity"))));
-					if(typeMap.containsKey("NBTTag"))
-						osb = SchematicUtil.OffsetBlockToTileEntity(osb, JsonToNBT.getTagFromJson(convertLBNBTToMCNBT(typeMap.get("NBTTag"))));
-				} catch(NBTException e)
-				{
-					e.printStackTrace();
-				}
+				if(typeMap.containsKey("tileEntity"))
+					osb = SchematicUtil.OffsetBlockToTileEntity(osb, this.getNBT(convertLBNBTToMCNBT(typeMap.get("tileEntity"))));
+				if(typeMap.containsKey("NBTTag"))
+					osb = SchematicUtil.OffsetBlockToTileEntity(osb, this.getNBT(convertLBNBTToMCNBT(typeMap.get("NBTTag"))));
 
 				List<IRewardType> itemTypes = rewards.get("block");
 				if(itemTypes == null)
@@ -458,7 +460,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					builder.append(",");
 				builder.append(nbt.substring(1));
 
-				EntityPart entPart = new EntityPart(super.getNBT(builder.toString()));
+				EntityPart entPart = new EntityPart(super.getNBT(builder.toString()), new IntVar(0));
 
 				if(typeMap.containsKey("delay"))
 					entPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
@@ -494,14 +496,14 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				if(typeMap.containsKey("delay"))
 					command.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
-				List<IRewardType> itemTypes = rewards.get("command");
-				if(itemTypes == null)
+				List<IRewardType> commandTypes = rewards.get("command");
+				if(commandTypes == null)
 				{
-					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("command", itemTypes);
+					commandTypes = new ArrayList<IRewardType>();
+					rewards.put("command", commandTypes);
 				}
 
-				itemTypes.add(new CommandRewardType(command));
+				commandTypes.add(new CommandRewardType(command));
 				break;
 			}
 			case "effect":
@@ -519,40 +521,40 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				if(typeMap.containsKey("delay"))
 					potPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
-				List<IRewardType> itemTypes = rewards.get("effect");
-				if(itemTypes == null)
+				List<IRewardType> effectTypes = rewards.get("effect");
+				if(effectTypes == null)
 				{
-					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("effect", itemTypes);
+					effectTypes = new ArrayList<IRewardType>();
+					rewards.put("effect", effectTypes);
 				}
 
-				itemTypes.add(new PotionRewardType(potPart));
+				effectTypes.add(new PotionRewardType(potPart));
 				break;
 			}
 			case "difficulty":
 			{
 				//TODO
-				List<IRewardType> itemTypes = rewards.get("difficulty");
-				if(itemTypes == null)
+				List<IRewardType> difficultyTypes = rewards.get("difficulty");
+				if(difficultyTypes == null)
 				{
-					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("difficulty", itemTypes);
+					difficultyTypes = new ArrayList<IRewardType>();
+					rewards.put("difficulty", difficultyTypes);
 				}
 
-				itemTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
+				difficultyTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
 				break;
 			}
 			case "explosion":
 			{
 				//TODO
-				List<IRewardType> itemTypes = rewards.get("explosion");
-				if(itemTypes == null)
+				List<IRewardType> explosionTypes = rewards.get("explosion");
+				if(explosionTypes == null)
 				{
-					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("explosion", itemTypes);
+					explosionTypes = new ArrayList<IRewardType>();
+					rewards.put("explosion", explosionTypes);
 				}
 
-				itemTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
+				explosionTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
 				break;
 			}
 			case "fill":
@@ -564,27 +566,56 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					meta = Integer.parseInt(typeMap.get("meta"));
 				if(typeMap.containsKey("state"))
 					meta = Integer.parseInt(typeMap.get("meta"));
-				
+
 				IBlockState block = Blocks.AIR.getDefaultState();
 				String blockID = typeMap.get("ID");
 				if(IntVar.isInteger(blockID))
 					block = Block.getBlockById(Integer.parseInt(blockID)).getStateFromMeta(meta);
 				else
 					block = Block.getBlockFromName(blockID).getStateFromMeta(meta);
-				
-				IntVar length = this.getInt(typeMap.get("length"), 1);
-				IntVar width = this.getInt(typeMap.get("width"), 1);
-				IntVar height = this.getInt(typeMap.get("height"), 1);
-				
-				//TODO
-				List<IRewardType> itemTypes = rewards.get("fill");
-				if(itemTypes == null)
+
+				int length = 1;
+				int width = 1;
+				int height = 1;
+
+				if(typeMap.containsKey("length"))
+					length = this.getInt(typeMap.get("length"), 1).getIntValue();
+				if(typeMap.containsKey("width"))
+					width = this.getInt(typeMap.get("width"), 1).getIntValue();
+				if(typeMap.containsKey("height"))
+					height = this.getInt(typeMap.get("height"), 1).getIntValue();
+
+				if(typeMap.containsKey("size"))
 				{
-					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("fill", itemTypes);
+					String[] line = typeMap.get("size").replace("(", "").replace(")", "").split(",");
+					length = this.getInt(line[0], 1).getIntValue();
+					width = this.getInt(line[1], 1).getIntValue();
+					height = this.getInt(line[2], 1).getIntValue();
 				}
 
-				itemTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
+				List<OffsetBlock> blocks = new ArrayList<>();
+
+				for(int x = 0; x < length; x++)
+				{
+					for(int y = 0; y < height; y++)
+					{
+						for(int z = 0; z < width; z++)
+						{
+							blocks.add(new OffsetBlock(x, y, z, block, false));
+						}
+					}
+				}
+
+				//TODO
+
+				List<IRewardType> fillTypes = rewards.get("fill");
+				if(fillTypes == null)
+				{
+					fillTypes = new ArrayList<IRewardType>();
+					rewards.put("fill", fillTypes);
+				}
+
+				fillTypes.add(new BlockRewardType(blocks.toArray(new OffsetBlock[0])));
 				break;
 			}
 			case "message":
@@ -742,7 +773,10 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 	public String convertLBNBTToMCNBT(String in)
 	{
-		return in.replace("=", ":").replaceAll("[^D]\\(", "{").replace(")", "}");
+		String newString = in.replaceAll("=\\(", ":{").replaceAll("\\[\\(", "[{").replace("=", ":").replace(")", "}");
+		if(newString.startsWith("("))
+			newString = "{" + newString.substring(1);
+		return newString;
 	}
 
 	public String parseLBDelay(String delay)

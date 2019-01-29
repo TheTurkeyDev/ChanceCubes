@@ -48,6 +48,7 @@ import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.sounds.CustomSoundsLoader;
@@ -299,11 +300,12 @@ public class CustomRewardsLoader extends BaseLoader
 		List<ItemPart> items = new ArrayList<ItemPart>();
 		for(JsonElement fullelement : rawReward)
 		{
-			NBTTagCompound nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
+			NBTVar nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
 			if(nbt == null)
 				continue;
 
-			ItemPart stack = new ItemPart(new ItemStack(nbt));
+			//TODO: Make dynamic?
+			ItemPart stack = new ItemPart(new ItemStack(nbt.getNBTValue()));
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
 
@@ -605,7 +607,7 @@ public class CustomRewardsLoader extends BaseLoader
 		return this.getString(in, defaultVal);
 	}
 
-	public NBTTagCompound getNBT(JsonObject json, String key)
+	public NBTVar getNBT(JsonObject json, String key)
 	{
 		String in = "";
 		if(json.has(key))

@@ -2,6 +2,7 @@ package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 
 public class OffsetTileEntity extends OffsetBlock
 {
-	private NBTTagCompound teNBT;
+	private NBTVar teNBT;
 
 	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
 	{
@@ -24,18 +25,18 @@ public class OffsetTileEntity extends OffsetBlock
 	{
 		this(x, y, z, state, te, falling, 0);
 	}
-	
+
 	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, BoolVar falling)
 	{
-		this(new IntVar(x), new IntVar(y), new IntVar(z), state, te, falling, new IntVar(0));
+		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new NBTVar(te), falling, new IntVar(0));
 	}
 
 	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling, int delay)
 	{
-		this(new IntVar(x), new IntVar(y), new IntVar(z), state, te, new BoolVar(falling), new IntVar(delay));
+		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new NBTVar(te), new BoolVar(falling), new IntVar(delay));
 	}
 
-	public OffsetTileEntity(IntVar x, IntVar y, IntVar z, IBlockState state, NBTTagCompound te, BoolVar falling, IntVar delay)
+	public OffsetTileEntity(IntVar x, IntVar y, IntVar z, IBlockState state, NBTVar te, BoolVar falling, IntVar delay)
 	{
 		super(x, y, z, state, falling, delay);
 		this.teNBT = te;
@@ -72,9 +73,9 @@ public class OffsetTileEntity extends OffsetBlock
 		BlockPos pos = super.placeInWorld(world, x, y, z, offset);
 		// te.me = this.data;
 		if(offset)
-			world.setTileEntity(pos, TileEntity.create(world, teNBT));
+			world.setTileEntity(pos, TileEntity.create(world, teNBT.getNBTValue()));
 		else
-			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT));
+			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT.getNBTValue()));
 		return pos;
 	}
 }
