@@ -14,13 +14,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.util.FileUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.resource.IResourceType;
 
 /**
  * Code Referenced and sourced from the EnderCore and CustomThings mods. All referenced sources and code belong to their original authors and is used with their permission. View the
@@ -34,7 +30,7 @@ public class CustomSoundsLoader
 	private String name;
 	private String mcmeta;
 	private List<CustomFile> customsSounds = new ArrayList<CustomFile>();
-	private static List<IResourcePack> defaultResourcePacks;
+	private static List<IResourceType> defaultResourcePacks;
 
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -94,25 +90,26 @@ public class CustomSoundsLoader
 			throw new RuntimeException(e);
 		}
 
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+		ForgeHooksClient.refreshResources();
+		if(ForgeHooksClient.getSide().isClient())
 		{
-			try
-			{
-				if(defaultResourcePacks == null)
-					defaultResourcePacks = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "defaultResourcePacks", "field_110449_ao", "ap");
-
-				File dest = new File(dir.getParent() + "/Resourcepack/" + zip.getName());
-				FileUtil.safeDelete(dest);
-				FileUtils.copyFile(zip, dest);
-				FileUtil.safeDelete(zip);
-				FileUtil.writeNewFile(new File(dest.getParent() + "/readme.txt"), "This is the resource pack for loading in custom sounds to chance cubes. Feel free to ignore this file and folder.");
-				defaultResourcePacks.add(new FileResourcePack(dest));
-				
-				Minecraft.getMinecraft().refreshResources();
-			} catch(Exception e)
-			{
-				CCubesCore.logger.error("Failed to inject the resource pack for the custom sounds in the Chance Cubes rewards: ", e);
-			}
+//			try
+//			{
+//				if(defaultResourcePacks == null)
+//					defaultResourcePacks = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "defaultResourcePacks", "field_110449_ao", "ap");
+//
+//				File dest = new File(dir.getParent() + "/Resourcepack/" + zip.getName());
+//				FileUtil.safeDelete(dest);
+//				FileUtils.copyFile(zip, dest);
+//				FileUtil.safeDelete(zip);
+//				FileUtil.writeNewFile(new File(dest.getParent() + "/readme.txt"), "This is the resource pack for loading in custom sounds to chance cubes. Feel free to ignore this file and folder.");
+//				defaultResourcePacks.add(new FileResourcePack(dest));
+//				
+//				Minecraft.getMinecraft().refreshResources();
+//			} catch(Exception e)
+//			{
+//				CCubesCore.logger.error("Failed to inject the resource pack for the custom sounds in the Chance Cubes rewards: ", e);
+//			}
 		}
 	}
 

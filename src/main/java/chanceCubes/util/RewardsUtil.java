@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -13,6 +15,10 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.ICommandSource;
+import net.minecraft.command.arguments.EntityAnchorArgument;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -27,8 +33,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -207,12 +217,6 @@ public class RewardsUtil
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(mod, blockName));
 	}
 
-	@SuppressWarnings("deprecation")
-	public static IBlockState getBlockStateFromBlockMeta(Block b, int meta)
-	{
-		return b.getStateFromMeta(meta);
-	}
-
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
 	{
 		return RewardsUtil.placeBlock(b, world, pos, 3, false);
@@ -351,7 +355,7 @@ public class RewardsUtil
 			{
 				return new PotionEffect(MobEffects.WITHER, 5, 1);
 			}
-			potion = (Potion) Potion.REGISTRY.getObjectById(rand.nextInt(Potion.REGISTRY.getKeys().size()));
+			potion = (Potion) Potion.REGISTRY.get(rand.nextInt(Potion.REGISTRY.getKeys().size()));
 			tries++;
 		} while(potion == null);
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
@@ -381,8 +385,9 @@ public class RewardsUtil
 	{
 		MinecraftServer server = world.getServer();
 		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-		server.getCommandManager().handleCommand(new CCubesCommandSender(player, player.getPosition()), command);
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
+		CommandSource cs = new CommandSource(player, player.getPositionVector(), player.getPitchYaw(), server.getWorld(player.getEntityWorld().getDimension().getId()), 2, player.getName().getString(), player.getDisplayName(), server, player);
+		server.getCommandManager().handleCommand(cs, command);
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
 	}
 }

@@ -1,18 +1,9 @@
 package chanceCubes.util;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.command.CommandResultStats.Type;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.Entity;
+import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CCubesCommandSender implements ICommandSource
 {
@@ -32,73 +23,20 @@ public class CCubesCommandSender implements ICommandSource
 	}
 
 	@Override
-	public World getEntityWorld()
-	{
-		return harvester != null ? harvester.world : null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int func_145751_f()
-	{
-		return 0;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void func_145757_a(ByteBuf p_145757_1_)
-	{
-	}
-
-	@Override
-	public BlockPos getPosition()
-	{
-		return blockLoc;
-	}
-
-	@Override
-	public Vec3d getPositionVector()
-	{
-		return new Vec3d(blockLoc.getX(), blockLoc.getY(), blockLoc.getZ());
-	}
-
-	@Override
-	public Entity getCommandSenderEntity()
-	{
-		return harvester;
-	}
-
-	@Override
-	public MinecraftServer getServer()
-	{
-		return harvester.getEntityWorld().getMinecraftServer();
-	}
-
-	@Override
-	public String getName()
-	{
-		return "Chance Cubes";
-	}
-
-	@Override
-	public ITextComponent getDisplayName()
-	{
-		return new TextComponentString(this.getName());
-	}
-
-	@Override
-	public boolean canUseCommand(int permLevel, String commandName)
-	{
-		return true;
-	}
-
-	@Override
-	public boolean sendCommandFeedback()
+	public boolean shouldReceiveFeedback()
 	{
 		return false;
 	}
 
 	@Override
-	public void setCommandStat(Type type, int amount)
+	public boolean shouldReceiveErrors()
 	{
+		return false;
+	}
 
+	@Override
+	public boolean allowLogging()
+	{
+		return false;
 	}
 }

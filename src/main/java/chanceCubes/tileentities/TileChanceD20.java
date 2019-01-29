@@ -7,10 +7,10 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,6 +38,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public TileChanceD20()
 	{
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
 		if(!CCubesSettings.d20UseNormalChances)
 		{
 			this.chance = random.nextBoolean() ? -100 : 100;
@@ -52,6 +53,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public TileChanceD20(int initialChance)
 	{
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
 		this.chance = initialChance;
 	}
 

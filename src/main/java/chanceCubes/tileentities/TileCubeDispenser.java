@@ -16,6 +16,11 @@ public class TileCubeDispenser extends TileEntity
 
 	public float rot = 0;
 	public float wave = 0;
+	
+	public TileCubeDispenser()
+	{
+		super(CCubesBlocks.TILE_CUBE_DISPENSER);
+	}
 
 	public EntityItem getRenderEntityItem(DispenseType type)
 	{

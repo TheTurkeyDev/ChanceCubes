@@ -1,5 +1,6 @@
 package chanceCubes.tileentities;
 
+import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -8,6 +9,11 @@ import net.minecraft.util.math.BlockPos;
 
 public class TileGiantCube extends TileEntity
 {
+	public TileGiantCube()
+	{
+		super(CCubesBlocks.TILE_CHANCE_GIANT);
+	}
+
 	private boolean hasMaster, isMaster;
 	private BlockPos masterPos;
 

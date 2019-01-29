@@ -221,11 +221,11 @@ public class NonreplaceableBlockOverride
 						if(!CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
-							CCubesCore.logger.info("Adding " + override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " to NRB array.");
+							CCubesCore.logger.info("Adding " + override.overriddenBlock.getBlock().getRegistryName() + " to NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " already exists in the NRB array, skipping.");
+							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " already exists in the NRB array, skipping.");
 						}
 						break;
 					}
@@ -234,11 +234,11 @@ public class NonreplaceableBlockOverride
 						if(CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.remove(override.overriddenBlock);
-							CCubesCore.logger.info("Removing " + override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " from NRB array.");
+							CCubesCore.logger.info("Removing " + override.overriddenBlock.getBlock().getRegistryName() + " from NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " has already been removed from the NRB array, skipping.");
+							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " has already been removed from the NRB array, skipping.");
 						}
 						break;
 					}
@@ -267,7 +267,7 @@ public class NonreplaceableBlockOverride
 			if(noLongerExists(toRemove))
 			{
 				blocksToRemove.add(toRemove);
-				CCubesCore.logger.info("Removing " + toRemove.getBlock().getRegistryName() + ":" + toRemove.getBlock().getMetaFromState(toRemove) + " from Overrides list.");
+				CCubesCore.logger.info("Removing " + toRemove.getBlock().getRegistryName() + " from Overrides list.");
 			}
 		}
 		CCubesSettings.nonReplaceableBlocks.removeAll(blocksToRemove);

@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import chanceCubes.CCubesCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Timer;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common;
 
 public class RenderUtil
 {
@@ -19,7 +19,7 @@ public class RenderUtil
 		Field f = null;
 		try
 		{
-			f = ReflectionHelper.findField(Minecraft.class, "field_71428_T", "timer", "Q");
+			f = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71428_T", "timer", "Q");
 			f.setAccessible(true);
 		} catch(Exception e)
 		{
