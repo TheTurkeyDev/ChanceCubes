@@ -25,6 +25,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.EffectPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ExpirencePart;
 import chanceCubes.rewards.rewardparts.ItemPart;
@@ -36,6 +37,7 @@ import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ChestRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
+import chanceCubes.rewards.type.EffectRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.ExperienceRewardType;
 import chanceCubes.rewards.type.IRewardType;
@@ -286,6 +288,8 @@ public class CustomRewardsLoader extends BaseLoader
 					this.loadChestReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Particle"))
 					this.loadParticleReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Effect"))
+					this.loadEffectReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. The " + this.currentParsingPart + " part of the \"" + this.currentParsingReward + "\" reward may be the issue! I will try better next time.");
@@ -548,6 +552,24 @@ public class CustomRewardsLoader extends BaseLoader
 		return rewards;
 	}
 
+	public List<IRewardType> loadEffectReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<EffectPart> effects = new ArrayList<EffectPart>();
+		for(JsonElement elementElem : rawReward)
+		{
+			JsonObject element = elementElem.getAsJsonObject();
+			EffectPart effectPart = new EffectPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+
+			effectPart.setDelay(this.getInt(element, "radius", 1));
+
+			effectPart.setDelay(this.getInt(element, "delay", effectPart.getDelay()));
+
+			effects.add(effectPart);
+		}
+		rewards.add(new EffectRewardType(effects.toArray(new EffectPart[effects.size()])));
+		return rewards;
+	}
+
 	public String removedKeyQuotes(String raw)
 	{
 		StringBuilder sb = new StringBuilder(raw.toString());
@@ -612,7 +634,7 @@ public class CustomRewardsLoader extends BaseLoader
 		String in = "";
 		if(json.has(key))
 			in = json.get(key).getAsString();
-		
+
 		in = this.removedKeyQuotes(in);
 
 		return this.getNBT(in);

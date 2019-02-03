@@ -91,7 +91,7 @@ public class BlockInfectionReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":WorldInfection";
+		return CCubesCore.MODID + ":World_Infection";
 	}
 
 }
