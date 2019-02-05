@@ -10,6 +10,7 @@ import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.network.CCubesPacketHandler;
@@ -107,6 +108,7 @@ public class CCubesCore
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
+		LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
 		

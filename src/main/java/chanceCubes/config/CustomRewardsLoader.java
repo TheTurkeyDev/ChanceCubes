@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -46,11 +45,10 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
-import chanceCubes.rewards.variableParts.ListPart;
-import chanceCubes.rewards.variableParts.StringPart;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.sounds.CustomSoundsLoader;
@@ -64,21 +62,16 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
 
-public class CustomRewardsLoader
+public class CustomRewardsLoader extends BaseLoader
 {
 	public static CustomRewardsLoader instance;
 
-	private File folder;
 	private static JsonParser json;
 
 	private boolean reSaveCurrentJson = false;
-
-	private String currentParsingReward = "";
-	private String currentParsingPart = "";
 
 	public CustomRewardsLoader(File folder)
 	{
@@ -120,7 +113,6 @@ public class CustomRewardsLoader
 
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					currentParsingReward = reward.getKey();
 					CustomEntry<BasicReward, Boolean> parsedReward = this.parseReward(reward);
 					BasicReward basicReward = parsedReward.getKey();
 					if(basicReward == null)
@@ -219,6 +211,7 @@ public class CustomRewardsLoader
 
 	public CustomEntry<BasicReward, Boolean> parseReward(Entry<String, JsonElement> reward)
 	{
+		currentParsingReward = reward.getKey();
 		List<IRewardType> rewards = new ArrayList<IRewardType>();
 		JsonObject rewardElements = reward.getValue().getAsJsonObject();
 		int chance = 0;
@@ -307,11 +300,12 @@ public class CustomRewardsLoader
 		List<ItemPart> items = new ArrayList<ItemPart>();
 		for(JsonElement fullelement : rawReward)
 		{
-			NBTTagCompound nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
+			NBTVar nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
 			if(nbt == null)
 				continue;
 
-			ItemPart stack = new ItemPart(new ItemStack(nbt));
+			//TODO: Make dynamic?
+			ItemPart stack = new ItemPart(new ItemStack(nbt.getNBTValue()));
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
 
@@ -449,11 +443,11 @@ public class CustomRewardsLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart exppart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1));
+			PotionPart potPart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
-			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
+			potPart.setDelay(this.getInt(element, "delay", potPart.getDelay()));
 
-			potionEffects.add(exppart);
+			potionEffects.add(potPart);
 		}
 		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[potionEffects.size()])));
 		return rewards;
@@ -579,185 +573,49 @@ public class CustomRewardsLoader
 
 	public IntVar getInt(JsonObject json, String key, int defaultVal)
 	{
-		IntVar var = new IntVar();
+		String in = "";
 		if(json.has(key))
-		{
-			String input = json.get(key).getAsString();
+			in = json.get(key).getAsString();
 
-			String[] parts = input.split("%%");
-			int index = -1;
-			for(String part : parts)
-			{
-				index++;
-				if(part.isEmpty())
-					continue;
-
-				if(index % 2 == 0)
-				{
-					if(IntVar.isInteger(part))
-					{
-						var.addPart(new StringPart(part));
-					}
-					else
-					{
-						CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
-						CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-					}
-				}
-				else
-				{
-					part = part.replaceAll(" ", "");
-					if(part.startsWith("RND"))
-						var.addPart(IntVar.parseRandom(part));
-					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-						var.addPart(new ListPart<Integer>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
-				}
-			}
-		}
-
-		if(var.isEmpty())
-			var.addPart(new StringPart(defaultVal));
-
-		return var;
+		return this.getInt(in, defaultVal);
 	}
 
 	public FloatVar getFloat(JsonObject json, String key, float defaultVal)
 	{
-		FloatVar var = new FloatVar();
+		String in = "";
 		if(json.has(key))
-		{
-			String input = json.get(key).getAsString();
+			in = json.get(key).getAsString();
 
-			String[] parts = input.split("%%");
-			int index = -1;
-			for(String part : parts)
-			{
-				index++;
-				if(part.isEmpty())
-					continue;
-
-				if(index % 2 == 0)
-				{
-					if(FloatVar.isFloat(part))
-					{
-						var.addPart(new StringPart(part));
-					}
-					else
-					{
-						CCubesCore.logger.log(Level.ERROR, "An integer was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
-						CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
-					}
-				}
-				else
-				{
-					part = part.replaceAll(" ", "");
-					if(part.startsWith("RND"))
-						var.addPart(FloatVar.parseRandom(part));
-					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-						var.addPart(new ListPart<Float>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
-				}
-
-			}
-		}
-		if(var.isEmpty())
-			var.addPart(new StringPart(defaultVal));
-
-		return var;
+		return this.getFloat(in, defaultVal);
 	}
 
 	public BoolVar getBoolean(JsonObject json, String key, boolean defaultVal)
 	{
-		BoolVar var = new BoolVar();
+		String in = "";
 		if(json.has(key))
-		{
-			String input = json.get(key).getAsString();
+			in = json.get(key).getAsString();
 
-			String[] parts = input.split("%%");
-			int index = -1;
-			for(String part : parts)
-			{
-				index++;
-				if(part.isEmpty())
-					continue;
-
-				if(index % 2 == 0)
-				{
-					var.addPart(new StringPart(part));
-				}
-				else
-				{
-					part = part.replaceAll(" ", "");
-					if(part.startsWith("RND"))
-						var.addPart(BoolVar.parseRandom(part));
-					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-						var.addPart(new ListPart<Boolean>(Arrays.stream(part.substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
-				}
-
-			}
-		}
-		if(var.isEmpty())
-			var.addPart(new StringPart(defaultVal));
-
-		return var;
+		return this.getBoolean(in, defaultVal);
 	}
 
 	public StringVar getString(JsonObject json, String key, String defaultVal)
 	{
-		StringVar var = new StringVar();
+		String in = "";
 		if(json.has(key))
-		{
-			String input = json.get(key).getAsString();
-			String[] parts = input.split("%%");
-			int index = -1;
-			for(String part : parts)
-			{
-				index++;
-				if(part.isEmpty())
-					continue;
+			in = json.get(key).getAsString();
 
-				if(index % 2 == 0)
-				{
-					var.addPart(new StringPart(part));
-				}
-				else
-				{
-					part = part.replaceAll(" ", "");
-					if(part.startsWith("RND"))
-						var.addPart(IntVar.parseRandom(part));
-					else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-						var.addPart(new ListPart<String>(part.substring(1, part.lastIndexOf(']')).split(",")));
-				}
-
-			}
-		}
-		if(var.isEmpty())
-			var.addPart(new StringPart(defaultVal));
-
-		return var;
+		return this.getString(in, defaultVal);
 	}
 
-	public NBTTagCompound getNBT(JsonObject json, String key)
+	public NBTVar getNBT(JsonObject json, String key)
 	{
-		if(!json.has(key))
-			return null;
+		String in = "";
+		if(json.has(key))
+			in = json.get(key).getAsString();
+		
+		in = this.removedKeyQuotes(in);
 
-		JsonObject itemJson = json.getAsJsonObject(key);
-
-		try
-		{
-			String jsonEdited = this.removedKeyQuotes(itemJson.toString());
-			NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
-
-			if(nbtbase instanceof NBTTagCompound)
-				return (NBTTagCompound) nbtbase;
-
-		} catch(NBTException e1)
-		{
-			CCubesCore.logger.log(Level.ERROR, e1.getMessage());
-		}
-
-		CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + itemJson.toString());
-		return null;
+		return this.getNBT(in);
 	}
 
 	public void fixOldJsonKeys(JsonObject json)

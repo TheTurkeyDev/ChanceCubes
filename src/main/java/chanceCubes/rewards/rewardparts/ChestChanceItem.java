@@ -7,7 +7,7 @@ import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.item.ItemStack;
 
-public class ChestChanceItem
+public class ChestChanceItem  extends BasePart
 {
 	private static Random rand = new Random();
 	private String mod;

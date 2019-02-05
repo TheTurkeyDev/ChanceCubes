@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.mojang.authlib.GameProfile;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
@@ -26,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -83,7 +87,9 @@ public class CCubesServerCommands extends CommandBase
 	@Override
 	public void execute(final MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
 	{
-		if(args.length > 0 && args[0].equalsIgnoreCase("reload"))
+		if(args.length == 0)
+			return;
+		if(args[0].equalsIgnoreCase("reload"))
 		{
 			new Thread(new Runnable()
 			{
@@ -96,6 +102,7 @@ public class CCubesServerCommands extends CommandBase
 					GiantCubeRegistry.loadDefaultRewards();
 					CustomRewardsLoader.instance.loadCustomRewards();
 					CustomRewardsLoader.instance.fetchRemoteInfo();
+					LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
 					NonreplaceableBlockOverride.loadOverrides();
@@ -103,7 +110,7 @@ public class CCubesServerCommands extends CommandBase
 				}
 			}).start();
 		}
-		else if(args.length > 0 && args[0].equalsIgnoreCase("version"))
+		else if(args[0].equalsIgnoreCase("version"))
 		{
 			sender.sendMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
 		}
@@ -261,18 +268,33 @@ public class CCubesServerCommands extends CommandBase
 		}
 	}
 
-	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
 	{
-		return true;
+		if(sender instanceof EntityPlayer)
+		{
+			GameProfile profile = ((EntityPlayer)sender).getGameProfile();
+			if(server.getPlayerList().canSendCommands(profile))
+			{
+				UserListOpsEntry userlistopsentry = (UserListOpsEntry) server.getPlayerList().getOppedPlayers().getEntry(profile);
+				if(userlistopsentry != null)
+					return userlistopsentry.getPermissionLevel() >= 2;
+				else
+					return server.getOpPermissionLevel() >= 2;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
-		if(args.length == 0)
+		if(args.length == 1)
 			return tab;
-		else
+		else if(args.length > 1)
 		{
 			if(args[0].equalsIgnoreCase("disableReward"))
 				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getRewardNames());
@@ -280,8 +302,7 @@ public class CCubesServerCommands extends CommandBase
 				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getDisabledRewardNames());
 			else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
 				return Arrays.asList("create", "cancel");
-			else
-				return Collections.<String> emptyList();
 		}
+		return Collections.<String> emptyList();
 	}
 }

@@ -20,6 +20,7 @@ import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -344,9 +345,19 @@ public class SchematicUtil
 		}
 	}
 
-	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTTagCompound nbt)
+	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTVar nbt)
 	{
 		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), nbt, osb.isFallingVar(), osb.getDelayVar());
+		oste.setBlockState(osb.getBlockState());
+		oste.setDelay(osb.getDelay());
+		oste.setRelativeToPlayer(osb.isRelativeToPlayer());
+		oste.setFalling(osb.isFalling());
+		return oste;
+	}
+
+	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTTagCompound nbt)
+	{
+		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), new NBTVar(nbt), osb.isFallingVar(), osb.getDelayVar());
 		oste.setBlockState(osb.getBlockState());
 		oste.setDelay(osb.getDelay());
 		oste.setRelativeToPlayer(osb.isRelativeToPlayer());

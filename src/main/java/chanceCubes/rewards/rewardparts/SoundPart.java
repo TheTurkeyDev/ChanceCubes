@@ -5,11 +5,9 @@ import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import net.minecraft.util.SoundEvent;
 
-public class SoundPart
+public class SoundPart extends BasePart
 {
 	private SoundEvent sound;
-
-	private IntVar delay = new IntVar(0);
 
 	private BoolVar serverWide = new BoolVar(false);
 	private IntVar range = new IntVar(16);
@@ -21,28 +19,23 @@ public class SoundPart
 
 	public SoundPart(SoundEvent sound)
 	{
+		this(sound, 0);
+	}
+
+	public SoundPart(SoundEvent sound, int delay)
+	{
+		this(sound, new IntVar(delay));
+	}
+
+	public SoundPart(SoundEvent sound, IntVar delay)
+	{
 		this.sound = sound;
+		this.setDelay(delay);
 	}
 
 	public SoundEvent getSound()
 	{
 		return sound;
-	}
-
-	public int getDelay()
-	{
-		return delay.getIntValue();
-	}
-
-	public SoundPart setDelay(int delay)
-	{
-		return this.setDelay(new IntVar(delay));
-	}
-
-	public SoundPart setDelay(IntVar delay)
-	{
-		this.delay = delay;
-		return this;
 	}
 
 	public boolean isServerWide()

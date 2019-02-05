@@ -39,6 +39,11 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
 
 				Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
+				if(newEnt == null)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
+					return;
+				}
 				newEnt.setPosition(x + 0.5, y, z + 0.5);
 				world.spawnEntity(newEnt);
 			}
