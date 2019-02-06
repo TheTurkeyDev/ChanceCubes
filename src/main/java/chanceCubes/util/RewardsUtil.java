@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -392,5 +393,29 @@ public class RewardsUtil
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+	}
+
+	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+		{
+			EntityPlayer entityplayer = world.playerEntities.get(i);
+
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
+			if(dist <= range)
+				setPlayerTitle(entityplayer, spackettitle);
+		}
+	}
+
+	public static void setAllPlayersTitle(World world, SPacketTitle spackettitle)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+			setPlayerTitle(world.playerEntities.get(i), spackettitle);
+	}
+
+	public static void setPlayerTitle(EntityPlayer player, SPacketTitle title)
+	{
+		if(player instanceof EntityPlayerMP)
+			((EntityPlayerMP) player).connection.sendPacket(title);
 	}
 }

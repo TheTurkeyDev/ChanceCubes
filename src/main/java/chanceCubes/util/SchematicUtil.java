@@ -179,7 +179,11 @@ public class SchematicUtil
 			e.printStackTrace();
 			return null;
 		}
+		return loadLegacySchematic(nbtdata, zoff, zoff, zoff, spacingDelay, includeAirBlocks, includeAirBlocks, includeAirBlocks, delay);
+	}
 
+	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	{
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");

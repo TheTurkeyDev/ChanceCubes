@@ -34,6 +34,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
+import chanceCubes.rewards.rewardparts.TitlePart;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.ChestRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
@@ -47,6 +48,7 @@ import chanceCubes.rewards.type.ParticleEffectRewardType;
 import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.rewards.type.TitleRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -290,6 +292,8 @@ public class CustomRewardsLoader extends BaseLoader
 					this.loadParticleReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Effect"))
 					this.loadEffectReward(rewardTypes, rewards);
+				else if(rewardElement.getKey().equalsIgnoreCase("Title"))
+					this.loadTitleReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. The " + this.currentParsingPart + " part of the \"" + this.currentParsingReward + "\" reward may be the issue! I will try better next time.");
@@ -447,7 +451,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart potPart = new PotionPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			PotionPart potPart = new PotionPart(this.getString(element, "potionid", "0"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			potPart.setDelay(this.getInt(element, "delay", potPart.getDelay()));
 
@@ -558,7 +562,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			EffectPart effectPart = new EffectPart(this.getInt(element, "potionid", 0), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			EffectPart effectPart = new EffectPart(this.getString(element, "potionID", "1"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			effectPart.setDelay(this.getInt(element, "radius", 1));
 
@@ -567,6 +571,28 @@ public class CustomRewardsLoader extends BaseLoader
 			effects.add(effectPart);
 		}
 		rewards.add(new EffectRewardType(effects.toArray(new EffectPart[effects.size()])));
+		return rewards;
+	}
+
+	public List<IRewardType> loadTitleReward(JsonArray rawReward, List<IRewardType> rewards)
+	{
+		List<TitlePart> titles = new ArrayList<TitlePart>();
+		for(JsonElement elementElem : rawReward)
+		{
+			JsonObject element = elementElem.getAsJsonObject();
+			TitlePart titlePart = new TitlePart(this.getString(element, "type", "TITLE"), this.getString(element, "message", "{}").getValue());
+
+			titlePart.setFadeInTime(this.getInt(element, "fadeInTime", 0));
+			titlePart.setDisplayTime(this.getInt(element, "displayTime", 0));
+			titlePart.setFadeOutTime(this.getInt(element, "fadeOutTime", 0));
+			titlePart.setServerWide(this.getBoolean(element, "isServerWide", false));
+			titlePart.setRange(this.getInt(element, "range", 0));
+
+			titlePart.setDelay(this.getInt(element, "delay", titlePart.getDelay()));
+
+			titles.add(titlePart);
+		}
+		rewards.add(new TitleRewardType(titles.toArray(new TitlePart[titles.size()])));
 		return rewards;
 	}
 

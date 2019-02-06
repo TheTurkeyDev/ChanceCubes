@@ -9,6 +9,8 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -51,6 +53,14 @@ public class DigBuildReward implements IChanceCubeReward
 					player.sendMessage(new TextComponentString("Here, have a item!"));
 					player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
+				}
+
+				if(this.delayLeft % 20 == 0)
+				{
+					int time = this.delayLeft / 20;
+					TextComponentString message = new TextComponentString(String.valueOf(time));
+					message.getStyle().setBold(true);
+					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
 				}
 			}
 		});

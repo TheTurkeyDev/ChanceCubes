@@ -8,6 +8,8 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -38,6 +40,14 @@ public class MagicFeetReward implements IChanceCubeReward
 					CustomEntry<Block, Integer> block = RewardsUtil.getRandomOre();
 					RewardsUtil.placeBlock(RewardsUtil.getBlockStateFromBlockMeta(block.getKey(), block.getValue()), world, beneth);
 					last = beneth;
+				}
+
+				if(this.delayLeft % 20 == 0)
+				{
+					int time = this.delayLeft / 20;
+					TextComponentString message = new TextComponentString(String.valueOf(time));
+					message.getStyle().setBold(true);
+					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
 				}
 			}
 		});
