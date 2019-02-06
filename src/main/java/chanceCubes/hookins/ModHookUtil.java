@@ -37,7 +37,8 @@ public class ModHookUtil
 	{
 		Map<String, ModContainer> indexedModList = Loader.instance().getIndexedModList();
 		ModContainer modContainer = indexedModList.get(modid);
-		if (modContainer != null) {
+		if(modContainer != null)
+		{
 			return modContainer.getName();
 		}
 		return modid;
