@@ -2,7 +2,6 @@ package chanceCubes.config;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,8 +47,6 @@ import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -102,8 +99,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 						files.put(entry.getName(), stream);
 					}
 
-					zipFile.close();
-
 					InputStream stream;
 					if(files.containsKey("structures.txt"))
 					{
@@ -115,6 +110,8 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					stream = files.get("drops.txt");
 					parseDropsFile(rewardPackName, files.get("drops.txt"));
 					stream.close();
+					
+					zipFile.close();
 
 				} catch(Exception e)
 				{
@@ -422,10 +419,12 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		{
 			case "item":
 			{
-				String item = typeMap.get("ID");
-
 				builder.setLength(0);
 				builder.append("{");
+
+				builder.append("id:\"");
+				builder.append(typeMap.get("ID"));
+				builder.append("\",");
 
 				if(typeMap.containsKey("damage"))
 				{
@@ -453,7 +452,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 				builder.append("}");
 
-				ItemPart itemPart = new ItemPart(item, builder.toString());
+				ItemPart itemPart = new ItemPart(builder.toString());
 
 				if(typeMap.containsKey("delay"))
 					itemPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));

@@ -26,6 +26,7 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 			public void callback()
 			{
 				String commandToRun = command.getParsedCommand(world, x, y, z, player);
+				System.out.println(commandToRun);
 
 				CCubesCommandSender sender = new CCubesCommandSender(player, new BlockPos(x, y, z));
 				MinecraftServer server = world.getMinecraftServer();

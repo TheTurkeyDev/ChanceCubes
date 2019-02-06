@@ -63,7 +63,6 @@ import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -313,7 +312,7 @@ public class CustomRewardsLoader extends BaseLoader
 				continue;
 
 			//TODO: Make dynamic?
-			ItemPart stack = new ItemPart(new ItemStack(nbt.getNBTValue()));
+			ItemPart stack = new ItemPart(nbt);
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
 
@@ -381,6 +380,7 @@ public class CustomRewardsLoader extends BaseLoader
 		{
 			JsonObject element = elementElem.getAsJsonObject();
 			CommandPart command = new CommandPart(this.getString(element, "command", "/help"));
+			System.out.println(command.getRawCommand());
 
 			command.setDelay(this.getInt(element, "delay", command.getDelay()));
 
