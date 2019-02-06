@@ -2,6 +2,7 @@ package chanceCubes.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,21 +24,21 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.BasePart;
 import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.EffectPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
-import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.type.BlockRewardType;
 import chanceCubes.rewards.type.CommandRewardType;
+import chanceCubes.rewards.type.EffectRewardType;
 import chanceCubes.rewards.type.EntityRewardType;
 import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
-import chanceCubes.rewards.type.PotionRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -47,6 +48,8 @@ import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -54,6 +57,10 @@ public class LuckyBlockRewardLoader extends BaseLoader
 {
 	public static LuckyBlockRewardLoader instance;
 	private static Map<String, String> staticHashVars = new HashMap<>();
+
+	private static Map<String, InputStream> files = new HashMap<>();
+
+	private static Map<String, LBStructure> structures = new HashMap<>();
 
 	static
 	{
@@ -81,7 +88,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			if(f.getName().contains(".zip"))
 			{
 				CCubesCore.logger.log(Level.INFO, "Loading Lucky Blocks rewards file " + f.getName());
-				String fileName = f.getName().substring(0, f.getName().indexOf("."));
+				String rewardPackName = f.getName().substring(0, f.getName().indexOf("."));
 				try
 				{
 					ZipFile zipFile = new ZipFile(f);
@@ -92,25 +99,87 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					{
 						ZipEntry entry = entries.nextElement();
 						InputStream stream = zipFile.getInputStream(entry);
-						if(entry.getName().equalsIgnoreCase("drops.txt"))
-						{
-							parseDropsFile(fileName, stream);
-						}
-
-						stream.close();
+						files.put(entry.getName(), stream);
 					}
 
 					zipFile.close();
+
+					InputStream stream;
+					if(files.containsKey("structures.txt"))
+					{
+						stream = files.get("structures.txt");
+						parseStructuresFile(rewardPackName, files.get("structures.txt"));
+						stream.close();
+					}
+
+					stream = files.get("drops.txt");
+					parseDropsFile(rewardPackName, files.get("drops.txt"));
+					stream.close();
+
 				} catch(Exception e)
 				{
 					e.printStackTrace();
 				}
+
 				CCubesCore.logger.log(Level.INFO, "Loaded Lucky Blocks rewards file " + f.getName());
 			}
 		}
 	}
 
-	public void parseDropsFile(String fileName, InputStream stream) throws IOException
+	public void parseStructuresFile(String rewardPackName, InputStream stream) throws IOException
+	{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		StringBuilder multiLine = new StringBuilder();
+		String line;
+		while((line = reader.readLine()) != null)
+		{
+			line = line.trim();
+			if(line.isEmpty() || line.startsWith("/"))
+			{
+				continue;
+			}
+			else if(line.endsWith("\\"))
+			{
+				line = line.substring(0, line.length() - 1);
+				multiLine.append(line);
+				continue;
+			}
+
+			if(multiLine.length() > 0)
+			{
+				multiLine.append(line);
+				line = multiLine.toString();
+				multiLine.setLength(0);
+			}
+
+			LBStructure structure = new LBStructure();
+			String[] lineArgs = line.split(",");
+			for(String arg : lineArgs)
+			{
+				String[] parts = arg.split("=");
+				if(parts[0].equalsIgnoreCase("ID"))
+					structure.id = parts[1];
+				else if(parts[0].equalsIgnoreCase("file"))
+					structure.file = parts[1];
+				else if(parts[0].equalsIgnoreCase("centerX"))
+					structure.xOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("centerY"))
+					structure.yOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("centerZ"))
+					structure.zOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("blockMode"))
+					structure.mode = parts[1];
+				else if(parts[0].equalsIgnoreCase("blockUpdate"))
+					structure.blockUpdate = this.getBoolean(parts[1], false).getBoolValue();
+				else if(parts[0].equalsIgnoreCase("overlayStruct"))
+					structure.overlayStruct = parts[1];
+			}
+
+			structures.put(structure.id, structure);
+		}
+	}
+
+	public void parseDropsFile(String rewardPackName, InputStream stream) throws IOException
 	{
 		int rewardNumber = 0;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -118,7 +187,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		String line;
 		while((line = reader.readLine()) != null)
 		{
-			currentParsingReward = fileName + "_" + rewardNumber;
+			currentParsingReward = rewardPackName + "_" + rewardNumber;
 			lineNumber++;
 			line = line.trim();
 			if(line.isEmpty() || line.startsWith("/"))
@@ -211,8 +280,8 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					{
 						List<BasePart> parts = new ArrayList<BasePart>();
 						for(IRewardType type : rewards.get(key))
-							parts.addAll(Arrays.asList(((PotionRewardType) type).getRewardParts()));
-						rewardTypes.add(new PotionRewardType(parts.toArray(new PotionPart[0])));
+							parts.addAll(Arrays.asList(((EffectRewardType) type).getRewardParts()));
+						rewardTypes.add(new EffectRewardType(parts.toArray(new EffectPart[0])));
 						break;
 					}
 					case "message":
@@ -242,7 +311,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				}
 			}
 
-			BasicReward reward = new BasicReward(fileName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
+			BasicReward reward = new BasicReward(rewardPackName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
 			System.out.println(reward.getName() + " @ " + reward.getChanceValue());
 			ChanceCubeRegistry.INSTANCE.registerReward(reward);
 			ChanceCubeRegistry.INSTANCE.addCustomReward(reward);
@@ -271,13 +340,11 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		while(index != -1)
 		{
 			s = line.substring(index + 1);
-			s = this.parseStringPart(s, true, Arrays.asList(':', ','));
-			if(staticHashVars.keySet().contains(s))
+
+			if(s.startsWith("randList("))
 			{
-				line = line.replace("#" + s, staticHashVars.get(s));
-			}
-			else if(s.startsWith("randList("))
-			{
+				s = this.parseStringPart(s.substring(8), true, new ArrayList<Character>());
+				s = "randList" + s;
 				String inner = s.substring(9, s.length() - 1);
 				inner = replaceStaticPlaceHolders(inner, false);
 				String replace = "[" + inner + "]";
@@ -287,12 +354,19 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 			else if(s.startsWith("rand("))
 			{
+				s = this.parseStringPart(s.substring(4), true, new ArrayList<Character>());
+				s = "rand" + s;
 				String inner = s.substring(5, s.length() - 1);
 				inner = replaceStaticPlaceHolders(inner, false);
 				String replace = "RND(" + inner + ")";
 				if(topLevel)
 					replace = "%%" + replace + "%%";
 				line = line.replace("#" + s, replace);
+			}
+			else if(staticHashVars.keySet().contains(s))
+			{
+				s = this.parseStringPart(s, true, Arrays.asList(':', ','));
+				line = line.replace("#" + s, staticHashVars.get(s));
 			}
 			index = line.indexOf("#", index + 1);
 		}
@@ -477,7 +551,11 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 			case "structure":
 			{
-				//TODO
+				String id = typeMap.get("ID");
+				LBStructure struct = structures.get(id);
+				
+				//TODO: Continue
+				
 				List<IRewardType> itemTypes = rewards.get("schematic");
 				if(itemTypes == null)
 				{
@@ -508,7 +586,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 			case "effect":
 			{
-				//TODO Create an effect reward type
 				IntVar duration = new IntVar(30);
 				if(typeMap.containsKey("duration"))
 					duration = super.getInt(typeMap.get("duration"), 30);
@@ -516,10 +593,10 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				if(typeMap.containsKey("amplifier"))
 					duration = super.getInt(typeMap.get("amplifier"), 0);
 
-				PotionPart potPart = new PotionPart(super.getInt(typeMap.get("ID"), 1), duration, amplifier);
+				EffectPart effectPart = new EffectPart(super.getString(typeMap.get("ID"), "1"), duration, amplifier);
 
 				if(typeMap.containsKey("delay"))
-					potPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
+					effectPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
 
 				List<IRewardType> effectTypes = rewards.get("effect");
 				if(effectTypes == null)
@@ -528,7 +605,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					rewards.put("effect", effectTypes);
 				}
 
-				effectTypes.add(new PotionRewardType(potPart));
+				effectTypes.add(new EffectRewardType(effectPart));
 				break;
 			}
 			case "difficulty":
@@ -784,5 +861,15 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		if(FloatVar.isFloat(delay))
 			return String.valueOf(Math.round(20 * Float.parseFloat(delay)));
 		return delay;
+	}
+
+	private class LBStructure
+	{
+		public String id = "";
+		public String file = "";
+		public int xOff = 0, yOff = 0, zOff = 0;
+		public String mode = "replace";
+		public boolean blockUpdate = false;
+		public String overlayStruct = "";
 	}
 }

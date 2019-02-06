@@ -18,6 +18,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -80,17 +82,24 @@ public class MathReward implements IChanceCubeReward
 			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, boxBlocks));
 		}
 
-		Task task = new Task("Math", 100)
+		Scheduler.scheduleTask(new Task("Math", 100, 20)
 		{
 			@Override
 			public void callback()
 			{
 				timeUp(player, false);
 			}
+			
+			@Override
+			public void update()
+			{
+				int time = this.delayLeft / 20;
+				TextComponentString message = new TextComponentString(String.valueOf(time));
+				message.getStyle().setBold(true);
+				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+			}
 
-		};
-
-		Scheduler.scheduleTask(task);
+		});
 	}
 
 	private void timeUp(EntityPlayer player, boolean correct)
