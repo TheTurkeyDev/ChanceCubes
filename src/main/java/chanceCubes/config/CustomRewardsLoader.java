@@ -380,7 +380,6 @@ public class CustomRewardsLoader extends BaseLoader
 		{
 			JsonObject element = elementElem.getAsJsonObject();
 			CommandPart command = new CommandPart(this.getString(element, "command", "/help"));
-			System.out.println(command.getRawCommand());
 
 			command.setDelay(this.getInt(element, "delay", command.getDelay()));
 
@@ -541,7 +540,7 @@ public class CustomRewardsLoader extends BaseLoader
 			BoolVar falling = this.getBoolean(element, "falling", true);
 			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
 			BoolVar includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
-			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0);
+			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0.1f);
 
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))

@@ -93,7 +93,7 @@ public class HerobrineReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -60;
+		return -65;
 	}
 
 	@Override
