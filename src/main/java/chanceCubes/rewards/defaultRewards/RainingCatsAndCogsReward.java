@@ -69,7 +69,7 @@ public class RainingCatsAndCogsReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -45;
+		return 15;
 	}
 
 	@Override

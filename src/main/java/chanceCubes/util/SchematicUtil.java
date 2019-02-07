@@ -1,10 +1,16 @@
 package chanceCubes.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
@@ -15,12 +21,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
+import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -179,7 +187,11 @@ public class SchematicUtil
 			e.printStackTrace();
 			return null;
 		}
+<<<<<<< HEAD
 		return loadLegacySchematic(nbtdata, zoff, zoff, zoff, spacingDelay, includeAirBlocks, includeAirBlocks, includeAirBlocks, delay);
+=======
+		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 	}
 
 	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
@@ -335,6 +347,113 @@ public class SchematicUtil
 		}
 
 		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
+	}
+
+	public static CustomSchematic loadLuckyStruct(InputStream stream, LuckyBlockRewardLoader loader, boolean includeAirBlocks)
+	{
+		String stage = "";
+		try
+		{
+			int length = 0, height = 0, width = 0;
+			Map<BlockPos, OffsetBlock> offsetBlocks = new HashMap<>();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			StringBuilder multiLine = new StringBuilder();
+			String line;
+			while((line = reader.readLine()) != null)
+			{
+				line = line.trim();
+				if(line.isEmpty() || line.startsWith("/"))
+				{
+					continue;
+				}
+				else if(line.endsWith("\\"))
+				{
+					line = line.substring(0, line.length() - 1);
+					multiLine.append(line);
+					continue;
+				}
+
+				if(multiLine.length() > 0)
+				{
+					multiLine.append(line);
+					line = multiLine.toString();
+					multiLine.setLength(0);
+				}
+
+				if(line.startsWith(">"))
+				{
+					stage = line.substring(1).trim();
+					continue;
+				}
+
+				if(stage.equalsIgnoreCase("properties"))
+				{
+					String[] parts = line.split("=");
+					if(parts[0].equalsIgnoreCase("length"))
+						length = Integer.parseInt(parts[1]);
+					else if(parts[0].equalsIgnoreCase("height"))
+						height = Integer.parseInt(parts[1]);
+					else if(parts[0].equalsIgnoreCase("width"))
+						width = Integer.parseInt(parts[1]);
+				}
+				else if(stage.equalsIgnoreCase("blocks"))
+				{
+					IntVar x, y, z, meta = new IntVar();
+					StringVar id, te;
+					//x,y,z,id,meta*,tile entity*
+					String s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					x = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					y = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					z = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					id = loader.getString(s, "minecraft:air");
+
+					if(!line.isEmpty())
+					{
+						s = loader.parseStringPart(line, false, Arrays.asList(','));
+						line = line.substring(Math.min(s.length() + 1, line.length()));
+						meta = loader.getInt(s, 0);
+					}
+
+					if(!line.isEmpty())
+					{
+						s = loader.parseStringPart(line, false, Arrays.asList(','));
+						te = loader.getString(s, "{}");
+					}
+
+					Block b = Block.getBlockFromName(id.getValue());
+					if(b == null)
+						b = Blocks.STONE;
+					OffsetBlock osb = new OffsetBlock(x, y, z, RewardsUtil.getBlockStateFromBlockMeta(b, meta.getIntValue()), new BoolVar(false), new IntVar(0));
+					offsetBlocks.put(new BlockPos(x.getIntValue(), y.getIntValue(), z.getIntValue()), osb);
+				}
+			}
+
+			if(includeAirBlocks)
+				for(int x = 0; x < length; x++)
+					for(int z = 0; z < width; z++)
+						for(int y = 0; y < height; y++)
+							if(!offsetBlocks.keySet().contains(new BlockPos(x, y, z)))
+								offsetBlocks.put(new BlockPos(x, y, z), new OffsetBlock(x, y, z, Blocks.AIR, false));
+
+			List<OffsetBlock> blocks = new ArrayList<>();
+			blocks.addAll(offsetBlocks.values());
+			return new CustomSchematic(blocks, length, height, width, false, includeAirBlocks, 0.1f, 0);
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)

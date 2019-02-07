@@ -39,10 +39,16 @@ import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
+<<<<<<< HEAD
+=======
+import chanceCubes.rewards.type.SchematicRewardType;
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 import chanceCubes.rewards.type.SoundRewardType;
+import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
+import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
@@ -101,8 +107,11 @@ public class LuckyBlockRewardLoader extends BaseLoader
 						InputStream stream = zipFile.getInputStream(entry);
 						files.put(entry.getName(), stream);
 					}
+<<<<<<< HEAD
 
 					zipFile.close();
+=======
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 
 					InputStream stream;
 					if(files.containsKey("structures.txt"))
@@ -116,6 +125,11 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					parseDropsFile(rewardPackName, files.get("drops.txt"));
 					stream.close();
 
+<<<<<<< HEAD
+=======
+					zipFile.close();
+
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 				} catch(Exception e)
 				{
 					e.printStackTrace();
@@ -152,12 +166,22 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				multiLine.setLength(0);
 			}
 
+<<<<<<< HEAD
 			LBStructure structure = new LBStructure();
+=======
+			String id = "";
+			String file = "";
+			int xOff = 0, yOff = 0, zOff = 0;
+			String mode = "replace";
+			boolean blockUpdate = false;
+			String overlayStruct = "";
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			String[] lineArgs = line.split(",");
 			for(String arg : lineArgs)
 			{
 				String[] parts = arg.split("=");
 				if(parts[0].equalsIgnoreCase("ID"))
+<<<<<<< HEAD
 					structure.id = parts[1];
 				else if(parts[0].equalsIgnoreCase("file"))
 					structure.file = parts[1];
@@ -176,6 +200,56 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 
 			structures.put(structure.id, structure);
+=======
+					id = parts[1];
+				else if(parts[0].equalsIgnoreCase("file"))
+					file = parts[1];
+				else if(parts[0].equalsIgnoreCase("centerX"))
+					xOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("centerY"))
+					yOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("centerZ"))
+					zOff = this.getInt(parts[1], 0).getIntValue();
+				else if(parts[0].equalsIgnoreCase("blockMode"))
+					mode = parts[1];
+				else if(parts[0].equalsIgnoreCase("blockUpdate"))
+					blockUpdate = this.getBoolean(parts[1], false).getBoolValue();
+				else if(parts[0].equalsIgnoreCase("overlayStruct"))
+					overlayStruct = parts[1];
+			}
+
+			LBStructure lbschematic = new LBStructure();
+			lbschematic.id = id;
+			lbschematic.overlay = overlayStruct;
+			InputStream s = files.get("structures/" + file);
+			NBTTagCompound nbtdata;
+
+			if(s == null)
+			{
+				CCubesCore.logger.log(Level.ERROR, "(" + this.currentParsingReward + ")\"structures/" + file + "\" could not be found!");
+				continue;
+			}
+
+			if(file.endsWith(".schematic"))
+			{
+				try
+				{
+					nbtdata = CompressedStreamTools.readCompressed(s);
+				} catch(IOException e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "(" + this.currentParsingReward + ")Failed to parse schematic file \"structures/" + file + "\"!");
+					e.printStackTrace();
+					continue;
+				}
+				lbschematic.schematic = SchematicUtil.loadLegacySchematic(nbtdata, xOff, yOff, zOff, new FloatVar(0.1f), new BoolVar(false), new BoolVar(false), new BoolVar(mode.equalsIgnoreCase("replace")), new IntVar(0));
+			}
+			else if(file.endsWith(".luckystruct"))
+			{
+				lbschematic.schematic = SchematicUtil.loadLuckyStruct(s, this, mode.equalsIgnoreCase("replace"));
+			}
+
+			structures.put(id, lbschematic);
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 		}
 	}
 
@@ -308,15 +382,25 @@ public class LuckyBlockRewardLoader extends BaseLoader
 						rewardTypes.add(new SoundRewardType(parts.toArray(new SoundPart[0])));
 						break;
 					}
+					case "schematic":
+					{
+						for(IRewardType type : rewards.get(key))
+							rewardTypes.add(type);
+						break;
+					}
 				}
 			}
 
 			BasicReward reward = new BasicReward(rewardPackName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
+<<<<<<< HEAD
 			System.out.println(reward.getName() + " @ " + reward.getChanceValue());
+=======
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			ChanceCubeRegistry.INSTANCE.registerReward(reward);
 			ChanceCubeRegistry.INSTANCE.addCustomReward(reward);
 			rewardNumber++;
 		}
+		CCubesCore.logger.log(Level.INFO, "Added " + rewardNumber + " rewards from " + rewardPackName);
 	}
 
 	public String getAtValue(String in, String key)
@@ -363,10 +447,31 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					replace = "%%" + replace + "%%";
 				line = line.replace("#" + s, replace);
 			}
+<<<<<<< HEAD
 			else if(staticHashVars.keySet().contains(s))
 			{
 				s = this.parseStringPart(s, true, Arrays.asList(':', ','));
 				line = line.replace("#" + s, staticHashVars.get(s));
+=======
+			else
+			{
+				s = this.parseStringPart(s, true, Arrays.asList(':', ','));
+				if(staticHashVars.keySet().contains(s))
+				{
+					line = line.replace("#" + s, staticHashVars.get(s));
+				}
+				else
+				{
+					line = line.replace("#pName", "%player");
+					line = line.replace("#pPosX", "%px");
+					line = line.replace("#pPosY", "%py");
+					line = line.replace("#pPosZ", "%pz");
+					line = line.replace("#pUUID", "%puuid");
+					line = line.replace("#pDirect", "%pdir");
+					line = line.replace("#pYaw", "%pyaw");
+					line = line.replace("#pPitch", "%ppitch");
+				}
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			}
 			index = line.indexOf("#", index + 1);
 		}
@@ -422,10 +527,12 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		{
 			case "item":
 			{
-				String item = typeMap.get("ID");
-
 				builder.setLength(0);
 				builder.append("{");
+
+				builder.append("id:\"");
+				builder.append(typeMap.get("ID"));
+				builder.append("\",");
 
 				if(typeMap.containsKey("damage"))
 				{
@@ -453,7 +560,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 				builder.append("}");
 
-				ItemPart itemPart = new ItemPart(item, builder.toString());
+				ItemPart itemPart = new ItemPart(builder.toString());
 
 				if(typeMap.containsKey("delay"))
 					itemPart.setDelay(super.getInt(parseLBDelay(typeMap.get("delay")), 0));
@@ -553,17 +660,37 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			{
 				String id = typeMap.get("ID");
 				LBStructure struct = structures.get(id);
+<<<<<<< HEAD
 				
 				//TODO: Continue
 				
+=======
+
+				if(struct == null)
+				{
+					CCubesCore.logger.log(Level.ERROR, "(" + this.currentParsingReward + ") Failed to find the structure with the id \"" + id + "\"");
+					break;
+				}
+
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 				List<IRewardType> itemTypes = rewards.get("schematic");
 				if(itemTypes == null)
 				{
 					itemTypes = new ArrayList<IRewardType>();
-					rewards.put("structure", itemTypes);
+					rewards.put("schematic", itemTypes);
 				}
 
-				itemTypes.add(new MessageRewardType(new MessagePart("Not Implemented Yet!")));
+				itemTypes.add(new SchematicRewardType(struct.schematic));
+
+				LBStructure lbs;
+				String overlay = struct.overlay;
+				while(!overlay.isEmpty())
+				{
+					lbs = structures.get(overlay);
+					itemTypes.add(new SchematicRewardType(lbs.schematic));
+					overlay = lbs.overlay;
+				}
+
 				break;
 			}
 			case "command":
@@ -647,9 +774,9 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				IBlockState block = Blocks.AIR.getDefaultState();
 				String blockID = typeMap.get("ID");
 				if(IntVar.isInteger(blockID))
-					block = Block.getBlockById(Integer.parseInt(blockID)).getStateFromMeta(meta);
+					block = RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockById(Integer.parseInt(blockID)), meta);
 				else
-					block = Block.getBlockFromName(blockID).getStateFromMeta(meta);
+					block = RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName(blockID), meta);
 
 				int length = 1;
 				int width = 1;
@@ -813,8 +940,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				{
 					if(!ignoreStackOverflow)
 					{
-						//CCubesCore.logger.log(Level.ERROR, "Error at: " + s.substring(Math.max(index - 20, 0), Math.min(index + 1, s.length())) + "<-[HERE]! Closing \"" + currentChar + "\", but not next in stack (Expecting " + (stack.size() > 0 ? stack.get(stack.size() - 1) : "Nothing") + ")!");
-						System.out.println("Error on line " + lineNumber + ": " + s.substring(Math.max(index - 20, 0), Math.min(index + 1, s.length())) + "<-[HERE]! Closing \"" + currentChar + "\", but not next in stack (" + (stack.size() > 0 ? "Expecting " + stack.get(stack.size() - 1) : "Too many") + ")!");
+						CCubesCore.logger.log(Level.ERROR, "Error on line " + lineNumber + ": " + s.substring(Math.max(index - 20, 0), Math.min(index + 1, s.length())) + "<-[HERE]! Closing \"" + currentChar + "\", but not next in stack (" + (stack.size() > 0 ? "Expecting " + stack.get(stack.size() - 1) : "Too many") + ")!");
 						// ERROR!
 					}
 					break;
@@ -863,6 +989,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		return delay;
 	}
 
+<<<<<<< HEAD
 	private class LBStructure
 	{
 		public String id = "";
@@ -871,5 +998,12 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		public String mode = "replace";
 		public boolean blockUpdate = false;
 		public String overlayStruct = "";
+=======
+	private static class LBStructure
+	{
+		public String id;
+		public CustomSchematic schematic;
+		public String overlay;
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 	}
 }

@@ -63,7 +63,6 @@ import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -313,7 +312,7 @@ public class CustomRewardsLoader extends BaseLoader
 				continue;
 
 			//TODO: Make dynamic?
-			ItemPart stack = new ItemPart(new ItemStack(nbt.getNBTValue()));
+			ItemPart stack = new ItemPart(nbt);
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
 
@@ -541,7 +540,7 @@ public class CustomRewardsLoader extends BaseLoader
 			BoolVar falling = this.getBoolean(element, "falling", true);
 			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
 			BoolVar includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
-			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0);
+			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0.1f);
 
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))

@@ -36,6 +36,7 @@ public class IntVar extends CustomVar
 
 	public static RandomPart<Integer> parseRandom(String input)
 	{
+		input = input.replaceAll(" ", "");
 		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");

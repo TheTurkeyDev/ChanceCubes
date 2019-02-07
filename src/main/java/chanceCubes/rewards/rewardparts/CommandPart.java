@@ -45,6 +45,10 @@ public class CommandPart extends BasePart
 		parsedCommand = parsedCommand.replace("%px", "" + player.posX);
 		parsedCommand = parsedCommand.replace("%py", "" + player.posY);
 		parsedCommand = parsedCommand.replace("%pz", "" + player.posZ);
+		parsedCommand = parsedCommand.replace("%puuid", "" + player.getUniqueID().toString());
+		parsedCommand = parsedCommand.replace("%pdir", "" + player.getHorizontalFacing().toString());
+		parsedCommand = parsedCommand.replace("%pyaw", "" + player.rotationYaw);
+		parsedCommand = parsedCommand.replace("%ppitch", "" + player.rotationPitch);
 
 		return parsedCommand;
 	}

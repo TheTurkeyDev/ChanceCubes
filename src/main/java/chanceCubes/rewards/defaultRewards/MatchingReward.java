@@ -63,7 +63,11 @@ public class MatchingReward implements IChanceCubeReward
 				int time = this.delayLeft / 20;
 				TextComponentString message = new TextComponentString(String.valueOf(time));
 				message.getStyle().setBold(true).setColor(TextFormatting.RED);
+<<<<<<< HEAD
 				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.TITLE, message, 0, 20, 0));
+=======
+				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			}
 		});
 	}
@@ -92,7 +96,11 @@ public class MatchingReward implements IChanceCubeReward
 					int time = this.delayLeft / 20;
 					TextComponentString message = new TextComponentString(String.valueOf(time));
 					message.getStyle().setBold(true).setColor(TextFormatting.RED);
+<<<<<<< HEAD
 					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.TITLE, message, 0, 20, 0));
+=======
+					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+>>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 				}
 
 				for(int i = 0; i < metas.length; i++)

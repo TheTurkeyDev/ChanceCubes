@@ -56,7 +56,7 @@ public class MagicFeetReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return 70;
+		return 85;
 	}
 
 	@Override

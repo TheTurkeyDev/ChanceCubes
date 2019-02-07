@@ -14,6 +14,8 @@ public class NBTVar extends CustomVar
 
 	public NBTVar(NBTTagCompound val)
 	{
+		if(val == null)
+			val = new NBTTagCompound();
 		super.addPart(new StringPart(val.toString()));
 	}
 
@@ -25,9 +27,12 @@ public class NBTVar extends CustomVar
 	public NBTTagCompound getNBTValue()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
+		String val = super.getValue();
+		if(val.isEmpty())
+			return nbt;
 		try
 		{
-			nbt = JsonToNBT.getTagFromJson(super.getValue());
+			nbt = JsonToNBT.getTagFromJson(val);
 		} catch(NBTException e)
 		{
 			e.printStackTrace();
