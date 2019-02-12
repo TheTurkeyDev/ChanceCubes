@@ -50,6 +50,7 @@ import chanceCubes.rewards.defaultRewards.MagicFeetReward;
 import chanceCubes.rewards.defaultRewards.MatchingReward;
 import chanceCubes.rewards.defaultRewards.MathReward;
 import chanceCubes.rewards.defaultRewards.MazeReward;
+import chanceCubes.rewards.defaultRewards.MobEffectsReward;
 import chanceCubes.rewards.defaultRewards.MobTowerReward;
 import chanceCubes.rewards.defaultRewards.MontyHallReward;
 import chanceCubes.rewards.defaultRewards.NukeReward;
@@ -103,6 +104,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -112,6 +114,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
@@ -415,6 +419,25 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
+		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			{
+				EntityPotion pot;
+				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
+				{
+					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+					pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), potionType));
+					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.motionX = Math.cos(rad) * (0.1 + (0.05 * 3));
+					pot.motionY = 1;
+					pot.motionZ = Math.sin(rad) * (0.1 + (0.05 * 3));
+					world.spawnEntity(pot);
+				}
+			}
+		});
+
 		INSTANCE.registerReward(new NukeReward());
 		INSTANCE.registerReward(new FiveProngReward());
 		INSTANCE.registerReward(new AnvilRain());
@@ -460,6 +483,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MontyHallReward());
 		INSTANCE.registerReward(new MatchingReward());
 		INSTANCE.registerReward(new TicTacToeReward());
+		INSTANCE.registerReward(new MobEffectsReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
