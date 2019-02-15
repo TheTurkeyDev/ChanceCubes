@@ -10,7 +10,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.state.IProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -18,7 +17,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.BlockStateContainer;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
 {
@@ -28,7 +26,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	{
 		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_Dispenser");
 		this.setDefaultState(this.stateContainer.getBaseState().with(DISPENSING, DispenseType.CHANCE_CUBE));
-		//this.setLightOpacity(0);
+		// this.setLightOpacity(0);
 	}
 
 	@Override

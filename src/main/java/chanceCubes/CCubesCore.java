@@ -28,8 +28,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 
 @Mod(CCubesCore.MODID)
@@ -51,20 +52,26 @@ public class CCubesCore
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
-	public static Logger logger;
+	public static final Logger logger = LogManager.getLogger(MODID);;
 
 	public CCubesCore()
 	{
-		logger = LogManager.getLogger(MODID);
-		FMLModLoadingContext.get().getModEventBus().addListener(this::onClientStart);
-		FMLModLoadingContext.get().getModEventBus().addListener(this::onServerStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
 	}
 
-	public void onClientStart(FMLClientSetupEvent event)
+	public void commonStart()
+	{
+		proxy.registerEvents();
+		CCubesSounds.loadSolunds();
+		CCubesRecipies.loadRecipies();
+	}
+
+	public void clientStart(FMLClientSetupEvent event)
 	{
 		CCubesItems.registerItems();
 		CCubesBlocks.registerBlocksItems();
-
 		proxy.registerRenderings();
 		
 		CCubesSounds.loadSolunds();
@@ -72,12 +79,24 @@ public class CCubesCore
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CCubesGuiHandler());
 	}
 
-	public void onServerStart(FMLServerStartingEvent event)
+	public void serverStart(FMLServerStartingEvent event)
 	{
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-		CCubesRecipies.loadRecipies();
 		CCubesPacketHandler.init();
-		proxy.registerEvents();
+
+		if(CCubesSettings.chestLoot)
+		{
+			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
+		}
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CCubesGuiHandler());
 
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
@@ -86,16 +105,14 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		NonreplaceableBlockOverride.loadOverrides();
-		
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
-		
+
 		event.registerServerCommand(new CCubesServerCommands());
 	}
 
-	public void onIMCMessage(IMCEvent e)
+	public void onIMCMessage(InterModProcessEvent e)
 	{
-		Logger logger = LogManager.getLogger(MODID);
 		for(IMCMessage message : e.getMessages())
 		{
 			if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
