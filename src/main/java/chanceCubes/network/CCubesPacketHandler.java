@@ -1,13 +1,12 @@
 package chanceCubes.network;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import chanceCubes.CCubesCore;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class CCubesPacketHandler
 {
-	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(CCubesCore.MODID);
+	public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(CCubesCore.MODID);
 	private static int id = 0;
 	
 	public static void init()

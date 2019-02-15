@@ -2,6 +2,7 @@ package chanceCubes.util;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -39,6 +40,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -208,7 +210,7 @@ public class RewardsUtil
 
 	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
 	{
-		Item item = Item.REGISTRY.get(new ResourceLocation(mod, itemName));
+		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mod, itemName));
 		return item == null ? ItemStack.EMPTY : new ItemStack(item, size);
 	}
 
@@ -244,20 +246,15 @@ public class RewardsUtil
 
 	public static Block getRandomBlock()
 	{
-		int size = ForgeRegistries.BLOCKS.getValues().size();
-		int randomblock = rand.nextInt(size);
-		//TODO: PLZ IMPROVE
-		Block b = ForgeRegistries.BLOCKS.getValues().toArray(new Block[0])[size];
+		Collection<Block> blocks = ForgeRegistries.BLOCKS.getValues();
+		Block b = blocks.stream().skip(rand.nextInt(blocks.size())).findFirst().orElse(null);
 		int iteration = 0;
 		while(b == null)
 		{
 			iteration++;
-			randomblock = rand.nextInt(size);
 			if(iteration > 100)
-				b = Blocks.COBBLESTONE;
-			else
-				b = ForgeRegistries.BLOCKS.getValues().toArray(new Block[0])[size];
-			//TODO: PLZ IMPROVE
+				return Blocks.COBBLESTONE;
+			b = blocks.stream().skip(rand.nextInt(blocks.size())).findFirst().orElse(null);
 		}
 		return b;
 	}
@@ -289,10 +286,17 @@ public class RewardsUtil
 
 	public static Item getRandomItem()
 	{
-		Item item = Item.getItemById(256 + rand.nextInt(166));
-		while(item == null)
-			item = Item.getItemById(256 + rand.nextInt(166));
-		return item;
+		Collection<Item> items = ForgeRegistries.ITEMS.getValues();
+		Item i = items.stream().skip(rand.nextInt(items.size())).findFirst().orElse(null);
+		int iteration = 0;
+		while(i == null)
+		{
+			iteration++;
+			if(iteration > 100)
+				return Items.APPLE;
+			i = items.stream().skip(rand.nextInt(items.size())).findFirst().orElse(null);
+		}
+		return i;
 	}
 
 	public static ItemStack getRandomFirework()
@@ -347,15 +351,14 @@ public class RewardsUtil
 
 	public static PotionEffect getRandomPotionEffect()
 	{
+		Collection<Potion> pots = ForgeRegistries.POTIONS.getValues();
 		Potion potion = null;
 		int tries = 0;
 		do
 		{
 			if(tries > 10)
-			{
 				return new PotionEffect(MobEffects.WITHER, 5, 1);
-			}
-			potion = (Potion) Potion.REGISTRY.get(rand.nextInt(Potion.REGISTRY.getKeys().size()));
+			potion = pots.stream().skip(rand.nextInt(pots.size())).findFirst().orElse(null);
 			tries++;
 		} while(potion == null);
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
@@ -384,10 +387,11 @@ public class RewardsUtil
 	public static void executeCommand(World world, EntityPlayer player, String command)
 	{
 		MinecraftServer server = world.getServer();
-		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
-		CommandSource cs = new CommandSource(player, player.getPositionVector(), player.getPitchYaw(), server.getWorld(player.getEntityWorld().getDimension().getId()), 2, player.getName().getString(), player.getDisplayName(), server, player);
+		WorldServer worldServer = server.getWorld(DimensionType.OVERWORLD);
+		Boolean rule = worldServer.getGameRules().getBoolean("commandBlockOutput");
+		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
+		CommandSource cs = new CommandSource(player, player.getPositionVector(), player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		server.getCommandManager().handleCommand(cs, command);
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
+		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
 	}
 }

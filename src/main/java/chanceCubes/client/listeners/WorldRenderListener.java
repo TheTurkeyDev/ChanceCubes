@@ -2,8 +2,8 @@ package chanceCubes.client.listeners;
 
 import org.lwjgl.opengl.GL11;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.util.SchematicUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -21,19 +21,19 @@ public class WorldRenderListener
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 		{
 			GlStateManager.pushMatrix();
-			
-			Entity entity = CCubesCore.proxy.getClientPlayer();
-			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
-	        double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
-	        double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
 
-	        GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
-	        GlStateManager.disableTexture2D();
-	        GlStateManager.enableBlend();
-	        GlStateManager.enableAlphaTest();
-	        GlStateManager.disableLighting();
-	        GlStateManager.lineWidth(2f);
-	        GlStateManager.glBegin(GL11.GL_LINES);
+			Entity entity = Minecraft.getInstance().player;
+			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
+			double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
+			double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
+
+			GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
+			GlStateManager.disableTexture2D();
+			GlStateManager.enableBlend();
+			GlStateManager.enableAlphaTest();
+			GlStateManager.disableLighting();
+			GlStateManager.lineWidth(2f);
+			GL11.glBegin(GL11.GL_LINES);
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
 			BlockPos pos2 = SchematicUtil.selectionPoints[1];
@@ -46,7 +46,6 @@ public class WorldRenderListener
 
 			GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
 
-			
 			GL11.glVertex3d(lowX, lowY, lowZ);
 			GL11.glVertex3d(highX, lowY, lowZ);
 			GL11.glVertex3d(lowX, lowY, highZ);
@@ -74,7 +73,7 @@ public class WorldRenderListener
 			GL11.glVertex3d(highX, lowY, highZ);
 			GL11.glVertex3d(highX, highY, highZ);
 
-			GlStateManager.glEnd();
+			GL11.glEnd();
 			GlStateManager.enableLighting();
 			GlStateManager.enableTexture2D();
 			GlStateManager.disableBlend();

@@ -16,6 +16,11 @@ public class CCubesCommandSender implements ICommandSource
 		harvester = player;
 	}
 
+	public BlockPos getPos()
+	{
+		return this.blockLoc;
+	}
+
 	@Override
 	public void sendMessage(ITextComponent p_145747_1_)
 	{

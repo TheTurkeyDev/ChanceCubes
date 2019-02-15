@@ -1,19 +1,8 @@
 package chanceCubes.network;
 
-import javax.xml.ws.handler.MessageContext;
-
-import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.containers.CreativePendantContainer;
-import chanceCubes.items.ItemChanceCube;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.network.ForgeMessage;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 
 public class PacketCreativePendant extends ForgeMessage
 {
