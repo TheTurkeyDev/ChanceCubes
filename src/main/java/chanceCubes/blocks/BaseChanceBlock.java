@@ -18,7 +18,7 @@ public class BaseChanceBlock extends Block
 {
 	private String blockName = "Chance_Cube_Unnamed";
 
-	public BaseChanceBlock(Builder builder, String name)
+	public BaseChanceBlock(Properties builder, String name)
 	{
 		super(builder);
 		this.blockName = name;
@@ -52,39 +52,37 @@ public class BaseChanceBlock extends Block
 	{
 		return 0;
 	}
-	
-	protected static Builder getBuilder()
+
+	protected static Properties getBuilder()
 	{
-		return Builder.create(Material.GROUND).hardnessAndResistance(0.5f, Float.MAX_VALUE);
+		return Properties.create(Material.GROUND).hardnessAndResistance(0.5f, Float.MAX_VALUE);
 	}
-	
 
 	/**
 	 * Grabbed from 1.12
 	 */
-    public <T extends Comparable<T>> IBlockState cycleProperty(IBlockState state, IProperty<T> property)
-    {
-        return state.with(property, cyclePropertyValue(property.getAllowedValues(), state.get(property)));
-    }
+	public <T extends Comparable<T>> IBlockState cycleProperty(IBlockState state, IProperty<T> property)
+	{
+		return state.with(property, cyclePropertyValue(property.getAllowedValues(), state.get(property)));
+	}
 
+	protected static <T> T cyclePropertyValue(Collection<T> values, T currentValue)
+	{
+		Iterator<T> iterator = values.iterator();
 
-    protected static <T> T cyclePropertyValue(Collection<T> values, T currentValue)
-    {
-        Iterator<T> iterator = values.iterator();
+		while(iterator.hasNext())
+		{
+			if(iterator.next().equals(currentValue))
+			{
+				if(iterator.hasNext())
+				{
+					return iterator.next();
+				}
 
-        while (iterator.hasNext())
-        {
-            if (iterator.next().equals(currentValue))
-            {
-                if (iterator.hasNext())
-                {
-                    return iterator.next();
-                }
+				return values.iterator().next();
+			}
+		}
 
-                return values.iterator().next();
-            }
-        }
-
-        return iterator.next();
-    }
+		return iterator.next();
+	}
 }

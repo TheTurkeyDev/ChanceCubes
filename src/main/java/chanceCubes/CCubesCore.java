@@ -21,23 +21,15 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.InterModComms.IMCMessage;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.NetworkRegistry;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -58,35 +50,33 @@ public class CCubesCore
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
-	public static Logger logger;
-	
-	public CCubesCore() {
-        FMLModLoadingContext.get().getModEventBus().addListener(this::preInit);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::init);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::postInit);
+	public static final Logger logger = LogManager.getLogger(MODID);;
+
+	public CCubesCore()
+	{
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
 	}
 
-	public void init(FMLInitializationEvent event)
+	public void commonStart()
 	{
+		proxy.registerEvents();
+		CCubesSounds.loadSolunds();
 		CCubesRecipies.loadRecipies();
+	}
 
-		if(event.getSide() == Dist.CLIENT)
-		{
-			CCubesItems.registerItems();
-			CCubesBlocks.registerBlocksItems();
-		}
-
+	public void clientStart(FMLClientSetupEvent event)
+	{
+		CCubesItems.registerItems();
+		CCubesBlocks.registerBlocksItems();
 		proxy.registerRenderings();
 	}
 
-	public void preInit(FMLPreInitializationEvent event)
+	public void serverStart(FMLServerStartingEvent event)
 	{
-		logger = LogManager.getLogger(MODID);
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-
 		CCubesPacketHandler.init();
-		proxy.registerEvents();
-		CCubesSounds.loadSolunds();
 
 		if(CCubesSettings.chestLoot)
 		{
@@ -101,11 +91,7 @@ public class CCubesCore
 		}
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CCubesGuiHandler());
-	}
 
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		ChanceCubeRegistry.loadDefaultRewards();
@@ -113,32 +99,14 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		NonreplaceableBlockOverride.loadOverrides();
-		ConfigLoader.config.save();
-	}
-
-	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event)
-	{
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 
-		// if(event.getSide().isClient())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
-		// ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
-		// }
-		// else if(event.getSide().isServer())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
-		// event.registerServerCommand(new CCubesServerCommands());
-		// }
 		event.registerServerCommand(new CCubesServerCommands());
 	}
 
-	@EventHandler
-	public void onIMCMessage(IMCEvent e)
+	public void onIMCMessage(InterModProcessEvent e)
 	{
-		Logger logger = LogManager.getLogger(MODID);
 		for(IMCMessage message : e.getMessages())
 		{
 			if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
