@@ -1,46 +1,49 @@
 package chanceCubes.rewards.rewardparts;
 
-public class ExpirencePart
-{
-	public static String[] elements = new String[]{"experienceAmount:I", "delay:I", "numberOfOrbs:I"};
-	
-	private int amount;
-	private int orbs = 1;
+import chanceCubes.rewards.variableTypes.IntVar;
 
-	private int delay = 0;
+public class ExpirencePart extends BasePart
+{
+	private IntVar amount = new IntVar(0);
+	private IntVar orbs = new IntVar(1);
 
 	public ExpirencePart(int amount)
 	{
-		this.amount = amount;
+		this(new IntVar(amount));
 	}
-	
-	public ExpirencePart(int amount, int delay)
+
+	public ExpirencePart(IntVar amount)
 	{
 		this.amount = amount;
-		this.delay = delay;
+	}
+
+	public ExpirencePart(int amount, int delay)
+	{
+		this(new IntVar(amount), new IntVar(delay));
+	}
+
+	public ExpirencePart(IntVar amount, IntVar delay)
+	{
+		this.amount = amount;
+		this.setDelay(delay);
 	}
 
 	public int getAmount()
 	{
-		return amount;
+		return amount.getIntValue();
 	}
 
-	public int getDelay()
-	{
-		return delay;
-	}
-
-	public void setDelay(int delay)
-	{
-		this.delay = delay;
-	}
-	
 	public int getNumberofOrbs()
 	{
-		return orbs;
+		return orbs.getIntValue();
 	}
 
 	public ExpirencePart setNumberofOrbs(int orbs)
+	{
+		return this.setNumberofOrbs(new IntVar(orbs));
+	}
+
+	public ExpirencePart setNumberofOrbs(IntVar orbs)
 	{
 		this.orbs = orbs;
 		return this;

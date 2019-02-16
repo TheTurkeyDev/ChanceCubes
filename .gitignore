@@ -20,46 +20,8 @@ build
 # other
 eclipse
 run
-asm/
-config/
-crash-reports/
-libs/
-logs/
-mods/
-saves/
-screenshots/
+run-1.12
 CREDITS-fml.txt
-forge-1.7.10-10.13.2.1230-changelog.txt
-forge-1.8-11.14.3.1556-changelog.txt
-hs_err_pid3384.log
-hs_err_pid7076.log
-hs_err_pid9872.log
-LICENSE-fml.txt
-MinecraftForge-Credits.txt
-MinecraftForge-License.txt
-minetweaker.log
-options.txt
-Paulscode IBXM Library License.txt
-Paulscode SoundSystem CodecIBXM License.txt
-README.txt
-usernamecache.json
-ChanceCubeEmote.png
-ChanceCubeEmoteExample.png
-*.log
-Custom Chance Cube Rewards/
-Chance Cubes Rewards.txt
-Chance Value Distrobution.xlsx
-AllRewards.xlsx
-*.gif
-run-1.9.4/usercache.json
-run-1.10/usercache.json
-OneMillion.PNG
-ChanceCubeAltNames
-logo(sqaure).png
-logo.png
-logo.xcf
-*.hprof
+run-1.10/
 run-1.11/
-run-1.12/
-ChanceCubesLogo.png
-ChanceCubesLogoSquare.png
+run-1.9.4/

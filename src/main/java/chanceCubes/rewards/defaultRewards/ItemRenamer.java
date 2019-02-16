@@ -71,7 +71,7 @@ public class ItemRenamer implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -35;
+		return 10;
 	}
 
 	@Override

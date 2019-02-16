@@ -21,10 +21,11 @@ public class BaseChanceCubesItem extends Item
 	private String itemName = "Chance_Cube_Unnamed";
 	private List<String> lore = Lists.newArrayList();
 
-	public BaseChanceCubesItem(Item.Builder builder, String name)
+	public BaseChanceCubesItem(Properties builder, String name)
 	{
 		super(builder.group(CCubesCore.modTab));
 		itemName = name;
+		this.setTranslationKey(name);
 		this.setRegistryName(CCubesCore.MODID, this.itemName);
 	}
 

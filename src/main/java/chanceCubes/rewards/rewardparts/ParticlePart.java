@@ -1,46 +1,45 @@
 package chanceCubes.rewards.rewardparts;
 
-public class ParticlePart
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
+
+public class ParticlePart extends BasePart
 {
-	public static String[] elements = new String[] { "particle:I", "delay:I" };
-
-	private int particleID = -1;
-	private String particleName = "";
-
-	private int delay = 0;
+	private IntVar particleID = new IntVar(-1);
+	private StringVar particleName = new StringVar("");
 
 	public ParticlePart(int particle)
+	{
+		this(new IntVar(particle));
+	}
+
+	public ParticlePart(IntVar particle)
 	{
 		this.particleID = particle;
 	}
 
 	public ParticlePart(String particle)
 	{
+		this(new StringVar(particle));
+	}
+
+	public ParticlePart(StringVar particle)
+	{
 		this.particleName = particle;
 	}
 
 	public boolean useID()
 	{
-		return this.particleID != -1;
+		return this.particleID.getIntValue() != -1;
 	}
 
 	public int getParticleID()
 	{
-		return particleID;
+		return particleID.getIntValue();
 	}
 
 	public String getParticleName()
 	{
-		return particleName;
-	}
-
-	public int getDelay()
-	{
-		return delay;
-	}
-
-	public void setDelay(int delay)
-	{
-		this.delay = delay;
+		return particleName.getValue();
 	}
 }

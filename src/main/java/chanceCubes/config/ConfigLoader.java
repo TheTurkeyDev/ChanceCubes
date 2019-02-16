@@ -76,5 +76,9 @@ public class ConfigLoader
 		new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/CustomRewards/Sounds").mkdirs();
 
 		new CustomRewardsLoader(customConfigFolder);
+		
+		customConfigFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/LuckyBlockRewards");
+		customConfigFolder.mkdirs();
+		new LuckyBlockRewardLoader(customConfigFolder);
 	}
 }

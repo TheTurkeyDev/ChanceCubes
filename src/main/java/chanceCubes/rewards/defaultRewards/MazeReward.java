@@ -9,6 +9,8 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -42,6 +44,9 @@ public class MazeReward implements IChanceCubeReward
 			public void update()
 			{
 				int time = this.delayLeft / 20;
+				TextComponentString message = new TextComponentString(String.valueOf(time));
+				message.getStyle().setBold(true);
+				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
 
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.SIGN))
 				{
@@ -49,30 +54,6 @@ public class MazeReward implements IChanceCubeReward
 					gen.endMaze(world);
 					player.setPositionAndUpdate(px, py, pz);
 					Scheduler.removeTask(this);
-				}
-				else if(time == 30)
-				{
-					player.sendMessage(new TextComponentString("30 seconds left!!"));
-				}
-				else if(time == 5)
-				{
-					player.sendMessage(new TextComponentString("5..."));
-				}
-				else if(time == 4)
-				{
-					player.sendMessage(new TextComponentString("4..."));
-				}
-				else if(time == 3)
-				{
-					player.sendMessage(new TextComponentString("3..."));
-				}
-				else if(time == 2)
-				{
-					player.sendMessage(new TextComponentString("2..."));
-				}
-				else if(time == 1)
-				{
-					player.sendMessage(new TextComponentString("1!"));
 				}
 			}
 		});

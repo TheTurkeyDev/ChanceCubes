@@ -22,6 +22,7 @@ death.attack.mathdeath=%1$s's, разум которого взорвался о
 death.attack.mazedeath=%1$s был потерян навсегда в лабиринте Куба Удачи.
 death.attack.questiondeath=%1$s перенес последствия неправильного ответа.
 death.attack.digbuilddeath=%1$s's, чьи руки, видимо, сломались.
+death.attack.matchingdeath=%1$s met their match.
 
 advancements.chancecubes:root.desc=Игра на Удачу и Ловкость
 advancements.chancecubes:chance_icosahedron=Диско-Шар!

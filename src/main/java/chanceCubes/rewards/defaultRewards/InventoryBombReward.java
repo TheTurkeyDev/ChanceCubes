@@ -42,7 +42,7 @@ public class InventoryBombReward implements IChanceCubeReward
 	@Override
 	public int getChanceValue()
 	{
-		return -65;
+		return -55;
 	}
 
 	@Override

@@ -25,12 +25,15 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -367,6 +370,22 @@ public class RewardsUtil
 		return new PotionEffect(potion, duration, amplifier);
 	}
 
+	public static PotionType getRandomPotionType()
+	{
+		Collection<PotionType> types = ForgeRegistries.POTION_TYPES.getValues();
+		PotionType type = null;
+		int tries = 0;
+		do
+		{
+			if(tries > 10)
+				return PotionTypes.EMPTY;
+			type = types.stream().skip(rand.nextInt(types.size())).findFirst().orElse(null);
+			tries++;
+		} while(type == null);
+
+		return type;
+	}
+
 	public static int getRandomColor()
 	{
 		return (new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))).getRGB();
@@ -393,5 +412,29 @@ public class RewardsUtil
 		CommandSource cs = new CommandSource(player, player.getPositionVector(), player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		server.getCommandManager().handleCommand(cs, command);
 		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
+	}
+
+	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+		{
+			EntityPlayer entityplayer = world.playerEntities.get(i);
+
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
+			if(dist <= range)
+				setPlayerTitle(entityplayer, spackettitle);
+		}
+	}
+
+	public static void setAllPlayersTitle(World world, SPacketTitle spackettitle)
+	{
+		for(int i = 0; i < world.playerEntities.size(); ++i)
+			setPlayerTitle(world.playerEntities.get(i), spackettitle);
+	}
+
+	public static void setPlayerTitle(EntityPlayer player, SPacketTitle title)
+	{
+		if(player instanceof EntityPlayerMP)
+			((EntityPlayerMP) player).connection.sendPacket(title);
 	}
 }

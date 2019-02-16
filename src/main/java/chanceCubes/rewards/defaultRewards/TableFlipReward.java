@@ -21,12 +21,12 @@ public class TableFlipReward implements IChanceCubeReward
 	{
 		RewardsUtil.sendMessageToAllPlayers(world, "(╯°□°）╯︵ ┻━┻)");
 
-		Scheduler.scheduleTask(new Task("Table_Flip", 10)
+		Scheduler.scheduleTask(new Task("Table_Flip", 1000, 10)
 		{
 			int stage = 0;
 
 			@Override
-			public void callback()
+			public void update()
 			{
 				switch(stage)
 				{
@@ -87,6 +87,12 @@ public class TableFlipReward implements IChanceCubeReward
 					stage++;
 				else
 					Scheduler.removeTask(this);
+			}
+
+			@Override
+			public void callback()
+			{
+				
 			}
 
 		});

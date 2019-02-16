@@ -8,13 +8,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ArmorStandArmorReward implements IChanceCubeReward
 {
 	// @formatter:off
+	private String[] names = {"dmodoomsirius", "MJRLegends", "Twp156", "JSL7", "Ratblade", "DerRedstoneProfi", "Turkey2349"};
+	
 	private ItemStack[] headItems = {new ItemStack(Items.CHAINMAIL_HELMET), new ItemStack(Items.DIAMOND_HELMET),
 			new ItemStack(Items.GOLDEN_HELMET), new ItemStack(Items.IRON_HELMET), new ItemStack(Items.LEATHER_HELMET),
 			new ItemStack(Items.SKELETON_SKULL, 1), new ItemStack(Items.WITHER_SKELETON_SKULL, 1), new ItemStack(Items.CREEPER_HEAD, 1),
@@ -41,8 +45,24 @@ public class ArmorStandArmorReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		EntityArmorStand armorStand = new EntityArmorStand(world);
+		String name = names[RewardsUtil.rand.nextInt(names.length)];
+		armorStand.setCustomNameTag(name);
+		armorStand.setAlwaysRenderNameTag(true);
 		armorStand.setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.HEAD, headItems[RewardsUtil.rand.nextInt(headItems.length)].copy());
+
+		ItemStack headStack = headItems[RewardsUtil.rand.nextInt(headItems.length)].copy();
+		if(headStack.getItem() instanceof ItemSkull && headStack.getItemDamage() == 3)
+		{
+			NBTTagCompound nbt = headStack.getTagCompound();
+			if(nbt == null)
+			{
+				nbt = new NBTTagCompound();
+				headStack.setTagCompound(nbt);
+			}
+			nbt.setString("SkullOwner", name);
+		}
+
+		armorStand.setItemStackToSlot(EntityEquipmentSlot.HEAD, headStack);
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.CHEST, chestItems[RewardsUtil.rand.nextInt(chestItems.length)].copy());
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.LEGS, legsItems[RewardsUtil.rand.nextInt(legsItems.length)].copy());
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.FEET, bootsItems[RewardsUtil.rand.nextInt(bootsItems.length)].copy());

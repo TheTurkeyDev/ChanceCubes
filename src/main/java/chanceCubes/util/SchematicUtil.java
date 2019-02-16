@@ -1,10 +1,16 @@
 package chanceCubes.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
@@ -16,8 +22,14 @@ import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.FloatVar;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
+import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -48,6 +60,7 @@ public class SchematicUtil
 		int smallY = loc1.getY() < loc2.getY() ? loc1.getY() : loc2.getY();
 		int largeZ = loc1.getZ() > loc2.getZ() ? loc1.getZ() : loc2.getZ();
 		int smallZ = loc1.getZ() < loc2.getZ() ? loc1.getZ() : loc2.getZ();
+		StringBuilder blockData = new StringBuilder();
 		for(int y = smallY; y < largeY; y++)
 		{
 			for(int x = smallX; x < largeX; x++)
@@ -56,13 +69,16 @@ public class SchematicUtil
 				{
 					BlockPos pos = new BlockPos(x, y, z);
 					IBlockState blockState = world.getBlockState(pos);
-					String blockData = blockState.getBlock().getRegistryName().toString();
+					blockData.append(blockState.getBlock().getRegistryName().toString());
 					// TODO: Find better way?
-					blockData += ":" + blockState.getBlock().getMetaFromState(blockState);
+					blockData.setLength(0);
+					blockData.append(":");
+					blockData.append(blockState.getBlock().getMetaFromState(blockState));
+					String blockString = blockData.toString();
 					int id = -1;
 					for(CustomEntry<Integer, String> data : blockDataIds)
 					{
-						if(blockData.equalsIgnoreCase(data.getValue()))
+						if(blockString.equalsIgnoreCase(data.getValue()))
 						{
 							id = data.getKey();
 						}
@@ -70,7 +86,7 @@ public class SchematicUtil
 					if(id == -1)
 					{
 						id = blockDataIds.size();
-						blockDataIds.add(new CustomEntry<Integer, String>(id, blockData));
+						blockDataIds.add(new CustomEntry<Integer, String>(id, blockString));
 					}
 					blocks.add(id);
 
@@ -158,7 +174,7 @@ public class SchematicUtil
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
-	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
 	{
 		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
 		NBTTagCompound nbtdata;
@@ -172,7 +188,11 @@ public class SchematicUtil
 			e.printStackTrace();
 			return null;
 		}
+		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+	}
 
+	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	{
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");
@@ -221,7 +241,7 @@ public class SchematicUtil
 				{
 					Block b = null;
 					for(OffsetBlock osb : offsetBlocks)
-						if(osb.xOff == tileentity.getPos().getX() && osb.yOff == tileentity.getPos().getY() && osb.zOff == tileentity.getPos().getZ())
+						if(osb.xOff.getIntValue() == tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == tileentity.getPos().getZ())
 							b = osb.getBlockState().getBlock();
 					if(b == null)
 						b = Blocks.STONE;
@@ -236,13 +256,18 @@ public class SchematicUtil
 		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
 	}
 
-	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
 		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
 	}
 
 	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	{
+		return loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, new FloatVar(spacingDelay), new BoolVar(falling), new BoolVar(relativeToPlayer), new BoolVar(includeAirBlocks), new IntVar(delay));
+	}
+
+	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
 	{
 		if(elem == null)
 			return null;
@@ -291,7 +316,7 @@ public class SchematicUtil
 					}
 					String[] dataParts = blockData.split(":");
 					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(dataParts[0], dataParts[1]));
-					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, 0);
+					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, new IntVar(0));
 					// TODO: Find better way?
 					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
@@ -318,14 +343,114 @@ public class SchematicUtil
 			}
 		}
 
-		for(int i = offsetBlocks.size() - 1; i >= 0; i--)
-		{
-			OffsetBlock osb = offsetBlocks.get(i);
-			if(osb.getBlockState().getBlock().equals(Blocks.AIR) && !includeAirBlocks)
-				offsetBlocks.remove(i);
-		}
-
 		return new CustomSchematic(offsetBlocks, xSize, ySize, zSize, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
+	}
+
+	public static CustomSchematic loadLuckyStruct(InputStream stream, LuckyBlockRewardLoader loader, boolean includeAirBlocks)
+	{
+		String stage = "";
+		try
+		{
+			int length = 0, height = 0, width = 0;
+			Map<BlockPos, OffsetBlock> offsetBlocks = new HashMap<>();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			StringBuilder multiLine = new StringBuilder();
+			String line;
+			while((line = reader.readLine()) != null)
+			{
+				line = line.trim();
+				if(line.isEmpty() || line.startsWith("/"))
+				{
+					continue;
+				}
+				else if(line.endsWith("\\"))
+				{
+					line = line.substring(0, line.length() - 1);
+					multiLine.append(line);
+					continue;
+				}
+
+				if(multiLine.length() > 0)
+				{
+					multiLine.append(line);
+					line = multiLine.toString();
+					multiLine.setLength(0);
+				}
+
+				if(line.startsWith(">"))
+				{
+					stage = line.substring(1).trim();
+					continue;
+				}
+
+				if(stage.equalsIgnoreCase("properties"))
+				{
+					String[] parts = line.split("=");
+					if(parts[0].equalsIgnoreCase("length"))
+						length = Integer.parseInt(parts[1]);
+					else if(parts[0].equalsIgnoreCase("height"))
+						height = Integer.parseInt(parts[1]);
+					else if(parts[0].equalsIgnoreCase("width"))
+						width = Integer.parseInt(parts[1]);
+				}
+				else if(stage.equalsIgnoreCase("blocks"))
+				{
+					IntVar x, y, z, meta = new IntVar();
+					StringVar id, te;
+					//x,y,z,id,meta*,tile entity*
+					String s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					x = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					y = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					z = loader.getInt(s, 0);
+
+					s = loader.parseStringPart(line, false, Arrays.asList(','));
+					line = line.substring(s.length() + 1);
+					id = loader.getString(s, "minecraft:air");
+
+					if(!line.isEmpty())
+					{
+						s = loader.parseStringPart(line, false, Arrays.asList(','));
+						line = line.substring(Math.min(s.length() + 1, line.length()));
+						meta = loader.getInt(s, 0);
+					}
+
+					if(!line.isEmpty())
+					{
+						s = loader.parseStringPart(line, false, Arrays.asList(','));
+						te = loader.getString(s, "{}");
+					}
+
+					Block b = Block.getBlockFromName(id.getValue());
+					if(b == null)
+						b = Blocks.STONE;
+					OffsetBlock osb = new OffsetBlock(x, y, z, RewardsUtil.getBlockStateFromBlockMeta(b, meta.getIntValue()), new BoolVar(false), new IntVar(0));
+					offsetBlocks.put(new BlockPos(x.getIntValue(), y.getIntValue(), z.getIntValue()), osb);
+				}
+			}
+
+			if(includeAirBlocks)
+				for(int x = 0; x < length; x++)
+					for(int z = 0; z < width; z++)
+						for(int y = 0; y < height; y++)
+							if(!offsetBlocks.keySet().contains(new BlockPos(x, y, z)))
+								offsetBlocks.put(new BlockPos(x, y, z), new OffsetBlock(x, y, z, Blocks.AIR, false));
+
+			List<OffsetBlock> blocks = new ArrayList<>();
+			blocks.addAll(offsetBlocks.values());
+			return new CustomSchematic(blocks, length, height, width, false, includeAirBlocks, 0.1f, 0);
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)
@@ -340,9 +465,19 @@ public class SchematicUtil
 		}
 	}
 
+	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTVar nbt)
+	{
+		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), nbt, osb.isFallingVar(), osb.getDelayVar());
+		oste.setBlockState(osb.getBlockState());
+		oste.setDelay(osb.getDelay());
+		oste.setRelativeToPlayer(osb.isRelativeToPlayer());
+		oste.setFalling(osb.isFalling());
+		return oste;
+	}
+
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTTagCompound nbt)
 	{
-		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), nbt, osb.isFalling(), osb.getDelay());
+		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), new NBTVar(nbt), osb.isFallingVar(), osb.getDelayVar());
 		oste.setBlockState(osb.getBlockState());
 		oste.setDelay(osb.getDelay());
 		oste.setRelativeToPlayer(osb.isRelativeToPlayer());

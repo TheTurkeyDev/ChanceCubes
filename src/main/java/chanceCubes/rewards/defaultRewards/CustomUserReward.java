@@ -23,7 +23,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
@@ -37,8 +36,10 @@ public class CustomUserReward implements IChanceCubeReward
 
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(UUID uuid)
+	public static void getCustomUserReward(UUID uuid)
 	{
+		String userName;
+		String type;
 		if(!CCubesSettings.userSpecificRewards)
 			return;
 
@@ -57,13 +58,12 @@ public class CustomUserReward implements IChanceCubeReward
 		{
 			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
 			{
-				this.userName = user.getAsJsonObject().get("Name").getAsString();
-				this.uuid = uuid;
+				userName = user.getAsJsonObject().get("Name").getAsString();
 				type = user.getAsJsonObject().get("Type").getAsString();
 			}
 		}
 
-		if(this.userName.equals(""))
+		if(userName.equals(""))
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;
@@ -81,6 +81,7 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
+		List<BasicReward> customRewards = new ArrayList<BasicReward>();
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 		{
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
@@ -91,7 +92,7 @@ public class CustomUserReward implements IChanceCubeReward
 			@Override
 			public void run()
 			{
-				ChanceCubeRegistry.INSTANCE.registerReward(CustomUserReward.this);
+				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(uuid, userName, type, customRewards));
 				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 
 				if(player != null)
@@ -101,6 +102,14 @@ public class CustomUserReward implements IChanceCubeReward
 				}
 			}
 		});
+	}
+
+	public CustomUserReward(UUID uuid, String userName, String type, List<BasicReward> customRewards)
+	{
+		this.uuid = uuid;
+		this.userName = userName;
+		this.type = type;
+		this.customRewards = customRewards;
 	}
 
 	@Override

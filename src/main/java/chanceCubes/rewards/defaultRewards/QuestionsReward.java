@@ -15,6 +15,8 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -63,12 +65,21 @@ public class QuestionsReward implements IChanceCubeReward
 			inQuestion.put(player, questionsAndAnswers.get(question).getValue());
 		}
 
-		Scheduler.scheduleTask(new Task("Question", 400)
+		Scheduler.scheduleTask(new Task("Question", 400, 20)
 		{
 			@Override
 			public void callback()
 			{
 				timeUp(player, false);
+			}
+
+			@Override
+			public void update()
+			{
+				int time = this.delayLeft / 20;
+				TextComponentString message = new TextComponentString(String.valueOf(time));
+				message.getStyle().setBold(true);
+				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
 			}
 
 		});

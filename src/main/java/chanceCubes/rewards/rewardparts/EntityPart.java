@@ -1,50 +1,39 @@
 package chanceCubes.rewards.rewardparts;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
-import net.minecraft.nbt.JsonToNBT;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class EntityPart
+public class EntityPart extends BasePart
 {
-	public static String[] elements = new String[] { "entity:S", "delay:I" };
-
-	private NBTTagCompound nbtData;
-
-	private int delay = 0;
+	private NBTVar nbtData;
 
 	private boolean removedBlocks = true;
 
 	public EntityPart(NBTTagCompound nbtData)
 	{
-		this.nbtData = nbtData;
+		this(nbtData, 0);
+	}
+
+	public EntityPart(NBTTagCompound nbtData, int delay)
+	{
+		this(new NBTVar(nbtData), new IntVar(delay));
 	}
 
 	public EntityPart(String nbtRaw)
 	{
-		try
-		{
-			this.nbtData = (NBTTagCompound) JsonToNBT.getTagFromJson(nbtRaw);
-		} catch(CommandSyntaxException e)
-		{
-			e.printStackTrace();
-		}
+		this(new NBTVar(nbtRaw), new IntVar(0));
+	}
+
+	public EntityPart(NBTVar nbt, IntVar delay)
+	{
+		this.nbtData = nbt;
+		this.setDelay(delay);
 	}
 
 	public NBTTagCompound getNBT()
 	{
-		return nbtData;
-	}
-
-	public int getDelay()
-	{
-		return delay;
-	}
-
-	public EntityPart setDelay(int delay)
-	{
-		this.delay = delay;
-		return this;
+		return nbtData.getNBTValue();
 	}
 
 	public boolean shouldRemovedBlocks()

@@ -15,10 +15,13 @@ import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class CountDownReward implements IChanceCubeReward
@@ -29,8 +32,6 @@ public class CountDownReward implements IChanceCubeReward
 	{
 		Scheduler.scheduleTask(new Task("Countdown_Reward_Delay", 80, 20)
 		{
-			int count = 0;
-
 			@Override
 			public void callback()
 			{
@@ -95,19 +96,10 @@ public class CountDownReward implements IChanceCubeReward
 			@Override
 			public void update()
 			{
-				if(count == 0)
-				{
-					player.sendMessage(new TextComponentString("3...."));
-				}
-				else if(count == 1)
-				{
-					player.sendMessage(new TextComponentString("2...."));
-				}
-				else
-				{
-					player.sendMessage(new TextComponentString("1...."));
-				}
-				count++;
+				int time = this.delayLeft / 20;
+				TextComponentString message = new TextComponentString(String.valueOf(time));
+				message.getStyle().setBold(true).setColor(TextFormatting.RED);
+				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.TITLE, message, 0, 20, 0));
 			}
 		});
 	}

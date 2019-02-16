@@ -1,26 +1,36 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.FloatVar;
+import chanceCubes.rewards.variableTypes.IntVar;
 import net.minecraft.util.SoundEvent;
 
-public class SoundPart
+public class SoundPart extends BasePart
 {
-	public static String[] elements = new String[] { "sound:S", "delay:I", "serverWide:B", "range:I", "playAtPlayersLocation:B", "volume:I", "pitch:I" };
-
 	private SoundEvent sound;
 
-	private int delay = 0;
+	private BoolVar serverWide = new BoolVar(false);
+	private IntVar range = new IntVar(16);
 
-	private boolean serverWide = false;
-	private int range = 16;
+	private FloatVar volume = new FloatVar(1);
+	private FloatVar pitch = new FloatVar(1);
 
-	private int volume = 1;
-	private int pitch = 1;
-
-	private boolean atPlayersLocation = false;
+	private BoolVar atPlayersLocation = new BoolVar(false);
 
 	public SoundPart(SoundEvent sound)
 	{
+		this(sound, 0);
+	}
+
+	public SoundPart(SoundEvent sound, int delay)
+	{
+		this(sound, new IntVar(delay));
+	}
+
+	public SoundPart(SoundEvent sound, IntVar delay)
+	{
 		this.sound = sound;
+		this.setDelay(delay);
 	}
 
 	public SoundEvent getSound()
@@ -28,23 +38,17 @@ public class SoundPart
 		return sound;
 	}
 
-	public int getDelay()
-	{
-		return delay;
-	}
-
-	public SoundPart setDelay(int delay)
-	{
-		this.delay = delay;
-		return this;
-	}
-
 	public boolean isServerWide()
 	{
-		return serverWide;
+		return serverWide.getBoolValue();
 	}
 
 	public SoundPart setServerWide(boolean serverWide)
+	{
+		return this.setServerWide(new BoolVar(serverWide));
+	}
+
+	public SoundPart setServerWide(BoolVar serverWide)
 	{
 		this.serverWide = serverWide;
 		return this;
@@ -52,41 +56,61 @@ public class SoundPart
 
 	public int getRange()
 	{
-		return range;
+		return range.getIntValue();
 	}
 
 	public SoundPart setRange(int range)
+	{
+		return this.setRange(new IntVar(range));
+	}
+
+	public SoundPart setRange(IntVar range)
 	{
 		this.range = range;
 		return this;
 	}
 
-	public int getVolume()
+	public float getVolume()
 	{
-		return volume;
+		return volume.getFloatValue();
 	}
 
-	public void setVolume(int volume)
+	public void setVolume(float volume)
+	{
+		this.setVolume(new FloatVar(volume));
+	}
+
+	public void setVolume(FloatVar volume)
 	{
 		this.volume = volume;
 	}
 
-	public int getPitch()
+	public float getPitch()
 	{
-		return pitch;
+		return pitch.getFloatValue();
 	}
 
-	public void setPitch(int pitch)
+	public void setPitch(float pitch)
+	{
+		this.setPitch(new FloatVar(pitch));
+	}
+
+	public void setPitch(FloatVar pitch)
 	{
 		this.pitch = pitch;
 	}
 
 	public boolean playAtPlayersLocation()
 	{
-		return atPlayersLocation;
+		return atPlayersLocation.getBoolValue();
 	}
 
 	public SoundPart setAtPlayersLocation(boolean atPlayersLocation)
+	{
+		return this.setAtPlayersLocation(new BoolVar(atPlayersLocation));
+	}
+
+	public SoundPart setAtPlayersLocation(BoolVar atPlayersLocation)
 	{
 		this.atPlayersLocation = atPlayersLocation;
 		return this;
