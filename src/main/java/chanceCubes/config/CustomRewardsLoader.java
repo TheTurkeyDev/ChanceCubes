@@ -489,13 +489,12 @@ public class CustomRewardsLoader extends BaseLoader
 			JsonObject obj = element.getAsJsonObject();
 			if(obj.has("item") && obj.has("chance"))
 			{
-				IntVar meta = this.getInt(obj, "meta", 0);
 				IntVar amountMin = this.getInt(obj, "amountMin", 1);
 				IntVar amountMax = this.getInt(obj, "amountMax", 8);
 				IntVar chance = this.getInt(obj, "chance", 50);
 
 				//TODO: Handle items
-				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amountMin, amountMax));
+				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), chance, amountMin, amountMax));
 			}
 			else
 			{
