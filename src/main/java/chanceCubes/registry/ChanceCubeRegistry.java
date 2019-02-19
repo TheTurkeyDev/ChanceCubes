@@ -3,7 +3,6 @@ package chanceCubes.registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -505,18 +504,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	public static void loadCustomUserRewards(MinecraftServer server)
 	{
-		List<EntityPlayerMP> allp = new ArrayList<EntityPlayerMP>();
-		Iterator<?> iterator;
-
-		for(int i = 0; i < server.worlds.length; i++)
-		{
-			iterator = server.worlds[i].playerEntities.listIterator();
-			while(iterator.hasNext())
-				allp.add((EntityPlayerMP) iterator.next());
-		}
-
-		for(EntityPlayerMP player : allp)
-			new CustomUserReward(player.getName(), player.getUniqueID());
+		for(EntityPlayerMP player : server.getPlayerList().getPlayers())
+			CustomUserReward.getCustomUserReward(player.getUniqueID());
 	}
 
 	@Override

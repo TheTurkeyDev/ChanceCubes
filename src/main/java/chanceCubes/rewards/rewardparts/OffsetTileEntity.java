@@ -71,11 +71,14 @@ public class OffsetTileEntity extends OffsetBlock
 	public BlockPos placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
 		BlockPos pos = super.placeInWorld(world, x, y, z, offset);
-		// te.me = this.data;
-		if(offset)
-			world.setTileEntity(pos, TileEntity.create(world, teNBT.getNBTValue()));
-		else
-			world.setTileEntity(new BlockPos(x, y, z), TileEntity.create(world, teNBT.getNBTValue()));
+		TileEntity te = TileEntity.create(world, teNBT.getNBTValue());
+		System.out.println(super.getBlockState().toString());
+		if(!offset)
+			pos = new BlockPos(x, y, z);
+
+		te.setPos(pos);
+		world.setTileEntity(pos, te);
+
 		return pos;
 	}
 }

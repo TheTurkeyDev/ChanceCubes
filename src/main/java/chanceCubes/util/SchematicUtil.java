@@ -244,11 +244,11 @@ public class SchematicUtil
 				{
 					Block b = null;
 					for(OffsetBlock osb : offsetBlocks)
-						if(osb.xOff.getIntValue() == tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == tileentity.getPos().getZ())
+						if(osb.xOff.getIntValue() == halfWidth - tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == halfLength - tileentity.getPos().getZ())
 							b = osb.getBlockState().getBlock();
 					if(b == null)
 						b = Blocks.STONE;
-					OffsetTileEntity block = new OffsetTileEntity(tileentity.getPos().getX(), tileentity.getPos().getY(), tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
+					OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
 					block.setRelativeToPlayer(relativeToPlayer);
 					block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
 					offsetBlocks.add(block);
