@@ -50,7 +50,7 @@ public class CCubesCore
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 
-	public static final String gameVersion = "1.12.1";
+	public static final String gameVersion = "1.13.2";
 
 	public static ItemGroup modTab = new ItemGroup(MODID)
 	{
@@ -128,7 +128,7 @@ public class CCubesCore
 		ConfigLoader.config.save();
 
 		//See ForgeCommand
-		event.registerServerCommand(new CCubesServerCommands());
+		new CCubesServerCommands(event.getCommandDispatcher());
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}

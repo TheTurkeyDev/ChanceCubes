@@ -3,7 +3,6 @@ package chanceCubes.registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -115,7 +114,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.EnumFacing;
@@ -124,6 +122,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ChanceCubeRegistry implements IRewardRegistry
@@ -496,10 +497,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(coinFlip);
 	}
 
-	public static void loadCustomUserRewards(MinecraftServer server)
+	public static void loadCustomUserRewards()
 	{
-		for(EntityPlayerMP player : server.getPlayerList().getPlayers())
-			CustomUserReward.getCustomUserReward(player.getUniqueID());
+		if(EffectiveSide.get() == LogicalSide.SERVER)
+		{
+			for(EntityPlayerMP player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers())
+				CustomUserReward.getCustomUserReward(player.getUniqueID());
+		}
+
 	}
 
 	@Override

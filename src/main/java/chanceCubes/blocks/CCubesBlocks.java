@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -51,7 +50,8 @@ public class CCubesBlocks
 	public static void registerModels(ModelRegistryEvent event)
 	{
 		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
+		//https://gyazo.com/141bd0c62dab407ec4d278f2310783a0
+		//ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
 	}
 
 	public static void registerBlocksItems()

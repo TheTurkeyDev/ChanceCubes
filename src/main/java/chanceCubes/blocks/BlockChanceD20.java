@@ -86,6 +86,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			world.removeTileEntity(pos);
 			return true;
+			Tag
 		}
 
 		if(te != null)

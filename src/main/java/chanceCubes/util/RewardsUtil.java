@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -17,9 +15,6 @@ import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.command.arguments.EntityAnchorArgument;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -35,24 +30,21 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class RewardsUtil
 {
 	private static List<String> oredicts = new ArrayList<String>();
-	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
+	private static String[] possibleModOres = new String[] { "ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/buby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc" };
 	private static List<String> fluids = new ArrayList<String>();
 
 	public static final Random rand = new Random();
@@ -69,17 +61,17 @@ public class RewardsUtil
 
 	public static void initData()
 	{
-		oredicts.add("oreGold");
-		oredicts.add("oreIron");
-		oredicts.add("oreLapis");
-		oredicts.add("oreDiamond");
-		oredicts.add("oreRedstone");
-		oredicts.add("oreEmerald");
-		oredicts.add("oreQuartz");
-		oredicts.add("oreCoal");
+		oredicts.add("ores/coal");
+		oredicts.add("ores/diamond");
+		oredicts.add("ores/emerald");
+		oredicts.add("ores/gold");
+		oredicts.add("ores/iron");
+		oredicts.add("ores/lapis");
+		oredicts.add("ores/quartz");
+		oredicts.add("ores/redstone");
 
 		for(String oreDict : possibleModOres)
-			if(OreDictionary.doesOreNameExist(oreDict))
+			if(BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)) != null)
 				oredicts.add(oreDict);
 
 		for(String s : FluidRegistry.getRegisteredFluids().keySet())
@@ -262,29 +254,9 @@ public class RewardsUtil
 		return b;
 	}
 
-	public static CustomEntry<Block, Integer> getRandomOre()
+	public static Block getRandomOre()
 	{
-		List<ItemStack> ores = OreDictionary.getOres(RewardsUtil.getRandomOreDict());
-		Block ore = null;
-		int meta = 0;
-
-		int iteration = 0;
-		while(ore == null)
-		{
-			iteration++;
-			if(iteration > 100 || ores.size() == 0)
-			{
-				ore = Blocks.COAL_ORE;
-			}
-			else
-			{
-				ItemStack stack = ores.get(rand.nextInt(ores.size()));
-				ore = Block.getBlockFromItem(stack.getItem());
-				meta = stack.getDamage();
-			}
-		}
-
-		return new CustomEntry<Block, Integer>(ore, meta);
+		return BlockTags.getCollection().get(new ResourceLocation("forge", RewardsUtil.getRandomOreDict())).getRandomElement(RewardsUtil.rand);
 	}
 
 	public static Item getRandomItem()
