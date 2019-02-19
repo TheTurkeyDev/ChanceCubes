@@ -30,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -242,6 +243,18 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
+			if(sender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) sender;
+				TileEntity te = player.getEntityWorld().getTileEntity(player.getPosition().add(0, -1, 0));
+
+				if(te != null)
+				{
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt = te.writeToNBT(nbt);
+					System.out.println(nbt.toString());
+				}
+			}
 		}
 		else if(args[0].equalsIgnoreCase("spawnGiantCube"))
 		{
@@ -272,7 +285,7 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(sender instanceof EntityPlayer)
 		{
-			GameProfile profile = ((EntityPlayer)sender).getGameProfile();
+			GameProfile profile = ((EntityPlayer) sender).getGameProfile();
 			if(server.getPlayerList().canSendCommands(profile))
 			{
 				UserListOpsEntry userlistopsentry = (UserListOpsEntry) server.getPlayerList().getOppedPlayers().getEntry(profile);

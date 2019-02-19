@@ -2,19 +2,17 @@ package chanceCubes.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.Level;
 
@@ -60,9 +58,9 @@ public class LuckyBlockRewardLoader extends BaseLoader
 	public static LuckyBlockRewardLoader instance;
 	private static Map<String, String> staticHashVars = new HashMap<>();
 
-	private static Map<String, InputStream> files = new HashMap<>();
-
 	private static Map<String, LBStructure> structures = new HashMap<>();
+
+	private File currentAddonFolder;
 
 	static
 	{
@@ -85,45 +83,43 @@ public class LuckyBlockRewardLoader extends BaseLoader
 
 	public void parseLuckyBlockRewards()
 	{
-		for(File f : lbFolder.listFiles())
+		for(File dirs : lbFolder.listFiles())
 		{
-			if(f.getName().contains(".zip"))
+			currentAddonFolder = dirs;
+			if(dirs.isDirectory())
 			{
-				CCubesCore.logger.log(Level.INFO, "Loading Lucky Blocks rewards file " + f.getName());
-				String rewardPackName = f.getName().substring(0, f.getName().indexOf("."));
-				try
+				CCubesCore.logger.log(Level.INFO, "Loading Lucky Blocks rewards file " + dirs.getName());
+				String rewardPackName = dirs.getName();
+
+				File tempFile = new File(dirs, "structures.txt");
+				if(tempFile.exists())
 				{
-					ZipFile zipFile = new ZipFile(f);
-
-					Enumeration<? extends ZipEntry> entries = zipFile.entries();
-
-					while(entries.hasMoreElements())
+					try
 					{
-						ZipEntry entry = entries.nextElement();
-						InputStream stream = zipFile.getInputStream(entry);
-						files.put(entry.getName(), stream);
-					}
-
-					InputStream stream;
-					if(files.containsKey("structures.txt"))
-					{
-						stream = files.get("structures.txt");
-						parseStructuresFile(rewardPackName, files.get("structures.txt"));
+						InputStream stream = new FileInputStream(tempFile);
+						parseStructuresFile(rewardPackName, stream);
 						stream.close();
+					} catch(Exception e)
+					{
+						e.printStackTrace();
 					}
-
-					stream = files.get("drops.txt");
-					parseDropsFile(rewardPackName, files.get("drops.txt"));
-					stream.close();
-
-					zipFile.close();
-
-				} catch(Exception e)
-				{
-					e.printStackTrace();
 				}
 
-				CCubesCore.logger.log(Level.INFO, "Loaded Lucky Blocks rewards file " + f.getName());
+				tempFile = new File(dirs, "drops.txt");
+				if(tempFile.exists())
+				{
+					try
+					{
+						InputStream stream = new FileInputStream(tempFile);
+						parseDropsFile(rewardPackName, stream);
+						stream.close();
+					} catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+
+				CCubesCore.logger.log(Level.INFO, "Loaded Lucky Blocks rewards file " + dirs.getName());
 			}
 		}
 	}
@@ -185,8 +181,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			LBStructure lbschematic = new LBStructure();
 			lbschematic.id = id;
 			lbschematic.overlay = overlayStruct;
-			InputStream s = files.get("structures/" + file);
-			NBTTagCompound nbtdata;
+			InputStream s = getStructureStream(file);
 
 			if(s == null)
 			{
@@ -194,11 +189,13 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				continue;
 			}
 
+			NBTTagCompound nbtdata;
 			if(file.endsWith(".schematic"))
 			{
 				try
 				{
 					nbtdata = CompressedStreamTools.readCompressed(s);
+					//System.out.println(nbtdata.toString());
 				} catch(IOException e)
 				{
 					CCubesCore.logger.log(Level.ERROR, "(" + this.currentParsingReward + ")Failed to parse schematic file \"structures/" + file + "\"!");
@@ -211,9 +208,22 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			{
 				lbschematic.schematic = SchematicUtil.loadLuckyStruct(s, this, mode.equalsIgnoreCase("replace"));
 			}
+			s.close();
 
 			structures.put(id, lbschematic);
 		}
+	}
+
+	public InputStream getStructureStream(String fileName)
+	{
+		try
+		{
+			return new FileInputStream(new File(currentAddonFolder, "structures/" + fileName));
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void parseDropsFile(String rewardPackName, InputStream stream) throws IOException

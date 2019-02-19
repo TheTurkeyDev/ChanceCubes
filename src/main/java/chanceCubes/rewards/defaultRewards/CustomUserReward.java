@@ -30,13 +30,12 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class CustomUserReward implements IChanceCubeReward
 {
-	private String userName = "";
-	private UUID uuid = null;
+	private String userName;
+	private UUID uuid;
 	private String type;
-
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
-	public CustomUserReward(String un, UUID uuid)
+	public static void getCustomUserReward(UUID uuid)
 	{
 		if(!CCubesSettings.userSpecificRewards)
 			return;
@@ -52,17 +51,18 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
+		String userName = "";
+		String type = "";
 		for(JsonElement user : users.getAsJsonArray())
 		{
 			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
 			{
-				this.userName = user.getAsJsonObject().get("Name").getAsString();
-				this.uuid = uuid;
+				userName = user.getAsJsonObject().get("Name").getAsString();
 				type = user.getAsJsonObject().get("Type").getAsString();
 			}
 		}
 
-		if(this.userName.equals(""))
+		if(userName.equals(""))
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;
@@ -80,26 +80,37 @@ public class CustomUserReward implements IChanceCubeReward
 			return;
 		}
 
-		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-		{
-			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
-		}
+		List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
+		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
+			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
+
+		//GROSS, but idk what else todo
+		String userNameFinal = userName;
+		String typeFinal = type;
 		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				ChanceCubeRegistry.INSTANCE.registerReward(CustomUserReward.this);
+				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 
 				if(player != null)
 				{
-					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userName + "...."));
+					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
 					player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
 				}
 			}
 		});
+	}
+
+	public CustomUserReward(String un, UUID uuid, String type, List<BasicReward> rewards)
+	{
+		this.userName = un;
+		this.uuid = uuid;
+		this.type = type;
+		this.customRewards = rewards;
 	}
 
 	@Override
