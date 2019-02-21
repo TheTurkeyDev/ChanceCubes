@@ -32,7 +32,7 @@ public class ThermalExpansionModHook extends BaseModHook
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":florbs", 60, new MessageRewardType(new MessagePart("Florbs!!")), new ItemRewardType(new ItemPart(stack))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Florbs", 60, new MessageRewardType(new MessagePart("Florbs!!")), new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
