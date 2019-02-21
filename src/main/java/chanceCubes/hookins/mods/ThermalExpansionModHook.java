@@ -31,6 +31,7 @@ public class ThermalExpansionModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "florb", 1);
 		if(!stack.isEmpty())
 		{
+			ItemStack stack1 = stack;
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":florbs", 60, new MessageRewardType(new MessagePart("Florbs!!")), new ItemRewardType(new ItemPart(stack))
 			{
 				@Override
@@ -41,8 +42,8 @@ public class ThermalExpansionModHook extends BaseModHook
 					{
 						nbt = new NBTTagCompound();
 						nbt.setString("Fluid", RewardsUtil.getRandomFluid().getName());
-						s.getItemStack().setTagCompound(nbt);
-						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+						stack1.setTagCompound(nbt);
+						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 						itemEnt.setPickupDelay(10);
 						world.spawnEntity(itemEnt);
 					}

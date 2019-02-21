@@ -43,7 +43,7 @@ public class ThermalFoundationModHook extends BaseModHook
 					for (int i = 0; i < 4; i++)
 					{
 						stack1.setItemDamage(gears[RewardsUtil.rand.nextInt(gears.length)]);
-						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 						itemEnt.setPickupDelay(10);
 						world.spawnEntity(itemEnt);
 					}
@@ -73,7 +73,7 @@ public class ThermalFoundationModHook extends BaseModHook
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
 				{
 					stack1.setItemDamage(upgrades[RewardsUtil.rand.nextInt(upgrades.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 					itemEnt.setPickupDelay(10);
 					world.spawnEntity(itemEnt);
 				}
@@ -96,7 +96,7 @@ public class ThermalFoundationModHook extends BaseModHook
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
 				{
 					stack1.setItemDamage(phytoGro[RewardsUtil.rand.nextInt(phytoGro.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 					itemEnt.setPickupDelay(10);
 					world.spawnEntity(itemEnt);
 				}
@@ -113,7 +113,7 @@ public class ThermalFoundationModHook extends BaseModHook
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
 				{
 					stack1.setItemDamage(hardenedGlass[RewardsUtil.rand.nextInt(hardenedGlass.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 					itemEnt.setPickupDelay(10);
 					world.spawnEntity(itemEnt);
 				}
@@ -130,7 +130,7 @@ public class ThermalFoundationModHook extends BaseModHook
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
 				{
 					stack1.setItemDamage(hardenedAlloyGlass[RewardsUtil.rand.nextInt(hardenedAlloyGlass.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
+					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1);
 					itemEnt.setPickupDelay(10);
 					world.spawnEntity(itemEnt);
 				}
