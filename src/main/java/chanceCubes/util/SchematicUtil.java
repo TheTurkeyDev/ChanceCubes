@@ -187,11 +187,7 @@ public class SchematicUtil
 			e.printStackTrace();
 			return null;
 		}
-<<<<<<< HEAD
-		return loadLegacySchematic(nbtdata, zoff, zoff, zoff, spacingDelay, includeAirBlocks, includeAirBlocks, includeAirBlocks, delay);
-=======
 		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 	}
 
 	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)

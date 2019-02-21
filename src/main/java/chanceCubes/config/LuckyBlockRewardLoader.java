@@ -36,10 +36,7 @@ import chanceCubes.rewards.type.IRewardType;
 import chanceCubes.rewards.type.ItemRewardType;
 import chanceCubes.rewards.type.MessageRewardType;
 import chanceCubes.rewards.type.ParticleEffectRewardType;
-<<<<<<< HEAD
-=======
 import chanceCubes.rewards.type.SchematicRewardType;
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
@@ -106,15 +103,7 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					{
 						e.printStackTrace();
 					}
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-					zipFile.close();
-=======
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
-=======
 				}
->>>>>>> 59e4284c7f43e84da5239c2c43129c6a069e4188
 
 				tempFile = new File(dirs, "drops.txt");
 				if(tempFile.exists())
@@ -128,22 +117,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					{
 						e.printStackTrace();
 					}
-<<<<<<< HEAD
-
-					stream = files.get("drops.txt");
-					parseDropsFile(rewardPackName, files.get("drops.txt"));
-					stream.close();
-
-<<<<<<< HEAD
-=======
-					zipFile.close();
-
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
-				} catch(Exception e)
-				{
-					e.printStackTrace();
-=======
->>>>>>> 59e4284c7f43e84da5239c2c43129c6a069e4188
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded Lucky Blocks rewards file " + dirs.getName());
@@ -177,41 +150,17 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				multiLine.setLength(0);
 			}
 
-<<<<<<< HEAD
-			LBStructure structure = new LBStructure();
-=======
 			String id = "";
 			String file = "";
 			int xOff = 0, yOff = 0, zOff = 0;
 			String mode = "replace";
 			boolean blockUpdate = false;
 			String overlayStruct = "";
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			String[] lineArgs = line.split(",");
 			for(String arg : lineArgs)
 			{
 				String[] parts = arg.split("=");
 				if(parts[0].equalsIgnoreCase("ID"))
-<<<<<<< HEAD
-					structure.id = parts[1];
-				else if(parts[0].equalsIgnoreCase("file"))
-					structure.file = parts[1];
-				else if(parts[0].equalsIgnoreCase("centerX"))
-					structure.xOff = this.getInt(parts[1], 0).getIntValue();
-				else if(parts[0].equalsIgnoreCase("centerY"))
-					structure.yOff = this.getInt(parts[1], 0).getIntValue();
-				else if(parts[0].equalsIgnoreCase("centerZ"))
-					structure.zOff = this.getInt(parts[1], 0).getIntValue();
-				else if(parts[0].equalsIgnoreCase("blockMode"))
-					structure.mode = parts[1];
-				else if(parts[0].equalsIgnoreCase("blockUpdate"))
-					structure.blockUpdate = this.getBoolean(parts[1], false).getBoolValue();
-				else if(parts[0].equalsIgnoreCase("overlayStruct"))
-					structure.overlayStruct = parts[1];
-			}
-
-			structures.put(structure.id, structure);
-=======
 					id = parts[1];
 				else if(parts[0].equalsIgnoreCase("file"))
 					file = parts[1];
@@ -262,7 +211,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			s.close();
 
 			structures.put(id, lbschematic);
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 		}
 	}
 
@@ -417,10 +365,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			}
 
 			BasicReward reward = new BasicReward(rewardPackName + "_" + rewardNumber, Integer.parseInt(luck) * 50, rewardTypes.toArray(new IRewardType[rewards.size()]));
-<<<<<<< HEAD
-			System.out.println(reward.getName() + " @ " + reward.getChanceValue());
-=======
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			ChanceCubeRegistry.INSTANCE.registerReward(reward);
 			ChanceCubeRegistry.INSTANCE.addCustomReward(reward);
 			rewardNumber++;
@@ -472,12 +416,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					replace = "%%" + replace + "%%";
 				line = line.replace("#" + s, replace);
 			}
-<<<<<<< HEAD
-			else if(staticHashVars.keySet().contains(s))
-			{
-				s = this.parseStringPart(s, true, Arrays.asList(':', ','));
-				line = line.replace("#" + s, staticHashVars.get(s));
-=======
 			else
 			{
 				s = this.parseStringPart(s, true, Arrays.asList(':', ','));
@@ -496,7 +434,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					line = line.replace("#pYaw", "%pyaw");
 					line = line.replace("#pPitch", "%ppitch");
 				}
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 			}
 			index = line.indexOf("#", index + 1);
 		}
@@ -685,11 +622,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 			{
 				String id = typeMap.get("ID");
 				LBStructure struct = structures.get(id);
-<<<<<<< HEAD
-				
-				//TODO: Continue
-				
-=======
 
 				if(struct == null)
 				{
@@ -697,7 +629,6 @@ public class LuckyBlockRewardLoader extends BaseLoader
 					break;
 				}
 
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 				List<IRewardType> itemTypes = rewards.get("schematic");
 				if(itemTypes == null)
 				{
@@ -1014,21 +945,10 @@ public class LuckyBlockRewardLoader extends BaseLoader
 		return delay;
 	}
 
-<<<<<<< HEAD
-	private class LBStructure
-	{
-		public String id = "";
-		public String file = "";
-		public int xOff = 0, yOff = 0, zOff = 0;
-		public String mode = "replace";
-		public boolean blockUpdate = false;
-		public String overlayStruct = "";
-=======
 	private static class LBStructure
 	{
 		public String id;
 		public CustomSchematic schematic;
 		public String overlay;
->>>>>>> 3d0f88e39d0b8fed9f012d4bfde2de1551d128a0
 	}
 }

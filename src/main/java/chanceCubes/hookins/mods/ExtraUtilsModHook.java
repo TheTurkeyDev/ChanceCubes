@@ -33,8 +33,9 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setString("Type", "extrautils2:generator_pink");
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("Type", "extrautils2:generator_pink");
+			stack.setTagCompound(nbt);
 			stack.setStackDisplayName("Useless Generator");
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
 		}
