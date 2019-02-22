@@ -45,7 +45,7 @@ minecraft {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
+            workingDirectory project.file('run-1.13').canonicalPath
             source sourceSets.main
         }
         server = {
@@ -53,7 +53,7 @@ minecraft {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
+            workingDirectory project.file('run-1.13').canonicalPath
             source sourceSets.main
         }
     }
