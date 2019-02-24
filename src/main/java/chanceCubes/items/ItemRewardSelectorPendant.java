@@ -26,7 +26,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemRewardSelectorPendant()
 	{
-		super((new Item.Builder()).maxStackSize(1), "reward_Selector_Pendant");
+		super((new Item.Properties()).maxStackSize(1), "reward_Selector_Pendant");
 		super.addLore("Shift right click to change the reward.");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}

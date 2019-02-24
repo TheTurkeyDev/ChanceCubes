@@ -22,7 +22,7 @@ public class ItemScanner extends BaseChanceCubesItem
 {
 	public ItemScanner()
 	{
-		super((new Item.Builder()).maxStackSize(1), "scanner");
+		super((new Item.Properties()).maxStackSize(1), "scanner");
 	}
 
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)

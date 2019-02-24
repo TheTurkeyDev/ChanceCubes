@@ -15,7 +15,7 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 {
 	public ItemCreativePendant()
 	{
-		super((new Item.Builder()).maxStackSize(1), "creative_Pendant");
+		super((new Item.Properties()).maxStackSize(1), "creative_Pendant");
 		super.addLore("Right click to change the chance");
 		super.addLore("of the inserted cubes.");
 	}

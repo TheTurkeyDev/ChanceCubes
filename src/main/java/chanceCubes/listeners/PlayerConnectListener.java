@@ -12,7 +12,7 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerLoggedInEvent event)
 	{
-		if(event.player.world.isRemote)
+		if(event.getPlayer().world.isRemote)
 			return;
 
 		new Thread(new Runnable()
@@ -20,7 +20,7 @@ public class PlayerConnectListener
 			@Override
 			public void run()
 			{
-				new CustomUserReward(event.player.getUniqueID());
+				CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID());
 			}
 
 		}).start();
@@ -29,9 +29,9 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.player.world.isRemote)
+		if(event.getPlayer().world.isRemote)
 			return;
 
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSource().getName());
+		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.getPlayer().getCommandSource().getName());
 	}
 }

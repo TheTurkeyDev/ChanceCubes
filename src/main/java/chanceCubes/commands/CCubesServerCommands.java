@@ -33,6 +33,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 public class CCubesServerCommands
 {
@@ -49,7 +50,7 @@ public class CCubesServerCommands
 		                .executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
 				.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
 		                .executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
-				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2))
+				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> !cs.getWorld().isRemote)
 						.then(Commands.literal("create").executes(ctx -> this.executeSchematicCreate(ctx)))
 						.then(Commands.literal("cancel").executes(ctx -> this.executeSchematicCancel(ctx))))
 				.then(Commands.literal("rewardsInfo").executes(ctx -> this.executeRewardInfo(ctx)))
@@ -191,6 +192,7 @@ public class CCubesServerCommands
 	{
 		if(RenderEvent.isCreatingSchematic())
 		{
+			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 				FMLCommonHandler.instance().showGuiScreen(new SchematicCreationGui(getPlayer(ctx.getSource())));
 			else

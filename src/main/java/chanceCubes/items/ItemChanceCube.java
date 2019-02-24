@@ -27,7 +27,7 @@ public class ItemChanceCube extends ItemBlock
 {
 	public ItemChanceCube(Block b)
 	{
-		super(b, (new Item.Builder()).group(CCubesCore.modTab));
+		super(b, (new Item.Properties()).group(CCubesCore.modTab));
 	}
 
 	public void setChance(ItemStack stack, int chance)

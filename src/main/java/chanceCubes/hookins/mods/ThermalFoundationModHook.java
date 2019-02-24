@@ -34,7 +34,7 @@ public class ThermalFoundationModHook extends BaseModHook
 			{
 				for(int i = 0; i < 4; i++)
 				{
-					stack.setItemDamage(gears[RewardsUtil.rand.nextInt(gears.length)]);
+					stack.setDamage(gears[RewardsUtil.rand.nextInt(gears.length)]);
 					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
 					itemEnt.setPickupDelay(10);
 					world.spawnEntity(itemEnt);

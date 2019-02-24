@@ -10,7 +10,7 @@ public class ItemChancePendant extends BaseChanceCubesItem
 
 	public ItemChancePendant(int tier, int chancebonus)
 	{
-		super((new Item.Builder()).maxStackSize(1).defaultMaxDamage(CCubesSettings.pendantUses), "chance_Pendant_Tier" + tier);
+		super((new Item.Properties()).maxStackSize(1).defaultMaxDamage(CCubesSettings.pendantUses), "chance_Pendant_Tier" + tier);
 		super.showDurabilityBar(new ItemStack(this));
 		chanceIncrease = chancebonus;
 		super.addLore("Increases the chance of Chance Cubes by:");

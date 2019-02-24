@@ -27,7 +27,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemSingleUseRewardSelectorPendant()
 	{
-		super((new Item.Builder()).maxStackSize(1), "single_use_reward_selector_pendant");
+		super((new Item.Properties()).maxStackSize(1), "single_use_reward_selector_pendant");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
