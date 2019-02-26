@@ -27,7 +27,8 @@ public class MazeReward implements IChanceCubeReward
 		final int px = (int) player.posX;
 		final int py = (int) player.posY;
 		final int pz = (int) player.posZ;
-		player.setPositionAndUpdate(pos.getX() - 8.5, pos.getY(), pos.getZ() - 8.5);
+		BlockPos initialPos = new BlockPos(pos.getX() - 8, pos.getY(), pos.getZ() - 8);
+		player.setPositionAndUpdate(initialPos.getX() - 0.5, initialPos.getY(), initialPos.getZ() - 0.5);
 
 		Scheduler.scheduleTask(new Task("Maze_Reward_Update", 900, 20)
 		{
@@ -43,6 +44,12 @@ public class MazeReward implements IChanceCubeReward
 			@Override
 			public void update()
 			{
+				if(initialPos.getDistance(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ()) < 2)
+				{
+					this.delayLeft++;
+					return;
+				}
+
 				int time = this.delayLeft / 20;
 				TextComponentString message = new TextComponentString(String.valueOf(time));
 				message.getStyle().setBold(true);

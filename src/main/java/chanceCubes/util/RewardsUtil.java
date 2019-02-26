@@ -225,7 +225,7 @@ public class RewardsUtil
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
 	{
-		if((!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
+		if(!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable)
 		{
 			world.setBlockState(pos, b, update);
 			return true;
@@ -235,7 +235,7 @@ public class RewardsUtil
 
 	public static boolean isBlockUnbreakable(World world, BlockPos pos)
 	{
-		return world.getBlockState(pos).getBlockHardness(world, pos) == -1;
+		return world.getBlockState(pos).getBlockHardness(world, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
 	}
 
 	public static ItemStack getSpawnEggForEntity(ResourceLocation entityId)

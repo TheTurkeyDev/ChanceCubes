@@ -8,6 +8,7 @@ import java.util.Map;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -44,7 +45,7 @@ public class MathReward implements IChanceCubeReward
 		player.sendMessage(new TextComponentString("Quick, what's " + num1 + "+" + num2 + "?"));
 
 		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
-		List<BlockPos> boxBlocks = new ArrayList<BlockPos>();
+		RewardBlockCache cache = new RewardBlockCache(world, playerPos, player.getPosition());
 		for(int xx = -2; xx < 3; xx++)
 		{
 			for(int zz = -2; zz < 3; zz++)
@@ -52,15 +53,9 @@ public class MathReward implements IChanceCubeReward
 				for(int yy = 1; yy < 5; yy++)
 				{
 					if(xx == -2 || xx == 2 || zz == -2 || zz == 2 || yy == 1 || yy == 4)
-					{
-						RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, playerPos.add(xx, yy, zz));
-						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
-					}
+						cache.cacheBlock(new BlockPos(xx, yy, zz), Blocks.BEDROCK.getDefaultState());
 					else if(((xx == -1 || xx == 1) && (zz == -1 || zz == 1) && yy == 2))
-					{
-						RewardsUtil.placeBlock(Blocks.GLOWSTONE.getDefaultState(), world, playerPos.add(xx, yy, zz));
-						boxBlocks.add(new BlockPos(player.posX + xx, player.posY + yy, player.posZ + zz));
-					}
+						cache.cacheBlock(new BlockPos(xx, yy, zz), Blocks.GLOWSTONE.getDefaultState());
 				}
 			}
 		}
@@ -79,7 +74,7 @@ public class MathReward implements IChanceCubeReward
 				tnt.add(entitytntprimed);
 			}
 
-			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, boxBlocks));
+			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
 		}
 
 		Scheduler.scheduleTask(new Task("Math", 100, 20)
@@ -123,11 +118,10 @@ public class MathReward implements IChanceCubeReward
 			player.attackEntityFrom(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 
-		for(Entity tnt : info.getTnt())
+		for(Entity tnt : info.tnt)
 			tnt.setDead();
 
-		for(BlockPos b : info.getBlocks())
-			player.world.setBlockToAir(b);
+		info.cache.restoreBlocks(player);
 
 		inQuestion.remove(player);
 
@@ -161,7 +155,7 @@ public class MathReward implements IChanceCubeReward
 				player.sendMessage(new TextComponentString("Incorrect!"));
 			}
 
-			if(inQuestion.get(player).getAnswer() == answer)
+			if(inQuestion.get(player).answer == answer)
 				this.timeUp(player, true);
 			else
 				player.sendMessage(new TextComponentString("Incorrect!"));
@@ -171,30 +165,15 @@ public class MathReward implements IChanceCubeReward
 
 	private class RewardInfo
 	{
-		private int answer;
-		private List<Entity> tnt;
-		private List<BlockPos> blocks;
+		public int answer;
+		public List<Entity> tnt;
+		public RewardBlockCache cache;
 
-		public RewardInfo(int answer, List<Entity> tnt, List<BlockPos> blocks)
+		public RewardInfo(int answer, List<Entity> tnt, RewardBlockCache cache)
 		{
 			this.answer = answer;
 			this.tnt = tnt;
-			this.blocks = blocks;
-		}
-
-		public int getAnswer()
-		{
-			return answer;
-		}
-
-		public List<Entity> getTnt()
-		{
-			return tnt;
-		}
-
-		public List<BlockPos> getBlocks()
-		{
-			return blocks;
+			this.cache = cache;
 		}
 	}
 }

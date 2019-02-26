@@ -3,10 +3,10 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,7 +24,7 @@ public class MatchingReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		int[] metas = { 0, 1, 1, 2, 2, 3, 3, 4, 4 };
-		IBlockState[] savedBlocks = new IBlockState[9];
+		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int i = 0; i < 500; i++)
 		{
 			int index1 = RewardsUtil.rand.nextInt(9);
@@ -38,12 +38,11 @@ public class MatchingReward implements IChanceCubeReward
 		{
 			int x = (i % 3) - 1;
 			int z = (i / 3) - 1;
-			savedBlocks[i] = world.getBlockState(pos.add(x, -1, z));
-			world.setBlockState(pos.add(x, -1, z), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, metas[i]));
+			cache.cacheBlock(new BlockPos(x, -1, z), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, metas[i]));
 		}
 		player.sendMessage(new TextComponentString("Memerize these blocks!"));
 
-		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 140, 20)
+		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 200, 20)
 		{
 			@Override
 			public void callback()
@@ -54,7 +53,7 @@ public class MatchingReward implements IChanceCubeReward
 					int z = (i / 3) - 1;
 					world.setBlockState(pos.add(x, -1, z), Blocks.GLASS.getDefaultState());
 				}
-				match(world, pos, player, metas, savedBlocks);
+				match(world, pos, player, metas, cache);
 			}
 
 			@Override
@@ -68,10 +67,10 @@ public class MatchingReward implements IChanceCubeReward
 		});
 	}
 
-	public void match(World world, BlockPos pos, EntityPlayer player, int[] metas, IBlockState[] savedBlocks)
+	public void match(World world, BlockPos pos, EntityPlayer player, int[] metas, RewardBlockCache cache)
 	{
 		player.sendMessage(new TextComponentString("Now break the matching blocks (in pairs)! You have 45 seconds!"));
-		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 10)
+		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)
 		{
 			boolean[] checked = new boolean[9];
 			int lastBroken = -1;
@@ -148,12 +147,7 @@ public class MatchingReward implements IChanceCubeReward
 
 			public void reset()
 			{
-				for(int i = 0; i < savedBlocks.length; i++)
-				{
-					int x = (i % 3) - 1;
-					int z = (i / 3) - 1;
-					world.setBlockState(pos.add(x, -1, z), savedBlocks[i]);
-				}
+				cache.restoreBlocks(player);
 			}
 		});
 	}

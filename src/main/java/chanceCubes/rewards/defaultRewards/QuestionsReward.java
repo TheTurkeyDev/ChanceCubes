@@ -38,7 +38,7 @@ public class QuestionsReward implements IChanceCubeReward
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
 		this.addQuestionAnswer("What company developes Java?", "Sun -or- Sun Microsystems -or- Oracle");
 		this.addQuestionAnswer("Who created Minecraft?", "Notch");
-		this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
+		//this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
 	}
 
 	public void addQuestionAnswer(String q, String a)

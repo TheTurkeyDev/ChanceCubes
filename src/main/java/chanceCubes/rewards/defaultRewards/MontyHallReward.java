@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -27,18 +28,13 @@ public class MontyHallReward implements IChanceCubeReward
 	{
 		player.sendMessage(new TextComponentString("Which button do you press?"));
 
-		world.setBlockToAir(pos.add(-1, 0, 0));
-		world.setBlockToAir(pos.add(0, 0, 0));
-		world.setBlockToAir(pos.add(1, 0, 0));
-		world.setBlockToAir(pos.add(-1, 0, 1));
-		world.setBlockToAir(pos.add(0, 0, 1));
-		world.setBlockToAir(pos.add(1, 0, 1));
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		world.setBlockState(pos.add(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		world.setBlockState(pos.add(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
+		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
+		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
@@ -47,12 +43,7 @@ public class MontyHallReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos.add(-1, 0, 1));
-				world.setBlockToAir(pos.add(0, 0, 1));
-				world.setBlockToAir(pos.add(1, 0, 1));
-				world.setBlockToAir(pos.add(-1, 0, 0));
-				world.setBlockToAir(pos.add(0, 0, 0));
-				world.setBlockToAir(pos.add(1, 0, 0));
+				cache.restoreBlocks(player);
 			}
 
 			@Override
