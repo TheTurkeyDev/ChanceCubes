@@ -21,6 +21,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.FMLPlayHandler;
+import net.minecraftforge.fml.network.NetworkDirection;
 
 @OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
@@ -79,7 +81,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 					nbt.setString("Reward", this.rewardName);
 					stack.setTag(nbt);
 
-					CCubesPacketHandler.INSTANCE.sendToServer(new PacketRewardSelector(this.player.getCommandSenderEntity().getName(), this.rewardField.getText()));
+					CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(this.rewardField.getText()));
 					rewardName = this.rewardField.getText();
 					this.player.closeScreen();
 				}

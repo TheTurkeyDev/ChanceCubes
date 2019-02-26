@@ -7,7 +7,6 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -20,11 +19,10 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceCube extends BaseChanceBlock
 {
 	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.<BlockChanceCube.EnumTexture> create("texture", BlockChanceCube.EnumTexture.class);
 
@@ -35,12 +33,12 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		super(getBuilder().lightValue(2), "chance_Cube");
 		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, textureToSet));
 	}
-
+	
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader paramIBlockReader)
-	{
-		return new TileChanceCube();
-	}
+    public boolean hasTileEntity(IBlockState state)
+    {
+        return true;
+    }
 
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)

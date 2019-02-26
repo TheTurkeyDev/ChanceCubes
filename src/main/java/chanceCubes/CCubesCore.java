@@ -36,6 +36,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -67,6 +69,7 @@ public class CCubesCore
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> CCubesGuiHandler::openGui);
 	}
 
 	public void commonStart()
@@ -95,8 +98,6 @@ public class CCubesCore
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 
 		CCubesSounds.loadSolunds();
-
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CCubesGuiHandler());
 	}
 
 	public void serverStart(FMLServerStartingEvent event)

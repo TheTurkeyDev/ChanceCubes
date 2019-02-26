@@ -4,21 +4,18 @@ import java.util.Random;
 
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
+public class BlockCubeDispenser extends BaseChanceBlock
 {
 	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
 
@@ -30,9 +27,9 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader world)
+	public boolean hasTileEntity(IBlockState state)
 	{
-		return new TileCubeDispenser();
+		return true;
 	}
 
 	@Override

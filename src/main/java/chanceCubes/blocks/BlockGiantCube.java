@@ -7,7 +7,6 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -16,11 +15,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockGiantCube extends BaseChanceBlock
 {
 	public BlockGiantCube()
 	{
@@ -29,9 +27,9 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader paramIBlockReader)
+	public boolean hasTileEntity(IBlockState state)
 	{
-		return new TileGiantCube();
+		return true;
 	}
 
 	public static boolean isOpaque(VoxelShape shape)

@@ -1,43 +1,30 @@
 package chanceCubes.client.gui;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import chanceCubes.containers.CreativePendantContainer;
-import chanceCubes.items.CCubesItems;
+import chanceCubes.CCubesCore;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
-public class CCubesGuiHandler implements IGuiHandler
+public class CCubesGuiHandler
 {
-	public final static int CREATIVE_PENDANT_ID = 0;
-	public final static int REWARD_SELECTOR_PENDANT_ID = 1;
-
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	public enum CCGUIList
 	{
-		switch(ID)
+		CREATIVE_PENDANT(new ResourceLocation(CCubesCore.MODID, "creative_pendent"));
+
+		public final ResourceLocation rl;
+
+		CCGUIList(ResourceLocation rl)
 		{
-			case CREATIVE_PENDANT_ID:
-				if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
-					return new CreativePendantGui(player, world);
-				break;
-			default:
-				return null;
+			this.rl = rl;
 		}
+	}
+
+	public static GuiScreen openGui(FMLPlayMessages.OpenContainer openContainer)
+	{
+		if(openContainer.getId().equals(CCGUIList.CREATIVE_PENDANT.rl))
+			return new CreativePendantGui(Minecraft.getInstance().player, Minecraft.getInstance().world);
 		return null;
 	}
 
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-	{
-		switch(ID)
-		{
-			case CREATIVE_PENDANT_ID:
-				if(player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem().equals(CCubesItems.creativePendant))
-					return new CreativePendantContainer(player.inventory, world);
-				break;
-			default:
-				return null;
-		}
-		return null;
-	}
 }

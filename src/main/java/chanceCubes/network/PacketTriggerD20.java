@@ -1,64 +1,43 @@
 package chanceCubes.network;
 
-import chanceCubes.CCubesCore;
+import java.util.function.Supplier;
+
 import chanceCubes.tileentities.TileChanceD20;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.network.ForgeMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class PacketTriggerD20 extends ForgeMessage
+public class PacketTriggerD20
 {
 
-	public int x;
-	public int y;
-	public int z;
+	public BlockPos pos;
 
-	public PacketTriggerD20()
+	public PacketTriggerD20(BlockPos pos)
 	{
+		this.pos = pos;
 	}
 
-	public PacketTriggerD20(int x, int y, int z)
+	public static void encode(PacketTriggerD20 msg, PacketBuffer buf)
 	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		buf.writeBlockPos(msg.pos);
 	}
 
-	@Override
-	public void toBytes(ByteBuf buf)
+	public static PacketTriggerD20 decode(PacketBuffer buf)
 	{
-		buf.writeInt(x);
-		buf.writeInt(y);
-		buf.writeInt(z);
-
+		return new PacketTriggerD20(buf.readBlockPos());
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buf)
+	public static void handle(PacketTriggerD20 msg, Supplier<NetworkEvent.Context> ctx)
 	{
-		this.x = buf.readInt();
-		this.y = buf.readInt();
-		this.z = buf.readInt();
+		ctx.get().enqueueWork(() -> {
+			TileEntity ico;
+
+			if((ico = Minecraft.getInstance().player.world.getTileEntity(msg.pos)) != null)
+				if(ico instanceof TileChanceD20)
+					((TileChanceD20) ico).startBreaking(Minecraft.getInstance().player);
+		});
+		ctx.get().setPacketHandled(true);
 	}
-
-	//	public static final class Handler implements IMessageHandler<PacketTriggerD20, IMessage>
-	//	{
-	//		@Override
-	//		public IMessage onMessage(PacketTriggerD20 message, MessageContext ctx)
-	//		{
-	//			TileEntity ico;
-	//
-	//			if((ico = CCubesCore.proxy.getClientPlayer().world.getTileEntity(new BlockPos(message.x, message.y, message.z))) != null)
-	//				if(ico instanceof TileChanceD20)
-	//					((TileChanceD20) ico).startBreaking(CCubesCore.proxy.getClientPlayer());
-	//
-	//			return null;
-	//
-	//		}
-	//	}
-
 }

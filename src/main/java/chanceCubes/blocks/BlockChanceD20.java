@@ -6,7 +6,6 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,9 +21,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
-public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceD20 extends BaseChanceBlock
 {
 
 	public BlockChanceD20()
@@ -33,16 +33,10 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader world)
-	{
-		return new TileChanceD20();
-	}
-
-	@Override
-	public boolean hasTileEntity(IBlockState state)
-	{
-		return true;
-	}
+    public boolean hasTileEntity(IBlockState state)
+    {
+        return true;
+    }
 
 	@Override
 	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos)
@@ -86,14 +80,13 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			world.removeTileEntity(pos);
 			return true;
-			Tag
 		}
 
 		if(te != null)
 		{
 			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:chance_icosahedron");
 			te.startBreaking(player);
-			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+			CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketTriggerD20(pos));
 			return true;
 		}
 

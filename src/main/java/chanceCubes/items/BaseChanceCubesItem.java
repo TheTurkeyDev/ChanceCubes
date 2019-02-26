@@ -25,7 +25,6 @@ public class BaseChanceCubesItem extends Item
 	{
 		super(builder.group(CCubesCore.modTab));
 		itemName = name;
-		this.setTranslationKey(name);
 		this.setRegistryName(CCubesCore.MODID, this.itemName);
 	}
 
