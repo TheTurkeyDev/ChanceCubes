@@ -33,8 +33,9 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "machine", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setString("Type", "extrautils2:generator_pink");
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("Type", "extrautils2:generator_pink");
+			stack.setTagCompound(nbt);
 			stack.setStackDisplayName("Useless Generator");
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
 		}
@@ -56,6 +57,44 @@ public class ExtraUtilsModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
+		stack = RewardsUtil.getItemStack(super.modId, "biomemarker", 1);
+		if(!stack.isEmpty())
+		{
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Biome_Marker", 75, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "snowglobe", 1);
+		if(!stack.isEmpty())
+		{
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Snow_Globe", 90, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "suncrystal", 1);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(250);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Sun_Crystal", 85, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "interactionproxy", 1);
+		if(!stack.isEmpty())
+		{
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Porcupine", 90, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "klein", 1);
+		if(!stack.isEmpty())
+		{
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Klein_Bottle", 85, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "minichest", 1);
+		if(!stack.isEmpty())
+		{
+			stack.setStackDisplayName("World's Smallest Chest");
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Mini_Chest", 30, new ItemRewardType(new ItemPart(stack))));
+		}
+
 		stack = RewardsUtil.getItemStack(super.modId, "bagofholding", 1);
 		if(!stack.isEmpty())
 		{
@@ -73,6 +112,41 @@ public class ExtraUtilsModHook extends BaseModHook
 		{
 			stack.setItemDamage(5);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 45, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "compressednetherrack", 4);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(5);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Netherrack", 65, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "compresseddirt", 4);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(3);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Dirt", 50, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "compressedgravel", 4);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(1);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Gravel", 45, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "compressedsand", 4);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(1);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Sand", 45, new ItemRewardType(new ItemPart(stack))));
+		}
+
+		stack = RewardsUtil.getItemStack(super.modId, "decorativesolid", 1);
+		if(!stack.isEmpty())
+		{
+			stack.setItemDamage(8);
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Rainbow_Stone", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		block = RewardsUtil.getBlock(super.modId, "spike_iron");
