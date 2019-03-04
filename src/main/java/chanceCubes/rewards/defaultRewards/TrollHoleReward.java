@@ -48,6 +48,6 @@ public class TrollHoleReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":TrollHole";
+		return CCubesCore.MODID + ":Troll_Hole";
 	}
 }

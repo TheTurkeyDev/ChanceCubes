@@ -81,6 +81,6 @@ public class SkyblockReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":SkyBlock";
+		return CCubesCore.MODID + ":Sky_Block";
 	}
 }

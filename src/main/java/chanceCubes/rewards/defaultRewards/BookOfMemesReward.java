@@ -52,7 +52,7 @@ public class BookOfMemesReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":Book_Of_Memes";
+		return CCubesCore.MODID + ":Book_of_Memes";
 	}
 
 }

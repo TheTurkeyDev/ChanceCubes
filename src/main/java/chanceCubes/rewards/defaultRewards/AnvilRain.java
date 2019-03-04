@@ -85,6 +85,6 @@ public class AnvilRain implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":AnvilRain";
+		return CCubesCore.MODID + ":Anvil_Rain";
 	}
 }

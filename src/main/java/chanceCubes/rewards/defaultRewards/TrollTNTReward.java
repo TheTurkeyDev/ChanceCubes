@@ -56,6 +56,6 @@ public class TrollTNTReward implements IChanceCubeReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":TrollTNT";
+		return CCubesCore.MODID + ":Troll_TNT";
 	}
 }
