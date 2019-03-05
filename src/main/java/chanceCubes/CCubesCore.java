@@ -17,6 +17,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.proxy.CommonProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.profiles.ProfileManager;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME)
+@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.client.gui.CCubesGuiFactory")
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
@@ -109,6 +110,7 @@ public class CCubesCore
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
+		ProfileManager.initProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
 		

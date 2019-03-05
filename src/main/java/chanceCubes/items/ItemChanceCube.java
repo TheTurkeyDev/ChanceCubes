@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.rewards.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
@@ -57,16 +58,24 @@ public class ItemChanceCube extends ItemBlock
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn)
 	{
-		if(!stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
+		Item item = stack.getItem();
+		if(!item.equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
 		{
 			String chance = this.getChanceAsStringValue(stack);
 			list.add("Chance Value: " + chance);
 		}
 
-		if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
+		if(item.equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
 			list.add("WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned.");
-		else if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
+		else if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
 			list.add("Warning: It is recommended you don't open these in or next toy your base.");
+
+		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
+		{
+			list.add("==== Enabled Profiles ====");
+			for(String profile : ProfileManager.getEnabledProfileNames())
+				list.add(profile);
+		}
 	}
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, IBlockState blockState)

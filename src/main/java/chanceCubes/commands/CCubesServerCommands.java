@@ -16,6 +16,7 @@ import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.profiles.ProfileManager;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -30,7 +31,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -99,6 +99,7 @@ public class CCubesServerCommands extends CommandBase
 				{
 					ChanceCubeRegistry.INSTANCE.ClearRewards();
 					GiantCubeRegistry.INSTANCE.ClearRewards();
+					ProfileManager.clearProfiles();
 					ChanceCubeRegistry.loadDefaultRewards();
 					GiantCubeRegistry.loadDefaultRewards();
 					CustomRewardsLoader.instance.loadCustomRewards();
@@ -107,6 +108,7 @@ public class CCubesServerCommands extends CommandBase
 					ChanceCubeRegistry.loadCustomUserRewards(server);
 					ModHookUtil.loadCustomModRewards();
 					NonreplaceableBlockOverride.loadOverrides();
+					ProfileManager.initProfiles();
 					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 				}
 			}).start();
@@ -145,7 +147,7 @@ public class CCubesServerCommands extends CommandBase
 		{
 			if(args.length > 1)
 			{
-				if(ChanceCubeRegistry.INSTANCE.unregisterReward(args[1]))
+				if(ChanceCubeRegistry.INSTANCE.disableReward(args[1]))
 				{
 					sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
 				}
@@ -243,18 +245,7 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-			if(sender instanceof EntityPlayer)
-			{
-				EntityPlayer player = (EntityPlayer) sender;
-				TileEntity te = player.getEntityWorld().getTileEntity(player.getPosition().add(0, -1, 0));
-
-				if(te != null)
-				{
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt = te.writeToNBT(nbt);
-					System.out.println(nbt.toString());
-				}
-			}
+			sender.sendMessage(new TextComponentString("" + ChanceCubeRegistry.INSTANCE.isRewardEnabled("chancecubes:Clear_Inventory")));
 		}
 		else if(args[0].equalsIgnoreCase("spawnGiantCube"))
 		{

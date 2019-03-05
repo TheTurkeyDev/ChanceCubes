@@ -212,7 +212,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType(new CommandPart("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,ArmorItems:[{},{},{id:diamond_chestplate,Count:1,tag:{ench:[{id:7,lvl:1000}]}},{}],ArmorDropChances:[0.085F,0.085F,0.0F,0.085F]}"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Squid_Horde", 5, new MessageRewardType(new MessagePart("Release the horde!").setRange(32), new MessagePart("Of squids!!", 20).setRange(32)), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Squid"), 15)), new BlockRewardType(RewardsUtil.fillArea(3, 2, 3, Blocks.WATER, -1, 0, -1, false, 5, true, false))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":D-rude_SandStorm", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.SAND, -2, 0, -2, true, 0, false, true)), new MessageRewardType(new MessagePart("Well that was D-rude", 40))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ice_Cold", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.ICE, -2, 0, -2, false, 0, false, true)), new MessageRewardType(new MessagePart("[Shinauko]: You're as cold as ice"))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ice_Cold", -10, new BlockRewardType(RewardsUtil.fillArea(5, 3, 5, Blocks.ICE, -2, 0, -2, false, 0, false, true)), new MessageRewardType(new MessagePart("<Shinauko> You're as cold as ice"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":DIY_Pie", 5, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.PUMPKIN, false), new OffsetBlock(1, 1, 0, Blocks.REEDS, false)), new CommandRewardType(new CommandPart("/summon Chicken ~ ~1 ~ {CustomName:\"Zeeth_Kyrah\",CustomNameVisible:1}")), new MessageRewardType(new MessagePart("Do it yourself Pumpkin Pie!"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Watch_World_Burn", -5, new BlockRewardType(RewardsUtil.fillArea(7, 1, 7, Blocks.FIRE, -3, 0, -3, false, 0, true, true)), new MessageRewardType(new MessagePart("Some people just want to watch the world burn."))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Coal_To_Diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50))));
@@ -450,7 +450,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
 		INSTANCE.registerReward(new ChargedCreeperReward());
-		INSTANCE.registerReward(new ClearInventoryReward(), false);
+		INSTANCE.registerReward(new ClearInventoryReward());
 		// INSTANCE.registerReward(new ZombieCopyCatReward());
 		// INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
@@ -524,28 +524,46 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	public boolean enableReward(String reward)
 	{
-		if(this.disabledNameToReward.containsKey(reward))
-			return this.enableReward(this.disabledNameToReward.get(reward));
+		if(this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
+			return this.enableReward(this.nameToReward.get(reward));
 		return false;
 	}
 
 	public boolean enableReward(IChanceCubeReward reward)
 	{
 		this.disabledNameToReward.remove(reward.getName());
-		nameToReward.put(reward.getName(), reward);
 		redoSort(reward);
 		return true;
+	}
+	
+	public boolean disableReward(String reward)
+	{
+		if(!this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
+			return this.disableReward(this.nameToReward.get(reward));
+		return false;
+	}
+
+	public boolean disableReward(IChanceCubeReward reward)
+	{
+		if(reward != null)
+		{
+			this.disabledNameToReward.put(reward.getName(), reward);
+			return sortedRewards.remove(reward);
+		}
+		return false;
+	}
+	
+	public boolean isRewardEnabled(String reward)
+	{
+		return !this.disabledNameToReward.containsKey(reward);
 	}
 
 	@Override
 	public boolean unregisterReward(String name)
 	{
-		IChanceCubeReward reward = nameToReward.remove(name);
+		IChanceCubeReward reward = nameToReward.get(name);
 		if(reward != null)
-		{
-			this.disabledNameToReward.put(name, reward);
 			return sortedRewards.remove(reward);
-		}
 		return false;
 	}
 

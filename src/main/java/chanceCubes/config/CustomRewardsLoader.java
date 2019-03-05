@@ -204,7 +204,7 @@ public class CustomRewardsLoader extends BaseLoader
 		{
 			for(JsonElement reward : disabledRewards)
 			{
-				boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+				boolean removed = ChanceCubeRegistry.INSTANCE.disableReward(reward.getAsString());
 				if(!removed)
 					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
 				CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
