@@ -1,14 +1,12 @@
 package chanceCubes.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockTorch;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.EnumFacing;
@@ -22,8 +20,7 @@ public class MazeGenerator
 	private int height;
 	private int[][] map;
 	private ArrayList<Location2I> walls = new ArrayList<Location2I>();
-	private Map<BlockPos, IBlockState> blockStorgae = new HashMap<BlockPos, IBlockState>();
-	private Map<BlockPos, NBTTagCompound> tileStorgae = new HashMap<BlockPos, NBTTagCompound>();
+	private RewardBlockCache cache;
 	private Random r = new Random();
 
 	private int currentX = 1;
@@ -32,8 +29,15 @@ public class MazeGenerator
 	private final int nonWall = 0;
 	private final int wall = 1;
 
+	private BlockPos startPos;
 	private Location2I endBlock;
 	public BlockPos endBlockWorldCords;
+
+	public MazeGenerator(World world, BlockPos pos, BlockPos playerPos)
+	{
+		cache = new RewardBlockCache(world, pos, playerPos);
+		startPos = pos;
+	}
 
 	/**
 	 * 
@@ -43,7 +47,7 @@ public class MazeGenerator
 	 * @param x2
 	 * @param y2
 	 */
-	public void generate(World world, int x1, int y1, int z1, int width, int height)
+	public void generate(World world, int width, int height)
 	{
 		this.width = width;
 		this.height = height;
@@ -53,15 +57,16 @@ public class MazeGenerator
 				map[x][y] = wall;
 
 		map[1][1] = nonWall;
-		
+
 		walls.add(new Location2I(1, 1));
 		Location2I current = new Location2I(0, 0);
 		Location2I north = new Location2I(0, 0);
 		Location2I east = new Location2I(0, 0);
 		Location2I south = new Location2I(0, 0);
 		Location2I west = new Location2I(0, 0);
-		
-		do {
+
+		do
+		{
 			int randomLoc = r.nextInt(walls.size());
 			currentX = walls.get(randomLoc).getX();
 			currentY = walls.get(randomLoc).getY();
@@ -79,15 +84,15 @@ public class MazeGenerator
 				if((north.getY() > 0) && (map[north.getX()][north.getY()] == wall))
 					if(map[north.getX()][north.getY() - 1] == wall && !walls.contains(north))
 						walls.add(north);
-					
+
 				if((east.getX() + 1 < width) && (map[east.getX()][east.getY()] == wall))
 					if(map[east.getX() + 1][east.getY()] == wall && !walls.contains(east))
 						walls.add(east);
-				
+
 				if((south.getY() + 1 < height) && (map[south.getX()][south.getY()] == wall))
 					if(map[south.getX()][south.getY() + 1] == wall && !walls.contains(south))
 						walls.add(south);
-				
+
 				if((west.getX() > 0) && (map[west.getX()][west.getY()] == wall))
 					if(map[west.getX() - 1][west.getY()] == wall && !walls.contains(west))
 						walls.add(west);
@@ -96,8 +101,7 @@ public class MazeGenerator
 			{
 				walls.remove(randomLoc);
 			}
-		}while(walls.size() > 0);
-		
+		} while(walls.size() > 0);
 
 		int endBlockX = width - 1;
 		int endBlockZ = height - 1;
@@ -121,7 +125,7 @@ public class MazeGenerator
 			i++;
 		}
 
-		placeBlocks(world, new BlockPos(x1, y1, z1));
+		placeBlocks(world);
 	}
 
 	private boolean checkwalls(Location2I loc)
@@ -143,74 +147,46 @@ public class MazeGenerator
 		return yes > 1;
 	}
 
-	private void placeBlocks(World world, BlockPos pos)
+	private void placeBlocks(World world)
 	{
-		int xoff = (pos.getX() - (this.width / 2));
-		int zoff = (pos.getZ() - (this.height / 2));
+		int xoff = -(this.width / 2);
+		int zoff = -(this.height / 2);
 
-		TileEntity temp;
-		NBTTagCompound nbt = new NBTTagCompound();
 		for(int xx = 0; xx < this.width; xx++)
 		{
 			for(int zz = 0; zz < this.height; zz++)
 			{
 				if(this.map[xx][zz] == 0)
 				{
-					for(int yy = -1; yy < 3; yy++)
-					{
-						blockStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), world.getBlockState(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz)));
-						temp = world.getTileEntity(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz));
-						if(temp != null)
-						{
-							temp.writeToNBT(nbt);
-							this.tileStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), nbt);
-						}
-					}
-
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz));
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.AIR.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
 				}
 				else
 				{
-					for(int yy = -1; yy < 3; yy++)
-					{
-						BlockPos tempPos = new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz);
-						blockStorgae.put(tempPos, world.getBlockState(tempPos));
-						temp = world.getTileEntity(tempPos);
-						if(temp != null)
-						{
-							temp.writeToNBT(nbt);
-							this.tileStorgae.put(new BlockPos(xoff + xx, pos.getY() + yy, zoff + zz), nbt);
-						}
-					}
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() - 1, zoff + zz));
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY(), zoff + zz), Blocks.BEDROCK.getDefaultState());
-					world.setBlockState(new BlockPos(xoff + xx, pos.getY() + 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					world.setBlockToAir(new BlockPos(xoff + xx, pos.getY() + 2, zoff + zz));
+					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.AIR.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.AIR.getDefaultState());
 				}
 			}
 		}
 
-		endBlockWorldCords = new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY());
-		world.setBlockState(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()), Blocks.STANDING_SIGN.getDefaultState());
-		temp = world.getTileEntity(new BlockPos(xoff + this.endBlock.getX(), pos.getY(), zoff + this.endBlock.getY()));
-		if(temp instanceof TileEntitySign)
+		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
+		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, 7));
+		TileEntity te = world.getTileEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
+		if(te instanceof TileEntitySign)
 		{
-			TileEntitySign sign = (TileEntitySign) temp;
+			TileEntitySign sign = (TileEntitySign) te;
 			sign.signText[0] = new TextComponentString("Break me");
 			sign.signText[1] = new TextComponentString("To beat the");
 			sign.signText[2] = new TextComponentString("Maze");
 		}
 	}
 
-	public void endMaze(World world)
+	public void endMaze(World world, EntityPlayer player)
 	{
-		for(BlockPos loc : this.blockStorgae.keySet())
-			world.setBlockState(loc, this.blockStorgae.get(loc), 2);
-
-		for(BlockPos loc : this.tileStorgae.keySet())
-			world.setTileEntity(loc, TileEntity.create(world, this.tileStorgae.get(loc)));
+		cache.restoreBlocks(player);
 	}
 }
