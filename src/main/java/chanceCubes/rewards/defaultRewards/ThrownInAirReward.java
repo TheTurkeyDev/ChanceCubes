@@ -15,7 +15,7 @@ public class ThrownInAirReward extends BaseCustomReward
 {
 	public ThrownInAirReward()
 	{
-		this.setChanceValue(-35);
+		super(CCubesCore.MODID + ":Thrown_In_Air", -35);
 	}
 
 	@Override
@@ -41,11 +41,4 @@ public class ThrownInAirReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Thrown_In_Air";
-	}
-
 }

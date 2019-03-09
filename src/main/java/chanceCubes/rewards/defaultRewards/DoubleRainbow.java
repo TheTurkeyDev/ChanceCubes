@@ -14,7 +14,7 @@ public class DoubleRainbow extends BaseCustomReward
 
 	public DoubleRainbow()
 	{
-		this.setChanceValue(15);
+		super(CCubesCore.MODID + ":Double_Rainbow", 15);
 	}
 
 	@Override
@@ -54,11 +54,4 @@ public class DoubleRainbow extends BaseCustomReward
 			}
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Double_Rainbow";
-	}
-
 }

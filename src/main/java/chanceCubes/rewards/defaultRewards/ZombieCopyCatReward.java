@@ -13,7 +13,7 @@ public class ZombieCopyCatReward extends BaseCustomReward
 {
 	public ZombieCopyCatReward()
 	{
-		this.setChanceValue(-25);
+		super(CCubesCore.MODID + ":Copy_Cat_Zombie", -25);
 	}
 
 	@Override
@@ -48,11 +48,5 @@ public class ZombieCopyCatReward extends BaseCustomReward
 			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory.get(3).copy());
 
 		world.spawnEntity(zombie);
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Copy_Cat_Zombie";
 	}
 }

@@ -17,7 +17,7 @@ public class CakeIsALieReward extends BaseCustomReward
 {
 	public CakeIsALieReward()
 	{
-		this.setChanceValue(20);
+		super(CCubesCore.MODID + ":Cake", 20);
 	}
 
 	@Override
@@ -61,11 +61,5 @@ public class CakeIsALieReward extends BaseCustomReward
 				}
 			});
 		}
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Cake";
 	}
 }

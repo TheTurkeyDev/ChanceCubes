@@ -31,7 +31,7 @@ public class MathReward extends BaseCustomReward
 {
 	public MathReward()
 	{
-		this.setChanceValue(-30);
+		super(CCubesCore.MODID + ":Math", -20);
 	}
 
 	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
@@ -128,12 +128,6 @@ public class MathReward extends BaseCustomReward
 
 		inQuestion.remove(player);
 
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Math";
 	}
 
 	@SubscribeEvent

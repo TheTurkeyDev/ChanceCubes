@@ -21,7 +21,7 @@ public class MatchingReward extends BaseCustomReward
 {
 	public MatchingReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Matching", 0);
 	}
 
 	@Override
@@ -155,11 +155,4 @@ public class MatchingReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Matching";
-	}
-
 }

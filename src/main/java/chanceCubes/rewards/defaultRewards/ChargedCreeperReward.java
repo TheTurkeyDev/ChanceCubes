@@ -18,7 +18,7 @@ public class ChargedCreeperReward extends BaseCustomReward
 
 	public ChargedCreeperReward()
 	{
-		this.setChanceValue(-40);
+		super(CCubesCore.MODID + ":Cube_Rename", -40);
 	}
 
 	@Override
@@ -41,11 +41,4 @@ public class ChargedCreeperReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Charged_Creeper";
-	}
-
 }

@@ -15,7 +15,7 @@ public class TravellerReward extends BaseCustomReward
 {
 	public TravellerReward()
 	{
-		this.setChanceValue(15);
+		super(CCubesCore.MODID + ":Traveller", 15);
 	}
 
 	@Override
@@ -32,11 +32,4 @@ public class TravellerReward extends BaseCustomReward
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 25, "" + newPos.getX() + ", " + newPos.getY() + ", " + newPos.getZ());
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Traveller";
-	}
-
 }

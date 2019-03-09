@@ -14,7 +14,11 @@ import net.minecraft.world.World;
 
 public class FireworkShowReward extends BaseCustomReward
 {
-
+	public FireworkShowReward()
+	{
+		super(CCubesCore.MODID + ":Firework_Show", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -94,11 +98,4 @@ public class FireworkShowReward extends BaseCustomReward
 	{
 		world.spawnEntity(new EntityFireworkRocket(world, x, y, z, RewardsUtil.getRandomFirework()));
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Firework_Show";
-	}
-
 }

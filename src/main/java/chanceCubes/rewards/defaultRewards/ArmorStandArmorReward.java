@@ -18,7 +18,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 
 	public ArmorStandArmorReward()
 	{
-		this.setChanceValue(40);
+		super(CCubesCore.MODID + ":Armor_Stand_Armor", 40);
 	}
 
 	// @formatter:off
@@ -75,11 +75,4 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
 		world.spawnEntity(armorStand);
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Armor_Stand_Armor";
-	}
-
 }

@@ -45,7 +45,7 @@ public class MobTowerReward extends BaseCustomReward
 
 	public MobTowerReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Mob_Tower", 0);
 	}
 
 	@Override
@@ -83,11 +83,4 @@ public class MobTowerReward extends BaseCustomReward
 
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Mob_Tower";
-	}
-
 }

@@ -15,6 +15,11 @@ import net.minecraft.world.World;
 
 public class OreSphereReward extends BaseCustomReward
 {
+	public OreSphereReward()
+	{
+		super(CCubesCore.MODID + ":Ore_Sphere", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -49,11 +54,4 @@ public class OreSphereReward extends BaseCustomReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Ore_Sphere";
-	}
-
 }

@@ -24,7 +24,7 @@ public class MontyHallReward extends BaseCustomReward
 {
 	public MontyHallReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Monty_Hall", 0);
 	}
 
 	@Override
@@ -88,11 +88,5 @@ public class MontyHallReward extends BaseCustomReward
 				Scheduler.removeTask(this);
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Monty_Hall";
 	}
 }

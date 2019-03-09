@@ -14,7 +14,7 @@ public class EnderCrystalTimerReward extends BaseCustomReward
 {
 	public EnderCrystalTimerReward()
 	{
-		this.setChanceValue(-90);
+		super(CCubesCore.MODID + ":Ender_Crystal_Timer", -90);
 	}
 
 	@Override
@@ -32,11 +32,5 @@ public class EnderCrystalTimerReward extends BaseCustomReward
 		arrow.motionY = -0.25f;
 		arrow.motionZ = 0;
 		world.spawnEntity(arrow);
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Ender_Crystal_Timer";
 	}
 }

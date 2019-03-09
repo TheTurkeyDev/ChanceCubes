@@ -25,6 +25,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class RandomExplosionReward extends BaseCustomReward
 {
+	public RandomExplosionReward()
+	{
+		super(CCubesCore.MODID + ":Random_Explosion", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -121,11 +126,5 @@ public class RandomExplosionReward extends BaseCustomReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Random_Explosion";
 	}
 }

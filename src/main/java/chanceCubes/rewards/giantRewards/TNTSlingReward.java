@@ -11,6 +11,11 @@ import net.minecraft.world.World;
 
 public class TNTSlingReward extends BaseCustomReward
 {
+	public TNTSlingReward()
+	{
+		super(CCubesCore.MODID + ":TNT_Throw", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -47,11 +52,4 @@ public class TNTSlingReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":TNT_Throw";
-	}
-
 }

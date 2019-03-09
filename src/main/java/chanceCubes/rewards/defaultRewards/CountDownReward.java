@@ -25,10 +25,9 @@ import net.minecraft.world.World;
 
 public class CountDownReward extends BaseCustomReward
 {
-
 	public CountDownReward()
 	{
-		this.setChanceValue(15);
+		super(CCubesCore.MODID + ":Countdown", 15);
 	}
 
 	@Override
@@ -107,11 +106,4 @@ public class CountDownReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Countdown";
-	}
-
 }

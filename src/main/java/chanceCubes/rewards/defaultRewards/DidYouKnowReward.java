@@ -17,7 +17,7 @@ public class DidYouKnowReward extends BaseCustomReward
 
 	public DidYouKnowReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Did_You_Know", 0);
 		dyk.add("The nuke reward that says 'May death rain upon them' is a reference to the Essentials Bukkit plugin?");
 		dyk.add("The real reason his name is pickles is because a user from Wyld's Twtich chat suggested the reward.");
 		dyk.add("Funwayguy created the original D20 model and animation.");
@@ -36,11 +36,5 @@ public class DidYouKnowReward extends BaseCustomReward
 		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 		server.getCommandManager().executeCommand(sender, command);
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Did_You_Know";
 	}
 }

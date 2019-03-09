@@ -19,7 +19,7 @@ public class WaitForItReward extends BaseCustomReward
 {
 	public WaitForItReward()
 	{
-		this.setChanceValue(-30);
+		super(CCubesCore.MODID + ":Wait_For_It", -30);
 	}
 
 	@Override
@@ -65,11 +65,4 @@ public class WaitForItReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Wait_For_It";
-	}
-
 }

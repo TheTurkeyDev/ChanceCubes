@@ -16,7 +16,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 {
 	public ItemOfDestinyReward()
 	{
-		this.setChanceValue(40);
+		super(CCubesCore.MODID + ":Item_Of_Destiny", 40);
 	}
 
 	@Override
@@ -85,11 +85,4 @@ public class ItemOfDestinyReward extends BaseCustomReward
 			ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
 		return ench;
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Of_Destiny";
-	}
-
 }

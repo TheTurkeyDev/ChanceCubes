@@ -17,7 +17,7 @@ public class ItemChestReward extends BaseCustomReward
 {
 	public ItemChestReward()
 	{
-		this.setChanceValue(25);
+		super(CCubesCore.MODID + ":Item_Chest", 25);
 	}
 
 	//@formatter:off
@@ -75,11 +75,4 @@ public class ItemChestReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Chest";
-	}
-
 }

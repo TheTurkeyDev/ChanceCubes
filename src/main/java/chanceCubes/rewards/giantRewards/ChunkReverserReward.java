@@ -17,11 +17,11 @@ import net.minecraft.world.World;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
-
 	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
-
+	
 	public ChunkReverserReward()
 	{
+		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS, Blocks.STONE));
@@ -86,11 +86,4 @@ public class ChunkReverserReward extends BaseCustomReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Chuck_Reverse";
-	}
-
 }

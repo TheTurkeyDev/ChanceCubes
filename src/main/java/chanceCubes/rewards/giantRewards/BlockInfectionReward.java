@@ -27,6 +27,11 @@ public class BlockInfectionReward extends BaseCustomReward
 
 	private BlockPos[] touchingPos = { new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0) };
 
+	public BlockInfectionReward()
+	{
+		super(CCubesCore.MODID + ":World_Infection", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -81,11 +86,4 @@ public class BlockInfectionReward extends BaseCustomReward
 			}
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":World_Infection";
-	}
-
 }

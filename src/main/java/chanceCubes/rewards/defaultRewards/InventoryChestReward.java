@@ -18,7 +18,7 @@ public class InventoryChestReward extends BaseCustomReward
 {
 	public InventoryChestReward()
 	{
-		this.setChanceValue(-70);
+		super(CCubesCore.MODID + ":Inventory_Chest", -70);
 	}
 
 	@Override
@@ -66,11 +66,4 @@ public class InventoryChestReward extends BaseCustomReward
 			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Inventory_Chest";
-	}
-
 }

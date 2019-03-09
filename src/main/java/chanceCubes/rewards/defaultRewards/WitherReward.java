@@ -14,7 +14,7 @@ public class WitherReward extends BaseCustomReward
 {
 	public WitherReward()
 	{
-		this.setChanceValue(-100);
+		super(CCubesCore.MODID + ":Wither", -100);
 	}
 
 	@Override
@@ -53,11 +53,4 @@ public class WitherReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Wither";
-	}
-
 }

@@ -29,7 +29,7 @@ public class SkyblockReward extends BaseCustomReward
 	// @formatter:on
 	public SkyblockReward()
 	{
-		this.setChanceValue(10);
+		super(CCubesCore.MODID + ":Sky_Block", 10);
 	}
 
 	@Override
@@ -72,11 +72,5 @@ public class SkyblockReward extends BaseCustomReward
 		}
 
 		player.setPositionAndUpdate(pos.getX(), skyblockHeight + 3, pos.getZ());
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Sky_Block";
 	}
 }

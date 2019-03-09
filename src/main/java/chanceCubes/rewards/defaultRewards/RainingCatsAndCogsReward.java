@@ -19,7 +19,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 
 	public RainingCatsAndCogsReward()
 	{
-		this.setChanceValue(15);
+		super(CCubesCore.MODID + ":Cats_And_Dogs", 15);
 	}
 
 	@Override
@@ -68,11 +68,5 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 				});
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Cats_And_Dogs";
 	}
 }

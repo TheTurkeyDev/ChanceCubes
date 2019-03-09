@@ -11,7 +11,7 @@ public class NukeReward extends BaseCustomReward
 {
 	public NukeReward()
 	{
-		this.setChanceValue(-75);
+		super(CCubesCore.MODID + ":Nuke", -75);
 	}
 
 	@Override
@@ -35,11 +35,4 @@ public class NukeReward extends BaseCustomReward
 		world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() + 6, null));
 		world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() + 6, null));
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Nuke";
-	}
-
 }

@@ -15,7 +15,7 @@ public class AnvilRain extends BaseCustomReward
 
 	public AnvilRain()
 	{
-		this.setChanceValue(-45);
+		super(CCubesCore.MODID + ":Anvil_Rain", -45);
 	}
 
 	@Override
@@ -79,11 +79,5 @@ public class AnvilRain extends BaseCustomReward
 				cache.restoreBlocks(player);
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Anvil_Rain";
 	}
 }

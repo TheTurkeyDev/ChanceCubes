@@ -16,7 +16,7 @@ public class TableFlipReward extends BaseCustomReward
 {
 	public TableFlipReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Table_Flip", 0);
 	}
 
 	@Override
@@ -99,11 +99,5 @@ public class TableFlipReward extends BaseCustomReward
 			}
 
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Table_Flip";
 	}
 }

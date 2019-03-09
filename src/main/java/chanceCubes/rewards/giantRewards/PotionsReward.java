@@ -18,6 +18,11 @@ import net.minecraft.world.World;
 public class PotionsReward extends BaseCustomReward
 {
 	private EntityPotion pot;
+	
+	public PotionsReward()
+	{
+		super(CCubesCore.MODID + ":Raining_Potions", 0);
+	}
 
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
@@ -79,11 +84,4 @@ public class PotionsReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Raining_Potions";
-	}
-
 }

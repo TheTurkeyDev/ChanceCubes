@@ -16,7 +16,11 @@ import net.minecraft.world.World;
 
 public class FloorIsLavaReward extends BaseCustomReward
 {
-
+	public FloorIsLavaReward()
+	{
+		super(CCubesCore.MODID + ":Floor_Is_Lava", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{

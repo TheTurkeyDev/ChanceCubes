@@ -20,7 +20,7 @@ public class MazeReward extends BaseCustomReward
 {
 	public MazeReward()
 	{
-		this.setChanceValue(-25);
+		super(CCubesCore.MODID + ":Maze", -25);
 	}
 
 	@Override
@@ -69,11 +69,5 @@ public class MazeReward extends BaseCustomReward
 
 		player.sendMessage(new TextComponentString("Beat the maze and find the sign!"));
 		player.sendMessage(new TextComponentString("You have 45 seconds!"));
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Maze";
 	}
 }

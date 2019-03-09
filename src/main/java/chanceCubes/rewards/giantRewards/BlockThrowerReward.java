@@ -34,7 +34,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class BlockThrowerReward extends BaseCustomReward
 {
-
+	public BlockThrowerReward()
+	{
+		super(CCubesCore.MODID + ":Block_Thrower", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -144,11 +148,4 @@ public class BlockThrowerReward extends BaseCustomReward
 		});
 
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Block_Thrower";
-	}
-
 }

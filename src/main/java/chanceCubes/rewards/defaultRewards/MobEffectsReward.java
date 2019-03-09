@@ -36,7 +36,7 @@ public class MobEffectsReward extends BaseCustomReward
 {
 	public MobEffectsReward()
 	{
-		this.setChanceValue(-15);
+		super(CCubesCore.MODID + ":Mob_Abilities_Effects", -15);
 	}
 
 	@Override
@@ -165,11 +165,4 @@ public class MobEffectsReward extends BaseCustomReward
 
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Mob_Abilities_Effects";
-	}
-
 }

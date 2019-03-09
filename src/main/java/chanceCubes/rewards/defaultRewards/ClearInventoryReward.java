@@ -18,7 +18,7 @@ public class ClearInventoryReward extends BaseCustomReward
 
 	public ClearInventoryReward()
 	{
-		this.setChanceValue(-100);
+		super(CCubesCore.MODID + ":Clear_Inventory", -100);
 	}
 
 	@Override
@@ -54,11 +54,4 @@ public class ClearInventoryReward extends BaseCustomReward
 			});
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Clear_Inventory";
-	}
-
 }

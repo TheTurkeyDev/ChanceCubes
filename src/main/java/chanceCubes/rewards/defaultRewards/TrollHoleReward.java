@@ -13,7 +13,7 @@ public class TrollHoleReward extends BaseCustomReward
 {
 	public TrollHoleReward()
 	{
-		this.setChanceValue(-20);
+		super(CCubesCore.MODID + ":Troll_Hole", -20);
 	}
 
 	@Override
@@ -40,11 +40,5 @@ public class TrollHoleReward extends BaseCustomReward
 
 		});
 
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Troll_Hole";
 	}
 }

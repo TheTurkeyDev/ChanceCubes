@@ -106,11 +106,11 @@ public class CustomUserReward extends BaseCustomReward
 
 	public CustomUserReward(String un, UUID uuid, String type, List<BasicReward> rewards)
 	{
+		super(CCubesCore.MODID + ":CR_" + un, 0);
 		this.userName = un;
 		this.uuid = uuid;
 		this.type = type;
 		this.customRewards = rewards;
-		this.setChanceValue(0);
 	}
 
 	@Override
@@ -135,11 +135,5 @@ public class CustomUserReward extends BaseCustomReward
 				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":CR_" + this.userName;
 	}
 }

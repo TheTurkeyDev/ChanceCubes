@@ -16,7 +16,7 @@ public class ItemRenamer extends BaseCustomReward
 {
 	public ItemRenamer()
 	{
-		this.setChanceValue(10);
+		super(CCubesCore.MODID + ":Item_Rename", 10);
 	}
 
 	// @formatter:off
@@ -67,11 +67,5 @@ public class ItemRenamer extends BaseCustomReward
 
 		player.sendMessage(new TextComponentString("Those items of yours need a little personality!"));
 
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Rename";
 	}
 }

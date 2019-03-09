@@ -21,7 +21,7 @@ public class TicTacToeReward extends BaseCustomReward
 {
 	public TicTacToeReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Tic_Tac_Toe", 0);
 	}
 
 	@Override
@@ -108,12 +108,6 @@ public class TicTacToeReward extends BaseCustomReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Tic_Tac_Toe";
 	}
 
 	private static class Point

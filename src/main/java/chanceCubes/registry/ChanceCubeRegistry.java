@@ -22,6 +22,7 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
 import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
@@ -327,7 +328,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.BEACON, true, 200);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
+		INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -336,7 +337,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No_Exp", -40)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":No_Exp", -40)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -348,7 +349,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Smite", -10)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Smite", -10)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -358,7 +359,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie-splosion", 35)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Cookie-splosion", 35)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -378,7 +379,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -398,7 +399,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Spray", -15)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Arrow_Spray", -15)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -419,7 +420,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player)

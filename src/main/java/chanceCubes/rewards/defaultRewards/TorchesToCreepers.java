@@ -14,7 +14,7 @@ public class TorchesToCreepers extends BaseCustomReward
 {
 	public TorchesToCreepers()
 	{
-		this.setChanceValue(-40);
+		super(CCubesCore.MODID + ":Torches_To_Creepers", -40);
 	}
 
 	@Override
@@ -39,11 +39,4 @@ public class TorchesToCreepers extends BaseCustomReward
 		}
 		player.sendMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Torches_To_Creepers";
-	}
-
 }

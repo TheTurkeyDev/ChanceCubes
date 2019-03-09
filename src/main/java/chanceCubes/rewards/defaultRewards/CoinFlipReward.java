@@ -25,7 +25,7 @@ public class CoinFlipReward extends BaseCustomReward
 
 	public CoinFlipReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Heads_or_Tails", 0);
 	}
 
 	@Override
@@ -60,12 +60,6 @@ public class CoinFlipReward extends BaseCustomReward
 		player.sendMessage(new TextComponentString("You must be real fun at parties...."));
 
 		inFlip.remove(player);
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Heads_or_Tails";
 	}
 
 	@SubscribeEvent

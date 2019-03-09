@@ -19,6 +19,11 @@ import net.minecraft.world.World;
 
 public class ChunkFlipReward extends BaseCustomReward
 {
+	public ChunkFlipReward()
+	{
+		super(CCubesCore.MODID + ":Chunk_Flip", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -69,11 +74,4 @@ public class ChunkFlipReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Chunk_Flip";
-	}
-
 }

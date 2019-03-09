@@ -17,7 +17,7 @@ public class OrePillarReward extends BaseCustomReward
 {
 	public OrePillarReward()
 	{
-
+		super(CCubesCore.MODID + ":Ore_Pillars", 0);
 	}
 
 	@Override
@@ -42,11 +42,4 @@ public class OrePillarReward extends BaseCustomReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Ore_Pillars";
-	}
-
 }

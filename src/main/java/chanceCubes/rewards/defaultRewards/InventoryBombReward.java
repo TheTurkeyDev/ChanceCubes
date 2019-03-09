@@ -12,7 +12,7 @@ public class InventoryBombReward extends BaseCustomReward
 {
 	public InventoryBombReward()
 	{
-		this.setChanceValue(-55);
+		super(CCubesCore.MODID + ":Inventory_Bomb", -55);
 	}
 
 	@Override
@@ -42,11 +42,4 @@ public class InventoryBombReward extends BaseCustomReward
 		player.sendMessage(new TextComponentString("Inventory Bomb!!!!"));
 
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Inventory_Bomb";
-	}
-
 }

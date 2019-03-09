@@ -23,6 +23,11 @@ public class SphereSnakeReward extends BaseCustomReward
 			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
+	
+	public SphereSnakeReward()
+	{
+		super(CCubesCore.MODID + ":Sphere_Snake", 0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -86,11 +91,4 @@ public class SphereSnakeReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Sphere_Snake";
-	}
-
 }

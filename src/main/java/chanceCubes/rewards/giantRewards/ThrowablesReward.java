@@ -16,6 +16,11 @@ import net.minecraft.world.World;
 
 public class ThrowablesReward extends BaseCustomReward
 {
+	public ThrowablesReward()
+	{
+		super(CCubesCore.MODID + ":Throwables", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -61,11 +66,4 @@ public class ThrowablesReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Throwables";
-	}
-
 }

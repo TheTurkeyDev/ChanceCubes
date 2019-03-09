@@ -17,7 +17,7 @@ public class MagicFeetReward extends BaseCustomReward
 {
 	public MagicFeetReward()
 	{
-		this.setChanceValue(85);
+		super(CCubesCore.MODID + ":Magic_Feet", 85);
 	}
 
 	@Override
@@ -55,11 +55,4 @@ public class MagicFeetReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Magic_Feet";
-	}
-
 }

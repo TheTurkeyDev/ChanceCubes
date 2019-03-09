@@ -13,7 +13,7 @@ public class RottenFoodReward extends BaseCustomReward
 {
 	public RottenFoodReward()
 	{
-		this.setChanceValue(-30);
+		super(CCubesCore.MODID + ":Rotten_Food", -30);
 	}
 
 	@Override
@@ -29,11 +29,4 @@ public class RottenFoodReward extends BaseCustomReward
 		player.sendMessage(new TextComponentString("Ewwww it's all rotten"));
 
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Rotten_Food";
-	}
-
 }

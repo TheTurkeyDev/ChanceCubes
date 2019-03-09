@@ -19,7 +19,7 @@ public class DigBuildReward extends BaseCustomReward
 
 	public DigBuildReward()
 	{
-		this.setChanceValue(-5);
+		super(CCubesCore.MODID + ":Dig_Build_Reward", -5);
 	}
 
 	@Override
@@ -69,11 +69,4 @@ public class DigBuildReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Dig_Build_Reward";
-	}
-
 }

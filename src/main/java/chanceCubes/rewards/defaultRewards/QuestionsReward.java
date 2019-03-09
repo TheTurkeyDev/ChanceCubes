@@ -30,7 +30,7 @@ public class QuestionsReward extends BaseCustomReward
 
 	public QuestionsReward()
 	{
-		this.setChanceValue(-30);
+		super(CCubesCore.MODID + ":Question", -30);
 		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
 		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
@@ -104,12 +104,6 @@ public class QuestionsReward extends BaseCustomReward
 
 		inQuestion.remove(player);
 
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Question";
 	}
 
 	@SubscribeEvent

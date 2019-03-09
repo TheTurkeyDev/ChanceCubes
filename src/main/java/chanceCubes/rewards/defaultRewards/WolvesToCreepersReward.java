@@ -19,7 +19,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 {
 	public WolvesToCreepersReward()
 	{
-		this.setChanceValue(-20);
+		super(CCubesCore.MODID + ":Wolves_To_Creepers", -20);
 	}
 
 	@Override
@@ -60,11 +60,4 @@ public class WolvesToCreepersReward extends BaseCustomReward
 			}
 		});
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Wolves_To_Creepers";
-	}
-
 }

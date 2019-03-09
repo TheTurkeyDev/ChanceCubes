@@ -14,7 +14,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 {
 	public CreeperSurroundedReward()
 	{
-		this.setChanceValue(-85);
+		super(CCubesCore.MODID + ":Surrounded_Creeper", -85);
 	}
 
 	@Override
@@ -73,11 +73,4 @@ public class CreeperSurroundedReward extends BaseCustomReward
 			}
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Surrounded_Creeper";
-	}
-
 }

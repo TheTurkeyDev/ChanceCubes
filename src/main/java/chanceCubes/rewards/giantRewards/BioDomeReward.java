@@ -2,7 +2,6 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
@@ -14,6 +13,7 @@ import chanceCubes.rewards.biodomeGen.OceanBiome;
 import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,21 +23,24 @@ import net.minecraft.world.World;
 
 public class BioDomeReward extends BaseCustomReward
 {
-	private Random rand = new Random();
-
 	// @formatter:off
 	private IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(), 
 			new EndBiome(), new OceanBiome(), new SnowGlobeBiome(), new NetherBiome() };
 	// @formatter:on
 
 	public static final int delayShorten = 10;
+	
+	public BioDomeReward()
+	{
+		super(CCubesCore.MODID + ":BioDome", 0);
+	}
 
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
 		// player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 
-		final IBioDomeBiome spawnedBiome = biomes[rand.nextInt(biomes.length)];
+		final IBioDomeBiome spawnedBiome = biomes[RewardsUtil.rand.nextInt(biomes.length)];
 		this.genDome(pos, world, spawnedBiome);
 	}
 
@@ -66,7 +69,7 @@ public class BioDomeReward extends BaseCustomReward
 					blocks.add(new OffsetBlock(xinc, yinc, z, spawnedBiome.getFloorBlock(), false, (delay / delayShorten)));
 					delay++;
 				}
-				spawnedBiome.getRandomGenBlock(dist, rand, xinc, yinc, z, blocks, delay);
+				spawnedBiome.getRandomGenBlock(dist, RewardsUtil.rand, xinc, yinc, z, blocks, delay);
 			}
 		}
 
@@ -108,11 +111,4 @@ public class BioDomeReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(task);
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":BioDome";
-	}
-
 }

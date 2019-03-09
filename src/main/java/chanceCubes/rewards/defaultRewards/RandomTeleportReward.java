@@ -9,7 +9,7 @@ public class RandomTeleportReward extends BaseCustomReward
 {
 	public RandomTeleportReward()
 	{
-		this.setChanceValue(-15);
+		super(CCubesCore.MODID + ":Random_Teleport", -15);
 	}
 
 	@Override
@@ -32,11 +32,5 @@ public class RandomTeleportReward extends BaseCustomReward
 			return;
 
 		player.setPositionAndUpdate(xChange, yChange, zChange);
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Random_Teleport";
 	}
 }

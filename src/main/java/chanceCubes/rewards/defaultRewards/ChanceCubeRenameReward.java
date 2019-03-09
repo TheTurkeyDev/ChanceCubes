@@ -22,7 +22,7 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	// @formatter:on
 	public ChanceCubeRenameReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":Cube_Rename", 0);
 	}
 
 	@Override
@@ -38,11 +38,5 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 		player.sendMessage(new TextComponentString("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
 
 		world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Cube_Rename";
 	}
 }

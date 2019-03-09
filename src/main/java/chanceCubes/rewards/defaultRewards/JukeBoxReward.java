@@ -18,7 +18,7 @@ public class JukeBoxReward extends BaseCustomReward
 
 	public JukeBoxReward()
 	{
-		this.setChanceValue(5);
+		super(CCubesCore.MODID + ":Juke_Box", 10);
 	}
 
 	@Override
@@ -30,11 +30,4 @@ public class JukeBoxReward extends BaseCustomReward
 		((BlockJukebox) Blocks.JUKEBOX).insertRecord(world, pos, iblockstate, disc);
 		world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(disc.getItem()));
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Juke_Box";
-	}
-
 }

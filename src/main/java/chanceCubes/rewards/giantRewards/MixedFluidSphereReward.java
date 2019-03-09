@@ -15,6 +15,11 @@ import net.minecraft.world.World;
 
 public class MixedFluidSphereReward extends BaseCustomReward
 {
+	public MixedFluidSphereReward()
+	{
+		super(CCubesCore.MODID + ":Mixed_Fluid_Sphere", 0);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -58,11 +63,5 @@ public class MixedFluidSphereReward extends BaseCustomReward
 
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Mixed_Fluid_Sphere";
 	}
 }

@@ -26,6 +26,11 @@ public class BeaconArenaReward extends BaseCustomReward
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 
+	public BeaconArenaReward()
+	{
+		super(CCubesCore.MODID + ":Beacon_Arena", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -128,11 +133,4 @@ public class BeaconArenaReward extends BaseCustomReward
 			delay++;
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Beacon_Arena";
-	}
-
 }

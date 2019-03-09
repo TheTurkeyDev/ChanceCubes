@@ -11,7 +11,7 @@ public class SurroundedReward extends BaseCustomReward
 {
 	public SurroundedReward()
 	{
-		this.setChanceValue(-45);
+		super(CCubesCore.MODID + ":Sky_Block", -45);
 	}
 
 	@Override

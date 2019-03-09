@@ -17,7 +17,7 @@ public class HerobrineReward extends BaseCustomReward
 
 	public HerobrineReward()
 	{
-		this.setChanceValue(-65);
+		super(CCubesCore.MODID + ":Herobrine", -65);
 	}
 
 	@Override
@@ -92,11 +92,5 @@ public class HerobrineReward extends BaseCustomReward
 				stage++;
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Herobrine";
 	}
 }

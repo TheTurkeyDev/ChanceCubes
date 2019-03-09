@@ -17,7 +17,7 @@ public class OneIsLuckyReward extends BaseCustomReward
 {
 	public OneIsLuckyReward()
 	{
-		this.setChanceValue(0);
+		super(CCubesCore.MODID + ":One_Is_Lucky", 0);
 	}
 
 	@Override
@@ -59,11 +59,5 @@ public class OneIsLuckyReward extends BaseCustomReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":One_Is_Lucky";
 	}
 }

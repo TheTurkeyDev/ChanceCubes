@@ -15,7 +15,7 @@ public class DiscoReward extends BaseCustomReward
 {
 	public DiscoReward()
 	{
-		this.setChanceValue(40);
+		super(CCubesCore.MODID + ":Disco", 40);
 	}
 
 	@Override
@@ -37,11 +37,4 @@ public class DiscoReward extends BaseCustomReward
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Disco Party!!!!");
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Disco";
-	}
-
 }

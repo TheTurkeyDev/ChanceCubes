@@ -12,7 +12,7 @@ public class FiveProngReward extends BaseCustomReward
 {
 	public FiveProngReward()
 	{
-		this.setChanceValue(-10);
+		super(CCubesCore.MODID + ":5_Prongs", -10);
 	}
 
 	@Override
@@ -38,11 +38,5 @@ public class FiveProngReward extends BaseCustomReward
 
 		RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(3, 0, 3));
 		RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(3, 1, 3));
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":5_Prongs";
 	}
 }

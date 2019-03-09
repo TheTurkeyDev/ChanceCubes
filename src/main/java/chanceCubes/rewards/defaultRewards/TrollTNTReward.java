@@ -17,7 +17,7 @@ public class TrollTNTReward extends BaseCustomReward
 {
 	public TrollTNTReward()
 	{
-		this.setChanceValue(-5);
+		super(CCubesCore.MODID + ":Troll_TNT", -5);
 	}
 
 	@Override
@@ -48,11 +48,5 @@ public class TrollTNTReward extends BaseCustomReward
 
 			});
 		}
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Troll_TNT";
 	}
 }
