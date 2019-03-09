@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -11,8 +10,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class WitherReward implements IChanceCubeReward
+public class WitherReward extends BaseCustomReward
 {
+	public WitherReward()
+	{
+		this.setChanceValue(-100);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
@@ -48,12 +52,6 @@ public class WitherReward implements IChanceCubeReward
 				return false;
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -100;
 	}
 
 	@Override

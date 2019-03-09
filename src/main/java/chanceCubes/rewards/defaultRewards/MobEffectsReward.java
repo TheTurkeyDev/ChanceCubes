@@ -5,7 +5,6 @@ import java.util.Collection;
 import com.google.common.collect.Multimap;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -33,8 +32,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class MobEffectsReward implements IChanceCubeReward
+public class MobEffectsReward extends BaseCustomReward
 {
+	public MobEffectsReward()
+	{
+		this.setChanceValue(-15);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -161,12 +164,6 @@ public class MobEffectsReward implements IChanceCubeReward
 			}
 
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -15;
 	}
 
 	@Override

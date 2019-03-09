@@ -37,8 +37,12 @@ minecraft {
     replaceIn "mcmod.info"
 }
 
-dependencies {
+repositories {
+    maven { url 'https://maven.mcmoddev.com' }
+}
 
+dependencies {
+    compile "net.darkhax.gamestages:GameStages-1.12.2:2.0.112"
 }
 
 processResources

@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -18,8 +17,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class MatchingReward implements IChanceCubeReward
+public class MatchingReward extends BaseCustomReward
 {
+	public MatchingReward()
+	{
+		this.setChanceValue(0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -150,12 +154,6 @@ public class MatchingReward implements IChanceCubeReward
 				cache.restoreBlocks(player);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

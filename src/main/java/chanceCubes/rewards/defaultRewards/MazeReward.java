@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.MazeGenerator;
 import chanceCubes.util.RewardsUtil;
@@ -17,8 +16,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MazeReward implements IChanceCubeReward
+public class MazeReward extends BaseCustomReward
 {
+	public MazeReward()
+	{
+		this.setChanceValue(-25);
+	}
 
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
@@ -66,12 +69,6 @@ public class MazeReward implements IChanceCubeReward
 
 		player.sendMessage(new TextComponentString("Beat the maze and find the sign!"));
 		player.sendMessage(new TextComponentString("You have 45 seconds!"));
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -25;
 	}
 
 	@Override

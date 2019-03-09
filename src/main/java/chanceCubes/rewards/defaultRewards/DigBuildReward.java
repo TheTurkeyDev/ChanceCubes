@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -15,8 +14,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class DigBuildReward implements IChanceCubeReward
+public class DigBuildReward extends BaseCustomReward
 {
+
+	public DigBuildReward()
+	{
+		this.setChanceValue(-5);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -64,12 +68,6 @@ public class DigBuildReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -5;
 	}
 
 	@Override

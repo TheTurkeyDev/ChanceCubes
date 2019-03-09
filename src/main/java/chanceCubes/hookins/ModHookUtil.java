@@ -1,14 +1,16 @@
 package chanceCubes.hookins;
 
-import net.minecraftforge.fml.common.ModContainer;
+import java.util.Map;
+
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.hookins.mods.*;
+import chanceCubes.hookins.mods.ExtraUtilsModHook;
+import chanceCubes.hookins.mods.ThermalExpansionModHook;
+import chanceCubes.hookins.mods.ThermalFoundationModHook;
 import net.minecraftforge.fml.common.Loader;
-
-import java.util.Map;
+import net.minecraftforge.fml.common.ModContainer;
 
 public class ModHookUtil
 {

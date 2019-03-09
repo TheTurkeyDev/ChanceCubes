@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import chanceCubes.rewards.profiles.modules.DiffucultyTrigger;
+import chanceCubes.rewards.profiles.triggers.DifficultyTrigger;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.config.Configuration;
 
@@ -16,12 +16,12 @@ public class ProfileManager
 	private static Configuration config;
 	public static final String genCat = "Profile Status";
 
-	private static void registerProfile(IProfile profile)
+	public static void registerProfile(IProfile profile)
 	{
 		registerProfile(profile, false);
 	}
 
-	private static void registerProfile(IProfile profile, boolean enabled)
+	public static void registerProfile(IProfile profile, boolean enabled)
 	{
 		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
 		if(enabled)
@@ -74,6 +74,14 @@ public class ProfileManager
 		return toReturn;
 	}
 
+	public static IProfile getProfileFromID(String id)
+	{
+		for(IProfile prof : getAllProfiles())
+			if(prof.getID().equals(id))
+				return prof;
+		return null;
+	}
+
 	public static List<String> getEnabledProfileNames()
 	{
 		List<String> toReturn = new ArrayList<>();
@@ -122,12 +130,12 @@ public class ProfileManager
 
 		//@formatter:off
 		config.load();
-		profile = new BasicProfile("Default", "Rewards that are disabled by default");
-		profile.setDisabledRewards("chancecubes:Clear_Inventory");
+		profile = new BasicProfile("default", "Default", "Rewards that are disabled by default");
+		profile.addDisabledRewards("chancecubes:Clear_Inventory");
 		registerProfile(profile, true);
 
-		profile = new BasicProfile("No Explosions", "Disable all rewards that use explode");
-		profile.setDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:Explosion", "chancecubes:TNT_Cat", 
+		profile = new BasicProfile("no_explosions", "No Explosions", "Disable all rewards that use explode");
+		profile.addDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:Explosion", "chancecubes:TNT_Cat", 
 				"chancecubes:TNT_Diamond", "chancecubes:TNT_Bats", "chancecubes:Coal_To_Diamonds", "chancecubes:Help_Me", 
 				"chancecubes:Nuke", "chancecubes:Pssst", "chancecubes:Surrounded_Creeper", "chancecubes:Troll_TNT", 
 				"chancecubes:Ender_Crystal_Timer", "chancecubes:Wait_For_It", "chancecubes:Charged_Creeper", 
@@ -135,23 +143,22 @@ public class ProfileManager
 				"chancecubes:Monty_Hall", "chancecubes:Countdown", "chancecubes:Heads_or_Tails");
 		registerProfile(profile);
 		
-		profile = new BasicProfile("No Death Mini-games", "Disable all minigame rewards that kills the player if they lose");
-		BasicProfile noMiniGames = profile;
-		profile.setDisabledRewards("chancecubes:Maze", "chancecubes:Dig_Build_Reward", "chancecubes:Matching", 
+		profile = new BasicProfile("no_death_mg", "No Death Mini-games", "Disable all minigame rewards that kills the player if they lose");
+		profile.addDisabledRewards("chancecubes:Maze", "chancecubes:Dig_Build_Reward", "chancecubes:Matching", 
 				"chancecubes:Math", "chancecubes:Question");
 		registerProfile(profile);
 		
-		profile = new BasicProfile("No Potions/Effects", "Disable all rewards that throw a potion or give a status effect");
-		profile.setDisabledRewards("chancecubes:Poison", "chancecubes:Wither_Status_Effect", "chancecubes:Arrow_Trap", 
+		profile = new BasicProfile("no_status_effects", "No Potions/Effects", "Disable all rewards that throw a potion or give a status effect");
+		profile.addDisabledRewards("chancecubes:Poison", "chancecubes:Wither_Status_Effect", "chancecubes:Arrow_Trap", 
 				"chancecubes:Random_Status_Effect", "chancecubes:Lingering_Potions_Ring", "chancecubes:Surrounded_Creeper", 
 				"chancecubes:Mob_Abilities_Effects");
 		registerProfile(profile);
 		
 		//TODO: Finish this one up
-		profile = new BasicProfile("Hardcore", "For users who play on hardcore diffuculty");
-		profile.setDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall");
-		profile.addSubProfile(noMiniGames);
-		profile.addTriggers(new DiffucultyTrigger(profile, EnumDifficulty.HARD));
+		profile = new BasicProfile("hardcore", "Hardcore", "For users who play on hardcore diffuculty");
+		profile.addDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall");
+		profile.addSubProfile(getProfileFromID("no_death_mg"));
+		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
 		registerProfile(profile);
 		config.save();
 		//@formatter:on

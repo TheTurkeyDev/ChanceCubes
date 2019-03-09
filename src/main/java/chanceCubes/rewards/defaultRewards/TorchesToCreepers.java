@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -11,8 +10,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TorchesToCreepers implements IChanceCubeReward
+public class TorchesToCreepers extends BaseCustomReward
 {
+	public TorchesToCreepers()
+	{
+		this.setChanceValue(-40);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -35,12 +38,6 @@ public class TorchesToCreepers implements IChanceCubeReward
 			}
 		}
 		player.sendMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -40;
 	}
 
 	@Override

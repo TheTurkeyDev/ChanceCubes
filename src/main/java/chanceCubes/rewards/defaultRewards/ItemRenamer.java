@@ -2,10 +2,8 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -14,9 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ItemRenamer implements IChanceCubeReward
+public class ItemRenamer extends BaseCustomReward
 {
-	private Random rand = new Random();
+	public ItemRenamer()
+	{
+		this.setChanceValue(10);
+	}
 
 	// @formatter:off
 	private String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster", 
@@ -53,25 +54,19 @@ public class ItemRenamer implements IChanceCubeReward
 
 		for(int i = 0; i < 3; i++)
 		{
-			String name = names[rand.nextInt(names.length)];
-			String adj = adjectives[rand.nextInt(adjectives.length)];
+			String name = names[RewardsUtil.rand.nextInt(names.length)];
+			String adj = adjectives[RewardsUtil.rand.nextInt(adjectives.length)];
 
 			if(name.substring(name.length() - 1).equalsIgnoreCase("s"))
 				name += "'";
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(rand.nextInt(stacks.size())).setStackDisplayName(newName);
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setStackDisplayName(newName);
 		}
 
 		player.sendMessage(new TextComponentString("Those items of yours need a little personality!"));
 
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 10;
 	}
 
 	@Override

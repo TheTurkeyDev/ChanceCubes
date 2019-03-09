@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +13,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ArmorStandArmorReward implements IChanceCubeReward
+public class ArmorStandArmorReward extends BaseCustomReward
 {
+
+	public ArmorStandArmorReward()
+	{
+		this.setChanceValue(40);
+	}
+
 	// @formatter:off
 	private String[] names = {"dmodoomsirius", "MJRLegends", "Twp156", "JSL7", "Ratblade", "DerRedstoneProfi", "Turkey2349"};
 	
@@ -69,12 +74,6 @@ public class ArmorStandArmorReward implements IChanceCubeReward
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
 		world.spawnEntity(armorStand);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 40;
 	}
 
 	@Override

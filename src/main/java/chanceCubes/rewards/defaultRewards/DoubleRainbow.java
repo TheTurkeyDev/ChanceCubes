@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +8,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DoubleRainbow implements IChanceCubeReward
+public class DoubleRainbow extends BaseCustomReward
 {
 	byte[] colorsMeta = { 14, 1, 4, 13, 11, 10 };
+
+	public DoubleRainbow()
+	{
+		this.setChanceValue(15);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -49,12 +53,6 @@ public class DoubleRainbow implements IChanceCubeReward
 				}
 			}
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 15;
 	}
 
 	@Override

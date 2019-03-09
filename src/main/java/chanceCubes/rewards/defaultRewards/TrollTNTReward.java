@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,8 +13,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TrollTNTReward implements IChanceCubeReward
+public class TrollTNTReward extends BaseCustomReward
 {
+	public TrollTNTReward()
+	{
+		this.setChanceValue(-5);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
@@ -45,12 +48,6 @@ public class TrollTNTReward implements IChanceCubeReward
 
 			});
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -5;
 	}
 
 	@Override

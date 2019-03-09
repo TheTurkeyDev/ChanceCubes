@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,8 +13,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CakeIsALieReward implements IChanceCubeReward
+public class CakeIsALieReward extends BaseCustomReward
 {
+	public CakeIsALieReward()
+	{
+		this.setChanceValue(20);
+	}
+
 	@Override
 	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
 	{
@@ -57,12 +61,6 @@ public class CakeIsALieReward implements IChanceCubeReward
 				}
 			});
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 20;
 	}
 
 	@Override

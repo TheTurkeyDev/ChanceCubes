@@ -1,15 +1,19 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class NukeReward implements IChanceCubeReward
+public class NukeReward extends BaseCustomReward
 {
+	public NukeReward()
+	{
+		this.setChanceValue(-75);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -30,12 +34,6 @@ public class NukeReward implements IChanceCubeReward
 		world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 2, pos.getY() + 65, pos.getZ() + 6, null));
 		world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() + 6, null));
 		world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() + 6, null));
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -75;
 	}
 
 	@Override

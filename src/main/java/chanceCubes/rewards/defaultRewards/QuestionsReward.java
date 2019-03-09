@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
@@ -23,15 +22,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class QuestionsReward implements IChanceCubeReward
+public class QuestionsReward extends BaseCustomReward
 {
-
 	private Map<EntityPlayer, String> inQuestion = new HashMap<EntityPlayer, String>();
 
 	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<CustomEntry<String, String>>();
 
 	public QuestionsReward()
 	{
+		this.setChanceValue(-30);
 		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
 		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
@@ -105,12 +104,6 @@ public class QuestionsReward implements IChanceCubeReward
 
 		inQuestion.remove(player);
 
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -30;
 	}
 
 	@Override

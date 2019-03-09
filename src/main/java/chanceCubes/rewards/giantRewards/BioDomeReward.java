@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
 import chanceCubes.rewards.biodomeGen.DesertBiome;
 import chanceCubes.rewards.biodomeGen.EndBiome;
@@ -13,6 +12,7 @@ import chanceCubes.rewards.biodomeGen.IBioDomeBiome;
 import chanceCubes.rewards.biodomeGen.NetherBiome;
 import chanceCubes.rewards.biodomeGen.OceanBiome;
 import chanceCubes.rewards.biodomeGen.SnowGlobeBiome;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -21,7 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BioDomeReward implements IChanceCubeReward
+public class BioDomeReward extends BaseCustomReward
 {
 	private Random rand = new Random();
 
@@ -107,12 +107,6 @@ public class BioDomeReward implements IChanceCubeReward
 		};
 
 		Scheduler.scheduleTask(task);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

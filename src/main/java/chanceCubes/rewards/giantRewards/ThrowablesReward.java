@@ -1,7 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,7 +14,7 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ThrowablesReward implements IChanceCubeReward
+public class ThrowablesReward extends BaseCustomReward
 {
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -60,12 +60,6 @@ public class ThrowablesReward implements IChanceCubeReward
 				world.spawnEntity(throwEnt);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

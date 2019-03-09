@@ -1,9 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -18,21 +15,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class WaitForItReward implements IChanceCubeReward
+public class WaitForItReward extends BaseCustomReward
 {
-	private final Random rand = new Random();
+	public WaitForItReward()
+	{
+		this.setChanceValue(-30);
+	}
 
 	@Override
 	public void trigger(final World world, BlockPos pos, final EntityPlayer player)
 	{
 		player.sendMessage(new TextComponentString("Wait for it......."));
 
-		Scheduler.scheduleTask(new Task("Wait For It", rand.nextInt(4000) + 1000)
+		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(4000) + 1000)
 		{
 			@Override
 			public void callback()
 			{
-				int reward = rand.nextInt(3);
+				int reward = RewardsUtil.rand.nextInt(3);
 				player.sendMessage(new TextComponentString("NOW!"));
 
 				if(reward == 0)
@@ -64,12 +64,6 @@ public class WaitForItReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -30;
 	}
 
 	@Override

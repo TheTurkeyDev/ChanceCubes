@@ -1,15 +1,15 @@
-package chanceCubes.rewards.profiles.modules;
+package chanceCubes.rewards.profiles.triggers;
 
 import chanceCubes.rewards.profiles.IProfile;
 import chanceCubes.rewards.profiles.ProfileManager;
 import net.minecraft.world.EnumDifficulty;
 
-public class DiffucultyTrigger implements ITrigger<EnumDifficulty>
+public class DifficultyTrigger implements ITrigger<EnumDifficulty>
 {
 	private IProfile prof;
 	private EnumDifficulty diff;
 
-	public DiffucultyTrigger(IProfile prof, EnumDifficulty diff)
+	public DifficultyTrigger(IProfile prof, EnumDifficulty diff)
 	{
 		this.prof = prof;
 		this.diff = diff;

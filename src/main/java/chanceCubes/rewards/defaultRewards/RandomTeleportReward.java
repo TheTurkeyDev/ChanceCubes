@@ -1,13 +1,16 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class RandomTeleportReward implements IChanceCubeReward
+public class RandomTeleportReward extends BaseCustomReward
 {
+	public RandomTeleportReward()
+	{
+		this.setChanceValue(-15);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -29,12 +32,6 @@ public class RandomTeleportReward implements IChanceCubeReward
 			return;
 
 		player.setPositionAndUpdate(xChange, yChange, zChange);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -15;
 	}
 
 	@Override

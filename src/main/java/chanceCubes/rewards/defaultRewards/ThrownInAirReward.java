@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -12,8 +11,12 @@ import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ThrownInAirReward implements IChanceCubeReward
+public class ThrownInAirReward extends BaseCustomReward
 {
+	public ThrownInAirReward()
+	{
+		this.setChanceValue(-35);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
@@ -37,12 +40,6 @@ public class ThrownInAirReward implements IChanceCubeReward
 				((EntityPlayerMP) player).connection.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -35;
 	}
 
 	@Override

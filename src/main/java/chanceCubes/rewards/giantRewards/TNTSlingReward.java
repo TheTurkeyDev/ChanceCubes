@@ -1,7 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TNTSlingReward implements IChanceCubeReward
+public class TNTSlingReward extends BaseCustomReward
 {
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -46,12 +46,6 @@ public class TNTSlingReward implements IChanceCubeReward
 				tnt.motionZ = -1 + (Math.random() * 2);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

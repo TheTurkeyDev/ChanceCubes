@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -14,8 +13,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MagicFeetReward implements IChanceCubeReward
+public class MagicFeetReward extends BaseCustomReward
 {
+	public MagicFeetReward()
+	{
+		this.setChanceValue(85);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -51,12 +54,6 @@ public class MagicFeetReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 85;
 	}
 
 	@Override

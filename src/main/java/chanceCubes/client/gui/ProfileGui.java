@@ -1,6 +1,7 @@
 package chanceCubes.client.gui;
 
 import java.io.IOException;
+import java.net.URI;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,6 +12,8 @@ public class ProfileGui extends GuiScreen
 	private ProfilesList profileList;
 
 	private String hoverText;
+
+	private String rewardsInfoUrlText = "Click here to see all the rewards and info about them";
 
 	public ProfileGui(GuiScreen screen)
 	{
@@ -40,10 +43,10 @@ public class ProfileGui extends GuiScreen
 	{
 		hoverText = "";
 		this.profileList.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
 		this.drawCenteredString(this.fontRenderer, "Profiles", this.width / 2, 20, 16777215);
 		this.drawCenteredString(this.fontRenderer, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
-		this.drawCenteredString(this.fontRenderer, "https://github.com/Turkey2349/ChanceCubes/wiki/Chance-Cubes-Rewards-Evolution", this.width / 2, 48, 16777215);
+		this.drawCenteredString(this.fontRenderer, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if(!hoverText.isEmpty())
 			this.drawHoveringText(hoverText, mouseX, mouseY);
@@ -56,6 +59,21 @@ public class ProfileGui extends GuiScreen
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.profileList.mouseClicked(mouseX, mouseY, mouseButton);
+
+		int textWidth = this.fontRenderer.getStringWidth(rewardsInfoUrlText);
+		int x = (this.width / 2) - textWidth / 2;
+		if(mouseButton == 0 && mouseX > x && mouseX < x + textWidth && mouseY > 48 && mouseY < 60)
+		{
+			try
+			{
+				Class<?> oclass = Class.forName("java.awt.Desktop");
+				Object object = oclass.getMethod("getDesktop").invoke((Object) null);
+				oclass.getMethod("browse", URI.class).invoke(object, new URI("https://github.com/Turkey2349/ChanceCubes/wiki/Chance-Cubes-Rewards-Evolution"));
+			} catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

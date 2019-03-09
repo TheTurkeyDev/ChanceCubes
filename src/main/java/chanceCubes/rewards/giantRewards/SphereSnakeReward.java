@@ -1,7 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -13,7 +13,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SphereSnakeReward implements IChanceCubeReward
+public class SphereSnakeReward extends BaseCustomReward
 {
 
 	// @formatter:off
@@ -85,12 +85,6 @@ public class SphereSnakeReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

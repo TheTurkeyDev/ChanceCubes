@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,8 +13,12 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemChestReward implements IChanceCubeReward
+public class ItemChestReward extends BaseCustomReward
 {
+	public ItemChestReward()
+	{
+		this.setChanceValue(25);
+	}
 
 	//@formatter:off
 	ItemStack[] stacks = new ItemStack[] { new ItemStack(Blocks.GLASS), new ItemStack(Items.APPLE), new ItemStack(Items.BREAD), 
@@ -71,12 +74,6 @@ public class ItemChestReward implements IChanceCubeReward
 				item.setPickupDelay(60);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 25;
 	}
 
 	@Override

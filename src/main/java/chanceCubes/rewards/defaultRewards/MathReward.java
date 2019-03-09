@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -28,8 +27,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class MathReward implements IChanceCubeReward
+public class MathReward extends BaseCustomReward
 {
+	public MathReward()
+	{
+		this.setChanceValue(-30);
+	}
 
 	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
 
@@ -84,7 +87,7 @@ public class MathReward implements IChanceCubeReward
 			{
 				timeUp(player, false);
 			}
-			
+
 			@Override
 			public void update()
 			{
@@ -125,12 +128,6 @@ public class MathReward implements IChanceCubeReward
 
 		inQuestion.remove(player);
 
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -30;
 	}
 
 	@Override

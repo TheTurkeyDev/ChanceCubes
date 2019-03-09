@@ -1,9 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -15,9 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ItemOfDestinyReward implements IChanceCubeReward
+public class ItemOfDestinyReward extends BaseCustomReward
 {
-	private Random rand = new Random();
+	public ItemOfDestinyReward()
+	{
+		this.setChanceValue(40);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
@@ -80,16 +80,10 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 
 	public Enchantment randomEnchantment()
 	{
-		Enchantment ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+		Enchantment ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
 		while(ench == null)
-			ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+			ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
 		return ench;
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 40;
 	}
 
 	@Override

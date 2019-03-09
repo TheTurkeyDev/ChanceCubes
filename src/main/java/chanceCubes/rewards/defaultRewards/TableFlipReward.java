@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -13,8 +12,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TableFlipReward implements IChanceCubeReward
+public class TableFlipReward extends BaseCustomReward
 {
+	public TableFlipReward()
+	{
+		this.setChanceValue(0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -92,16 +95,10 @@ public class TableFlipReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				
+
 			}
 
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

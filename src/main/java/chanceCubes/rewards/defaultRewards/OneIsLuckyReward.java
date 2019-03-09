@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -14,8 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class OneIsLuckyReward implements IChanceCubeReward
+public class OneIsLuckyReward extends BaseCustomReward
 {
+	public OneIsLuckyReward()
+	{
+		this.setChanceValue(0);
+	}
+
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
@@ -55,12 +59,6 @@ public class OneIsLuckyReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

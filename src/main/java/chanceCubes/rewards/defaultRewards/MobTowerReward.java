@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -34,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MobTowerReward implements IChanceCubeReward
+public class MobTowerReward extends BaseCustomReward
 {
 	//@formatter:off
 	private List<Class<? extends Entity>> entities = Arrays.asList(EntityCreeper.class, EntitySkeleton.class, EntityBlaze.class,
@@ -43,6 +42,11 @@ public class MobTowerReward implements IChanceCubeReward
 			EntityCow.class, EntityOcelot.class, EntityParrot.class, EntityPig.class, EntityRabbit.class, EntitySheep.class,
 			EntityVillager.class, EntityWolf.class);
 	//@formatter:on
+
+	public MobTowerReward()
+	{
+		this.setChanceValue(0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -78,12 +82,6 @@ public class MobTowerReward implements IChanceCubeReward
 			}
 
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

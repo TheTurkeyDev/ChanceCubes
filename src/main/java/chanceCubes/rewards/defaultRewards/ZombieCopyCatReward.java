@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -10,8 +9,12 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ZombieCopyCatReward implements IChanceCubeReward
+public class ZombieCopyCatReward extends BaseCustomReward
 {
+	public ZombieCopyCatReward()
+	{
+		this.setChanceValue(-25);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -27,39 +30,24 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 				weapon = stack.copy();
 			}
 		}
+
 		if(weapon.isEmpty() && !player.inventory.getCurrentItem().isEmpty())
-		{
 			weapon = player.inventory.getCurrentItem().copy();
-		}
 
 		zombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weapon);
 		// TODO: Change?
 		zombie.setDropItemsWhenDead(true);
 
 		if(!player.inventory.armorInventory.get(0).isEmpty())
-		{
 			zombie.setItemStackToSlot(EntityEquipmentSlot.FEET, player.inventory.armorInventory.get(0).copy());
-		}
 		if(!player.inventory.armorInventory.get(1).isEmpty())
-		{
 			zombie.setItemStackToSlot(EntityEquipmentSlot.LEGS, player.inventory.armorInventory.get(1).copy());
-		}
 		if(!player.inventory.armorInventory.get(2).isEmpty())
-		{
 			zombie.setItemStackToSlot(EntityEquipmentSlot.CHEST, player.inventory.armorInventory.get(2).copy());
-		}
 		if(!player.inventory.armorInventory.get(3).isEmpty())
-		{
 			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory.get(3).copy());
-		}
 
 		world.spawnEntity(zombie);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -25;
 	}
 
 	@Override

@@ -2,10 +2,11 @@ package chanceCubes.rewards.profiles;
 
 import java.util.List;
 
-import chanceCubes.rewards.profiles.modules.ITrigger;
+import chanceCubes.rewards.profiles.triggers.ITrigger;
 
 public interface IProfile
 {
+	public String getID();
 	public String getName();
 	public String getDesc();
 	public String getDescLong();

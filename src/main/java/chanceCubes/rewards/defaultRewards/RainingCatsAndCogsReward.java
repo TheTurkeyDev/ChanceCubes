@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,9 +13,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class RainingCatsAndCogsReward implements IChanceCubeReward
+public class RainingCatsAndCogsReward extends BaseCustomReward
 {
 	private String[] names = { "Radiant_Sora", "Turkey", "MrComputerGhost", "Valsis", "Silver", "Amatt", "Musician", "ReNinjaKitteh", "QuirkyGeek17" };
+
+	public RainingCatsAndCogsReward()
+	{
+		this.setChanceValue(15);
+	}
 
 	@Override
 	public void trigger(final World world, BlockPos position, EntityPlayer player)
@@ -64,12 +68,6 @@ public class RainingCatsAndCogsReward implements IChanceCubeReward
 				});
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 15;
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -129,8 +128,8 @@ import net.minecraftforge.common.MinecraftForge;
 @SuppressWarnings("deprecation")
 public class ChanceCubeRegistry implements IRewardRegistry
 {
+	//TODO: Per player reward pools?
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
-	private static Random random = new Random();
 
 	private List<IChanceCubeReward> customRewards = Lists.newArrayList();
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
@@ -232,6 +231,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cave_Spider_Web", -30, new BlockRewardType(RewardsUtil.fillArea(7, 4, 7, Blocks.WEB, -3, 0, -3, false, 0, false, true)), new CommandRewardType(RewardsUtil.executeXCommands("/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}", 6))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Guardians", -35, new BlockRewardType(RewardsUtil.fillArea(5, 5, 5, Blocks.WATER, -2, 0, -2, false, 0, false, false)), new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("guardian"), 5), new EntityPart(EntityRewardType.getBasicNBTForEntity("guardian"), 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie_Monster", -5, new MessageRewardType(new MessagePart("Here have some cookies!").setRange(32), new MessagePart("[Cookie Monster] Hey! Those are mine!", 30).setRange(32)), new CommandRewardType(new CommandPart("/summon item ~ ~1 ~ {Item:{id:\"minecraft:cookie\",Count:8b}}"), new CommandPart("/summon zombie ~ ~1 ~ {CustomName:\"Cookie Monster\",CustomNameVisible:1,IsVillager:0,IsBaby:1}", 30))));
+
+		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Zombie_Levate", -35, new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie ~%%RND(-10,10)%% ~ ~%%RND(-10,10)%% {CustomName:\"domosplace\",CustomNameVisible:1,ArmorItems:[{},{},{},{id:\"minecraft:leather_helmet\",Count:1b}],ActiveEffects:[{Id:25,Amplifier:0,Duration:140}]}", 10))));
 
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -526,21 +527,21 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	{
 		if(this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
 			return this.enableReward(this.nameToReward.get(reward));
-		return false;
+		return this.isRewardEnabled(reward);
 	}
 
 	public boolean enableReward(IChanceCubeReward reward)
 	{
 		this.disabledNameToReward.remove(reward.getName());
 		redoSort(reward);
-		return true;
+		return this.isRewardEnabled(reward.getName());
 	}
-	
+
 	public boolean disableReward(String reward)
 	{
 		if(!this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
 			return this.disableReward(this.nameToReward.get(reward));
-		return false;
+		return !this.isRewardEnabled(reward);
 	}
 
 	public boolean disableReward(IChanceCubeReward reward)
@@ -552,7 +553,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 		return false;
 	}
-	
+
 	public boolean isRewardEnabled(String reward)
 	{
 		return !this.disabledNameToReward.containsKey(reward);
@@ -672,14 +673,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		}
 		int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
-		int pick = random.nextInt(range) + lowerIndex;
+		int pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
 		IChanceCubeReward pickedReward = sortedRewards.get(pick);
 		if(lastReward != null || cooldownList.contains(pickedReward))
 		{
 			byte atempts = 0;
 			while(atempts < 5 && cooldownList.contains(pickedReward))
 			{
-				pick = random.nextInt(range) + lowerIndex;
+				pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
 				pickedReward = sortedRewards.get(pick);
 				atempts++;
 			}

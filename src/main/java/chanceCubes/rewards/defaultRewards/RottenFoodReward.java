@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
@@ -10,8 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class RottenFoodReward implements IChanceCubeReward
+public class RottenFoodReward extends BaseCustomReward
 {
+	public RottenFoodReward()
+	{
+		this.setChanceValue(-30);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -24,12 +28,6 @@ public class RottenFoodReward implements IChanceCubeReward
 
 		player.sendMessage(new TextComponentString("Ewwww it's all rotten"));
 
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -30;
 	}
 
 	@Override

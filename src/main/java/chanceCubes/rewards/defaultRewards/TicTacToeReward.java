@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -18,8 +17,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TicTacToeReward implements IChanceCubeReward
+public class TicTacToeReward extends BaseCustomReward
 {
+	public TicTacToeReward()
+	{
+		this.setChanceValue(0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -104,12 +108,6 @@ public class TicTacToeReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

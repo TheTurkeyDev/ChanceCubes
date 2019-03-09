@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -21,8 +20,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MontyHallReward implements IChanceCubeReward
+public class MontyHallReward extends BaseCustomReward
 {
+	public MontyHallReward()
+	{
+		this.setChanceValue(0);
+	}
+
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
@@ -84,12 +88,6 @@ public class MontyHallReward implements IChanceCubeReward
 				Scheduler.removeTask(this);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

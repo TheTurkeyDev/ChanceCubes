@@ -1,7 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -12,7 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FireworkShowReward implements IChanceCubeReward
+public class FireworkShowReward extends BaseCustomReward
 {
 
 	@Override
@@ -93,12 +93,6 @@ public class FireworkShowReward implements IChanceCubeReward
 	public void spawnFirework(World world, double x, double y, double z)
 	{
 		world.spawnEntity(new EntityFireworkRocket(world, x, y, z, RewardsUtil.getRandomFirework()));
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

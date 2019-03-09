@@ -9,6 +9,7 @@ import chanceCubes.client.gui.CCubesGuiHandler;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
@@ -111,9 +112,10 @@ public class CCubesCore
 		CustomRewardsLoader.instance.fetchRemoteInfo();
 		LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
 		ProfileManager.initProfiles();
+		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();
-		
+
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -20,9 +19,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class CoinFlipReward implements IChanceCubeReward
+public class CoinFlipReward extends BaseCustomReward
 {
 	private List<EntityPlayer> inFlip = new ArrayList<EntityPlayer>();
+
+	public CoinFlipReward()
+	{
+		this.setChanceValue(0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
@@ -54,14 +58,8 @@ public class CoinFlipReward implements IChanceCubeReward
 
 		player.sendMessage(new TextComponentString("Seem's that you didn't pick heads or tails."));
 		player.sendMessage(new TextComponentString("You must be real fun at parties...."));
-		
-		inFlip.remove(player);
-	}
 
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
+		inFlip.remove(player);
 	}
 
 	@Override

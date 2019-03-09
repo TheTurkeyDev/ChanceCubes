@@ -3,7 +3,7 @@ package chanceCubes.rewards.giantRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -23,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class RandomExplosionReward implements IChanceCubeReward
+public class RandomExplosionReward extends BaseCustomReward
 {
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -121,12 +121,6 @@ public class RandomExplosionReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

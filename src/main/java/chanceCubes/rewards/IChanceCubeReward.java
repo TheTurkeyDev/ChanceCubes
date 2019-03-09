@@ -17,9 +17,14 @@ public interface IChanceCubeReward {
 	public void trigger(World world, BlockPos pos, EntityPlayer player);
 	
 	/**
-	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward.
+	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward. Range -100 to 100.
 	 */
 	public int getChanceValue();
+	
+	/**
+	 * @return Set how "lucky" this block is (can be negative). 0 would indicate an "average" reward. Range -100 to 100.
+	 */
+	public void setChanceValue(int chance);
 	
 	/**
 	 * @return Unique name for reward (suggested to pre-pend MODID).

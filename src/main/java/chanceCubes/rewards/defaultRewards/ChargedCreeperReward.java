@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,8 +13,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ChargedCreeperReward implements IChanceCubeReward
+public class ChargedCreeperReward extends BaseCustomReward
 {
+
+	public ChargedCreeperReward()
+	{
+		this.setChanceValue(-40);
+	}
 
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
@@ -36,12 +40,6 @@ public class ChargedCreeperReward implements IChanceCubeReward
 				ent.setFire(0);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -40;
 	}
 
 	@Override

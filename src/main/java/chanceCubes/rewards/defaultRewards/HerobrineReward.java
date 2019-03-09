@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -11,10 +10,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class HerobrineReward implements IChanceCubeReward
+public class HerobrineReward extends BaseCustomReward
 {
 	private String[] leaveSayings = new String[] { "I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time." };
 	private String[] staySayings = new String[] { "Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end" };
+
+	public HerobrineReward()
+	{
+		this.setChanceValue(-65);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -88,12 +92,6 @@ public class HerobrineReward implements IChanceCubeReward
 				stage++;
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -65;
 	}
 
 	@Override

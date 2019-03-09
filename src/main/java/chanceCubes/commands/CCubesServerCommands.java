@@ -11,6 +11,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
@@ -109,6 +110,7 @@ public class CCubesServerCommands extends CommandBase
 					ModHookUtil.loadCustomModRewards();
 					NonreplaceableBlockOverride.loadOverrides();
 					ProfileManager.initProfiles();
+					CustomProfileLoader.instance.loadProfiles();
 					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 				}
 			}).start();

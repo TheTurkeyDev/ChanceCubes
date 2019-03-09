@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -11,8 +10,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AnvilRain implements IChanceCubeReward
+public class AnvilRain extends BaseCustomReward
 {
+
+	public AnvilRain()
+	{
+		this.setChanceValue(-45);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos position, EntityPlayer player)
 	{
@@ -74,12 +79,6 @@ public class AnvilRain implements IChanceCubeReward
 				cache.restoreBlocks(player);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -45;
 	}
 
 	@Override

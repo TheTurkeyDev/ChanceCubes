@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockAir;
@@ -16,7 +16,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockInfectionReward implements IChanceCubeReward
+public class BlockInfectionReward extends BaseCustomReward
 {
 	// @formatter:off
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
@@ -53,7 +53,7 @@ public class BlockInfectionReward implements IChanceCubeReward
 			{
 				nextPos = lastPos.add(touchingPos[RewardsUtil.rand.nextInt(touchingPos.length)]);
 			}
-			
+
 			changedBlocks.add(nextPos);
 			addSurroundingBlocks(world, pos, nextPos, changedBlocks, possibleBlocks);
 			IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
@@ -80,12 +80,6 @@ public class BlockInfectionReward implements IChanceCubeReward
 				}
 			}
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

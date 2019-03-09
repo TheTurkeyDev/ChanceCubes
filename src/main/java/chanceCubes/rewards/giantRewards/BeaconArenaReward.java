@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -16,7 +16,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BeaconArenaReward implements IChanceCubeReward
+public class BeaconArenaReward extends BaseCustomReward
 {
 	// @formatter:off
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
@@ -25,6 +25,7 @@ public class BeaconArenaReward implements IChanceCubeReward
 			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -126,12 +127,6 @@ public class BeaconArenaReward implements IChanceCubeReward
 			blocks.add(new OffsetBlock(pos.getX(), -1, pos.getZ(), state, false, (delay / 8)));
 			delay++;
 		}
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override

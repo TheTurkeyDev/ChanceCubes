@@ -14,7 +14,6 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -28,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class CustomUserReward implements IChanceCubeReward
+public class CustomUserReward extends BaseCustomReward
 {
 	private String userName;
 	private UUID uuid;
@@ -111,6 +110,7 @@ public class CustomUserReward implements IChanceCubeReward
 		this.uuid = uuid;
 		this.type = type;
 		this.customRewards = rewards;
+		this.setChanceValue(0);
 	}
 
 	@Override
@@ -135,12 +135,6 @@ public class CustomUserReward implements IChanceCubeReward
 				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
 	}
 
 	@Override
