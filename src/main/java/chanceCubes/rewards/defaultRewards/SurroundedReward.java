@@ -11,7 +11,7 @@ public class SurroundedReward extends BaseCustomReward
 {
 	public SurroundedReward()
 	{
-		super(CCubesCore.MODID + ":Sky_Block", -45);
+		super(CCubesCore.MODID + ":Surrounded", -45);
 	}
 
 	@Override
@@ -55,11 +55,4 @@ public class SurroundedReward extends BaseCustomReward
 			}
 		}
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Surrounded";
-	}
-
 }

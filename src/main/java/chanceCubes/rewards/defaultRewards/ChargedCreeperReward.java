@@ -18,7 +18,7 @@ public class ChargedCreeperReward extends BaseCustomReward
 
 	public ChargedCreeperReward()
 	{
-		super(CCubesCore.MODID + ":Cube_Rename", -40);
+		super(CCubesCore.MODID + ":Charged_Creeper", -40);
 	}
 
 	@Override

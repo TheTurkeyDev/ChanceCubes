@@ -18,7 +18,7 @@ public class JukeBoxReward extends BaseCustomReward
 
 	public JukeBoxReward()
 	{
-		super(CCubesCore.MODID + ":Juke_Box", 10);
+		super(CCubesCore.MODID + ":Juke_Box", 5);
 	}
 
 	@Override

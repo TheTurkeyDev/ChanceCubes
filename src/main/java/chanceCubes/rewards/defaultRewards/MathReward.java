@@ -31,7 +31,7 @@ public class MathReward extends BaseCustomReward
 {
 	public MathReward()
 	{
-		super(CCubesCore.MODID + ":Math", -20);
+		super(CCubesCore.MODID + ":Math", -30);
 	}
 
 	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
