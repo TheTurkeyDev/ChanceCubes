@@ -16,12 +16,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.profiles.BasicProfile;
-import chanceCubes.rewards.profiles.IProfile;
-import chanceCubes.rewards.profiles.ProfileManager;
-import chanceCubes.rewards.profiles.triggers.DifficultyTrigger;
-import chanceCubes.rewards.profiles.triggers.DimensionChangeTrigger;
-import chanceCubes.rewards.profiles.triggers.GameStageTrigger;
+import chanceCubes.profiles.BasicProfile;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DimensionChangeTrigger;
+import chanceCubes.profiles.triggers.GameStageTrigger;
 import net.minecraft.world.EnumDifficulty;
 
 public class CustomProfileLoader

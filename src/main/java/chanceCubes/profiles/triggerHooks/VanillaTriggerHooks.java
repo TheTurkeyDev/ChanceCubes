@@ -1,10 +1,10 @@
-package chanceCubes.rewards.profiles.triggerHooks;
+package chanceCubes.profiles.triggerHooks;
 
-import chanceCubes.rewards.profiles.IProfile;
-import chanceCubes.rewards.profiles.ProfileManager;
-import chanceCubes.rewards.profiles.triggers.DifficultyTrigger;
-import chanceCubes.rewards.profiles.triggers.DimensionChangeTrigger;
-import chanceCubes.rewards.profiles.triggers.ITrigger;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DimensionChangeTrigger;
+import chanceCubes.profiles.triggers.ITrigger;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

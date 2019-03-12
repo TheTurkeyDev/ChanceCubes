@@ -2,7 +2,7 @@ package chanceCubes.config;
 
 import java.io.File;
 
-import chanceCubes.rewards.profiles.ProfileManager;
+import chanceCubes.profiles.ProfileManager;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
 

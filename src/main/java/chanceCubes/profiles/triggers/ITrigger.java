@@ -1,4 +1,4 @@
-package chanceCubes.rewards.profiles.triggers;
+package chanceCubes.profiles.triggers;
 
 public interface ITrigger<T>
 {

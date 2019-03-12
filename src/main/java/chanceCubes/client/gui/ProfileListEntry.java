@@ -1,7 +1,7 @@
 package chanceCubes.client.gui;
 
-import chanceCubes.rewards.profiles.IProfile;
-import chanceCubes.rewards.profiles.ProfileManager;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.ProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;

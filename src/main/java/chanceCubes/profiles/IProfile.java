@@ -1,8 +1,8 @@
-package chanceCubes.rewards.profiles;
+package chanceCubes.profiles;
 
 import java.util.List;
 
-import chanceCubes.rewards.profiles.triggers.ITrigger;
+import chanceCubes.profiles.triggers.ITrigger;
 
 public interface IProfile
 {

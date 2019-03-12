@@ -1,14 +1,17 @@
-package chanceCubes.rewards.profiles;
+package chanceCubes.profiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.profiles.triggers.ITrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.profiles.triggers.ITrigger;
 
 public class BasicProfile implements IProfile
 {
@@ -20,6 +23,7 @@ public class BasicProfile implements IProfile
 	private List<String> rewardsToEnable = new ArrayList<>();
 	private List<String> rewardsToDisable = new ArrayList<>();
 	private List<IProfile> subProfiles = new ArrayList<>();
+	private Map<String, Integer> chanceChanges = new HashMap<>();
 
 	public BasicProfile(String id, String name, String desc)
 	{
@@ -52,6 +56,12 @@ public class BasicProfile implements IProfile
 		return this;
 	}
 
+	public BasicProfile addRewardChanceChange(String rewardName, int newChance)
+	{
+		this.chanceChanges.put(rewardName, newChance);
+		return this;
+	}
+	
 	@Override
 	public void onEnable()
 	{
@@ -63,6 +73,8 @@ public class BasicProfile implements IProfile
 				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onEnable();
+		for(Entry<String, Integer> rewardInfo: this.chanceChanges.entrySet())
+			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
 	@Override
@@ -76,6 +88,8 @@ public class BasicProfile implements IProfile
 				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onDisable();
+		for(Entry<String, Integer> rewardInfo: this.chanceChanges.entrySet())
+			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
 	@Override
@@ -128,6 +142,15 @@ public class BasicProfile implements IProfile
 			for(ITrigger<?> t : this.triggers)
 			{
 				descFull.append(t.getClass().getSimpleName());
+				descFull.append("\n");
+			}
+			descFull.append("=== Reward Chance Value Changes ===");
+			descFull.append("\n");
+			if(this.chanceChanges.size() == 0)
+				descFull.append("None\n");
+			for(Entry<String, Integer> change : this.chanceChanges.entrySet())
+			{
+				descFull.append(change.getKey() + " -> " + change.getValue());
 				descFull.append("\n");
 			}
 		}

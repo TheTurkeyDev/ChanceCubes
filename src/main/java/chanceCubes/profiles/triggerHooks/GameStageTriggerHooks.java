@@ -1,9 +1,9 @@
-package chanceCubes.rewards.profiles.triggerHooks;
+package chanceCubes.profiles.triggerHooks;
 
-import chanceCubes.rewards.profiles.IProfile;
-import chanceCubes.rewards.profiles.ProfileManager;
-import chanceCubes.rewards.profiles.triggers.GameStageTrigger;
-import chanceCubes.rewards.profiles.triggers.ITrigger;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.triggers.GameStageTrigger;
+import chanceCubes.profiles.triggers.ITrigger;
 import net.darkhax.gamestages.event.GameStageEvent.Added;
 import net.darkhax.gamestages.event.GameStageEvent.Removed;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

@@ -1,10 +1,14 @@
-package chanceCubes.rewards.profiles;
+package chanceCubes.profiles;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import chanceCubes.rewards.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.config.Configuration;
 
@@ -12,6 +16,8 @@ public class ProfileManager
 {
 	private static List<IProfile> enabledProfiles = new ArrayList<IProfile>();
 	private static List<IProfile> disabledProfiles = new ArrayList<IProfile>();
+	
+	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
 	private static Configuration config;
 	public static final String genCat = "Profile Status";
@@ -122,6 +128,44 @@ public class ProfileManager
 	public static boolean isProfileEnabled(IProfile prof)
 	{
 		return enabledProfiles.contains(prof);
+	}
+	
+	public static void setRewardChanceValue(String rewardName, int chance)
+	{
+		IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(rewardName);
+		if(reward != null)
+		{
+			List<Integer> cache = chanceChangesCache.get(rewardName);
+			if(cache == null)
+			{
+				cache = new ArrayList<Integer>();
+				cache.add(reward.getChanceValue());
+				chanceChangesCache.put(rewardName, cache);
+			}
+			cache.add(chance);
+			reward.setChanceValue(chance);
+		}
+	}
+	
+	public static void resetRewardChanceValue(String rewardName, int chanceFrom)
+	{
+		IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(rewardName);
+		if(reward != null)
+		{
+			List<Integer> cache = chanceChangesCache.get(rewardName);
+			if(cache == null)
+			{
+				//Something dun messed up
+				return;
+			}
+			cache.remove((Integer)chanceFrom);
+			if(cache.size() == 0)
+			{
+				//Again, something dun messed up
+				return;
+			}
+			reward.setChanceValue(cache.get(cache.size() - 1));
+		}
 	}
 
 	public static void initProfiles()
