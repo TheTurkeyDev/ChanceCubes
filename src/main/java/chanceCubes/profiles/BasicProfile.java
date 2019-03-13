@@ -61,7 +61,7 @@ public class BasicProfile implements IProfile
 		this.chanceChanges.put(rewardName, newChance);
 		return this;
 	}
-	
+
 	@Override
 	public void onEnable()
 	{
@@ -73,7 +73,7 @@ public class BasicProfile implements IProfile
 				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onEnable();
-		for(Entry<String, Integer> rewardInfo: this.chanceChanges.entrySet())
+		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
@@ -88,7 +88,7 @@ public class BasicProfile implements IProfile
 				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onDisable();
-		for(Entry<String, Integer> rewardInfo: this.chanceChanges.entrySet())
+		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
@@ -151,6 +151,15 @@ public class BasicProfile implements IProfile
 			for(Entry<String, Integer> change : this.chanceChanges.entrySet())
 			{
 				descFull.append(change.getKey() + " -> " + change.getValue());
+				descFull.append("\n");
+			}
+			descFull.append("=== Sub Profiles ===");
+			descFull.append("\n");
+			if(this.subProfiles.size() == 0)
+				descFull.append("None\n");
+			for(IProfile subProf : this.subProfiles)
+			{
+				descFull.append(subProf.getName() + " (" + subProf.getID() + ")");
 				descFull.append("\n");
 			}
 		}

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.world.EnumDifficulty;
@@ -16,7 +17,7 @@ public class ProfileManager
 {
 	private static List<IProfile> enabledProfiles = new ArrayList<IProfile>();
 	private static List<IProfile> disabledProfiles = new ArrayList<IProfile>();
-	
+
 	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
 	private static Configuration config;
@@ -129,7 +130,7 @@ public class ProfileManager
 	{
 		return enabledProfiles.contains(prof);
 	}
-	
+
 	public static void setRewardChanceValue(String rewardName, int chance)
 	{
 		IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(rewardName);
@@ -146,7 +147,7 @@ public class ProfileManager
 			reward.setChanceValue(chance);
 		}
 	}
-	
+
 	public static void resetRewardChanceValue(String rewardName, int chanceFrom)
 	{
 		IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(rewardName);
@@ -155,13 +156,13 @@ public class ProfileManager
 			List<Integer> cache = chanceChangesCache.get(rewardName);
 			if(cache == null)
 			{
-				//Something dun messed up
+				// Something dun messed up
 				return;
 			}
-			cache.remove((Integer)chanceFrom);
+			cache.remove((Integer) chanceFrom);
 			if(cache.size() == 0)
 			{
-				//Again, something dun messed up
+				// Again, something dun messed up
 				return;
 			}
 			reward.setChanceValue(cache.get(cache.size() - 1));
@@ -198,11 +199,40 @@ public class ProfileManager
 				"chancecubes:Mob_Abilities_Effects");
 		registerProfile(profile);
 		
-		//TODO: Finish this one up
 		profile = new BasicProfile("hardcore", "Hardcore", "For users who play on hardcore diffuculty");
-		profile.addDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall");
+		profile.addDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall", "chancecubes:Ender_Crystal_Timer",
+				"chancecubes:Wither");
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
+		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
+		registerProfile(profile);
+		
+		profile = new BasicProfile("nether", "Nether", "Updates the reward pool for when players are in the nether");
+		profile.addDisabledRewards("chancecubes:Rain", "chancecubes:Sail_Away", "chancecubes:Squid_Horde", 
+				"chancecubes:Ice_Cold", "chancecubes:Hot_Tub", "chancecubes:Guardians", "chancecubes:Nuke",
+				"chancecubes:Cats_And_Dogs");
+		profile.addTriggers(new DimensionChangeTrigger(profile, -1));
+		registerProfile(profile);
+		
+		profile = new BasicProfile("peaceful", "Peaceful", "For users who play on peaceful diffuculty. Removes rewards that have hostile Mobs (Doesn't remove TNT)");
+		profile.addDisabledRewards("chancecubes:Pssst", "chancecubes:Horde", "chancecubes:Silverfish_Surround",
+				"chancecubes:Slime_Man", "chancecubes:Witch", "chancecubes:Spawn_Jerry", "chancecubes:Spawn_Glenn", 
+				"chancecubes:Invisible_Creeper", "chancecubes:Knockback_Zombie", "chancecubes:Actual_Invisible_Ghast",
+				"chancecubes:Nether_Jelly_Fish", "chancecubes:Quidditch", "chancecubes:One_Man_Army", "chancecubes:Silvermite_Stacks",
+				"chancecubes:Invizible_Silverfish", "chancecubes:Skeleton_Bats", "chancecubes:Cave_Spider_Web", "chancecubes:Guardians", 
+				"chancecubes:Cookie_Monster", "chancecubes:Charged_Creeper", "chancecubes:Torches_To_Creepers", "chancecubes:Herobrine", 
+				"chancecubes:Surrounded", "chancecubes:Surrounded_Creeper", "chancecubes:Wither", "chancecubes:Wait_For_It", 
+				"chancecubes:Cake", "chancecubes:Wolves_To_Creepers", "chancecubes:Countdown", "chancecubes:Mob_Tower");
+		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.PEACEFUL));
+		registerProfile(profile);
+		
+		profile = new BasicProfile("no_area_of_effects", "No Area of Effect Rewards", "Disables rewards that place blocks that have a 3x3x3 area of effect or greater (Does not include rewards that reset blocks to their original state after)");
+		profile.addDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:TNT_Diamond", "chancecubes:STRING!",
+				"chancecubes:CARPET!", "chancecubes:Squid_Horde", "chancecubes:D-rude_SandStorm", "chancecubes:Ice_Cold", 
+				"chancecubes:Watch_World_Burn", "chancecubes:Coal_To_Diamonds", "chancecubes:Hot_Tub",
+				"chancecubes:Arrow_Trap", "chancecubes:Trampoline", "chancecubes:Cave_Spider_Web", "chancecubes:Guardians",
+				"chancecubes:Path_To_Succeed", "chancecubes:Help_Me", "chancecubes:Beacon_Build", "chancecubes:Disco", 
+				"chancecubes:5_Prongs", "chancecubes:Table_Flip", "chancecubes:Sky_Block", "chancecubes:Double_Rainbow");
 		registerProfile(profile);
 		config.save();
 		//@formatter:on

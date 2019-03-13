@@ -159,6 +159,23 @@ public class CustomProfileLoader
 							}
 						});
 					}
+
+					if(profileJson.has("reward_properties"))
+					{
+						JsonArray properties = profileJson.getAsJsonArray("reward_properties");
+						properties.forEach(element -> {
+							JsonObject rewardPropJson = element.getAsJsonObject();
+							if(!rewardPropJson.has("reward_name"))
+							{
+								CCubesCore.logger.log(Level.ERROR, "Unable to parse reward property json \"" + element.toString() + "\". Missing \"reward_name\" entry.");
+								return;
+							}
+							String rewardName = rewardPropJson.get("reward_name").getAsString();
+
+							if(rewardPropJson.has("chance_value"))
+								profile.addRewardChanceChange(rewardName, rewardPropJson.get("chance_value").getAsInt());
+						});
+					}
 				}
 
 				CCubesCore.logger.log(Level.INFO, "Loaded profile file " + f.getName());
