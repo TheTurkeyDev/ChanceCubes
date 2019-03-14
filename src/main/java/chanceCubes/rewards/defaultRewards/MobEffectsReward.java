@@ -82,7 +82,7 @@ public class MobEffectsReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Mob_Effects_Reward_Task", 6000, 5)
 		{
-			int effect = 4;//RewardsUtil.rand.nextInt(5);
+			int effect = RewardsUtil.rand.nextInt(5);
 			int delay = 0;
 
 			@Override

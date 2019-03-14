@@ -723,9 +723,9 @@ public class LuckyBlockRewardLoader extends BaseLoader
 				if(typeMap.containsKey("meta"))
 					meta = Integer.parseInt(typeMap.get("meta"));
 				if(typeMap.containsKey("damage"))
-					meta = Integer.parseInt(typeMap.get("meta"));
+					meta = Integer.parseInt(typeMap.get("damage"));
 				if(typeMap.containsKey("state"))
-					meta = Integer.parseInt(typeMap.get("meta"));
+					meta = Integer.parseInt(typeMap.get("state"));
 
 				IBlockState block = Blocks.AIR.getDefaultState();
 				String blockID = typeMap.get("ID");

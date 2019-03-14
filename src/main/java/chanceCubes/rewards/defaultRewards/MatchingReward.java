@@ -73,7 +73,7 @@ public class MatchingReward extends BaseCustomReward
 
 	public void match(World world, BlockPos pos, EntityPlayer player, int[] metas, RewardBlockCache cache)
 	{
-		player.sendMessage(new TextComponentString("Now break the matching blocks (in pairs)! You have 45 seconds!"));
+		player.sendMessage(new TextComponentString("Now break the matching blocks (in pairs with white last)! You have 45 seconds!"));
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)
 		{
 			boolean[] checked = new boolean[9];
@@ -105,6 +105,7 @@ public class MatchingReward extends BaseCustomReward
 					if(world.isAirBlock(pos.add(x, -1, z)) && !checked[i])
 					{
 						checked[i] = true;
+						world.setBlockState(pos.add(x, -1, z), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, metas[i]));
 						if(lastBroken != -1)
 						{
 							if(metas[i] == metas[lastBroken])
