@@ -150,13 +150,9 @@ public class CCubesServerCommands extends CommandBase
 			if(args.length > 1)
 			{
 				if(ChanceCubeRegistry.INSTANCE.disableReward(args[1]))
-				{
 					sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
-				}
 				else
-				{
 					sender.sendMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
-				}
 			}
 			else
 			{
@@ -168,13 +164,9 @@ public class CCubesServerCommands extends CommandBase
 			if(args.length > 1)
 			{
 				if(ChanceCubeRegistry.INSTANCE.enableReward(args[1]))
-				{
 					sender.sendMessage(new TextComponentString(args[1] + " Has been enabled."));
-				}
 				else
-				{
 					sender.sendMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
-				}
 			}
 			else
 			{

@@ -14,13 +14,10 @@ import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class CountDownReward extends BaseCustomReward
@@ -99,10 +96,7 @@ public class CountDownReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true).setColor(TextFormatting.RED);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.TITLE, message, 0, 20, 0));
+				this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 		});
 	}

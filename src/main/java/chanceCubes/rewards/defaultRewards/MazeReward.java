@@ -10,7 +10,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -51,10 +50,8 @@ public class MazeReward extends BaseCustomReward
 					return;
 				}
 
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+				if(this.delayLeft % 20 == 0)
+					this.showTimeLeft(player, Type.ACTIONBAR);
 
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
 				{

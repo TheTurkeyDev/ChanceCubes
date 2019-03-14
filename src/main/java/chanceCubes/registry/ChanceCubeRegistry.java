@@ -81,6 +81,7 @@ import chanceCubes.rewards.type.SchematicRewardType;
 import chanceCubes.rewards.type.SoundRewardType;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardData;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -701,12 +702,38 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				RewardsUtil.sendMessageToNearPlayers(world, pos, 25, "" + newPos.getX() + ", " + newPos.getY() + ", " + newPos.getZ());
 			}
 		});
+		
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Troll_Hole", -20)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			{
+				final BlockPos worldPos = new BlockPos(Math.floor(player.posX), Math.floor(player.posY) - 1, Math.floor(player.posZ));
+				final RewardBlockCache cache = new RewardBlockCache(world, worldPos, new BlockPos(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
+
+				for(int y = 0; y > -75; y--)
+					for(int x = -2; x < 3; x++)
+						for(int z = -2; z < 3; z++)
+							cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+
+				Scheduler.scheduleTask(new Task("TrollHole", 35)
+				{
+					@Override
+					public void callback()
+					{
+						cache.restoreBlocks(player);
+						player.motionY = 0;
+						player.fallDistance = 0;
+					}
+
+				});
+			}
+		});
 
 		INSTANCE.registerReward(new AnvilRain());
 		INSTANCE.registerReward(new HerobrineReward());
 		INSTANCE.registerReward(new SurroundedReward());
 		INSTANCE.registerReward(new CreeperSurroundedReward());
-		INSTANCE.registerReward(new TrollHoleReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
 		INSTANCE.registerReward(new WaitForItReward());

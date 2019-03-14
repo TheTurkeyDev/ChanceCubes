@@ -14,7 +14,6 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -37,7 +36,7 @@ public class QuestionsReward extends BaseCustomReward
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
 		this.addQuestionAnswer("What company developes Java?", "Sun -or- Sun Microsystems -or- Oracle");
 		this.addQuestionAnswer("Who created Minecraft?", "Notch");
-		//this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
+		// this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
 	}
 
 	public void addQuestionAnswer(String q, String a)
@@ -75,10 +74,8 @@ public class QuestionsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+				if(this.delayLeft % 20 == 0)
+					this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 
 		});

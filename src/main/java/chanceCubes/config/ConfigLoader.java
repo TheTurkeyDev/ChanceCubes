@@ -52,9 +52,8 @@ public class ConfigLoader
 
 		int defaultGen = 100;
 		if(config.hasKey(genCat, "surfaceGenAmount"))
-		{
 			defaultGen = 100 / config.getInt("surfaceGenAmount", genCat, 1, 0, 100, "Percentage chance of a chunk to have a chance cube spawned on the surface. (OLD! REMOVE THIS CONFIG OPTION!)");
-		}
+		
 		CCubesSettings.surfaceGenAmount = config.getInt("surfaceGenerationAmount", genCat, defaultGen, 0, Integer.MAX_VALUE, "Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.");
 
 		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes shold not generate in");

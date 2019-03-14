@@ -10,11 +10,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class MatchingReward extends BaseCustomReward
@@ -63,10 +61,7 @@ public class MatchingReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true).setColor(TextFormatting.RED);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+				this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 		});
 	}
@@ -92,10 +87,8 @@ public class MatchingReward extends BaseCustomReward
 
 				if(this.delayLeft % 20 == 0)
 				{
-					int time = this.delayLeft / 20;
-					TextComponentString message = new TextComponentString(String.valueOf(time));
-					message.getStyle().setBold(true).setColor(TextFormatting.RED);
-					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+					if(this.delayLeft % 20 == 0)
+						this.showTimeLeft(player, Type.ACTIONBAR);
 				}
 
 				for(int i = 0; i < metas.length; i++)
