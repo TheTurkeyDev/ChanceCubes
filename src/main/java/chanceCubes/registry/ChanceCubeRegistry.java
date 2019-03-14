@@ -54,7 +54,6 @@ import chanceCubes.rewards.defaultRewards.SkyblockReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
 import chanceCubes.rewards.defaultRewards.TicTacToeReward;
-import chanceCubes.rewards.defaultRewards.TrollHoleReward;
 import chanceCubes.rewards.defaultRewards.TrollTNTReward;
 import chanceCubes.rewards.defaultRewards.WaitForItReward;
 import chanceCubes.rewards.defaultRewards.WitherReward;
