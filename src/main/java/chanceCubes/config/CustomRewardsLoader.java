@@ -311,7 +311,7 @@ public class CustomRewardsLoader extends BaseLoader
 			if(nbt == null)
 				continue;
 
-			//TODO: Make dynamic?
+			// TODO: Make dynamic?
 			ItemPart stack = new ItemPart(nbt);
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
@@ -333,7 +333,7 @@ public class CustomRewardsLoader extends BaseLoader
 			IntVar x = this.getInt(element, "xOffSet", 0);
 			IntVar y = this.getInt(element, "yOffSet", 0);
 			IntVar z = this.getInt(element, "zOffSet", 0);
-			//TODO: Change to Block instead of String
+			// TODO: Change to Block instead of String
 			String[] blockDataParts = this.getString(element, "block", "minecraft:dirt").getValue().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
@@ -436,7 +436,7 @@ public class CustomRewardsLoader extends BaseLoader
 			ExpirencePart exppart = new ExpirencePart(this.getInt(element, "experienceAmount", 1));
 
 			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
-			exppart.setNumberofOrbs(this.getInt(element, "numberOfOrbs", exppart.getDelay()));
+			exppart.setNumberofOrbs(this.getInt(element, "numberOfOrbs", 1));
 
 			exp.add(exppart);
 		}
@@ -450,7 +450,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart potPart = new PotionPart(this.getString(element, "potionid", "0"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			PotionPart potPart = new PotionPart(this.getString(element, "potionid", "speed"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			potPart.setDelay(this.getInt(element, "delay", potPart.getDelay()));
 
@@ -466,7 +466,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			//TODO: Handle sounds
+			// TODO: Handle sounds
 			SoundPart sound = new SoundPart(CCubesSounds.registerSound(this.getString(element, "sound", "").getValue()));
 
 			sound.setDelay(this.getInt(element, "delay", sound.getDelay()));
@@ -488,20 +488,12 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement element : rawReward)
 		{
 			JsonObject obj = element.getAsJsonObject();
-			if(obj.has("item") && obj.has("chance"))
-			{
-				IntVar meta = this.getInt(obj, "meta", 0);
-				IntVar amountMin = this.getInt(obj, "amountMin", 1);
-				IntVar amountMax = this.getInt(obj, "amountMax", 8);
-				IntVar chance = this.getInt(obj, "chance", 50);
+			IntVar meta = this.getInt(obj, "meta", 0);
+			IntVar amount = this.getInt(obj, "amount", 1);
+			IntVar chance = this.getInt(obj, "chance", 50);
 
-				//TODO: Handle items
-				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amountMin, amountMax));
-			}
-			else
-			{
-				CCubesCore.logger.log(Level.ERROR, "A chest reward part for the reward \"" + this.currentParsingReward + "\" failed to load do to missing params");
-			}
+			// TODO: Handle items
+			items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amount));
 
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
@@ -532,7 +524,7 @@ public class CustomRewardsLoader extends BaseLoader
 			String fileName = element.get("fileName").getAsString();
 			this.fixOldJsonKeys(element);
 
-			//TODO: Make this support IntVar?
+			// TODO: Make this support IntVar?
 			int xoff = this.getInt(element, "xOffSet", 0).getIntValue();
 			int yoff = this.getInt(element, "yOffSet", 0).getIntValue();
 			int zoff = this.getInt(element, "zOffSet", 0).getIntValue();
@@ -561,7 +553,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			EffectPart effectPart = new EffectPart(this.getString(element, "potionID", "1"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			EffectPart effectPart = new EffectPart(this.getString(element, "potionID", "speed"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			effectPart.setDelay(this.getInt(element, "radius", 1));
 
@@ -579,13 +571,14 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			TitlePart titlePart = new TitlePart(this.getString(element, "type", "TITLE"), this.getString(element, "message", "{}").getValue());
+			JsonElement message = element.get("message");
+			TitlePart titlePart = new TitlePart(this.getString(element, "type", "TITLE"), message == null ? new JsonObject() : message.getAsJsonObject());
 
 			titlePart.setFadeInTime(this.getInt(element, "fadeInTime", 0));
 			titlePart.setDisplayTime(this.getInt(element, "displayTime", 0));
 			titlePart.setFadeOutTime(this.getInt(element, "fadeOutTime", 0));
 			titlePart.setServerWide(this.getBoolean(element, "isServerWide", false));
-			titlePart.setRange(this.getInt(element, "range", 0));
+			titlePart.setRange(this.getInt(element, "range", 16));
 
 			titlePart.setDelay(this.getInt(element, "delay", titlePart.getDelay()));
 
@@ -658,9 +651,18 @@ public class CustomRewardsLoader extends BaseLoader
 	{
 		String in = "";
 		if(json.has(key))
-			in = json.get(key).getAsString();
-
-		in = this.removedKeyQuotes(in);
+		{
+			JsonElement value = json.get(key);
+			if(value.isJsonPrimitive())
+			{
+				in = value.getAsString();
+				in = this.removedKeyQuotes(in);
+			}
+			else
+			{
+				in = json.getAsJsonObject(key).toString();
+			}
+		}
 
 		return this.getNBT(in);
 	}

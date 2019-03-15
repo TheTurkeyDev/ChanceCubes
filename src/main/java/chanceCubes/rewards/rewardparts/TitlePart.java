@@ -1,5 +1,7 @@
 package chanceCubes.rewards.rewardparts;
 
+import com.google.gson.JsonObject;
+
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
@@ -27,6 +29,11 @@ public class TitlePart extends BasePart
 		this(new StringVar(type), message, new IntVar(0));
 	}
 
+	public TitlePart(StringVar type, JsonObject message)
+	{
+		this(type,  ITextComponent.Serializer.jsonToComponent(message.toString()), new IntVar(0));
+	}
+	
 	public TitlePart(StringVar type, String message)
 	{
 		this(type, ITextComponent.Serializer.jsonToComponent(message), new IntVar(0));
