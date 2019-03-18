@@ -1,4 +1,4 @@
-package chanceCubes.rewards.type;
+package chanceCubes.rewards.rewardtype;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityXPOrb;

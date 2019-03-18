@@ -1,4 +1,4 @@
-package chanceCubes.rewards.type;
+package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;

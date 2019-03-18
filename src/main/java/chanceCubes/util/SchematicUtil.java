@@ -165,7 +165,7 @@ public class SchematicUtil
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
-	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
 		NBTTagCompound nbtdata;
@@ -179,10 +179,10 @@ public class SchematicUtil
 			e.printStackTrace();
 			return null;
 		}
-		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 	}
 
-	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
@@ -214,6 +214,7 @@ public class SchematicUtil
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(relativeToPlayer);
 						block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i]));
+						block.setPlaysSound(playSound);
 						offsetBlocks.add(block);
 					}
 					i++;
@@ -239,6 +240,7 @@ public class SchematicUtil
 					OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
 					block.setRelativeToPlayer(relativeToPlayer);
 					block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
+					block.setPlaysSound(playSound);
 					offsetBlocks.add(block);
 				}
 			}
@@ -247,18 +249,18 @@ public class SchematicUtil
 		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
 	}
 
-	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
-		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 	}
 
-	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, int delay)
+	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, float spacingDelay, boolean falling, boolean relativeToPlayer, boolean includeAirBlocks, boolean playSound, int delay)
 	{
-		return loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, new FloatVar(spacingDelay), new BoolVar(falling), new BoolVar(relativeToPlayer), new BoolVar(includeAirBlocks), new IntVar(delay));
+		return loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, new FloatVar(spacingDelay), new BoolVar(falling), new BoolVar(relativeToPlayer), new BoolVar(includeAirBlocks), new BoolVar(playSound), new IntVar(delay));
 	}
 
-	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, IntVar delay)
+	public static CustomSchematic loadCustomSchematic(JsonElement elem, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		if(elem == null)
 			return null;
@@ -311,6 +313,7 @@ public class SchematicUtil
 					// TODO: Find better way?
 					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
+					osb.setPlaysSound(playSound);
 					offsetBlocks.add(osb);
 					index++;
 				}

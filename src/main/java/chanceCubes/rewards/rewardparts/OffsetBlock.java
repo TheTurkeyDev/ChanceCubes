@@ -25,21 +25,20 @@ public class OffsetBlock extends BasePart
 	protected IBlockState state = null;
 
 	protected BoolVar falling;
-
 	protected BoolVar causeUpdate = new BoolVar(false);
-
 	private BoolVar removeUnbreakableBlocks = new BoolVar(false);
+	protected BoolVar playSound = new BoolVar(true);
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
 		this(x, y, z, b.getDefaultState(), falling);
 	}
-	
+
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling)
 	{
 		this(x, y, z, b, falling, new IntVar(0));
 	}
-	
+
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling, IntVar delay)
 	{
 		this(new IntVar(x), new IntVar(y), new IntVar(z), b.getDefaultState(), falling, delay);
@@ -160,6 +159,7 @@ public class OffsetBlock extends BasePart
 	{
 		return this.falling.getBoolValue();
 	}
+
 	public BoolVar isFallingVar()
 	{
 		return this.falling;
@@ -190,6 +190,16 @@ public class OffsetBlock extends BasePart
 		return this.removeUnbreakableBlocks.getBoolValue();
 	}
 
+	public void setPlaysSound(BoolVar playSound)
+	{
+		this.playSound = playSound;
+	}
+
+	public boolean doesPlaySound()
+	{
+		return this.playSound.getBoolValue();
+	}
+
 	public BlockPos placeInWorld(World world, int x, int y, int z, boolean offset)
 	{
 		int xx = x;
@@ -203,10 +213,13 @@ public class OffsetBlock extends BasePart
 		}
 		BlockPos placePos = new BlockPos(xx, yy, zz);
 		RewardsUtil.placeBlock(state, world, placePos, causeUpdate.getBoolValue() ? 3 : 2, this.removeUnbreakableBlocks.getBoolValue());
-		BlockPos surfacefPos = placePos.add(0, -1, 0);
-		Block bSurface = world.getBlockState(surfacefPos).getBlock();
-		SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
-		world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
+		if(this.playSound.getBoolValue())
+		{
+			BlockPos surfacefPos = placePos.add(0, -1, 0);
+			Block bSurface = world.getBlockState(surfacefPos).getBlock();
+			SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
+			world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
+		}
 		return placePos;
 	}
 

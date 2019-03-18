@@ -35,20 +35,20 @@ import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.rewardparts.TitlePart;
-import chanceCubes.rewards.type.BlockRewardType;
-import chanceCubes.rewards.type.ChestRewardType;
-import chanceCubes.rewards.type.CommandRewardType;
-import chanceCubes.rewards.type.EffectRewardType;
-import chanceCubes.rewards.type.EntityRewardType;
-import chanceCubes.rewards.type.ExperienceRewardType;
-import chanceCubes.rewards.type.IRewardType;
-import chanceCubes.rewards.type.ItemRewardType;
-import chanceCubes.rewards.type.MessageRewardType;
-import chanceCubes.rewards.type.ParticleEffectRewardType;
-import chanceCubes.rewards.type.PotionRewardType;
-import chanceCubes.rewards.type.SchematicRewardType;
-import chanceCubes.rewards.type.SoundRewardType;
-import chanceCubes.rewards.type.TitleRewardType;
+import chanceCubes.rewards.rewardtype.BlockRewardType;
+import chanceCubes.rewards.rewardtype.ChestRewardType;
+import chanceCubes.rewards.rewardtype.CommandRewardType;
+import chanceCubes.rewards.rewardtype.EffectRewardType;
+import chanceCubes.rewards.rewardtype.EntityRewardType;
+import chanceCubes.rewards.rewardtype.ExperienceRewardType;
+import chanceCubes.rewards.rewardtype.IRewardType;
+import chanceCubes.rewards.rewardtype.ItemRewardType;
+import chanceCubes.rewards.rewardtype.MessageRewardType;
+import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
+import chanceCubes.rewards.rewardtype.PotionRewardType;
+import chanceCubes.rewards.rewardtype.SchematicRewardType;
+import chanceCubes.rewards.rewardtype.SoundRewardType;
+import chanceCubes.rewards.rewardtype.TitleRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -345,6 +345,7 @@ public class CustomRewardsLoader extends BaseLoader
 			offBlock.setDelay(this.getInt(element, "delay", offBlock.getDelay()));
 			offBlock.setRelativeToPlayer(this.getBoolean(element, "relativeToPlayer", offBlock.isRelativeToPlayer()));
 			offBlock.setRemoveUnbreakableBlocks(this.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
+			offBlock.setPlaysSound(this.getBoolean(element, "playSound", offBlock.doesPlaySound()));
 
 			if(blockDataParts.length > 2)
 				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
@@ -532,13 +533,14 @@ public class CustomRewardsLoader extends BaseLoader
 			BoolVar falling = this.getBoolean(element, "falling", true);
 			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
 			BoolVar includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
+			BoolVar playSound = this.getBoolean(element, "playSound", true);
 			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0.1f);
 
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
-				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 			else if(fileName.endsWith(".schematic"))
-				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
 			else

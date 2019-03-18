@@ -1,4 +1,4 @@
-package chanceCubes.rewards.type;
+package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.util.Scheduler;
