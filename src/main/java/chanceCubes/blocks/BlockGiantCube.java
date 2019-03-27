@@ -22,7 +22,7 @@ public class BlockGiantCube extends BaseChanceBlock
 {
 	public BlockGiantCube()
 	{
-		super(getBuilder(), "giant_Chance_Cube");
+		super(getBuilder(), "giant_chance_cube");
 		//this.setCreativeTab(null);
 	}
 

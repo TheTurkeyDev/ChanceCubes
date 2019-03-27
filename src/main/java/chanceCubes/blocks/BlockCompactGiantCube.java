@@ -18,7 +18,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 
 	public BlockCompactGiantCube()
 	{
-		super(getBuilder(), "compact_Giant_Chance_Cube");
+		super(getBuilder(), "compact_giant_chance_cube");
 	}
 
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)

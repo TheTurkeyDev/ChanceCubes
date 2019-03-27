@@ -10,9 +10,12 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
- * Handles modifications to {@link CCubesSettings#nonReplaceableBlocks} after blocks have been added by IMC messages.
+ * Handles modifications to {@link CCubesSettings#nonReplaceableBlocks} after blocks have been added
+ * by IMC messages.
  */
 public class NonreplaceableBlockOverride
 {
@@ -26,7 +29,8 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Parses compatible strings into a {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
+	 * Parses compatible strings into a {@link java.util.List} of {@link NonreplaceableBlockOverride
+	 * NonreplaceableBlockOverrides}.
 	 * 
 	 * @param strings
 	 *            An array of {@link java.lang.String Strings} to attempt to parse.
@@ -84,7 +88,8 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#REMOVE REMOVE} {@link OverrideType} from the given Block ID.
+	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#REMOVE REMOVE}
+	 * {@link OverrideType} from the given Block ID.
 	 * 
 	 * @param substring
 	 *            The Block ID.
@@ -93,33 +98,33 @@ public class NonreplaceableBlockOverride
 	private static NonreplaceableBlockOverride removeBlock(String substring)
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
-		if(substring.matches(".*:.*:[0-9]*"))
-		{
-			output.overrideType = OverrideType.REMOVE;
-			String block;
-			String damage;
-			int damageValue;
-			IBlockState blockState;
-			block = substring.substring(0, substring.lastIndexOf(':') - 1);
-			damage = substring.substring(substring.lastIndexOf(':') + 1);
-			damageValue = Integer.parseInt(damage);
-			Block blockActual = Block.getBlockFromName(block);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
-			output.overriddenBlock = blockState;
-		}
-		else
-		{
-			output.overrideType = OverrideType.REMOVE;
-			IBlockState blockState;
-			Block blockActual = Block.getBlockFromName(substring);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
-			output.overriddenBlock = blockState;
-		}
+
+		output.overrideType = OverrideType.REMOVE;
+		Block blockActual = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring));
+		output.overriddenBlock = blockActual.getDefaultState();
+
+		//		if(substring.matches(".*:.*:[0-9]*"))
+		//		{
+		//			output.overrideType = OverrideType.REMOVE;
+		//			String block;
+		//			String damage;
+		//			block = substring.substring(0, substring.lastIndexOf(':') - 1);
+		//			damage = substring.substring(substring.lastIndexOf(':') + 1);
+		//			Block blockActual = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(block));
+		//			output.overriddenBlock = blockActual.getDefaultState();
+		//		}
+		//		else
+		//		{
+		//			output.overrideType = OverrideType.REMOVE;
+		//			Block blockActual = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring));
+		//			output.overriddenBlock = blockActual.getDefaultState();
+		//		}
 		return output;
 	}
 
 	/**
-	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#ADD ADD} {@link OverrideType} from the given Block ID.
+	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#ADD ADD}
+	 * {@link OverrideType} from the given Block ID.
 	 * 
 	 * @param substring
 	 *            The Block ID.
@@ -128,36 +133,41 @@ public class NonreplaceableBlockOverride
 	private static NonreplaceableBlockOverride addBlock(String substring)
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
-		if(substring.matches(".*:.*:[0-9]*"))
-		{
-			output.overrideType = OverrideType.ADD;
-			String block;
-			String damage;
-			int damageValue;
-			IBlockState blockState;
-			block = substring.substring(0, substring.lastIndexOf(':'));
-			damage = substring.substring(substring.lastIndexOf(':') + 1);
-			damageValue = Integer.parseInt(damage);
-			Block blockActual = Block.getBlockFromName(block);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
-			output.overriddenBlock = blockState;
-		}
-		else
-		{
-			output.overrideType = OverrideType.ADD;
-			IBlockState blockState;
-			Block blockActual = Block.getBlockFromName(substring);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
-			output.overriddenBlock = blockState;
-		}
+		output.overrideType = OverrideType.ADD;
+		Block blockActual = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring));
+		output.overriddenBlock = blockActual.getDefaultState();
+//		if(substring.matches(".*:.*:[0-9]*"))
+//		{
+//			output.overrideType = OverrideType.ADD;
+//			String block;
+//			String damage;
+//			int damageValue;
+//			IBlockState blockState;
+//			block = substring.substring(0, substring.lastIndexOf(':'));
+//			damage = substring.substring(substring.lastIndexOf(':') + 1);
+//			damageValue = Integer.parseInt(damage);
+//			Block blockActual = Block.getBlockFromName(block);
+//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
+//			output.overriddenBlock = blockState;
+//		}
+//		else
+//		{
+//			output.overrideType = OverrideType.ADD;
+//			IBlockState blockState;
+//			Block blockActual = Block.getBlockFromName(substring);
+//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
+//			output.overriddenBlock = blockState;
+//		}
 		return output;
 	}
 
 	/**
-	 * Produces an array of {@link java.lang.String Strings} from a {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
+	 * Produces an array of {@link java.lang.String Strings} from a {@link java.util.List} of
+	 * {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
 	 * 
 	 * @param overrides
-	 *            The {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
+	 *            The {@link java.util.List} of {@link NonreplaceableBlockOverride
+	 *            NonreplaceableBlockOverrides}.
 	 * @return The {@link java.lang.String String} array produced.
 	 */
 	public static String[] parseOverrides(List<NonreplaceableBlockOverride> overrides)
@@ -176,7 +186,8 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Produces a{@link java.lang.String} from a {@link NonreplaceableBlockOverride NonreplaceableBlockOverride}.
+	 * Produces a{@link java.lang.String} from a {@link NonreplaceableBlockOverride
+	 * NonreplaceableBlockOverride}.
 	 * 
 	 * @param override
 	 *            The {@link NonreplaceableBlockOverride NonreplaceableBlockOverride}.
@@ -204,7 +215,9 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Reloads config file and rebuilds {@link CCubesSettings#nonReplaceableBlocks} from {@link CCubesSettings#nonReplaceableBlocksIMC} and {@link CCubesSettings#nonReplaceableBlocksOverrides}.
+	 * Reloads config file and rebuilds {@link CCubesSettings#nonReplaceableBlocks} from
+	 * {@link CCubesSettings#nonReplaceableBlocksIMC} and
+	 * {@link CCubesSettings#nonReplaceableBlocksOverrides}.
 	 */
 	public static void loadOverrides()
 	{
@@ -257,7 +270,8 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Purges {@link CCubesSettings#nonReplaceableBlocks} of blocks that are no longer added by {@link CCubesSettings#nonReplaceableBlocksOverrides}.
+	 * Purges {@link CCubesSettings#nonReplaceableBlocks} of blocks that are no longer added by
+	 * {@link CCubesSettings#nonReplaceableBlocksOverrides}.
 	 */
 	private static void purgeOverrides()
 	{
@@ -274,7 +288,8 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Determines if a {@link net.minecraft.block.state.IBlockState} is still present in the {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
+	 * Determines if a {@link net.minecraft.block.state.IBlockState} is still present in the
+	 * {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
 	 * 
 	 * @param toDetect
 	 *            The {@link net.minecraft.block.state.IBlockState} to check for.

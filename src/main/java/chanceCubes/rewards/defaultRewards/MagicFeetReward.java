@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -37,8 +36,8 @@ public class MagicFeetReward implements IChanceCubeReward
 				BlockPos beneth = player.getPosition().add(0, -1, 0);
 				if(!world.isAirBlock(beneth) && world.getTileEntity(beneth) == null && !last.equals(beneth))
 				{
-					CustomEntry<Block, Integer> block = RewardsUtil.getRandomOre();
-					RewardsUtil.placeBlock(RewardsUtil.getBlockStateFromBlockMeta(block.getKey(), block.getValue()), world, beneth);
+					Block block = RewardsUtil.getRandomOre();
+					RewardsUtil.placeBlock(block.getDefaultState(), world, beneth);
 					last = beneth;
 				}
 

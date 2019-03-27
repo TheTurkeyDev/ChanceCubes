@@ -7,6 +7,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -20,7 +21,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 {
@@ -36,7 +36,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 		player.setActiveHand(hand);
 		ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking() && world.isRemote && player.isCreative())
-			FMLCommonHandler.instance().showGuiScreen(new RewardSelectorPendantGui(player, stack));
+			Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 

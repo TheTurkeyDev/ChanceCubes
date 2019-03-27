@@ -2,13 +2,11 @@ package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -18,10 +16,7 @@ public class FireworkShowReward implements IChanceCubeReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-		MinecraftServer server = world.getServer();
-		server.getCommandManager().handleCommand(sender, "/time set 15000");
-		stage1(world, pos, player);
+		RewardsUtil.executeCommand(world, player, "/time set 15000");
 	}
 
 	public void stage1(World world, BlockPos pos, EntityPlayer player)

@@ -6,7 +6,6 @@ import java.util.List;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,9 +30,9 @@ public class OrePillarReward implements IChanceCubeReward
 			int zz = RewardsUtil.rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
-				CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
-				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore.getKey(), false, delay / 3);
-				osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
+				Block ore = RewardsUtil.getRandomOre();
+				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore, false, delay / 3);
+				osb.setBlockState(ore.getDefaultState());
 				blocks.add(osb);
 				delay++;
 			}

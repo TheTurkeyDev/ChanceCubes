@@ -6,7 +6,6 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.BlockButton;
-import net.minecraft.block.BlockButtonStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -27,18 +25,18 @@ public class MontyHallReward implements IChanceCubeReward
 	{
 		player.sendMessage(new TextComponentString("Which button do you press?"));
 
-		world.setBlockToAir(pos.add(-1, 0, 0));
-		world.setBlockToAir(pos.add(0, 0, 0));
-		world.setBlockToAir(pos.add(1, 0, 0));
-		world.setBlockToAir(pos.add(-1, 0, 1));
-		world.setBlockToAir(pos.add(0, 0, 1));
-		world.setBlockToAir(pos.add(1, 0, 1));
+		world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
+		world.setBlockState(pos.add(0, 0, 0), Blocks.AIR.getDefaultState());
+		world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
+		world.setBlockState(pos.add(-1, 0, 1), Blocks.AIR.getDefaultState());
+		world.setBlockState(pos.add(0, 0, 1), Blocks.AIR.getDefaultState());
+		world.setBlockState(pos.add(1, 0, 1), Blocks.AIR.getDefaultState());
 		world.setBlockState(pos.add(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		world.setBlockState(pos.add(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		world.setBlockState(pos.add(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		world.setBlockState(pos.add(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		world.setBlockState(pos.add(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
+		world.setBlockState(pos.add(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		world.setBlockState(pos.add(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		world.setBlockState(pos.add(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
@@ -47,27 +45,27 @@ public class MontyHallReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos.add(-1, 0, 1));
-				world.setBlockToAir(pos.add(0, 0, 1));
-				world.setBlockToAir(pos.add(1, 0, 1));
-				world.setBlockToAir(pos.add(-1, 0, 0));
-				world.setBlockToAir(pos.add(0, 0, 0));
-				world.setBlockToAir(pos.add(1, 0, 0));
+				world.setBlockState(pos.add(-1, 0, 1), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(0, 0, 1), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(1, 0, 1), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(0, 0, 0), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
 			}
 
 			@Override
 			public void update()
 			{
 				IBlockState state = world.getBlockState(pos.add(-1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getProperties().contains(BlockButton.POWERED) && state.get(BlockButton.POWERED).booleanValue())
 					giveReward(chance[0]);
 
 				state = world.getBlockState(pos.add(0, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getProperties().contains(BlockButton.POWERED) && state.get(BlockButton.POWERED).booleanValue())
 					giveReward(chance[1]);
 
 				state = world.getBlockState(pos.add(1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getProperties().contains(BlockButton.POWERED) && state.get(BlockButton.POWERED).booleanValue())
 					giveReward(chance[2]);
 			}
 

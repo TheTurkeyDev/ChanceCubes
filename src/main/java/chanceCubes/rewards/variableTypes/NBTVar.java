@@ -1,8 +1,9 @@
 package chanceCubes.rewards.variableTypes;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import chanceCubes.rewards.variableParts.StringPart;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class NBTVar extends CustomVar
@@ -33,7 +34,7 @@ public class NBTVar extends CustomVar
 		try
 		{
 			nbt = JsonToNBT.getTagFromJson(val);
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			e.printStackTrace();
 		}

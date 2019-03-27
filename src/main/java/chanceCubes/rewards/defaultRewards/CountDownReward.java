@@ -81,7 +81,7 @@ public class CountDownReward implements IChanceCubeReward
 				}
 				else if(thing == 8)
 				{
-					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+					PotionType potionType = RewardsUtil.getRandomPotionType();
 					EntityPotion pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.motionY = -1;

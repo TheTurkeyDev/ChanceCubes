@@ -24,8 +24,8 @@ public class ItemPart extends BasePart
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString("id", stack.getItem().getRegistryName().toString());
 		nbt.setByte("Count", (byte) stack.getCount());
-		nbt.setShort("Damage", (short) stack.getItemDamage());
-		nbt.setTag("tag", stack.getTagCompound());
+		nbt.setShort("Damage", (short) stack.getDamage());
+		nbt.setTag("tag", stack.getTag());
 		this.itemNBT = new NBTVar(nbt);
 		this.setDelay(delay);
 	}
@@ -48,6 +48,6 @@ public class ItemPart extends BasePart
 
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(this.itemNBT.getNBTValue());
+		return ItemStack.read(this.itemNBT.getNBTValue());
 	}
 }

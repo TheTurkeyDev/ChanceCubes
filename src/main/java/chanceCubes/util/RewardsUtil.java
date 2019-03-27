@@ -15,6 +15,7 @@ import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandSource;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -40,6 +41,8 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class RewardsUtil
 {
@@ -239,39 +242,53 @@ public class RewardsUtil
 		return world.getBlockState(pos).getBlockHardness(world, pos) == -1;
 	}
 
-	public static Block getRandomBlock()
-	{
-		Collection<Block> blocks = ForgeRegistries.BLOCKS.getValues();
-		Block b = blocks.stream().skip(rand.nextInt(blocks.size())).findFirst().orElse(null);
-		int iteration = 0;
-		while(b == null)
-		{
-			iteration++;
-			if(iteration > 100)
-				return Blocks.COBBLESTONE;
-			b = blocks.stream().skip(rand.nextInt(blocks.size())).findFirst().orElse(null);
-		}
-		return b;
-	}
-
 	public static Block getRandomOre()
 	{
 		return BlockTags.getCollection().get(new ResourceLocation("forge", RewardsUtil.getRandomOreDict())).getRandomElement(RewardsUtil.rand);
 	}
 
+	public static Block getRandomBlock()
+	{
+		return randomRegistryEntry(ForgeRegistries.BLOCKS, Blocks.COBBLESTONE);
+	}
+
 	public static Item getRandomItem()
 	{
-		Collection<Item> items = ForgeRegistries.ITEMS.getValues();
-		Item i = items.stream().skip(rand.nextInt(items.size())).findFirst().orElse(null);
+		return randomRegistryEntry(ForgeRegistries.ITEMS, Items.APPLE);
+	}
+
+	public static Enchantment randomEnchantment()
+	{
+		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Enchantment.getEnchantmentByID(0));
+	}
+
+	public static PotionEffect getRandomPotionEffect()
+	{
+		Potion pot = randomRegistryEntry(ForgeRegistries.POTIONS, Potion.getPotionById(0));
+		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
+		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
+
+		return new PotionEffect(pot, duration, amplifier);
+	}
+
+	public static PotionType getRandomPotionType()
+	{
+		return randomRegistryEntry(ForgeRegistries.POTION_TYPES, PotionTypes.EMPTY);
+	}
+
+	public static <T extends IForgeRegistryEntry<T>> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
+	{
+		Collection<T> entries = registry.getValues();
+		T entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
 		int iteration = 0;
-		while(i == null)
+		while(entry == null)
 		{
 			iteration++;
 			if(iteration > 100)
-				return Items.APPLE;
-			i = items.stream().skip(rand.nextInt(items.size())).findFirst().orElse(null);
+				return defaultReturn;
+			entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
 		}
-		return i;
+		return entry;
 	}
 
 	public static ItemStack getRandomFirework()
@@ -324,43 +341,16 @@ public class RewardsUtil
 		return f;
 	}
 
-	public static PotionEffect getRandomPotionEffect()
-	{
-		Collection<Potion> pots = ForgeRegistries.POTIONS.getValues();
-		Potion potion = null;
-		int tries = 0;
-		do
-		{
-			if(tries > 10)
-				return new PotionEffect(MobEffects.WITHER, 5, 1);
-			potion = pots.stream().skip(rand.nextInt(pots.size())).findFirst().orElse(null);
-			tries++;
-		} while(potion == null);
-		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
-		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
-
-		return new PotionEffect(potion, duration, amplifier);
-	}
-
-	public static PotionType getRandomPotionType()
-	{
-		Collection<PotionType> types = ForgeRegistries.POTION_TYPES.getValues();
-		PotionType type = null;
-		int tries = 0;
-		do
-		{
-			if(tries > 10)
-				return PotionTypes.EMPTY;
-			type = types.stream().skip(rand.nextInt(types.size())).findFirst().orElse(null);
-			tries++;
-		} while(type == null);
-
-		return type;
-	}
-
 	public static int getRandomColor()
 	{
 		return (new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))).getRGB();
+	}
+
+	private static final Block[] wools = { Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIME_WOOL, Blocks.PINK_WOOL, Blocks.GRAY_WOOL, Blocks.LIGHT_GRAY_WOOL, Blocks.CYAN_WOOL, Blocks.PURPLE_WOOL, Blocks.BLUE_WOOL, Blocks.BROWN_WOOL, Blocks.GREEN_WOOL, Blocks.RED_WOOL, Blocks.BLACK_WOOL };
+
+	public static IBlockState getRandomWool()
+	{
+		return wools[rand.nextInt(wools.length)].getDefaultState();
 	}
 
 	public static boolean isPlayerOnline(EntityPlayer player)

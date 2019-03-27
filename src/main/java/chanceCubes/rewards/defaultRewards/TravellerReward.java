@@ -22,7 +22,7 @@ public class TravellerReward implements IChanceCubeReward
 		int z = RewardsUtil.rand.nextInt(1000) + 200;
 
 		BlockPos newPos = pos.add(x, 0, z);
-		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.WEST), world, newPos);
+		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(BlockChest.FACING, EnumFacing.WEST), world, newPos);
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(newPos);
 		for(int i = 0; i < 10; i++)
 			chest.setInventorySlotContents(i, new ItemStack(RewardsUtil.getRandomItem()));

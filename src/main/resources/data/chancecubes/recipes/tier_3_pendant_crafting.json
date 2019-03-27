@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"GBG",
+		"BPB",
+		"GBG"
+	],
+	"key": {
+		"B": {
+			"item": "minecraft:lapis_block"
+		},
+		"P": {
+			"item": "chancecubes:chance_pendant_tier_2"
+		},
+		"G": {
+			"item": "minecraft:gold_block"
+		}
+	},
+	"result": {
+		"item": "chancecubes:chance_pendant_tier_3"
+	}
+}

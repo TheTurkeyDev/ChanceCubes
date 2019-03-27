@@ -2,14 +2,14 @@ package chanceCubes.network;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class CCubesPacketHandler
 {
 	private static int id = 0;
-	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CCubesCore.MODID, "packets")).clientAcceptedVersions(a -> true).serverAcceptedVersions(a -> true).networkProtocolVersion(() -> NetworkHooks.NETVERSION).simpleChannel();
+	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CCubesCore.MODID, "packets")).clientAcceptedVersions(a -> true).serverAcceptedVersions(a -> true).networkProtocolVersion(() -> FMLNetworkConstants.NETVERSION).simpleChannel();
 
 	public static void init()
 	{

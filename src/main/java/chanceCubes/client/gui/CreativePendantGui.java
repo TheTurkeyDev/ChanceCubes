@@ -37,13 +37,26 @@ public class CreativePendantGui extends GuiContainer
 	{
 		super.initGui();
 		this.buttons.clear();
-		this.addButton(new GuiButton(0, this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1", new Object[0])));
-		this.addButton(new GuiButton(1, this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1", new Object[0])));
-		this.addButton(new GuiButton(2, this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5", new Object[0])));
-		this.addButton(new GuiButton(3, this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5", new Object[0])));
-		this.addButton(new GuiButton(4, this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10", new Object[0])));
-		this.addButton(new GuiButton(5, this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10", new Object[0])));
-		this.addButton(new GuiButton(6, this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance", new Object[0])));
+		this.addButton(new CustomGuiButton(0, this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1", new Object[0])));
+		this.addButton(new CustomGuiButton(1, this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1", new Object[0])));
+		this.addButton(new CustomGuiButton(2, this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5", new Object[0])));
+		this.addButton(new CustomGuiButton(3, this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5", new Object[0])));
+		this.addButton(new CustomGuiButton(4, this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10", new Object[0])));
+		this.addButton(new CustomGuiButton(5, this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10", new Object[0])));
+		this.addButton(new CustomGuiButton(6, this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance", new Object[0])));
+	}
+
+	public class CustomGuiButton extends GuiButton
+	{
+		public CustomGuiButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText)
+		{
+			super(buttonId, x, y, widthIn, heightIn, buttonText);
+		}
+
+		public void onClick(double mouseX, double mouseY)
+		{
+			actionPerformed(this);
+		}
 	}
 
 	protected void actionPerformed(GuiButton button)
@@ -61,7 +74,7 @@ public class CreativePendantGui extends GuiContainer
 		else if(button.id == 5)
 			this.chanceValue += 10;
 		else if(button.id == 6 && container.getChanceCubesInPendant() != null)
-			CCubesPacketHandler.INSTANCE.sendToServer(new PacketCreativePendant(this.player.getCommandSenderEntity().getName(), this.chanceValue));
+			CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(this.player.getName().toString(), this.chanceValue));
 
 		if(this.chanceValue > 100)
 			this.chanceValue = 100;

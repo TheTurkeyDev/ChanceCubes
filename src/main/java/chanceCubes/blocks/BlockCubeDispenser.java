@@ -21,7 +21,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 
 	public BlockCubeDispenser()
 	{
-		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_Dispenser");
+		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_dispenser");
 		this.setDefaultState(this.stateContainer.getBaseState().with(DISPENSING, DispenseType.CHANCE_CUBE));
 		// this.setLightOpacity(0);
 	}

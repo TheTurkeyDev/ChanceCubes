@@ -4,6 +4,8 @@ import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class EffectPart extends BasePart
 {
@@ -54,7 +56,7 @@ public class EffectPart extends BasePart
 		if(IntVar.isInteger(val))
 			pot = Potion.getPotionById(Integer.parseInt(val));
 		else
-			pot = Potion.getPotionFromResourceLocation(val);
+			pot = ForgeRegistries.POTIONS.getValue(new ResourceLocation(val));
 		return new PotionEffect(pot, duration.getIntValue() * 20, amplifier.getIntValue());
 	}
 }

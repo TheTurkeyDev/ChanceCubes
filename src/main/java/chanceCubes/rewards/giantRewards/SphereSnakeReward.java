@@ -5,11 +5,9 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -19,8 +17,7 @@ public class SphereSnakeReward implements IChanceCubeReward
 	// @formatter:off
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
 			Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
-			Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))),
-			Blocks.BRICKS.getDefaultState(), Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
+			RewardsUtil.getRandomWool(), Blocks.BRICKS.getDefaultState(), Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 

@@ -30,7 +30,7 @@ public class BlockChanceCube extends BaseChanceBlock
 
 	public BlockChanceCube()
 	{
-		super(getBuilder().lightValue(2), "chance_Cube");
+		super(getBuilder().lightValue(2), "chance_cube");
 		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, textureToSet));
 	}
 	

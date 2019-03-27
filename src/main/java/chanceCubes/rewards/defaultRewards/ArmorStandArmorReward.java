@@ -12,6 +12,7 @@ import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class ArmorStandArmorReward implements IChanceCubeReward
@@ -46,18 +47,18 @@ public class ArmorStandArmorReward implements IChanceCubeReward
 	{
 		EntityArmorStand armorStand = new EntityArmorStand(world);
 		String name = names[RewardsUtil.rand.nextInt(names.length)];
-		armorStand.setCustomNameTag(name);
-		armorStand.setAlwaysRenderNameTag(true);
+		armorStand.setCustomName(new TextComponentString(name));
+		armorStand.setCustomNameVisible(true);
 		armorStand.setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 
 		ItemStack headStack = headItems[RewardsUtil.rand.nextInt(headItems.length)].copy();
-		if(headStack.getItem() instanceof ItemSkull && headStack.getItemDamage() == 3)
+		if(headStack.getItem() instanceof ItemSkull && headStack.getDamage() == 3)
 		{
-			NBTTagCompound nbt = headStack.getTagCompound();
+			NBTTagCompound nbt = headStack.getTag();
 			if(nbt == null)
 			{
 				nbt = new NBTTagCompound();
-				headStack.setTagCompound(nbt);
+				headStack.setTag(nbt);
 			}
 			nbt.setString("SkullOwner", name);
 		}

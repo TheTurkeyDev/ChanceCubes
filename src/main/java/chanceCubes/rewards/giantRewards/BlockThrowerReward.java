@@ -7,6 +7,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;
+import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -30,7 +31,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
 public class BlockThrowerReward implements IChanceCubeReward
 {
@@ -44,7 +46,7 @@ public class BlockThrowerReward implements IChanceCubeReward
 			{
 				if(!world.isAirBlock(pos.add(x, 11, z)))
 					for(int y = -1; y < 12; y++)
-						world.setBlockToAir(pos.add(x, y, z));
+						world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState());
 			}
 		}
 
@@ -69,7 +71,7 @@ public class BlockThrowerReward implements IChanceCubeReward
 					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof BlockLiquid)
 						state = Blocks.DIRT.getDefaultState();
 					else
-						world.setBlockToAir(newPos);
+						world.setBlockState(newPos, Blocks.AIR.getDefaultState());
 
 					EntityFallingBlock block = new EntityFallingBlock(world, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state);
 					block.fallTime = 1;
@@ -99,8 +101,9 @@ public class BlockThrowerReward implements IChanceCubeReward
 				int rand = RewardsUtil.rand.nextInt(6);
 				for(EntityFallingBlock b : blocks)
 				{
-					CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("largeexplode", b.posX, b.posY, b.posZ, 0, 0, 0), new TargetPoint(world.provider.getDimension(), b.posX, b.posY, b.posZ, 50));
-					b.setDead();
+					CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(b.posX, b.posY, b.posZ, 50, world.getDimension().getType())), new PacketParticle("largeexplode", b.posX, b.posY, b.posZ, 0, 0, 0));
+
+					b.remove();
 
 					if(rand == 0)
 					{
@@ -119,7 +122,7 @@ public class BlockThrowerReward implements IChanceCubeReward
 					else if(rand == 3)
 					{
 						ent = new EntityItem(world);
-						((EntityItem) ent).setItem(new ItemStack(Items.MELON));
+						((EntityItem) ent).setItem(new ItemStack(Items.MELON_SLICE));
 					}
 					else if(rand == 4)
 					{

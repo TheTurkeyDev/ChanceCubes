@@ -1,7 +1,5 @@
 package chanceCubes.client.gui;
 
-import java.io.IOException;
-
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.CCubesCore;
@@ -9,7 +7,6 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
-import net.java.games.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,8 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayHandler;
-import net.minecraftforge.fml.network.NetworkDirection;
 
 @OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
@@ -58,7 +53,29 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
-		this.buttons.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0])));
+		this.buttons.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]))
+		{
+			public void onClick(double mouseX, double mouseY)
+			{
+				if(ChanceCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null)
+				{
+					NBTTagCompound nbt = stack.getTag();
+					if(nbt == null)
+						nbt = new NBTTagCompound();
+					nbt.setString("Reward", rewardName);
+					stack.setTag(nbt);
+
+					CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getText()));
+					rewardName = rewardField.getText();
+					player.closeScreen();
+				}
+				else
+				{
+					rewardField.setText("Invalid Name!");
+					rewardName = "";
+				}
+			}
+		});
 	}
 
 	public void onGuiClosed()
@@ -67,37 +84,11 @@ public class RewardSelectorPendantGui extends GuiScreen
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 	}
 
-	protected void actionPerformed(GuiButton button)
+	public boolean charTyped(char p_73869_1_, int p_73869_2_)
 	{
-		if(button.enabled)
-		{
-			if(button.id == 0)
-			{
-				if(ChanceCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
-				{
-					NBTTagCompound nbt = stack.getTag();
-					if(nbt == null)
-						nbt = new NBTTagCompound();
-					nbt.setString("Reward", this.rewardName);
-					stack.setTag(nbt);
-
-					CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(this.rewardField.getText()));
-					rewardName = this.rewardField.getText();
-					this.player.closeScreen();
-				}
-				else
-				{
-					this.rewardField.setText("Invalid Name!");
-					rewardName = "";
-				}
-			}
-		}
-	}
-
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) throws IOException
-	{
-		if(!this.rewardField.textboxKeyTyped(p_73869_1_, p_73869_2_))
-			super.keyTyped(p_73869_1_, p_73869_2_);
+		if(!this.rewardField.charTyped(p_73869_1_, p_73869_2_))
+			return super.charTyped(p_73869_1_, p_73869_2_);
+		return false;
 	}
 
 	@Override
@@ -113,7 +104,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.drawTexturedModalRect((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
-		this.rewardField.drawTextBox();
+		this.rewardField.drawTextField(mouseX, mouseY, partialTicks);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 }

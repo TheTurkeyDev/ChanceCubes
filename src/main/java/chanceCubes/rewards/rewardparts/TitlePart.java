@@ -29,12 +29,12 @@ public class TitlePart extends BasePart
 
 	public TitlePart(StringVar type, String message)
 	{
-		this(type, ITextComponent.Serializer.jsonToComponent(message), new IntVar(0));
+		this(type, ITextComponent.Serializer.fromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(String type, String message, int delay)
 	{
-		this(new StringVar(type), ITextComponent.Serializer.jsonToComponent(message), new IntVar(delay));
+		this(new StringVar(type), ITextComponent.Serializer.fromJson(message), new IntVar(delay));
 	}
 
 	public TitlePart(StringVar type, ITextComponent message, IntVar delay)
@@ -46,7 +46,7 @@ public class TitlePart extends BasePart
 
 	public Type getType()
 	{
-		return Type.byName(type.getValue());
+		return Type.valueOf(type.getValue());
 	}
 
 	public TitlePart setType(String type)

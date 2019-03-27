@@ -21,6 +21,7 @@ import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
@@ -33,7 +34,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 public class CCubesServerCommands
 {
@@ -50,7 +50,7 @@ public class CCubesServerCommands
 		                .executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
 				.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
 		                .executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
-				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> !cs.getWorld().isRemote)
+				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote)
 						.then(Commands.literal("create").executes(ctx -> this.executeSchematicCreate(ctx)))
 						.then(Commands.literal("cancel").executes(ctx -> this.executeSchematicCancel(ctx))))
 				.then(Commands.literal("rewardsInfo").executes(ctx -> this.executeRewardInfo(ctx)))
@@ -194,7 +194,7 @@ public class CCubesServerCommands
 		{
 			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
-				FMLCommonHandler.instance().showGuiScreen(new SchematicCreationGui(getPlayer(ctx.getSource())));
+				Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(getPlayer(ctx.getSource())));
 			else
 				getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Please set both points before moving on!"));
 		}

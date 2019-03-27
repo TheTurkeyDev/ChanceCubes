@@ -6,7 +6,6 @@ import java.util.List;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +19,7 @@ public class OreSphereReward implements IChanceCubeReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 
-		CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
+		Block ore = RewardsUtil.getRandomOre();
 
 		int delay = 0;
 		for(int i = 0; i < 5; i++)
@@ -35,8 +34,8 @@ public class OreSphereReward implements IChanceCubeReward
 						double dist = Math.abs(loc.getDistance(0, 0, 0));
 						if(dist <= i && dist > i - 1)
 						{
-							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore.getKey(), false, delay);
-							osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
+							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);
+							osb.setBlockState(ore.getDefaultState());
 							blocks.add(osb);
 							delay++;
 						}

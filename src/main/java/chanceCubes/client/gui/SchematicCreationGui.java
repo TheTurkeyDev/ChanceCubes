@@ -1,7 +1,5 @@
 package chanceCubes.client.gui;
 
-import java.io.IOException;
-
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.gui.GuiButton;
@@ -9,9 +7,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 @OnlyIn(Dist.CLIENT)
 public class SchematicCreationGui extends GuiScreen
@@ -41,28 +38,16 @@ public class SchematicCreationGui extends GuiScreen
 		this.nameField.setMaxStringLength(100);
 		this.nameField.setText("Schematic Name");
 
-		this.buttons.add(new GuiButton(9, i - 50, this.height - 70, 100, 20, "Back"));
-		this.buttons.add(new GuiButton(10, i - 50, this.height - 40, 100, 20, "Create"));
-
-		for(int j = 0; j < 2; j++)
-			for(int k = 0; k < 6; k++)
-				this.buttons.add(new GuiButton(11 + ((j * 6) + k), (i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k]));
-	}
-
-	public void onGuiClosed()
-	{
-		super.onGuiClosed();
-	}
-
-	protected void actionPerformed(GuiButton button)
-	{
-		if(button.enabled)
+		this.buttons.add(new GuiButton(9, i - 50, this.height - 70, 100, 20, "Back")
 		{
-			if(button.id == 9)
+			public void onClick(double mouseX, double mouseY)
 			{
-				FMLCommonHandler.instance().showGuiScreen(null);
+				SchematicCreationGui.this.close();
 			}
-			else if(button.id == 10)
+		});
+		this.buttons.add(new GuiButton(10, i - 50, this.height - 40, 100, 20, "Create")
+		{
+			public void onClick(double mouseX, double mouseY)
 			{
 				String fileName = nameField.getText();
 				fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
@@ -71,33 +56,45 @@ public class SchematicCreationGui extends GuiScreen
 				RenderEvent.setCreatingSchematic(false);
 				SchematicUtil.selectionPoints[0] = null;
 				SchematicUtil.selectionPoints[1] = null;
-				FMLCommonHandler.instance().showGuiScreen(null);
+				SchematicCreationGui.this.close();
 			}
-			else if(button.id > 10 && button.id < 24)
-			{
-				int id = (button.id - 11) % 6;
-				int point = (button.id - 11) / 6;
+		});
 
-				if(id == 0)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(-1, 0, 0);
-				else if(id == 1)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(1, 0, 0);
-				else if(id == 2)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, -1, 0);
-				else if(id == 3)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 1, 0);
-				else if(id == 4)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, -1);
-				else if(id == 5)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, 1);
-			}
-		}
+		for(int j = 0; j < 2; j++)
+			for(int k = 0; k < 6; k++)
+				this.buttons.add(new GuiButton(11 + ((j * 6) + k), (i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k])
+				{
+					public void onClick(double mouseX, double mouseY)
+					{
+						int id = (this.id - 11) % 6;
+						int point = (this.id - 11) / 6;
+
+						if(id == 0)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(-1, 0, 0);
+						else if(id == 1)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(1, 0, 0);
+						else if(id == 2)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, -1, 0);
+						else if(id == 3)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 1, 0);
+						else if(id == 4)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, -1);
+						else if(id == 5)
+							SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, 1);
+					}
+				});
 	}
 
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) throws IOException
+	public void onGuiClosed()
 	{
-		if(!this.nameField.textboxKeyTyped(p_73869_1_, p_73869_2_))
-			super.keyTyped(p_73869_1_, p_73869_2_);
+		super.onGuiClosed();
+	}
+
+	public boolean charTyped(char p_73869_1_, int p_73869_2_)
+	{
+		if(!this.nameField.charTyped(p_73869_1_, p_73869_2_))
+			return super.charTyped(p_73869_1_, p_73869_2_);
+		return false;
 	}
 
 	@Override
@@ -111,7 +108,7 @@ public class SchematicCreationGui extends GuiScreen
 	{
 		this.drawGradientRect(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
-			this.nameField.drawTextBox();
+			this.nameField.drawTextField(mouseX, mouseY, partialTicks);
 		int i = this.width / 2;
 		this.drawCenteredString(this.fontRenderer, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
 		this.drawCenteredString(this.fontRenderer, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);

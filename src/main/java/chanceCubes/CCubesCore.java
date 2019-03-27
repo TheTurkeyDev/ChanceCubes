@@ -5,12 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.gui.CCubesGuiHandler;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
@@ -29,15 +27,10 @@ import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
-import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.NonreplaceableBlockOverride;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -45,7 +38,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.network.NetworkRegistry;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -71,13 +63,12 @@ public class CCubesCore
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
-		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> CCubesGuiHandler::openGui);
+		//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> CCubesGuiHandler::openGui);
 	}
 
 	public void commonStart(FMLCommonSetupEvent event)
 	{
 		CCubesSounds.loadSolunds();
-		CCubesRecipies.loadRecipies();
 
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
@@ -104,7 +95,7 @@ public class CCubesCore
 
 	public void serverStart(FMLServerStartingEvent event)
 	{
-		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
+		//ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 		CCubesPacketHandler.init();
 
 		if(CCubesSettings.chestLoot)
@@ -119,8 +110,8 @@ public class CCubesCore
 			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
 		}
 
-		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
-		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
+		//CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
+		//CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
@@ -128,7 +119,7 @@ public class CCubesCore
 		LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
 		NonreplaceableBlockOverride.loadOverrides();
 		ModHookUtil.loadCustomModRewards();
-		ConfigLoader.config.save();
+		//ConfigLoader.config.save();
 
 		//See ForgeCommand
 		new CCubesServerCommands(event.getCommandDispatcher());

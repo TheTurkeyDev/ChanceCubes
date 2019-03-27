@@ -72,7 +72,7 @@ public class MobEffectsReward implements IChanceCubeReward
 		}
 
 		ent.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		ent.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(highestDamage * 30);
+		ent.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(highestDamage * 30);
 		ent.setHealth(highestDamage * 30);
 		ent.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 6000, 2));
 		world.spawnEntity(ent);
@@ -91,7 +91,7 @@ public class MobEffectsReward implements IChanceCubeReward
 			@Override
 			public void update()
 			{
-				if(ent.isDead)
+				if(!ent.isAlive())
 					Scheduler.removeTask(this);
 
 				BlockPos pos = ent.getPosition();
@@ -109,7 +109,7 @@ public class MobEffectsReward implements IChanceCubeReward
 
 						for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 5))
 						{
-							PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+							PotionType potionType = RewardsUtil.getRandomPotionType();
 							pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 							pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 							pot.motionX = Math.cos(rad) * (0.1 + (0.05 * 2));
@@ -138,7 +138,7 @@ public class MobEffectsReward implements IChanceCubeReward
 						double d3 = player.posZ - ent.posZ;
 						float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 						entitysnowball.shoot(d1, d2 + (double) f, d3, 1.6F, 12.0F);
-						player.playSound(SoundEvents.ENTITY_SNOWMAN_SHOOT, 1.0F, 1.0F / (ent.getRNG().nextFloat() * 0.4F + 0.8F));
+						player.playSound(SoundEvents.ENTITY_SNOW_GOLEM_SHOOT, 1.0F, 1.0F / (ent.getRNG().nextFloat() * 0.4F + 0.8F));
 						world.spawnEntity(entitysnowball);
 						break;
 					case 4:
@@ -146,7 +146,7 @@ public class MobEffectsReward implements IChanceCubeReward
 						if(delay > 0)
 							return;
 						delay = 10;
-						PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
+						PotionType potionType = RewardsUtil.getRandomPotionType();
 						pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), potionType));
 						pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 						pot.motionX = -0.1;

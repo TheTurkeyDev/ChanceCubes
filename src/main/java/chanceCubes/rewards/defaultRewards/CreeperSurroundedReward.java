@@ -34,7 +34,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 					IBlockState blockState = world.getBlockState(new BlockPos(xValue, pos.getY(), pz + zz));
 					IBlockState blockState2 = world.getBlockState(new BlockPos(xValue, pos.getY() + 1, pz + zz));
 					IBlockState blockState3 = world.getBlockState(new BlockPos(xValue, pos.getY() + 2, pz + zz));
-					if(!blockState.isFullBlock() && !blockState2.isFullBlock() && !blockState3.isFullBlock())
+					if(!blockState.isSolid() && !blockState2.isSolid() && !blockState3.isSolid())
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
@@ -58,7 +58,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 					IBlockState blockState = world.getBlockState(new BlockPos(px + xx, pos.getY(), zValue));
 					IBlockState blockState2 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zValue));
 					IBlockState blockState3 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zValue));
-					if(!blockState.isFullBlock() && !blockState2.isFullBlock() && !blockState3.isFullBlock())
+					if(!blockState.isSolid() && !blockState2.isSolid() && !blockState3.isSolid())
 					{
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);

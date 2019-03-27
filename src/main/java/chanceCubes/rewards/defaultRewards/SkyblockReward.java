@@ -1,5 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
@@ -15,7 +16,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenTrees;
+import net.minecraft.world.gen.feature.TreeFeature;
 
 public class SkyblockReward implements IChanceCubeReward
 {
@@ -34,7 +35,7 @@ public class SkyblockReward implements IChanceCubeReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
 		int skyblockHeight = world.getActualHeight() - 16;
-		if(!world.provider.hasSkyLight())
+		if(!world.dimension.hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());
@@ -58,10 +59,10 @@ public class SkyblockReward implements IChanceCubeReward
 		}
 		RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, skyblockPos.add(0, 1, 0));
 
-		WorldGenTrees treeGen = new WorldGenTrees(true, 4, Blocks.LOG.getDefaultState(), Blocks.LEAVES.getDefaultState(), false);
-		treeGen.generate(world, new Random(), skyblockPos.add(4, 3, 4));
+		TreeFeature treeGen = new TreeFeature(true, 4, Blocks.OAK_LOG.getDefaultState(), Blocks.OAK_LEAVES.getDefaultState(), false);
+		treeGen.place(new HashSet<BlockPos>(), world, new Random(), skyblockPos.add(4, 3, 4));
 
-		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.WEST), world, skyblockPos.add(-1, 3, 0));
+		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(BlockChest.FACING, EnumFacing.WEST), world, skyblockPos.add(-1, 3, 0));
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(skyblockPos.add(-1, 3, 0));
 		for(int i = 0; i < chestStuff.length; i++)
 		{

@@ -1,7 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
@@ -17,8 +15,6 @@ import net.minecraft.world.World;
 
 public class ItemOfDestinyReward implements IChanceCubeReward
 {
-	private Random rand = new Random();
-
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
@@ -60,7 +56,7 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 				{
 					if((iteration / 10) - 3 < enchants)
 					{
-						Enchantment ench = randomEnchantment();
+						Enchantment ench = RewardsUtil.randomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
 						item.getItem().addEnchantment(ench, level);
 						player.sendMessage(new TextComponentString(ench.getName() + " Has been added to the item!"));
@@ -76,14 +72,6 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 				iteration++;
 			}
 		});
-	}
-
-	public Enchantment randomEnchantment()
-	{
-		Enchantment ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
-		while(ench == null)
-			ench = Enchantment.getEnchantmentByID(rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
-		return ench;
 	}
 
 	@Override

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "SBS",
+        "SPS",
+        "SBS"
+    ],
+    "key": {
+        "B": {
+            "item": "minecraft:lapis_block"
+        },
+        "P": {
+            "item": "chancecubes:chance_pendant_tier_1"
+        },
+        "S": {
+            "item": "minecraft:string"
+        }
+    },
+    "result": {
+        "item": "chancecubes:silk_touch_pendant"
+    }
+}

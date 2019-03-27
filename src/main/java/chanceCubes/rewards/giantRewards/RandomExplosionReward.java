@@ -21,7 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
 public class RandomExplosionReward implements IChanceCubeReward
 {
@@ -102,7 +103,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 					int zInc = RewardsUtil.rand.nextInt(2) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 					if(delay < 3)
 					{
-						CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("hugeexplosion", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+						CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketParticle("hugeexplosion", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0));
 						world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
 					}
 					else
@@ -115,7 +116,7 @@ public class RandomExplosionReward implements IChanceCubeReward
 						{
 							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.BLOCKS, 1f, 1f);
 						}
-						CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("lava", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+						CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketParticle("lava", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0));
 					}
 
 				}

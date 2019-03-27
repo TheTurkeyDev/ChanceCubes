@@ -29,14 +29,14 @@ public class BlockChanceD20 extends BaseChanceBlock
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).lightValue(7), "chance_Icosahedron");
+		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).lightValue(7), "chance_icosahedron");
 	}
 
 	@Override
-    public boolean hasTileEntity(IBlockState state)
-    {
-        return true;
-    }
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
 
 	@Override
 	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos)
@@ -101,7 +101,7 @@ public class BlockChanceD20 extends BaseChanceBlock
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
 			if(d20.transform != TRSRTransformation.identity())
-				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
+				return ((IExtendedBlockState) state).withProperty(net.minecraftforge.common.property.Properties.AnimationProperty, d20.transform);
 		}
 
 		return state;

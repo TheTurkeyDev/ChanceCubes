@@ -7,6 +7,7 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -19,14 +20,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {
 
 	public ItemRewardSelectorPendant()
 	{
-		super((new Item.Properties()).maxStackSize(1), "reward_Selector_Pendant");
+		super((new Item.Properties()).maxStackSize(1), "reward_selector_pendant");
 		super.addLore("Shift right click to change the reward.");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
@@ -36,7 +36,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
 		if(player.isSneaking() && world.isRemote)
-			FMLCommonHandler.instance().showGuiScreen(new RewardSelectorPendantGui(player, stack));
+			Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 

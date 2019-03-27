@@ -11,7 +11,7 @@ public class ItemSilkTouchPendant extends BaseChanceCubesItem
 
 	public ItemSilkTouchPendant()
 	{
-		super((new Item.Properties()).maxStackSize(1), "silk_Touch_Pendant");
+		super((new Item.Properties()).maxStackSize(1), "silk_touch_pendant");
 		super.addLore("Use this pendant to retrieve Chance Cubes");
 		super.addLore("Player must hold this in hand to get the cube!");
 	}

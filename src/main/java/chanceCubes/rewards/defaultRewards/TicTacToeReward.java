@@ -7,7 +7,6 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.state.IBlockState;
@@ -28,7 +27,7 @@ public class TicTacToeReward implements IChanceCubeReward
 		Map<BlockPos, IBlockState> savedBlocks = new HashMap<BlockPos, IBlockState>();
 		player.sendMessage(new TextComponentString("Lets play Tic-Tac-Toe!"));
 		player.sendMessage(new TextComponentString("Beat the Computer to get 500 Diamonds!"));
-		player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.WOOL, 5, 14)));
+		player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.RED_WOOL, 5)));
 
 		for(int x = -2; x < 3; x++)
 		{
@@ -38,7 +37,7 @@ public class TicTacToeReward implements IChanceCubeReward
 				{
 					BlockPos posOffset = new BlockPos(x, y, z);
 					savedBlocks.put(posOffset, world.getBlockState(pos.add(posOffset)));
-					world.setBlockToAir(pos.add(posOffset));
+					world.setBlockState(pos.add(posOffset), Blocks.AIR.getDefaultState());
 				}
 			}
 		}
@@ -84,15 +83,15 @@ public class TicTacToeReward implements IChanceCubeReward
 			private void makeMove(int x, int y)
 			{
 				board.placeMove(x, y, 2);
-				
+
 				if(!board.isGameOver())
 				{
 					//Make CPU Move
 					board.minimax(0, 1);
 					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
-					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, 11));
+					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
-				
+
 				if(board.isGameOver())
 				{
 					if(board.hasCPUWon())
@@ -205,18 +204,18 @@ public class TicTacToeReward implements IChanceCubeReward
 					placeMove(point.x, point.y, 1);
 					int currentScore = minimax(depth + 1, 2);
 					max = Math.max(currentScore, max);
-					
+
 					if(currentScore >= 0 && depth == 0)
-							computersMove = point;
-					
+						computersMove = point;
+
 					if(currentScore == 1)
 					{
 						board[point.x][point.y] = 0;
 						break;
 					}
-					
+
 					if(i == pointsAvailable.size() - 1 && max < 0 && depth == 0)
-							computersMove = point;
+						computersMove = point;
 				}
 				else if(turn == 2)
 				{
