@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 
 import com.google.gson.JsonElement;
 
-import net.minecraft.client.resources.DefaultResourcePack;
-
 public class RewardData
 {
 	public static JsonElement getVillageSchematic()
@@ -32,7 +30,7 @@ public class RewardData
 
 	private static String getSchematic(String path)
 	{
-		BufferedReader in = new BufferedReader(new InputStreamReader(DefaultResourcePack.class.getResourceAsStream(path)));
+		BufferedReader in = new BufferedReader(new InputStreamReader(RewardData.class.getResourceAsStream(path)));
 		StringBuilder builder = new StringBuilder();
 		try
 		{
