@@ -39,7 +39,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	public TileChanceD20()
 	{
 		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
-		if(!CCubesSettings.d20UseNormalChances)
+		if(!CCubesSettings.d20UseNormalChances.get())
 		{
 			this.chance = random.nextBoolean() ? -100 : 100;
 		}

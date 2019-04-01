@@ -18,7 +18,6 @@ import com.google.common.collect.Maps;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
@@ -147,7 +146,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	{
 		RewardsUtil.initData();
 
-		if(!CCubesSettings.enableHardCodedRewards)
+		if(!CCubesSettings.enableHardCodedRewards.get())
 			return;
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Tnt_Structure", -30, new BlockRewardType(RewardsUtil.addBlocksLists(RewardsUtil.fillArea(3, 1, 3, Blocks.TNT, -1, 0, -1, true, 0, false, false), RewardsUtil.fillArea(3, 1, 3, Blocks.REDSTONE_BLOCK, -1, 1, -1, true, 40, true, false)))));
@@ -515,7 +514,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward, boolean enabledDefault)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, enabledDefault, "") && !this.nameToReward.containsKey(reward.getName()))
+		//TODO: Add in config option to enable/ disable rewards
+		if(/*
+			 * ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat,
+			 * enabledDefault, "") &&
+			 */ !this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
@@ -609,9 +612,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesSettings.holidayReward.trigger(world, pos, player);
 			CCubesCore.logger.log(Level.INFO, "The " + CCubesSettings.holidayReward.getName() + " holiday reward has been triggered!!!!");
 			CCubesSettings.doesHolidayRewardTrigger = false;
-			CCubesSettings.holidayRewardTriggered = true;
-			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(true);
-			ConfigLoader.config.save();
+			//TODO: Udate when forge gives us a ser method or the way to do it is said
+			//CCubesSettings.holidayRewardTriggered = true;
+			//ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(true);
+			//ConfigLoader.config.save();
 			return;
 		}
 
@@ -624,7 +628,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				{
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
-					if(stack.getDamage() >= CCubesSettings.pendantUses)
+					if(stack.getDamage() >= CCubesSettings.pendantUses.get())
 						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 					chance += pendant.getChanceIncrease();
 					if(chance > 100)
@@ -636,8 +640,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		int lowerIndex = 0;
 		int upperIndex = sortedRewards.size() - 1;
-		int lowerRange = chance - CCubesSettings.rangeMin < -100 ? -100 : chance - CCubesSettings.rangeMin;
-		int upperRange = chance + CCubesSettings.rangeMax > 100 ? 100 : chance + CCubesSettings.rangeMax;
+		int lowerRange = chance - CCubesSettings.rangeMin.get() < -100 ? -100 : chance - CCubesSettings.rangeMin.get();
+		int upperRange = chance + CCubesSettings.rangeMax.get() > 100 ? 100 : chance + CCubesSettings.rangeMax.get();
 
 		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{

@@ -14,7 +14,7 @@ public class ModHookUtil
 {
 	public static void loadCustomModRewards()
 	{
-		if(!CCubesSettings.enableHardCodedRewards)
+		if(!CCubesSettings.enableHardCodedRewards.get())
 			return;
 		if(ModList.get().isLoaded("extrautils2"))
 		{

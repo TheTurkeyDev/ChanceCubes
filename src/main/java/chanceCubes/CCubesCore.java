@@ -9,6 +9,7 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
@@ -31,8 +32,10 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -63,6 +66,7 @@ public class CCubesCore
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ConfigLoader.configSpec, "/ChanceCubes/chancecubes-server.toml");
 		//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> CCubesGuiHandler::openGui);
 	}
 
@@ -98,7 +102,7 @@ public class CCubesCore
 		//ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
 		CCubesPacketHandler.init();
 
-		if(CCubesSettings.chestLoot)
+		if(CCubesSettings.chestLoot.get())
 		{
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));

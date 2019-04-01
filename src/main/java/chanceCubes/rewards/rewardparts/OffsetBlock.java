@@ -34,12 +34,12 @@ public class OffsetBlock extends BasePart
 	{
 		this(x, y, z, b.getDefaultState(), falling);
 	}
-	
+
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling)
 	{
 		this(x, y, z, b, falling, new IntVar(0));
 	}
-	
+
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling, IntVar delay)
 	{
 		this(new IntVar(x), new IntVar(y), new IntVar(z), b.getDefaultState(), falling, delay);
@@ -106,7 +106,7 @@ public class OffsetBlock extends BasePart
 		int xOffVal = xOff.getIntValue();
 		int yOffVal = yOff.getIntValue();
 		int zOffVal = zOff.getIntValue();
-		double yy = (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5);
+		double yy = (((double) (y + yOffVal + CCubesSettings.dropHeight.get())) + 0.5) >= 256 ? 255 : (((double) (y + yOffVal + CCubesSettings.dropHeight.get())) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOffVal; yyy--)
 			RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos((x + xOffVal), yyy, (z + zOffVal)), removeUnbreakableBlocks.getBoolValue());
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
@@ -160,6 +160,7 @@ public class OffsetBlock extends BasePart
 	{
 		return this.falling.getBoolValue();
 	}
+
 	public BoolVar isFallingVar()
 	{
 		return this.falling;

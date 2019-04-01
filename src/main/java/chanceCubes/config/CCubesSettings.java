@@ -6,38 +6,41 @@ import java.util.List;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.state.IBlockState;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
 public class CCubesSettings
 {
 	public static int d20RenderID = -1;
 
-	public static int pendantUses = 32;
+	public static IntValue pendantUses;
 
-	public static boolean enableHardCodedRewards = true;
+	public static BooleanValue enableHardCodedRewards;
 
-	public static int rangeMin = 20;
-	public static int rangeMax = 20;
-	public static boolean d20UseNormalChances = false;
+	public static IntValue rangeMin;
+	public static IntValue rangeMax;
+	public static BooleanValue d20UseNormalChances;
 
-	public static boolean oreGeneration = true;
-	public static int oreGenAmount = 4;
-	public static boolean surfaceGeneration = true;
-	public static int surfaceGenAmount = 1;
-	public static String[] blockedWorlds = new String[] {};
-	public static boolean chestLoot = true;
-	public static boolean craftingRecipie = true;
+	public static BooleanValue oreGeneration;
+	public static IntValue oreGenAmount;
+	public static BooleanValue surfaceGeneration;
+	public static IntValue surfaceGenAmount;
+	public static ConfigValue<List<? extends String>> blockedWorlds;
+	public static BooleanValue chestLoot;
+	public static BooleanValue craftingRecipie;
 
-	public static boolean userSpecificRewards = true;
-	public static boolean disabledRewards = true;
+	public static BooleanValue userSpecificRewards;
+	public static BooleanValue disabledRewards;
 
-	public static boolean holidayRewards = true;
-	public static boolean holidayRewardTriggered = false;
+	public static BooleanValue holidayRewards;
+	public static BooleanValue holidayRewardTriggered;
 	public static boolean doesHolidayRewardTrigger = false;
 	public static IChanceCubeReward holidayReward = null;
 	public static boolean hasHolidayTexture = false;
 	public static String holidayTextureName = "";
 
-	public static int dropHeight = 20;
+	public static IntValue dropHeight;
 
 	public static List<IBlockState> nonReplaceableBlocksIMC = new ArrayList<IBlockState>();
 	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
@@ -50,7 +53,7 @@ public class CCubesSettings
 
 	public static boolean isBlockedWorld(String world)
 	{
-		for(String blockedWorld : blockedWorlds)
+		for(String blockedWorld : blockedWorlds.get())
 			if(blockedWorld.equalsIgnoreCase(world))
 				return true;
 		return false;

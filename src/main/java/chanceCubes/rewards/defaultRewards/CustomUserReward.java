@@ -40,7 +40,7 @@ public class CustomUserReward implements IChanceCubeReward
 	{
 		String userName;
 		String type;
-		if(!CCubesSettings.userSpecificRewards)
+		if(!CCubesSettings.userSpecificRewards.get())
 			return;
 
 		JsonElement users;

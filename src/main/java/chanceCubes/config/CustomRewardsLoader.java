@@ -157,7 +157,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 	private void loadHolidayRewards(JsonElement json)
 	{
-		if(!CCubesSettings.holidayRewards)
+		if(!CCubesSettings.holidayRewards.get())
 			return;
 
 		JsonObject holidays = json.getAsJsonObject();
@@ -176,7 +176,7 @@ public class CustomRewardsLoader extends BaseLoader
 			if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
 				BlockChanceCube.textureToSet = t;
 
-		if(!CCubesSettings.holidayRewardTriggered)
+		if(!CCubesSettings.holidayRewardTriggered.get())
 		{
 			if(holidays.has("Holiday") && !(holidays.get("Holiday") instanceof JsonNull) && holidays.has("Reward") && !(holidays.get("Reward") instanceof JsonNull))
 			{
@@ -199,7 +199,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 	private void loadDisabledRewards(JsonArray disabledRewards)
 	{
-		if(CCubesSettings.disabledRewards)
+		if(CCubesSettings.disabledRewards.get())
 		{
 			for(JsonElement reward : disabledRewards)
 			{
@@ -345,8 +345,9 @@ public class CustomRewardsLoader extends BaseLoader
 			offBlock.setRelativeToPlayer(this.getBoolean(element, "relativeToPlayer", offBlock.isRelativeToPlayer()));
 			offBlock.setRemoveUnbreakableBlocks(this.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
 
-			if(blockDataParts.length > 2)
-				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
+			//TODO: 
+			//			if(blockDataParts.length > 2)
+			//				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
 
 			blocks.add(offBlock);
 		}

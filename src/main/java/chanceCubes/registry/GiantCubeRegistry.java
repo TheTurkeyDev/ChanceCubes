@@ -14,7 +14,6 @@ import com.google.common.collect.Maps;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.BeaconArenaReward;
@@ -53,7 +52,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 	 */
 	public static void loadDefaultRewards()
 	{
-		if(!CCubesSettings.enableHardCodedRewards)
+		if(!CCubesSettings.enableHardCodedRewards.get())
 			return;
 
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, 0))));
@@ -81,7 +80,11 @@ public class GiantCubeRegistry implements IRewardRegistry
 	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.giantRewardCat, true, "") && !this.nameToReward.containsKey(reward.getName()))
+		//TODO:
+		if(/*
+			 * ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.giantRewardCat, true,
+			 * "") &&
+			 */ !this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
