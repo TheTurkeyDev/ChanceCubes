@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -17,8 +16,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class WolvesToCreepersReward implements IChanceCubeReward
+public class WolvesToCreepersReward extends BaseCustomReward
 {
+	public WolvesToCreepersReward()
+	{
+		super(CCubesCore.MODID + ":Wolves_To_Creepers", -20);
+	}
 
 	@Override
 	public void trigger(final World world, BlockPos pos, EntityPlayer player)
@@ -58,17 +61,4 @@ public class WolvesToCreepersReward implements IChanceCubeReward
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -20;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Wolves_To_Creepers";
-	}
-
 }

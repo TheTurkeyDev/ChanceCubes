@@ -5,7 +5,7 @@ import java.util.List;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +14,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class FloorIsLavaReward implements IChanceCubeReward
+public class FloorIsLavaReward extends BaseCustomReward
 {
+	public FloorIsLavaReward()
+	{
+		super(CCubesCore.MODID + ":Floor_Is_Lava", 0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -55,17 +59,4 @@ public class FloorIsLavaReward implements IChanceCubeReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Floor_Is_Lava";
-	}
-
 }

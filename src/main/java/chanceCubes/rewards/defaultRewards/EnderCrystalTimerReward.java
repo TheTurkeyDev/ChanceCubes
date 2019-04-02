@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,8 +10,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EnderCrystalTimerReward implements IChanceCubeReward
+public class EnderCrystalTimerReward extends BaseCustomReward
 {
+	public EnderCrystalTimerReward()
+	{
+		super(CCubesCore.MODID + ":Ender_Crystal_Timer", -90);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -29,17 +32,5 @@ public class EnderCrystalTimerReward implements IChanceCubeReward
 		arrow.motionY = -0.25f;
 		arrow.motionZ = 0;
 		world.spawnEntity(arrow);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -90;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Ender_Crystal_Timer";
 	}
 }

@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.rewards.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -58,15 +60,23 @@ public class ItemChanceCube extends ItemBlock
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
 	{
-		if(!stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
+		Item item = stack.getItem();
+		if(!item.equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
 		{
 			String chance = this.getChanceAsStringValue(stack);
 			list.add(new TextComponentString("Chance Value: " + chance));
 		}
 
-		if(stack.getItem().equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
+		if(item.equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
+			list.add(new TextComponentString(TextFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
+		else if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
+			list.add(new TextComponentString(TextFormatting.RED + "Warning: It is recommended you don't open these in or next toy your base."));
+	
+		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
 		{
-			list.add(new TextComponentString("WARNING: The Giant Chance Cube may cause some damage and/or place a lot of blocks down... You've been warned."));
+			list.add(new TextComponentString("==== Enabled Profiles ===="));
+			for(String profile : ProfileManager.getEnabledProfileNames())
+				list.add(new TextComponentString(profile));
 		}
 	}
 

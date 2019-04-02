@@ -1,0 +1,51 @@
+---- Minecraft Crash Report ----
+// Daisy, daisy...
+
+Time: 4/1/19 10:11 PM
+Description: Exception in server tick loop
+
+com.electronwill.nightconfig.core.io.WritingException: An I/O error occured
+	at com.electronwill.nightconfig.core.io.ConfigParser.parse(ConfigParser.java:222)
+	at com.electronwill.nightconfig.core.io.ConfigParser.parse(ConfigParser.java:202)
+	at com.electronwill.nightconfig.core.file.WriteSyncFileConfig.load(WriteSyncFileConfig.java:73)
+	at com.electronwill.nightconfig.core.file.AutosaveCommentedFileConfig.load(AutosaveCommentedFileConfig.java:85)
+	at net.minecraftforge.fml.config.ConfigFileTypeHandler.lambda$reader$0(ConfigFileTypeHandler.java:46)
+	at net.minecraftforge.fml.config.ConfigTracker.openConfig(ConfigTracker.java:95)
+	at net.minecraftforge.fml.config.ConfigTracker.lambda$loadConfigs$0(ConfigTracker.java:79)
+	at java.lang.Iterable.forEach(Unknown Source)
+	at java.util.Collections$SynchronizedCollection.forEach(Unknown Source)
+	at net.minecraftforge.fml.config.ConfigTracker.loadConfigs(ConfigTracker.java:79)
+	at net.minecraftforge.fml.server.ServerLifecycleHooks.handleServerAboutToStart(ServerLifecycleHooks.java:68)
+	at net.minecraft.server.integrated.IntegratedServer.init(IntegratedServer.java:94)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:549)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.nio.file.NoSuchFileException: .\saves\TEST\serverconfig\ChanceCubes\chancecubes-server.toml
+	at sun.nio.fs.WindowsException.translateToIOException(Unknown Source)
+	at sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)
+	at sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)
+	at sun.nio.fs.WindowsFileSystemProvider.newByteChannel(Unknown Source)
+	at java.nio.file.Files.newByteChannel(Unknown Source)
+	at java.nio.file.Files.createFile(Unknown Source)
+	at com.electronwill.nightconfig.core.file.FileNotFoundAction.lambda$static$0(FileNotFoundAction.java:34)
+	at com.electronwill.nightconfig.core.io.ConfigParser.parse(ConfigParser.java:215)
+	... 13 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.13.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_201, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 1019596776 bytes (972 MB) / 1485832192 bytes (1417 MB) up to 3803185152 bytes (3627 MB)
+	JVM Flags: 1 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump
+	FML: New FML!
+	Loaded coremods (and transformers): Nothing
+	Profiler Position: N/A (disabled)
+	Player Count: 0 / 8; []
+	Data Packs: 
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'forge'

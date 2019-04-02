@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,8 +14,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class InventoryChestReward implements IChanceCubeReward
+public class InventoryChestReward extends BaseCustomReward
 {
+	public InventoryChestReward()
+	{
+		super(CCubesCore.MODID + ":Inventory_Chest", -70);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
@@ -63,17 +66,4 @@ public class InventoryChestReward implements IChanceCubeReward
 			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -70;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Inventory_Chest";
-	}
-
 }

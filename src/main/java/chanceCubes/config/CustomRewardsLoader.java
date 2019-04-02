@@ -35,20 +35,20 @@ import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.rewardparts.TitlePart;
-import chanceCubes.rewards.type.BlockRewardType;
-import chanceCubes.rewards.type.ChestRewardType;
-import chanceCubes.rewards.type.CommandRewardType;
-import chanceCubes.rewards.type.EffectRewardType;
-import chanceCubes.rewards.type.EntityRewardType;
-import chanceCubes.rewards.type.ExperienceRewardType;
-import chanceCubes.rewards.type.IRewardType;
-import chanceCubes.rewards.type.ItemRewardType;
-import chanceCubes.rewards.type.MessageRewardType;
-import chanceCubes.rewards.type.ParticleEffectRewardType;
-import chanceCubes.rewards.type.PotionRewardType;
-import chanceCubes.rewards.type.SchematicRewardType;
-import chanceCubes.rewards.type.SoundRewardType;
-import chanceCubes.rewards.type.TitleRewardType;
+import chanceCubes.rewards.rewardtype.BlockRewardType;
+import chanceCubes.rewards.rewardtype.ChestRewardType;
+import chanceCubes.rewards.rewardtype.CommandRewardType;
+import chanceCubes.rewards.rewardtype.EffectRewardType;
+import chanceCubes.rewards.rewardtype.EntityRewardType;
+import chanceCubes.rewards.rewardtype.ExperienceRewardType;
+import chanceCubes.rewards.rewardtype.IRewardType;
+import chanceCubes.rewards.rewardtype.ItemRewardType;
+import chanceCubes.rewards.rewardtype.MessageRewardType;
+import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
+import chanceCubes.rewards.rewardtype.PotionRewardType;
+import chanceCubes.rewards.rewardtype.SchematicRewardType;
+import chanceCubes.rewards.rewardtype.SoundRewardType;
+import chanceCubes.rewards.rewardtype.TitleRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -203,7 +203,7 @@ public class CustomRewardsLoader extends BaseLoader
 		{
 			for(JsonElement reward : disabledRewards)
 			{
-				boolean removed = ChanceCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+				boolean removed = ChanceCubeRegistry.INSTANCE.disableReward(reward.getAsString());
 				if(!removed)
 					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
 				CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
@@ -344,6 +344,7 @@ public class CustomRewardsLoader extends BaseLoader
 			offBlock.setDelay(this.getInt(element, "delay", offBlock.getDelay()));
 			offBlock.setRelativeToPlayer(this.getBoolean(element, "relativeToPlayer", offBlock.isRelativeToPlayer()));
 			offBlock.setRemoveUnbreakableBlocks(this.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
+			offBlock.setPlaysSound(this.getBoolean(element, "playSound", offBlock.doesPlaySound()));
 
 			//TODO: 
 			//			if(blockDataParts.length > 2)
@@ -436,7 +437,7 @@ public class CustomRewardsLoader extends BaseLoader
 			ExpirencePart exppart = new ExpirencePart(this.getInt(element, "experienceAmount", 1));
 
 			exppart.setDelay(this.getInt(element, "delay", exppart.getDelay()));
-			exppart.setNumberofOrbs(this.getInt(element, "numberOfOrbs", exppart.getDelay()));
+			exppart.setNumberofOrbs(this.getInt(element, "numberOfOrbs", 1));
 
 			exp.add(exppart);
 		}
@@ -450,7 +451,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			PotionPart potPart = new PotionPart(this.getString(element, "potionid", "0"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			PotionPart potPart = new PotionPart(this.getString(element, "potionid", "speed"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			potPart.setDelay(this.getInt(element, "delay", potPart.getDelay()));
 
@@ -488,20 +489,10 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement element : rawReward)
 		{
 			JsonObject obj = element.getAsJsonObject();
-			if(obj.has("item") && obj.has("chance"))
-			{
-				IntVar amountMin = this.getInt(obj, "amountMin", 1);
-				IntVar amountMax = this.getInt(obj, "amountMax", 8);
-				IntVar chance = this.getInt(obj, "chance", 50);
-
-				//TODO: Handle items
-				items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), chance, amountMin, amountMax));
-			}
-			else
-			{
-				CCubesCore.logger.log(Level.ERROR, "A chest reward part for the reward \"" + this.currentParsingReward + "\" failed to load do to missing params");
-			}
-
+			IntVar meta = this.getInt(obj, "meta", 0);
+			IntVar amount = this.getInt(obj, "amount", 1);
+			IntVar chance = this.getInt(obj, "chance", 50);
+			items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amount));
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
 		return rewards;
@@ -539,13 +530,14 @@ public class CustomRewardsLoader extends BaseLoader
 			BoolVar falling = this.getBoolean(element, "falling", true);
 			BoolVar relativeToPlayer = this.getBoolean(element, "relativeToPlayer", false);
 			BoolVar includeAirBlocks = this.getBoolean(element, "includeAirBlocks", false);
+			BoolVar playSound = this.getBoolean(element, "playSound", true);
 			FloatVar spacingDelay = this.getFloat(element, "spacingDelay", 0.1f);
 
 			CustomSchematic schematic = null;
 			if(fileName.endsWith(".ccs"))
-				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+				schematic = SchematicUtil.loadCustomSchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 			else if(fileName.endsWith(".schematic"))
-				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, delay);
+				schematic = SchematicUtil.loadLegacySchematic(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 			if(schematic == null)
 				CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + fileName);
 			else
@@ -560,7 +552,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			EffectPart effectPart = new EffectPart(this.getString(element, "potionID", "1"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
+			EffectPart effectPart = new EffectPart(this.getString(element, "potionID", "speed"), this.getInt(element, "duration", 1), this.getInt(element, "amplifier", 0));
 
 			effectPart.setDelay(this.getInt(element, "radius", 1));
 
@@ -578,13 +570,14 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			TitlePart titlePart = new TitlePart(this.getString(element, "type", "TITLE"), this.getString(element, "message", "{}").getValue());
+			JsonElement message = element.get("message");
+			TitlePart titlePart = new TitlePart(this.getString(element, "type", "TITLE"), message == null ? new JsonObject() : message.getAsJsonObject());
 
 			titlePart.setFadeInTime(this.getInt(element, "fadeInTime", 0));
 			titlePart.setDisplayTime(this.getInt(element, "displayTime", 0));
 			titlePart.setFadeOutTime(this.getInt(element, "fadeOutTime", 0));
 			titlePart.setServerWide(this.getBoolean(element, "isServerWide", false));
-			titlePart.setRange(this.getInt(element, "range", 0));
+			titlePart.setRange(this.getInt(element, "range", 16));
 
 			titlePart.setDelay(this.getInt(element, "delay", titlePart.getDelay()));
 
@@ -657,9 +650,18 @@ public class CustomRewardsLoader extends BaseLoader
 	{
 		String in = "";
 		if(json.has(key))
-			in = json.get(key).getAsString();
-
-		in = this.removedKeyQuotes(in);
+		{
+			JsonElement value = json.get(key);
+			if(value.isJsonPrimitive())
+			{
+				in = value.getAsString();
+				in = this.removedKeyQuotes(in);
+			}
+			else
+			{
+				in = json.getAsJsonObject(key).toString();
+			}
+		}
 
 		return this.getNBT(in);
 	}

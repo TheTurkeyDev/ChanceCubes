@@ -7,12 +7,10 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;
-import chanceCubes.network.PacketTriggerD20;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
@@ -34,8 +32,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
-public class BlockThrowerReward implements IChanceCubeReward
+public class BlockThrowerReward extends BaseCustomReward
 {
+	public BlockThrowerReward()
+	{
+		super(CCubesCore.MODID + ":Block_Thrower", 0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -68,7 +70,7 @@ public class BlockThrowerReward implements IChanceCubeReward
 					BlockPos newPos = pos.add(x, y, z);
 					IBlockState state = world.getBlockState(newPos);
 
-					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof BlockLiquid)
+					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getFluidState().getFluid() == null)
 						state = Blocks.DIRT.getDefaultState();
 					else
 						world.setBlockState(newPos, Blocks.AIR.getDefaultState());
@@ -147,17 +149,4 @@ public class BlockThrowerReward implements IChanceCubeReward
 		});
 
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Block_Thrower";
-	}
-
 }

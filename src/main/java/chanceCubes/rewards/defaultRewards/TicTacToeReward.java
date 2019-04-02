@@ -1,15 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -19,28 +16,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TicTacToeReward implements IChanceCubeReward
+public class TicTacToeReward extends BaseCustomReward
 {
+	public TicTacToeReward()
+	{
+		super(CCubesCore.MODID + ":Tic_Tac_Toe", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
-		Map<BlockPos, IBlockState> savedBlocks = new HashMap<BlockPos, IBlockState>();
+		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		player.sendMessage(new TextComponentString("Lets play Tic-Tac-Toe!"));
 		player.sendMessage(new TextComponentString("Beat the Computer to get 500 Diamonds!"));
 		player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.RED_WOOL, 5)));
 
 		for(int x = -2; x < 3; x++)
-		{
 			for(int z = -1; z < 2; z++)
-			{
 				for(int y = 0; y < 5; y++)
-				{
-					BlockPos posOffset = new BlockPos(x, y, z);
-					savedBlocks.put(posOffset, world.getBlockState(pos.add(posOffset)));
-					world.setBlockState(pos.add(posOffset), Blocks.AIR.getDefaultState());
-				}
-			}
-		}
+					cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
 
 		world.setBlockState(pos.add(-1, 0, 0), Blocks.BEDROCK.getDefaultState());
 		world.setBlockState(pos.add(-1, 1, 0), Blocks.BEDROCK.getDefaultState());
@@ -66,8 +60,7 @@ public class TicTacToeReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				for(BlockPos savedpos : savedBlocks.keySet())
-					world.setBlockState(pos.add(savedpos), savedBlocks.get(savedpos));
+				cache.restoreBlocks(player);
 			}
 
 			@Override
@@ -114,18 +107,6 @@ public class TicTacToeReward implements IChanceCubeReward
 				}
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Tic_Tac_Toe";
 	}
 
 	private static class Point

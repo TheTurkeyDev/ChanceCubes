@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -12,8 +12,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class OreSphereReward implements IChanceCubeReward
+public class OreSphereReward extends BaseCustomReward
 {
+	public OreSphereReward()
+	{
+		super(CCubesCore.MODID + ":Ore_Sphere", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -48,17 +53,4 @@ public class OreSphereReward implements IChanceCubeReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Ore_Sphere";
-	}
-
 }

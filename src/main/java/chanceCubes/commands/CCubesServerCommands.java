@@ -11,11 +11,12 @@ import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
-import chanceCubes.config.LuckyBlockRewardLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.profiles.ProfileManager;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -92,14 +93,16 @@ public class CCubesServerCommands
 			{
 				ChanceCubeRegistry.INSTANCE.ClearRewards();
 				GiantCubeRegistry.INSTANCE.ClearRewards();
+				ProfileManager.clearProfiles();
 				ChanceCubeRegistry.loadDefaultRewards();
 				GiantCubeRegistry.loadDefaultRewards();
 				CustomRewardsLoader.instance.loadCustomRewards();
 				CustomRewardsLoader.instance.fetchRemoteInfo();
-				LuckyBlockRewardLoader.instance.parseLuckyBlockRewards();
 				ChanceCubeRegistry.loadCustomUserRewards();
 				ModHookUtil.loadCustomModRewards();
 				NonreplaceableBlockOverride.loadOverrides();
+				ProfileManager.initProfiles();
+				CustomProfileLoader.instance.loadProfiles();
 				getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Rewards Reloaded"));
 			}
 		}).start();
@@ -137,7 +140,7 @@ public class CCubesServerCommands
 	{
 		EntityPlayer player = (EntityPlayer) getPlayer(ctx.getSource());
 
-		if(ChanceCubeRegistry.INSTANCE.unregisterReward(reward))
+		if(ChanceCubeRegistry.INSTANCE.disableReward(reward))
 			player.sendMessage(new TextComponentString(reward + " Has been temporarily disabled."));
 		else
 			player.sendMessage(new TextComponentString(reward + " is either not currently enabled or is not a valid reward name."));

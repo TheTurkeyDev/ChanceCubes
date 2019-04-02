@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -9,8 +8,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class InventoryBombReward implements IChanceCubeReward
+public class InventoryBombReward extends BaseCustomReward
 {
+	public InventoryBombReward()
+	{
+		super(CCubesCore.MODID + ":Inventory_Bomb", -55);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -38,17 +42,4 @@ public class InventoryBombReward implements IChanceCubeReward
 		player.sendMessage(new TextComponentString("Inventory Bomb!!!!"));
 
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -55;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Inventory_Bomb";
-	}
-
 }

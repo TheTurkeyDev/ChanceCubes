@@ -1,15 +1,19 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SurroundedReward implements IChanceCubeReward
+public class SurroundedReward extends BaseCustomReward
 {
+	public SurroundedReward()
+	{
+		super(CCubesCore.MODID + ":Surrounded", -45);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -51,17 +55,4 @@ public class SurroundedReward implements IChanceCubeReward
 			}
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -45;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Surrounded";
-	}
-
 }

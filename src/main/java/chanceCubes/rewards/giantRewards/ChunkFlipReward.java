@@ -3,7 +3,7 @@ package chanceCubes.rewards.giantRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -17,8 +17,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ChunkFlipReward implements IChanceCubeReward
+public class ChunkFlipReward extends BaseCustomReward
 {
+	public ChunkFlipReward()
+	{
+		super(CCubesCore.MODID + ":Chunk_Flip", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -69,17 +74,4 @@ public class ChunkFlipReward implements IChanceCubeReward
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Chunk_Flip";
-	}
-
 }

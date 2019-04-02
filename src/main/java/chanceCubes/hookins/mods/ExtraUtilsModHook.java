@@ -5,16 +5,14 @@ import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.type.BlockRewardType;
-import chanceCubes.rewards.type.CommandRewardType;
-import chanceCubes.rewards.type.ItemRewardType;
+import chanceCubes.rewards.rewardtype.BlockRewardType;
+import chanceCubes.rewards.rewardtype.CommandRewardType;
+import chanceCubes.rewards.rewardtype.ItemRewardType;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ExtraUtilsModHook extends BaseModHook
 {
@@ -48,14 +46,14 @@ public class ExtraUtilsModHook extends BaseModHook
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "drum", 1);
-		if(!stack.isEmpty())
-		{
-			stack.setDamage(3);
-			NBTTagCompound nbt = new NBTTagCompound();
-			new FluidStack(FluidRegistry.WATER, 65536000).writeToNBT(nbt);
-			stack.setTagInfo("Fluid", nbt);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
-		}
+		//		if(!stack.isEmpty())
+		//		{
+		//			stack.setDamage(3);
+		//			NBTTagCompound nbt = new NBTTagCompound();
+		//			new FluidStack(FluidRegistry.WATER, 65536000).writeToNBT(nbt);
+		//			stack.setTagInfo("Fluid", nbt);
+		//			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
+		//		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "bagofholding", 1);
 		if(!stack.isEmpty())
@@ -88,7 +86,8 @@ public class ExtraUtilsModHook extends BaseModHook
 					if(x == 0 || x == 4 || z == 0 | z == 4)
 					{
 						spikes[index] = new OffsetBlock(x - 2, 0, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, x == 0 ? 4 : x == 4 ? 5 : z == 0 ? 2 : 3));
+						//TODO: Change facing
+						spikes[index].setBlockState(block.getDefaultState());
 						index++;
 					}
 					else
@@ -96,7 +95,8 @@ public class ExtraUtilsModHook extends BaseModHook
 						spikes[index] = new OffsetBlock(x - 2, -1, z - 2, block, false).setRelativeToPlayer(true);
 						index++;
 						spikes[index] = new OffsetBlock(x - 2, 2, z - 2, block, false).setRelativeToPlayer(true);
-						spikes[index].setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, 1));
+						//TODO: Change facing
+						spikes[index].setBlockState(block.getDefaultState());
 						index++;
 					}
 

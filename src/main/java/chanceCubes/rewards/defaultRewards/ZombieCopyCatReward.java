@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -10,8 +9,12 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ZombieCopyCatReward implements IChanceCubeReward
+public class ZombieCopyCatReward extends BaseCustomReward
 {
+	public ZombieCopyCatReward()
+	{
+		super(CCubesCore.MODID + ":Copy_Cat_Zombie", -25);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -54,17 +57,5 @@ public class ZombieCopyCatReward implements IChanceCubeReward
 		}
 
 		world.spawnEntity(zombie);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -25;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Copy_Cat_Zombie";
 	}
 }

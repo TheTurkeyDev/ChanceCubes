@@ -1,7 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -18,25 +18,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MontyHallReward implements IChanceCubeReward
+public class MontyHallReward extends BaseCustomReward
 {
+	public MontyHallReward()
+	{
+		super(CCubesCore.MODID + ":Monty_Hall", 0);
+	}
+
 	@Override
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
 	{
 		player.sendMessage(new TextComponentString("Which button do you press?"));
 
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 0), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 1), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 1), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 1), Blocks.AIR.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		world.setBlockState(pos.add(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
-		world.setBlockState(pos.add(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
+		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
@@ -45,12 +45,7 @@ public class MontyHallReward implements IChanceCubeReward
 			@Override
 			public void callback()
 			{
-				world.setBlockState(pos.add(-1, 0, 1), Blocks.AIR.getDefaultState());
-				world.setBlockState(pos.add(0, 0, 1), Blocks.AIR.getDefaultState());
-				world.setBlockState(pos.add(1, 0, 1), Blocks.AIR.getDefaultState());
-				world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
-				world.setBlockState(pos.add(0, 0, 0), Blocks.AIR.getDefaultState());
-				world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
+				cache.restoreBlocks(player);
 			}
 
 			@Override
@@ -91,17 +86,5 @@ public class MontyHallReward implements IChanceCubeReward
 				Scheduler.removeTask(this);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Monty_Hall";
 	}
 }

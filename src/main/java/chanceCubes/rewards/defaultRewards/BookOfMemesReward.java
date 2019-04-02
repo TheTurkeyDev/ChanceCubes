@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BookOfMemesReward implements IChanceCubeReward
+public class BookOfMemesReward extends BaseCustomReward
 {
 	private List<String> memes = new ArrayList<String>();
 
 	public BookOfMemesReward()
 	{
+		super(CCubesCore.MODID + ":Book_of_Memes", 0);
 		memes.add("Sodium, atomic number 11, was first isolated by Peter Dager in 1807. A chemical component of salt, he named it Na in honor of the saltiest region on earth, North America.");
 		memes.add("(╯°□°）╯︵ ┻━┻ \n ༼ᕗຈل͜ຈ༽ᕗ RAISE YOUR DONGERS ༼ᕗຈل͜ຈ༽ᕗ");
 		memes.add("Darude- status \n ☐ Not Sandstorm \n ☑ Sandstorm");
@@ -35,17 +35,4 @@ public class BookOfMemesReward implements IChanceCubeReward
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
 		RewardsUtil.executeCommand(world, player, command);
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Book_Of_Memes";
-	}
-
 }

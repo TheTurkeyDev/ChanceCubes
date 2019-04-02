@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -24,8 +23,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class CountDownReward implements IChanceCubeReward
+public class CountDownReward extends BaseCustomReward
 {
+
+	public CountDownReward()
+	{
+		super(CCubesCore.MODID + ":Countdown", 15);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -96,24 +100,8 @@ public class CountDownReward implements IChanceCubeReward
 			@Override
 			public void update()
 			{
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true).setColor(TextFormatting.RED);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.TITLE, message, 0, 20, 0));
+				this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 15;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Countdown";
-	}
-
 }

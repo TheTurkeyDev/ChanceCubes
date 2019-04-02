@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,9 +13,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemChestReward implements IChanceCubeReward
+public class ItemChestReward extends BaseCustomReward
 {
-
 	//@formatter:off
 	ItemStack[] stacks = new ItemStack[] { new ItemStack(Blocks.GLASS), new ItemStack(Items.APPLE), new ItemStack(Items.BREAD), 
 			new ItemStack(Blocks.CAKE) , new ItemStack(Items.COOKIE), new ItemStack(Items.COOKED_BEEF), new ItemStack(Items.DIAMOND), 
@@ -28,6 +26,11 @@ public class ItemChestReward implements IChanceCubeReward
 			new ItemStack(Items.EXPERIENCE_BOTTLE), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.BLAZE_ROD), 
 			new ItemStack(Items.ENDER_PEARL)};
 	//@formatter:on
+
+	public ItemChestReward()
+	{
+		super(CCubesCore.MODID + ":Item_Chest", 25);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -42,9 +45,9 @@ public class ItemChestReward implements IChanceCubeReward
 			{
 				spawnItems(world, pos, chest);
 				chest.openInventory(player);
-				world.addBlockEvent(pos, chest.getType(), 1, TileEntityChest.getPlayersUsing(world, pos));
-				world.notifyNeighborsOfStateChange(pos, chest.getType(), true);
-				world.notifyNeighborsOfStateChange(pos.down(), chest.getType(), true);
+				//				world.addBlockEvent(pos, chest.getType(), 1, TileEntityChest.getPlayersUsing(world, pos));
+				//				world.notifyNeighborsOfStateChange(pos, chest.getType(), true);
+				//				world.notifyNeighborsOfStateChange(pos.down(), chest.getType(), true);
 			}
 		});
 	}
@@ -71,17 +74,4 @@ public class ItemChestReward implements IChanceCubeReward
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 25;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Chest";
-	}
-
 }

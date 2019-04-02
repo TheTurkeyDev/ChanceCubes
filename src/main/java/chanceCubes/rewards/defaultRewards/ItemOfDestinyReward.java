@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -13,8 +12,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ItemOfDestinyReward implements IChanceCubeReward
+public class ItemOfDestinyReward extends BaseCustomReward
 {
+	public ItemOfDestinyReward()
+	{
+		super(CCubesCore.MODID + ":Item_Of_Destiny", 40);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
@@ -73,17 +77,4 @@ public class ItemOfDestinyReward implements IChanceCubeReward
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 40;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Item_Of_Destiny";
-	}
-
 }

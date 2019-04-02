@@ -20,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -38,8 +37,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -77,8 +74,8 @@ public class RewardsUtil
 			if(BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)) != null)
 				oredicts.add(oreDict);
 
-		for(String s : FluidRegistry.getRegisteredFluids().keySet())
-			fluids.add(s);
+//		for(String s : FluidRegistry.getRegisteredFluids().keySet())
+//			fluids.add(s);
 	}
 
 	/**
@@ -229,7 +226,7 @@ public class RewardsUtil
 
 	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
 	{
-		if((!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
+		if(!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable)
 		{
 			world.setBlockState(pos, b, update);
 			return true;
@@ -239,7 +236,7 @@ public class RewardsUtil
 
 	public static boolean isBlockUnbreakable(World world, BlockPos pos)
 	{
-		return world.getBlockState(pos).getBlockHardness(world, pos) == -1;
+		return world.getBlockState(pos).getBlockHardness(world, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
 	}
 
 	public static Block getRandomOre()
@@ -333,12 +330,12 @@ public class RewardsUtil
 		return RewardsUtil.getOreDicts().get(rand.nextInt(RewardsUtil.getOreDicts().size()));
 	}
 
-	public static Fluid getRandomFluid()
+	public static Block getRandomFluid()
 	{
-		Fluid f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
-		while(f == null || f.getBlock() == null)
-			f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
-		return f;
+		//		Fluid f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
+		//		while(f == null || f.getBlock() == null)
+		//			f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
+		return Blocks.WATER;
 	}
 
 	public static int getRandomColor()

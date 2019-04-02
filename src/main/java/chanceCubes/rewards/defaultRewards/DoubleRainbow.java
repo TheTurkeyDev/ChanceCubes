@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -10,9 +9,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DoubleRainbow implements IChanceCubeReward
+public class DoubleRainbow extends BaseCustomReward
 {
-	Block[] colors = new Block[]{ Blocks.RED_WOOL, Blocks.ORANGE_WOOL, Blocks.YELLOW_WOOL, Blocks.GREEN_WOOL, Blocks.BLUE_WOOL, Blocks.PURPLE_WOOL };
+	private static Block[] colors = new Block[] { Blocks.RED_WOOL, Blocks.ORANGE_WOOL, Blocks.YELLOW_WOOL, Blocks.GREEN_WOOL, Blocks.BLUE_WOOL, Blocks.PURPLE_WOOL };
+
+	public DoubleRainbow()
+	{
+		super(CCubesCore.MODID + ":Double_Rainbow", 15);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -53,17 +57,4 @@ public class DoubleRainbow implements IChanceCubeReward
 			}
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 15;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Double_Rainbow";
-	}
-
 }

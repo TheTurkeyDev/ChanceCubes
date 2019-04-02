@@ -44,6 +44,8 @@ public class CCubesBlocks
 		TILE_CHANCE_ICOSAHEDRON = TileEntityType.register(CCubesCore.MODID + ":tileChanceIcosahedron", TileEntityType.Builder.create(TileChanceD20::new));
 		TILE_CHANCE_GIANT = TileEntityType.register(CCubesCore.MODID + ":tileChanceGiant", TileEntityType.Builder.create(TileGiantCube::new));
 		TILE_CUBE_DISPENSER = TileEntityType.register(CCubesCore.MODID + ":tileCubeDispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
+	
+		registerBlocksItems();
 	}
 
 	@SubscribeEvent

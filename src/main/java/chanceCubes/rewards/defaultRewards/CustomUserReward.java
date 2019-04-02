@@ -14,7 +14,6 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -22,13 +21,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 
-public class CustomUserReward implements IChanceCubeReward
+public class CustomUserReward extends BaseCustomReward
 {
 	private String userName = "";
 	private UUID uuid = null;
@@ -38,8 +39,8 @@ public class CustomUserReward implements IChanceCubeReward
 
 	public static void getCustomUserReward(UUID uuid)
 	{
-		String userName;
-		String type;
+		String userName = "";
+		String type = "";
 		if(!CCubesSettings.userSpecificRewards.get())
 			return;
 
@@ -87,17 +88,21 @@ public class CustomUserReward implements IChanceCubeReward
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 		}
 
-		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
+		//GROSS, but idk what else todo
+		String userNameFinal = userName;
+		String typeFinal = type;
+		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+		server.addScheduledTask(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(uuid, userName, type, customRewards));
-				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
+				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(uuid, userNameFinal, typeFinal, customRewards));
+				EntityPlayer player = server.getPlayerList().getPlayerByUUID(uuid);
 
 				if(player != null)
 				{
-					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userName + "...."));
+					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
 					player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
 				}
 			}
@@ -106,6 +111,7 @@ public class CustomUserReward implements IChanceCubeReward
 
 	public CustomUserReward(UUID uuid, String userName, String type, List<BasicReward> customRewards)
 	{
+		super(CCubesCore.MODID + ":CR_" + userName, 0);
 		this.uuid = uuid;
 		this.userName = userName;
 		this.type = type;
@@ -134,17 +140,5 @@ public class CustomUserReward implements IChanceCubeReward
 				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
 			}
 		});
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":CR_" + this.userName;
 	}
 }

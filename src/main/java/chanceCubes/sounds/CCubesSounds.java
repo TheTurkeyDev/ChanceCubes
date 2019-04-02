@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CCubesSounds
@@ -19,15 +21,16 @@ public class CCubesSounds
 
 	private static boolean registered = false;
 
-	public static void loadSolunds()
+	@SubscribeEvent
+	public void onSoundRegistry(RegistryEvent.Register<SoundEvent> e)
 	{
 		ResourceLocation res = new ResourceLocation(CCubesCore.MODID, "d20_break");
 		D20_BREAK = new SoundEvent(res).setRegistryName(res);
-		ForgeRegistries.SOUND_EVENTS.register(D20_BREAK);
+		e.getRegistry().register(D20_BREAK);
 
 		res = new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn");
 		GIANT_CUBE_SPAWN = new SoundEvent(res).setRegistryName(res);
-		ForgeRegistries.SOUND_EVENTS.register(GIANT_CUBE_SPAWN);
+		e.getRegistry().register(GIANT_CUBE_SPAWN);
 
 		registered = true;
 	}

@@ -15,8 +15,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ArmorStandArmorReward implements IChanceCubeReward
+public class ArmorStandArmorReward extends BaseCustomReward
 {
+
+	public ArmorStandArmorReward()
+	{
+		super(CCubesCore.MODID + ":Armor_Stand_Armor", 40);
+	}
+	
 	// @formatter:off
 	private String[] names = {"dmodoomsirius", "MJRLegends", "Twp156", "JSL7", "Ratblade", "DerRedstoneProfi", "Turkey2349"};
 	
@@ -71,17 +77,4 @@ public class ArmorStandArmorReward implements IChanceCubeReward
 		armorStand.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
 		world.spawnEntity(armorStand);
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 40;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Armor_Stand_Armor";
-	}
-
 }

@@ -126,7 +126,7 @@ public class BaseLoader
 			if(part.startsWith("RND"))
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-				var.addPart(new ListPart<String>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")));
+				var.addPart(new ListPart<String>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']') - 1).split(",")));
 			else
 				var.addPart(new StringPart(part));
 		}

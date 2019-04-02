@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -14,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BeaconArenaReward implements IChanceCubeReward
+public class BeaconArenaReward extends BaseCustomReward
 {
 	// @formatter:off
 	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
@@ -23,6 +23,12 @@ public class BeaconArenaReward implements IChanceCubeReward
 			Blocks.BRICKS.getDefaultState(), Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
+
+	public BeaconArenaReward()
+	{
+		super(CCubesCore.MODID + ":Beacon_Arena", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -125,17 +131,4 @@ public class BeaconArenaReward implements IChanceCubeReward
 			delay++;
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Beacon_Arena";
-	}
-
 }

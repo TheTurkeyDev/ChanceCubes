@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
@@ -18,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.TreeFeature;
 
-public class SkyblockReward implements IChanceCubeReward
+public class SkyblockReward extends BaseCustomReward
 {
 
 	// @formatter:off
@@ -30,6 +29,11 @@ public class SkyblockReward implements IChanceCubeReward
 		};
 
 	// @formatter:on
+
+	public SkyblockReward()
+	{
+		super(CCubesCore.MODID + ":Sky_Block", 10);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -71,17 +75,5 @@ public class SkyblockReward implements IChanceCubeReward
 		}
 
 		player.setPositionAndUpdate(pos.getX(), skyblockHeight + 3, pos.getZ());
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 10;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":SkyBlock";
 	}
 }

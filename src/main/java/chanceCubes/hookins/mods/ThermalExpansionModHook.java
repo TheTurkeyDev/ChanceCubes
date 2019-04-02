@@ -4,8 +4,8 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
-import chanceCubes.rewards.type.ItemRewardType;
-import chanceCubes.rewards.type.MessageRewardType;
+import chanceCubes.rewards.rewardtype.ItemRewardType;
+import chanceCubes.rewards.rewardtype.MessageRewardType;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +39,7 @@ public class ThermalExpansionModHook extends BaseModHook
 					for(int i = 0; i < 5; i++)
 					{
 						nbt = new NBTTagCompound();
-						nbt.setString("Fluid", RewardsUtil.getRandomFluid().getName());
+						nbt.setString("Fluid", RewardsUtil.getRandomFluid().toString());
 						s.getItemStack().setTag(nbt);
 						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, s.getItemStack().copy());
 						itemEnt.setPickupDelay(10);

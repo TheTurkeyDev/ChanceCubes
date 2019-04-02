@@ -1,7 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -13,8 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class MagicFeetReward implements IChanceCubeReward
+public class MagicFeetReward extends BaseCustomReward
 {
+	public MagicFeetReward()
+	{
+		super(CCubesCore.MODID + ":Magic_Feet", 85);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -42,26 +45,8 @@ public class MagicFeetReward implements IChanceCubeReward
 				}
 
 				if(this.delayLeft % 20 == 0)
-				{
-					int time = this.delayLeft / 20;
-					TextComponentString message = new TextComponentString(String.valueOf(time));
-					message.getStyle().setBold(true);
-					RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
-				}
+					this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 85;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Magic_Feet";
-	}
-
 }

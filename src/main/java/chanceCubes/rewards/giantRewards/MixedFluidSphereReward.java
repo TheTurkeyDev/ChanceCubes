@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
@@ -13,8 +13,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MixedFluidSphereReward implements IChanceCubeReward
+public class MixedFluidSphereReward extends BaseCustomReward
 {
+	public MixedFluidSphereReward()
+	{
+		super(CCubesCore.MODID + ":Mixed_Fluid_Sphere", 0);
+	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -58,17 +63,5 @@ public class MixedFluidSphereReward implements IChanceCubeReward
 
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 15;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Mixed_Fluid_Sphere";
 	}
 }

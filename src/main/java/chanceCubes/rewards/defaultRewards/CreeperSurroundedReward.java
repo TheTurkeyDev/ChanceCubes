@@ -1,9 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +10,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CreeperSurroundedReward implements IChanceCubeReward
+public class CreeperSurroundedReward extends BaseCustomReward
 {
-	private Random rand = new Random();
+	public CreeperSurroundedReward()
+	{
+		super(CCubesCore.MODID + ":Surrounded_Creeper", -85);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -39,7 +40,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
-						if(rand.nextInt(10) == 1)
+						if(RewardsUtil.rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
 						world.spawnEntity(creeper);
 					}
@@ -63,7 +64,7 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
-						if(rand.nextInt(10) == 1)
+						if(RewardsUtil.rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
 						world.spawnEntity(creeper);
 					}
@@ -72,17 +73,4 @@ public class CreeperSurroundedReward implements IChanceCubeReward
 			}
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -85;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Surrounded_Creeper";
-	}
-
 }

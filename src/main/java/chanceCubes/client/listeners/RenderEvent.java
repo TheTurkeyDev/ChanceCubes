@@ -26,6 +26,9 @@ public class RenderEvent
 
 		Minecraft mc = Minecraft.getInstance();
 
+		if(mc.currentScreen == null)
+			return;
+
 		int k = mc.currentScreen.width;
 		int l = mc.currentScreen.height;
 

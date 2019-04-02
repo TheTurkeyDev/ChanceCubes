@@ -1,21 +1,17 @@
 package chanceCubes.rewards.defaultRewards;
 
-import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.rewards.type.IRewardType;
+import chanceCubes.rewards.rewardtype.IRewardType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BasicReward implements IChanceCubeReward
+public class BasicReward extends BaseCustomReward
 {
-	private String name;
-	private int chance;
 	private IRewardType[] rewards;
 
 	public BasicReward(String name, int chance, IRewardType... rewards)
 	{
-		this.name = name;
-		this.chance = chance;
+		super(name, chance);
 		this.rewards = rewards;
 	}
 
@@ -25,17 +21,5 @@ public class BasicReward implements IChanceCubeReward
 		if(!world.isRemote && rewards != null)
 			for(IRewardType reward : rewards)
 				reward.trigger(world, position.getX(), position.getY(), position.getZ(), player);
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return this.chance;
-	}
-
-	@Override
-	public String getName()
-	{
-		return this.name;
 	}
 }

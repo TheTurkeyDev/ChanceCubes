@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
@@ -15,7 +14,6 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -23,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class QuestionsReward implements IChanceCubeReward
+public class QuestionsReward extends BaseCustomReward
 {
 
 	private Map<EntityPlayer, String> inQuestion = new HashMap<EntityPlayer, String>();
@@ -32,13 +30,14 @@ public class QuestionsReward implements IChanceCubeReward
 
 	public QuestionsReward()
 	{
+		super(CCubesCore.MODID + ":Question", -30);
 		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
 		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
 		this.addQuestionAnswer("What company developes Java?", "Sun -or- Sun Microsystems -or- Oracle");
 		this.addQuestionAnswer("Who created Minecraft?", "Notch");
-		this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
+		//this.addQuestionAnswer("What is the air-speed velocity of an unladen European swallow?", "24 -or- 11 -or- 11m/s -or- 24mph -or- 11 m/s -or- 24 mph");
 	}
 
 	public void addQuestionAnswer(String q, String a)
@@ -76,10 +75,8 @@ public class QuestionsReward implements IChanceCubeReward
 			@Override
 			public void update()
 			{
-				int time = this.delayLeft / 20;
-				TextComponentString message = new TextComponentString(String.valueOf(time));
-				message.getStyle().setBold(true);
-				RewardsUtil.setPlayerTitle(player, new SPacketTitle(Type.ACTIONBAR, message, 0, 20, 0));
+				if(this.delayLeft % 20 == 0)
+					this.showTimeLeft(player, Type.ACTIONBAR);
 			}
 
 		});
@@ -105,18 +102,6 @@ public class QuestionsReward implements IChanceCubeReward
 
 		inQuestion.remove(player);
 
-	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -30;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Question";
 	}
 
 	@SubscribeEvent

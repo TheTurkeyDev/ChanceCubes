@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import net.minecraft.block.Block;
@@ -15,13 +15,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ChunkReverserReward implements IChanceCubeReward
+public class ChunkReverserReward extends BaseCustomReward
 {
 
 	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
 
 	public ChunkReverserReward()
 	{
+		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS, Blocks.STONE));
@@ -92,17 +93,4 @@ public class ChunkReverserReward implements IChanceCubeReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Chuck_Reverse";
-	}
-
 }

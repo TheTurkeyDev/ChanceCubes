@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,8 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class DiscoReward implements IChanceCubeReward
+public class DiscoReward extends BaseCustomReward
 {
+	public DiscoReward()
+	{
+		super(CCubesCore.MODID + ":Disco", 40);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
 	{
@@ -31,17 +35,4 @@ public class DiscoReward implements IChanceCubeReward
 
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Disco Party!!!!");
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 40;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Disco";
-	}
-
 }

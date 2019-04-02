@@ -66,12 +66,8 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			return;
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 
-		double px = player.posX;
-		double py = player.posY;
-		double pz = player.posZ;
-
 		EntityItem entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
-		entitem.setLocationAndAngles(px, py, pz, 0, 0);
+		entitem.setLocationAndAngles(player.posX, player.posY, player.posZ, 0, 0);
 		if(player.isSneaking())
 		{
 			entitem.getItem().setCount(1);

@@ -48,11 +48,11 @@ public class ConfigLoader
 
 		// @formatter:off
 		CCubesSettings.rangeMin = builder
-                .comment("The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.")
-                .defineInRange("chanceRangeMin", 20, 0, 100);
+                .comment("The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.")
+                .defineInRange("chanceRangeMin", 10, 0, 100);
 		CCubesSettings.rangeMax = builder
-                .comment("The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your range set to default 20. A chance cube with a chance value of 0 can get rewards of -20 to 20 in chance value.")
-                .defineInRange("chanceRangeMax", 20, 0, 100);
+                .comment("The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.")
+                .defineInRange("chanceRangeMax", 10, 0, 100);
 		
 		CCubesSettings.d20UseNormalChances = builder
                 .comment("Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100")
@@ -114,16 +114,18 @@ public class ConfigLoader
 	public void onConfigLoad(ModConfigEvent event)
 	{
 		File folder = new File(event.getConfig().getFullPath().toUri());
+
 		File customConfigFolder = new File(folder.getAbsolutePath() + "/CustomRewards");
 		customConfigFolder.mkdirs();
+		new CustomRewardsLoader(customConfigFolder);
 
 		new File(folder.getAbsolutePath() + "/CustomRewards/Schematics").mkdirs();
 		new File(folder.getAbsolutePath() + "/CustomRewards/Sounds").mkdirs();
 
-		new CustomRewardsLoader(customConfigFolder);
+		File customProfileFolder = new File(folder.getAbsolutePath() + "/Profiles");
+		customProfileFolder.mkdirs();
+		new CustomProfileLoader(customConfigFolder);
 
-		customConfigFolder = new File(folder.getAbsolutePath() + "/LuckyBlockRewards");
-		customConfigFolder.mkdirs();
-		new LuckyBlockRewardLoader(customConfigFolder);
+		//ProfileManager.setupConfig(new Configuration(new File(folder + "/" + "Profiles.cfg")));
 	}
 }

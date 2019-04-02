@@ -1,5 +1,7 @@
 package chanceCubes.items;
 
+import org.apache.logging.log4j.Level;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.client.Minecraft;
@@ -42,6 +44,8 @@ public class CCubesItems
 		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER).setRegistryName(CCubesBlocks.CUBE_DISPENSER.getRegistryName()));
 
 		e.getRegistry().register(scanner = new ItemScanner());
+		
+		registerItems();
 	}
 
 	public static void registerItems()

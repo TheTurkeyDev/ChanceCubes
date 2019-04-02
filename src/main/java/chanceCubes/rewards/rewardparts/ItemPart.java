@@ -25,7 +25,7 @@ public class ItemPart extends BasePart
 		nbt.setString("id", stack.getItem().getRegistryName().toString());
 		nbt.setByte("Count", (byte) stack.getCount());
 		nbt.setShort("Damage", (short) stack.getDamage());
-		nbt.setTag("tag", stack.getTag());
+		nbt.setTag("tag", stack.getTag() == null ? new NBTTagCompound() : stack.getTag());
 		this.itemNBT = new NBTVar(nbt);
 		this.setDelay(delay);
 	}

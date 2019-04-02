@@ -1,7 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -11,7 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SphereSnakeReward implements IChanceCubeReward
+public class SphereSnakeReward extends BaseCustomReward
 {
 
 	// @formatter:off
@@ -20,6 +20,11 @@ public class SphereSnakeReward implements IChanceCubeReward
 			RewardsUtil.getRandomWool(), Blocks.BRICKS.getDefaultState(), Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
+
+	public SphereSnakeReward()
+	{
+		super(CCubesCore.MODID + ":Sphere_Snake", 0);
+	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player)
@@ -83,17 +88,4 @@ public class SphereSnakeReward implements IChanceCubeReward
 			}
 		});
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return 0;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Sphere_Snake";
-	}
-
 }

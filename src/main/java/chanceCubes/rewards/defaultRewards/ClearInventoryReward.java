@@ -2,7 +2,6 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,9 +13,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class ClearInventoryReward implements IChanceCubeReward
+public class ClearInventoryReward extends BaseCustomReward
 {
 
+	public ClearInventoryReward()
+	{
+		super(CCubesCore.MODID + ":Clear_Inventory", -100);
+	}
+	
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player)
 	{
@@ -50,17 +54,4 @@ public class ClearInventoryReward implements IChanceCubeReward
 			});
 		}
 	}
-
-	@Override
-	public int getChanceValue()
-	{
-		return -100;
-	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Clear_Inventory";
-	}
-
 }
