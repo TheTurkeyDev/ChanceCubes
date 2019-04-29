@@ -31,5 +31,14 @@ public class ProfilesList extends GuiListExtended
 	{
 		return profiles.size();
 	}
+	
+    protected int getScrollBarX()
+    {
+        return this.width / 2 + 160;
+    }
 
+    public int getListWidth()
+    {
+        return 250;
+    }
 }

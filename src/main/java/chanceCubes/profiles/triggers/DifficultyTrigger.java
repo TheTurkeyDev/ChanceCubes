@@ -26,4 +26,10 @@ public class DifficultyTrigger implements ITrigger<EnumDifficulty>
 				ProfileManager.disableProfile(prof);
 		}
 	}
+
+	@Override
+	public String getTriggerDesc()
+	{
+		return "Trigger on game difficulty change";
+	}
 }

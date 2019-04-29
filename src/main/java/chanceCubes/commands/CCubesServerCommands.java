@@ -237,7 +237,7 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("test"))
 		{
-			sender.sendMessage(new TextComponentString("" + ChanceCubeRegistry.INSTANCE.isRewardEnabled("chancecubes:Clear_Inventory")));
+
 		}
 		else if(args[0].equalsIgnoreCase("spawnGiantCube"))
 		{

@@ -11,7 +11,8 @@ public class ProfileListEntry implements IGuiListEntry
 	private ProfilesList profilesList;
 	private IProfile profile;
 	private Minecraft mc;
-	private GuiButton button;
+	private GuiButton enableToggleBtn;
+	private GuiButton editBtn;
 	private boolean enabled;
 
 	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName)
@@ -20,7 +21,8 @@ public class ProfileListEntry implements IGuiListEntry
 		this.profilesList = profilesList;
 		this.mc = mcIn;
 		enabled = ProfileManager.isProfileEnabled(profile);
-		this.button = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled");
+		this.enableToggleBtn = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled");
+		this.editBtn = new GuiButton(1, 0, 0, 40, 16, "Info");
 	}
 
 	@Override
@@ -33,10 +35,13 @@ public class ProfileListEntry implements IGuiListEntry
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
 	{
 		mc.fontRenderer.drawString(profile.getName(), x, y + 1, 16777215);
-		this.button.x = x + this.profilesList.getListWidth() - 50;
-		this.button.y = y;
+		this.enableToggleBtn.x = x + this.profilesList.getListWidth() - 90;
+		this.enableToggleBtn.y = y;
+		this.editBtn.x = x + this.profilesList.getListWidth() - 35;
+		this.editBtn.y = y;
 		//this.button.enabled = enabled() && !isDefault();
-		this.button.drawButton(this.mc, mouseX, mouseY, partialTicks);
+		this.enableToggleBtn.drawButton(this.mc, mouseX, mouseY, partialTicks);
+		this.editBtn.drawButton(this.mc, mouseX, mouseY, partialTicks);
 		if(isSelected && mouseX - x < this.profilesList.getListWidth() - 55)
 		{
 			profilesList.profGui.setHoverText(this.profile.getDescLong());
@@ -46,17 +51,22 @@ public class ProfileListEntry implements IGuiListEntry
 	@Override
 	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
 	{
-		if(this.button.mousePressed(this.mc, mouseX, mouseY))
+		if(this.enableToggleBtn.mousePressed(this.mc, mouseX, mouseY))
 		{
-			button.playPressSound(mc.getSoundHandler());
+			enableToggleBtn.playPressSound(mc.getSoundHandler());
 			enabled = !enabled;
 			if(enabled)
 				ProfileManager.enableProfile(profile);
 			else
 				ProfileManager.disableProfile(profile);
 
-			this.button.displayString = enabled ? "Enabled" : "Disabled";
+			this.enableToggleBtn.displayString = enabled ? "Enabled" : "Disabled";
 			return true;
+		}
+		else if(this.editBtn.mousePressed(this.mc, mouseX, mouseY))
+		{
+			editBtn.playPressSound(mc.getSoundHandler());
+			this.mc.displayGuiScreen(new ProfileInfoGui(this.profilesList.profGui, profile));
 		}
 		return false;
 	}

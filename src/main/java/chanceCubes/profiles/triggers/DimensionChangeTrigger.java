@@ -25,4 +25,10 @@ public class DimensionChangeTrigger implements ITrigger<Integer>
 				ProfileManager.disableProfile(prof);
 		}
 	}
+
+	@Override
+	public String getTriggerDesc()
+	{
+		return "Trigger on dimension change";
+	}
 }

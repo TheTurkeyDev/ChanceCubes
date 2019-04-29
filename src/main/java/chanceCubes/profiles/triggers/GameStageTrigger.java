@@ -29,4 +29,9 @@ public class GameStageTrigger implements ITrigger<String>
 		}
 	}
 
+	@Override
+	public String getTriggerDesc()
+	{
+		return "Trigger on game stage change";
+	}
 }

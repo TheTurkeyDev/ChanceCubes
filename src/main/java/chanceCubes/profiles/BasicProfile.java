@@ -110,6 +110,29 @@ public class BasicProfile implements IProfile
 		return desc;
 	}
 
+	public List<String> getRewardsToEnable()
+	{
+		return this.rewardsToEnable;
+	}
+
+	public List<String> getRewardsToDisable()
+	{
+		return this.rewardsToDisable;
+	}
+
+	public List<String> getChanceValueChanges()
+	{
+		List<String> toReturn = new ArrayList<>();
+		for(Entry<String, Integer> change : this.chanceChanges.entrySet())
+			toReturn.add(change.getKey() + " -> " + change.getValue());
+		return toReturn;
+	}
+	
+	public List<IProfile> getSubProfiles()
+	{
+		return this.subProfiles;
+	}
+
 	@Override
 	public String getDescLong()
 	{
@@ -141,7 +164,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(ITrigger<?> t : this.triggers)
 			{
-				descFull.append(t.getClass().getSimpleName());
+				descFull.append(t.getTriggerDesc());
 				descFull.append("\n");
 			}
 			descFull.append("=== Reward Chance Value Changes ===");
