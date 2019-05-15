@@ -1,4 +1,6 @@
-![Download](http://cf.way2muchnoise.eu/233113.svg)
+![[Download](http://cf.way2muchnoise.eu/full_233113_downloads.svg)](https://minecraft.curseforge.com/projects/chance-cubes)
+![[Available](http://cf.way2muchnoise.eu/versions/233113.svg)](https://minecraft.curseforge.com/projects/chance-cubes)
+![[Packs](http://cf.way2muchnoise.eu/packs/233113.svg)](https://minecraft.curseforge.com/projects/chance-cubes)
 
 # ChanceCubes
 This is the Github repository for the ChanceCubes Minecraft Mod.
