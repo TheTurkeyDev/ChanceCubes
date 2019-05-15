@@ -204,6 +204,7 @@ public class ProfileManager
 				"chancecubes:Wither");
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
 		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
+		profile.addRewardChanceChange("chancecubes:Cave_Spider_Web", -90);
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
 		registerProfile(profile);
 		
