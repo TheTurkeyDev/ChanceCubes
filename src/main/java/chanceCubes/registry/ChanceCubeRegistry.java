@@ -261,7 +261,39 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
 		stack.setItemDamage(stack.getMaxDamage() - 2);
 		stack.setStackDisplayName("The Divine Sword");
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 95, new ItemRewardType(new ItemPart(stack))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Sword", 95, new ItemRewardType(new ItemPart(stack))));
+		
+		stack = new ItemStack(Items.DIAMOND_HELMET);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("protection"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("aqua_affinity"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
+		stack.setItemDamage(stack.getMaxDamage() - 2);
+		stack.setStackDisplayName("The Divine Helmet");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Helmet", 95, new ItemRewardType(new ItemPart(stack))));
+		
+		stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("blast_protection"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("thorns"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
+		stack.setItemDamage(stack.getMaxDamage() - 2);
+		stack.setStackDisplayName("The Divine Chestplate");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Chestplate", 95, new ItemRewardType(new ItemPart(stack))));
+		
+		stack = new ItemStack(Items.DIAMOND_LEGGINGS);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("projectile_protection"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
+		stack.setItemDamage(stack.getMaxDamage() - 2);
+		stack.setStackDisplayName("The Divine Leggings");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Leggings", 95, new ItemRewardType(new ItemPart(stack))));
+		
+		stack = new ItemStack(Items.DIAMOND_BOOTS);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("fire_protection"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("unbreaking"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("feather_falling"), 10);
+		stack.addEnchantment(Enchantment.getEnchantmentByLocation("depth_strider"), 10);
+		stack.setItemDamage(stack.getMaxDamage() - 2);
+		stack.setStackDisplayName("The Divine Boots");
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Boots", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.WOODEN_PICKAXE);
 		stack.addEnchantment(Enchantment.getEnchantmentByLocation("efficiency"), 10);
