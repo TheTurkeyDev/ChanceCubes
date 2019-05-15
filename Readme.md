@@ -1,3 +1,5 @@
+![Download](http://cf.way2muchnoise.eu/233113.svg)
+
 # ChanceCubes
 This is the Github repository for the ChanceCubes Minecraft Mod.
 
