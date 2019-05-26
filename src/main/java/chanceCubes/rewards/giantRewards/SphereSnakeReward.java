@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
@@ -30,7 +32,7 @@ public class SphereSnakeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 		int[] posChange = { 0, 0, 0 };

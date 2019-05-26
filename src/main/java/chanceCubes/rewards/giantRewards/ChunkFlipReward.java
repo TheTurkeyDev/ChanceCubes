@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
@@ -25,7 +27,7 @@ public class ChunkFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int z = pos.getZ() >> 4;
 		int x = pos.getX() >> 4;

@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.rewards.rewardtype.IRewardType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +18,7 @@ public class BasicReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos position, EntityPlayer player)
+	public void trigger(World world, BlockPos position, EntityPlayer player, Map<String, Object> settings)
 	{
 		if(!world.isRemote && rewards != null)
 			for(IRewardType reward : rewards)

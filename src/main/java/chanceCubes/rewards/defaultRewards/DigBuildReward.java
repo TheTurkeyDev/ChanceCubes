@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardsUtil;
@@ -22,7 +24,7 @@ public class DigBuildReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int initalY = player.getPosition().getY();
 		int distance = RewardsUtil.rand.nextInt(20) + 5;

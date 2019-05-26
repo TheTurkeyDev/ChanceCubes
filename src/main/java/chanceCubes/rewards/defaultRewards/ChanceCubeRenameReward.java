@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.util.RewardsUtil;
@@ -26,7 +28,7 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 2);
 		String name = chanceSyn[RewardsUtil.rand.nextInt(chanceSyn.length)];

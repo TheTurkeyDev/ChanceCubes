@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
@@ -32,7 +33,7 @@ public class ItemRenamer extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ItemStack stack : player.inventory.mainInventory)

@@ -36,7 +36,7 @@ public class MathReward extends BaseCustomReward
 	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;

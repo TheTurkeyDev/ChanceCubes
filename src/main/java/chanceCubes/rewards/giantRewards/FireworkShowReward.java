@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.CCubesCommandSender;
@@ -20,7 +22,7 @@ public class FireworkShowReward extends BaseCustomReward
 	}
 	
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
 		MinecraftServer server = world.getMinecraftServer();

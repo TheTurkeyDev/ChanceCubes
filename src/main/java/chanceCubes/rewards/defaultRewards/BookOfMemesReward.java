@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesCommandSender;
@@ -31,7 +32,7 @@ public class BookOfMemesReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		String meme = memes.get(RewardsUtil.rand.nextInt(memes.size()));
 		MinecraftServer server = world.getMinecraftServer();

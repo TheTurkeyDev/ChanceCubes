@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -114,7 +115,7 @@ public class CustomUserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
@@ -132,7 +133,7 @@ public class CustomUserReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
+				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player, settings);
 			}
 		});
 	}

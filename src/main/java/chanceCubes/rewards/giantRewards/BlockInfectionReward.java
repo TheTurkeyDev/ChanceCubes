@@ -2,6 +2,7 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
@@ -33,7 +34,7 @@ public class BlockInfectionReward extends BaseCustomReward
 	}
 	
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int delay = 0;
 		int delayShorten = 20;

@@ -54,7 +54,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
 				{
-					reward.trigger(world, pos, player);
+					ChanceCubeRegistry.INSTANCE.triggerReward(reward, world, pos, player);
 					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}
 				else
@@ -72,7 +72,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
 				{
-					reward.trigger(world, giant.getMasterPostion(), player);
+					GiantCubeRegistry.INSTANCE.triggerReward(reward, world, pos, player);
 					GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}

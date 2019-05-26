@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
@@ -49,7 +50,7 @@ public class MobTowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("How did they end up like that? O.o"));
 		int height = RewardsUtil.rand.nextInt(6) + 7;

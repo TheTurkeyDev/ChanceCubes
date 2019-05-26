@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.state.IBlockState;
@@ -18,7 +20,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;

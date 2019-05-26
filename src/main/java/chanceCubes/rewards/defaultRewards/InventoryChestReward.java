@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
@@ -22,7 +23,7 @@ public class InventoryChestReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		final List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ItemStack stack : player.inventory.mainInventory)

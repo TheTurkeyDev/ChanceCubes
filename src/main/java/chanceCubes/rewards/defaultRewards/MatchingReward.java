@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardBlockCache;
@@ -23,7 +25,7 @@ public class MatchingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int[] metas = { 0, 1, 1, 2, 2, 3, 3, 4, 4 };
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());

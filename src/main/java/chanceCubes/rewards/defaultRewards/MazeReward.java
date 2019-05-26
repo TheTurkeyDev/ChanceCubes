@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.MazeGenerator;
@@ -23,7 +25,7 @@ public class MazeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Generating maze..... May be some lag..."));
 		final MazeGenerator gen = new MazeGenerator(world, pos, player.getPosition());

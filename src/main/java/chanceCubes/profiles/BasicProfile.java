@@ -24,6 +24,7 @@ public class BasicProfile implements IProfile
 	private List<String> rewardsToDisable = new ArrayList<>();
 	private List<IProfile> subProfiles = new ArrayList<>();
 	private Map<String, Integer> chanceChanges = new HashMap<>();
+	private Map<String, Map<String, Object>> rewardSettings = new HashMap<>();
 
 	public BasicProfile(String id, String name, String desc)
 	{
@@ -92,6 +93,11 @@ public class BasicProfile implements IProfile
 			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
+	public Map<String, Map<String, Object>> getRewardSettings()
+	{
+		return rewardSettings;
+	}
+
 	@Override
 	public String getID()
 	{
@@ -127,7 +133,7 @@ public class BasicProfile implements IProfile
 			toReturn.add(change.getKey() + " -> " + change.getValue());
 		return toReturn;
 	}
-	
+
 	public List<IProfile> getSubProfiles()
 	{
 		return this.subProfiles;

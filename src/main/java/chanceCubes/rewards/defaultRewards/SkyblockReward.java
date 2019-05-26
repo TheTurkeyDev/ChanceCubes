@@ -1,5 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
@@ -33,7 +34,7 @@ public class SkyblockReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int skyblockHeight = world.getActualHeight() - 16;
 		if(!world.provider.hasSkyLight())

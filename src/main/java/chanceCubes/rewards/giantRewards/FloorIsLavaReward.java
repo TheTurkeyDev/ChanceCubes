@@ -2,6 +2,7 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
@@ -22,7 +23,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 	}
 	
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Quick! The Floor is lava!"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();

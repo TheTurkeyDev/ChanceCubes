@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
@@ -23,7 +24,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos pos, EntityPlayer player)
+	public void trigger(final World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		final List<Entity> wolves = new ArrayList<Entity>();
 		for(int i = 0; i < 10; i++)

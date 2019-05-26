@@ -45,7 +45,7 @@ public class QuestionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;

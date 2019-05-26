@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -23,7 +25,7 @@ public class WaitForItReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Wait for it......."));
 

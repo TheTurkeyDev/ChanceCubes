@@ -44,4 +44,6 @@ public interface IRewardRegistry
      *            Min and max chance values
      */
     void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance);
+    
+    void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player);
 }

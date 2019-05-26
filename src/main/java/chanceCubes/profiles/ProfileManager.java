@@ -169,6 +169,18 @@ public class ProfileManager
 		}
 	}
 
+	public static Map<String, Object> getRewardSpawnSettings(IChanceCubeReward reward)
+	{
+		Map<String, Object> settings = new HashMap<String, Object>();
+
+		for(IProfile prof : enabledProfiles)
+		{
+			//TODO
+		}
+
+		return settings;
+	}
+
 	public static void initProfiles()
 	{
 		BasicProfile profile;
