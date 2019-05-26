@@ -3,7 +3,6 @@ package chanceCubes.client.gui;
 import java.io.IOException;
 import java.net.URI;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -16,20 +15,16 @@ public class ProfileGui extends GuiScreen
 
 	private String rewardsInfoUrlText = "Click here to see all the rewards and info about them";
 
-	private boolean isIntegratedServer;
-
 	public ProfileGui(GuiScreen screen)
 	{
 		parentScreen = screen;
-		isIntegratedServer = Minecraft.getMinecraft().isIntegratedServerRunning();
 	}
 
 	@Override
 	public void initGui()
 	{
 		this.profileList = new ProfilesList(this, this.mc, this.width, this.height, 64, this.height - 32, 20);
-		if(isIntegratedServer)
-			this.addButton(new GuiButton(0, this.width / 2 - 36, this.height - 28, 72, 20, "Save"));
+		this.addButton(new GuiButton(0, this.width / 2 - 36, this.height - 28, 72, 20, "Save"));
 	}
 
 	/**
@@ -46,23 +41,15 @@ public class ProfileGui extends GuiScreen
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
-		if(isIntegratedServer)
-		{
-			hoverText = "";
-			this.profileList.drawScreen(mouseX, mouseY, partialTicks);
-			this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
-			this.drawCenteredString(this.fontRenderer, "Profiles", this.width / 2, 20, 16777215);
-			this.drawCenteredString(this.fontRenderer, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
-			this.drawCenteredString(this.fontRenderer, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
-			super.drawScreen(mouseX, mouseY, partialTicks);
-			if(!hoverText.isEmpty())
-				this.drawHoveringText(hoverText, mouseX, mouseY);
-		}
-		else
-		{
-			super.drawScreen(mouseX, mouseY, partialTicks);
-			this.drawCenteredString(this.fontRenderer, "Sorry, profiles cannot be changed on servers yet from this screen", this.width / 2, this.height / 2, 0x00FF00);
-		}
+		hoverText = "";
+		this.profileList.drawScreen(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement! Only edits client side files!", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(this.fontRenderer, "Profiles", this.width / 2, 20, 16777215);
+		this.drawCenteredString(this.fontRenderer, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
+		this.drawCenteredString(this.fontRenderer, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		if(!hoverText.isEmpty())
+			this.drawHoveringText(hoverText, mouseX, mouseY);
 	}
 
 	/**
@@ -71,8 +58,6 @@ public class ProfileGui extends GuiScreen
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		if(!isIntegratedServer)
-			return;
 		this.profileList.mouseClicked(mouseX, mouseY, mouseButton);
 
 		int textWidth = this.fontRenderer.getStringWidth(rewardsInfoUrlText);
@@ -97,8 +82,7 @@ public class ProfileGui extends GuiScreen
 	protected void mouseReleased(int mouseX, int mouseY, int state)
 	{
 		super.mouseReleased(mouseX, mouseY, state);
-		if(isIntegratedServer)
-			this.profileList.mouseReleased(mouseX, mouseY, state);
+		this.profileList.mouseReleased(mouseX, mouseY, state);
 	}
 
 	public void setHoverText(String text)
@@ -108,7 +92,7 @@ public class ProfileGui extends GuiScreen
 
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		if(button.enabled && isIntegratedServer)
+		if(button.enabled)
 		{
 			if(button.id == 0)
 				this.mc.displayGuiScreen(this.parentScreen);
