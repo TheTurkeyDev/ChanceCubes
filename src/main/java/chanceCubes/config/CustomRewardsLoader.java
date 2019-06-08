@@ -81,7 +81,7 @@ public class CustomRewardsLoader extends BaseLoader
 		this.folder = folder;
 		json = new JsonParser();
 
-		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
+		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/custom_sounds_resourcepack"), "Chance Cubes Resource Pack");
 		customSounds.addCustomSounds();
 		try
 		{

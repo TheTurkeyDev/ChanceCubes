@@ -10,13 +10,13 @@
 			"item": "minecraft:lapis_block"
 		},
 		"P": {
-			"item": "chancecubes:chance_pendant_tier_2"
+			"item": "chancecubes:chance_pendant_tier2"
 		},
 		"G": {
 			"item": "minecraft:gold_block"
 		}
 	},
 	"result": {
-		"item": "chancecubes:chance_pendant_tier_3"
+		"item": "chancecubes:chance_pendant_tier3"
 	}
 }

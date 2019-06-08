@@ -36,6 +36,7 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -48,45 +49,55 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(CCubesCore.MODID)
-public class CCubesCore {
+public class CCubesCore
+{
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 
 	public static final String gameVersion = "1.13.2";
 
-	public static ItemGroup modTab = new ItemGroup(MODID) {
+	public static ItemGroup modTab = new ItemGroup(MODID)
+	{
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack createIcon()
+		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
 	public static final Logger logger = LogManager.getLogger(MODID);;
 
-	public CCubesCore() {
+	public CCubesCore()
+	{
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec,
-				"chancecubes" + File.separatorChar + "chancecubes-server.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 		// ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, ()
 		// -> CCubesGuiHandler::openGui);
 	}
 
-	public void commonStart(FMLCommonSetupEvent event) {
+	@SubscribeEvent
+	public void commonStart(FMLCommonSetupEvent event)
+	{
+		CCubesPacketHandler.init();
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
 		MinecraftForge.EVENT_BUS.register(new TriggerHooks());
 		MinecraftForge.EVENT_BUS.register(new VanillaTriggerHooks());
-		if (ModList.get().isLoaded("gamestages")) {
+		if(ModList.get().isLoaded("gamestages"))
+		{
 			MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
 			CCubesCore.logger.log(Level.INFO, "Loaded GameStages support!");
 		}
 	}
 
-	public void clientStart(FMLClientSetupEvent event) {
+	@SubscribeEvent
+	public void clientStart(FMLClientSetupEvent event)
+	{
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
@@ -94,16 +105,18 @@ public class CCubesCore {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
-		
-//		CCubesBlocks.registerBlocksItems();
-//		CCubesItems.registerItems();
+
+		//		CCubesBlocks.registerBlocksItems();
+		//		CCubesItems.registerItems();
 	}
 
-	public void serverStart(FMLServerStartingEvent event) {
+	@SubscribeEvent
+	public void serverStart(FMLServerStartingEvent event)
+	{
 		// ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-		CCubesPacketHandler.init();
 
-		if (CCubesSettings.chestLoot.get()) {
+		if(CCubesSettings.chestLoot.get())
+		{
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
 			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
@@ -146,7 +159,9 @@ public class CCubesCore {
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
 
-	public void onIMCMessage(InterModProcessEvent e) {
+	@SubscribeEvent
+	public void onIMCMessage(InterModProcessEvent e)
+	{
 		e.getIMCStream().forEach((message) -> {
 			// if(message..equalsIgnoreCase("add-nonreplaceable") &&
 			// message.isItemStackMessage())

@@ -8,8 +8,7 @@
 		"custom": {"flip-v":true}
      },
     "variants": {
-        "normal": [{}],
-        "inventory": [{
+        "": {
             "transform": {
                 "thirdperson": {
                     "translation": [0.25, 0.30, 0.25],
@@ -29,6 +28,6 @@
                   "scale": 0.38
                 }
             }
-        }]
+        }
     }
 }

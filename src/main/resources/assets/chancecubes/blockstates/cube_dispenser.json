@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"dispensing=chance_cube": { "model": "chancecubes:cube_dispenser" },
-		"dispensing=chance_icosahedron": { "model": "chancecubes:cube_dispenser" },
-		"dispensing=compact_gaint_cube": { "model": "chancecubes:cube_dispenser" }
+		"dispensing=chance_cube": { "model": "chancecubes:block/cube_dispenser" },
+		"dispensing=chance_icosahedron": { "model": "chancecubes:block/cube_dispenser" },
+		"dispensing=compact_gaint_cube": { "model": "chancecubes:block/cube_dispenser" }
 	}
 }

@@ -10,7 +10,7 @@
             "item": "minecraft:lapis_block"
         },
         "P": {
-            "item": "chancecubes:chance_pendant_tier_1"
+            "item": "chancecubes:chance_pendant_tier1"
         },
         "S": {
             "item": "minecraft:string"

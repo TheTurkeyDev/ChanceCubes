@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import chanceCubes.CCubesCore;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -14,6 +16,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
  * Handles Configuration file management
  */
 
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ConfigLoader
 {
 	public static final ForgeConfigSpec configSpec;
@@ -117,18 +120,21 @@ public class ConfigLoader
 	}
 
 	@SubscribeEvent
-	public void onConfigLoad(ModConfigEvent event)
+	public static void onConfigLoad(ModConfigEvent event)
 	{
-		File folder = new File(event.getConfig().getFullPath().toUri());
+		
+		File folder = (new File(event.getConfig().getFullPath().toUri())).getParentFile();
 
-		File customConfigFolder = new File(folder.getAbsolutePath() + "/CustomRewards");
+		File customConfigFolder = new File(folder.getAbsolutePath(), "custom_rewards");
 		customConfigFolder.mkdirs();
+		
+		new File(customConfigFolder, "sounds").mkdirs();
+		new File(customConfigFolder, "schematics").mkdirs();
+		
+		System.out.println(customConfigFolder.getAbsolutePath() + "  " + customConfigFolder.exists());
 		new CustomRewardsLoader(customConfigFolder);
 
-		new File(folder.getAbsolutePath() + "/CustomRewards/Schematics").mkdirs();
-		new File(folder.getAbsolutePath() + "/CustomRewards/Sounds").mkdirs();
-
-		File customProfileFolder = new File(folder.getAbsolutePath() + "/Profiles");
+		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");
 		customProfileFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
 

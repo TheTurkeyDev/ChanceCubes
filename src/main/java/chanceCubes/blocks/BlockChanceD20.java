@@ -4,8 +4,10 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
+import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,7 +24,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
-public class BlockChanceD20 extends BaseChanceBlock
+public class BlockChanceD20 extends BaseChanceBlock  implements ITileEntityProvider
 {
 
 	public BlockChanceD20()
@@ -34,6 +36,11 @@ public class BlockChanceD20 extends BaseChanceBlock
 	public boolean hasTileEntity(IBlockState state)
 	{
 		return true;
+	}
+	
+	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	{
+		return new TileChanceD20();
 	}
 
 	@Override
