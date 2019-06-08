@@ -17,7 +17,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = CCubesCore.MODID)
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesBlocks
 {
 	public static BaseChanceBlock CHANCE_CUBE;
@@ -32,7 +32,7 @@ public class CCubesBlocks
 	public static TileEntityType<TileCubeDispenser> TILE_CUBE_DISPENSER;
 
 	@SubscribeEvent
-	public void onBlockRegistry(RegistryEvent.Register<Block> e)
+	public static void onBlockRegistry(RegistryEvent.Register<Block> e)
 	{
 		e.getRegistry().register(CHANCE_CUBE = new BlockChanceCube());
 		e.getRegistry().register(CHANCE_ICOSAHEDRON = new BlockChanceD20());
@@ -40,12 +40,10 @@ public class CCubesBlocks
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
-		TILE_CHANCE_CUBE = TileEntityType.register(CCubesCore.MODID + ":tileChanceCube", TileEntityType.Builder.create(TileChanceCube::new));
-		TILE_CHANCE_ICOSAHEDRON = TileEntityType.register(CCubesCore.MODID + ":tileChanceIcosahedron", TileEntityType.Builder.create(TileChanceD20::new));
-		TILE_CHANCE_GIANT = TileEntityType.register(CCubesCore.MODID + ":tileChanceGiant", TileEntityType.Builder.create(TileGiantCube::new));
-		TILE_CUBE_DISPENSER = TileEntityType.register(CCubesCore.MODID + ":tileCubeDispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
-	
-		registerBlocksItems();
+		TILE_CHANCE_CUBE = TileEntityType.register(CCubesCore.MODID + ":tile_chance_cube", TileEntityType.Builder.create(TileChanceCube::new));
+		TILE_CHANCE_ICOSAHEDRON = TileEntityType.register(CCubesCore.MODID + ":tile_chance_icosahedron", TileEntityType.Builder.create(TileChanceD20::new));
+		TILE_CHANCE_GIANT = TileEntityType.register(CCubesCore.MODID + ":tile_chance_giant", TileEntityType.Builder.create(TileGiantCube::new));
+		TILE_CUBE_DISPENSER = TileEntityType.register(CCubesCore.MODID + ":tile_cube_dispenser", TileEntityType.Builder.create(TileCubeDispenser::new));
 	}
 
 	@SubscribeEvent

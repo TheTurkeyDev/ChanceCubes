@@ -18,8 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
@@ -96,12 +94,14 @@ public class BlockChanceD20 extends BaseChanceBlock
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockReader world, BlockPos pos)
 	{
+
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile != null && tile instanceof TileChanceD20)
 		{
-			TileChanceD20 d20 = (TileChanceD20) tile;
-			if(d20.transform != TRSRTransformation.identity())
-				return ((IExtendedBlockState) state).withProperty(net.minecraftforge.common.property.Properties.AnimationProperty, d20.transform);
+			//TODO: Reimplement
+			//			TileChanceD20 d20 = (TileChanceD20) tile;
+			//			if(d20.transform != TRSRTransformation.identity())
+			//				return ((IExtendedBlockState) state.withProperty(net.minecraftforge.common.property.Properties.AnimationProperty, d20.transform);
 		}
 
 		return state;

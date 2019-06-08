@@ -29,7 +29,15 @@ public class ItemChanceCube extends ItemBlock
 {
 	public ItemChanceCube(Block b)
 	{
-		super(b, (new Item.Properties()).group(CCubesCore.modTab));
+		super(b, getProps(b));
+	}
+	
+	public static Properties getProps(Block b)
+	{
+		Properties props = new Properties();
+		if(!b.equals(CCubesBlocks.GIANT_CUBE))
+			props.group(CCubesCore.modTab);
+		return props;
 	}
 
 	public void setChance(ItemStack stack, int chance)

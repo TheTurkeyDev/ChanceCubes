@@ -1,7 +1,5 @@
 package chanceCubes.items;
 
-import org.apache.logging.log4j.Level;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.client.Minecraft;
@@ -10,7 +8,9 @@ import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesItems
 {
 
@@ -26,7 +26,7 @@ public class CCubesItems
 	public static BaseChanceCubesItem scanner;
 
 	@SubscribeEvent
-	public void onItemRegistry(RegistryEvent.Register<Item> e)
+	public static void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
 		e.getRegistry().register(chancePendantT1 = new ItemChancePendant(1, 10));
 		e.getRegistry().register(chancePendantT2 = new ItemChancePendant(2, 25));
@@ -44,8 +44,6 @@ public class CCubesItems
 		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER).setRegistryName(CCubesBlocks.CUBE_DISPENSER.getRegistryName()));
 
 		e.getRegistry().register(scanner = new ItemScanner());
-		
-		registerItems();
 	}
 
 	public static void registerItems()

@@ -9,6 +9,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
@@ -113,6 +114,11 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			return this.getDefaultState().with(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
 		else
 			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
+	}
+	
+	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
+	{
+		builder.add(DISPENSING);
 	}
 
 	public static enum DispenseType implements IStringSerializable

@@ -4,6 +4,6 @@
       "transform": "forge:default-block"
     },
     "variants": {
-        "normal": { "model": "chancecubes:giant_Chance_Cube" }
+        "normal": { "model": "chancecubes:giant_chance_cube" }
     }
 }

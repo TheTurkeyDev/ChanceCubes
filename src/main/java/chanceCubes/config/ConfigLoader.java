@@ -8,10 +8,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 /**
  * Handles Configuration file management
  */
+
 public class ConfigLoader
 {
 	public static final ForgeConfigSpec configSpec;
@@ -28,6 +30,10 @@ public class ConfigLoader
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
 
 	public static File folder;
+	
+	public static void initParentFolder() {
+		(new File(FMLPaths.CONFIGDIR.get().toString(), "chancecubes")).mkdir();
+	}
 
 	/**
 	 * Initializes and loads ChanceCubes settings from the config file. <br>

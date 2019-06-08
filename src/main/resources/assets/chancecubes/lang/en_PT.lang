@@ -1,20 +1,20 @@
 itemGroup.chancecubes=Devils Dice
 
-tile.chance_Cube.name=Devils Dice
-tile.chance_Icosahedron.name=Siren Dice
-tile.giant_Chance_Cube.name=Kraken Dice
-tile.compact_Giant_Chance_Cube.name=Caged Kraken Dice
-tile.cube_Dispenser.name=Devils Dice Keg
+tile.chance_cube.name=Devils Dice
+tile.chance_icosahedron.name=Siren Dice
+tile.giant_chance_cube.name=Kraken Dice
+tile.compact_giant_chance_cube.name=Caged Kraken Dice
+tile.cube_dispenser.name=Devils Dice Keg
 
-item.chance_Pendant_Tier1.name=Landlubber's Devil Charm
-item.chance_Pendant_Tier2.name=Mate's Devil Charm
-item.chance_Pendant_Tier3.name=Captain's Devil Charm
+item.chance_pendant_tier1.name=Landlubber's Devil Charm
+item.chance_pendant_tier2.name=Mate's Devil Charm
+item.chance_pendant_tier3.name=Captain's Devil Charm
 
-item.creative_Pendant.name=Creative Devil Charm
-item.reward_Selector_Pendant.name=Reward Selector Charm
+item.creative_pendant.name=Creative Devil Charm
+item.reward_selector_pendant.name=Reward Selector Charm
 item.single_use_reward_selector_pendant.name=One Eye Reward Selector Charm
 
-item.silk_Touch_Pendant.name=Soft Hands Charm
+item.silk_touch_pendant.name=Soft Hands Charm
 
 item.scanner.name=Devils Dice Spyglass
 

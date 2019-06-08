@@ -7,6 +7,7 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -16,6 +17,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -31,14 +33,14 @@ public class BlockChanceCube extends BaseChanceBlock
 	public BlockChanceCube()
 	{
 		super(getBuilder().lightValue(2), "chance_cube");
-		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, textureToSet));
+		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, EnumTexture.DEFAULT));
 	}
-	
+
 	@Override
-    public boolean hasTileEntity(IBlockState state)
-    {
-        return true;
-    }
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
 
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
@@ -77,11 +79,16 @@ public class BlockChanceCube extends BaseChanceBlock
 		return iblockstate.with(TEXTURE, textureToSet);
 	}
 
+	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
+	{
+		builder.add(TEXTURE);
+	}
+
 	public static enum EnumTexture implements IStringSerializable
 	{
 		// @formatter:off
-		DEFAULT("default"), VALENTINES("valentines"), STPATRICKS("stpatricks"), 
-		HALLOWEEN("halloween"), HOLIDAYS("holidays"), EASTER("easter");
+		DEFAULT("default"), VALENTINES("valentines"), STPATRICKS("stpatricks"), HALLOWEEN("halloween"),
+		HOLIDAYS("holidays"), EASTER("easter");
 		// @formatter:on
 
 		private final String name;
