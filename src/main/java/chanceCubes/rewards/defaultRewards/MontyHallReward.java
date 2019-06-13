@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -26,7 +28,7 @@ public class MontyHallReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Which button do you press?"));
 

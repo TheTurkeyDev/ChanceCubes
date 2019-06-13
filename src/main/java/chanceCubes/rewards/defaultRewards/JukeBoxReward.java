@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockJukebox;
@@ -22,7 +24,7 @@ public class JukeBoxReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardsUtil.placeBlock(Blocks.JUKEBOX.getDefaultState(), world, pos);
 		IBlockState iblockstate = world.getBlockState(pos);

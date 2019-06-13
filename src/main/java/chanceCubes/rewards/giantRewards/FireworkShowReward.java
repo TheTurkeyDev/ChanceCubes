@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
@@ -16,9 +18,8 @@ public class FireworkShowReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Firework_Show", 0);
 	}
-
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardsUtil.executeCommand(world, player, "/time set 15000");
 	}

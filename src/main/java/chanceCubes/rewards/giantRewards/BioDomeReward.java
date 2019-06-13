@@ -2,6 +2,7 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BasicTreesBiome;
@@ -29,14 +30,14 @@ public class BioDomeReward extends BaseCustomReward
 	// @formatter:on
 
 	public static final int delayShorten = 10;
-
+	
 	public BioDomeReward()
 	{
 		super(CCubesCore.MODID + ":BioDome", 0);
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		// player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 

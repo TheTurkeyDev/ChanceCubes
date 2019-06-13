@@ -2,6 +2,7 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
@@ -38,9 +39,8 @@ public class BlockThrowerReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Block_Thrower", 0);
 	}
-
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		for(int x = -20; x < 21; x++)
 		{

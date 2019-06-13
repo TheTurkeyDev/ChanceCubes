@@ -44,7 +44,7 @@ public abstract class Task
 	{
 
 	}
-	
+
 	public void showTimeLeft(EntityPlayer player, SPacketTitle.Type location)
 	{
 		int time = this.delayLeft / 20;

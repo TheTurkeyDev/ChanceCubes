@@ -2,6 +2,8 @@ package chanceCubes.client.gui;
 
 import chanceCubes.rewards.profiles.IProfile;
 import chanceCubes.rewards.profiles.ProfileManager;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.ProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
@@ -11,7 +13,8 @@ public class ProfileListEntry extends IGuiListEntry<ProfileListEntry>
 	private ProfilesList profilesList;
 	private IProfile profile;
 	private Minecraft mc;
-	private GuiButton button;
+	private GuiButton enableToggleBtn;
+	private GuiButton editBtn;
 	private boolean enabled;
 
 	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName)
@@ -20,18 +23,26 @@ public class ProfileListEntry extends IGuiListEntry<ProfileListEntry>
 		this.profilesList = profilesList;
 		this.mc = mcIn;
 		enabled = ProfileManager.isProfileEnabled(profile);
-		this.button = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled") {
+			
+		this.enableToggleBtn = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled") {
 			public void onClick(double mouseX, double mouseY) {
-				button.playPressSound(mc.getSoundHandler());
+				enableToggleBtn.playPressSound(mc.getSoundHandler());
 				enabled = !enabled;
 				if(enabled)
 					ProfileManager.enableProfile(profile);
 				else
 					ProfileManager.disableProfile(profile);
-
-				this.displayString = enabled ? "Enabled" : "Disabled";
+	
+				enableToggleBtn.displayString = enabled ? "Enabled" : "Disabled";
 			}
 		};
+
+		this.editBtn = new GuiButton(1, 0, 0, 40, 16, "Info"){
+			public void onClick(double mouseX, double mouseY) {
+				editBtn.playPressSound(mc.getSoundHandler());
+				mc.displayGuiScreen(new ProfileInfoGui(profilesList.profGui, profile));
+			}
+		};	
 	}
 
 	@Override

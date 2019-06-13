@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -15,14 +17,13 @@ import net.minecraft.world.World;
 
 public class CakeIsALieReward extends BaseCustomReward
 {
-
 	public CakeIsALieReward()
 	{
 		super(CCubesCore.MODID + ":Cake", 20);
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 

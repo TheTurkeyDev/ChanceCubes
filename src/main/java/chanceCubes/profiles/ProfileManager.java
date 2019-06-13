@@ -1,4 +1,4 @@
-package chanceCubes.rewards.profiles;
+package chanceCubes.profiles;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,11 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.rewards.profiles.triggers.DifficultyTrigger;
-import chanceCubes.rewards.profiles.triggers.DimensionChangeTrigger;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraftforge.common.config.Configuration;
 
 public class ProfileManager
 {
@@ -19,7 +20,7 @@ public class ProfileManager
 
 	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
-	//private static Configuration config;
+	private static Configuration config;
 	public static final String genCat = "Profile Status";
 
 	public static void registerProfile(IProfile profile)
@@ -29,7 +30,7 @@ public class ProfileManager
 
 	public static void registerProfile(IProfile profile, boolean enabled)
 	{
-		enabled = false;//config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
+		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
 		if(enabled)
 		{
 			enabledProfiles.add(profile);
@@ -48,9 +49,9 @@ public class ProfileManager
 		{
 			enabledProfiles.add(profile);
 			profile.onEnable();
-			//config.load();
-			//config.get(genCat, profile.getName(), "").setValue(true);
-			//config.save();
+			config.load();
+			config.get(genCat, profile.getName(), "").setValue(true);
+			config.save();
 		}
 	}
 
@@ -60,9 +61,9 @@ public class ProfileManager
 		{
 			disabledProfiles.add(profile);
 			profile.onDisable();
-			//config.load();
-			//config.get(genCat, profile.getName(), "").setValue(false);
-			//config.save();
+			config.load();
+			config.get(genCat, profile.getName(), "").setValue(false);
+			config.save();
 		}
 	}
 
@@ -155,17 +156,29 @@ public class ProfileManager
 			List<Integer> cache = chanceChangesCache.get(rewardName);
 			if(cache == null)
 			{
-				//Something dun messed up
+				// Something dun messed up
 				return;
 			}
 			cache.remove((Integer) chanceFrom);
 			if(cache.size() == 0)
 			{
-				//Again, something dun messed up
+				// Again, something dun messed up
 				return;
 			}
 			reward.setChanceValue(cache.get(cache.size() - 1));
 		}
+	}
+
+	public static Map<String, Object> getRewardSpawnSettings(IChanceCubeReward reward)
+	{
+		Map<String, Object> settings = new HashMap<String, Object>();
+
+		for(IProfile prof : enabledProfiles)
+		{
+			//TODO
+		}
+
+		return settings;
 	}
 
 	public static void initProfiles()
@@ -173,7 +186,7 @@ public class ProfileManager
 		BasicProfile profile;
 
 		//@formatter:off
-		//config.load();
+		config.load();
 		profile = new BasicProfile("default", "Default", "Rewards that are disabled by default");
 		profile.addDisabledRewards("chancecubes:Clear_Inventory");
 		registerProfile(profile, true);
@@ -198,12 +211,12 @@ public class ProfileManager
 				"chancecubes:Mob_Abilities_Effects");
 		registerProfile(profile);
 		
-		//TODO: Finish this one up
 		profile = new BasicProfile("hardcore", "Hardcore", "For users who play on hardcore diffuculty");
 		profile.addDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall", "chancecubes:Ender_Crystal_Timer",
 				"chancecubes:Wither");
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
 		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
+		profile.addRewardChanceChange("chancecubes:Cave_Spider_Web", -90);
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
 		registerProfile(profile);
 		
@@ -213,7 +226,7 @@ public class ProfileManager
 				"chancecubes:Cats_And_Dogs");
 		profile.addTriggers(new DimensionChangeTrigger(profile, -1));
 		registerProfile(profile);
-
+		
 		profile = new BasicProfile("peaceful", "Peaceful", "For users who play on peaceful diffuculty. Removes rewards that have hostile Mobs (Doesn't remove TNT)");
 		profile.addDisabledRewards("chancecubes:Pssst", "chancecubes:Horde", "chancecubes:Silverfish_Surround",
 				"chancecubes:Slime_Man", "chancecubes:Witch", "chancecubes:Spawn_Jerry", "chancecubes:Spawn_Glenn", 
@@ -225,7 +238,7 @@ public class ProfileManager
 				"chancecubes:Cake", "chancecubes:Wolves_To_Creepers", "chancecubes:Countdown", "chancecubes:Mob_Tower");
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.PEACEFUL));
 		registerProfile(profile);
-
+		
 		profile = new BasicProfile("no_area_of_effects", "No Area of Effect Rewards", "Disables rewards that place blocks that have a 3x3x3 area of effect or greater (Does not include rewards that reset blocks to their original state after)");
 		profile.addDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:TNT_Diamond", "chancecubes:STRING!",
 				"chancecubes:CARPET!", "chancecubes:Squid_Horde", "chancecubes:D-rude_SandStorm", "chancecubes:Ice_Cold", 
@@ -234,12 +247,12 @@ public class ProfileManager
 				"chancecubes:Path_To_Succeed", "chancecubes:Help_Me", "chancecubes:Beacon_Build", "chancecubes:Disco", 
 				"chancecubes:5_Prongs", "chancecubes:Table_Flip", "chancecubes:Sky_Block", "chancecubes:Double_Rainbow");
 		registerProfile(profile);
-		//config.save();
+		config.save();
 		//@formatter:on
 	}
 
-	//	public static void setupConfig(Configuration configuration)
-	//	{
-	//		config = configuration;
-	//	}
+	public static void setupConfig(Configuration configuration)
+	{
+		config = configuration;
+	}
 }

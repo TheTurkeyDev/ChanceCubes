@@ -18,14 +18,15 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.ItemChancePendant;
+import chanceCubes.profiles.ProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.AnvilRain;
 import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
 import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
 import chanceCubes.rewards.defaultRewards.ChanceCubeRenameReward;
-import chanceCubes.rewards.defaultRewards.ChargedCreeperReward;
 import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
 import chanceCubes.rewards.defaultRewards.CoinFlipReward;
 import chanceCubes.rewards.defaultRewards.CountDownReward;
@@ -33,12 +34,8 @@ import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
 import chanceCubes.rewards.defaultRewards.DigBuildReward;
-import chanceCubes.rewards.defaultRewards.DiscoReward;
 import chanceCubes.rewards.defaultRewards.DoubleRainbow;
-import chanceCubes.rewards.defaultRewards.EnderCrystalTimerReward;
-import chanceCubes.rewards.defaultRewards.FiveProngReward;
 import chanceCubes.rewards.defaultRewards.HerobrineReward;
-import chanceCubes.rewards.defaultRewards.InventoryBombReward;
 import chanceCubes.rewards.defaultRewards.ItemChestReward;
 import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
 import chanceCubes.rewards.defaultRewards.ItemRenamer;
@@ -50,20 +47,13 @@ import chanceCubes.rewards.defaultRewards.MazeReward;
 import chanceCubes.rewards.defaultRewards.MobEffectsReward;
 import chanceCubes.rewards.defaultRewards.MobTowerReward;
 import chanceCubes.rewards.defaultRewards.MontyHallReward;
-import chanceCubes.rewards.defaultRewards.NukeReward;
 import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
 import chanceCubes.rewards.defaultRewards.QuestionsReward;
 import chanceCubes.rewards.defaultRewards.RainingCatsAndCogsReward;
-import chanceCubes.rewards.defaultRewards.RandomTeleportReward;
-import chanceCubes.rewards.defaultRewards.RottenFoodReward;
 import chanceCubes.rewards.defaultRewards.SkyblockReward;
 import chanceCubes.rewards.defaultRewards.SurroundedReward;
 import chanceCubes.rewards.defaultRewards.TableFlipReward;
-import chanceCubes.rewards.defaultRewards.ThrownInAirReward;
 import chanceCubes.rewards.defaultRewards.TicTacToeReward;
-import chanceCubes.rewards.defaultRewards.TorchesToCreepers;
-import chanceCubes.rewards.defaultRewards.TravellerReward;
-import chanceCubes.rewards.defaultRewards.TrollHoleReward;
 import chanceCubes.rewards.defaultRewards.TrollTNTReward;
 import chanceCubes.rewards.defaultRewards.WaitForItReward;
 import chanceCubes.rewards.defaultRewards.WitherReward;
@@ -90,29 +80,40 @@ import chanceCubes.rewards.rewardtype.SchematicRewardType;
 import chanceCubes.rewards.rewardtype.SoundRewardType;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardData;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
 import chanceCubes.util.Task;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockWallSign;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -127,6 +128,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
+	//TODO: Per player reward pools?
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
 
 	private List<IChanceCubeReward> customRewards = Lists.newArrayList();
@@ -230,6 +232,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Guardians", -35, new BlockRewardType(RewardsUtil.fillArea(5, 5, 5, Blocks.WATER, -2, 0, -2, false, 0, false, false)), new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("guardian"), 5), new EntityPart(EntityRewardType.getBasicNBTForEntity("guardian"), 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie_Monster", -5, new MessageRewardType(new MessagePart("Here have some cookies!").setRange(32), new MessagePart("[Cookie Monster] Hey! Those are mine!", 30).setRange(32)), new CommandRewardType(new CommandPart("/summon minecraft:item ~ ~1 ~ {Item:{id:\"minecraft:cookie\",Count:8b}}"), new CommandPart("/summon minecraft:zombie ~ ~1 ~ {CustomName:\"Cookie Monster\",CustomNameVisible:1,IsVillager:0,IsBaby:1}", 30))));
 
+		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Zombie_Levate", -35, new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie ~%%RND(-10,10)%% ~ ~%%RND(-10,10)%% {CustomName:\"domosplace\",CustomNameVisible:1,ArmorItems:[{},{},{},{id:\"minecraft:leather_helmet\",Count:1b}],ActiveEffects:[{Id:25,Amplifier:0,Duration:140}]}", 10))));
+
 		ItemStack stack;
 		NBTTagCompound nbt = new NBTTagCompound();
 
@@ -256,6 +260,38 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new TextComponentString("The Divine Sword"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 95, new ItemRewardType(new ItemPart(stack))));
+
+		stack = new ItemStack(Items.DIAMOND_HELMET);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("protection")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("aqua_affinity")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.setDamage(stack.getMaxDamage() - 2);
+		stack.setDisplayName(new TextComponentString("The Divine Helmet"));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Helmet", 95, new ItemRewardType(new ItemPart(stack))));
+
+		stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("blast_protection")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("thorns")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.setDamage(stack.getMaxDamage() - 2);
+		stack.setDisplayName(new TextComponentString("The Divine Chestplate"));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Chestplate", 95, new ItemRewardType(new ItemPart(stack))));
+
+		stack = new ItemStack(Items.DIAMOND_LEGGINGS);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("projectile_protection")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.setDamage(stack.getMaxDamage() - 2);
+		stack.setDisplayName(new TextComponentString("The Divine Leggings"));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Leggings", 95, new ItemRewardType(new ItemPart(stack))));
+
+		stack = new ItemStack(Items.DIAMOND_BOOTS);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("fire_protection")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("feather_falling")), 10);
+		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("depth_strider")), 10);
+		stack.setDamage(stack.getMaxDamage() - 2);
+		stack.setDisplayName(new TextComponentString("The Divine Boots"));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Boots", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.WOODEN_PICKAXE);
 		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("efficiency")), 10);
@@ -323,19 +359,19 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.BEACON, true, 200);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Heart", -30)
+		INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				player.setHealth(1f);
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No_Exp", -40)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":No_Exp", -40)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				player.experienceLevel = 0;
 				player.experienceTotal = 0;
@@ -344,20 +380,20 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Smite", -10)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Smite", -10)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
 				player.sendMessage(new TextComponentString("Thou has been smitten!"));
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie-splosion", 35)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Cookie-splosion", 35)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				EntityItem cookie;
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -374,10 +410,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				player.sendMessage(new TextComponentString("Selecting random potion effect to apply..."));
 
@@ -394,10 +430,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Spray", -15)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Arrow_Spray", -15)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				EntityTippedArrow arrow;
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -415,10 +451,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
 		{
 			@Override
-			public void trigger(World world, BlockPos pos, EntityPlayer player)
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 			{
 				EntityPotion pot;
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
@@ -434,32 +470,311 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		});
 
-		INSTANCE.registerReward(new NukeReward());
-		INSTANCE.registerReward(new FiveProngReward());
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Charged_Creeper", -40)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
+				EntityCreeper ent = new EntityCreeper(world);
+				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
+				ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 300, 99, true, false));
+				ent.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 300, 99, true, false));
+				world.spawnEntity(ent);
+
+				Scheduler.scheduleTask(new Task("Charged Creeper Reward", 2)
+				{
+					@Override
+					public void callback()
+					{
+						world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false));
+						ent.setFire(0);
+					}
+				});
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Disco", 40)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				for(int xx = -4; xx < 5; xx++)
+					for(int zz = -4; zz < 5; zz++)
+						RewardsUtil.placeBlock(RewardsUtil.getRandomWool(), world, pos.add(xx, -1, zz));
+
+				for(int i = 0; i < 10; i++)
+				{
+					EntitySheep sheep = new EntitySheep(world);
+					sheep.setCustomName(new TextComponentString("jeb_"));
+					sheep.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);
+					world.spawnEntity(sheep);
+				}
+
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState(), world, pos.add(0, 3, 0));
+
+				RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Disco Party!!!!");
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Ender_Crystal_Timer", -90)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				for(int i = 30; i > 0; i--)
+					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, i, 0));
+
+				EntityEnderCrystal ent = new EntityEnderCrystal(world);
+				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
+				world.spawnEntity(ent);
+
+				EntityArrow arrow = new EntityTippedArrow(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
+				arrow.motionX = 0;
+				arrow.motionY = -0.25f;
+				arrow.motionZ = 0;
+				world.spawnEntity(arrow);
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":5_Prongs", -10)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				for(int xx = pos.getX() - 3; xx <= pos.getX() + 3; xx++)
+					for(int zz = pos.getZ() - 3; zz <= pos.getZ() + 3; zz++)
+						for(int yy = pos.getY(); yy <= pos.getY() + 4; yy++)
+							RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(xx, yy, zz));
+
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos);
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(0, 1, 0));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState(), world, pos.add(0, 2, 0));
+
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(-3, 0, -3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-3, 1, -3));
+
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(-3, 0, 3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-3, 1, 3));
+
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(3, 0, -3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(3, 1, -3));
+
+				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), world, pos.add(3, 0, 3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(3, 1, 3));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Inventory_Bomb", -55)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				player.inventory.dropAllItems();
+
+				for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+					player.inventory.mainInventory.set(i, new ItemStack(Blocks.DEAD_BUSH, 64));
+
+				for(int i = 0; i < player.inventory.armorInventory.size(); i++)
+				{
+					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
+					if(i == 0)
+					{
+
+						stack.setDisplayName(new TextComponentString("ButtonBoy"));
+						stack.setCount(13);
+					}
+					else if(i == 1)
+					{
+						stack.setDisplayName(new TextComponentString("TheBlackswordsman"));
+						stack.setCount(13);
+					}
+					player.inventory.armorInventory.set(i, stack);
+				}
+
+				player.sendMessage(new TextComponentString("Inventory Bomb!!!!"));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Nuke", -75)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "May death rain upon them");
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 6, pos.getY() + 65, pos.getZ() - 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 2, pos.getY() + 65, pos.getZ() - 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() - 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() - 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 6, pos.getY() + 65, pos.getZ() - 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 2, pos.getY() + 65, pos.getZ() - 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() - 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() - 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 6, pos.getY() + 65, pos.getZ() + 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 2, pos.getY() + 65, pos.getZ() + 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() + 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() + 2, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 6, pos.getY() + 65, pos.getZ() + 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() - 2, pos.getY() + 65, pos.getZ() + 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 2, pos.getY() + 65, pos.getZ() + 6, null));
+				world.spawnEntity(new EntityTNTPrimed(world, pos.getX() + 6, pos.getY() + 65, pos.getZ() + 6, null));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Teleport", -15)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				int xChange = ((world.rand.nextInt(50) + 20) + pos.getX()) - 35;
+				int zChange = ((world.rand.nextInt(50) + 20) + pos.getZ()) - 35;
+
+				int yChange = -1;
+
+				for(int yy = 0; yy <= world.getActualHeight(); yy++)
+				{
+					if(world.isAirBlock(new BlockPos(xChange, yy, zChange)) && world.isAirBlock(new BlockPos(xChange, yy + 1, zChange)))
+					{
+						yChange = yy;
+						break;
+					}
+				}
+				if(yChange == -1)
+					return;
+
+				player.setPositionAndUpdate(xChange, yChange, zChange);
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Rotten_Food", -30)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+				{
+					ItemStack stack = player.inventory.mainInventory.get(i);
+					if(!stack.isEmpty() && stack.getItem() instanceof ItemFood)
+						player.inventory.mainInventory.set(i, new ItemStack(Items.ROTTEN_FLESH, stack.getCount()));
+				}
+
+				player.sendMessage(new TextComponentString("Ewwww it's all rotten"));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Thrown_In_Air", -35)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				int px = (int) Math.floor(player.posX);
+				int py = (int) Math.floor(player.posY) + 1;
+				int pz = (int) Math.floor(player.posZ);
+
+				for(int y = 0; y < 40; y++)
+					for(int x = -1; x < 2; x++)
+						for(int z = -1; z < 2; z++)
+							RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(px + x, py + y, pz + z));
+
+				Scheduler.scheduleTask(new Task("Thrown_In_Air_Reward", 5)
+				{
+					@Override
+					public void callback()
+					{
+						player.isAirBorne = true;
+						player.motionY = 20;
+						((EntityPlayerMP) player).connection.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
+					}
+				});
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Torches_To_Creepers", -40)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				for(int yy = -32; yy <= 32; yy++)
+				{
+					for(int xx = -32; xx <= 32; xx++)
+					{
+						for(int zz = -32; zz <= 32; zz++)
+						{
+							IBlockState b = world.getBlockState(pos.add(xx, yy, zz));
+							if(b.getLightValue(world, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.getBlock().hasTileEntity(b))
+							{
+								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(xx, yy, zz));
+								EntityCreeper creeper = new EntityCreeper(world);
+								creeper.setLocationAndAngles(pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5, 0, 0);
+								world.spawnEntity(creeper);
+							}
+						}
+					}
+				}
+				player.sendMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Traveller", 15)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				int x = RewardsUtil.rand.nextInt(1000) + 200;
+				int z = RewardsUtil.rand.nextInt(1000) + 200;
+
+				BlockPos newPos = pos.add(x, 0, z);
+				RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(BlockChest.FACING, EnumFacing.WEST), world, newPos);
+				TileEntityChest chest = (TileEntityChest) world.getTileEntity(newPos);
+				for(int i = 0; i < 10; i++)
+					chest.setInventorySlotContents(i, new ItemStack(RewardsUtil.getRandomItem()));
+
+				RewardsUtil.sendMessageToNearPlayers(world, pos, 25, "" + newPos.getX() + ", " + newPos.getY() + ", " + newPos.getZ());
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Troll_Hole", -20)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				final BlockPos worldPos = new BlockPos(Math.floor(player.posX), Math.floor(player.posY) - 1, Math.floor(player.posZ));
+				final RewardBlockCache cache = new RewardBlockCache(world, worldPos, new BlockPos(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
+
+				for(int y = 0; y > -75; y--)
+					for(int x = -2; x < 3; x++)
+						for(int z = -2; z < 3; z++)
+							cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+
+				Scheduler.scheduleTask(new Task("TrollHole", 35)
+				{
+					@Override
+					public void callback()
+					{
+						cache.restoreBlocks(player);
+						player.motionY = 0;
+						player.fallDistance = 0;
+					}
+
+				});
+			}
+		});
+
 		INSTANCE.registerReward(new AnvilRain());
 		INSTANCE.registerReward(new HerobrineReward());
 		INSTANCE.registerReward(new SurroundedReward());
 		INSTANCE.registerReward(new CreeperSurroundedReward());
-		INSTANCE.registerReward(new RandomTeleportReward());
-		INSTANCE.registerReward(new TrollHoleReward());
 		INSTANCE.registerReward(new WitherReward());
 		INSTANCE.registerReward(new TrollTNTReward());
-		INSTANCE.registerReward(new EnderCrystalTimerReward());
 		INSTANCE.registerReward(new WaitForItReward());
-		INSTANCE.registerReward(new ChargedCreeperReward());
 		INSTANCE.registerReward(new ClearInventoryReward());
 		// INSTANCE.registerReward(new ZombieCopyCatReward());
 		// INSTANCE.registerReward(new InventoryChestReward());
 		INSTANCE.registerReward(new ItemOfDestinyReward());
-		INSTANCE.registerReward(new ThrownInAirReward());
-		INSTANCE.registerReward(new DiscoReward());
-		INSTANCE.registerReward(new InventoryBombReward());
 		INSTANCE.registerReward(new JukeBoxReward());
 		INSTANCE.registerReward(new BookOfMemesReward());
 		INSTANCE.registerReward(new TableFlipReward());
-		INSTANCE.registerReward(new TorchesToCreepers());
 		INSTANCE.registerReward(new MazeReward());
-		INSTANCE.registerReward(new RottenFoodReward());
 		INSTANCE.registerReward(new OneIsLuckyReward());
 		INSTANCE.registerReward(new SkyblockReward());
 		INSTANCE.registerReward(new CakeIsALieReward());
@@ -474,7 +789,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new DigBuildReward());
 		INSTANCE.registerReward(new ChanceCubeRenameReward());
 		INSTANCE.registerReward(new CountDownReward());
-		INSTANCE.registerReward(new TravellerReward());
 		INSTANCE.registerReward(new MobTowerReward());
 		INSTANCE.registerReward(new MontyHallReward());
 		INSTANCE.registerReward(new MatchingReward());
@@ -540,7 +854,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		redoSort(reward);
 		return this.isRewardEnabled(reward.getName());
 	}
-	
+
 	public boolean disableReward(String reward)
 	{
 		if(!this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
@@ -557,7 +871,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		}
 		return false;
 	}
-	
+
 	public boolean isRewardEnabled(String reward)
 	{
 		return !this.disabledNameToReward.containsKey(reward);
@@ -599,7 +913,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(CCubesSettings.testRewards)
 		{
 			IChanceCubeReward pickedReward = this.sortedRewards.get(CCubesSettings.testingRewardIndex);
-			pickedReward.trigger(world, pos, player);
+			triggerReward(pickedReward, world, pos, player);
 			CCubesSettings.testingRewardIndex++;
 			if(CCubesSettings.testingRewardIndex >= this.sortedRewards.size())
 				CCubesSettings.testingRewardIndex = 0;
@@ -609,7 +923,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		else if(CCubesSettings.testCustomRewards)
 		{
 			IChanceCubeReward pickedReward = this.customRewards.get(CCubesSettings.testingRewardIndex);
-			pickedReward.trigger(world, pos, player);
+			triggerReward(pickedReward, world, pos, player);
 			CCubesSettings.testingRewardIndex++;
 			if(CCubesSettings.testingRewardIndex >= this.customRewards.size())
 				CCubesSettings.testingRewardIndex = 0;
@@ -625,7 +939,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		if(CCubesSettings.doesHolidayRewardTrigger && CCubesSettings.holidayReward != null)
 		{
-			CCubesSettings.holidayReward.trigger(world, pos, player);
+			triggerReward(CCubesSettings.holidayReward, world, pos, player);
 			CCubesCore.logger.log(Level.INFO, "The " + CCubesSettings.holidayReward.getName() + " holiday reward has been triggered!!!!");
 			CCubesSettings.doesHolidayRewardTrigger = false;
 			//TODO: Udate when forge gives us a ser method or the way to do it is said
@@ -691,13 +1005,19 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			}
 		}
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + pickedReward.getName());
-		pickedReward.trigger(world, pos, player);
+		triggerReward(pickedReward, world, pos, player);
 		lastReward = pickedReward;
 		cooldownList.add(lastReward);
 		if(cooldownList.size() > 15)
 		{
 			cooldownList.remove(0);
 		}
+	}
+
+	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
+	{
+		Map<String, Object> settings = ProfileManager.getRewardSpawnSettings(reward);
+		reward.trigger(world, pos, player, settings);
 	}
 
 	private void redoSort(@Nullable IChanceCubeReward newReward)

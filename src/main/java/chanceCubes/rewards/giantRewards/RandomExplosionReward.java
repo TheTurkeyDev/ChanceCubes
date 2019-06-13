@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketParticle;
@@ -30,9 +32,8 @@ public class RandomExplosionReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Random_Explosion", 0);
 	}
-
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 1f, 1f);
 		Scheduler.scheduleTask(new Task("Random Explosion", 300, 2)

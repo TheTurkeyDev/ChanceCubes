@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.util.Scheduler;
@@ -22,7 +24,7 @@ public class ClearInventoryReward extends BaseCustomReward
 	}
 	
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		boolean cubes = false;
 		final InventoryPlayer inv = new InventoryPlayer(player);

@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -22,14 +24,13 @@ import net.minecraft.world.World;
 
 public class CountDownReward extends BaseCustomReward
 {
-
 	public CountDownReward()
 	{
 		super(CCubesCore.MODID + ":Countdown", 15);
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		Scheduler.scheduleTask(new Task("Countdown_Reward_Delay", 80, 20)
 		{

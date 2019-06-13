@@ -23,7 +23,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class QuestionsReward extends BaseCustomReward
 {
-
 	private Map<EntityPlayer, String> inQuestion = new HashMap<EntityPlayer, String>();
 
 	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<CustomEntry<String, String>>();
@@ -46,7 +45,7 @@ public class QuestionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player)
+	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;

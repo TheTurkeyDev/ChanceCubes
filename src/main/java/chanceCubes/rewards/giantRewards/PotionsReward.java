@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
@@ -18,14 +20,14 @@ import net.minecraft.world.World;
 public class PotionsReward extends BaseCustomReward
 {
 	private EntityPotion pot;
-
+	
 	public PotionsReward()
 	{
 		super(CCubesCore.MODID + ":Raining_Potions", 0);
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentTranslation("chancecubes.reward.raining_potions"));
 		throwPoitonCircle(0, world, pos, player);

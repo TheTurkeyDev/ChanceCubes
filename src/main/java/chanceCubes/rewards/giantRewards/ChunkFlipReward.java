@@ -1,5 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
@@ -25,10 +27,10 @@ public class ChunkFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		int z = pos.getZ() - (pos.getZ() % 16);
-		int x = pos.getX() - (pos.getX() % 16);
+		int z = pos.getZ() >> 4;
+		int x = pos.getX() >> 4;
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		player.sendMessage(new TextComponentString("Inception!!!!"));
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)

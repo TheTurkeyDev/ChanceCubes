@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 
 import chanceCubes.CCubesCore;
@@ -19,7 +20,6 @@ import net.minecraft.world.gen.feature.TreeFeature;
 
 public class SkyblockReward extends BaseCustomReward
 {
-
 	// @formatter:off
 	
 	ItemStack[] chestStuff = { 
@@ -29,14 +29,13 @@ public class SkyblockReward extends BaseCustomReward
 		};
 
 	// @formatter:on
-
 	public SkyblockReward()
 	{
 		super(CCubesCore.MODID + ":Sky_Block", 10);
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int skyblockHeight = world.getActualHeight() - 16;
 		if(!world.dimension.hasSkyLight())

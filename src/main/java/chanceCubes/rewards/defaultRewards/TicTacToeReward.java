@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
@@ -24,7 +25,7 @@ public class TicTacToeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		player.sendMessage(new TextComponentString("Lets play Tic-Tac-Toe!"));

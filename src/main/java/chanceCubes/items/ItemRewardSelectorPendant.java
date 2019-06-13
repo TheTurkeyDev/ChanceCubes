@@ -53,7 +53,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				context.getWorld().setBlockState(context.getPos(), Blocks.AIR.getDefaultState());
 				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(context.getItem().getTag().getString("Reward"));
 				if(reward != null)
-					reward.trigger(context.getWorld(), context.getPos(), context.getPlayer());
+					ChanceCubeRegistry.INSTANCE.triggerReward(reward, context.getWorld(), context.getPos(), context.getPlayer());
 				else
 					context.getPlayer().sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 			}
@@ -65,7 +65,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				TileGiantCube giant = (TileGiantCube) ent;
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(context.getItem().getTag().getString("Reward"));
 				if(reward != null)
-					reward.trigger(context.getWorld(), giant.getMasterPostion(), context.getPlayer());
+					GiantCubeRegistry.INSTANCE.triggerReward(reward, context.getWorld(), giant.getMasterPostion(), context.getPlayer());
 				else
 					context.getPlayer().sendMessage(new TextComponentString("That reward does not exist for this cube!"));
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), context.getWorld());

@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.google.common.collect.Multimap;
 
@@ -40,7 +41,7 @@ public class MobEffectsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int highestDamage = 1;
 		for(int i = 0; i < 9; i++)

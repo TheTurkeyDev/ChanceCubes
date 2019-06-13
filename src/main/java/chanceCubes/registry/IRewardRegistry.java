@@ -29,19 +29,21 @@ public interface IRewardRegistry
 	@Nullable
 	IChanceCubeReward getRewardByName(String name);
 
-	/**
-	 * Triggers a random reward in the given world at the given location
-	 * 
-	 * @param world
-	 *            The world object
-	 * @param pos
-	 *            The position of the block
-	 * @param player
-	 *            The player receiving the reward
-	 * @param luck
-	 *            The chance of the block
-	 * @param luckBounds
-	 *            Min and max chance values
-	 */
-	void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance);
+    /**
+     * Triggers a random reward in the given world at the given location
+     * 
+     * @param world
+     *            The world object
+     * @param pos
+     *            The position of the block
+     * @param player
+     *            The player receiving the reward
+     * @param luck
+     *            The chance of the block
+     * @param luckBounds
+     *            Min and max chance values
+     */
+    void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance);
+    
+    void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player);
 }

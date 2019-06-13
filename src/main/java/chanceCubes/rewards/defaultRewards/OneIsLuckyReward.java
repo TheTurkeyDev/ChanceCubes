@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
@@ -21,7 +23,7 @@ public class OneIsLuckyReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "A Lucky Block Salute");
 		TileEntitySign sign = new TileEntitySign();

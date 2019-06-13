@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -24,7 +26,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos position, EntityPlayer player)
+	public void trigger(final World world, BlockPos position, EntityPlayer player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, position, 36, "It's raining Cats and dogs!");
 

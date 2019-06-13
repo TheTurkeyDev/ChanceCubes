@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -48,7 +50,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		EntityArmorStand armorStand = new EntityArmorStand(world);
 		String name = names[RewardsUtil.rand.nextInt(names.length)];

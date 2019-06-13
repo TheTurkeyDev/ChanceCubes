@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -31,10 +32,9 @@ import net.minecraftforge.fml.LogicalSidedProvider;
 
 public class CustomUserReward extends BaseCustomReward
 {
-	private String userName = "";
-	private UUID uuid = null;
+	private String userName;
+	private UUID uuid;
 	private String type;
-
 	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
 
 	public static void getCustomUserReward(UUID uuid)
@@ -55,6 +55,8 @@ public class CustomUserReward extends BaseCustomReward
 			return;
 		}
 
+		String userName = "";
+		String type = "";
 		for(JsonElement user : users.getAsJsonArray())
 		{
 			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
@@ -84,9 +86,7 @@ public class CustomUserReward extends BaseCustomReward
 
 		List<BasicReward> customRewards = new ArrayList<BasicReward>();
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-		{
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
-		}
 
 		//GROSS, but idk what else todo
 		String userNameFinal = userName;
@@ -119,7 +119,7 @@ public class CustomUserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player)
+	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getString()))
@@ -137,7 +137,7 @@ public class CustomUserReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player);
+				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player, settings);
 			}
 		});
 	}

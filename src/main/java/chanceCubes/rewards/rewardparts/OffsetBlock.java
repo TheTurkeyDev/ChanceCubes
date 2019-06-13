@@ -25,10 +25,9 @@ public class OffsetBlock extends BasePart
 	protected IBlockState state = null;
 
 	protected BoolVar falling;
-
 	protected BoolVar causeUpdate = new BoolVar(false);
-
 	private BoolVar removeUnbreakableBlocks = new BoolVar(false);
+	protected BoolVar playSound = new BoolVar(true);
 
 	protected BoolVar playSound = new BoolVar(true);
 

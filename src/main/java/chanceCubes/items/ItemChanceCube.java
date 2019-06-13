@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.rewards.profiles.ProfileManager;
+import chanceCubes.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;

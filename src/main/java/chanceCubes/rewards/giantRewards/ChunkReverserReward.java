@@ -2,6 +2,7 @@ package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import chanceCubes.CCubesCore;
@@ -17,9 +18,8 @@ import net.minecraft.world.World;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
-
 	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
-
+	
 	public ChunkReverserReward()
 	{
 		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
@@ -47,7 +47,7 @@ public class ChunkReverserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Initiating Block Inverter"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();

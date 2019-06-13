@@ -59,6 +59,10 @@ minecraft {
     }
 }
 
+repositories {
+    maven { url 'https://maven.mcmoddev.com' }
+}
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
@@ -69,6 +73,8 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
+
+    // compile "net.darkhax.gamestages:GameStages-1.12.2:2.0.112"
 
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

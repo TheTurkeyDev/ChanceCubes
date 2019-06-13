@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -310,7 +311,7 @@ public class CustomRewardsLoader extends BaseLoader
 			if(nbt == null)
 				continue;
 
-			//TODO: Make dynamic?
+			// TODO: Make dynamic?
 			ItemPart stack = new ItemPart(nbt);
 
 			stack.setDelay(this.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));
@@ -332,7 +333,7 @@ public class CustomRewardsLoader extends BaseLoader
 			IntVar x = this.getInt(element, "xOffSet", 0);
 			IntVar y = this.getInt(element, "yOffSet", 0);
 			IntVar z = this.getInt(element, "zOffSet", 0);
-			//TODO: Change to Block instead of String
+			// TODO: Change to Block instead of String
 			String[] blockDataParts = this.getString(element, "block", "minecraft:dirt").getValue().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
@@ -467,7 +468,7 @@ public class CustomRewardsLoader extends BaseLoader
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			//TODO: Handle sounds
+			// TODO: Handle sounds
 			SoundPart sound = new SoundPart(CCubesSounds.registerSound(this.getString(element, "sound", "").getValue()));
 
 			sound.setDelay(this.getInt(element, "delay", sound.getDelay()));
@@ -522,7 +523,7 @@ public class CustomRewardsLoader extends BaseLoader
 			String fileName = element.get("fileName").getAsString();
 			this.fixOldJsonKeys(element);
 
-			//TODO: Make this support IntVar?
+			// TODO: Make this support IntVar?
 			int xoff = this.getInt(element, "xOffSet", 0).getIntValue();
 			int yoff = this.getInt(element, "yOffSet", 0).getIntValue();
 			int zoff = this.getInt(element, "zOffSet", 0).getIntValue();

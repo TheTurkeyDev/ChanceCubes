@@ -29,6 +29,11 @@ public class TitlePart extends BasePart
 		this(type, ITextComponent.Serializer.fromJson(message.toString()), new IntVar(0));
 	}
 
+	public TitlePart(StringVar type, JsonObject message)
+	{
+		this(type,  ITextComponent.Serializer.jsonToComponent(message.toString()), new IntVar(0));
+	}
+	
 	public TitlePart(StringVar type, String message)
 	{
 		this(type, ITextComponent.Serializer.fromJson(message), new IntVar(0));

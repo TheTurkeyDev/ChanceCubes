@@ -1,5 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.Map;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardsUtil;
@@ -8,7 +10,6 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -19,11 +20,11 @@ public class DigBuildReward extends BaseCustomReward
 
 	public DigBuildReward()
 	{
-		super(CCubesCore.MODID + ":Did_You_Know", 0);
+		super(CCubesCore.MODID + ":Dig_Build_Reward", -5);
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player)
+	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		int initalY = player.getPosition().getY();
 		int distance = RewardsUtil.rand.nextInt(20) + 5;

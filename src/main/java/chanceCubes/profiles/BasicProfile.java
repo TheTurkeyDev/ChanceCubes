@@ -1,4 +1,4 @@
-package chanceCubes.rewards.profiles;
+package chanceCubes.profiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.profiles.triggers.ITrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.rewards.profiles.triggers.ITrigger;
 
 public class BasicProfile implements IProfile
 {
@@ -24,6 +24,7 @@ public class BasicProfile implements IProfile
 	private List<String> rewardsToDisable = new ArrayList<>();
 	private List<IProfile> subProfiles = new ArrayList<>();
 	private Map<String, Integer> chanceChanges = new HashMap<>();
+	private Map<String, Map<String, Object>> rewardSettings = new HashMap<>();
 
 	public BasicProfile(String id, String name, String desc)
 	{
@@ -92,6 +93,11 @@ public class BasicProfile implements IProfile
 			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
+	public Map<String, Map<String, Object>> getRewardSettings()
+	{
+		return rewardSettings;
+	}
+
 	@Override
 	public String getID()
 	{
@@ -108,6 +114,29 @@ public class BasicProfile implements IProfile
 	public String getDesc()
 	{
 		return desc;
+	}
+
+	public List<String> getRewardsToEnable()
+	{
+		return this.rewardsToEnable;
+	}
+
+	public List<String> getRewardsToDisable()
+	{
+		return this.rewardsToDisable;
+	}
+
+	public List<String> getChanceValueChanges()
+	{
+		List<String> toReturn = new ArrayList<>();
+		for(Entry<String, Integer> change : this.chanceChanges.entrySet())
+			toReturn.add(change.getKey() + " -> " + change.getValue());
+		return toReturn;
+	}
+
+	public List<IProfile> getSubProfiles()
+	{
+		return this.subProfiles;
 	}
 
 	@Override
@@ -141,7 +170,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(ITrigger<?> t : this.triggers)
 			{
-				descFull.append(t.getClass().getSimpleName());
+				descFull.append(t.getTriggerDesc());
 				descFull.append("\n");
 			}
 			descFull.append("=== Reward Chance Value Changes ===");
