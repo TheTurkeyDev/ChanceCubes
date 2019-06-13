@@ -1,6 +1,5 @@
 package chanceCubes.client.gui;
 
-import java.io.IOException;
 import java.net.URI;
 
 import net.minecraft.client.gui.GuiButton;

@@ -1,17 +1,25 @@
 package chanceCubes.profiles;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraftforge.common.config.Configuration;
 
 public class ProfileManager
 {
@@ -20,18 +28,20 @@ public class ProfileManager
 
 	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
-	private static Configuration config;
+	private static File config;
+	private static JsonObject fileJson = new JsonObject();
 	public static final String genCat = "Profile Status";
+
+	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void registerProfile(IProfile profile)
 	{
 		registerProfile(profile, false);
 	}
 
-	public static void registerProfile(IProfile profile, boolean enabled)
+	public static void registerProfile(IProfile profile, boolean defaultVal)
 	{
-		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
-		if(enabled)
+		if(getProfileEnabledSafe(profile, defaultVal))
 		{
 			enabledProfiles.add(profile);
 			profile.onEnable();
@@ -43,15 +53,28 @@ public class ProfileManager
 		}
 	}
 
+	public static boolean getProfileEnabledSafe(IProfile profile, boolean defaultVal)
+	{
+		if(fileJson.has(profile.getName()))
+		{
+			return fileJson.get(profile.getName()).getAsBoolean();
+		}
+		else
+		{
+			fileJson.addProperty(profile.getName(), defaultVal);
+			save();
+			return defaultVal;
+		}
+	}
+
 	public static void enableProfile(IProfile profile)
 	{
 		if(disabledProfiles.remove(profile))
 		{
 			enabledProfiles.add(profile);
 			profile.onEnable();
-			config.load();
-			config.get(genCat, profile.getName(), "").setValue(true);
-			config.save();
+			fileJson.addProperty(profile.getName(), true);
+			save();
 		}
 	}
 
@@ -61,9 +84,8 @@ public class ProfileManager
 		{
 			disabledProfiles.add(profile);
 			profile.onDisable();
-			config.load();
-			config.get(genCat, profile.getName(), "").setValue(false);
-			config.save();
+			fileJson.addProperty(profile.getName(), false);
+			save();
 		}
 	}
 
@@ -186,7 +208,6 @@ public class ProfileManager
 		BasicProfile profile;
 
 		//@formatter:off
-		config.load();
 		profile = new BasicProfile("default", "Default", "Rewards that are disabled by default");
 		profile.addDisabledRewards("chancecubes:Clear_Inventory");
 		registerProfile(profile, true);
@@ -247,12 +268,50 @@ public class ProfileManager
 				"chancecubes:Path_To_Succeed", "chancecubes:Help_Me", "chancecubes:Beacon_Build", "chancecubes:Disco", 
 				"chancecubes:5_Prongs", "chancecubes:Table_Flip", "chancecubes:Sky_Block", "chancecubes:Double_Rainbow");
 		registerProfile(profile);
-		config.save();
+		save();
 		//@formatter:on
 	}
 
-	public static void setupConfig(Configuration configuration)
+	public static void save()
 	{
-		config = configuration;
+		try
+		{
+			FileWriter writer = new FileWriter(config);
+			gson.toJson(fileJson, writer);
+			writer.close();
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static void initConfig(File folder)
+	{
+		config = new File(folder, "Profiles.json");
+		if(!config.exists())
+		{
+			try
+			{
+				config.createNewFile();
+				fileJson = new JsonObject();
+				save();
+			} catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			try
+			{
+				FileReader reader = new FileReader(config);
+				fileJson = (new JsonParser()).parse(reader).getAsJsonObject();
+				reader.close();
+			} catch(Exception e)
+			{
+				fileJson = new JsonObject();
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -104,6 +104,7 @@ public class SchematicCreationGui extends GuiScreen
 		return this.nameField.mouseClicked(x, y, mouseEvent);
 	}
 
+	@Override
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawGradientRect(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);

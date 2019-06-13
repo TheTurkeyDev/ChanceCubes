@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang3.tuple.Pair;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.profiles.ProfileManager;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,8 +34,9 @@ public class ConfigLoader
 	public static final String giantRewardCat = "Giant Chance Cube Rewards";
 
 	public static File folder;
-	
-	public static void initParentFolder() {
+
+	public static void initParentFolder()
+	{
 		(new File(FMLPaths.CONFIGDIR.get().toString(), "chancecubes")).mkdir();
 	}
 
@@ -122,21 +124,21 @@ public class ConfigLoader
 	@SubscribeEvent
 	public static void onConfigLoad(ModConfigEvent event)
 	{
-		
+
 		File folder = (new File(event.getConfig().getFullPath().toUri())).getParentFile();
 
 		File customConfigFolder = new File(folder.getAbsolutePath(), "custom_rewards");
 		customConfigFolder.mkdirs();
-		
+
 		new File(customConfigFolder, "sounds").mkdirs();
 		new File(customConfigFolder, "schematics").mkdirs();
-		
+
 		new CustomRewardsLoader(customConfigFolder);
 
 		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");
 		customProfileFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
 
-		//ProfileManager.setupConfig(new Configuration(new File(folder + "/" + "Profiles.cfg")));
+		ProfileManager.initConfig(folder);
 	}
 }

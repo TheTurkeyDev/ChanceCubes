@@ -70,7 +70,7 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "suncrystal", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(250);
+			stack.setDamage(250);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Sun_Crystal", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 
@@ -89,7 +89,7 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "minichest", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setStackDisplayName("World's Smallest Chest");
+			stack.setDisplayName(new TextComponentString("World's Smallest Chest"));
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Mini_Chest", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
@@ -115,35 +115,35 @@ public class ExtraUtilsModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "compressednetherrack", 4);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(5);
+			stack.setDamage(5);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Netherrack", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compresseddirt", 4);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(3);
+			stack.setDamage(3);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Dirt", 50, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedgravel", 4);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(1);
+			stack.setDamage(1);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Gravel", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedsand", 4);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(1);
+			stack.setDamage(1);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Sand", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "decorativesolid", 1);
 		if(!stack.isEmpty())
 		{
-			stack.setItemDamage(8);
+			stack.setDamage(8);
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Rainbow_Stone", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 

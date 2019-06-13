@@ -29,8 +29,6 @@ public class OffsetBlock extends BasePart
 	private BoolVar removeUnbreakableBlocks = new BoolVar(false);
 	protected BoolVar playSound = new BoolVar(true);
 
-	protected BoolVar playSound = new BoolVar(true);
-
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
 		this(x, y, z, b.getDefaultState(), falling);

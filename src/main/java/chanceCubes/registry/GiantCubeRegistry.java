@@ -14,7 +14,6 @@ import com.google.common.collect.Maps;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
@@ -123,7 +122,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + sortedRewards.get(pick).getName());
 		triggerReward(sortedRewards.get(pick), world, pos, player);
 	}
-	
+
 	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
 	{
 		Map<String, Object> settings = ProfileManager.getRewardSpawnSettings(reward);

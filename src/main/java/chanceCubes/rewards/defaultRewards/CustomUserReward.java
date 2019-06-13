@@ -39,8 +39,6 @@ public class CustomUserReward extends BaseCustomReward
 
 	public static void getCustomUserReward(UUID uuid)
 	{
-		String userName = "";
-		String type = "";
 		if(!CCubesSettings.userSpecificRewards.get())
 			return;
 

@@ -21,14 +21,13 @@ import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
+import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
-import chanceCubes.rewards.profiles.TriggerHooks;
-import chanceCubes.rewards.profiles.triggerHooks.GameStageTriggerHooks;
-import chanceCubes.rewards.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
@@ -86,7 +85,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
-		MinecraftForge.EVENT_BUS.register(new TriggerHooks());
+		MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
 		MinecraftForge.EVENT_BUS.register(new VanillaTriggerHooks());
 		if(ModList.get().isLoaded("gamestages"))
 		{
