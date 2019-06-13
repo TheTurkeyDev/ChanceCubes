@@ -4,8 +4,6 @@ import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +16,6 @@ public class RenderEvent
 	private static int chanceIncrease = 0;
 
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderGameOverlayEvent.Post event)
 	{
 		if(event.getType() != ElementType.HELMET || event.isCancelable())

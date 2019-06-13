@@ -131,7 +131,6 @@ public class ConfigLoader
 		new File(customConfigFolder, "sounds").mkdirs();
 		new File(customConfigFolder, "schematics").mkdirs();
 		
-		System.out.println(customConfigFolder.getAbsolutePath() + "  " + customConfigFolder.exists());
 		new CustomRewardsLoader(customConfigFolder);
 
 		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");

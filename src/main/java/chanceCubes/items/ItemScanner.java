@@ -35,6 +35,7 @@ public class ItemScanner extends BaseChanceCubesItem
 		return 72000;
 	}
 
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
@@ -42,7 +43,7 @@ public class ItemScanner extends BaseChanceCubesItem
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 
-	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean isSelected)
 	{
 		if(!world.isRemote)
 			return;
@@ -50,7 +51,7 @@ public class ItemScanner extends BaseChanceCubesItem
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().equals(stack) && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack))
+			if(isSelected)
 			{
 				RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
 

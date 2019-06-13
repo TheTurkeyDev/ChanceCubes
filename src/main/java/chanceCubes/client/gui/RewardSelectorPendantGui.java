@@ -41,9 +41,9 @@ public class RewardSelectorPendantGui extends GuiScreen
 	/**
 	 * Adds the buttons (and other controls) to the screen in question.
 	 */
+	@Override
 	public void initGui()
 	{
-		this.buttons.clear();
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
@@ -53,7 +53,8 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
-		this.buttons.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]))
+		this.children.add(this.rewardField);
+		this.addButton(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]))
 		{
 			public void onClick(double mouseX, double mouseY)
 			{
@@ -78,33 +79,21 @@ public class RewardSelectorPendantGui extends GuiScreen
 		});
 	}
 
+	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 	}
 
-	public boolean charTyped(char p_73869_1_, int p_73869_2_)
-	{
-		if(!this.rewardField.charTyped(p_73869_1_, p_73869_2_))
-			return super.charTyped(p_73869_1_, p_73869_2_);
-		return false;
-	}
-
 	@Override
-	public boolean mouseClicked(double x, double y, int mouseEvent)
-	{
-		super.mouseClicked(x, y, mouseEvent);
-		return this.rewardField.mouseClicked(x, y, mouseEvent);
-	}
-
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
 		this.mc.getTextureManager().bindTexture(guiTextures);
 		this.drawTexturedModalRect((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
-		this.rewardField.drawTextField(mouseX, mouseY, partialTicks);
 		super.render(mouseX, mouseY, partialTicks);
+		this.rewardField.drawTextField(mouseX, mouseY, partialTicks);
 	}
 }

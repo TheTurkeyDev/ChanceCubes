@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import javax.annotation.Nullable;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.ChanceCubeRegistry;
@@ -13,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
@@ -26,6 +25,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
+@SuppressWarnings("deprecation")
 public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
 {
 	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.<BlockChanceCube.EnumTexture> create("texture", BlockChanceCube.EnumTexture.class);
@@ -50,9 +50,31 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest, IFluidState fluid)
 	{
-		
+		TileEntity te = world.getTileEntity(pos);
+		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+		if(removed && !world.isRemote() && player != null && !(player instanceof FakePlayer) && te instanceof TileChanceCube)
+		{
+			TileChanceCube tileCube = (TileChanceCube) te;
+			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+			{
+				ItemStack stackCube = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE), 1);
+				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, tileCube.isScanned() ? tileCube.getChance() : -101);
+				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stackCube);
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				world.removeTileEntity(pos);
+				world.spawnEntity(blockstack);
+			}
+
+			if(te != null)
+			{
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, pos, player, tileCube.getChance());
+			}
+		}
+
+		return removed;
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
 
 public class TickListener
 {
-
 	@SubscribeEvent
 	public void onTick(ServerTickEvent event)
 	{

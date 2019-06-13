@@ -29,7 +29,8 @@ public class BlockFallingCustom extends EntityFallingBlock
 		this.osb = osb;
 	}
 
-	public void onUpdate()
+	@Override
+	public void tick()
 	{
 		Block block = this.fallTile.getBlock();
 

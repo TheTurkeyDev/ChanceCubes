@@ -7,15 +7,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class WorldRenderListener
 {
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
 	{
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
