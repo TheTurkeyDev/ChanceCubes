@@ -2,7 +2,6 @@ package chanceCubes.blocks;
 
 import java.util.Random;
 
-import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -20,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
 {
 	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
@@ -36,7 +36,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	{
 		return true;
 	}
-	
+
 	public TileEntity createNewTileEntity(IBlockReader worldIn)
 	{
 		return new TileCubeDispenser();
@@ -68,7 +68,8 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return true;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
+	@Override
+	public void onBlockClicked(IBlockState state, World world, BlockPos pos, EntityPlayer player)
 	{
 		if(world.isRemote)
 			return;
@@ -90,7 +91,8 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 	}
 
-	public boolean isOpaqueCube()
+	@Override
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
@@ -124,7 +126,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		else
 			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
-	
+
 	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
 	{
 		builder.add(DISPENSING);

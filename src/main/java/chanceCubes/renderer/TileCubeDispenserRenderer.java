@@ -6,6 +6,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.item.EntityItem;
@@ -14,8 +15,8 @@ import net.minecraft.world.World;
 
 public class TileCubeDispenserRenderer extends TileEntityRenderer<TileCubeDispenser>
 {
-	private static final float ROTATE_SPEED = 0.5F;
-	private static final float WAVE_SPEED = 0.3F;
+	private static final float ROTATE_SPEED = 2F;
+	private static final float WAVE_SPEED = 1F;
 
 	public TileCubeDispenserRenderer()
 	{
@@ -33,6 +34,7 @@ public class TileCubeDispenserRenderer extends TileEntityRenderer<TileCubeDispen
 		DispenseType type = BlockCubeDispenser.getCurrentState(world.getBlockState(te.getPos()));
 		EntityItem entity = te.getRenderEntityItem(type);
 
+		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();
 		GlStateManager.translated((float) x + 0.5F, (float) y, (float) z + 0.5F);
 		te.wave += WAVE_SPEED * partialTicks;
@@ -41,14 +43,12 @@ public class TileCubeDispenserRenderer extends TileEntityRenderer<TileCubeDispen
 		GlStateManager.translated(0f, yy + 1f, 0f);
 		entity.getItem().setCount(1);
 		entity.setNoDespawn();
-		entity.rotationYaw = 0;
 		te.rot += ROTATE_SPEED;
 		te.rot %= 360;
 		GlStateManager.rotatef(te.rot, 0.0F, 1.0F, 0.0F);
-		entity.setLocationAndAngles(x + 0.5f, y + yy + 1f, z + 0.5f, 0.0F, 0.0F);
-		RenderHelper.disableStandardItemLighting();
-		Minecraft.getInstance().getRenderManager().renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
 		RenderHelper.enableStandardItemLighting();
+		Minecraft.getInstance().getRenderManager().renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
+		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 	}
 }

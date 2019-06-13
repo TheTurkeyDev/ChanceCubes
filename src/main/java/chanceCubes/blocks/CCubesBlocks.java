@@ -47,9 +47,9 @@ public class CCubesBlocks
 	}
 
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event)
+	public void registerModels(ModelRegistryEvent event)
 	{
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
+		
 		//https://gyazo.com/141bd0c62dab407ec4d278f2310783a0
 		//ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
 	}
@@ -62,6 +62,6 @@ public class CCubesBlocks
 		mesher.register(Item.getItemFromBlock(GIANT_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
 		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName() + ".obj", "inventory"));
 	}
 }

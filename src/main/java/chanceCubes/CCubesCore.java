@@ -34,6 +34,7 @@ import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -97,6 +98,8 @@ public class CCubesCore
 	@SubscribeEvent
 	public void clientStart(FMLClientSetupEvent event)
 	{
+		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
+		
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());

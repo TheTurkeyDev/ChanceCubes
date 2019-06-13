@@ -10,6 +10,7 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +21,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockGiantCube extends BaseChanceBlock  implements ITileEntityProvider
+public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
 {
 	public BlockGiantCube()
 	{
@@ -32,7 +33,7 @@ public class BlockGiantCube extends BaseChanceBlock  implements ITileEntityProvi
 	{
 		return true;
 	}
-	
+
 	public TileEntity createNewTileEntity(IBlockReader worldIn)
 	{
 		return new TileGiantCube();
@@ -50,13 +51,15 @@ public class BlockGiantCube extends BaseChanceBlock  implements ITileEntityProvi
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest, IFluidState fluid)
 	{
-		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
+		TileEntity te = world.getTileEntity(pos);
+		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+		if(removed && !world.isRemote && player != null && !(player instanceof FakePlayer))
 		{
 			if(te != null)
 			{
-				TileGiantCube gcte = (TileGiantCube) world.getTileEntity(pos);
+				TileGiantCube gcte = (TileGiantCube) te;
 				if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 				{
 					spawnAsEntity(world, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
@@ -72,5 +75,6 @@ public class BlockGiantCube extends BaseChanceBlock  implements ITileEntityProvi
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 			}
 		}
+		return removed;
 	}
 }
