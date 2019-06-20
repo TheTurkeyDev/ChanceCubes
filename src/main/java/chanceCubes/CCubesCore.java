@@ -25,10 +25,8 @@ import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
 import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
-import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
-import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -75,6 +73,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
+		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
 		// ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, ()
 		// -> CCubesGuiHandler::openGui);
 	}
@@ -98,18 +97,13 @@ public class CCubesCore
 	@SubscribeEvent
 	public void clientStart(FMLClientSetupEvent event)
 	{
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
-
-		//		CCubesBlocks.registerBlocksItems();
-		//		CCubesItems.registerItems();
 	}
 
 	@SubscribeEvent

@@ -5,7 +5,6 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -16,6 +15,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class ItemScanner extends BaseChanceCubesItem
@@ -47,9 +47,9 @@ public class ItemScanner extends BaseChanceCubesItem
 	{
 		if(!world.isRemote)
 			return;
-		RenderEvent.setLookingAt(false);
 		if(entity instanceof EntityPlayer)
 		{
+			RenderEvent.setLookingAt(false);
 			EntityPlayer player = (EntityPlayer) entity;
 			if(isSelected)
 			{
@@ -74,14 +74,14 @@ public class ItemScanner extends BaseChanceCubesItem
 						flag = true;
 						RenderEvent.setLookingAtChance(te.getChance());
 					}
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
-					{
-						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
-					}
+//					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
+//					{
+//						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
+//						te.setScanned(true);
+//						CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
+//						flag = true;
+//						RenderEvent.setLookingAtChance(te.getChance());
+//					}
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 					{
 						flag = false;

@@ -63,6 +63,31 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;
 		}
+
+		return nbt;
+	}
+
+	public static NBTTagCompound getBasicNBTForEntity(String entity, String displayName, String extraNBT)
+	{
+		NBTTagCompound nbt = getBasicNBTForEntity(entity);
+
+		if(nbt != null)
+		{
+			nbt.setString("CustomName", "\"" + displayName + "\"");
+			nbt.setInt("CustomNameVisible", 1);
+			if(extraNBT != null && !extraNBT.isEmpty())
+			{
+				try
+				{
+					NBTTagCompound exNBT = (NBTTagCompound) JsonToNBT.getTagFromJson(extraNBT);
+					nbt.merge(exNBT);
+				} catch(CommandSyntaxException e)
+				{
+					CCubesCore.logger.log(Level.ERROR, "Failed to read NBT " + extraNBT);
+				}
+			}
+		}
+
 		return nbt;
 	}
 }

@@ -8,7 +8,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -80,7 +79,7 @@ public class ItemChanceCube extends ItemBlock
 		else if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
 			list.add(new TextComponentString(TextFormatting.RED + "Warning: It is recommended you don't open these in or next toy your base."));
 	
-		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
+		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) /*|| item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON))*/)
 		{
 			list.add(new TextComponentString("==== Enabled Profiles ===="));
 			for(String profile : ProfileManager.getEnabledProfileNames())
@@ -102,10 +101,10 @@ public class ItemChanceCube extends ItemBlock
 				{
 					((TileChanceCube) te).setChance(chance);
 				}
-				else if(te instanceof TileChanceD20)
-				{
-					((TileChanceD20) te).setChance(chance);
-				}
+//				else if(te instanceof TileChanceD20)
+//				{
+//					((TileChanceD20) te).setChance(chance);
+//				}
 			}
 		}
 

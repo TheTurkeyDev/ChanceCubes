@@ -3,7 +3,6 @@ package chanceCubes.network;
 import java.util.function.Supplier;
 
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -34,8 +33,8 @@ public class PacketCubeScan
 			TileEntity te = ctx.get().getSender().world.getTileEntity(msg.pos);
 			if(te instanceof TileChanceCube)
 				((TileChanceCube) te).setScanned(true);
-			else if(te instanceof TileChanceD20)
-				((TileChanceD20) te).setScanned(true);
+//			else if(te instanceof TileChanceD20)
+//				((TileChanceD20) te).setScanned(true);
 		});
 		ctx.get().setPacketHandled(true);
 	}

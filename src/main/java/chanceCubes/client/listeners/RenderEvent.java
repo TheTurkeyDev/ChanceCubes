@@ -18,16 +18,13 @@ public class RenderEvent
 	@SubscribeEvent
 	public void onGuiRender(RenderGameOverlayEvent.Post event)
 	{
-		if(event.getType() != ElementType.HELMET || event.isCancelable())
+		if(event.getType() != ElementType.TEXT)
 			return;
 
 		Minecraft mc = Minecraft.getInstance();
 
-		if(mc.currentScreen == null)
-			return;
-
-		int k = mc.currentScreen.width;
-		int l = mc.currentScreen.height;
+		int k = mc.mainWindow.getScaledWidth();
+		int l = mc.mainWindow.getScaledHeight();
 
 		FontRenderer fontrenderer = mc.fontRenderer;
 
@@ -42,7 +39,7 @@ public class RenderEvent
 			}
 			else
 			{
-				fontrenderer.drawString("The chance of this cube is: " + chance, (k / 2) - 80, (l / 2) - 30, 16777215);
+				fontrenderer.drawString("The chance of this cube is: " + chance, (k / 2) - 80, (l / 2) - 30, 0xFFFFFF);
 				if(chanceIncrease != 0)
 				{
 					int c = chance + chanceIncrease;

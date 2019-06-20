@@ -28,9 +28,9 @@ public class TileCubeDispenser extends TileEntity
 			this.entityItem = new EntityItem(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 		if(!entityItem.getItem().getItem().equals(Item.getItemFromBlock(getCurrentBlock(type))))
 		{
-			if(type == DispenseType.CHANCE_ICOSAHEDRON)
-				this.entityItem.setItem(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
-			else if(type == DispenseType.COMPACT_GAINTCUBE)
+			//if(type == DispenseType.CHANCE_ICOSAHEDRON)
+				//this.entityItem.setItem(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
+			/*else*/ if(type == DispenseType.COMPACT_GAINTCUBE)
 				this.entityItem.setItem(new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 			else
 				this.entityItem.setItem(new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
@@ -43,9 +43,9 @@ public class TileCubeDispenser extends TileEntity
 	{
 		EntityItem ent;
 
-		if(type == DispenseType.CHANCE_ICOSAHEDRON)
+		/*if(type == DispenseType.CHANCE_ICOSAHEDRON)
 			ent = new EntityItem(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
-		else if(type == DispenseType.COMPACT_GAINTCUBE)
+		else*/ if(type == DispenseType.COMPACT_GAINTCUBE)
 			ent = new EntityItem(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 		else
 			ent = new EntityItem(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
@@ -58,9 +58,9 @@ public class TileCubeDispenser extends TileEntity
 		Block b = Blocks.AIR;
 		if(entityItem == null || BlockCubeDispenser.getCurrentState(this.world.getBlockState(this.pos)) != type)
 		{
-			if(type == DispenseType.CHANCE_ICOSAHEDRON)
+			/*if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				b = CCubesBlocks.CHANCE_ICOSAHEDRON;
-			else if(type == DispenseType.COMPACT_GAINTCUBE)
+			else*/ if(type == DispenseType.COMPACT_GAINTCUBE)
 				b = CCubesBlocks.COMPACT_GIANT_CUBE;
 			else
 				b = CCubesBlocks.CHANCE_CUBE;
