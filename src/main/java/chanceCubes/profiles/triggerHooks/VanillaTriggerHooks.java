@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensio
 public class VanillaTriggerHooks
 {
 	//TODO: Crafting trigger
-	
+
 	@SubscribeEvent
 	public void onDifficultyChange(DifficultyChangeEvent event)
 	{

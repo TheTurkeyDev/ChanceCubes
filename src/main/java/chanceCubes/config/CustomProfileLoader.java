@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.profiles.BasicProfile;
@@ -174,6 +175,62 @@ public class CustomProfileLoader
 
 							if(rewardPropJson.has("chance_value"))
 								profile.addRewardChanceChange(rewardName, rewardPropJson.get("chance_value").getAsInt());
+							for(Entry<String, JsonElement> entry : rewardPropJson.entrySet())
+							{
+								if(entry.getKey().equals("reward_name") || entry.getKey().equals("chance_value"))
+									continue;
+
+								if(entry.getValue().isJsonPrimitive())
+								{
+									JsonPrimitive value = entry.getValue().getAsJsonPrimitive();
+									if(value.isBoolean())
+										profile.addSettingsToReward(rewardName, entry.getKey(), value.getAsBoolean());
+									else if(value.isNumber())
+										profile.addSettingsToReward(rewardName, entry.getKey(), value.getAsNumber());
+									else
+										profile.addSettingsToReward(rewardName, entry.getKey(), value.getAsString());
+								}
+								else if(entry.getValue().isJsonArray())
+								{
+									JsonArray array = entry.getValue().getAsJsonArray();
+									if(array.size() <= 0)
+										continue;
+
+									JsonElement arrayType = array.get(0);
+									if(arrayType.isJsonPrimitive())
+									{
+										JsonPrimitive value = arrayType.getAsJsonPrimitive();
+										if(value.isBoolean())
+										{
+											boolean[] valArray = new boolean[array.size()];
+											for(int i = 0; i < array.size(); i++)
+												valArray[i] = array.get(i).getAsBoolean();
+											profile.addSettingsToReward(rewardName, entry.getKey(), valArray);
+										}
+										else if(value.isNumber())
+										{
+											Number[] valArray = new Number[array.size()];
+											for(int i = 0; i < array.size(); i++)
+												valArray[i] = array.get(i).getAsNumber();
+											profile.addSettingsToReward(rewardName, entry.getKey(), valArray);
+										}
+										else
+										{
+											String[] valArray = new String[array.size()];
+											for(int i = 0; i < array.size(); i++)
+												valArray[i] = array.get(i).getAsString();
+											profile.addSettingsToReward(rewardName, entry.getKey(), valArray);
+										}
+									}
+									else
+									{
+										JsonObject[] valArray = new JsonObject[array.size()];
+										for(int i = 0; i < array.size(); i++)
+											valArray[i] = array.get(i).getAsJsonObject();
+										profile.addSettingsToReward(rewardName, entry.getKey(), valArray);
+									}
+								}
+							}
 						});
 					}
 				}

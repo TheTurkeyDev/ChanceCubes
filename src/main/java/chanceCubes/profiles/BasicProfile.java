@@ -63,6 +63,18 @@ public class BasicProfile implements IProfile
 		return this;
 	}
 
+	public BasicProfile addSettingsToReward(String reward, String key, Object value)
+	{
+		Map<String, Object> settings = rewardSettings.get(reward);
+		if(settings == null)
+		{
+			settings = new HashMap<String, Object>();
+			rewardSettings.put(reward, settings);
+		}
+		settings.put(key, value);
+		return this;
+	}
+
 	@Override
 	public void onEnable()
 	{

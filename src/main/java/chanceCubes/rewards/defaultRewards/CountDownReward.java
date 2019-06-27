@@ -98,7 +98,7 @@ public class CountDownReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				this.showTimeLeft(player, Type.ACTIONBAR);
+				this.showTimeLeft(player, Type.TITLE);
 			}
 		});
 	}

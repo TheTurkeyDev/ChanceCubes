@@ -175,7 +175,7 @@ public class ProfileManager
 
 		for(IProfile prof : enabledProfiles)
 		{
-			//TODO
+			settings.putAll(prof.getRewardSettings().get(reward.getName()));
 		}
 
 		return settings;
@@ -247,6 +247,37 @@ public class ProfileManager
 				"chancecubes:Path_To_Succeed", "chancecubes:Help_Me", "chancecubes:Beacon_Build", "chancecubes:Disco", 
 				"chancecubes:5_Prongs", "chancecubes:Table_Flip", "chancecubes:Sky_Block", "chancecubes:Double_Rainbow");
 		registerProfile(profile);
+		
+		
+		// MOD DIFFICULTY PROFILES
+//		List<RadioGroupProfile> radioProfiles = new ArrayList<RadioGroupProfile>();
+//		RadioGroupProfile exEasyMode = new RadioGroupProfile("extreme_easy_mode", "Childs Play Mode", "Configures the Chance Cubes mod to be really easy. Basically no bad rewards");
+//		exEasyMode.addDisabledRewards("");
+//		registerProfile(exEasyMode);
+//		radioProfiles.add(exEasyMode);
+//		
+//		RadioGroupProfile easyMode = new RadioGroupProfile("easy_mode", "Easy Mode", "Configures the Chance Cubes mod to be easier than it normally is.");
+//		easyMode.addDisabledRewards("");
+//		registerProfile(easyMode);
+//		radioProfiles.add(easyMode);
+//		
+//		RadioGroupProfile normalMode = new RadioGroupProfile("normal_mode", "Normal Mode", "Normal mod difficulty. Basically the mod as it is, the way it's meant to be played.");
+//		registerProfile(normalMode);
+//		radioProfiles.add(normalMode);
+//		
+//		RadioGroupProfile hardMode = new RadioGroupProfile("hard_mode", "Hard Mode", "Ok now were talking. The mod is a big harder than default, but the reward values aren't changed.");
+//		hardMode.addDisabledRewards("");
+//		registerProfile(hardMode);
+//		radioProfiles.add(hardMode);
+//		
+//		RadioGroupProfile exHardMode = new RadioGroupProfile("extreme_hard_mode", "Abandon All Hope Ye Who Enter Here Mode", "I mean... I guess if you're into that kind of stuff. If you enabling this it doesn't really matter what I put here, since you probably don't care.");
+//		exHardMode.addDisabledRewards("");
+//		registerProfile(exHardMode);
+//		radioProfiles.add(exHardMode);
+//		
+//		for(RadioGroupProfile rProf: radioProfiles)
+//			rProf.assignOtherProfiles(normalMode, exEasyMode, easyMode, normalMode, hardMode, exHardMode);
+		
 		config.save();
 		//@formatter:on
 	}

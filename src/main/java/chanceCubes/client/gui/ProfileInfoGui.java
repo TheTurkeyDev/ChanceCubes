@@ -3,12 +3,16 @@ package chanceCubes.client.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.JsonObject;
 
 import chanceCubes.profiles.BasicProfile;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.triggers.ITrigger;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import scala.actors.threadpool.Arrays;
 
 public class ProfileInfoGui extends GuiScreen
 {
@@ -67,6 +71,28 @@ public class ProfileInfoGui extends GuiScreen
 			for(IProfile profile : bProfile.getSubProfiles())
 				stringsList.add(profile.getName() + " (" + profile.getID() + ")");
 			this.addTab("Sub Profs", stringsList);
+
+			stringsList = new ArrayList<>();
+			if(bProfile.getRewardSettings().isEmpty())
+				stringsList.add("----- NONE -----");
+			for(String reward : bProfile.getRewardSettings().keySet())
+			{
+				stringsList.add("----------------------");
+				Map<String, Object> rewardSettings = bProfile.getRewardSettings().get(reward);
+				stringsList.add(reward);
+				stringsList.add("----------------------");
+				for(String setting : rewardSettings.keySet())
+				{
+					Object valueObj = rewardSettings.get(setting);
+					if(valueObj instanceof String[])
+						stringsList.add(setting + " - " + Arrays.toString((String[]) valueObj));
+					else if(valueObj instanceof JsonObject[])
+						stringsList.add(setting + " - " + Arrays.toString((JsonObject[]) valueObj));
+					else
+						stringsList.add(setting + " - " + valueObj.toString());
+				}
+			}
+			this.addTab("Reward Props", stringsList);
 		}
 		else
 		{

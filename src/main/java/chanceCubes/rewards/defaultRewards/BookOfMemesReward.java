@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ public class BookOfMemesReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		String meme = memes.get(RewardsUtil.rand.nextInt(memes.size()));
+		List<String> allMemes = new ArrayList<>(memes);
+		allMemes.addAll(Arrays.asList(super.getSettingAsStringList(settings, "memes", new String[0])));
+		String meme = allMemes.get(RewardsUtil.rand.nextInt(allMemes.size()));
 		MinecraftServer server = world.getMinecraftServer();
 		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");

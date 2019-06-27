@@ -41,7 +41,6 @@ public class ItemChestReward extends BaseCustomReward
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 		Scheduler.scheduleTask(new Task("Item_Chest_Init_Delay", 60)
 		{
-
 			@Override
 			public void callback()
 			{
