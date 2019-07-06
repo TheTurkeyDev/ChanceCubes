@@ -32,6 +32,6 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
+		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":cr_" + event.player.getCommandSenderEntity().getName());
 	}
 }

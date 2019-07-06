@@ -22,7 +22,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 
 	public ArmorStandArmorReward()
 	{
-		super(CCubesCore.MODID + ":Armor_Stand_Armor", 40);
+		super(CCubesCore.MODID + ":armor_stand_armor", 40);
 	}
 
 	// @formatter:off

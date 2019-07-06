@@ -1,20 +1,20 @@
-itemGroup.chancecubes=Chance Cubes
+itemgroup.chancecubes=Chance Cubes
 
-tile.chance_Cube.name=Куб удачи
-tile.chance_Icosahedron.name=Двадцатигранник удачи
-tile.giant_Chance_Cube.name=Гигантский куб удачи
-tile.compact_Giant_Chance_Cube.name=Компактный гигантский куб удачи
-tile.cube_Dispenser.name=Распределитель кубов удачи
+tile.chance_cube.name=Куб удачи
+tile.chance_icosahedron.name=Двадцатигранник удачи
+tile.giant_chance_cube.name=Гигантский куб удачи
+tile.compact_giant_chance_cube.name=Компактный гигантский куб удачи
+tile.cube_dispenser.name=Распределитель кубов удачи
 
-item.chance_Pendant_Tier1.name=Кулон удачи 1 уровня
-item.chance_Pendant_Tier2.name=Кулон удачи 2 уровня
-item.chance_Pendant_Tier3.name=Кулон удачи 3 уровня
+item.chance_pendant_tier1.name=Кулон удачи 1 уровня
+item.chance_pendant_tier2.name=Кулон удачи 2 уровня
+item.chance_pendant_tier3.name=Кулон удачи 3 уровня
 
-item.creative_Pendant.name=Творческий кулон удачи
-item.reward_Selector_Pendant.name=Кулон «Выбор награды»
+item.creative_pendant.name=Творческий кулон удачи
+item.reward_selector_pendant.name=Кулон «Выбор награды»
 item.single_use_reward_selector_pendant.name=Одноразовый кулон «Выбор награды»
 
-item.silk_Touch_Pendant.name=Кулон удачи с шёлковым касанием
+item.silk_touch_pendant.name=Кулон удачи с шёлковым касанием
 
 item.scanner.name=Сканер кубов удачи
 

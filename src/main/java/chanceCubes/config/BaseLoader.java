@@ -80,7 +80,7 @@ public class BaseLoader
 			}
 			else
 			{
-				CCubesCore.logger.log(Level.ERROR, "An float was expected, but " + part + " was recieved for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
+				CCubesCore.logger.log(Level.ERROR, "An float was expected, but " + part + " was received for the " + this.currentParsingPart + " reward part in the \"" + this.currentParsingReward + "\" reward.");
 				CCubesCore.logger.log(Level.ERROR, "If " + part + " was not what you entered than this may be an issue with the mod and please report to the mod author!");
 			}
 

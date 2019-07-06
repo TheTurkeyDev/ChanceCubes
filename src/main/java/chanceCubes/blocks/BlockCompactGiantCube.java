@@ -18,7 +18,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 
 	public BlockCompactGiantCube()
 	{
-		super("compact_Giant_Chance_Cube");
+		super("compact_giant_chance_cube");
 		this.setHardness(0.5f);
 	}
 

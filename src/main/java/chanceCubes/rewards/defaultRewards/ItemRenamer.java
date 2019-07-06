@@ -17,7 +17,7 @@ public class ItemRenamer extends BaseCustomReward
 {
 	public ItemRenamer()
 	{
-		super(CCubesCore.MODID + ":Item_Rename", 10);
+		super(CCubesCore.MODID + ":item_rename", 10);
 	}
 
 	// @formatter:off

@@ -26,7 +26,7 @@ public class CountDownReward extends BaseCustomReward
 {
 	public CountDownReward()
 	{
-		super(CCubesCore.MODID + ":Countdown", 15);
+		super(CCubesCore.MODID + ":countdown", 15);
 	}
 
 	@Override

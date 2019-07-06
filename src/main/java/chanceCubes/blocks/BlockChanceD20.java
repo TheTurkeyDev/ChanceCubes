@@ -32,7 +32,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 
 	public BlockChanceD20()
 	{
-		super("chance_Icosahedron");
+		super("chance_icosahedron");
 		super.setHardness(-1F);
 		this.setLightLevel(7);
 	}

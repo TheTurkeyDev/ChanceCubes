@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compile "net.darkhax.gamestages:GameStages-1.12.2:2.0.112"
+    compileOnly "net.darkhax.gamestages:GameStages-1.12.2:2.0.112"
 }
 
 processResources

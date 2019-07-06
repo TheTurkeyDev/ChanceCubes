@@ -9,7 +9,7 @@ public class ItemChancePendant extends BaseChanceCubesItem
 
 	public ItemChancePendant(int tier, int chancebonus)
 	{
-		super("chance_Pendant_Tier" + tier);
+		super("chance_pendant_tier" + tier);
 		this.setMaxStackSize(1);
 		this.setMaxDamage(CCubesSettings.pendantUses);
 		super.showDurabilityBar(new ItemStack(this));

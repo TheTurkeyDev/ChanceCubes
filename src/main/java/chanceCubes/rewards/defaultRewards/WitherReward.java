@@ -16,7 +16,7 @@ public class WitherReward extends BaseCustomReward
 {
 	public WitherReward()
 	{
-		super(CCubesCore.MODID + ":Wither", -100);
+		super(CCubesCore.MODID + ":wither", -100);
 	}
 
 	@Override

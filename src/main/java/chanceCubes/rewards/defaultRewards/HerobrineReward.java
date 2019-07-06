@@ -19,7 +19,7 @@ public class HerobrineReward extends BaseCustomReward
 
 	public HerobrineReward()
 	{
-		super(CCubesCore.MODID + ":Herobrine", -65);
+		super(CCubesCore.MODID + ":herobrine", -65);
 	}
 
 	@Override

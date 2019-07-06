@@ -22,7 +22,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 {
 	public BlockGiantCube()
 	{
-		super("giant_Chance_Cube");
+		super("giant_chance_cube");
 		this.setCreativeTab(null);
 	}
 

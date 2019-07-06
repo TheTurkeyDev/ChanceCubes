@@ -37,10 +37,10 @@ public class CCubesBlocks
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
 
-		GameRegistry.registerTileEntity(TileChanceCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceCube"));
-		GameRegistry.registerTileEntity(TileChanceD20.class, new ResourceLocation(CCubesCore.MODID, "tileChanceIcosahedron"));
-		GameRegistry.registerTileEntity(TileGiantCube.class, new ResourceLocation(CCubesCore.MODID, "tileChanceGiant"));
-		GameRegistry.registerTileEntity(TileCubeDispenser.class, new ResourceLocation(CCubesCore.MODID, "tileCubeDispenser"));
+		GameRegistry.registerTileEntity(TileChanceCube.class, new ResourceLocation(CCubesCore.MODID, "tilechancecube"));
+		GameRegistry.registerTileEntity(TileChanceD20.class, new ResourceLocation(CCubesCore.MODID, "tilechanceicosahedron"));
+		GameRegistry.registerTileEntity(TileGiantCube.class, new ResourceLocation(CCubesCore.MODID, "tilechancegiant"));
+		GameRegistry.registerTileEntity(TileCubeDispenser.class, new ResourceLocation(CCubesCore.MODID, "tilecubedispenser"));
 	}
 
 	@SubscribeEvent

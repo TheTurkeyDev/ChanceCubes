@@ -13,7 +13,7 @@ public class SurroundedReward extends BaseCustomReward
 {
 	public SurroundedReward()
 	{
-		super(CCubesCore.MODID + ":Surrounded", -45);
+		super(CCubesCore.MODID + ":surrounded", -45);
 	}
 
 	@Override

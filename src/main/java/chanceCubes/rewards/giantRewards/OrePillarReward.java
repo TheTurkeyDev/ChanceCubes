@@ -18,7 +18,7 @@ public class OrePillarReward extends BaseCustomReward
 {
 	public OrePillarReward()
 	{
-		super(CCubesCore.MODID + ":Ore_Pillars", 0);
+		super(CCubesCore.MODID + ":ore_pillars", 0);
 	}
 
 	@Override

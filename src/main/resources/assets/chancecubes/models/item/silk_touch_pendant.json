@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "chancecubes:items/silk_Touch_Pendant"
+        "layer0": "chancecubes:items/silk_touch_pendant"
     },
     "display": {
         "thirdperson": {

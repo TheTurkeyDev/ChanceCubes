@@ -107,7 +107,7 @@ public class CustomUserReward extends BaseCustomReward
 
 	public CustomUserReward(String un, UUID uuid, String type, List<BasicReward> rewards)
 	{
-		super(CCubesCore.MODID + ":CR_" + un, 0);
+		super(CCubesCore.MODID + ":cr_" + un, 0);
 		this.userName = un;
 		this.uuid = uuid;
 		this.type = type;

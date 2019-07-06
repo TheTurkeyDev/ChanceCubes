@@ -25,7 +25,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	public BlockCubeDispenser()
 	{
-		super("cube_Dispenser");
+		super("cube_dispenser");
 		this.setHardness(2f);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE));
 		this.setLightOpacity(0);
@@ -102,7 +102,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return 0;
 		else if(type == DispenseType.CHANCE_ICOSAHEDRON)
 			return 1;
-		else if(type == DispenseType.COMPACT_GAINTCUBE)
+		else if(type == DispenseType.COMPACT_GIANTCUBE)
 			return 2;
 		else
 			return 0;
@@ -115,14 +115,14 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		else if(meta == 1)
 			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
 		else if(meta == 2)
-			return this.getDefaultState().withProperty(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
+			return this.getDefaultState().withProperty(DISPENSING, DispenseType.COMPACT_GIANTCUBE);
 		else
 			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
 	public static enum DispenseType implements IStringSerializable
 	{
-		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GAINTCUBE("compact_gaint_cube");
+		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GIANTCUBE("compact_giant_cube");
 
 		private String type;
 
@@ -144,9 +144,8 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 				case CHANCE_CUBE:
 					return CHANCE_ICOSAHEDRON;
 				case CHANCE_ICOSAHEDRON:
-					return COMPACT_GAINTCUBE;
-				case COMPACT_GAINTCUBE:
-					return CHANCE_CUBE;
+					return COMPACT_GIANTCUBE;
+				case COMPACT_GIANTCUBE:
 				default:
 					return CHANCE_CUBE;
 

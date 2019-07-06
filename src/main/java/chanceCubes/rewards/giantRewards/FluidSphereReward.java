@@ -18,7 +18,7 @@ public class FluidSphereReward extends BaseCustomReward
 {
 	public FluidSphereReward()
 	{
-		super(CCubesCore.MODID + ":Fluid_Sphere", 0);
+		super(CCubesCore.MODID + ":fluid_sphere", 0);
 	}
 	
 	@Override

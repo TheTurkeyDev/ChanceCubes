@@ -20,7 +20,7 @@ public class DigBuildReward extends BaseCustomReward
 
 	public DigBuildReward()
 	{
-		super(CCubesCore.MODID + ":Dig_Build_Reward", -5);
+		super(CCubesCore.MODID + ":dig_build_reward", -5);
 	}
 
 	@Override

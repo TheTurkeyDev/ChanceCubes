@@ -18,7 +18,7 @@ public class MixedFluidSphereReward extends BaseCustomReward
 {
 	public MixedFluidSphereReward()
 	{
-		super(CCubesCore.MODID + ":Mixed_Fluid_Sphere", 0);
+		super(CCubesCore.MODID + ":mixed_fluid_sphere", 0);
 	}
 	
 	@Override

@@ -21,7 +21,7 @@ public class MazeReward extends BaseCustomReward
 {
 	public MazeReward()
 	{
-		super(CCubesCore.MODID + ":Maze", -25);
+		super(CCubesCore.MODID + ":maze", -25);
 	}
 
 	@Override

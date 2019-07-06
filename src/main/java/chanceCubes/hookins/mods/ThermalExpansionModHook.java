@@ -32,7 +32,7 @@ public class ThermalExpansionModHook extends BaseModHook
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Florbs", 60, new MessageRewardType(new MessagePart("Florbs!!")), new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":florbs", 60, new MessageRewardType(new MessagePart("Florbs!!")), new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
@@ -62,7 +62,7 @@ public class ThermalExpansionModHook extends BaseModHook
 			nbt.setTag("Fluid", nbtFluid);
 			stack.setTagCompound(nbt);
 			stack.addEnchantment(Enchantment.getEnchantmentByLocation("cofhcore:holding"), 4);
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Stay_Hydrated", 10, new MessageRewardType(new MessagePart("Remember to stay hydrated!")), new ItemRewardType(new ItemPart(stack))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":stay_hydrated", 10, new MessageRewardType(new MessagePart("Remember to stay hydrated!")), new ItemRewardType(new ItemPart(stack))));
 		}
 	}
 }

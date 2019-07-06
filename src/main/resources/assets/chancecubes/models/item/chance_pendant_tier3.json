@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "chancecubes:items/chance_Pendant_Tier3"
+        "layer0": "chancecubes:items/chance_pendant_tier3"
     },
     "display": {
         "thirdperson": {

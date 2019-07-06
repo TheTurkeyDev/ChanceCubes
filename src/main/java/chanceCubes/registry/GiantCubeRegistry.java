@@ -57,8 +57,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, true, 0))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, true, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, true, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":woodland_mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, true, 0))));
 
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
