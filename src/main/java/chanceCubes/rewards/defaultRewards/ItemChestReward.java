@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -38,12 +39,15 @@ public class ItemChestReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		world.setBlockState(pos, Blocks.CHEST.getDefaultState());
-		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 		Scheduler.scheduleTask(new Task("Item_Chest_Init_Delay", 60)
 		{
 			@Override
 			public void callback()
 			{
+				TileEntity tileEntity = world.getTileEntity(pos);
+				if(!(tileEntity instanceof TileEntityChest))
+					return;
+				TileEntityChest chest = (TileEntityChest) tileEntity;
 				spawnItems(world, pos, chest);
 				chest.numPlayersUsing++;
 				world.addBlockEvent(pos, chest.getBlockType(), 1, chest.numPlayersUsing);
@@ -60,15 +64,20 @@ public class ItemChestReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos);
+				if(chest != null)
+				 	chest.getWorld().setBlockToAir(chest.getPos());
 			}
 
 			@Override
 			public void update()
 			{
-				chest.numPlayersUsing++;
-				EntityItem item = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
-				world.spawnEntity(item);
+				if(chest == null || !(chest.getWorld().getTileEntity(chest.getPos()) instanceof  TileEntityChest))
+				{
+					Scheduler.removeTask(this);
+					return;
+				}
+				EntityItem item = new EntityItem(chest.getWorld(),  chest.getPos().getX() + 0.5, chest.getPos().getY() + 0.5, chest.getPos().getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
+				chest.getWorld().spawnEntity(item);
 				item.motionX = 0;
 				item.motionY = 1.5;
 				item.motionZ = -1;
