@@ -20,7 +20,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 {
 	public WolvesToCreepersReward()
 	{
-		super(CCubesCore.MODID + ":wolves_to_creepers", -20);
+		super(CCubesCore.MODID + ":Wolves_To_Creepers", -20);
 	}
 
 	@Override

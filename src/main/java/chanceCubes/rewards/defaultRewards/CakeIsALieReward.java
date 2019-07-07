@@ -19,7 +19,7 @@ public class CakeIsALieReward extends BaseCustomReward
 {
 	public CakeIsALieReward()
 	{
-		super(CCubesCore.MODID + ":cake", 20);
+		super(CCubesCore.MODID + ":Cake", 20);
 	}
 
 	@Override

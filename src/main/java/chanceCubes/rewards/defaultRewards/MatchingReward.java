@@ -21,7 +21,7 @@ public class MatchingReward extends BaseCustomReward
 {
 	public MatchingReward()
 	{
-		super(CCubesCore.MODID + ":matching", 0);
+		super(CCubesCore.MODID + ":Matching", 0);
 	}
 
 	@Override

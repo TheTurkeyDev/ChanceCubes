@@ -22,7 +22,7 @@ public class TicTacToeReward extends BaseCustomReward
 {
 	public TicTacToeReward()
 	{
-		super(CCubesCore.MODID + ":tic_tac_toe", 0);
+		super(CCubesCore.MODID + ":Tic_Tac_Toe", 0);
 	}
 
 	@Override

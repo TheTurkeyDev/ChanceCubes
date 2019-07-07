@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,7 +19,7 @@ public class ItemChestReward extends BaseCustomReward
 {
 	public ItemChestReward()
 	{
-		super(CCubesCore.MODID + ":item_chest", 25);
+		super(CCubesCore.MODID + ":Item_Chest", 25);
 	}
 
 	//@formatter:off
@@ -39,15 +38,12 @@ public class ItemChestReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		world.setBlockState(pos, Blocks.CHEST.getDefaultState());
+		TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
 		Scheduler.scheduleTask(new Task("Item_Chest_Init_Delay", 60)
 		{
 			@Override
 			public void callback()
 			{
-				TileEntity tileEntity = world.getTileEntity(pos);
-				if(!(tileEntity instanceof TileEntityChest))
-					return;
-				TileEntityChest chest = (TileEntityChest) tileEntity;
 				spawnItems(world, pos, chest);
 				chest.numPlayersUsing++;
 				world.addBlockEvent(pos, chest.getBlockType(), 1, chest.numPlayersUsing);
@@ -65,7 +61,7 @@ public class ItemChestReward extends BaseCustomReward
 			public void callback()
 			{
 				if(chest != null)
-				 	chest.getWorld().setBlockToAir(chest.getPos());
+					chest.getWorld().setBlockToAir(chest.getPos());
 			}
 
 			@Override

@@ -23,7 +23,7 @@ public class ChunkFlipReward extends BaseCustomReward
 {
 	public ChunkFlipReward()
 	{
-		super(CCubesCore.MODID + ":chunk_flip", 0);
+		super(CCubesCore.MODID + ":Chunk_Flip", 0);
 	}
 
 	@Override

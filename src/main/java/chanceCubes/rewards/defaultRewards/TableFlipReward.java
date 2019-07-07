@@ -18,7 +18,7 @@ public class TableFlipReward extends BaseCustomReward
 {
 	public TableFlipReward()
 	{
-		super(CCubesCore.MODID + ":table_flip", 0);
+		super(CCubesCore.MODID + ":Table_Flip", 0);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class MagicFeetReward extends BaseCustomReward
 {
 	public MagicFeetReward()
 	{
-		super(CCubesCore.MODID + ":magic_feet", 85);
+		super(CCubesCore.MODID + ":Magic_Feet", 85);
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class MobTowerReward extends BaseCustomReward
 
 	public MobTowerReward()
 	{
-		super(CCubesCore.MODID + ":mob_tower", 0);
+		super(CCubesCore.MODID + ":Mob_Tower", 0);
 	}
 
 	@Override

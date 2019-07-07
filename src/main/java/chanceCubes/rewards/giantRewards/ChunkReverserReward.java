@@ -22,7 +22,7 @@ public class ChunkReverserReward extends BaseCustomReward
 	
 	public ChunkReverserReward()
 	{
-		super(CCubesCore.MODID + ":chuck_reverse", 0);
+		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
 		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS, Blocks.STONE));

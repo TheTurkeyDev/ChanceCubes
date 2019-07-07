@@ -16,7 +16,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 {
 	public CreeperSurroundedReward()
 	{
-		super(CCubesCore.MODID + ":surrounded_creeper", -85);
+		super(CCubesCore.MODID + ":Surrounded_Creeper", -85);
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class WaitForItReward extends BaseCustomReward
 {
 	public WaitForItReward()
 	{
-		super(CCubesCore.MODID + ":wait_for_it", -30);
+		super(CCubesCore.MODID + ":Wait_For_It", -30);
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class BlockInfectionReward extends BaseCustomReward
 
 	public BlockInfectionReward()
 	{
-		super(CCubesCore.MODID + ":world_infection", 0);
+		super(CCubesCore.MODID + ":World_Infection", 0);
 	}
 	
 	@Override

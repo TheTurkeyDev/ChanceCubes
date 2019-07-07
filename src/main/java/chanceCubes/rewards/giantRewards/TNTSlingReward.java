@@ -15,7 +15,7 @@ public class TNTSlingReward extends BaseCustomReward
 {
 	public TNTSlingReward()
 	{
-		super(CCubesCore.MODID + ":tnt_throw", 0);
+		super(CCubesCore.MODID + ":TNT_Throw", 0);
 	}
 
 	@Override

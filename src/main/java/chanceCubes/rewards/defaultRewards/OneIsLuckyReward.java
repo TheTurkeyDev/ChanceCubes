@@ -19,7 +19,7 @@ public class OneIsLuckyReward extends BaseCustomReward
 {
 	public OneIsLuckyReward()
 	{
-		super(CCubesCore.MODID + ":one_is_lucky", 0);
+		super(CCubesCore.MODID + ":One_Is_Lucky", 0);
 	}
 
 	@Override

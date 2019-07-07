@@ -15,7 +15,7 @@ public class ZombieCopyCatReward extends BaseCustomReward
 {
 	public ZombieCopyCatReward()
 	{
-		super(CCubesCore.MODID + ":copy_cat_zombie", -25);
+		super(CCubesCore.MODID + ":Copy_Cat_Zombie", -25);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class InventoryChestReward extends BaseCustomReward
 {
 	public InventoryChestReward()
 	{
-		super(CCubesCore.MODID + ":inventory_chest", -70);
+		super(CCubesCore.MODID + ":Inventory_Chest", -70);
 	}
 
 	@Override

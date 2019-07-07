@@ -29,7 +29,7 @@ public class RandomExplosionReward extends BaseCustomReward
 {
 	public RandomExplosionReward()
 	{
-		super(CCubesCore.MODID + ":random_explosion", 0);
+		super(CCubesCore.MODID + ":Random_Explosion", 0);
 	}
 	
 	@Override

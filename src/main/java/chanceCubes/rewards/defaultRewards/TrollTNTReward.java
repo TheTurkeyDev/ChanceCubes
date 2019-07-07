@@ -19,7 +19,7 @@ public class TrollTNTReward extends BaseCustomReward
 {
 	public TrollTNTReward()
 	{
-		super(CCubesCore.MODID + ":troll_tnt", -5);
+		super(CCubesCore.MODID + ":Troll_TNT", -5);
 	}
 
 	@Override

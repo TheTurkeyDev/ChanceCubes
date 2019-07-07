@@ -37,7 +37,7 @@ public class MobEffectsReward extends BaseCustomReward
 {
 	public MobEffectsReward()
 	{
-		super(CCubesCore.MODID + ":mob_abilities_effects", -15);
+		super(CCubesCore.MODID + ":Mob_Abilities_Effects", -15);
 	}
 
 	@Override

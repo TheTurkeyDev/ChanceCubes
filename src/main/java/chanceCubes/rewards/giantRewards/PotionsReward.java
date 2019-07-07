@@ -23,7 +23,7 @@ public class PotionsReward extends BaseCustomReward
 	
 	public PotionsReward()
 	{
-		super(CCubesCore.MODID + ":raining_potions", 0);
+		super(CCubesCore.MODID + ":Raining_Potions", 0);
 	}
 
 	@Override

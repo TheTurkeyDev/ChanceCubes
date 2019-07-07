@@ -17,7 +17,7 @@ public class AnvilRain extends BaseCustomReward
 
 	public AnvilRain()
 	{
-		super(CCubesCore.MODID + ":anvil_rain", -45);
+		super(CCubesCore.MODID + ":Anvil_Rain", -45);
 	}
 
 	@Override

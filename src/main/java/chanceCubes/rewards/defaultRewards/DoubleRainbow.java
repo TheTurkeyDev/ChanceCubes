@@ -16,7 +16,7 @@ public class DoubleRainbow extends BaseCustomReward
 
 	public DoubleRainbow()
 	{
-		super(CCubesCore.MODID + ":double_rainbow", 15);
+		super(CCubesCore.MODID + ":Double_Rainbow", 15);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 {
 	public FloorIsLavaReward()
 	{
-		super(CCubesCore.MODID + ":floor_is_lava", 0);
+		super(CCubesCore.MODID + ":Floor_Is_Lava", 0);
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 	@Override
 	public String getName()
 	{
-		return CCubesCore.MODID + ":floor_is_lava";
+		return CCubesCore.MODID + ":Floor_Is_Lava";
 	}
 
 }

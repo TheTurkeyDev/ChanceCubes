@@ -35,7 +35,7 @@ public class ThermalFoundationModHook extends BaseModHook
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":grind_gears", 60, new MessageRewardType(new MessagePart("You really grind my gears ;)")), new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Grind_Gears", 60, new MessageRewardType(new MessagePart("You really grind my gears ;)")), new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
@@ -54,20 +54,20 @@ public class ThermalFoundationModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "wrench", 1);
 		if(!stack.isEmpty())
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":crescent_hammer", 60, new ItemRewardType(new ItemPart(stack))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Crescent_Hammer", 60, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "meter", 1);
 		if(!stack.isEmpty())
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":multimeter", 60, new ItemRewardType(new ItemPart(stack))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Multimeter", 60, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "upgrade", 1);
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":upgrade", 80, new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Upgrade", 80, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
@@ -83,14 +83,14 @@ public class ThermalFoundationModHook extends BaseModHook
 		stack = RewardsUtil.getItemStack(super.modId, "security", 1);
 		if(!stack.isEmpty())
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":signalum_security_lock", 70, new ItemRewardType(new ItemPart(stack))));
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Signalum_Security_Lock", 70, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "fertilizer", 8);
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":phyto_gro", 75, new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Phyto_Gro", 75, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
@@ -107,7 +107,7 @@ public class ThermalFoundationModHook extends BaseModHook
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":hardened_glass", 75, new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Hardened_Glass", 75, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
@@ -124,7 +124,7 @@ public class ThermalFoundationModHook extends BaseModHook
 		if(!stack.isEmpty())
 		{
 			ItemStack stack1 = stack;
-			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":hardened_alloy_glass", 80, new ItemRewardType(new ItemPart(stack1))
+			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Hardened_Alloy_Glass", 80, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
 				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)

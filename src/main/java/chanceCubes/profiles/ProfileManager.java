@@ -190,64 +190,64 @@ public class ProfileManager
 		//@formatter:off
 		config.load();
 		profile = new BasicProfile("default", "Default", "Rewards that are disabled by default");
-		profile.addDisabledRewards("chancecubes:clear_inventory");
+		profile.addDisabledRewards("chancecubes:Clear_Inventory");
 		registerProfile(profile, true);
 
 		profile = new BasicProfile("no_explosions", "No Explosions", "Disable all rewards that use explode");
-		profile.addDisabledRewards("chancecubes:tnt_structure", "chancecubes:explosion", "chancecubes:tnt_cat",
-				"chancecubes:tnt_diamond", "chancecubes:tnt_bats", "chancecubes:coal_to_diamonds", "chancecubes:help_me", 
-				"chancecubes:nuke", "chancecubes:pssst", "chancecubes:surrounded_creeper", "chancecubes:troll_tnt", 
-				"chancecubes:ender_crystal_timer", "chancecubes:wait_for_it", "chancecubes:charged_creeper", 
-				"chancecubes:torches_to_creepers", "chancecubes:cake", "chancecubes:wolves_to_creepers", 
-				"chancecubes:monty_hall", "chancecubes:countdown", "chancecubes:heads_or_tails");
+		profile.addDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:Explosion", "chancecubes:TNT_Cat", 
+				"chancecubes:TNT_Diamond", "chancecubes:TNT_Bats", "chancecubes:Coal_To_Diamonds", "chancecubes:Help_Me", 
+				"chancecubes:Nuke", "chancecubes:Pssst", "chancecubes:Surrounded_Creeper", "chancecubes:Troll_TNT", 
+				"chancecubes:Ender_Crystal_Timer", "chancecubes:Wait_For_It", "chancecubes:Charged_Creeper", 
+				"chancecubes:Torches_To_Creepers", "chancecubes:Cake", "chancecubes:Wolves_To_Creepers", 
+				"chancecubes:Monty_Hall", "chancecubes:Countdown", "chancecubes:Heads_or_Tails");
 		registerProfile(profile);
 		
 		profile = new BasicProfile("no_death_mg", "No Death Mini-games", "Disable all minigame rewards that kills the player if they lose");
-		profile.addDisabledRewards("chancecubes:maze", "chancecubes:dig_build_reward", "chancecubes:matching", 
-				"chancecubes:math", "chancecubes:question");
+		profile.addDisabledRewards("chancecubes:Maze", "chancecubes:Dig_Build_Reward", "chancecubes:Matching", 
+				"chancecubes:Math", "chancecubes:Question");
 		registerProfile(profile);
 		
 		profile = new BasicProfile("no_status_effects", "No Potions/Effects", "Disable all rewards that throw a potion or give a status effect");
-		profile.addDisabledRewards("chancecubes:poison", "chancecubes:wither_status_effect", "chancecubes:arrow_trap", 
-				"chancecubes:random_status_effect", "chancecubes:lingering_potions_ring", "chancecubes:surrounded_creeper", 
-				"chancecubes:mob_abilities_effects");
+		profile.addDisabledRewards("chancecubes:Poison", "chancecubes:Wither_Status_Effect", "chancecubes:Arrow_Trap", 
+				"chancecubes:Random_Status_Effect", "chancecubes:Lingering_Potions_Ring", "chancecubes:Surrounded_Creeper", 
+				"chancecubes:Mob_Abilities_Effects");
 		registerProfile(profile);
 		
 		profile = new BasicProfile("hardcore", "Hardcore", "For users who play on hardcore diffuculty");
-		profile.addDisabledRewards("chancecubes:heads_or_tails", "chancecubes:monty_hall", "chancecubes:ender_crystal_timer",
-				"chancecubes:wither");
+		profile.addDisabledRewards("chancecubes:Heads_or_Tails", "chancecubes:Monty_Hall", "chancecubes:Ender_Crystal_Timer",
+				"chancecubes:Wither");
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
-		profile.addRewardChanceChange("chancecubes:half_heart", -100);
-		profile.addRewardChanceChange("chancecubes:cave_spider_web", -90);
+		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
+		profile.addRewardChanceChange("chancecubes:Cave_Spider_Web", -90);
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("nether", "Nether", "Updates the reward pool for when players are in the nether");
-		profile.addDisabledRewards("chancecubes:rain", "chancecubes:sail_away", "chancecubes:squid_horde", 
-				"chancecubes:ice_cold", "chancecubes:hot_tub", "chancecubes:guardians", "chancecubes:nuke",
-				"chancecubes:cats_and_dogs");
+		profile.addDisabledRewards("chancecubes:Rain", "chancecubes:Sail_Away", "chancecubes:Squid_Horde", 
+				"chancecubes:Ice_Cold", "chancecubes:Hot_Tub", "chancecubes:Guardians", "chancecubes:Nuke",
+				"chancecubes:Cats_And_Dogs");
 		profile.addTriggers(new DimensionChangeTrigger(profile, -1));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("peaceful", "Peaceful", "For users who play on peaceful diffuculty. Removes rewards that have hostile Mobs (Doesn't remove TNT)");
-		profile.addDisabledRewards("chancecubes:pssst", "chancecubes:horde", "chancecubes:silverfish_surround",
-				"chancecubes:slime_man", "chancecubes:witch", "chancecubes:spawn_jerry", "chancecubes:spawn_glenn", 
-				"chancecubes:invisible_creeper", "chancecubes:knockback_zombie", "chancecubes:actual_invisible_ghast",
-				"chancecubes:nether_jelly_fish", "chancecubes:quidditch", "chancecubes:one_man_army", "chancecubes:silvermite_stacks",
-				"chancecubes:invizible_silverfish", "chancecubes:skeleton_bats", "chancecubes:cave_spider_web", "chancecubes:guardians", 
-				"chancecubes:cookie_monster", "chancecubes:charged_creeper", "chancecubes:torches_to_creepers", "chancecubes:herobrine", 
-				"chancecubes:surrounded", "chancecubes:surrounded_creeper", "chancecubes:wither", "chancecubes:wait_for_it", 
-				"chancecubes:cake", "chancecubes:wolves_to_creepers", "chancecubes:countdown", "chancecubes:mob_tower");
+		profile.addDisabledRewards("chancecubes:Pssst", "chancecubes:Horde", "chancecubes:Silverfish_Surround",
+				"chancecubes:Slime_Man", "chancecubes:Witch", "chancecubes:Spawn_Jerry", "chancecubes:Spawn_Glenn", 
+				"chancecubes:Invisible_Creeper", "chancecubes:Knockback_Zombie", "chancecubes:Actual_Invisible_Ghast",
+				"chancecubes:Nether_Jelly_Fish", "chancecubes:Quidditch", "chancecubes:One_Man_Army", "chancecubes:Silvermite_Stacks",
+				"chancecubes:Invizible_Silverfish", "chancecubes:Skeleton_Bats", "chancecubes:Cave_Spider_Web", "chancecubes:Guardians", 
+				"chancecubes:Cookie_Monster", "chancecubes:Charged_Creeper", "chancecubes:Torches_To_Creepers", "chancecubes:Herobrine", 
+				"chancecubes:Surrounded", "chancecubes:Surrounded_Creeper", "chancecubes:Wither", "chancecubes:Wait_For_It", 
+				"chancecubes:Cake", "chancecubes:Wolves_To_Creepers", "chancecubes:Countdown", "chancecubes:Mob_Tower");
 		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.PEACEFUL));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("no_area_of_effects", "No Area of Effect Rewards", "Disables rewards that place blocks that have a 3x3x3 area of effect or greater (Does not include rewards that reset blocks to their original state after)");
-		profile.addDisabledRewards("chancecubes:tnt_structure", "chancecubes:tnt_diamond", "chancecubes:string!",
-				"chancecubes:carpet!", "chancecubes:squid_horde", "chancecubes:d-rude_sandstorm", "chancecubes:ice_cold", 
-				"chancecubes:watch_world_burn", "chancecubes:coal_to_diamonds", "chancecubes:hot_tub",
-				"chancecubes:arrow_trap", "chancecubes:trampoline", "chancecubes:cave_spider_web", "chancecubes:guardians",
-				"chancecubes:path_to_succeed", "chancecubes:help_me", "chancecubes:beacon_build", "chancecubes:disco", 
-				"chancecubes:5_prongs", "chancecubes:table_flip", "chancecubes:sky_block", "chancecubes:double_rainbow");
+		profile.addDisabledRewards("chancecubes:Tnt_Structure", "chancecubes:TNT_Diamond", "chancecubes:STRING!",
+				"chancecubes:CARPET!", "chancecubes:Squid_Horde", "chancecubes:D-rude_SandStorm", "chancecubes:Ice_Cold", 
+				"chancecubes:Watch_World_Burn", "chancecubes:Coal_To_Diamonds", "chancecubes:Hot_Tub",
+				"chancecubes:Arrow_Trap", "chancecubes:Trampoline", "chancecubes:Cave_Spider_Web", "chancecubes:Guardians",
+				"chancecubes:Path_To_Succeed", "chancecubes:Help_Me", "chancecubes:Beacon_Build", "chancecubes:Disco", 
+				"chancecubes:5_Prongs", "chancecubes:Table_Flip", "chancecubes:Sky_Block", "chancecubes:Double_Rainbow");
 		registerProfile(profile);
 		
 		

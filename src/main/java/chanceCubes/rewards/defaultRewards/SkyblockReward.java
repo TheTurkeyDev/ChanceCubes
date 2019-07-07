@@ -30,7 +30,7 @@ public class SkyblockReward extends BaseCustomReward
 	// @formatter:on
 	public SkyblockReward()
 	{
-		super(CCubesCore.MODID + ":sky_block", 10);
+		super(CCubesCore.MODID + ":Sky_Block", 10);
 	}
 
 	@Override
