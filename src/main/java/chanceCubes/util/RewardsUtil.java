@@ -33,6 +33,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -74,8 +75,8 @@ public class RewardsUtil
 			if(BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)) != null)
 				oredicts.add(oreDict);
 
-//		for(String s : FluidRegistry.getRegisteredFluids().keySet())
-//			fluids.add(s);
+		//		for(String s : FluidRegistry.getRegisteredFluids().keySet())
+		//			fluids.add(s);
 	}
 
 	/**
@@ -128,9 +129,14 @@ public class RewardsUtil
 
 	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount)
 	{
+		return RewardsUtil.spawnXEntities(entityNbt, amount, true);
+	}
+
+	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount, boolean shouldRemoveBlocks)
+	{
 		EntityPart[] toReturn = new EntityPart[amount];
 		for(int i = 0; i < amount; i++)
-			toReturn[i] = new EntityPart(entityNbt);
+			toReturn[i] = new EntityPart(entityNbt).setRemovedBlocks(shouldRemoveBlocks);
 		return toReturn;
 	}
 
@@ -154,7 +160,7 @@ public class RewardsUtil
 		return toReturn;
 	}
 
-	public static ParticlePart[] spawnXParticles(int particle, int amount)
+	public static ParticlePart[] spawnXParticles(String particle, int amount)
 	{
 		ParticlePart[] toReturn = new ParticlePart[amount];
 		for(int i = 0; i < amount; i++)
@@ -362,13 +368,14 @@ public class RewardsUtil
 		return false;
 	}
 
-	public static void executeCommand(World world, EntityPlayer player, String command)
+	public static void executeCommand(World world, EntityPlayer player, Vec3d pos, String command)
 	{
 		MinecraftServer server = world.getServer();
 		WorldServer worldServer = server.getWorld(DimensionType.OVERWORLD);
 		Boolean rule = worldServer.getGameRules().getBoolean("commandBlockOutput");
 		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
-		CommandSource cs = new CommandSource(player, player.getPositionVector(), player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
+		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
+		cs = cs.withFeedbackDisabled();
 		server.getCommandManager().handleCommand(cs, command);
 		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
 	}

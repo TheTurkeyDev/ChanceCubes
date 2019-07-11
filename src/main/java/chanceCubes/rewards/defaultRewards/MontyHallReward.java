@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -36,9 +37,9 @@ public class MontyHallReward extends BaseCustomReward
 		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
-		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
-		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState());
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(BlockButton.HORIZONTAL_FACING, EnumFacing.SOUTH));
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(BlockButton.HORIZONTAL_FACING, EnumFacing.SOUTH));
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(BlockButton.HORIZONTAL_FACING, EnumFacing.SOUTH));
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{

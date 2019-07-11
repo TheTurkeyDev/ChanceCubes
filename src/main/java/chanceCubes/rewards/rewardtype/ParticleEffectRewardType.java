@@ -1,12 +1,13 @@
 package chanceCubes.rewards.rewardtype;
 
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketParticle;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
+import net.minecraft.world.WorldServer;
 
 public class ParticleEffectRewardType extends BaseRewardType<ParticlePart>
 {
@@ -18,6 +19,7 @@ public class ParticleEffectRewardType extends BaseRewardType<ParticlePart>
 	@Override
 	public void trigger(ParticlePart part, World world, int x, int y, int z, EntityPlayer player)
 	{
-		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(x, y, z, 50, world.getDimension().getType())), new PacketParticle(part, x + Math.random(), y + Math.random(), z + Math.random(), 0, 0, 0));
+		ParticleType<? extends IParticleData> particle = IRegistry.field_212632_u.func_212608_b(new ResourceLocation(part.getParticleName()));
+		((WorldServer)world).spawnParticle((IParticleData) particle, x + Math.random(), y + Math.random(), z + Math.random(), 1, 0d, 1d, 0d, 0);
 	}
 }

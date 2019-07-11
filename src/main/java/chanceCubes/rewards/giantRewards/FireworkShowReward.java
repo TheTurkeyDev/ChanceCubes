@@ -21,7 +21,7 @@ public class FireworkShowReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		RewardsUtil.executeCommand(world, player, "/time set 15000");
+		RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/time set 15000");
 	}
 
 	public void stage1(World world, BlockPos pos, EntityPlayer player)

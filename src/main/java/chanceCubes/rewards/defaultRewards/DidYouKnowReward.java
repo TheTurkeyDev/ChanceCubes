@@ -28,7 +28,7 @@ public class DidYouKnowReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		String fact = "Did you know?\n" + dyk.get(RewardsUtil.rand.nextInt(dyk.size()));
-		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Did You know?\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + fact + "\\\",color:black}\"]}}}";
-		RewardsUtil.executeCommand(world, player, command);
+		String command = "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:written_book\",Count:1b,tag:{title:\"Did You know?\",author:\"Chance Cubes\",generation:0,pages:[\"{\\\"text\\\":\\\"" + fact + "\\\",\\\"color\\\":\\\"black\\\"}\"]}}}";
+		RewardsUtil.executeCommand(world, player, player.getPositionVector(), command);
 	}
 }

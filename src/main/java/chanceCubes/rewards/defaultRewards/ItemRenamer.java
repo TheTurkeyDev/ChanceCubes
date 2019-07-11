@@ -48,7 +48,7 @@ public class ItemRenamer extends BaseCustomReward
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
 			dirt.setDisplayName(new TextComponentString("A lonley piece of dirt"));
 			player.inventory.addItemStackToInventory(dirt);
-			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:lonely_dirt");
+			RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
 		}
 

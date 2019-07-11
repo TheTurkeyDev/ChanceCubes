@@ -81,7 +81,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 				try
 				{
 					NBTTagCompound exNBT = (NBTTagCompound) JsonToNBT.getTagFromJson(extraNBT);
-					nbt.merge(exNBT);
+					nbt = nbt.merge(exNBT);
 				} catch(CommandSyntaxException e)
 				{
 					CCubesCore.logger.log(Level.ERROR, "Failed to read NBT " + extraNBT);

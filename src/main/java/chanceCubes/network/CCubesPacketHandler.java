@@ -16,7 +16,6 @@ public class CCubesPacketHandler
 		CHANNEL.registerMessage(id++, PacketCreativePendant.class, PacketCreativePendant::encode, PacketCreativePendant::decode, PacketCreativePendant::handle);
 		CHANNEL.registerMessage(id++, PacketRewardSelector.class, PacketRewardSelector::encode, PacketRewardSelector::decode, PacketRewardSelector::handle);
 		CHANNEL.registerMessage(id++, PacketTriggerD20.class, PacketTriggerD20::encode, PacketTriggerD20::decode, PacketTriggerD20::handle);
-		CHANNEL.registerMessage(id++, PacketParticle.class, PacketParticle::encode, PacketParticle::decode, PacketParticle::handle);
 		CHANNEL.registerMessage(id++, PacketCubeScan.class, PacketCubeScan::encode, PacketCubeScan::decode, PacketCubeScan::handle);
 
 		//Reference

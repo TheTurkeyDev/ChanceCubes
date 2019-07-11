@@ -42,7 +42,7 @@ public class WitherReward extends BaseCustomReward
 			{
 				removeEnts(wither);
 				if(!removeEnts(wither))
-					RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:wither");
+					RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:wither");
 			}
 
 			private boolean removeEnts(Entity ent)

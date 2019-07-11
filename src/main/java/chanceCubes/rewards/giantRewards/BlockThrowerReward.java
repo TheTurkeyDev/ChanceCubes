@@ -6,8 +6,6 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketParticle;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -24,14 +22,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
 public class BlockThrowerReward extends BaseCustomReward
 {
@@ -39,6 +36,7 @@ public class BlockThrowerReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Block_Thrower", 0);
 	}
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
@@ -103,7 +101,7 @@ public class BlockThrowerReward extends BaseCustomReward
 				int rand = RewardsUtil.rand.nextInt(6);
 				for(EntityFallingBlock b : blocks)
 				{
-					CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(b.posX, b.posY, b.posZ, 50, world.getDimension().getType())), new PacketParticle("largeexplode", b.posX, b.posY, b.posZ, 0, 0, 0));
+					world.spawnParticle(Particles.EXPLOSION, b.posX, b.posY, b.posZ, 0, 0, 0);
 
 					b.remove();
 

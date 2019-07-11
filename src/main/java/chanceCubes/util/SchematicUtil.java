@@ -311,7 +311,6 @@ public class SchematicUtil
 					String[] dataParts = blockData.split(":");
 					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(dataParts[0], dataParts[1]));
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, new IntVar(0));
-					// TODO: Find better way?
 					//osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
 					osb.setPlaysSound(playSound);

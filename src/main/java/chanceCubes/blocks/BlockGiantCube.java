@@ -1,7 +1,5 @@
 package chanceCubes.blocks;
 
-import javax.annotation.Nullable;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
@@ -70,7 +68,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 				{
 					world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				}
-				RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:giant_chance_cube");
+				RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:giant_chance_cube");
 				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, gcte.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 			}

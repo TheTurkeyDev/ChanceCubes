@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
 
 public class ItemOfDestinyReward extends BaseCustomReward
@@ -65,7 +66,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 						Enchantment ench = RewardsUtil.randomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
 						item.getItem().addEnchantment(ench, level);
-						player.sendMessage(new TextComponentString(ench.getName() + " Has been added to the item!"));
+						player.sendMessage(new TextComponentString(LanguageMap.getInstance().translateKey(ench.getName()) + " Has been added to the item!"));
 					}
 					else
 					{

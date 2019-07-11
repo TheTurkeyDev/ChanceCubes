@@ -57,7 +57,7 @@ public class CakeIsALieReward extends BaseCustomReward
 						creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
 						world.spawnEntity(creeper);
-						RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:its_a_lie");
+						RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:its_a_lie");
 						Scheduler.removeTask(this);
 					}
 				}
