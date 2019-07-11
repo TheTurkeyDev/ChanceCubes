@@ -1,8 +1,8 @@
 package chanceCubes.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.SPacketTitle;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class Task
@@ -45,10 +45,10 @@ public abstract class Task
 
 	}
 
-	public void showTimeLeft(EntityPlayer player, SPacketTitle.Type location)
+	public void showTimeLeft(PlayerEntity player, SPacketTitle.Type location)
 	{
 		int time = this.delayLeft / 20;
-		TextComponentString message = new TextComponentString(String.valueOf(time));
+		StringTextComponent message = new StringTextComponent(String.valueOf(time));
 		message.getStyle().setBold(true).setColor(TextFormatting.RED);
 		RewardsUtil.setPlayerTitle(player, new SPacketTitle(location, message, 0, 20, 0));
 	}

@@ -52,7 +52,7 @@ public class CCubesCore
 	public static final String MODID = "chancecubes";
 	public static final String VERSION = "@VERSION@";
 
-	public static final String gameVersion = "1.13.2";
+	public static final String gameVersion = "1.14.3";
 
 	public static ItemGroup modTab = new ItemGroup(MODID)
 	{

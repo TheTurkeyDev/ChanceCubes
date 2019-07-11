@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.BlockStandingSign;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class MazeGenerator
@@ -172,18 +172,18 @@ public class MazeGenerator
 		}
 
 		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
-		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.SIGN.getDefaultState().with(BlockStandingSign.ROTATION, 7));
+		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.getDefaultState().with(BlockStandingSign.ROTATION, 7));
 		TileEntity te = world.getTileEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
-		if(te instanceof TileEntitySign)
+		if(te instanceof SignTileEntity)
 		{
-			TileEntitySign sign = (TileEntitySign) te;
-			sign.signText[0] = new TextComponentString("Break me");
-			sign.signText[1] = new TextComponentString("To beat the");
-			sign.signText[2] = new TextComponentString("Maze");
+			SignTileEntity sign = (SignTileEntity) te;
+			sign.signText[0] = new StringTextComponent("Break me");
+			sign.signText[1] = new StringTextComponent("To beat the");
+			sign.signText[2] = new StringTextComponent("Maze");
 		}
 	}
 
-	public void endMaze(World world, EntityPlayer player)
+	public void endMaze(World world, PlayerEntity player)
 	{
 		cache.restoreBlocks(player);
 	}

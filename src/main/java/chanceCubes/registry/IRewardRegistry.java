@@ -3,7 +3,7 @@ package chanceCubes.registry;
 import javax.annotation.Nullable;
 
 import chanceCubes.rewards.IChanceCubeReward;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -29,21 +29,21 @@ public interface IRewardRegistry
 	@Nullable
 	IChanceCubeReward getRewardByName(String name);
 
-    /**
-     * Triggers a random reward in the given world at the given location
-     * 
-     * @param world
-     *            The world object
-     * @param pos
-     *            The position of the block
-     * @param player
-     *            The player receiving the reward
-     * @param luck
-     *            The chance of the block
-     * @param luckBounds
-     *            Min and max chance values
-     */
-    void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance);
-    
-    void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player);
+	/**
+	 * Triggers a random reward in the given world at the given location
+	 * 
+	 * @param world
+	 *            The world object
+	 * @param pos
+	 *            The position of the block
+	 * @param player
+	 *            The player receiving the reward
+	 * @param luck
+	 *            The chance of the block
+	 * @param luckBounds
+	 *            Min and max chance values
+	 */
+	void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance);
+
+	void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player);
 }

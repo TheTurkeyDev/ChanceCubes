@@ -6,13 +6,13 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
@@ -50,7 +50,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest, IFluidState fluid)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
 	{
 		TileEntity te = world.getTileEntity(pos);
 		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
@@ -61,10 +61,10 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			{
 				ItemStack stackCube = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE), 1);
 				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, tileCube.isScanned() ? tileCube.getChance() : -101);
-				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stackCube);
+				ItemEntity blockstack = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stackCube);
 				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				world.removeTileEntity(pos);
-				world.spawnEntity(blockstack);
+				world.addEntity(blockstack);
 			}
 
 			if(te != null)
@@ -78,19 +78,19 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack)
 	{
 		GiantCubeUtil.checkMultiBlockForm(pos, worldIn, true);
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
-	public IBlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		IBlockState iblockstate = super.getStateForPlacement(context);
+		BlockState iblockstate = super.getStateForPlacement(context);
 		return iblockstate.with(TEXTURE, textureToSet);
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(TEXTURE);
 	}

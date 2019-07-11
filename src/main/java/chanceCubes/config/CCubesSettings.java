@@ -5,7 +5,7 @@ import java.util.List;
 
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.NonreplaceableBlockOverride;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
@@ -42,10 +42,10 @@ public class CCubesSettings
 
 	public static IntValue dropHeight;
 
-	public static List<IBlockState> nonReplaceableBlocksIMC = new ArrayList<IBlockState>();
-	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
+	public static List<BlockState> nonReplaceableBlocksIMC = new ArrayList<>();
+	public static List<BlockState> nonReplaceableBlocks = new ArrayList<>();
 	public static List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
-	public static List<IBlockState> backupNRB = new ArrayList<>();
+	public static List<BlockState> backupNRB = new ArrayList<>();
 
 	public static boolean testRewards;
 	public static boolean testCustomRewards;

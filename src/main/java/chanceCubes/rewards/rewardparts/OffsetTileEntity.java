@@ -6,8 +6,8 @@ import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,27 +16,27 @@ public class OffsetTileEntity extends OffsetBlock
 {
 	private NBTVar teNBT;
 
-	public OffsetTileEntity(int x, int y, int z, Block b, NBTTagCompound te, boolean falling, int delay)
+	public OffsetTileEntity(int x, int y, int z, Block b, CompoundNBT te, boolean falling, int delay)
 	{
 		this(x, y, z, b.getDefaultState(), te, falling, delay);
 	}
 
-	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling)
+	public OffsetTileEntity(int x, int y, int z, BlockState state, CompoundNBT te, boolean falling)
 	{
 		this(x, y, z, state, te, falling, 0);
 	}
 
-	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, BoolVar falling)
+	public OffsetTileEntity(int x, int y, int z, BlockState state, CompoundNBT te, BoolVar falling)
 	{
 		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new NBTVar(te), falling, new IntVar(0));
 	}
 
-	public OffsetTileEntity(int x, int y, int z, IBlockState state, NBTTagCompound te, boolean falling, int delay)
+	public OffsetTileEntity(int x, int y, int z, BlockState state, CompoundNBT te, boolean falling, int delay)
 	{
 		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new NBTVar(te), new BoolVar(falling), new IntVar(delay));
 	}
 
-	public OffsetTileEntity(IntVar x, IntVar y, IntVar z, IBlockState state, NBTVar te, BoolVar falling, IntVar delay)
+	public OffsetTileEntity(IntVar x, IntVar y, IntVar z, BlockState state, NBTVar te, BoolVar falling, IntVar delay)
 	{
 		super(x, y, z, state, falling, delay);
 		this.teNBT = te;

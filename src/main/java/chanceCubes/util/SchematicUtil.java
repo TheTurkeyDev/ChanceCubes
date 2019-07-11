@@ -60,7 +60,7 @@ public class SchematicUtil
 				for(int z = smallZ; z < largeZ; z++)
 				{
 					BlockPos pos = new BlockPos(x, y, z);
-					IBlockState blockState = world.getBlockState(pos);
+					BlockState blockState = world.getBlockState(pos);
 					blockData.append(blockState.getBlock().getRegistryName().toString());
 					// TODO: Find better way?
 					blockData.setLength(0);

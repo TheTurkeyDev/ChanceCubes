@@ -9,12 +9,12 @@ import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,7 +26,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	}
 
 	@Override
-	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Entity Reward Delay", part.getDelay())
 		{
@@ -46,18 +46,18 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 					return;
 				}
 				newEnt.setPosition(x + 0.5, y, z + 0.5);
-				world.spawnEntity(newEnt);
+				world.addEntity(newEnt);
 			}
 		});
 	}
 
-	public static NBTTagCompound getBasicNBTForEntity(String entity)
+	public static CompoundNBT getBasicNBTForEntity(String entity)
 	{
 		String json = "{id:\"" + entity + "\"}";
-		NBTTagCompound nbt = null;
+		CompoundNBT nbt = null;
 		try
 		{
-			nbt = (NBTTagCompound) JsonToNBT.getTagFromJson(json);
+			nbt = (CompoundNBT) JsonToNBT.getTagFromJson(json);
 		} catch(CommandSyntaxException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
@@ -68,19 +68,19 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 		return nbt;
 	}
 
-	public static NBTTagCompound getBasicNBTForEntity(String entity, String displayName, String extraNBT)
+	public static CompoundNBT getBasicNBTForEntity(String entity, String displayName, String extraNBT)
 	{
-		NBTTagCompound nbt = getBasicNBTForEntity(entity);
+		CompoundNBT nbt = getBasicNBTForEntity(entity);
 
 		if(nbt != null)
 		{
-			nbt.setString("CustomName", "\"" + displayName + "\"");
-			nbt.setInt("CustomNameVisible", 1);
+			nbt.putString("CustomName", "\"" + displayName + "\"");
+			nbt.putInt("CustomNameVisible", 1);
 			if(extraNBT != null && !extraNBT.isEmpty())
 			{
 				try
 				{
-					NBTTagCompound exNBT = (NBTTagCompound) JsonToNBT.getTagFromJson(extraNBT);
+					CompoundNBT exNBT = (CompoundNBT) JsonToNBT.getTagFromJson(extraNBT);
 					nbt = nbt.merge(exNBT);
 				} catch(CommandSyntaxException e)
 				{

@@ -2,12 +2,11 @@ package chanceCubes.blocks;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Random;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.math.BlockPos;
@@ -47,21 +46,15 @@ public class BaseChanceBlock extends Block
 		return false;
 	}
 
-	@Override
-	public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random)
-	{
-		return 0;
-	}
-
 	protected static Properties getBuilder()
 	{
-		return Properties.create(Material.GROUND).hardnessAndResistance(0.5f, Float.MAX_VALUE);
+		return Properties.create(Material.EARTH).hardnessAndResistance(0.5f, Float.MAX_VALUE);
 	}
 
 	/**
 	 * Grabbed from 1.12
 	 */
-	public <T extends Comparable<T>> IBlockState cycleProperty(IBlockState state, IProperty<T> property)
+	public <T extends Comparable<T>> BlockState cycleProperty(BlockState state, IProperty<T> property)
 	{
 		return state.with(property, cyclePropertyValue(property.getAllowedValues(), state.get(property)));
 	}

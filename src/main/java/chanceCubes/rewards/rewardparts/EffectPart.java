@@ -2,8 +2,8 @@ package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -15,9 +15,14 @@ public class EffectPart extends BasePart
 	private IntVar duration = new IntVar(0);
 	private IntVar amplifier = new IntVar(0);
 
-	public EffectPart(Potion pot, int duration, int amplifier)
+	public EffectPart(Effect effect, int duration, int amplifier)
 	{
-		this(new StringVar(String.valueOf(Potion.getIdFromPotion(pot))), new IntVar(duration), new IntVar(amplifier));
+		this(effect, new IntVar(duration), new IntVar(amplifier));
+	}
+	
+	public EffectPart(Effect effect, IntVar duration, IntVar amplifier)
+	{
+		this(new StringVar(String.valueOf(effect.getName())), duration, amplifier);
 	}
 
 	public EffectPart(String id, int duration, int amplifier)
@@ -48,15 +53,15 @@ public class EffectPart extends BasePart
 		return this;
 	}
 
-	public PotionEffect getEffect()
+	public EffectInstance getEffect()
 	{
-		Potion pot;
+		Effect pot;
 
 		String val = id.getValue();
 		if(IntVar.isInteger(val))
-			pot = Potion.getPotionById(Integer.parseInt(val));
+			pot = Effect.get(Integer.parseInt(val));
 		else
 			pot = ForgeRegistries.POTIONS.getValue(new ResourceLocation(val));
-		return new PotionEffect(pot, duration.getIntValue() * 20, amplifier.getIntValue());
+		return new EffectInstance(pot, duration.getIntValue() * 20, amplifier.getIntValue());
 	}
 }

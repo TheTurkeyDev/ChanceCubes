@@ -13,30 +13,31 @@ import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandSource;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.PotionTypes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionType;
+import net.minecraft.potion.Potions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -127,12 +128,12 @@ public class RewardsUtil
 		return toReturn;
 	}
 
-	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount)
+	public static EntityPart[] spawnXEntities(CompoundNBT entityNbt, int amount)
 	{
 		return RewardsUtil.spawnXEntities(entityNbt, amount, true);
 	}
 
-	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount, boolean shouldRemoveBlocks)
+	public static EntityPart[] spawnXEntities(CompoundNBT entityNbt, int amount, boolean shouldRemoveBlocks)
 	{
 		EntityPart[] toReturn = new EntityPart[amount];
 		for(int i = 0; i < amount; i++)
@@ -186,21 +187,21 @@ public class RewardsUtil
 
 	public static void sendMessageToNearPlayers(World world, BlockPos pos, int distance, String message)
 	{
-		for(int i = 0; i < world.playerEntities.size(); ++i)
+		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
-			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+			PlayerEntity entityplayer = (PlayerEntity) world.getPlayers().get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= distance)
-				entityplayer.sendMessage(new TextComponentString(message));
+				entityplayer.sendMessage(new StringTextComponent(message));
 		}
 	}
 
 	public static void sendMessageToAllPlayers(World world, String message)
 	{
-		for(int i = 0; i < world.playerEntities.size(); ++i)
+		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
-			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
-			entityplayer.sendMessage(new TextComponentString(message));
+			PlayerEntity entityplayer = (PlayerEntity) world.getPlayers().get(i);
+			entityplayer.sendMessage(new StringTextComponent(message));
 		}
 	}
 
@@ -220,17 +221,17 @@ public class RewardsUtil
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(mod, blockName));
 	}
 
-	public static boolean placeBlock(IBlockState b, World world, BlockPos pos)
+	public static boolean placeBlock(BlockState b, World world, BlockPos pos)
 	{
 		return RewardsUtil.placeBlock(b, world, pos, 3, false);
 	}
 
-	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, boolean ignoreUnbreakable)
+	public static boolean placeBlock(BlockState b, World world, BlockPos pos, boolean ignoreUnbreakable)
 	{
 		return RewardsUtil.placeBlock(b, world, pos, 3, ignoreUnbreakable);
 	}
 
-	public static boolean placeBlock(IBlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
+	public static boolean placeBlock(BlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
 	{
 		if(!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable)
 		{
@@ -265,18 +266,23 @@ public class RewardsUtil
 		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Enchantment.getEnchantmentByID(0));
 	}
 
-	public static PotionEffect getRandomPotionEffect()
+	public static Effect getRandomPotionEffect()
 	{
-		Potion pot = randomRegistryEntry(ForgeRegistries.POTIONS, Potion.getPotionById(0));
+		return randomRegistryEntry(ForgeRegistries.POTIONS, Effects.GLOWING);
+	}
+
+	public static EffectInstance getRandomPotionEffectInstance()
+	{
+		Effect effect = RewardsUtil.getRandomPotionEffect();
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
 		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
 
-		return new PotionEffect(pot, duration, amplifier);
+		return new EffectInstance(effect, duration, amplifier);
 	}
 
-	public static PotionType getRandomPotionType()
+	public static Potion getRandomPotionType()
 	{
-		return randomRegistryEntry(ForgeRegistries.POTION_TYPES, PotionTypes.EMPTY);
+		return randomRegistryEntry(ForgeRegistries.POTION_TYPES, Potions.EMPTY);
 	}
 
 	public static <T extends IForgeRegistryEntry<T>> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
@@ -297,34 +303,34 @@ public class RewardsUtil
 	public static ItemStack getRandomFirework()
 	{
 		ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInt("Flight", rand.nextInt(3) + 1);
+		CompoundNBT data = new CompoundNBT();
+		data.putInt("Flight", rand.nextInt(3) + 1);
 
-		NBTTagList explosionList = new NBTTagList();
+		ListNBT explosionList = new ListNBT();
 
 		for(int i = 0; i <= rand.nextInt(2); i++)
 		{
-			NBTTagCompound explosionData = new NBTTagCompound();
-			explosionData.setInt("Type", rand.nextInt(5));
-			explosionData.setBoolean("Flicker", rand.nextBoolean());
-			explosionData.setBoolean("Trail", rand.nextBoolean());
+			CompoundNBT explosionData = new CompoundNBT();
+			explosionData.putInt("Type", rand.nextInt(5));
+			explosionData.putBoolean("Flicker", rand.nextBoolean());
+			explosionData.putBoolean("Trail", rand.nextBoolean());
 			int[] colors = new int[rand.nextInt(2) + 1];
 			for(int j = 0; j < colors.length; j++)
 			{
 				colors[j] = getRandomColor();
 			}
-			explosionData.setIntArray("Colors", colors);
+			explosionData.putIntArray("Colors", colors);
 			int[] fadeColors = new int[rand.nextInt(2) + 1];
 			for(int j = 0; j < fadeColors.length; j++)
 			{
 				fadeColors[j] = getRandomColor();
 			}
-			explosionData.setIntArray("FadeColors", fadeColors);
+			explosionData.putIntArray("FadeColors", fadeColors);
 			explosionList.add(explosionData);
 		}
-		data.setTag("Explosions", explosionList);
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setTag("Fireworks", data);
+		data.put("Explosions", explosionList);
+		CompoundNBT nbt = new CompoundNBT();
+		nbt.put("Fireworks", data);
 
 		stack.setTag(nbt);
 
@@ -351,27 +357,27 @@ public class RewardsUtil
 
 	private static final Block[] wools = { Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIME_WOOL, Blocks.PINK_WOOL, Blocks.GRAY_WOOL, Blocks.LIGHT_GRAY_WOOL, Blocks.CYAN_WOOL, Blocks.PURPLE_WOOL, Blocks.BLUE_WOOL, Blocks.BROWN_WOOL, Blocks.GREEN_WOOL, Blocks.RED_WOOL, Blocks.BLACK_WOOL };
 
-	public static IBlockState getRandomWool()
+	public static BlockState getRandomWool()
 	{
 		return wools[rand.nextInt(wools.length)].getDefaultState();
 	}
 
-	public static boolean isPlayerOnline(EntityPlayer player)
+	public static boolean isPlayerOnline(PlayerEntity player)
 	{
 		if(player == null)
 			return false;
 
-		for(EntityPlayerMP playerMP : player.world.getServer().getPlayerList().getPlayers())
+		for(ServerPlayerEntity playerMP : player.world.getServer().getPlayerList().getPlayers())
 			if(playerMP.getUniqueID().equals(player.getUniqueID()))
 				return true;
 
 		return false;
 	}
 
-	public static void executeCommand(World world, EntityPlayer player, Vec3d pos, String command)
+	public static void executeCommand(World world, PlayerEntity player, Vec3d pos, String command)
 	{
 		MinecraftServer server = world.getServer();
-		WorldServer worldServer = server.getWorld(DimensionType.OVERWORLD);
+		ServerWorld worldServer = server.getWorld(DimensionType.field_223227_a_);
 		Boolean rule = worldServer.getGameRules().getBoolean("commandBlockOutput");
 		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
 		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
@@ -382,9 +388,9 @@ public class RewardsUtil
 
 	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)
 	{
-		for(int i = 0; i < world.playerEntities.size(); ++i)
+		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
-			EntityPlayer entityplayer = world.playerEntities.get(i);
+			PlayerEntity entityplayer = world.getPlayers().get(i);
 
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= range)
@@ -394,13 +400,13 @@ public class RewardsUtil
 
 	public static void setAllPlayersTitle(World world, SPacketTitle spackettitle)
 	{
-		for(int i = 0; i < world.playerEntities.size(); ++i)
-			setPlayerTitle(world.playerEntities.get(i), spackettitle);
+		for(int i = 0; i < world.getPlayers().size(); ++i)
+			setPlayerTitle(world.getPlayers().get(i), spackettitle);
 	}
 
-	public static void setPlayerTitle(EntityPlayer player, SPacketTitle title)
+	public static void setPlayerTitle(PlayerEntity player, SPacketTitle title)
 	{
-		if(player instanceof EntityPlayerMP)
-			((EntityPlayerMP) player).connection.sendPacket(title);
+		if(player instanceof ServerPlayerEntity)
+			((ServerPlayerEntity) player).connection.sendPacket(title);
 	}
 }

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,7 +20,7 @@ import net.minecraftforge.registries.ForgeRegistries;
  */
 public class NonreplaceableBlockOverride
 {
-	public IBlockState overriddenBlock;
+	public BlockState overriddenBlock;
 	public OverrideType overrideType;
 
 	public NonreplaceableBlockOverride()
@@ -136,28 +137,28 @@ public class NonreplaceableBlockOverride
 		output.overrideType = OverrideType.ADD;
 		Block blockActual = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring));
 		output.overriddenBlock = blockActual.getDefaultState();
-//		if(substring.matches(".*:.*:[0-9]*"))
-//		{
-//			output.overrideType = OverrideType.ADD;
-//			String block;
-//			String damage;
-//			int damageValue;
-//			IBlockState blockState;
-//			block = substring.substring(0, substring.lastIndexOf(':'));
-//			damage = substring.substring(substring.lastIndexOf(':') + 1);
-//			damageValue = Integer.parseInt(damage);
-//			Block blockActual = Block.getBlockFromName(block);
-//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
-//			output.overriddenBlock = blockState;
-//		}
-//		else
-//		{
-//			output.overrideType = OverrideType.ADD;
-//			IBlockState blockState;
-//			Block blockActual = Block.getBlockFromName(substring);
-//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
-//			output.overriddenBlock = blockState;
-//		}
+		//		if(substring.matches(".*:.*:[0-9]*"))
+		//		{
+		//			output.overrideType = OverrideType.ADD;
+		//			String block;
+		//			String damage;
+		//			int damageValue;
+		//			IBlockState blockState;
+		//			block = substring.substring(0, substring.lastIndexOf(':'));
+		//			damage = substring.substring(substring.lastIndexOf(':') + 1);
+		//			damageValue = Integer.parseInt(damage);
+		//			Block blockActual = Block.getBlockFromName(block);
+		//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
+		//			output.overriddenBlock = blockState;
+		//		}
+		//		else
+		//		{
+		//			output.overrideType = OverrideType.ADD;
+		//			IBlockState blockState;
+		//			Block blockActual = Block.getBlockFromName(substring);
+		//			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
+		//			output.overriddenBlock = blockState;
+		//		}
 		return output;
 	}
 
@@ -275,8 +276,8 @@ public class NonreplaceableBlockOverride
 	 */
 	private static void purgeOverrides()
 	{
-		List<IBlockState> blocksToRemove = new ArrayList<IBlockState>();
-		for(IBlockState toRemove : CCubesSettings.nonReplaceableBlocks)
+		List<BlockState> blocksToRemove = new ArrayList<BlockState>();
+		for(BlockState toRemove : CCubesSettings.nonReplaceableBlocks)
 		{
 			if(noLongerExists(toRemove))
 			{
@@ -295,7 +296,7 @@ public class NonreplaceableBlockOverride
 	 *            The {@link net.minecraft.block.state.IBlockState} to check for.
 	 * @return Should be self explanatory...
 	 */
-	private static boolean noLongerExists(IBlockState toDetect)
+	private static boolean noLongerExists(BlockState toDetect)
 	{
 		for(NonreplaceableBlockOverride override : CCubesSettings.nonReplaceableBlocksOverrides)
 		{
