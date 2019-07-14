@@ -50,7 +50,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
-	public static final String VERSION = "@VERSION@";
 
 	public static final String gameVersion = "1.13.2";
 

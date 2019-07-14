@@ -35,6 +35,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.ModList;
 
 public class CCubesServerCommands
 {
@@ -111,7 +112,8 @@ public class CCubesServerCommands
 
 	public int executeVersion(CommandContext<CommandSource> ctx)
 	{
-		getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
+		String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
+		getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Chance Cubes Version " + ver));
 		return 0;
 	}
 
