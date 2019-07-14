@@ -32,7 +32,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 
 	public BlockChanceCube()
 	{
-		super("chance_Cube");
+		super("chance_cube");
 		this.setLightLevel(2);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TEXTURE, textureToSet));
 	}

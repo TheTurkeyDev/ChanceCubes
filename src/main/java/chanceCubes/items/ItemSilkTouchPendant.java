@@ -6,11 +6,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSilkTouchPendant extends BaseChanceCubesItem
 {
-	public String itemNameID = "silk_Touch_Pendant";
+	public String itemNameID = "silk_touch_pendant";
 
 	public ItemSilkTouchPendant()
 	{
-		super("silk_Touch_Pendant");
+		super("silk_touch_pendant");
 		this.setMaxStackSize(1);
 		super.addLore("Use this pendant to retrieve Chance Cubes");
 		super.addLore("Player must hold this in hand to get the cube!");

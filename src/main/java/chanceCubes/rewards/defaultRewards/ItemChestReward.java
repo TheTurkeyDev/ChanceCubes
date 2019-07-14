@@ -60,15 +60,20 @@ public class ItemChestReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos);
+				if(chest != null)
+					chest.getWorld().setBlockToAir(chest.getPos());
 			}
 
 			@Override
 			public void update()
 			{
-				chest.numPlayersUsing++;
-				EntityItem item = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
-				world.spawnEntity(item);
+				if(chest == null || !(chest.getWorld().getTileEntity(chest.getPos()) instanceof  TileEntityChest))
+				{
+					Scheduler.removeTask(this);
+					return;
+				}
+				EntityItem item = new EntityItem(chest.getWorld(),  chest.getPos().getX() + 0.5, chest.getPos().getY() + 0.5, chest.getPos().getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
+				chest.getWorld().spawnEntity(item);
 				item.motionX = 0;
 				item.motionY = 1.5;
 				item.motionZ = -1;

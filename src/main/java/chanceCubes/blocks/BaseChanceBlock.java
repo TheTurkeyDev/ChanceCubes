@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class BaseChanceBlock extends Block
 {
-	private String blockName = "Chance_Cube_Unnamed";
+	private String blockName = "chance_cube_unnamed";
 
 	public BaseChanceBlock(String name)
 	{

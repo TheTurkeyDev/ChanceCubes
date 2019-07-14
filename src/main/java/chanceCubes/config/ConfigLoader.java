@@ -56,7 +56,7 @@ public class ConfigLoader
 
 		CCubesSettings.surfaceGenAmount = config.getInt("surfaceGenerationAmount", genCat, defaultGen, 0, Integer.MAX_VALUE, "Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.");
 
-		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes shold not generate in");
+		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes should not generate in");
 		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");
 		CCubesSettings.craftingRecipie = config.getBoolean("CraftingRecipe", genCat, true, "true if Chance Cubes should have a crafting recipe. false if they should not");
 

@@ -90,7 +90,7 @@ public class CustomRewardsLoader extends BaseLoader
 		} catch(Exception e)
 		{
 			e.printStackTrace();
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to create a file or folder neccesary to have custom sound rewards. No custom sounds will be added.");
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to create a file or folder necessary to have custom sound rewards. No custom sounds will be added.");
 		}
 	}
 

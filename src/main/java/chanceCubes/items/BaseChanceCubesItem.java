@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BaseChanceCubesItem extends Item
 {
-	private String itemName = "Chance_Cube_Unnamed";
+	private String itemName = "chance_cube_unnamed";
 	private List<String> lore = Lists.newArrayList();
 
 	public BaseChanceCubesItem(String name)

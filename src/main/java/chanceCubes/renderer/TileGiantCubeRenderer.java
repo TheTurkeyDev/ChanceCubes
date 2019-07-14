@@ -14,9 +14,6 @@ public class TileGiantCubeRenderer extends TileEntitySpecialRenderer<TileGiantCu
 
 	/**
 	 * Make a new instance.
-	 * 
-	 * @param model
-	 *            The model to render.
 	 */
 	public TileGiantCubeRenderer()
 	{

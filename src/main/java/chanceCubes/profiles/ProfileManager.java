@@ -175,7 +175,9 @@ public class ProfileManager
 
 		for(IProfile prof : enabledProfiles)
 		{
-			settings.putAll(prof.getRewardSettings().get(reward.getName()));
+			Map<String, Object> rewardSettings = prof.getRewardSettings().get(reward.getName());
+			if(rewardSettings != null && !rewardSettings.isEmpty())
+				settings.putAll(prof.getRewardSettings().get(reward.getName()));
 		}
 
 		return settings;
