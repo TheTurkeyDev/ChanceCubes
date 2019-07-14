@@ -26,8 +26,19 @@ public class DigBuildReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
+		int min = super.getSettingAsInt(settings, "min", 5, 0, 100);
+		int max = super.getSettingAsInt(settings, "max", 25, 0, 100);
+		
+		//Because someone will do it...
+		if(min > max)
+		{
+			int swap = min;
+			min = max;
+			max = swap;
+		}
+			
 		int initalY = player.getPosition().getY();
-		int distance = RewardsUtil.rand.nextInt(20) + 5;
+		int distance = RewardsUtil.rand.nextInt(max - min) + min;
 		boolean up = (initalY + distance > 150) ? false : ((initalY - distance < 2) ? true : RewardsUtil.rand.nextBoolean());
 
 		player.sendMessage(new TextComponentString("Quick! Go " + (up ? "up " : "down ") + distance + " blocks!"));

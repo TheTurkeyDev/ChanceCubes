@@ -28,6 +28,8 @@ public class CakeIsALieReward extends BaseCustomReward
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 
 		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world, pos);
+		
+		final int lieChance = super.getSettingAsInt(settings, "lie_chance", 10, 0, 100);
 
 		if(RewardsUtil.rand.nextInt(3) == 1)
 		{
@@ -52,7 +54,7 @@ public class CakeIsALieReward extends BaseCustomReward
 						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
 						EntityCreeper creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
-						if(RewardsUtil.rand.nextInt(10) == 1)
+						if(RewardsUtil.rand.nextInt(100) < lieChance)
 							creeper.onStruckByLightning(null);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));

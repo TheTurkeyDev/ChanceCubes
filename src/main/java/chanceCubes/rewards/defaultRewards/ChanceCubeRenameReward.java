@@ -2,6 +2,8 @@ package chanceCubes.rewards.defaultRewards;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.util.RewardsUtil;
@@ -31,8 +33,10 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 2);
-		String name = chanceSyn[RewardsUtil.rand.nextInt(chanceSyn.length)];
-		String adj = cubeSyn[RewardsUtil.rand.nextInt(cubeSyn.length)];
+		String[] allChanceSyn = ArrayUtils.addAll(chanceSyn, super.getSettingAsStringList(settings, "chance_syn", new String[0]));
+		String name = allChanceSyn[RewardsUtil.rand.nextInt(allChanceSyn.length)];
+		String[] allCubeSyn = ArrayUtils.addAll(cubeSyn, super.getSettingAsStringList(settings, "cube_syn", new String[0]));
+		String adj = allCubeSyn[RewardsUtil.rand.nextInt(allCubeSyn.length)];
 
 		String newName = name + " " + adj;
 		stack.setStackDisplayName(newName);

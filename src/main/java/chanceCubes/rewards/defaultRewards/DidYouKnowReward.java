@@ -19,10 +19,10 @@ public class DidYouKnowReward extends BaseCustomReward
 	public DidYouKnowReward()
 	{
 		super(CCubesCore.MODID + ":Did_You_Know", 0);
-		dyk.add("The nuke reward that says 'May death rain upon them' is a reference to the Essentials Bukkit plugin?");
-		dyk.add("The real reason his name is pickles is because a user from Wyld's Twtich chat suggested the reward.");
 		dyk.add("Funwayguy created the original D20 model and animation.");
 		dyk.add("Glenn is NOT a refference to the TV show 'The Walking Dead', but is instead a reference to the streamer Sevadus.");
+		dyk.add("The nuke reward that says 'May death rain upon them' is a reference to the Essentials Bukkit plugin?");
+		dyk.add("The real reason his name is pickles is because a user from Wyld's Twtich chat suggested the reward.");
 		dyk.add("Today is Darkosto's Birthday!");
 	}
 

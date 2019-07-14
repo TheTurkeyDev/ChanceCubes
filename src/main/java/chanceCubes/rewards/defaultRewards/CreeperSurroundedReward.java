@@ -22,6 +22,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
+		final int chargedChance = super.getSettingAsInt(settings, "charged_chance", 10, 0, 100);
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;
 		player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 100, 1, true, false));
@@ -42,7 +43,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
-						if(RewardsUtil.rand.nextInt(10) == 1)
+						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							creeper.onStruckByLightning(null);
 						world.spawnEntity(creeper);
 					}
@@ -66,7 +67,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 						creeper = new EntityCreeper(world);
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
 						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
-						if(RewardsUtil.rand.nextInt(10) == 1)
+						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							creeper.onStruckByLightning(null);
 						world.spawnEntity(creeper);
 					}
