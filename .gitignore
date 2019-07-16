@@ -19,10 +19,5 @@ build
 
 # other
 eclipse
-run
-run-1.12
 CREDITS-fml.txt
-run-1.10/
-run-1.11/
-run-1.9.4/
-run-1.13/
+run*/
