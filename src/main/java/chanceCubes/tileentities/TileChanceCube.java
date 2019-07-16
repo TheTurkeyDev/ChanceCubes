@@ -3,9 +3,9 @@ package chanceCubes.tileentities;
 import java.util.Random;
 
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileChanceCube extends TileEntity
@@ -39,33 +39,33 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound write(NBTTagCompound nbt)
+	public CompoundNBT write(CompoundNBT nbt)
 	{
 		super.write(nbt);
-		nbt.setInt("chance", this.getChance());
+		nbt.putInt("chance", this.getChance());
 		return nbt;
 	}
 
 	@Override
-	public void read(NBTTagCompound nbt)
+	public void read(CompoundNBT nbt)
 	{
 		super.read(nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
+		return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
 	}
 
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		return this.write(new NBTTagCompound());
+		return this.write(new CompoundNBT());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
 		read(pkt.getNbtCompound());
 	}

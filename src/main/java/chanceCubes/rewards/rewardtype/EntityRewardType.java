@@ -1,5 +1,7 @@
 package chanceCubes.rewards.rewardtype;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Level;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -39,12 +41,13 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 							for(int zz = -1; zz < 2; zz++)
 								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
 
-				Entity newEnt = EntityType.create(part.getNBT(), world);
-				if(newEnt == null)
+				Optional<Entity> opt = EntityType.loadEntityUnchecked(part.getNBT(), world);
+				if(!opt.isPresent())
 				{
 					CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
 					return;
 				}
+				Entity newEnt = opt.get();
 				newEnt.setPosition(x + 0.5, y, z + 0.5);
 				world.addEntity(newEnt);
 			}

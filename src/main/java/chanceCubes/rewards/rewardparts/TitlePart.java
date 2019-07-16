@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.network.play.server.STitlePacket.Type;
 import net.minecraft.util.text.ITextComponent;
 
 public class TitlePart extends BasePart

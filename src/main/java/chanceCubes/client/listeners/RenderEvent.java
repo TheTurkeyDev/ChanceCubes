@@ -1,9 +1,10 @@
 package chanceCubes.client.listeners;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

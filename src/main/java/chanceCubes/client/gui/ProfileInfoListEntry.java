@@ -1,9 +1,9 @@
 package chanceCubes.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
+import net.minecraft.client.gui.widget.list.AbstractList;
 
-public class ProfileInfoListEntry extends IGuiListEntry<ProfileInfoListEntry>
+public class ProfileInfoListEntry extends AbstractList.AbstractListEntry<ProfileInfoListEntry>
 {
 	private String entryString;
 	private Minecraft mc;
@@ -15,8 +15,8 @@ public class ProfileInfoListEntry extends IGuiListEntry<ProfileInfoListEntry>
 	}
 
 	@Override
-	public void drawEntry(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks)
+	public void render(int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks)
 	{
-		mc.fontRenderer.drawStringWithShadow(entryString, this.getX(), this.getY(), 16777215);
+		mc.fontRenderer.drawStringWithShadow(entryString, left, top, 16777215);
 	}
 }

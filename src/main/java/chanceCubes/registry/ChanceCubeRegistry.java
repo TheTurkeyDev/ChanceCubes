@@ -78,16 +78,15 @@ import chanceCubes.rewards.rewardtype.MessageRewardType;
 import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
 import chanceCubes.rewards.rewardtype.SoundRewardType;
 import chanceCubes.rewards.variableTypes.IntVar;
-import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.block.WallSignBlock;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.item.EnderCrystalEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -97,30 +96,25 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.entity.projectile.PotionEntity;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketEntityVelocity;
+import net.minecraft.network.play.server.SEntityVelocityPacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.LanguageMap;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
@@ -339,7 +333,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			nbt = new CompoundNBT();
 			((TileEntity) sign).write(nbt);
 			temp = new OffsetTileEntity(i == 1 ? -2 : i == 3 ? 2 : 0, 1, i == 0 ? 2 : i == 2 ? -2 : 0, Blocks.OAK_WALL_SIGN, nbt, false, 5);
-			temp.setBlockState(Blocks.OAK_WALL_SIGN.getDefaultState().with(BlockWallSign.FACING, EnumFacing.byHorizontalIndex(i)));
+			temp.setBlockState(Blocks.OAK_WALL_SIGN.getDefaultState().with(WallSignBlock.FACING, Direction.byHorizontalIndex(i)));
 			signs[i] = temp;
 		}
 
@@ -389,7 +383,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
-				world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
+				((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, player.posX, player.posY, player.posZ, false));
 				player.sendMessage(new StringTextComponent("Thou has been smitten!"));
 			}
 		});
@@ -437,17 +431,15 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
-				EntityTippedArrow arrow;
+				ArrowEntity arrow;
 				for(double xx = 1; xx > -1; xx -= 0.25)
 				{
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
-						arrow = new EntityTippedArrow(world);
+						arrow = EntityType.ARROW.create(world);
 						arrow.setLocationAndAngles(pos.getX(), pos.getY() + 0.5f, pos.getZ(), 0, 0);
-						arrow.motionX = xx;
-						arrow.motionY = .3;
-						arrow.motionZ = zz;
-						world.spawnEntity(arrow);
+						arrow.setMotion(xx, .3, zz);
+						world.addEntity(arrow);
 					}
 				}
 			}
@@ -462,7 +454,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
 				{
 					Potion effect = RewardsUtil.getRandomPotionType();
-					pot = new PotionEntity(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), effect));
+					pot = new PotionEntity(world, player);
+					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), effect));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setMotion(Math.cos(rad) * (0.1 + (0.05 * 3)), 1, Math.sin(rad) * (0.1 + (0.05 * 3)));
 					world.addEntity(pot);
@@ -476,7 +469,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
 				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
-				CreeperEntity ent = new CreeperEntity(world);
+				CreeperEntity ent = EntityType.CREEPER.create(world);
 				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 				ent.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 300, 99, true, false));
 				ent.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 300, 99, true, false));
@@ -505,7 +498,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 				for(int i = 0; i < 10; i++)
 				{
-					SheepEntity sheep = new SheepEntity(world);
+					SheepEntity sheep = EntityType.SHEEP.create(world);
 					sheep.setCustomName(new StringTextComponent("jeb_"));
 					sheep.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);
 					world.addEntity(sheep);
@@ -525,11 +518,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				for(int i = 30; i > 0; i--)
 					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, i, 0));
 
-				EnderCrystalEntity ent = new EnderCrystalEntity(world);
+				EnderCrystalEntity ent = EntityType.END_CRYSTAL.create(world);
 				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 				world.addEntity(ent);
 
-				ArrowEntity arrow = new TippedArrowEntity(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
+				ArrowEntity arrow = new ArrowEntity(world, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
 				arrow.setMotion(0, -0.25f, 0);
 				world.addEntity(arrow);
 			}
@@ -652,11 +645,11 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				for(int i = 0; i < player.inventory.mainInventory.size(); i++)
 				{
 					ItemStack stack = player.inventory.mainInventory.get(i);
-					if(!stack.isEmpty() && stack.getItem() instanceof Food)
+					if(!stack.isEmpty() && stack.getItem().isFood())
 						player.inventory.mainInventory.set(i, new ItemStack(Items.ROTTEN_FLESH, stack.getCount()));
 				}
 
-				player.sendMessage(new TextComponentString("Ewwww it's all rotten"));
+				player.sendMessage(new StringTextComponent("Ewwww it's all rotten"));
 			}
 		});
 
@@ -681,7 +674,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					{
 						player.isAirBorne = true;
 						player.setMotion(0, 20, 0);
-						((ServerPlayerEntity) player).connection.sendPacket(new SPacketEntityVelocity(player.getEntityId(), player.motionX, player.motionY, player.motionZ));
+						((ServerPlayerEntity) player).connection.sendPacket(new SEntityVelocityPacket(player.getEntityId(), player.getMotion()));
 					}
 				});
 			}
@@ -702,14 +695,14 @@ public class ChanceCubeRegistry implements IRewardRegistry
 							if(b.getLightValue(world, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.getBlock().hasTileEntity(b))
 							{
 								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(xx, yy, zz));
-								CreeperEntity creeper = new CreeperEntity(world);
+								CreeperEntity creeper = EntityType.CREEPER.create(world);
 								creeper.setLocationAndAngles(pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5, 0, 0);
 								world.addEntity(creeper);
 							}
 						}
 					}
 				}
-				player.sendMessage(new TextComponentString("Those lights seem a little weird.... O.o"));
+				player.sendMessage(new StringTextComponent("Those lights seem a little weird.... O.o"));
 			}
 		});
 
@@ -722,8 +715,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				int z = RewardsUtil.rand.nextInt(1000) + 200;
 
 				BlockPos newPos = pos.add(x, 0, z);
-				RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(BlockChest.FACING, EnumFacing.WEST), world, newPos);
-				TileEntityChest chest = (TileEntityChest) world.getTileEntity(newPos);
+				RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, newPos);
+				ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(newPos);
 				for(int i = 0; i < 10; i++)
 					chest.setInventorySlotContents(i, new ItemStack(RewardsUtil.getRandomItem()));
 

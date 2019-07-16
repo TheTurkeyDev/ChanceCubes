@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardparts;
 
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 public class CommandPart extends BasePart
@@ -35,7 +35,7 @@ public class CommandPart extends BasePart
 		return command.getValue();
 	}
 
-	public String getParsedCommand(World world, int x, int y, int z, EntityPlayer player)
+	public String getParsedCommand(World world, int x, int y, int z, PlayerEntity player)
 	{
 		String parsedCommand = command.getValue();
 		parsedCommand = parsedCommand.replace("%player", player.getCommandSource().getName());

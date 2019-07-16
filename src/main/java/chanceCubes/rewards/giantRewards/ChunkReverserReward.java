@@ -10,16 +10,16 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
 	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
-	
+
 	public ChunkReverserReward()
 	{
 		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
@@ -47,9 +47,9 @@ public class ChunkReverserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Initiating Block Inverter"));
+		player.sendMessage(new StringTextComponent("Initiating Block Inverter"));
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
@@ -89,7 +89,7 @@ public class ChunkReverserReward extends BaseCustomReward
 			}
 		}
 
-		player.sendMessage(new TextComponentString("Inverting " + blocks.size() + " Blocks... May take a minute..."));
+		player.sendMessage(new StringTextComponent("Inverting " + blocks.size() + " Blocks... May take a minute..."));
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}

@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.client.gui.widget.list.ExtendedList;
 
-public class ProfileInfoList extends GuiListExtended<ProfileInfoListEntry>
+public class ProfileInfoList extends ExtendedList<ProfileInfoListEntry>
 {
-	private Map<String, List<IGuiListEntry<ProfileInfoListEntry>>> strings = new HashMap<>();
+	private Map<String, List<AbstractList.AbstractListEntry<ProfileInfoListEntry>>> strings = new HashMap<>();
 	private String currentTab = "";
 	private Minecraft mc;
 
@@ -24,7 +25,7 @@ public class ProfileInfoList extends GuiListExtended<ProfileInfoListEntry>
 	{
 		if(strings.size() == 0)
 			currentTab = tabName;
-		List<IGuiListEntry<ProfileInfoListEntry>> entries = new ArrayList<>();
+		List<AbstractList.AbstractListEntry<ProfileInfoListEntry>> entries = new ArrayList<>();
 		for(String s : stringsIn)
 			entries.add(new ProfileInfoListEntry(mc, s));
 		this.strings.put(tabName, entries);

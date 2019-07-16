@@ -11,7 +11,7 @@ public class RewardArgument implements ArgumentType<String>
 {
 	//TODO: Make "smarter" and aid the player in auto completing the reward names
 	@Override
-	public <S> String parse(StringReader reader) throws CommandSyntaxException
+	public String parse(StringReader reader) throws CommandSyntaxException
 	{
 		return reader.getString();
 	}

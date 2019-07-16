@@ -26,14 +26,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class CCubesServerCommands
@@ -42,7 +42,7 @@ public class CCubesServerCommands
 	{
 		// @formatter:off
 		dispatcher.register(LiteralArgumentBuilder.<CommandSource> literal("chancecubes").requires(cs -> {
-			return cs.getEntity() instanceof EntityPlayerMP;
+			return cs.getEntity() instanceof ServerPlayerEntity;
 		}).then(Commands.literal("reload").executes(ctx -> this.executeReload(ctx)))
 				.then(Commands.literal("version").executes(ctx -> this.executeVersion(ctx)))
 				.then(Commands.literal("handNBT").executes(ctx -> this.executeHandNBT(ctx)))
@@ -71,7 +71,7 @@ public class CCubesServerCommands
 		//		aliases.add("CCubes");
 	}
 
-	public EntityPlayerMP getPlayer(CommandSource source)
+	public ServerPlayerEntity getPlayer(CommandSource source)
 	{
 		try
 		{
@@ -103,7 +103,7 @@ public class CCubesServerCommands
 				NonreplaceableBlockOverride.loadOverrides();
 				ProfileManager.initProfiles();
 				CustomProfileLoader.instance.loadProfiles();
-				getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Rewards Reloaded"));
+				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
 			}
 		}).start();
 		return 0;
@@ -111,56 +111,56 @@ public class CCubesServerCommands
 
 	public int executeVersion(CommandContext<CommandSource> ctx)
 	{
-		getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Chance Cubes Version " + CCubesCore.VERSION));
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Chance Cubes Version " + CCubesCore.VERSION));
 		return 0;
 	}
 
 	public int executeHandNBT(CommandContext<CommandSource> ctx)
 	{
-		EntityPlayer player = (EntityPlayer) getPlayer(ctx.getSource());
-		NBTTagCompound nbt = player.inventory.getCurrentItem().getOrCreateTag();
-		player.sendMessage(new TextComponentString(nbt.toString()));
+		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
+		CompoundNBT nbt = player.inventory.getCurrentItem().getOrCreateTag();
+		player.sendMessage(new StringTextComponent(nbt.toString()));
 		return 0;
 	}
 
 	public int executeHandID(CommandContext<CommandSource> ctx)
 	{
-		EntityPlayer player = (EntityPlayer) getPlayer(ctx.getSource());
+		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
 		ItemStack stack = player.inventory.getCurrentItem();
 		if(!stack.isEmpty())
 		{
 			ResourceLocation res = stack.getItem().getRegistryName();
-			player.sendMessage(new TextComponentString(res.getNamespace() + ":" + res.getPath()));
-			player.sendMessage(new TextComponentString("meta: " + stack.getDamage()));
+			player.sendMessage(new StringTextComponent(res.getNamespace() + ":" + res.getPath()));
+			player.sendMessage(new StringTextComponent("meta: " + stack.getDamage()));
 		}
 		return 0;
 	}
 
 	public int executeDisableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		EntityPlayer player = (EntityPlayer) getPlayer(ctx.getSource());
+		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
 
 		if(ChanceCubeRegistry.INSTANCE.disableReward(reward))
-			player.sendMessage(new TextComponentString(reward + " Has been temporarily disabled."));
+			player.sendMessage(new StringTextComponent(reward + " Has been temporarily disabled."));
 		else
-			player.sendMessage(new TextComponentString(reward + " is either not currently enabled or is not a valid reward name."));
+			player.sendMessage(new StringTextComponent(reward + " is either not currently enabled or is not a valid reward name."));
 		return 0;
 	}
 
 	public int executeEnableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		EntityPlayer player = (EntityPlayer) getPlayer(ctx.getSource());
+		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
 
 		if(ChanceCubeRegistry.INSTANCE.enableReward(reward))
-			player.sendMessage(new TextComponentString(reward + " Has been enabled."));
+			player.sendMessage(new StringTextComponent(reward + " Has been enabled."));
 		else
-			player.sendMessage(new TextComponentString(reward + " is either not currently disabled or is not a valid reward name."));
+			player.sendMessage(new StringTextComponent(reward + " is either not currently disabled or is not a valid reward name."));
 		return 0;
 	}
 
 	public int executeRewardInfo(CommandContext<CommandSource> ctx)
 	{
-		getPlayer(ctx.getSource()).sendMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		return 0;
 	}
 
@@ -169,9 +169,9 @@ public class CCubesServerCommands
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testRewards)
-			getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Reward testing is now enabled for all rewards!"));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"));
 		else
-			getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
 		return 0;
 	}
 
@@ -180,9 +180,9 @@ public class CCubesServerCommands
 		CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testCustomRewards)
-			getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Reward testing is now enabled for custom rewards!"));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for custom rewards!"));
 		else
-			getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Reward testing is now disabled and normal randomness is back."));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
 		return 0;
 	}
 
@@ -199,7 +199,7 @@ public class CCubesServerCommands
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 				Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(getPlayer(ctx.getSource())));
 			else
-				getPlayer(ctx.getSource()).sendMessage(new TextComponentString("Please set both points before moving on!"));
+				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Please set both points before moving on!"));
 		}
 		else
 		{
@@ -218,7 +218,7 @@ public class CCubesServerCommands
 
 	public int executeSpawnGiantCube(CommandContext<CommandSource> ctx, BlockPos pos)
 	{
-		EntityPlayerMP player = getPlayer(ctx.getSource());
+		ServerPlayerEntity player = getPlayer(ctx.getSource());
 		World world = player.getEntityWorld();
 
 		if(RewardsUtil.isBlockUnbreakable(world, pos.add(0, 0, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 0, 0))))

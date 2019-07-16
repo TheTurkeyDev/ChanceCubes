@@ -9,7 +9,7 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,7 +21,7 @@ public class OreSphereReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
 
@@ -37,7 +37,7 @@ public class OreSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.abs(loc.getDistance(0, 0, 0));
+						double dist = Math.abs(Math.sqrt(loc.distanceSq(0, 0, 0, false)));
 						if(dist <= i && dist > i - 1)
 						{
 							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);

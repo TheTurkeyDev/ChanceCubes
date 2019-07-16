@@ -6,14 +6,14 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.state.properties.StairsShape;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,7 +25,7 @@ public class TableFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToAllPlayers(world, "(╯°□°）╯︵ ┻━┻)");
 
@@ -40,9 +40,9 @@ public class TableFlipReward extends BaseCustomReward
 				{
 					case 0:
 					{
-						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(BlockSlab.TYPE, SlabType.TOP), world, pos);
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.WEST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 0, 0));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.EAST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 0, 0));
+						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP), world, pos);
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 0, 0));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 0, 0));
 						break;
 					}
 					case 1:
@@ -51,9 +51,9 @@ public class TableFlipReward extends BaseCustomReward
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(1, 0, 0));
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(-1, 0, 0));
 
-						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(BlockSlab.TYPE, SlabType.TOP), world, pos.add(0, 1, 0));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.WEST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 1, 0));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.EAST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 1, 0));
+						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP), world, pos.add(0, 1, 0));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 1, 0));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 1, 0));
 						break;
 					}
 					case 2:
@@ -62,9 +62,9 @@ public class TableFlipReward extends BaseCustomReward
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(1, 1, 0));
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(-1, 1, 0));
 
-						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(BlockSlab.TYPE, SlabType.TOP), world, pos.add(0, 2, 1));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.WEST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 2, 1));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.EAST).with(BlockStairs.HALF, Half.TOP).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 2, 1));
+						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP), world, pos.add(0, 2, 1));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 2, 1));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.TOP).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 2, 1));
 						break;
 					}
 					case 3:
@@ -73,9 +73,9 @@ public class TableFlipReward extends BaseCustomReward
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(1, 2, 1));
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(-1, 2, 1));
 
-						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(BlockSlab.TYPE, SlabType.BOTTOM), world, pos.add(0, 1, 2));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.WEST).with(BlockStairs.HALF, Half.BOTTOM).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 1, 2));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.EAST).with(BlockStairs.HALF, Half.BOTTOM).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 1, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM), world, pos.add(0, 1, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.HALF, Half.BOTTOM).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 1, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.BOTTOM).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 1, 2));
 						break;
 					}
 					case 4:
@@ -84,9 +84,9 @@ public class TableFlipReward extends BaseCustomReward
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(1, 1, 2));
 						RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(-1, 1, 2));
 
-						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(BlockSlab.TYPE, SlabType.BOTTOM), world, pos.add(0, 0, 2));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.WEST).with(BlockStairs.HALF, Half.BOTTOM).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 0, 2));
-						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(BlockStairs.FACING, EnumFacing.EAST).with(BlockStairs.HALF, Half.BOTTOM).with(BlockStairs.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 0, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM), world, pos.add(0, 0, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.HALF, Half.BOTTOM).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(1, 0, 2));
+						RewardsUtil.placeBlock(Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.BOTTOM).with(StairsBlock.SHAPE, StairsShape.STRAIGHT), world, pos.add(-1, 0, 2));
 						break;
 					}
 				}

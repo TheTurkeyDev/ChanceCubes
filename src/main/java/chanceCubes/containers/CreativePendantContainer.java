@@ -2,23 +2,21 @@ package chanceCubes.containers;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.items.ItemChanceCube;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class CreativePendantContainer extends Container
 {
-
 	private World theWorld;
 
-	private IInventory pendantSlot = new InventoryBasic(new TextComponentString("CreativePendant"), 1)
+	private IInventory pendantSlot = new Inventory(1)
 	{
 		public boolean isItemValidForSlot(int slot, ItemStack stack)
 		{
@@ -26,8 +24,9 @@ public class CreativePendantContainer extends Container
 		}
 	};
 
-	public CreativePendantContainer(InventoryPlayer player, World world)
+	public CreativePendantContainer(int id, PlayerInventory player, World world)
 	{
+		super(CCubesBlocks.CREATIVE_PENDANT_CONTAINER, id);
 		this.theWorld = world;
 
 		for(int i = 0; i < 9; i++)
@@ -49,13 +48,13 @@ public class CreativePendantContainer extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer p_75145_1_)
+	public boolean canInteractWith(PlayerEntity p_75145_1_)
 	{
 		return true;
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slot)
+	public ItemStack transferStackInSlot(PlayerEntity player, int slot)
 	{
 		ItemStack stack = ItemStack.EMPTY;
 		Slot slotObject = (Slot) inventorySlots.get(slot);
@@ -88,7 +87,8 @@ public class CreativePendantContainer extends Container
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(EntityPlayer player)
+	@Override
+	public void onContainerClosed(PlayerEntity player)
 	{
 		super.onContainerClosed(player);
 

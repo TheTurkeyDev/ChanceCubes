@@ -17,8 +17,8 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,7 +37,7 @@ public class BioDomeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		// player.addChatMessage(new ChatComponentText("Hey! I can be a Pandora's Box to!"));
 
@@ -57,7 +57,7 @@ public class BioDomeReward extends BaseCustomReward
 		for(int z = -25; z <= 25; z++)
 		{
 			BlockPos loc = new BlockPos(xinc, yinc, z);
-			float dist = (float) (Math.abs(loc.getDistance(0, 0, 0)) - 25);
+			float dist = (float) (Math.abs(Math.sqrt(loc.distanceSq(0, 0, 0, false))) - 25);
 			if(dist < 1)
 			{
 				if(dist >= 0)

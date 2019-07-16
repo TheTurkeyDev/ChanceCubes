@@ -5,7 +5,7 @@ import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
@@ -24,7 +24,7 @@ public class VanillaTriggerHooks
 				if(module instanceof DifficultyTrigger)
 				{
 					DifficultyTrigger trigger = (DifficultyTrigger) module;
-					trigger.onTrigger(new EnumDifficulty[] { event.getDifficulty(), event.getOldDifficulty() });
+					trigger.onTrigger(new Difficulty[] { event.getDifficulty(), event.getOldDifficulty() });
 				}
 			}
 		}

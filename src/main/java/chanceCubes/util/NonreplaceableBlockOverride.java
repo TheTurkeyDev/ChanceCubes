@@ -10,7 +10,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -25,7 +25,7 @@ public class NonreplaceableBlockOverride
 
 	public NonreplaceableBlockOverride()
 	{
-		overriddenBlock = net.minecraft.block.BlockAir.getStateById(0);
+		overriddenBlock = Blocks.AIR.getDefaultState();
 		overrideType = OverrideType.ADD;
 	}
 

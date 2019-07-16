@@ -2,9 +2,10 @@ package chanceCubes.client.listeners;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -25,7 +26,7 @@ public class WorldRenderListener
 			double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
 
 			GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
-			GlStateManager.disableTexture2D();
+			GlStateManager.disableTexture();
 			GlStateManager.enableBlend();
 			GlStateManager.enableAlphaTest();
 			GlStateManager.disableLighting();
@@ -72,7 +73,7 @@ public class WorldRenderListener
 
 			GL11.glEnd();
 			GlStateManager.enableLighting();
-			GlStateManager.enableTexture2D();
+			GlStateManager.enableTexture();
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 		}

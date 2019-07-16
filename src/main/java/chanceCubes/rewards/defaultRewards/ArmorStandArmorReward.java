@@ -4,16 +4,17 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemSkull;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.item.SkullItem;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ArmorStandArmorReward extends BaseCustomReward
@@ -23,7 +24,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Armor_Stand_Armor", 40);
 	}
-	
+
 	// @formatter:off
 	private String[] names = {"dmodoomsirius", "MJRLegends", "Twp156", "JSL7", "Ratblade", "DerRedstoneProfi", "Turkey2349"};
 	
@@ -50,32 +51,32 @@ public class ArmorStandArmorReward extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		EntityArmorStand armorStand = new EntityArmorStand(world);
+		ArmorStandEntity armorStand = EntityType.ARMOR_STAND.create(world);
 		String name = names[RewardsUtil.rand.nextInt(names.length)];
-		armorStand.setCustomName(new TextComponentString(name));
+		armorStand.setCustomName(new StringTextComponent(name));
 		armorStand.setCustomNameVisible(true);
 		armorStand.setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 
 		ItemStack headStack = headItems[RewardsUtil.rand.nextInt(headItems.length)].copy();
-		if(headStack.getItem() instanceof ItemSkull && headStack.getDamage() == 3)
+		if(headStack.getItem() instanceof SkullItem && headStack.getDamage() == 3)
 		{
-			NBTTagCompound nbt = headStack.getTag();
+			CompoundNBT nbt = headStack.getTag();
 			if(nbt == null)
 			{
-				nbt = new NBTTagCompound();
+				nbt = new CompoundNBT();
 				headStack.setTag(nbt);
 			}
-			nbt.setString("SkullOwner", name);
+			nbt.putString("SkullOwner", name);
 		}
 
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.HEAD, headStack);
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.CHEST, chestItems[RewardsUtil.rand.nextInt(chestItems.length)].copy());
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.LEGS, legsItems[RewardsUtil.rand.nextInt(legsItems.length)].copy());
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.FEET, bootsItems[RewardsUtil.rand.nextInt(bootsItems.length)].copy());
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
-		armorStand.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
-		world.spawnEntity(armorStand);
+		armorStand.setItemStackToSlot(EquipmentSlotType.HEAD, headStack);
+		armorStand.setItemStackToSlot(EquipmentSlotType.CHEST, chestItems[RewardsUtil.rand.nextInt(chestItems.length)].copy());
+		armorStand.setItemStackToSlot(EquipmentSlotType.LEGS, legsItems[RewardsUtil.rand.nextInt(legsItems.length)].copy());
+		armorStand.setItemStackToSlot(EquipmentSlotType.FEET, bootsItems[RewardsUtil.rand.nextInt(bootsItems.length)].copy());
+		armorStand.setItemStackToSlot(EquipmentSlotType.MAINHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
+		armorStand.setItemStackToSlot(EquipmentSlotType.OFFHAND, handItems[RewardsUtil.rand.nextInt(handItems.length)].copy());
+		world.addEntity(armorStand);
 	}
 }

@@ -7,8 +7,9 @@ import java.util.Random;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -58,9 +59,9 @@ public class EndBiome implements IBioDomeBiome
 	{
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
-			EntityEnderman enderman = new EntityEnderman(world);
+			EndermanEntity enderman = EntityType.ENDERMAN.create(world);
 			enderman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-			world.spawnEntity(enderman);
+			world.addEntity(enderman);
 		}
 	}
 }

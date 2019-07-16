@@ -6,11 +6,11 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ItemRenamer extends BaseCustomReward
@@ -32,7 +32,7 @@ public class ItemRenamer extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ItemStack stack : player.inventory.mainInventory)
@@ -46,7 +46,7 @@ public class ItemRenamer extends BaseCustomReward
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			dirt.setDisplayName(new TextComponentString("A lonley piece of dirt"));
+			dirt.setDisplayName(new StringTextComponent("A lonley piece of dirt"));
 			player.inventory.addItemStackToInventory(dirt);
 			RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
@@ -62,10 +62,10 @@ public class ItemRenamer extends BaseCustomReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setDisplayName(new TextComponentString(newName));
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setDisplayName(new StringTextComponent(newName));
 		}
 
-		player.sendMessage(new TextComponentString("Those items of yours need a little personality!"));
+		player.sendMessage(new StringTextComponent("Those items of yours need a little personality!"));
 
 	}
 }

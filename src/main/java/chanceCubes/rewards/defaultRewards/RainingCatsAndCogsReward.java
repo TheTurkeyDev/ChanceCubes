@@ -6,14 +6,13 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class RainingCatsAndCogsReward extends BaseCustomReward
@@ -26,7 +25,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos position, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, position, 36, "It's raining Cats and dogs!");
 
@@ -40,27 +39,22 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				EntityTameable ent;
+				TameableEntity ent;
 
 				if(RewardsUtil.rand.nextBoolean())
-				{
-					ent = new EntityWolf(world);
-				}
+					ent = EntityType.WOLF.create(world);
 				else
-				{
-					ent = new EntityOcelot(world);
-					((EntityOcelot) ent).setTameSkin(1);
-				}
+					ent = EntityType.CAT.create(world);
 
 				int xInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				ent.setPositionAndRotation(player.getPosition().getX() + xInc, 256, player.getPosition().getZ() + zInc, 0, 0);
 				ent.setTamed(true);
-				ent.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 500, 1000));
-				ent.setCustomName(new TextComponentString(names[RewardsUtil.rand.nextInt(names.length)]));
+				ent.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 500, 1000));
+				ent.setCustomName(new StringTextComponent(names[RewardsUtil.rand.nextInt(names.length)]));
 				ent.setCustomNameVisible(true);
 
-				world.spawnEntity(ent);
+				world.addEntity(ent);
 				Scheduler.scheduleTask(new Task("Despawn Delay", 200)
 				{
 					@Override

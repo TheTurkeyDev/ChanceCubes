@@ -7,10 +7,10 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.play.server.STitlePacket.Type;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class MagicFeetReward extends BaseCustomReward
@@ -21,9 +21,9 @@ public class MagicFeetReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("<Dovah_Jun> You've got magic feet!!!"));
+		player.sendMessage(new StringTextComponent("<Dovah_Jun> You've got magic feet!!!"));
 		Scheduler.scheduleTask(new Task("Megic_Feet_Reward_Delay", 300, 2)
 		{
 			BlockPos last = pos;
@@ -31,7 +31,7 @@ public class MagicFeetReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.sendMessage(new TextComponentString("<Dovah_Jun> You've used up all the magic in your feet!"));
+				player.sendMessage(new StringTextComponent("<Dovah_Jun> You've used up all the magic in your feet!"));
 			}
 
 			@Override

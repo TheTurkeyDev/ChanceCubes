@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import chanceCubes.items.CCubesItems;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -33,10 +33,10 @@ public class PacketRewardSelector
 			ItemStack stack = ctx.get().getSender().inventory.getCurrentItem();
 			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
 			{
-				NBTTagCompound nbt = stack.getTag();
+				CompoundNBT nbt = stack.getTag();
 				if(nbt == null)
-					nbt = new NBTTagCompound();
-				nbt.setString("Reward", msg.reward);
+					nbt = new CompoundNBT();
+				nbt.putString("Reward", msg.reward);
 				stack.setTag(nbt);
 			}
 		});

@@ -6,28 +6,30 @@ import java.util.List;
 import chanceCubes.profiles.BasicProfile;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.triggers.ITrigger;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
 
-public class ProfileInfoGui extends GuiScreen
+public class ProfileInfoGui extends Screen
 {
-	private GuiScreen parentScreen;
+	private Screen parentScreen;
 	private ProfileInfoList profileList;
 	private IProfile profile;
 
 	private List<String> tabs = new ArrayList<>();
 
-	public ProfileInfoGui(GuiScreen screen, IProfile profile)
+	public ProfileInfoGui(ITextComponent titleIn, IProfile profile, Screen parentScreen)
 	{
-		parentScreen = screen;
+		super(titleIn);
 		this.profile = profile;
+		this.parentScreen = parentScreen;
 	}
 
 	@Override
-	public void initGui()
+	public void init()
 	{
 		tabs.clear();
-		profileList = new ProfileInfoList(this.mc, this.width, this.height, 84, this.height - 32, 20);
+		profileList = new ProfileInfoList(this.minecraft, this.width, this.height, 84, this.height - 32, 20);
 		if(profile instanceof BasicProfile)
 		{
 			BasicProfile bProfile = (BasicProfile) profile;
@@ -75,24 +77,27 @@ public class ProfileInfoGui extends GuiScreen
 
 			profileList.addStrings("Triggers", triggerStrings);
 		}
-		this.addButton(new GuiButton(0, this.width / 2 - 36, this.height - 28, 72, 20, "Back")
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Back", new Button.IPressable()
 		{
-			public void onClick(double mouseX, double mouseY)
+			@Override
+			public void onPress(Button button)
 			{
-				mc.displayGuiScreen(parentScreen);
+				minecraft.displayGuiScreen(parentScreen);
 			}
-		});
+		}));
 	}
 
 	public void addTab(String name, List<String> strings)
 	{
-		this.addButton(new GuiButton(tabs.size() + 1, (75 * tabs.size()), 64, 75, 20, name)
+		int pos = tabs.size() + 1;
+		this.addButton(new Button((75 * tabs.size()), 64, 75, 20, name, new Button.IPressable()
 		{
-			public void onClick(double mouseX, double mouseY)
+			@Override
+			public void onPress(Button button)
 			{
-				profileList.setStringsTab(tabs.get(this.id - 1));
+				profileList.setStringsTab(tabs.get(pos - 1));
 			}
-		});
+		}));
 		tabs.add(name);
 		profileList.addStrings(name, strings);
 	}
@@ -103,9 +108,9 @@ public class ProfileInfoGui extends GuiScreen
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		profileList.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
-		this.drawCenteredString(this.fontRenderer, "Profile Info", this.width / 2, 20, 16777215);
+		profileList.render(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(this.font, "Profile Info", this.width / 2, 20, 16777215);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 

@@ -6,12 +6,13 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockCake;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CakeBlock;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -23,7 +24,7 @@ public class CakeIsALieReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 
@@ -46,17 +47,17 @@ public class CakeIsALieReward extends BaseCustomReward
 					{
 						Scheduler.removeTask(this);
 					}
-					else if(world.getBlockState(pos).get(BlockCake.BITES) > 0)
+					else if(world.getBlockState(pos).get(CakeBlock.BITES) > 0)
 					{
 						world.setBlockState(pos, Blocks.AIR.getDefaultState());
 						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
-						EntityCreeper creeper = new EntityCreeper(world);
+						CreeperEntity creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
 						if(RewardsUtil.rand.nextInt(10) == 1)
 							creeper.onStruckByLightning(null);
-						creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 9999, 2));
-						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 999));
-						world.spawnEntity(creeper);
+						creeper.addPotionEffect(new EffectInstance(Effects.SPEED, 9999, 2));
+						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 999));
+						world.addEntity(creeper);
 						RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:its_a_lie");
 						Scheduler.removeTask(this);
 					}

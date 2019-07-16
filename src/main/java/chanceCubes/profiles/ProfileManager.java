@@ -19,7 +19,7 @@ import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 
 public class ProfileManager
 {
@@ -238,7 +238,7 @@ public class ProfileManager
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
 		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
 		profile.addRewardChanceChange("chancecubes:Cave_Spider_Web", -90);
-		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
+		profile.addTriggers(new DifficultyTrigger(profile, Difficulty.HARD));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("nether", "Nether", "Updates the reward pool for when players are in the nether");
@@ -257,7 +257,7 @@ public class ProfileManager
 				"chancecubes:Cookie_Monster", "chancecubes:Charged_Creeper", "chancecubes:Torches_To_Creepers", "chancecubes:Herobrine", 
 				"chancecubes:Surrounded", "chancecubes:Surrounded_Creeper", "chancecubes:Wither", "chancecubes:Wait_For_It", 
 				"chancecubes:Cake", "chancecubes:Wolves_To_Creepers", "chancecubes:Countdown", "chancecubes:Mob_Tower");
-		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.PEACEFUL));
+		profile.addTriggers(new DifficultyTrigger(profile, Difficulty.PEACEFUL));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("no_area_of_effects", "No Area of Effect Rewards", "Disables rewards that place blocks that have a 3x3x3 area of effect or greater (Does not include rewards that reset blocks to their original state after)");

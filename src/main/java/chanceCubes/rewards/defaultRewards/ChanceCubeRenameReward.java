@@ -5,11 +5,11 @@ import java.util.Map;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ChanceCubeRenameReward extends BaseCustomReward
@@ -28,17 +28,17 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 2);
 		String name = chanceSyn[RewardsUtil.rand.nextInt(chanceSyn.length)];
 		String adj = cubeSyn[RewardsUtil.rand.nextInt(cubeSyn.length)];
 
 		String newName = name + " " + adj;
-		stack.setDisplayName(new TextComponentString(newName));
+		stack.setDisplayName(new StringTextComponent(newName));
 
-		player.sendMessage(new TextComponentString("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
+		player.sendMessage(new StringTextComponent("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
 
-		world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+		world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
 	}
 }

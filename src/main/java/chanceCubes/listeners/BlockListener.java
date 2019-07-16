@@ -5,9 +5,9 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
 import chanceCubes.util.Task;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickEmpty;
@@ -21,7 +21,7 @@ public class BlockListener
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event)
 	{
-		EntityPlayer player = event.getPlayer();
+		PlayerEntity player = event.getPlayer();
 		BlockPos pos = event.getPos();
 		if(this.setSchematicPoint(1, player, pos))
 			event.setCanceled(true);
@@ -46,7 +46,7 @@ public class BlockListener
 		this.setSchematicPoint(1, event.getEntityPlayer(), event.getPos());
 	}
 
-	public boolean setSchematicPoint(int point, EntityPlayer player, BlockPos pos)
+	public boolean setSchematicPoint(int point, PlayerEntity player, BlockPos pos)
 	{
 		if(Minecraft.getInstance().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
 		{
@@ -56,13 +56,13 @@ public class BlockListener
 				if(point == 1)
 				{
 					SchematicUtil.selectionPoints[0] = pos;
-					player.sendMessage(new TextComponentString("Point 1 set"));
+					player.sendMessage(new StringTextComponent("Point 1 set"));
 					flag = true;
 				}
 				else if(point == 2)
 				{
 					SchematicUtil.selectionPoints[1] = pos;
-					player.sendMessage(new TextComponentString("Point 2 set"));
+					player.sendMessage(new StringTextComponent("Point 2 set"));
 					flag = true;
 				}
 

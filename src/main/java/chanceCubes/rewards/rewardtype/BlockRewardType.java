@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,7 +15,7 @@ public class BlockRewardType extends BaseRewardType<OffsetBlock>
 	}
 
 	@Override
-	protected void trigger(OffsetBlock block, World world, int x, int y, int z, EntityPlayer player)
+	protected void trigger(OffsetBlock block, World world, int x, int y, int z, PlayerEntity player)
 	{
 		if(block == null)
 			return;

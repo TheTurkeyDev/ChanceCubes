@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.ItemChanceCube;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;

@@ -11,7 +11,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -43,7 +43,7 @@ public class BaseChanceCubesItem extends Item
 	{
 		for(String s : lore)
 		{
-			list.add(new TextComponentString(s));
+			list.add(new StringTextComponent(s));
 		}
 	}
 }

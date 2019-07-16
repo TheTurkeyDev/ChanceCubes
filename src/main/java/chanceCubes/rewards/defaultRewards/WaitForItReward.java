@@ -6,15 +6,16 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class WaitForItReward extends BaseCustomReward
@@ -25,9 +26,9 @@ public class WaitForItReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Wait for it......."));
+		player.sendMessage(new StringTextComponent("Wait for it......."));
 
 		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(4000) + 1000)
 		{
@@ -35,18 +36,18 @@ public class WaitForItReward extends BaseCustomReward
 			public void callback()
 			{
 				int reward = RewardsUtil.rand.nextInt(3);
-				player.sendMessage(new TextComponentString("NOW!"));
+				player.sendMessage(new StringTextComponent("NOW!"));
 
 				if(reward == 0)
 				{
-					world.spawnEntity(new EntityTNTPrimed(world, player.posX, player.posY + 1, player.posZ, null));
+					world.addEntity(new TNTEntity(world, player.posX, player.posY + 1, player.posZ, null));
 				}
 				else if(reward == 1)
 				{
-					EntityCreeper ent = new EntityCreeper(world);
+					CreeperEntity ent = EntityType.CREEPER.create(world);
 					ent.setLocationAndAngles(player.posX, player.posY + 1, player.posZ, 0, 0);
 					ent.onStruckByLightning(null);
-					world.spawnEntity(ent);
+					world.addEntity(ent);
 				}
 				else if(reward == 2)
 				{
@@ -58,11 +59,11 @@ public class WaitForItReward extends BaseCustomReward
 				}
 				else if(reward == 4)
 				{
-					EntityZombie zomb = new EntityZombie(world);
+					ZombieEntity zomb = EntityType.ZOMBIE.create(world);
 					zomb.setChild(true);
-					zomb.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 0));
-					zomb.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 0));
-					world.spawnEntity(zomb);
+					zomb.addPotionEffect(new EffectInstance(Effects.SPEED, 100000, 0));
+					zomb.addPotionEffect(new EffectInstance(Effects.STRENGTH, 100000, 0));
+					world.addEntity(zomb);
 				}
 			}
 		});

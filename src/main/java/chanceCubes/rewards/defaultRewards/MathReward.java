@@ -11,24 +11,25 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.network.play.server.STitlePacket.Type;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class MathReward extends BaseCustomReward
 {
-	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
+	private Map<PlayerEntity, RewardInfo> inQuestion = new HashMap<PlayerEntity, RewardInfo>();
 
 	public MathReward()
 	{
@@ -36,7 +37,7 @@ public class MathReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -44,7 +45,7 @@ public class MathReward extends BaseCustomReward
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
-		player.sendMessage(new TextComponentString("Quick, what's " + num1 + "+" + num2 + "?"));
+		player.sendMessage(new StringTextComponent("Quick, what's " + num1 + "+" + num2 + "?"));
 
 		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
 		RewardBlockCache cache = new RewardBlockCache(world, playerPos, player.getPosition());
@@ -69,8 +70,8 @@ public class MathReward extends BaseCustomReward
 			List<Entity> tnt = new ArrayList<Entity>();
 			for(int i = 0; i < 5; i++)
 			{
-				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
-				world.spawnEntity(entitytntprimed);
+				TNTEntity entitytntprimed = new TNTEntity(world, player.posX, player.posY + 1D, player.posZ, player);
+				world.addEntity(entitytntprimed);
 				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				entitytntprimed.setFuse(140);
 				tnt.add(entitytntprimed);
@@ -97,7 +98,7 @@ public class MathReward extends BaseCustomReward
 		});
 	}
 
-	private void timeUp(EntityPlayer player, boolean correct)
+	private void timeUp(PlayerEntity player, boolean correct)
 	{
 		if(!inQuestion.containsKey(player))
 			return;
@@ -108,13 +109,13 @@ public class MathReward extends BaseCustomReward
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
-			player.sendMessage(new TextComponentString("Correct!"));
-			player.sendMessage(new TextComponentString("Here, have a item!"));
-			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.sendMessage(new StringTextComponent("Correct!"));
+			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 
@@ -130,7 +131,7 @@ public class MathReward extends BaseCustomReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		EntityPlayer player = event.getPlayer();
+		PlayerEntity player = event.getPlayer();
 
 		if(inQuestion.containsKey(player))
 		{
@@ -140,13 +141,13 @@ public class MathReward extends BaseCustomReward
 				answer = Integer.parseInt(event.getMessage());
 			} catch(NumberFormatException e)
 			{
-				player.sendMessage(new TextComponentString("Incorrect!"));
+				player.sendMessage(new StringTextComponent("Incorrect!"));
 			}
 
 			if(inQuestion.get(player).answer == answer)
 				this.timeUp(player, true);
 			else
-				player.sendMessage(new TextComponentString("Incorrect!"));
+				player.sendMessage(new StringTextComponent("Incorrect!"));
 			event.setCanceled(true);
 		}
 	}

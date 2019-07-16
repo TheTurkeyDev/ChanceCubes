@@ -6,8 +6,9 @@ import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.dispenser.Position;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,7 +22,7 @@ public class DoubleRainbow extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Double Rainbow!");
 		OffsetBlock b;
@@ -29,8 +30,8 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 8; y++)
 			{
-				float dist = (float) (Math.abs(pos.getDistance(pos.getX() + x, pos.getY() + y, pos.getZ())));
-				if(dist > 1 && dist <= 8)
+				float dist = (float) (Math.abs(pos.distanceSq(new Position(pos.getX() + x, pos.getY() + y, pos.getZ()), false)));
+				if(dist > 1 && dist <= 64)
 				{
 					int distIndex = (int) (dist - 2);
 					Block wool = colors[distIndex];
@@ -46,8 +47,8 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 18; y++)
 			{
-				float dist = (float) (Math.abs(pos.getDistance(pos.getX() + x, pos.getY() + y, pos.getZ())));
-				if(dist >= 12 && dist <= 18)
+				float dist = (float) (Math.abs(pos.distanceSq(new Position(pos.getX() + x, pos.getY() + y, pos.getZ()), false)));
+				if(dist >= 144 && dist <= 324)
 				{
 					int distIndex = (int) (dist - 12);
 					Block wool = colors[distIndex];

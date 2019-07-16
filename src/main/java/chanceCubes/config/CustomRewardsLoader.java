@@ -63,8 +63,8 @@ import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.ModList;
 
 public class CustomRewardsLoader extends BaseLoader
@@ -401,16 +401,16 @@ public class CustomRewardsLoader extends BaseLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.get("entity").getAsJsonObject().toString());
-				NBTTagCompound nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
+				CompoundNBT nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 
-				if(!(nbtbase instanceof NBTTagCompound))
+				if(!(nbtbase instanceof CompoundNBT))
 				{
 					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
 					continue;
 				}
 				else
 				{
-					ent = new EntityPart((NBTTagCompound) nbtbase);
+					ent = new EntityPart((CompoundNBT) nbtbase);
 				}
 			} catch(Exception e1)
 			{

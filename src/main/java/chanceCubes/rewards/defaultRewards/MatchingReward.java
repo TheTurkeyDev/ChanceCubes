@@ -9,13 +9,14 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.network.play.server.STitlePacket.Type;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
 
 public class MatchingReward extends BaseCustomReward
@@ -26,7 +27,7 @@ public class MatchingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		Block[] metas = { Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIME_WOOL, Blocks.LIME_WOOL };
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
@@ -45,7 +46,7 @@ public class MatchingReward extends BaseCustomReward
 			int z = (i / 3) - 1;
 			cache.cacheBlock(new BlockPos(x, -1, z), metas[i].getDefaultState());
 		}
-		player.sendMessage(new TextComponentString("Memerize these blocks!"));
+		player.sendMessage(new StringTextComponent("Memerize these blocks!"));
 
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 200, 20)
 		{
@@ -69,9 +70,9 @@ public class MatchingReward extends BaseCustomReward
 		});
 	}
 
-	public void match(World world, BlockPos pos, EntityPlayer player, Block[] metas, RewardBlockCache cache)
+	public void match(World world, BlockPos pos, PlayerEntity player, Block[] metas, RewardBlockCache cache)
 	{
-		player.sendMessage(new TextComponentString("Now break the matching blocks (in pairs with white last)! You have 45 seconds!"));
+		player.sendMessage(new StringTextComponent("Now break the matching blocks (in pairs with white last)! You have 45 seconds!"));
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)
 		{
 			boolean[] checked = new boolean[9];
@@ -130,15 +131,15 @@ public class MatchingReward extends BaseCustomReward
 
 			private void lose()
 			{
-				player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+				player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Mode.NONE);
 				player.attackEntityFrom(CCubesDamageSource.MATCHING_FAIL, Float.MAX_VALUE);
 				reset();
 			}
 
 			private void win()
 			{
-				player.sendMessage(new TextComponentString("Good job! Have a cool little item!"));
-				player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+				player.sendMessage(new StringTextComponent("Good job! Have a cool little item!"));
+				player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				reset();
 			}
 

@@ -6,18 +6,19 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.passive.CowEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle.Type;
-import net.minecraft.potion.PotionType;
+import net.minecraft.item.Items;
+import net.minecraft.network.play.server.STitlePacket.Type;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,7 +31,7 @@ public class CountDownReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		Scheduler.scheduleTask(new Task("Countdown_Reward_Delay", 80, 20)
 		{
@@ -53,41 +54,42 @@ public class CountDownReward extends BaseCustomReward
 				}
 				else if(thing == 3)
 				{
-					EntityCreeper creeper = new EntityCreeper(world);
+					CreeperEntity creeper = EntityType.CREEPER.create(world);
 					creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.spawnEntity(creeper);
+					world.addEntity(creeper);
 				}
 				else if(thing == 4)
 				{
-					EntityCow cow = new EntityCow(world);
+					CowEntity cow = EntityType.COW.create(world);
 					cow.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.spawnEntity(cow);
+					world.addEntity(cow);
 				}
 				else if(thing == 5)
 				{
-					EntityVillager villager = new EntityVillager(world);
+					VillagerEntity villager = EntityType.VILLAGER.create(world);
 					villager.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.spawnEntity(villager);
+					world.addEntity(villager);
 				}
 				else if(thing == 6)
 				{
-					EntityTNTPrimed tnt = new EntityTNTPrimed(world);
+					TNTEntity tnt = EntityType.TNT.create(world);
 					tnt.setFuse(20);
 					tnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.spawnEntity(tnt);
+					world.addEntity(tnt);
 				}
 				else if(thing == 7)
 				{
-					EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
-					world.spawnEntity(item);
+					ItemEntity item = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
+					world.addEntity(item);
 				}
 				else if(thing == 8)
 				{
-					PotionType potionType = RewardsUtil.getRandomPotionType();
-					EntityPotion pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+					Potion potionType = RewardsUtil.getRandomPotionType();
+					PotionEntity pot = new PotionEntity(world, player);
+					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.motionY = -1;
-					world.spawnEntity(pot);
+					pot.setMotion(0, -1, 0);
+					world.addEntity(pot);
 				}
 				else if(thing == 9)
 				{

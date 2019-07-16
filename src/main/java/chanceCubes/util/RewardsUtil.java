@@ -24,7 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -36,6 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
@@ -377,16 +378,16 @@ public class RewardsUtil
 	public static void executeCommand(World world, PlayerEntity player, Vec3d pos, String command)
 	{
 		MinecraftServer server = world.getServer();
-		ServerWorld worldServer = server.getWorld(DimensionType.field_223227_a_);
-		Boolean rule = worldServer.getGameRules().getBoolean("commandBlockOutput");
-		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", "false", server);
+		ServerWorld worldServer = server.getWorld(DimensionType.OVERWORLD);
+		boolean rule = worldServer.getGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT);
+		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(false, server);
 		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		cs = cs.withFeedbackDisabled();
 		server.getCommandManager().handleCommand(cs, command);
-		worldServer.getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString(), server);
+		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)
+	public static void setNearPlayersTitle(World world, STitlePacket spackettitle, BlockPos pos, int range)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
@@ -398,13 +399,13 @@ public class RewardsUtil
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, SPacketTitle spackettitle)
+	public static void setAllPlayersTitle(World world, STitlePacket spackettitle)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 			setPlayerTitle(world.getPlayers().get(i), spackettitle);
 	}
 
-	public static void setPlayerTitle(PlayerEntity player, SPacketTitle title)
+	public static void setPlayerTitle(PlayerEntity player, STitlePacket title)
 	{
 		if(player instanceof ServerPlayerEntity)
 			((ServerPlayerEntity) player).connection.sendPacket(title);

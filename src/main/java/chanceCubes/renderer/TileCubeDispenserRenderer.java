@@ -1,15 +1,15 @@
 package chanceCubes.renderer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import chanceCubes.blocks.BlockCubeDispenser;
 import chanceCubes.blocks.BlockCubeDispenser.DispenseType;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -32,7 +32,7 @@ public class TileCubeDispenserRenderer extends TileEntityRenderer<TileCubeDispen
 			return;
 
 		DispenseType type = BlockCubeDispenser.getCurrentState(world.getBlockState(te.getPos()));
-		EntityItem entity = te.getRenderEntityItem(type);
+		ItemEntity entity = te.getRenderEntityItem(type);
 
 		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();

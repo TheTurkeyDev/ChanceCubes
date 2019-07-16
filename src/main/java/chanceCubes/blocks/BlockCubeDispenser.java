@@ -4,18 +4,18 @@ import java.util.Random;
 
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -32,7 +32,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
@@ -43,7 +43,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
-	public boolean onBlockActivated(IBlockState state, World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
 	{
 		if(world.isRemote)
 			return true;
@@ -69,7 +69,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 	}
 
 	@Override
-	public void onBlockClicked(IBlockState state, World world, BlockPos pos, EntityPlayer player)
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		if(world.isRemote)
 			return;
@@ -77,24 +77,18 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return;
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
 
-		EntityItem entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
+		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
 		entitem.setLocationAndAngles(player.posX, player.posY, player.posZ, 0, 0);
 		if(player.isSneaking())
 		{
 			entitem.getItem().setCount(1);
-			world.spawnEntity(entitem);
+			world.addEntity(entitem);
 		}
 		else
 		{
 			entitem.getItem().setCount(64);
-			world.spawnEntity(entitem);
+			world.addEntity(entitem);
 		}
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
 	}
 
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
@@ -102,7 +96,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return null;
 	}
 
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		DispenseType type = getCurrentState(state);
 		if(type == DispenseType.CHANCE_CUBE)
@@ -115,7 +109,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return 0;
 	}
 
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		if(meta == 0)
 			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
@@ -127,7 +121,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(DISPENSING);
 	}
@@ -166,12 +160,12 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 	}
 
-	public static DispenseType getNextState(IBlockState state)
+	public static DispenseType getNextState(BlockState state)
 	{
 		return state.get(DISPENSING).getNextState();
 	}
 
-	public static DispenseType getCurrentState(IBlockState state)
+	public static DispenseType getCurrentState(BlockState state)
 	{
 		return state.get(DISPENSING);
 	}

@@ -3,8 +3,8 @@ package chanceCubes.util;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StandingSignBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -172,7 +172,7 @@ public class MazeGenerator
 		}
 
 		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
-		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.getDefaultState().with(BlockStandingSign.ROTATION, 7));
+		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.getDefaultState().with(StandingSignBlock.ROTATION, 7));
 		TileEntity te = world.getTileEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
 		if(te instanceof SignTileEntity)
 		{

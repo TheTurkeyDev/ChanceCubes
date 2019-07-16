@@ -4,7 +4,7 @@
         "textures": {
           "#CCIcosahedron": "chancecubes:blocks/d20"
         },
-        "model": "chancecubes:d20.obj",
+        "model": "chancecubes:d20",
 		"custom": {"flip-v":true}
      },
     "variants": {

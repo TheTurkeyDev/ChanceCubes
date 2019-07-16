@@ -1,15 +1,15 @@
 package chanceCubes.model;
 
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 
-public class ModelGiantCube extends ModelBase
+public class ModelGiantCube extends Model
 {
-	public ModelRenderer block;
+	public RendererModel block;
 
 	public ModelGiantCube()
 	{
-		block = new ModelRenderer(this, 0, 0);
+		block = new RendererModel(this, 0, 0);
 		block.addBox(-8F, -8F, -8F, 16, 16, 16);
 		block.setRotationPoint(0F, 0F, 0F);
 		block.setTextureSize(256, 128);

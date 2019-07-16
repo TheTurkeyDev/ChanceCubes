@@ -37,7 +37,7 @@ import chanceCubes.rewards.giantRewards.ThrowablesReward;
 import chanceCubes.rewards.rewardtype.SchematicRewardType;
 import chanceCubes.util.RewardData;
 import chanceCubes.util.SchematicUtil;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -108,7 +108,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 	}
 
 	@Override
-	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
+	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
 	{
 		if(pos == null)
 			return;
@@ -123,7 +123,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 		triggerReward(sortedRewards.get(pick), world, pos, player);
 	}
 
-	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
+	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player)
 	{
 		Map<String, Object> settings = ProfileManager.getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);

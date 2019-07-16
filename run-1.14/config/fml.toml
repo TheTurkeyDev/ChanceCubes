@@ -1,0 +1,7 @@
+# Enable forge global version checking
+versionCheck = true
+# does the splashscreen run
+splashscreen = true
+# max threads for parallel loading : -1 uses Runtime#availableProcessors
+maxThreads = -1
+

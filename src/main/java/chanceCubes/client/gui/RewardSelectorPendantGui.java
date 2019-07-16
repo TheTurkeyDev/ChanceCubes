@@ -8,33 +8,35 @@ import chanceCubes.network.PacketRewardSelector;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class RewardSelectorPendantGui extends GuiScreen
+public class RewardSelectorPendantGui extends Screen
 {
 	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/gui_reward_selector_pendant.png");
-	private GuiTextField rewardField;
+	private TextFieldWidget rewardField;
 	private String rewardName = "";
-	private EntityPlayer player;
+	private PlayerEntity player;
 	private int imageWidth = 176;
 	private int imageHeight = 54;
 	private ItemStack stack;
 
-	public RewardSelectorPendantGui(EntityPlayer player, ItemStack stack)
+	public RewardSelectorPendantGui(PlayerEntity player, ItemStack stack)
 	{
+		super(new StringTextComponent(""));
 		this.stack = stack;
 		this.player = player;
-		if(stack.getTag() != null && stack.getTag().hasKey("Reward"))
+		if(stack.getTag() != null && stack.getTag().contains("Reward"))
 			this.rewardName = stack.getTag().getString("Reward");
 	}
 
@@ -42,28 +44,30 @@ public class RewardSelectorPendantGui extends GuiScreen
 	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	@Override
-	public void initGui()
+	public void init()
 	{
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.rewardField = new GuiTextField(0, this.fontRenderer, i + 17, j + 10, 143, 12);
+		this.rewardField = new TextFieldWidget(this.font, i + 17, j + 10, 143, 12, "Test");
 		this.rewardField.setTextColor(-1);
 		this.rewardField.setDisabledTextColour(-1);
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
 		this.children.add(this.rewardField);
-		this.addButton(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]))
+		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]), new Button.IPressable()
 		{
-			public void onClick(double mouseX, double mouseY)
+
+			@Override
+			public void onPress(Button p_onPress_1_)
 			{
 				if(ChanceCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null)
 				{
-					NBTTagCompound nbt = stack.getTag();
+					CompoundNBT nbt = stack.getTag();
 					if(nbt == null)
-						nbt = new NBTTagCompound();
-					nbt.setString("Reward", rewardName);
+						nbt = new CompoundNBT();
+					nbt.putString("Reward", rewardName);
 					stack.setTag(nbt);
 
 					CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getText()));
@@ -76,24 +80,24 @@ public class RewardSelectorPendantGui extends GuiScreen
 					rewardName = "";
 				}
 			}
-		});
+		}));
 	}
 
 	@Override
-	public void onGuiClosed()
+	public void onClose()
 	{
-		super.onGuiClosed();
+		super.onClose();
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		this.mc.getTextureManager().bindTexture(guiTextures);
-		this.drawTexturedModalRect((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
+		this.minecraft.getTextureManager().bindTexture(guiTextures);
+		this.blit((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		super.render(mouseX, mouseY, partialTicks);
-		this.rewardField.drawTextField(mouseX, mouseY, partialTicks);
+		this.rewardField.render(mouseX, mouseY, partialTicks);
 	}
 }

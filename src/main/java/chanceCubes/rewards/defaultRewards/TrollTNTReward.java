@@ -6,13 +6,13 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class TrollTNTReward extends BaseCustomReward
@@ -23,7 +23,7 @@ public class TrollTNTReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		for(int x = -1; x < 2; x++)
 		{
@@ -33,8 +33,8 @@ public class TrollTNTReward extends BaseCustomReward
 			}
 		}
 
-		final EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX + 1D, player.posY + 1D, player.posZ, player);
-		world.spawnEntity(entitytntprimed);
+		final TNTEntity entitytntprimed = new TNTEntity(world, player.posX + 1D, player.posY + 1D, player.posZ, player);
+		world.addEntity(entitytntprimed);
 		world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 		if(RewardsUtil.rand.nextInt(5) != 1)
@@ -44,7 +44,7 @@ public class TrollTNTReward extends BaseCustomReward
 				@Override
 				public void callback()
 				{
-					player.sendMessage(new TextComponentString("BOOM"));
+					player.sendMessage(new StringTextComponent("BOOM"));
 					entitytntprimed.remove();
 				}
 

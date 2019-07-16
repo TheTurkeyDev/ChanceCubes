@@ -5,11 +5,11 @@ import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -27,7 +27,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
@@ -49,7 +49,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest, IFluidState fluid)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
 	{
 		TileEntity te = world.getTileEntity(pos);
 		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);

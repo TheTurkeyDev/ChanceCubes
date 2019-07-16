@@ -1,9 +1,10 @@
 package chanceCubes.renderer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.model.ModelGiantCube;
 import chanceCubes.tileentities.TileGiantCube;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 

@@ -7,8 +7,8 @@ import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardtype.ItemRewardType;
 import chanceCubes.rewards.rewardtype.MessageRewardType;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -38,14 +38,14 @@ public class ThermalFoundationModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Grind_Gears", 60, new MessageRewardType(new MessagePart("You really grind my gears ;)")), new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, PlayerEntity player)
 				{
-					for (int i = 0; i < 4; i++)
+					for(int i = 0; i < 4; i++)
 					{
 						stack1.setDamage(gears[RewardsUtil.rand.nextInt(gears.length)]);
-						EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
+						ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 						itemEnt.setPickupDelay(10);
-						world.spawnEntity(itemEnt);
+						world.addEntity(itemEnt);
 					}
 				}
 			}));
@@ -70,12 +70,12 @@ public class ThermalFoundationModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Upgrade", 80, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, PlayerEntity player)
 				{
 					stack1.setDamage(upgrades[RewardsUtil.rand.nextInt(upgrades.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
+					ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 					itemEnt.setPickupDelay(10);
-					world.spawnEntity(itemEnt);
+					world.addEntity(itemEnt);
 				}
 			}));
 		}
@@ -93,12 +93,12 @@ public class ThermalFoundationModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Phyto_Gro", 75, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, PlayerEntity player)
 				{
 					stack1.setDamage(phytoGro[RewardsUtil.rand.nextInt(phytoGro.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
+					ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 					itemEnt.setPickupDelay(10);
-					world.spawnEntity(itemEnt);
+					world.addEntity(itemEnt);
 				}
 			}));
 		}
@@ -110,12 +110,12 @@ public class ThermalFoundationModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Hardened_Glass", 75, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, PlayerEntity player)
 				{
 					stack1.setDamage(hardenedGlass[RewardsUtil.rand.nextInt(hardenedGlass.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
+					ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 					itemEnt.setPickupDelay(10);
-					world.spawnEntity(itemEnt);
+					world.addEntity(itemEnt);
 				}
 			}));
 		}
@@ -127,12 +127,12 @@ public class ThermalFoundationModHook extends BaseModHook
 			ChanceCubeRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Hardened_Alloy_Glass", 80, new ItemRewardType(new ItemPart(stack1))
 			{
 				@Override
-				public void trigger(ItemPart s, World world, int x, int y, int z, EntityPlayer player)
+				public void trigger(ItemPart s, World world, int x, int y, int z, PlayerEntity player)
 				{
 					stack1.setDamage(hardenedAlloyGlass[RewardsUtil.rand.nextInt(hardenedAlloyGlass.length)]);
-					EntityItem itemEnt = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
+					ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 					itemEnt.setPickupDelay(10);
-					world.spawnEntity(itemEnt);
+					world.addEntity(itemEnt);
 				}
 			}));
 		}

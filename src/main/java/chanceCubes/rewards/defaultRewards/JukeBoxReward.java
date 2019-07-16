@@ -4,13 +4,13 @@ import java.util.Map;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.BlockJukebox;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.JukeboxBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,12 +24,12 @@ public class JukeBoxReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.placeBlock(Blocks.JUKEBOX.getDefaultState(), world, pos);
-		IBlockState iblockstate = world.getBlockState(pos);
+		BlockState BlockState = world.getBlockState(pos);
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
-		((BlockJukebox) Blocks.JUKEBOX).insertRecord(world, pos, iblockstate, disc);
-		world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(disc.getItem()));
+		((JukeboxBlock) Blocks.JUKEBOX).insertRecord(world, pos, BlockState, disc);
+		world.playEvent((PlayerEntity) null, 1010, pos, Item.getIdFromItem(disc.getItem()));
 	}
 }

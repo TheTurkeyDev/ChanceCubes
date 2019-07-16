@@ -2,35 +2,40 @@ package chanceCubes.client.gui;
 
 import java.net.URI;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 
-public class ProfileGui extends GuiScreen implements IGuiEventListener
+public class ProfileGui extends Screen implements IGuiEventListener
 {
-	private GuiScreen parentScreen;
+	private Screen parentScreen;
 	private ProfilesList profileList;
 
 	private String hoverText;
 
 	private String rewardsInfoUrlText = "Click here to see all the rewards and info about them";
 
-	public ProfileGui(GuiScreen screen)
+	public ProfileGui(Screen parentScreen)
 	{
-		parentScreen = screen;
+		super(new StringTextComponent("Profiles"));
+		this.parentScreen = parentScreen;
 	}
 
 	@Override
-	public void initGui()
+	public void init()
 	{
-		this.profileList = new ProfilesList(this, this.mc, this.width, this.height, 64, this.height - 32, 20);
-		this.addButton(new GuiButton(0, this.width / 2 - 36, this.height - 28, 72, 20, "Save")
+		this.profileList = new ProfilesList(this, super.minecraft, this.width, this.height, 64, this.height - 32, 20);
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Save", new Button.IPressable()
 		{
-			public void onClick(double mouseX, double mouseY)
+
+			@Override
+			public void onPress(Button button)
 			{
-				mc.displayGuiScreen(parentScreen);
+				minecraft.displayGuiScreen(parentScreen);
 			}
-		});
+
+		}));
 	}
 
 	/**
@@ -40,14 +45,14 @@ public class ProfileGui extends GuiScreen implements IGuiEventListener
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
 		hoverText = "";
-		this.profileList.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRenderer, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
-		this.drawCenteredString(this.fontRenderer, "Profiles", this.width / 2, 20, 16777215);
-		this.drawCenteredString(this.fontRenderer, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
-		this.drawCenteredString(this.fontRenderer, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
+		this.profileList.render(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(this.font, "Profiles", this.width / 2, 20, 16777215);
+		this.drawCenteredString(this.font, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
+		this.drawCenteredString(this.font, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
 		super.render(mouseX, mouseY, partialTicks);
 		if(!hoverText.isEmpty())
-			this.drawHoveringText(hoverText, mouseX, mouseY);
+			this.renderComponentHoverEffect(new StringTextComponent(hoverText), mouseX, mouseY);
 	}
 
 	/**
@@ -56,7 +61,7 @@ public class ProfileGui extends GuiScreen implements IGuiEventListener
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
 	{
-		int textWidth = this.fontRenderer.getStringWidth(rewardsInfoUrlText);
+		int textWidth = this.font.getStringWidth(rewardsInfoUrlText);
 		int x = (this.width / 2) - textWidth / 2;
 		if(mouseButton == 0 && mouseX > x && mouseX < x + textWidth && mouseY > 48 && mouseY < 60)
 		{
@@ -76,11 +81,14 @@ public class ProfileGui extends GuiScreen implements IGuiEventListener
 
 	/**
 	 * Called when a mouse button is released.
+	 * 
+	 * @return
 	 */
-	protected void mouseReleased(int mouseX, int mouseY, int state)
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int state)
 	{
-		super.mouseReleased(mouseX, mouseY, state);
 		this.profileList.mouseReleased(mouseX, mouseY, state);
+		return super.mouseReleased(mouseX, mouseY, state);
 	}
 
 	public void setHoverText(String text)

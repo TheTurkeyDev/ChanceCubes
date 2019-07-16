@@ -1,9 +1,9 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -33,21 +33,21 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound write(NBTTagCompound data)
+	public CompoundNBT write(CompoundNBT data)
 	{
 		data = super.write(data);
 		if(masterPos == null)
 			masterPos = new BlockPos(0, 0, 0);
-		data.setInt("masterX", masterPos.getX());
-		data.setInt("masterY", masterPos.getY());
-		data.setInt("masterZ", masterPos.getZ());
-		data.setBoolean("hasMaster", hasMaster);
-		data.setBoolean("isMaster", isMaster);
+		data.putInt("masterX", masterPos.getX());
+		data.putInt("masterY", masterPos.getY());
+		data.putInt("masterZ", masterPos.getZ());
+		data.putBoolean("hasMaster", hasMaster);
+		data.putBoolean("isMaster", isMaster);
 		return data;
 	}
 
 	@Override
-	public void read(NBTTagCompound data)
+	public void read(CompoundNBT data)
 	{
 		super.read(data);
 		int masterX = data.getInt("masterX");
@@ -59,18 +59,18 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
+		return new SUpdateTileEntityPacket(this.pos, 0, getUpdateTag());
 	}
 
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		return this.write(new NBTTagCompound());
+		return this.write(new CompoundNBT());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
 		read(pkt.getNbtCompound());
 	}
