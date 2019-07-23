@@ -13,3 +13,5 @@ If you would like to contribute, simply fork the repository and make sure you ha
 
 **Currently supported branches:**\
 dev_1.12.2
+dev_1.13.2
+dev_1.14.3

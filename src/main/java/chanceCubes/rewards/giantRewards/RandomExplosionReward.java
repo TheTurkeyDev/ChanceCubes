@@ -18,6 +18,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class RandomExplosionReward extends BaseCustomReward
@@ -102,7 +103,7 @@ public class RandomExplosionReward extends BaseCustomReward
 					int zInc = RewardsUtil.rand.nextInt(2) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 					if(delay < 3)
 					{
-						world.addParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0);
+						((ServerWorld) world).spawnParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0, 0, 1);
 						world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
 					}
 					else
@@ -111,7 +112,7 @@ public class RandomExplosionReward extends BaseCustomReward
 							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f, 1f);
 						else
 							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.BLOCKS, 1f, 1f);
-						world.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0);
+						((ServerWorld) world).spawnParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0, 0, 1);
 					}
 
 				}

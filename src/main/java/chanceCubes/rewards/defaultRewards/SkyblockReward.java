@@ -63,7 +63,7 @@ public class SkyblockReward extends BaseCustomReward
 		RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, skyblockPos.add(0, 1, 0));
 
 		TreeFeature treeGen = new TreeFeature(NoFeatureConfig::deserialize, true);
-		treeGen.place(world, world.getChunkProvider().getChunkGenerator(), RewardsUtil.rand, pos, IFeatureConfig.NO_FEATURE_CONFIG);
+		treeGen.place(world, world.getChunkProvider().getChunkGenerator(), RewardsUtil.rand, skyblockPos.add(3, 3, 3), IFeatureConfig.NO_FEATURE_CONFIG);
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, skyblockPos.add(-1, 3, 0));
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(skyblockPos.add(-1, 3, 0));

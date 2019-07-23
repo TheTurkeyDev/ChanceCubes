@@ -169,7 +169,7 @@ public class CCubesServerCommands
 	public int executeTestRewards(CommandContext<CommandSource> ctx)
 	{
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
-		CCubesSettings.testingRewardIndex = 0;
+		CCubesSettings.testingRewardIndex = 25;
 		if(CCubesSettings.testRewards)
 			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"));
 		else

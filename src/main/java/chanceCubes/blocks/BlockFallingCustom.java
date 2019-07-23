@@ -49,7 +49,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 				{
 					this.world.removeBlock(blockpos, false);
 				}
-				else if(!this.world.isRemote)
+				else if(this.world.isRemote)
 				{
 					this.remove();
 					return;

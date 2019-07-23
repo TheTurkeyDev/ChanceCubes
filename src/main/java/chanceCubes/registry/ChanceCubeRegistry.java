@@ -187,7 +187,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:chicken", "Cluckington", "{ActiveEffects:[{Id:1,Amplifier:3,Duration:199980}],Passengers:[{id:\"minecraft:zombie\",IsBaby:1b,CustomName:\"{\\\"text\\\":\\\"Wyld\\\"}\",ArmorItems:[{},{},{},{id:\"minecraft:player_head\",Count:1b,tag:{SkullOwner:{Name:\"Wyld\"}}}]}]}")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:slime", "Jerry", "{Size:1}")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:zombie", "Glenn", "")))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:villager", "Dr Trayaurus", "{Profession:1}")))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:villager", "Dr Trayaurus", "{profession:\"minecraft:librarian\"}")))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Pickles", 25, new EntityRewardType(new EntityPart(EntityRewardType.getBasicNBTForEntity("minecraft:mooshroom", "Pickles", "{Age:-10000}"))), new MessageRewardType(new MessagePart("Why is his name pickles? The world may never know"))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Want_To_Build_A_Snowman", 45, new MessageRewardType(new MessagePart("Do you want to build a snowman?")), new ItemRewardType(new ItemPart(new ItemStack(Blocks.SNOW_BLOCK, 2)), new ItemPart(new ItemStack(Blocks.CARVED_PUMPKIN)))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Diamond_Block", 85, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.DIAMOND_BLOCK, true, 200))));
@@ -419,7 +419,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 					public void callback()
 					{
 						EffectInstance effect = RewardsUtil.getRandomPotionEffectInstance();
-						player.sendMessage(new StringTextComponent("You have been given " + langMap.translateKey(effect.getEffectName()) + " seconds!"));
+						player.sendMessage(new StringTextComponent("You have been given " + langMap.translateKey(effect.getEffectName()) + " for " + (effect.getDuration() / 20) + " seconds!"));
 						player.addPotionEffect(effect);
 					}
 				});
@@ -908,7 +908,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 			CCubesSettings.testingRewardIndex++;
 			if(CCubesSettings.testingRewardIndex >= this.sortedRewards.size())
 				CCubesSettings.testingRewardIndex = 0;
-			CCubesCore.logger.log(Level.INFO, "Testing the reward with the name of: " + pickedReward.getName());
+			CCubesCore.logger.log(Level.INFO, "Testing the reward with the name of: " + pickedReward.getName() + " (" + CCubesSettings.testingRewardIndex + ")");
 			return;
 		}
 		else if(CCubesSettings.testCustomRewards)

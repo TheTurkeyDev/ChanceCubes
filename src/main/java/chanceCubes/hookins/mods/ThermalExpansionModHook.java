@@ -42,7 +42,7 @@ public class ThermalExpansionModHook extends BaseModHook
 					for(int i = 0; i < 5; i++)
 					{
 						nbt = new CompoundNBT();
-						nbt.putString("Fluid", RewardsUtil.getRandomFluid().getTranslationKey());
+						nbt.putString("Fluid", RewardsUtil.getRandomFluid().getRegistryName().toString());
 						stack1.setTag(nbt);
 						ItemEntity itemEnt = new ItemEntity(world, x + 0.5, y + 0.5, z + 0.5, stack1.copy());
 						itemEnt.setPickupDelay(10);

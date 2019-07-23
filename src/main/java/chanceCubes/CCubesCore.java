@@ -25,11 +25,14 @@ import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
 import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
+import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -100,7 +103,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 	}
@@ -134,10 +137,8 @@ public class CCubesCore
 			// 2, 5));
 		}
 
-		// CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"),
-		// 0));
-		// CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"),
-		// 0));
+		CCubesSettings.backupNRB.add(Blocks.BEDROCK.getDefaultState());
+		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.getDefaultState());
 		ChanceCubeRegistry.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();

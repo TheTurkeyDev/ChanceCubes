@@ -8,7 +8,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -48,9 +48,9 @@ public class MixedFluidSphereReward extends BaseCustomReward
 							}
 							else
 							{
-								Block block = RewardsUtil.getRandomFluid().getBlock();
-								OffsetBlock osb = new OffsetBlock(xx, yy, zz, block, false, delay);
-								osb.setBlockState(block.getDefaultState());
+								BlockState state = RewardsUtil.getRandomFluid().getDefaultState().getBlockState();
+								OffsetBlock osb = new OffsetBlock(xx, yy, zz, state.getBlock(), false, delay);
+								osb.setBlockState(state);
 								blocks.add(osb);
 								delay++;
 							}

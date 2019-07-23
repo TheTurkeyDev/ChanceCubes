@@ -35,7 +35,7 @@ public class ItemChanceCube extends BlockItem
 	public static Properties getProps(Block b)
 	{
 		Properties props = new Properties();
-		if(!b.equals(CCubesBlocks.GIANT_CUBE))
+		if(!b.equals(CCubesBlocks.GIANT_CUBE) && !b.equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
 			props.group(CCubesCore.modTab);
 		return props;
 	}

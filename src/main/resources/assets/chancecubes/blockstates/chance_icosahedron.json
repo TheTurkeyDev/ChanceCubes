@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-          "#CCIcosahedron": "chancecubes:blocks/d20"
+          "#CCIcosahedron": "chancecubes:block/d20"
         },
         "model": "chancecubes:d20",
 		"custom": {"flip-v":true}

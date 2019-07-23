@@ -44,10 +44,10 @@ public class CCubesBlocks
 	@SubscribeEvent
 	public static void onTileEntityRegistry(RegistryEvent.Register<TileEntityType<?>> event)
 	{
-		event.getRegistry().register(TILE_CHANCE_CUBE = TileEntityType.Builder.create(TileChanceCube::new).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_cube"));
-		event.getRegistry().register(TILE_CHANCE_ICOSAHEDRON = TileEntityType.Builder.create(TileChanceD20::new).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_icosahedron"));
-		event.getRegistry().register(TILE_CHANCE_GIANT = TileEntityType.Builder.create(TileGiantCube::new).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_giant"));
-		event.getRegistry().register(TILE_CUBE_DISPENSER = TileEntityType.Builder.create(TileCubeDispenser::new).build(null).setRegistryName(CCubesCore.MODID, "tile_cube_dispenser"));
+		event.getRegistry().register(TILE_CHANCE_CUBE = TileEntityType.Builder.create(TileChanceCube::new, CCubesBlocks.CHANCE_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_cube"));
+		event.getRegistry().register(TILE_CHANCE_ICOSAHEDRON = TileEntityType.Builder.create(TileChanceD20::new, CCubesBlocks.CHANCE_ICOSAHEDRON).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_icosahedron"));
+		event.getRegistry().register(TILE_CHANCE_GIANT = TileEntityType.Builder.create(TileGiantCube::new, CCubesBlocks.GIANT_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_giant"));
+		event.getRegistry().register(TILE_CUBE_DISPENSER = TileEntityType.Builder.create(TileCubeDispenser::new, CCubesBlocks.CUBE_DISPENSER).build(null).setRegistryName(CCubesCore.MODID, "tile_cube_dispenser"));
 	}
 
 	@SubscribeEvent

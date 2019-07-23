@@ -93,7 +93,7 @@ public class CountDownReward extends BaseCustomReward
 				}
 				else if(thing == 9)
 				{
-					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid().getBlock().getDefaultState(), world, pos);
+					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid().getDefaultState().getBlockState(), world, pos);
 				}
 			}
 

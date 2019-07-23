@@ -91,7 +91,7 @@ public class CustomSoundsLoader
 			throw new RuntimeException(e);
 		}
 
-		ForgeHooksClient.refreshResources(Minecraft.getInstance(), VanillaResourceType.SOUNDS);
+		//ForgeHooksClient.refreshResources(Minecraft.getInstance(), VanillaResourceType.SOUNDS);
 		//if(ForgeHooksClient.getSide().isClient())
 		//{
 		//			try

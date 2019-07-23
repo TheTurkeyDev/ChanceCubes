@@ -16,7 +16,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.BeaconArenaReward;
 import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.giantRewards.BlockInfectionReward;
@@ -34,9 +33,6 @@ import chanceCubes.rewards.giantRewards.RandomExplosionReward;
 import chanceCubes.rewards.giantRewards.SphereSnakeReward;
 import chanceCubes.rewards.giantRewards.TNTSlingReward;
 import chanceCubes.rewards.giantRewards.ThrowablesReward;
-import chanceCubes.rewards.rewardtype.SchematicRewardType;
-import chanceCubes.util.RewardData;
-import chanceCubes.util.SchematicUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -56,8 +52,8 @@ public class GiantCubeRegistry implements IRewardRegistry
 		if(!CCubesSettings.enableHardCodedRewards.get())
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, true, 0))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, true, 0))));
+		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, true, 0))));
+		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, true, 0))));
 
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());

@@ -19,6 +19,8 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -343,12 +345,9 @@ public class RewardsUtil
 		return RewardsUtil.getOreDicts().get(rand.nextInt(RewardsUtil.getOreDicts().size()));
 	}
 
-	public static Block getRandomFluid()
+	public static Fluid getRandomFluid()
 	{
-		//		Fluid f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
-		//		while(f == null || f.getBlock() == null)
-		//			f = FluidRegistry.getFluid(RewardsUtil.getFluids().get(rand.nextInt(RewardsUtil.getFluids().size())));
-		return Blocks.WATER;
+		return randomRegistryEntry(ForgeRegistries.FLUIDS, Fluids.WATER);
 	}
 
 	public static int getRandomColor()

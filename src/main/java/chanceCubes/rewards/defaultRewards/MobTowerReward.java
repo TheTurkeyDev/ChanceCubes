@@ -7,29 +7,10 @@ import java.util.Map;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.BlazeEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.EndermiteEntity;
-import net.minecraft.entity.monster.SilverfishEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.monster.WitchEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
-import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.OcelotEntity;
-import net.minecraft.entity.passive.ParrotEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -37,11 +18,11 @@ import net.minecraft.world.World;
 public class MobTowerReward extends BaseCustomReward
 {
 	//@formatter:off
-	private List<Class<? extends Entity>> entities = Arrays.asList(CreeperEntity.class, SkeletonEntity.class, BlazeEntity.class,
-			EndermanEntity.class,EndermiteEntity.class, ZombiePigmanEntity.class, SilverfishEntity.class, SlimeEntity.class,
-			SnowGolemEntity.class, SpiderEntity.class, WitchEntity.class, ZombieEntity.class, BatEntity.class, ChickenEntity.class,
-			CowEntity.class, OcelotEntity.class, ParrotEntity.class, PigEntity.class, RabbitEntity.class, SheepEntity.class,
-			VillagerEntity.class, WolfEntity.class);
+	private List<EntityType<?>> entities = Arrays.asList(EntityType.CREEPER, EntityType.SKELETON, EntityType.BLAZE,
+			EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ZOMBIE_PIGMAN, EntityType.SILVERFISH, EntityType.SLIME,
+			EntityType.SNOW_GOLEM, EntityType.SPIDER, EntityType.WITCH, EntityType.ZOMBIE, EntityType.BAT, EntityType.CHICKEN,
+			EntityType.COW, EntityType.OCELOT, EntityType.PARROT, EntityType.PIG, EntityType.RABBIT, EntityType.SHEEP,
+			EntityType.VILLAGER, EntityType.WOLF);
 	//@formatter:on
 
 	public MobTowerReward()
@@ -57,13 +38,14 @@ public class MobTowerReward extends BaseCustomReward
 		Entity last;
 		try
 		{
-			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
+			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).spawn(world, new CompoundNBT(), null, player, pos, SpawnReason.TRIGGERED, false, false);
 			last.setPosition(pos.getX(), pos.getY(), pos.getZ());
 			world.addEntity(last);
 			System.out.println(last);
 		} catch(Exception e)
 		{
-			player.sendMessage(new StringTextComponent("Uh oh! Something went wrong and the reward could not be spawned! Please repot this to the mod dev!"));
+			player.sendMessage(new StringTextComponent("Uh oh! Something went wrong and the reward could not be spawned! Please repot this to the Chance Cubes mod dev!"));
+			e.printStackTrace();
 			return;
 		}
 
@@ -71,7 +53,7 @@ public class MobTowerReward extends BaseCustomReward
 		{
 			try
 			{
-				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
+				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).spawn(world, new CompoundNBT(), null, player, pos, SpawnReason.JOCKEY, false, false);
 				ent.setPosition(pos.getX(), pos.getY(), pos.getZ());
 				world.addEntity(ent);
 				ent.startRiding(last, true);
