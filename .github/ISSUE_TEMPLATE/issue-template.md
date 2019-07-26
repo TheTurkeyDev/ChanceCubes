@@ -1,3 +1,12 @@
+---
+name: Issue Template
+about: Issue Report template
+title: ''
+labels: ''
+assignees: Turkey2349
+
+---
+
 Minecraft Version: \<Your MC version\>
 
 Forge Version: \<Your forge version\>
