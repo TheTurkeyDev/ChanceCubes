@@ -3,9 +3,9 @@
 # ChanceCubes
 This is the Github repository for the ChanceCubes Minecraft Mod.
 
-If you are here for documentation to make custom rewards, please refer to the [Wiki](http://github.com/wyldmods/chancecubes/wiki).
+If you are here for documentation to make custom rewards, please refer to the [Wiki](https://github.com/Turkey2349/ChanceCubes/wiki).
 
-If you are here to report an issue, please refer to the [Issue Template](IssueTemplate.md) before proceding to the [Issues](http://github.com/wyldmods/chancecubes/issues) section.
+If you are here to report an issue, please refer to the [Issue Template](IssueTemplate.md) before proceding to the [Issues](https://github.com/Turkey2349/ChanceCubes/issues) section.
 
 If you would like to contribute, simply fork the repository and make sure you have fetched the correct branch for your desired minecraft version.
 
@@ -14,4 +14,4 @@ If you would like to contribute, simply fork the repository and make sure you ha
 **Currently supported branches:**\
 dev_1.12.2
 dev_1.13.2
-dev_1.14.3
+dev_1.14.4
