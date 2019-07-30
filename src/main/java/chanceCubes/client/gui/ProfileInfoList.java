@@ -11,6 +11,7 @@ import net.minecraft.client.gui.widget.list.ExtendedList;
 
 public class ProfileInfoList extends ExtendedList<ProfileInfoListEntry>
 {
+	private String currentTab = "";
 	private Map<String, List<AbstractList.AbstractListEntry<ProfileInfoListEntry>>> strings = new HashMap<>();
 	private Minecraft mc;
 
@@ -22,9 +23,16 @@ public class ProfileInfoList extends ExtendedList<ProfileInfoListEntry>
 
 	public void addStrings(String tabName, List<String> stringsIn)
 	{
+		if(strings.size() == 0)
+			currentTab = tabName;
 		List<AbstractList.AbstractListEntry<ProfileInfoListEntry>> entries = new ArrayList<>();
 		for(String s : stringsIn)
 			entries.add(new ProfileInfoListEntry(mc, s));
 		this.strings.put(tabName, entries);
+	}
+
+	public void setStringsTab(String tab)
+	{
+		this.currentTab = tab;
 	}
 }

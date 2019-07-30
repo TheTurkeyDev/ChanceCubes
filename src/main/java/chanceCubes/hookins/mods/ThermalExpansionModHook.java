@@ -52,7 +52,7 @@ public class ThermalExpansionModHook extends BaseModHook
 			}));
 		}
 
-		stack = RewardsUtil.getItemStack(super.modId, "reservoir", 1, 4);
+		stack = RewardsUtil.getItemStack(super.modId, "reservoir", 1);
 		if(!stack.isEmpty())
 		{
 			CompoundNBT nbt = new CompoundNBT();
