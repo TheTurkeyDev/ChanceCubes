@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class DidYouKnowReward extends BaseCustomReward
 {
-	private List<String> dyk = new ArrayList<String>();
+	private List<String> dyk = new ArrayList<>();
 
 	public DidYouKnowReward()
 	{

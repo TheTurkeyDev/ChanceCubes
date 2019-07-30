@@ -52,7 +52,6 @@ public class DesertBiome implements IBioDomeBiome
 			delay++;
 			osb = new OffsetBlock(x, y + 3, z, Blocks.CACTUS, false, (delay / BioDomeReward.delayShorten));
 			blocks.add(osb);
-			delay++;
 		}
 	}
 

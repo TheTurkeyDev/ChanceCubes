@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class JukeBoxReward extends BaseCustomReward
 {
-	private ItemStack[] discs = new ItemStack[] { new ItemStack(Items.MUSIC_DISC_11), new ItemStack(Items.MUSIC_DISC_13), new ItemStack(Items.MUSIC_DISC_BLOCKS), new ItemStack(Items.MUSIC_DISC_CAT), new ItemStack(Items.MUSIC_DISC_CHIRP), new ItemStack(Items.MUSIC_DISC_FAR), new ItemStack(Items.MUSIC_DISC_MALL), new ItemStack(Items.MUSIC_DISC_MELLOHI), new ItemStack(Items.MUSIC_DISC_STAL), new ItemStack(Items.MUSIC_DISC_STRAD), new ItemStack(Items.MUSIC_DISC_WAIT), new ItemStack(Items.MUSIC_DISC_WARD) };
+	private ItemStack[] discs = new ItemStack[]{new ItemStack(Items.MUSIC_DISC_11), new ItemStack(Items.MUSIC_DISC_13), new ItemStack(Items.MUSIC_DISC_BLOCKS), new ItemStack(Items.MUSIC_DISC_CAT), new ItemStack(Items.MUSIC_DISC_CHIRP), new ItemStack(Items.MUSIC_DISC_FAR), new ItemStack(Items.MUSIC_DISC_MALL), new ItemStack(Items.MUSIC_DISC_MELLOHI), new ItemStack(Items.MUSIC_DISC_STAL), new ItemStack(Items.MUSIC_DISC_STRAD), new ItemStack(Items.MUSIC_DISC_WAIT), new ItemStack(Items.MUSIC_DISC_WARD)};
 
 	public JukeBoxReward()
 	{
@@ -30,6 +30,6 @@ public class JukeBoxReward extends BaseCustomReward
 		BlockState BlockState = world.getBlockState(pos);
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
 		((JukeboxBlock) Blocks.JUKEBOX).insertRecord(world, pos, BlockState, disc);
-		world.playEvent((PlayerEntity) null, 1010, pos, Item.getIdFromItem(disc.getItem()));
+		world.playEvent(null, 1010, pos, Item.getIdFromItem(disc.getItem()));
 	}
 }

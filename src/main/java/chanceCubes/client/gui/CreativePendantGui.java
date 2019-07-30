@@ -38,39 +38,35 @@ public class CreativePendantGui extends ContainerScreen<CreativePendantContainer
 	{
 		super.init();
 		this.buttons.clear();
-		this.addButton(new CustomGuiButton(this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10", new Object[0]), 0));
-		this.addButton(new CustomGuiButton(this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance", new Object[0]), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10"), 0));
+		this.addButton(new CustomGuiButton(this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance"), 0));
 	}
 
 	public class CustomGuiButton extends Button
 	{
 		public CustomGuiButton(int x, int y, int widthIn, int heightIn, String buttonText, int inc)
 		{
-			super(x, y, widthIn, heightIn, buttonText, new Button.IPressable()
+			super(x, y, widthIn, heightIn, buttonText, (p_onPress_1_) ->
 			{
-				@Override
-				public void onPress(Button p_onPress_1_)
+				if(inc == 0)
 				{
-					if(inc == 0)
-					{
-						if(container.getChanceCubesInPendant() != null)
-							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(player.getName().toString(), chanceValue));
-					}
-					else
-					{
-						chanceValue += inc;
-					}
-
-					if(chanceValue > 100)
-						chanceValue = 100;
-					if(chanceValue < -100)
-						chanceValue = -100;
+					if(container.getChanceCubesInPendant() != null)
+						CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(player.getName().toString(), chanceValue));
 				}
+				else
+				{
+					chanceValue += inc;
+				}
+
+				if(chanceValue > 100)
+					chanceValue = 100;
+				if(chanceValue < -100)
+					chanceValue = -100;
 			});
 		}
 

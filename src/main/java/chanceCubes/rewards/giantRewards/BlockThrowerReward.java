@@ -50,7 +50,7 @@ public class BlockThrowerReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Throw_Block", 450, 2)
 		{
-			private List<FallingBlockEntity> blocks = new ArrayList<FallingBlockEntity>();
+			private List<FallingBlockEntity> blocks = new ArrayList<>();
 
 			@Override
 			public void update()
@@ -66,7 +66,7 @@ public class BlockThrowerReward extends BaseCustomReward
 					BlockPos newPos = pos.add(x, y, z);
 					BlockState state = world.getBlockState(newPos);
 
-					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getFluidState().getFluid() == null)
+					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR))
 						state = Blocks.DIRT.getDefaultState();
 					else
 						world.setBlockState(newPos, Blocks.AIR.getDefaultState());

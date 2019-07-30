@@ -11,7 +11,7 @@ public class FloatVar extends CustomVar
 {
 	public FloatVar()
 	{
-		
+
 	}
 
 	public FloatVar(float val)
@@ -36,7 +36,7 @@ public class FloatVar extends CustomVar
 
 	public static RandomPart<Float> parseRandom(String input)
 	{
-		input = input.replaceAll(" ", "");
+		input = input.replaceAll("\\s", "");
 		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");

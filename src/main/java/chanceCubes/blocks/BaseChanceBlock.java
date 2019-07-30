@@ -1,8 +1,5 @@
 package chanceCubes.blocks;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,27 +8,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class BaseChanceBlock extends Block
 {
-	private String blockName = "Chance_Cube_Unnamed";
-
 	public BaseChanceBlock(Properties builder, String name)
 	{
 		super(builder);
-		this.blockName = name;
-		this.setRegistryName(CCubesCore.MODID, this.blockName);
+		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
-	public String getBlockName()
+	@Override
+	public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion)
 	{
-		return this.blockName;
-	}
-
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
+		return this.blockResistance;
 	}
 
 	@Override
@@ -41,7 +37,7 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
+	public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion)
 	{
 		return false;
 	}

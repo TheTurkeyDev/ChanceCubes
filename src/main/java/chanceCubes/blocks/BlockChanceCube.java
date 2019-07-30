@@ -25,10 +25,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-@SuppressWarnings("deprecation")
-public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceCube extends BaseChanceBlock
 {
-	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.<BlockChanceCube.EnumTexture> create("texture", BlockChanceCube.EnumTexture.class);
+	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.<BlockChanceCube.EnumTexture>create("texture", BlockChanceCube.EnumTexture.class);
 
 	public static EnumTexture textureToSet = EnumTexture.DEFAULT;
 
@@ -44,7 +43,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		return true;
 	}
 
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceCube();
 	}
@@ -67,11 +66,8 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 				world.addEntity(blockstack);
 			}
 
-			if(te != null)
-			{
-				world.setBlockState(pos, Blocks.AIR.getDefaultState());
-				ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, pos, player, tileCube.getChance());
-			}
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, pos, player, tileCube.getChance());
 		}
 
 		return removed;
@@ -95,7 +91,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 		builder.add(TEXTURE);
 	}
 
-	public static enum EnumTexture implements IStringSerializable
+	public enum EnumTexture implements IStringSerializable
 	{
 		// @formatter:off
 		DEFAULT("default"), VALENTINES("valentines"), STPATRICKS("stpatricks"), HALLOWEEN("halloween"),
@@ -104,7 +100,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 
 		private final String name;
 
-		private EnumTexture(String name)
+		EnumTexture(String name)
 		{
 			this.name = name;
 		}

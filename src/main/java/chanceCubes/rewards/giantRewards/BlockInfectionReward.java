@@ -25,7 +25,7 @@ public class BlockInfectionReward extends BaseCustomReward
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 
-	private BlockPos[] touchingPos = { new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0) };
+	private BlockPos[] touchingPos = {new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
 
 	public BlockInfectionReward()
 	{
@@ -42,7 +42,7 @@ public class BlockInfectionReward extends BaseCustomReward
 		List<BlockPos> possibleBlocks = new ArrayList<>();
 		List<BlockPos> changedBlocks = new ArrayList<>();
 		changedBlocks.add(new BlockPos(0, 0, 0));
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		addSurroundingBlocks(world, pos, new BlockPos(0, 0, 0), changedBlocks, possibleBlocks);
 
 		for(int i = 0; i < 5000; i++)

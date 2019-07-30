@@ -29,7 +29,7 @@ public class DigBuildReward extends BaseCustomReward
 	{
 		int initalY = player.getPosition().getY();
 		int distance = RewardsUtil.rand.nextInt(20) + 5;
-		boolean up = (initalY + distance > 150) ? false : ((initalY - distance < 2) ? true : RewardsUtil.rand.nextBoolean());
+		boolean up = (initalY + distance <= 150) && ((initalY - distance < 2) || RewardsUtil.rand.nextBoolean());
 
 		player.sendMessage(new StringTextComponent("Quick! Go " + (up ? "up " : "down ") + distance + " blocks!"));
 		player.sendMessage(new StringTextComponent("You have " + (distance + 3) + " seconds!"));

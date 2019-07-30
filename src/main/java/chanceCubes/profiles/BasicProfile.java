@@ -179,7 +179,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(Entry<String, Integer> change : this.chanceChanges.entrySet())
 			{
-				descFull.append(change.getKey() + " -> " + change.getValue());
+				descFull.append(change.getKey()).append(" -> ").append(change.getValue());
 				descFull.append("\n");
 			}
 			descFull.append("=== Sub Profiles ===");
@@ -188,7 +188,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(IProfile subProf : this.subProfiles)
 			{
-				descFull.append(subProf.getName() + " (" + subProf.getID() + ")");
+				descFull.append(subProf.getName()).append(" (").append(subProf.getID()).append(")");
 				descFull.append("\n");
 			}
 		}

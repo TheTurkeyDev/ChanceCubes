@@ -56,7 +56,7 @@ public class RewardSelectorPendantGui extends Screen
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
 		this.children.add(this.rewardField);
-		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0]), new Button.IPressable()
+		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward"), new Button.IPressable()
 		{
 
 			@Override

@@ -9,17 +9,17 @@ public class StringPart implements IPart
 	{
 		this.val = val;
 	}
-	
+
 	public StringPart(boolean val)
 	{
 		this.val = String.valueOf(val);
 	}
-	
+
 	public StringPart(float val)
 	{
 		this.val = String.valueOf(val);
 	}
-	
+
 	public StringPart(int val)
 	{
 		this.val = String.valueOf(val);

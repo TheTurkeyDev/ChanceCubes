@@ -21,11 +21,6 @@ public class ProfilesList extends ExtendedList<ProfileListEntry>
 			profiles.add(new ProfileListEntry(this, mcIn, s, profGui));
 	}
 
-	protected int getScrollBarX()
-	{
-		return this.width / 2 + 160;
-	}
-
 	public int getListWidth()
 	{
 		return 250;

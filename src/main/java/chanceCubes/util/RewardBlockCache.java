@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 
 public class RewardBlockCache
 {
-	protected Map<BlockPos, BlockState> storedBlocks = new HashMap<BlockPos, BlockState>();
-	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<BlockPos, CompoundNBT>();
+	protected Map<BlockPos, BlockState> storedBlocks = new HashMap<>();
+	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
 
 	private BlockPos origin;
 	private BlockPos playerloc;

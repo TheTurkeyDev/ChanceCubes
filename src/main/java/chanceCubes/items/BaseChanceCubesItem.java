@@ -18,19 +18,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BaseChanceCubesItem extends Item
 {
-	private String itemName = "Chance_Cube_Unnamed";
 	private List<String> lore = Lists.newArrayList();
 
 	public BaseChanceCubesItem(Properties builder, String name)
 	{
 		super(builder.group(CCubesCore.modTab));
-		itemName = name;
-		this.setRegistryName(CCubesCore.MODID, this.itemName);
-	}
-
-	public String getItemName()
-	{
-		return this.itemName;
+		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
 	public void addLore(String info)

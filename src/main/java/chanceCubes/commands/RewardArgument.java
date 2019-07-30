@@ -3,15 +3,13 @@ package chanceCubes.commands;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.command.CommandSource;
 
 public class RewardArgument implements ArgumentType<String>
 {
 	//TODO: Make "smarter" and aid the player in auto completing the reward names
 	@Override
-	public String parse(StringReader reader) throws CommandSyntaxException
+	public String parse(StringReader reader)
 	{
 		return reader.getString();
 	}

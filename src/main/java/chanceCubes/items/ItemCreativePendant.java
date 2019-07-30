@@ -24,9 +24,9 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		if(!world.isRemote)
-			return new ActionResult<ItemStack>(ActionResultType.PASS, stack);
+			return new ActionResult<>(ActionResultType.PASS, stack);
 		player.setActiveHand(hand);
 		Minecraft.getInstance().displayGuiScreen(new CreativePendantGui(player, world));
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 }

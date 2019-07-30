@@ -4,7 +4,7 @@ import chanceCubes.rewards.variableTypes.IntVar;
 
 public class ExpirencePart extends BasePart
 {
-	private IntVar amount = new IntVar(0);
+	private IntVar amount;
 	private IntVar orbs = new IntVar(1);
 
 	public ExpirencePart(int amount)

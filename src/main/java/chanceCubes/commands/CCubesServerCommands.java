@@ -62,14 +62,6 @@ public class CCubesServerCommands
 				.then(Commands.literal("spawnGiantCube").then(Commands.argument("pos", BlockPosArgument.blockPos())
 		                .executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos"))))));
 		// @formatter:on
-
-		//		aliases = new ArrayList<String>();
-		//		aliases.add("Chancecubes");
-		//		aliases.add("chancecubes");
-		//		aliases.add("ChanceCube");
-		//		aliases.add("Chancecube");
-		//		aliases.add("chancecube");
-		//		aliases.add("CCubes");
 	}
 
 	public ServerPlayerEntity getPlayer(CommandSource source)
@@ -87,25 +79,21 @@ public class CCubesServerCommands
 
 	public int executeReload(CommandContext<CommandSource> ctx)
 	{
-		new Thread(new Runnable()
+		new Thread(() ->
 		{
-			@Override
-			public void run()
-			{
-				ChanceCubeRegistry.INSTANCE.ClearRewards();
-				GiantCubeRegistry.INSTANCE.ClearRewards();
-				ProfileManager.clearProfiles();
-				ChanceCubeRegistry.loadDefaultRewards();
-				GiantCubeRegistry.loadDefaultRewards();
-				CustomRewardsLoader.instance.loadCustomRewards();
-				CustomRewardsLoader.instance.fetchRemoteInfo();
-				ChanceCubeRegistry.loadCustomUserRewards();
-				ModHookUtil.loadCustomModRewards();
-				NonreplaceableBlockOverride.loadOverrides();
-				ProfileManager.initProfiles();
-				CustomProfileLoader.instance.loadProfiles();
-				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
-			}
+			ChanceCubeRegistry.INSTANCE.ClearRewards();
+			GiantCubeRegistry.INSTANCE.ClearRewards();
+			ProfileManager.clearProfiles();
+			ChanceCubeRegistry.loadDefaultRewards();
+			GiantCubeRegistry.loadDefaultRewards();
+			CustomRewardsLoader.instance.loadCustomRewards();
+			CustomRewardsLoader.instance.fetchRemoteInfo();
+			ChanceCubeRegistry.loadCustomUserRewards();
+			ModHookUtil.loadCustomModRewards();
+			NonreplaceableBlockOverride.loadOverrides();
+			ProfileManager.initProfiles();
+			CustomProfileLoader.instance.loadProfiles();
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
 		}).start();
 		return 0;
 	}
@@ -119,7 +107,7 @@ public class CCubesServerCommands
 
 	public int executeHandNBT(CommandContext<CommandSource> ctx)
 	{
-		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
+		PlayerEntity player = getPlayer(ctx.getSource());
 		CompoundNBT nbt = player.inventory.getCurrentItem().getOrCreateTag();
 		player.sendMessage(new StringTextComponent(nbt.toString()));
 		return 0;
@@ -127,7 +115,7 @@ public class CCubesServerCommands
 
 	public int executeHandID(CommandContext<CommandSource> ctx)
 	{
-		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
+		PlayerEntity player = getPlayer(ctx.getSource());
 		ItemStack stack = player.inventory.getCurrentItem();
 		if(!stack.isEmpty())
 		{
@@ -140,7 +128,7 @@ public class CCubesServerCommands
 
 	public int executeDisableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
+		PlayerEntity player = getPlayer(ctx.getSource());
 
 		if(ChanceCubeRegistry.INSTANCE.disableReward(reward))
 			player.sendMessage(new StringTextComponent(reward + " Has been temporarily disabled."));
@@ -151,7 +139,7 @@ public class CCubesServerCommands
 
 	public int executeEnableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		PlayerEntity player = (PlayerEntity) getPlayer(ctx.getSource());
+		PlayerEntity player = getPlayer(ctx.getSource());
 
 		if(ChanceCubeRegistry.INSTANCE.enableReward(reward))
 			player.sendMessage(new StringTextComponent(reward + " Has been enabled."));

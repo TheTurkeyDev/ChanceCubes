@@ -4,7 +4,7 @@ import chanceCubes.rewards.variableTypes.StringVar;
 
 public class ParticlePart extends BasePart
 {
-	private StringVar particleName = new StringVar("");
+	private StringVar particleName;
 
 	public ParticlePart(String particle)
 	{

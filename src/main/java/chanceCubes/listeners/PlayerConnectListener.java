@@ -15,14 +15,9 @@ public class PlayerConnectListener
 		if(event.getPlayer().world.isRemote)
 			return;
 
-		new Thread(new Runnable()
+		new Thread(() ->
 		{
-			@Override
-			public void run()
-			{
-				CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID());
-			}
-
+			CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID());
 		}).start();
 	}
 

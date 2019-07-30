@@ -29,7 +29,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 			@Override
 			public void callback()
 			{
-				List<EffectInstance> effects = new ArrayList<EffectInstance>();
+				List<EffectInstance> effects = new ArrayList<>();
 				effects.add(part.getEffect());
 
 				PotionEntity entity = new PotionEntity(world, player);

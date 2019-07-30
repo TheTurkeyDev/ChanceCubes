@@ -25,15 +25,15 @@ public class SnowGlobeBiome implements IBioDomeBiome
 	{
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
-			int ri = rand.nextInt(2);
+			boolean ri = rand.nextBoolean();
 
-			if(ri == 0)
+			if(ri)
 			{
 				SnowGolemEntity snowman = EntityType.SNOW_GOLEM.create(world);
 				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
 				world.addEntity(snowman);
 			}
-			else if(ri == 0)
+			else
 			{
 				PolarBearEntity polarBear = EntityType.POLAR_BEAR.create(world);
 				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);

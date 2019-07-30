@@ -35,7 +35,7 @@ public class CustomUserReward extends BaseCustomReward
 	private String userName;
 	private UUID uuid;
 	private String type;
-	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
+	private List<BasicReward> customRewards;
 
 	public static void getCustomUserReward(UUID uuid)
 	{
@@ -82,7 +82,7 @@ public class CustomUserReward extends BaseCustomReward
 			return;
 		}
 
-		List<BasicReward> customRewards = new ArrayList<BasicReward>();
+		List<BasicReward> customRewards = new ArrayList<>();
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 
@@ -90,19 +90,15 @@ public class CustomUserReward extends BaseCustomReward
 		String userNameFinal = userName;
 		String typeFinal = type;
 		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-		server.execute(new Runnable()
+		server.execute(() ->
 		{
-			@Override
-			public void run()
-			{
-				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(uuid, userNameFinal, typeFinal, customRewards));
-				PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);
+			ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(uuid, userNameFinal, typeFinal, customRewards));
+			PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);
 
-				if(player != null)
-				{
-					player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
-					player.sendMessage(new StringTextComponent("Let the fun begin! >:)"));
-				}
+			if(player != null)
+			{
+				player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
+				player.sendMessage(new StringTextComponent("Let the fun begin! >:)"));
 			}
 		});
 	}

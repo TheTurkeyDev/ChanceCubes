@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockGiantCube extends BaseChanceBlock
 {
 	public BlockGiantCube()
 	{
@@ -32,15 +32,11 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 		return true;
 	}
 
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileGiantCube();
 	}
 
-	public static boolean isOpaque(VoxelShape shape)
-	{
-		return false;
-	}
 
 	@Override
 	public BlockRenderLayer getRenderLayer()

@@ -11,7 +11,7 @@ public class IntVar extends CustomVar
 {
 	public IntVar()
 	{
-		
+
 	}
 
 	public IntVar(int val)
@@ -36,7 +36,7 @@ public class IntVar extends CustomVar
 
 	public static RandomPart<Integer> parseRandom(String input)
 	{
-		input = input.replaceAll(" ", "");
+		input = input.replaceAll("\\s", "");
 		if(input.charAt(3) == '(' && input.indexOf(')', 3) != -1)
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");
@@ -46,7 +46,7 @@ public class IntVar extends CustomVar
 				return new RandomPart<Integer>(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
 			//TODO: Maybe add step random?
 		}
-		return new RandomPart<Integer>(0,1);
+		return new RandomPart<Integer>(0, 1);
 	}
 
 	public static boolean isInteger(String input)

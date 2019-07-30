@@ -31,7 +31,7 @@ public class CustomSoundsLoader
 	private File zip;
 	private String name;
 	private String mcmeta;
-	private List<CustomFile> customsSounds = new ArrayList<CustomFile>();
+	private List<CustomFile> customsSounds = new ArrayList<>();
 
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -114,7 +114,7 @@ public class CustomSoundsLoader
 		//}
 	}
 
-	private class CustomFile
+	private static class CustomFile
 	{
 		private String ext;
 		private File file;

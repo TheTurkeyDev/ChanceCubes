@@ -4,7 +4,7 @@ public abstract class BaseModHook
 {
 	public String modId;
 
-	private boolean enabled = false;
+	private boolean enabled;
 
 	public BaseModHook(String modId)
 	{

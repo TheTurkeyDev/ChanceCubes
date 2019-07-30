@@ -37,15 +37,13 @@ public class ProfileInfoGui extends Screen
 			List<String> stringsList = new ArrayList<>();
 			if(bProfile.getRewardsToEnable().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String toEnable : bProfile.getRewardsToEnable())
-				stringsList.add(toEnable);
+			stringsList.addAll(bProfile.getRewardsToEnable());
 			this.addTab("To Enable", stringsList);
 
 			stringsList = new ArrayList<>();
 			if(bProfile.getRewardsToDisable().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String toDisable : bProfile.getRewardsToDisable())
-				stringsList.add(toDisable);
+			stringsList.addAll(bProfile.getRewardsToDisable());
 			this.addTab("To Disable", stringsList);
 
 			stringsList = new ArrayList<>();
@@ -58,8 +56,7 @@ public class ProfileInfoGui extends Screen
 			stringsList = new ArrayList<>();
 			if(bProfile.getChanceValueChanges().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String chanceValueChange : bProfile.getChanceValueChanges())
-				stringsList.add(chanceValueChange);
+			stringsList.addAll(bProfile.getChanceValueChanges());
 			this.addTab("New Chances", stringsList);
 
 			stringsList = new ArrayList<>();
@@ -77,26 +74,19 @@ public class ProfileInfoGui extends Screen
 
 			profileList.addStrings("Triggers", triggerStrings);
 		}
-		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Back", new Button.IPressable()
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Back", (button) ->
 		{
-			@Override
-			public void onPress(Button button)
-			{
+			if(minecraft != null)
 				minecraft.displayGuiScreen(parentScreen);
-			}
 		}));
 	}
 
 	public void addTab(String name, List<String> strings)
 	{
 		int pos = tabs.size() + 1;
-		this.addButton(new Button((75 * tabs.size()), 64, 75, 20, name, new Button.IPressable()
+		this.addButton(new Button((75 * tabs.size()), 64, 75, 20, name, (button) ->
 		{
-			@Override
-			public void onPress(Button button)
-			{
-				profileList.setStringsTab(tabs.get(pos - 1));
-			}
+			profileList.setStringsTab(tabs.get(pos - 1));
 		}));
 		tabs.add(name);
 		profileList.addStrings(name, strings);
@@ -112,10 +102,5 @@ public class ProfileInfoGui extends Screen
 		this.drawCenteredString(this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
 		this.drawCenteredString(this.font, "Profile Info", this.width / 2, 20, 16777215);
 		super.render(mouseX, mouseY, partialTicks);
-	}
-
-	public IProfile getProfile()
-	{
-		return this.profile;
 	}
 }

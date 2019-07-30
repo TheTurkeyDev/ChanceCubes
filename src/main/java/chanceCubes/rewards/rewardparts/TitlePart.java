@@ -10,7 +10,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class TitlePart extends BasePart
 {
-	private StringVar type = new StringVar("");
+	private StringVar type;
 	private ITextComponent message;
 	private IntVar fadeInTime = new IntVar(-1);
 	private IntVar displayTime = new IntVar(-1);
@@ -28,7 +28,7 @@ public class TitlePart extends BasePart
 	{
 		this(type, ITextComponent.Serializer.fromJson(message.toString()), new IntVar(0));
 	}
-	
+
 	public TitlePart(StringVar type, String message)
 	{
 		this(type, ITextComponent.Serializer.fromJson(message), new IntVar(0));

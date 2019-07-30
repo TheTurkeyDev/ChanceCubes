@@ -7,8 +7,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemSilkTouchPendant extends BaseChanceCubesItem
 {
-	public String itemNameID = "silk_Touch_Pendant";
-
 	public ItemSilkTouchPendant()
 	{
 		super((new Item.Properties()).maxStackSize(1), "silk_touch_pendant");

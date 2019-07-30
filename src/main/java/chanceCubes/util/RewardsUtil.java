@@ -27,6 +27,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.STitlePacket;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -39,7 +41,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.ServerWorld;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -49,7 +51,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class RewardsUtil
 {
 	private static List<String> oredicts = new ArrayList<String>();
-	private static String[] possibleModOres = new String[] { "ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/buby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc" };
+	private static String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/buby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
 	private static List<String> fluids = new ArrayList<String>();
 
 	public static final Random rand = new Random();
@@ -83,31 +85,16 @@ public class RewardsUtil
 		//			fluids.add(s);
 	}
 
-	/**
-	 * 
-	 * @param xSize
-	 * @param ySize
-	 * @param zSize
-	 * @param block
-	 * @param xOff
-	 * @param yOff
-	 * @param zOff
-	 * @param falling
-	 * @param delay
-	 * @param causeUpdate
-	 * @param relativeToPlayer
-	 * @return
-	 */
 	public static OffsetBlock[] fillArea(int xSize, int ySize, int zSize, Block block, int xOff, int yOff, int zOff, boolean falling, int delay, boolean causesUpdate, boolean relativeToPlayer)
 	{
-		List<OffsetBlock> toReturn = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> toReturn = new ArrayList<>();
 
 		for(int y = 0; y < ySize; y++)
 			for(int z = 0; z < zSize; z++)
 				for(int x = 0; x < xSize; x++)
 					toReturn.add(new OffsetBlock(x + xOff, y + yOff, z + zOff, block, falling, delay).setCausesBlockUpdate(causesUpdate).setRelativeToPlayer(relativeToPlayer));
 
-		return toReturn.toArray(new OffsetBlock[toReturn.size()]);
+		return toReturn.toArray(new OffsetBlock[0]);
 	}
 
 	public static OffsetBlock[] addBlocksLists(OffsetBlock[]... lists)
@@ -192,7 +179,7 @@ public class RewardsUtil
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
-			PlayerEntity entityplayer = (PlayerEntity) world.getPlayers().get(i);
+			PlayerEntity entityplayer = world.getPlayers().get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= distance)
 				entityplayer.sendMessage(new StringTextComponent(message));
@@ -203,17 +190,12 @@ public class RewardsUtil
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
-			PlayerEntity entityplayer = (PlayerEntity) world.getPlayers().get(i);
+			PlayerEntity entityplayer = world.getPlayers().get(i);
 			entityplayer.sendMessage(new StringTextComponent(message));
 		}
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)
-	{
-		return getItemStack(mod, itemName, size, 0);
-	}
-
-	public static ItemStack getItemStack(String mod, String itemName, int size, int meta)
 	{
 		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mod, itemName));
 		return item == null ? ItemStack.EMPTY : new ItemStack(item, size);
@@ -247,6 +229,27 @@ public class RewardsUtil
 	public static boolean isBlockUnbreakable(World world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getBlockHardness(world, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
+	}
+
+	public static Enchantment getEnchantSafe(ResourceLocation res)
+	{
+		return getRegistryEntrySafe(ForgeRegistries.ENCHANTMENTS, res, Enchantment.getEnchantmentByID(0));
+	}
+
+	public static Effect getPotionSafe(ResourceLocation res)
+	{
+		return getRegistryEntrySafe(ForgeRegistries.POTIONS, res, Effects.BAD_OMEN);
+	}
+
+	public static ParticleType getParticleSafe(ResourceLocation res)
+	{
+		return getRegistryEntrySafe(ForgeRegistries.PARTICLE_TYPES, res, ParticleTypes.AMBIENT_ENTITY_EFFECT);
+	}
+
+	public static <T extends IForgeRegistryEntry<T>> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, T defaultReturn)
+	{
+		T val = registry.getValue(key);
+		return val == null ? defaultReturn : val;
 	}
 
 	public static Block getRandomOre()
@@ -355,7 +358,7 @@ public class RewardsUtil
 		return (new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))).getRGB();
 	}
 
-	private static final Block[] wools = { Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIME_WOOL, Blocks.PINK_WOOL, Blocks.GRAY_WOOL, Blocks.LIGHT_GRAY_WOOL, Blocks.CYAN_WOOL, Blocks.PURPLE_WOOL, Blocks.BLUE_WOOL, Blocks.BROWN_WOOL, Blocks.GREEN_WOOL, Blocks.RED_WOOL, Blocks.BLACK_WOOL };
+	private static final Block[] wools = {Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL, Blocks.LIME_WOOL, Blocks.PINK_WOOL, Blocks.GRAY_WOOL, Blocks.LIGHT_GRAY_WOOL, Blocks.CYAN_WOOL, Blocks.PURPLE_WOOL, Blocks.BLUE_WOOL, Blocks.BROWN_WOOL, Blocks.GREEN_WOOL, Blocks.RED_WOOL, Blocks.BLACK_WOOL};
 
 	public static BlockState getRandomWool()
 	{

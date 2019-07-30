@@ -29,7 +29,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class MathReward extends BaseCustomReward
 {
-	private Map<PlayerEntity, RewardInfo> inQuestion = new HashMap<PlayerEntity, RewardInfo>();
+	private Map<PlayerEntity, RewardInfo> inQuestion = new HashMap<>();
 
 	public MathReward()
 	{
@@ -67,7 +67,7 @@ public class MathReward extends BaseCustomReward
 
 		if(!world.isRemote)
 		{
-			List<Entity> tnt = new ArrayList<Entity>();
+			List<Entity> tnt = new ArrayList<>();
 			for(int i = 0; i < 5; i++)
 			{
 				TNTEntity entitytntprimed = new TNTEntity(world, player.posX, player.posY + 1D, player.posZ, player);
@@ -152,7 +152,7 @@ public class MathReward extends BaseCustomReward
 		}
 	}
 
-	private class RewardInfo
+	private static class RewardInfo
 	{
 		public int answer;
 		public List<Entity> tnt;

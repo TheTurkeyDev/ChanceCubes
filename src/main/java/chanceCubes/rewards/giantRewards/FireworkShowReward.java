@@ -23,10 +23,10 @@ public class FireworkShowReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/time set 15000");
-		stage1(world, pos, player);
+		stage1(world, pos);
 	}
 
-	public void stage1(World world, BlockPos pos, PlayerEntity player)
+	public void stage1(World world, BlockPos pos)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_1", 200, 5)
 		{
@@ -35,7 +35,7 @@ public class FireworkShowReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				stage2(world, pos, player);
+				stage2(world, pos);
 			}
 
 			@Override
@@ -49,7 +49,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage2(World world, BlockPos pos, PlayerEntity player)
+	public void stage2(World world, BlockPos pos)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 5)
 		{
@@ -58,7 +58,7 @@ public class FireworkShowReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				stage3(world, pos, player);
+				stage3(world, pos);
 			}
 
 			@Override
@@ -72,7 +72,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage3(World world, BlockPos pos, PlayerEntity player)
+	public void stage3(World world, BlockPos pos)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 3)
 		{

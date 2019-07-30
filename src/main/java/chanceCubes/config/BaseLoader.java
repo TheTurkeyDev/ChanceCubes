@@ -37,7 +37,7 @@ public class BaseLoader
 			}
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
 			{
-				var.addPart(new ListPart<Integer>(Arrays.stream(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
+				var.addPart(new ListPart<Integer>(Arrays.stream(part.replaceAll("\\s", "").substring(1, part.lastIndexOf(']')).split(",")).mapToInt(Integer::parseInt).boxed().toArray(Integer[]::new)));
 			}
 			else if(IntVar.isInteger(part))
 			{
@@ -72,7 +72,7 @@ public class BaseLoader
 			}
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
 			{
-				var.addPart(new ListPart<Float>(Arrays.stream(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
+				var.addPart(new ListPart<Float>(Arrays.stream(part.replaceAll("\\s", "").substring(1, part.lastIndexOf(']')).split(",")).map(Float::parseFloat).toArray(Float[]::new)));
 			}
 			if(FloatVar.isFloat(part))
 			{
@@ -103,7 +103,7 @@ public class BaseLoader
 			if(part.startsWith("RND"))
 				var.addPart(BoolVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-				var.addPart(new ListPart<Boolean>(Arrays.stream(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
+				var.addPart(new ListPart<Boolean>(Arrays.stream(part.replaceAll("\\s", "").substring(1, part.lastIndexOf(']')).split(",")).map(Boolean::parseBoolean).toArray(Boolean[]::new)));
 			else
 				var.addPart(new StringPart(part));
 
@@ -126,7 +126,7 @@ public class BaseLoader
 			if(part.startsWith("RND"))
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-				var.addPart(new ListPart<String>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']') - 1).split(",")));
+				var.addPart(new ListPart<String>(part.replaceAll("\\s", "").substring(1, part.lastIndexOf(']') - 1).split(",")));
 			else
 				var.addPart(new StringPart(part));
 		}
@@ -148,7 +148,7 @@ public class BaseLoader
 			if(part.startsWith("RND"))
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-				var.addPart(new ListPart<String>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")));
+				var.addPart(new ListPart<String>(part.replaceAll("\\s", "").substring(1, part.lastIndexOf(']')).split(",")));
 			else
 				var.addPart(new StringPart(part));
 		}

@@ -62,7 +62,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 			else if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 			{
 				TileEntity ent = context.getWorld().getTileEntity(context.getPos());
-				if(ent == null || !(ent instanceof TileGiantCube))
+				if(!(ent instanceof TileGiantCube))
 					return ActionResultType.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(context.getItem().getTag().getString("Reward"));

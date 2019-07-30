@@ -25,7 +25,7 @@ public class InventoryChestReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		final List<ItemStack> stacks = new ArrayList<ItemStack>();
+		final List<ItemStack> stacks = new ArrayList<>();
 		for(ItemStack stack : player.inventory.mainInventory)
 			if(!stack.isEmpty())
 				stacks.add(stack.copy());
@@ -57,14 +57,17 @@ public class InventoryChestReward extends BaseCustomReward
 
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(pos);
 
-		for(int i = 0; i < stacks.size(); i++)
+		if(chest != null)
 		{
-			if(i > chest.getSizeInventory() * 2)
-				return;
-			else if(i > chest.getSizeInventory())
-				chest = (ChestTileEntity) world.getTileEntity(pos.add(1, 0, 0));
+			for(int i = 0; i < stacks.size(); i++)
+			{
+				if(i > chest.getSizeInventory() * 2)
+					return;
+				else if(i > chest.getSizeInventory())
+					chest = (ChestTileEntity) world.getTileEntity(pos.add(1, 0, 0));
 
-			chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
+				chest.setInventorySlotContents(i % chest.getSizeInventory(), stacks.get(i));
+			}
 		}
 	}
 }

@@ -26,15 +26,10 @@ public class ProfileGui extends Screen implements IGuiEventListener
 	public void init()
 	{
 		this.profileList = new ProfilesList(this, super.minecraft, this.width, this.height, 64, this.height - 32, 20);
-		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Save", new Button.IPressable()
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Save", (button) ->
 		{
-
-			@Override
-			public void onPress(Button button)
-			{
+			if(minecraft != null)
 				minecraft.displayGuiScreen(parentScreen);
-			}
-
 		}));
 	}
 
@@ -68,7 +63,7 @@ public class ProfileGui extends Screen implements IGuiEventListener
 			try
 			{
 				Class<?> oclass = Class.forName("java.awt.Desktop");
-				Object object = oclass.getMethod("getDesktop").invoke((Object) null);
+				Object object = oclass.getMethod("getDesktop").invoke(null);
 				oclass.getMethod("browse", URI.class).invoke(object, new URI("https://github.com/Turkey2349/ChanceCubes/wiki/Chance-Cubes-Rewards-Evolution"));
 				return true;
 			} catch(Exception e)
@@ -81,8 +76,8 @@ public class ProfileGui extends Screen implements IGuiEventListener
 
 	/**
 	 * Called when a mouse button is released.
-	 * 
-	 * @return
+	 *
+	 * @return something...
 	 */
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int state)

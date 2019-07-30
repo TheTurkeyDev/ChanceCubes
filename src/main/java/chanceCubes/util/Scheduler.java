@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Scheduler
 {
-	private static List<Task> tasks = new ArrayList<Task>();
+	private static List<Task> tasks = new ArrayList<>();
 
 	public static boolean scheduleTask(Task task)
 	{

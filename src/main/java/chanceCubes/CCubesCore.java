@@ -54,7 +54,7 @@ public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 
-	public static final String gameVersion = "1.14.3";
+	public static final String gameVersion = "1.14.4";
 
 	public static ItemGroup modTab = new ItemGroup(MODID)
 	{
@@ -64,7 +64,7 @@ public class CCubesCore
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
-	public static final Logger logger = LogManager.getLogger(MODID);;
+	public static final Logger logger = LogManager.getLogger(MODID);
 
 	public CCubesCore()
 	{
@@ -158,7 +158,8 @@ public class CCubesCore
 	@SubscribeEvent
 	public void onIMCMessage(InterModProcessEvent e)
 	{
-		e.getIMCStream().forEach((message) -> {
+		e.getIMCStream().forEach((message) ->
+		{
 			// if(message..equalsIgnoreCase("add-nonreplaceable") &&
 			// message.isItemStackMessage())
 			// {

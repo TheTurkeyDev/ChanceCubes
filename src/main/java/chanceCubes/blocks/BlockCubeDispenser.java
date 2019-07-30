@@ -1,14 +1,11 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,9 +17,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
+public class BlockCubeDispenser extends BaseChanceBlock
 {
-	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
+	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType>create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
@@ -37,7 +34,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		return true;
 	}
 
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileCubeDispenser();
 	}
@@ -51,17 +48,17 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return true;
 
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
-		if(player.isSneaking())
+		if(te != null)
 		{
-			state = this.cycleProperty(state, DISPENSING);
-			world.setBlockState(pos, state, 3);
-		}
-		else
-		{
-			if(player.inventory.getCurrentItem() != null)
+			if(player.isSneaking())
+			{
+				state = this.cycleProperty(state, DISPENSING);
+				world.setBlockState(pos, state, 3);
+			}
+			else
 			{
 				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
-				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
+				if(block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
 			}
 		}
@@ -91,48 +88,18 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 	}
 
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-	{
-		return null;
-	}
-
-	public int getMetaFromState(BlockState state)
-	{
-		DispenseType type = getCurrentState(state);
-		if(type == DispenseType.CHANCE_CUBE)
-			return 0;
-		else if(type == DispenseType.CHANCE_ICOSAHEDRON)
-			return 1;
-		else if(type == DispenseType.COMPACT_GAINTCUBE)
-			return 2;
-		else
-			return 0;
-	}
-
-	public BlockState getStateFromMeta(int meta)
-	{
-		if(meta == 0)
-			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
-		else if(meta == 1)
-			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_ICOSAHEDRON);
-		else if(meta == 2)
-			return this.getDefaultState().with(DISPENSING, DispenseType.COMPACT_GAINTCUBE);
-		else
-			return this.getDefaultState().with(DISPENSING, DispenseType.CHANCE_CUBE);
-	}
-
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(DISPENSING);
 	}
 
-	public static enum DispenseType implements IStringSerializable
+	public enum DispenseType implements IStringSerializable
 	{
 		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GAINTCUBE("compact_gaint_cube");
 
 		private String type;
 
-		private DispenseType(String name)
+		DispenseType(String name)
 		{
 			this.type = name;
 		}
@@ -158,11 +125,6 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 			}
 		}
-	}
-
-	public static DispenseType getNextState(BlockState state)
-	{
-		return state.get(DISPENSING).getNextState();
 	}
 
 	public static DispenseType getCurrentState(BlockState state)

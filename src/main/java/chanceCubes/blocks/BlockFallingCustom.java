@@ -96,7 +96,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 
 					}
 				}
-				else if(this.fallTime > 100 && !this.world.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
+				else if(this.fallTime > 100 && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
 				{
 					if(this.shouldDropItem && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
 						this.entityDropItem(new ItemStack(block, 1), 0.0F);

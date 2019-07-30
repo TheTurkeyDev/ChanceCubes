@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 
-public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceD20 extends BaseChanceBlock
 {
 
 	public BlockChanceD20()
@@ -37,7 +37,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return true;
 	}
 
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceD20();
 	}
@@ -54,12 +54,14 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
+	@Override
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
+	@Override
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
 	{
 		return this.startd20(world, pos, player);
 	}
@@ -70,18 +72,18 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 			return true;
 
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
-		if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
-		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
-			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			spawnAsEntity(world, pos, stack);
-			world.setBlockState(pos, Blocks.AIR.getDefaultState());
-			world.removeTileEntity(pos);
-			return true;
-		}
-
 		if(te != null)
 		{
+			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+			{
+				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
+				spawnAsEntity(world, pos, stack);
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				world.removeTileEntity(pos);
+				return true;
+			}
+
 			RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
 			te.startBreaking(player);
 			CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketTriggerD20(pos));

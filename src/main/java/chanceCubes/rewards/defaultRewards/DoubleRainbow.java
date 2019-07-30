@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class DoubleRainbow extends BaseCustomReward
 {
-	private static Block[] colors = new Block[] { Blocks.RED_WOOL, Blocks.ORANGE_WOOL, Blocks.YELLOW_WOOL, Blocks.GREEN_WOOL, Blocks.BLUE_WOOL, Blocks.PURPLE_WOOL };
+	private static Block[] colors = new Block[]{Blocks.RED_WOOL, Blocks.ORANGE_WOOL, Blocks.YELLOW_WOOL, Blocks.GREEN_WOOL, Blocks.BLUE_WOOL, Blocks.PURPLE_WOOL};
 
 	public DoubleRainbow()
 	{

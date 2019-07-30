@@ -24,9 +24,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class QuestionsReward extends BaseCustomReward
 {
-	private Map<PlayerEntity, String> inQuestion = new HashMap<PlayerEntity, String>();
+	private Map<PlayerEntity, String> inQuestion = new HashMap<>();
 
-	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<CustomEntry<String, String>>();
+	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<>();
 
 	public QuestionsReward()
 	{
@@ -116,8 +116,13 @@ public class QuestionsReward extends BaseCustomReward
 			String answer = event.getMessage();
 			boolean correct = false;
 			for(String s : inQuestion.get(player).split("-or-"))
+			{
 				if(s.trim().equalsIgnoreCase(answer.trim()))
+				{
 					correct = true;
+					break;
+				}
+			}
 			this.timeUp(player, correct);
 			event.setCanceled(true);
 		}

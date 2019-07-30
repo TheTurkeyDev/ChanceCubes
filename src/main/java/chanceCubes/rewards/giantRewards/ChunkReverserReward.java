@@ -18,39 +18,39 @@ import net.minecraft.world.World;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
-	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
+	private List<Entry<Block, Block>> swappedMap = new ArrayList<>();
 
 	public ChunkReverserReward()
 	{
 		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS_BLOCK, Blocks.STONE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRAVEL, Blocks.SAND));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.SAND, Blocks.GRAVEL));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.IRON_ORE, Blocks.GOLD_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.COAL_ORE, Blocks.DIAMOND_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIAMOND_ORE, Blocks.COAL_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LAVA, Blocks.WATER));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.WATER, Blocks.LAVA));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.OAK_LOG, Blocks.OAK_LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.OAK_LEAVES, Blocks.OAK_LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DARK_OAK_LEAVES, Blocks.DARK_OAK_LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.ACACIA_LOG, Blocks.ACACIA_LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.ACACIA_LEAVES, Blocks.ACACIA_LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.BIRCH_LEAVES, Blocks.BIRCH_LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.JUNGLE_LOG, Blocks.JUNGLE_LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.JUNGLE_LEAVES, Blocks.JUNGLE_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.STONE, Blocks.DIRT));
+		swappedMap.add(new CustomEntry<>(Blocks.DIRT, Blocks.COBBLESTONE));
+		swappedMap.add(new CustomEntry<>(Blocks.GRASS_BLOCK, Blocks.STONE));
+		swappedMap.add(new CustomEntry<>(Blocks.GRAVEL, Blocks.SAND));
+		swappedMap.add(new CustomEntry<>(Blocks.SAND, Blocks.GRAVEL));
+		swappedMap.add(new CustomEntry<>(Blocks.IRON_ORE, Blocks.GOLD_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.COAL_ORE, Blocks.DIAMOND_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.DIAMOND_ORE, Blocks.COAL_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.LAVA, Blocks.WATER));
+		swappedMap.add(new CustomEntry<>(Blocks.WATER, Blocks.LAVA));
+		swappedMap.add(new CustomEntry<>(Blocks.OAK_LEAVES, Blocks.OAK_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.OAK_LOG, Blocks.OAK_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.DARK_OAK_LEAVES, Blocks.DARK_OAK_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.ACACIA_LOG, Blocks.ACACIA_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.ACACIA_LEAVES, Blocks.ACACIA_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.BIRCH_LEAVES, Blocks.BIRCH_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.JUNGLE_LOG, Blocks.JUNGLE_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.JUNGLE_LEAVES, Blocks.JUNGLE_LOG));
 	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		player.sendMessage(new StringTextComponent("Initiating Block Inverter"));
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
 		{

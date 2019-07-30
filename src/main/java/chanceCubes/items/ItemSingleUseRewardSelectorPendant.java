@@ -37,7 +37,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 		ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking() && world.isRemote && player.isCreative())
 			Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			else if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 			{
 				TileEntity ent = context.getWorld().getTileEntity(context.getPos());
-				if(ent == null || !(ent instanceof TileGiantCube))
+				if(!(ent instanceof TileGiantCube))
 					return ActionResultType.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(context.getItem().getTag().getString("Reward"));

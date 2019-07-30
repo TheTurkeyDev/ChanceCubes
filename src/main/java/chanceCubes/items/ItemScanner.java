@@ -43,7 +43,7 @@ public class ItemScanner extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean isSelected)
@@ -58,8 +58,6 @@ public class ItemScanner extends BaseChanceCubesItem
 			{
 				RayTraceResult movingobjectposition = Item.rayTrace(world, player, FluidMode.NONE);
 
-				if(movingobjectposition == null)
-					return;
 				if(movingobjectposition.getType() == RayTraceResult.Type.BLOCK)
 				{
 					double i = movingobjectposition.getHitVec().getX();
@@ -72,22 +70,27 @@ public class ItemScanner extends BaseChanceCubesItem
 					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 					{
 						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
+						if(te != null)
+						{
+							te.setScanned(true);
+							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
+							flag = true;
+							RenderEvent.setLookingAtChance(te.getChance());
+						}
 					}
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
 					{
 						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
+						if(te != null)
+						{
+							te.setScanned(true);
+							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
+							flag = true;
+							RenderEvent.setLookingAtChance(te.getChance());
+						}
 					}
 					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 					{
-						flag = false;
 						RenderEvent.setLookingAtChance(-201);
 						RenderEvent.setLookingAt(true);
 						RenderEvent.setChanceIncrease(0);

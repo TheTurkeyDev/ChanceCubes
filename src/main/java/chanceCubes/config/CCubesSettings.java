@@ -1,8 +1,5 @@
 package chanceCubes.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.BlockState;
@@ -10,10 +7,11 @@ import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CCubesSettings
 {
-	public static int d20RenderID = -1;
-
 	public static IntValue pendantUses;
 
 	public static BooleanValue enableHardCodedRewards;

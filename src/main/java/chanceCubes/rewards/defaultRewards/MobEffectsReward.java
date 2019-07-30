@@ -28,7 +28,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.ServerWorld;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 
 public class MobEffectsReward extends BaseCustomReward

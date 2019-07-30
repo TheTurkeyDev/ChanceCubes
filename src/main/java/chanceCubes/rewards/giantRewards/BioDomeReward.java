@@ -30,7 +30,7 @@ public class BioDomeReward extends BaseCustomReward
 	// @formatter:on
 
 	public static final int delayShorten = 10;
-	
+
 	public BioDomeReward()
 	{
 		super(CCubesCore.MODID + ":BioDome", 0);
@@ -52,7 +52,7 @@ public class BioDomeReward extends BaseCustomReward
 
 	public void genDomePart(final int yinc, final int xinc, final BlockPos pos, final World world, final IBioDomeBiome spawnedBiome)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int z = -25; z <= 25; z++)
 		{

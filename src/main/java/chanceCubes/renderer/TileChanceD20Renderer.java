@@ -19,7 +19,6 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 {
 	public static final TileChanceD20Renderer INSTANCE = new TileChanceD20Renderer();
 	private static final Random random = new Random();
-	private Color tmpClr;
 
 	private static final float HOVER_SPEED = 6F;
 
@@ -57,7 +56,7 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 		int stage = 0;
 
 		float color = (d20.getWorld().getGameTime() % 75) / 75F;
-		tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
+		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
 		int r = tmpClr.getRed();
 		int g = tmpClr.getGreen();
 		int b = tmpClr.getBlue();
@@ -77,10 +76,9 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 			float f4 = random.nextFloat() * 2.0F;
 			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
 			worldrenderer.pos(0.0D, 0.0D, 0.0D).color(r, g, b, alpha).endVertex();
-			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(0.0D, (double) f3, (double) (1.0F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(-0.866D * (double) f4, f3, -0.5F * f4).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(0.0D, f3, 1.0F * f4).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(-0.866D * (double) f4, f3, -0.5F * f4).color(r, g, b, 0).endVertex();
 			tessellator.draw();
 		}
 

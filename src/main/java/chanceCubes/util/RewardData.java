@@ -12,7 +12,7 @@ public class RewardData
 	{
 		return FileUtil.JSON_PARSER.parse(getSchematic("/assets/chancecubes/schematics/village.ccs"));
 	}
-	
+
 	public static JsonElement getArrowTrapSchematic()
 	{
 		return FileUtil.JSON_PARSER.parse(getSchematic("/assets/chancecubes/schematics/arrow_trap.ccs"));
@@ -22,7 +22,7 @@ public class RewardData
 	{
 		return FileUtil.JSON_PARSER.parse(getSchematic("/assets/chancecubes/schematics/trampoline.ccs"));
 	}
-	
+
 	public static JsonElement getWoodlandMansionSchematic()
 	{
 		return FileUtil.JSON_PARSER.parse(getSchematic("/assets/chancecubes/schematics/mansion.ccs"));

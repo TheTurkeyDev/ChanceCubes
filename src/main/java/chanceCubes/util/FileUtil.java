@@ -42,10 +42,10 @@ public class FileUtil
 		try
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
-			String line = "";
+			String line;
 			while((line = reader.readLine()) != null)
 				builder.append(line);
-			
+
 			reader.close();
 		} catch(IOException e)
 		{
@@ -132,7 +132,7 @@ public class FileUtil
 	public static void zipFolderContents(File directory, File zipfile) throws IOException
 	{
 		URI base = directory.toURI();
-		Deque<File> queue = new LinkedList<File>();
+		Deque<File> queue = new LinkedList<>();
 		queue.push(directory);
 		OutputStream out = new FileOutputStream(zipfile);
 		Closeable res = out;
@@ -182,13 +182,9 @@ public class FileUtil
 
 	private static void copy(File file, OutputStream out) throws IOException
 	{
-		InputStream in = new FileInputStream(file);
-		try
+		try(InputStream in = new FileInputStream(file))
 		{
 			copy(in, out);
-		} finally
-		{
-			in.close();
 		}
 	}
 }

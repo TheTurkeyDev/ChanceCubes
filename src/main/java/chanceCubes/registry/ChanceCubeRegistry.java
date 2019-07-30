@@ -1,73 +1,13 @@
 package chanceCubes.registry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import org.apache.logging.log4j.Level;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
-import chanceCubes.rewards.defaultRewards.AnvilRain;
-import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
-import chanceCubes.rewards.defaultRewards.BaseCustomReward;
-import chanceCubes.rewards.defaultRewards.BasicReward;
-import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
-import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
-import chanceCubes.rewards.defaultRewards.ChanceCubeRenameReward;
-import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
-import chanceCubes.rewards.defaultRewards.CoinFlipReward;
-import chanceCubes.rewards.defaultRewards.CountDownReward;
-import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
-import chanceCubes.rewards.defaultRewards.CustomUserReward;
-import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
-import chanceCubes.rewards.defaultRewards.DigBuildReward;
-import chanceCubes.rewards.defaultRewards.DoubleRainbow;
-import chanceCubes.rewards.defaultRewards.HerobrineReward;
-import chanceCubes.rewards.defaultRewards.ItemChestReward;
-import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
-import chanceCubes.rewards.defaultRewards.ItemRenamer;
-import chanceCubes.rewards.defaultRewards.JukeBoxReward;
-import chanceCubes.rewards.defaultRewards.MagicFeetReward;
-import chanceCubes.rewards.defaultRewards.MatchingReward;
-import chanceCubes.rewards.defaultRewards.MathReward;
-import chanceCubes.rewards.defaultRewards.MazeReward;
-import chanceCubes.rewards.defaultRewards.MobEffectsReward;
-import chanceCubes.rewards.defaultRewards.MobTowerReward;
-import chanceCubes.rewards.defaultRewards.MontyHallReward;
-import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
-import chanceCubes.rewards.defaultRewards.QuestionsReward;
-import chanceCubes.rewards.defaultRewards.RainingCatsAndCogsReward;
-import chanceCubes.rewards.defaultRewards.SkyblockReward;
-import chanceCubes.rewards.defaultRewards.SurroundedReward;
-import chanceCubes.rewards.defaultRewards.TableFlipReward;
-import chanceCubes.rewards.defaultRewards.TicTacToeReward;
-import chanceCubes.rewards.defaultRewards.TrollTNTReward;
-import chanceCubes.rewards.defaultRewards.WaitForItReward;
-import chanceCubes.rewards.defaultRewards.WitherReward;
-import chanceCubes.rewards.defaultRewards.WolvesToCreepersReward;
-import chanceCubes.rewards.rewardparts.CommandPart;
-import chanceCubes.rewards.rewardparts.EffectPart;
-import chanceCubes.rewards.rewardparts.EntityPart;
-import chanceCubes.rewards.rewardparts.ExpirencePart;
-import chanceCubes.rewards.rewardparts.ItemPart;
-import chanceCubes.rewards.rewardparts.MessagePart;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.rewardparts.OffsetTileEntity;
-import chanceCubes.rewards.rewardparts.ParticlePart;
-import chanceCubes.rewards.rewardparts.SoundPart;
+import chanceCubes.rewards.defaultRewards.*;
+import chanceCubes.rewards.rewardparts.*;
 import chanceCubes.rewards.rewardtype.BlockRewardType;
 import chanceCubes.rewards.rewardtype.CommandRewardType;
 import chanceCubes.rewards.rewardtype.EffectRewardType;
@@ -82,6 +22,8 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
@@ -114,13 +56,20 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.translation.LanguageMap;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.Level;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ChanceCubeRegistry implements IRewardRegistry
 {
@@ -154,7 +103,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP", 35, new ExperienceRewardType(new ExpirencePart(100).setNumberofOrbs(10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP_Shower", 35, new ExperienceRewardType(new ExpirencePart(10), new ExpirencePart(10, 10), new ExpirencePart(10, 10), new ExpirencePart(10, 20), new ExpirencePart(10, 30), new ExpirencePart(10, 40), new ExpirencePart(10, 50), new ExpirencePart(10, 60), new ExpirencePart(10, 70), new ExpirencePart(10, 80), new ExpirencePart(10, 90), new ExpirencePart(10, 100), new ExpirencePart(10, 110), new ExpirencePart(10, 120), new ExpirencePart(10, 130), new ExpirencePart(10, 140), new ExpirencePart(10, 150))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Poison", -25, new EffectRewardType(new EffectPart(Effects.POISON, 25, 1).setRadius(30))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wither_Status_Effect", -25, new EffectRewardType(new EffectPart(Effects.WITHER, new IntVar(new Integer[] { 3, 5, 6, 8, 10 }), new IntVar(new Integer[] { 1, 2 })).setRadius(30))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wither_Status_Effect", -25, new EffectRewardType(new EffectPart(Effects.WITHER, new IntVar(new Integer[]{3, 5, 6, 8, 10}), new IntVar(new Integer[]{1, 2})).setRadius(30))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chat_Message", 0, new MessageRewardType(new MessagePart("You have escaped the wrath of the Chance Cubes........."), new MessagePart("For now......"))));
 		// INSTANCE.registerReward(new BasicReward(CCubesCore.MODID+":Command", 15, new CommandRewardType(" /give %player minecraft:painting 1 0 {display:{Name:\"Wylds Bestest friend\",Lore:[\"You know you love me, \"]}}")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hearts", 0, new ParticleEffectRewardType(RewardsUtil.spawnXParticles("heart", 5))));
@@ -233,10 +182,10 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		//INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Zombie_Levate", -35, new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie ~%%RND(-10,10)%% ~ ~%%RND(-10,10)%% {CustomName:\"domosplace\",CustomNameVisible:1,ArmorItems:[{},{},{},{id:\"minecraft:leather_helmet\",Count:1b}],ActiveEffects:[{Id:25,Amplifier:0,Duration:140}]}", 10))));
 
 		ItemStack stack;
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundNBT nbt;
 
 		stack = new ItemStack(Items.STICK);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("sharpness")), 5);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("sharpness")), 5);
 		stack.setDisplayName(new StringTextComponent("A Big Stick"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Roosevelt's_Stick", 70, new ItemRewardType(new ItemPart(stack))));
 
@@ -253,55 +202,55 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Star", 100, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.DIAMOND_SWORD);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("sharpness")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("sharpness")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("unbreaking")), 10);
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new StringTextComponent("The Divine Sword"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.DIAMOND_HELMET);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("protection")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("aqua_affinity")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("protection")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("aqua_affinity")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("unbreaking")), 10);
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new StringTextComponent("The Divine Helmet"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Helmet", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("blast_protection")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("thorns")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("blast_protection")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("thorns")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("unbreaking")), 10);
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new StringTextComponent("The Divine Chestplate"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Chestplate", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.DIAMOND_LEGGINGS);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("projectile_protection")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("projectile_protection")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("unbreaking")), 10);
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new StringTextComponent("The Divine Leggings"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Leggings", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.DIAMOND_BOOTS);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("fire_protection")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("unbreaking")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("feather_falling")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("depth_strider")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("fire_protection")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("unbreaking")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("feather_falling")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("depth_strider")), 10);
 		stack.setDamage(stack.getMaxDamage() - 2);
 		stack.setDisplayName(new StringTextComponent("The Divine Boots"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Boots", 95, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.WOODEN_PICKAXE);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("efficiency")), 10);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("fortune")), 3);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("efficiency")), 10);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("fortune")), 3);
 		stack.setDisplayName(new StringTextComponent("Giga Breaker"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giga_Breaker", 70, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.BOW);
 		stack.setDamage(stack.getMaxDamage());
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("power")), 5);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("punch")), 3);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("flame")), 2);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("power")), 5);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("punch")), 3);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("flame")), 2);
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Shot", 75, new ItemRewardType(new ItemPart(stack), new ItemPart(new ItemStack(Items.ARROW, 1)))));
 
 		stack = new ItemStack(Items.TROPICAL_FISH, 1);
@@ -313,7 +262,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Marlin", 10, new ItemRewardType(new ItemPart(stack))));
 
 		stack = new ItemStack(Items.FIRE_CHARGE, 1);
-		stack.addEnchantment(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("fire_aspect")), 2);
+		stack.addEnchantment(RewardsUtil.getEnchantSafe(new ResourceLocation("fire_aspect")), 2);
 		stack.setDisplayName(new StringTextComponent("Why not?"));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 60, new ItemRewardType(new ItemPart(stack))));
 
@@ -819,9 +768,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 	{
 		//TODO: Add in config option to enable/ disable rewards
 		if(/*
-			 * ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat,
-			 * enabledDefault, "") &&
-			 */ !this.nameToReward.containsKey(reward.getName()))
+		 * ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat,
+		 * enabledDefault, "") &&
+		 */ !this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
@@ -961,8 +910,8 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 		int lowerIndex = 0;
 		int upperIndex = sortedRewards.size() - 1;
-		int lowerRange = chance - CCubesSettings.rangeMin.get() < -100 ? -100 : chance - CCubesSettings.rangeMin.get();
-		int upperRange = chance + CCubesSettings.rangeMax.get() > 100 ? 100 : chance + CCubesSettings.rangeMax.get();
+		int lowerRange = Math.max(chance - CCubesSettings.rangeMin.get(), -100);
+		int upperRange = Math.min(chance + CCubesSettings.rangeMax.get(), 100);
 
 		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{
@@ -1016,12 +965,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(newReward != null)
 			sortedRewards.add(newReward);
 
-		Collections.sort(sortedRewards, new Comparator<IChanceCubeReward>()
+		sortedRewards.sort((o1, o2) ->
 		{
-			public int compare(IChanceCubeReward o1, IChanceCubeReward o2)
-			{
-				return o1.getChanceValue() - o2.getChanceValue();
-			};
+			return o1.getChanceValue() - o2.getChanceValue();
 		});
 	}
 

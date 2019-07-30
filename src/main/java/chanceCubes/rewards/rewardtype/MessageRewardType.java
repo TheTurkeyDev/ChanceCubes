@@ -24,7 +24,7 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 			{
 				for(int i = 0; i < world.getPlayers().size(); ++i)
 				{
-					PlayerEntity PlayerEntity = (PlayerEntity) world.getPlayers().get(i);
+					PlayerEntity PlayerEntity = world.getPlayers().get(i);
 
 					if(PlayerEntity.equals(player))
 					{

@@ -74,6 +74,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    compile "net.darkhax.gamestages:GameStages-1.14.4:4.2.11"
 }
 
 jar {

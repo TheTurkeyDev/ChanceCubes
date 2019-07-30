@@ -2,6 +2,8 @@ package chanceCubes.network;
 
 import java.util.function.Supplier;
 
+import chanceCubes.tileentities.TileChanceD20;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -29,12 +31,13 @@ public class PacketTriggerD20
 
 	public static void handle(PacketTriggerD20 msg, Supplier<NetworkEvent.Context> ctx)
 	{
-		ctx.get().enqueueWork(() -> {
+		ctx.get().enqueueWork(() ->
+		{
 			TileEntity ico;
 
-//			if((ico = Minecraft.getInstance().player.world.getTileEntity(msg.pos)) != null)
-//				if(ico instanceof TileChanceD20)
-//					((TileChanceD20) ico).startBreaking(Minecraft.getInstance().player);
+			if((ico = Minecraft.getInstance().player.world.getTileEntity(msg.pos)) != null)
+				if(ico instanceof TileChanceD20)
+					((TileChanceD20) ico).startBreaking(Minecraft.getInstance().player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

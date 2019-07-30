@@ -41,6 +41,9 @@ public class CustomProfileLoader
 	{
 		Map<BasicProfile, List<String>> unfoundSubProfiles = new HashMap<>();
 
+		if(!folder.exists() || !folder.isDirectory())
+			return;
+
 		for(File f : folder.listFiles())
 		{
 			if(!f.isFile() || !f.getName().contains(".json"))
@@ -79,7 +82,8 @@ public class CustomProfileLoader
 					if(profileJson.has("rewards_to_enable"))
 					{
 						JsonArray rewardsToEnable = profileJson.getAsJsonArray("rewards_to_enable");
-						rewardsToEnable.forEach(element -> {
+						rewardsToEnable.forEach(element ->
+						{
 							profile.addEnabledRewards(element.getAsString());
 						});
 					}
@@ -87,7 +91,8 @@ public class CustomProfileLoader
 					if(profileJson.has("rewards_to_disable"))
 					{
 						JsonArray rewardsToDisable = profileJson.getAsJsonArray("rewards_to_disable");
-						rewardsToDisable.forEach(element -> {
+						rewardsToDisable.forEach(element ->
+						{
 							profile.addDisabledRewards(element.getAsString());
 						});
 					}
@@ -95,7 +100,8 @@ public class CustomProfileLoader
 					if(profileJson.has("sub_profiles"))
 					{
 						JsonArray subProfiles = profileJson.getAsJsonArray("sub_profiles");
-						subProfiles.forEach(element -> {
+						subProfiles.forEach(element ->
+						{
 							IProfile subProf = ProfileManager.getProfileFromID(element.getAsString());
 							if(subProf != null)
 							{
@@ -103,12 +109,7 @@ public class CustomProfileLoader
 							}
 							else
 							{
-								List<String> subProfs = unfoundSubProfiles.get(profile);
-								if(subProfs == null)
-								{
-									subProfs = new ArrayList<String>();
-									unfoundSubProfiles.put(profile, subProfs);
-								}
+								List<String> subProfs = unfoundSubProfiles.computeIfAbsent(profile, k -> new ArrayList<String>());
 
 								subProfs.add(element.getAsString());
 							}
@@ -118,7 +119,8 @@ public class CustomProfileLoader
 					if(profileJson.has("triggers"))
 					{
 						JsonArray triggers = profileJson.getAsJsonArray("triggers");
-						triggers.forEach(element -> {
+						triggers.forEach(element ->
+						{
 							JsonObject triggerJson = element.getAsJsonObject();
 							if(!triggerJson.has("type"))
 							{
@@ -159,11 +161,12 @@ public class CustomProfileLoader
 							}
 						});
 					}
-					
+
 					if(profileJson.has("reward_properties"))
 					{
 						JsonArray properties = profileJson.getAsJsonArray("reward_properties");
-						properties.forEach(element -> {
+						properties.forEach(element ->
+						{
 							JsonObject rewardPropJson = element.getAsJsonObject();
 							if(!rewardPropJson.has("reward_name"))
 							{

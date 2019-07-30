@@ -17,7 +17,9 @@ public class TileGiantCube extends TileEntity
 	private boolean hasMaster, isMaster;
 	private BlockPos masterPos;
 
-	/** Reset method to be run when the master is gone or tells them to */
+	/**
+	 * Reset method to be run when the master is gone or tells them to
+	 */
 	public void reset()
 	{
 		masterPos = new BlockPos(0, 0, 0);
@@ -25,11 +27,13 @@ public class TileGiantCube extends TileEntity
 		isMaster = false;
 	}
 
-	/** Check that the master exists */
+	/**
+	 * Check that the master exists
+	 */
 	public boolean checkForMaster()
 	{
 		TileEntity tile = world.getTileEntity(masterPos);
-		return(tile != null && (tile instanceof TileGiantCube));
+		return (tile instanceof TileGiantCube);
 	}
 
 	@Override

@@ -7,19 +7,19 @@ import chanceCubes.profiles.triggers.ITrigger;
 
 public interface IProfile
 {
-	public String getID();
+	String getID();
 
-	public String getName();
+	String getName();
 
-	public String getDesc();
+	String getDesc();
 
-	public String getDescLong();
+	String getDescLong();
 
-	public void onEnable();
+	void onEnable();
 
-	public void onDisable();
+	void onDisable();
 
-	public List<ITrigger<?>> getTriggers();
+	List<ITrigger<?>> getTriggers();
 
-	public Map<String, Map<String, Object>> getRewardSettings();
+	Map<String, Map<String, Object>> getRewardSettings();
 }

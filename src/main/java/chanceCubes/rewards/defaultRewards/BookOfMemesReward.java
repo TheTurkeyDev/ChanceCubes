@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class BookOfMemesReward extends BaseCustomReward
 {
-	private List<String> memes = new ArrayList<String>();
+	private List<String> memes = new ArrayList<>();
 
 	public BookOfMemesReward()
 	{

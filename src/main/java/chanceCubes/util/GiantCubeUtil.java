@@ -13,13 +13,8 @@ public class GiantCubeUtil
 {
 	/**
 	 * Check that structure is properly formed
-	 * 
-	 * @param xCoord
-	 * @param yCoord
-	 * @param zCoord
-	 * @param world
-	 * @param build
-	 *            if the giant cube should be built if the structure is valid
+	 *
+	 * @param build if the giant cube should be built if the structure is valid
 	 * @return if there is a valid 3x3x3 configuration
 	 */
 	public static boolean checkMultiBlockForm(BlockPos pos, World world, boolean build)
@@ -51,7 +46,9 @@ public class GiantCubeUtil
 		}
 	}
 
-	/** Setup all the blocks in the structure */
+	/**
+	 * Setup all the blocks in the structure
+	 */
 	public static void setupStructure(BlockPos pos, World world, boolean areCoordsCorrect)
 	{
 		int cx = pos.getX();
@@ -78,7 +75,7 @@ public class GiantCubeUtil
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);
-					if(tile != null && (tile instanceof TileGiantCube))
+					if(tile instanceof TileGiantCube)
 					{
 						((TileGiantCube) tile).setMasterCoords(cx + 1, cy + 1, cz + 1);
 						((TileGiantCube) tile).setHasMaster(true);
@@ -114,7 +111,9 @@ public class GiantCubeUtil
 		return new BlockPos(cx, cy, cz);
 	}
 
-	/** Reset all the parts of the structure */
+	/**
+	 * Reset all the parts of the structure
+	 */
 	public static void resetStructure(BlockPos pos, World world)
 	{
 		for(int x = pos.getX() - 1; x < pos.getX() + 2; x++)
@@ -123,7 +122,7 @@ public class GiantCubeUtil
 				{
 					BlockPos blockPos = new BlockPos(x, y, z);
 					TileEntity tile = world.getTileEntity(blockPos);
-					if(tile != null && (tile instanceof TileGiantCube))
+					if(tile instanceof TileGiantCube)
 					{
 						((TileGiantCube) tile).reset();
 						world.removeTileEntity(blockPos);
@@ -132,7 +131,9 @@ public class GiantCubeUtil
 				}
 	}
 
-	/** Reset all the parts of the structure */
+	/**
+	 * Reset all the parts of the structure
+	 */
 	public static void removeStructure(BlockPos pos, World world)
 	{
 		for(int x = pos.getX() - 1; x < pos.getX() + 2; x++)
@@ -141,7 +142,7 @@ public class GiantCubeUtil
 				{
 					BlockPos blockPos = new BlockPos(x, y, z);
 					TileEntity tile = world.getTileEntity(blockPos);
-					if(tile != null && (tile instanceof TileGiantCube))
+					if(tile instanceof TileGiantCube)
 					{
 						((TileGiantCube) tile).reset();
 						world.removeTileEntity(blockPos);

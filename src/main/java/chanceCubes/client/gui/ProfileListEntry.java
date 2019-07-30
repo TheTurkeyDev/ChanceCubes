@@ -24,30 +24,22 @@ public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileList
 		this.mc = mcIn;
 		enabled = ProfileManager.isProfileEnabled(profile);
 
-		this.enableToggleBtn = new Button(0, 0, 50, 16, enabled ? "Enabled" : "Disabled", new Button.IPressable()
+		this.enableToggleBtn = new Button(0, 0, 50, 16, enabled ? "Enabled" : "Disabled", (button) ->
 		{
-			@Override
-			public void onPress(Button p_onPress_1_)
-			{
-				enableToggleBtn.playDownSound(mc.getSoundHandler());
-				enabled = !enabled;
-				if(enabled)
-					ProfileManager.enableProfile(profile);
-				else
-					ProfileManager.disableProfile(profile);
+			enableToggleBtn.playDownSound(mc.getSoundHandler());
+			enabled = !enabled;
+			if(enabled)
+				ProfileManager.enableProfile(profile);
+			else
+				ProfileManager.disableProfile(profile);
 
-				enableToggleBtn.setMessage(enabled ? "Enabled" : "Disabled");
-			}
+			enableToggleBtn.setMessage(enabled ? "Enabled" : "Disabled");
 		});
 
-		this.editBtn = new Button(0, 0, 40, 16, "Info", new Button.IPressable()
+		this.editBtn = new Button(0, 0, 40, 16, "Info", (button) ->
 		{
-			@Override
-			public void onPress(Button p_onPress_1_)
-			{
-				editBtn.playDownSound(mc.getSoundHandler());
-				mc.displayGuiScreen(new ProfileInfoGui(new StringTextComponent(""), profile, parentScreen));
-			}
+			editBtn.playDownSound(mc.getSoundHandler());
+			mc.displayGuiScreen(new ProfileInfoGui(new StringTextComponent(""), profile, parentScreen));
 		});
 	}
 

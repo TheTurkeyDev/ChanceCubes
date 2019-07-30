@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CoinFlipReward extends BaseCustomReward
 {
-	private List<PlayerEntity> inFlip = new ArrayList<PlayerEntity>();
+	private List<PlayerEntity> inFlip = new ArrayList<>();
 
 	public CoinFlipReward()
 	{
@@ -44,7 +44,7 @@ public class CoinFlipReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				timeUp(player, false);
+				timeUp(player);
 			}
 
 		};
@@ -52,7 +52,7 @@ public class CoinFlipReward extends BaseCustomReward
 		Scheduler.scheduleTask(task);
 	}
 
-	private void timeUp(PlayerEntity player, boolean correct)
+	private void timeUp(PlayerEntity player)
 	{
 		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
 			return;

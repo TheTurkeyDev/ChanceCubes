@@ -47,7 +47,7 @@ public class BasicTreesBiome implements IBioDomeBiome
 
 	public List<OffsetBlock> addTree(int x, int y, int z, int delay)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 
 		for(int yy = 1; yy < 6; yy++)
 		{
@@ -79,7 +79,6 @@ public class BasicTreesBiome implements IBioDomeBiome
 		blocks.add(new OffsetBlock(x, y + 6, z - 1, Blocks.OAK_LEAVES, false, delay));
 		delay++;
 		blocks.add(new OffsetBlock(x, y + 6, z, Blocks.OAK_LEAVES, false, delay));
-		delay++;
 
 		return blocks;
 	}

@@ -26,7 +26,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		player.sendMessage(new StringTextComponent("Quick! The Floor is lava!"));
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = pos.getY() + 5; yy > pos.getY() - 5; yy--)
 		{

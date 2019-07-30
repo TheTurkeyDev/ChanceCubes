@@ -128,7 +128,7 @@ public class TicTacToeReward extends BaseCustomReward
 
 		public boolean isGameOver()
 		{
-			return(hasPlayerWon() || hasCPUWon() || getAvailableStates().isEmpty());
+			return (hasPlayerWon() || hasCPUWon() || getAvailableStates().isEmpty());
 		}
 
 		public boolean hasCPUWon()

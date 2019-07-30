@@ -39,7 +39,7 @@ public class AnvilRain extends BaseCustomReward
 		int x5 = RewardsUtil.rand.nextInt(9) - 4;
 		int z5 = RewardsUtil.rand.nextInt(9) - 4;
 
-		int yy = 0;
+		int yy;
 		for(yy = 0; yy < 25; yy++)
 			cache.cacheBlock(new BlockPos(0, yy, 0), Blocks.AIR.getDefaultState());
 		for(yy = 0; yy < 25; yy++)

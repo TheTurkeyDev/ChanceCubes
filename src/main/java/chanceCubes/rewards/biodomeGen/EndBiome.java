@@ -37,7 +37,7 @@ public class EndBiome implements IBioDomeBiome
 
 	public List<OffsetBlock> addTower(int x, int y, int z, int delay)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 
 		for(int yy = 0; yy < 10; yy++)
 		{

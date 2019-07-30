@@ -9,9 +9,10 @@ public abstract class CustomVar
 {
 	protected List<IPart> parts = new ArrayList<>();
 
-	public String getValue() {
+	public String getValue()
+	{
 		StringBuilder builder = new StringBuilder();
-		for(IPart part: parts)
+		for(IPart part : parts)
 			builder.append(part.getValue());
 		return builder.toString();
 	}
@@ -20,7 +21,7 @@ public abstract class CustomVar
 	{
 		this.parts.add(part);
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return this.parts.isEmpty();

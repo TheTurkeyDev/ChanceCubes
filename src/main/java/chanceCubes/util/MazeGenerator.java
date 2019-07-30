@@ -17,7 +17,7 @@ public class MazeGenerator
 	private int width;
 	private int height;
 	private int[][] map;
-	private ArrayList<Location2I> walls = new ArrayList<Location2I>();
+	private ArrayList<Location2I> walls = new ArrayList<>();
 	private RewardBlockCache cache;
 	private Random r = new Random();
 
@@ -37,14 +37,6 @@ public class MazeGenerator
 		startPos = pos;
 	}
 
-	/**
-	 * 
-	 * @param multiple
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 */
 	public void generate(World world, int width, int height)
 	{
 		this.width = width;
@@ -58,10 +50,10 @@ public class MazeGenerator
 
 		walls.add(new Location2I(1, 1));
 		Location2I current = new Location2I(0, 0);
-		Location2I north = new Location2I(0, 0);
-		Location2I east = new Location2I(0, 0);
-		Location2I south = new Location2I(0, 0);
-		Location2I west = new Location2I(0, 0);
+		Location2I north;
+		Location2I east;
+		Location2I south;
+		Location2I west;
 
 		do
 		{
@@ -105,8 +97,8 @@ public class MazeGenerator
 		int endBlockZ = height - 1;
 		boolean run = true;
 		int i = 0;
-		int xx = 0;
-		int zz = 0;
+		int xx;
+		int zz;
 		while(run)
 		{
 			for(xx = 0; xx <= i; xx++)

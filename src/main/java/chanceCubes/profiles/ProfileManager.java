@@ -23,8 +23,8 @@ import net.minecraft.world.Difficulty;
 
 public class ProfileManager
 {
-	private static List<IProfile> enabledProfiles = new ArrayList<IProfile>();
-	private static List<IProfile> disabledProfiles = new ArrayList<IProfile>();
+	private static List<IProfile> enabledProfiles = new ArrayList<>();
+	private static List<IProfile> disabledProfiles = new ArrayList<>();
 
 	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
@@ -161,7 +161,7 @@ public class ProfileManager
 			List<Integer> cache = chanceChangesCache.get(rewardName);
 			if(cache == null)
 			{
-				cache = new ArrayList<Integer>();
+				cache = new ArrayList<>();
 				cache.add(reward.getChanceValue());
 				chanceChangesCache.put(rewardName, cache);
 			}
@@ -193,7 +193,7 @@ public class ProfileManager
 
 	public static Map<String, Object> getRewardSpawnSettings(IChanceCubeReward reward)
 	{
-		Map<String, Object> settings = new HashMap<String, Object>();
+		Map<String, Object> settings = new HashMap<>();
 
 		for(IProfile prof : enabledProfiles)
 		{
