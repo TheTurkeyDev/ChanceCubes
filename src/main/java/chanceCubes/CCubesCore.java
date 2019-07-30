@@ -87,7 +87,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
-		MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
 		MinecraftForge.EVENT_BUS.register(new VanillaTriggerHooks());
 		if(ModList.get().isLoaded("gamestages"))
 		{
