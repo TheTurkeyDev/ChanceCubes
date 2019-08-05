@@ -115,7 +115,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			switch(this)
 			{
 				case CHANCE_CUBE:
-					return CHANCE_ICOSAHEDRON;
+					return COMPACT_GAINTCUBE;
 				case CHANCE_ICOSAHEDRON:
 					return COMPACT_GAINTCUBE;
 				case COMPACT_GAINTCUBE:
