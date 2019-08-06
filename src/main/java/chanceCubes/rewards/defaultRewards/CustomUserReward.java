@@ -33,7 +33,7 @@ public class CustomUserReward extends BaseCustomReward
 	private String userName;
 	private UUID uuid;
 	private String type;
-	private List<BasicReward> customRewards = new ArrayList<BasicReward>();
+	private List<BasicReward> customRewards;
 
 	public static void getCustomUserReward(UUID uuid)
 	{
@@ -80,7 +80,7 @@ public class CustomUserReward extends BaseCustomReward
 			return;
 		}
 
-		List<BasicReward> customRewards = new ArrayList<BasicReward>();
+		List<BasicReward> customRewards = new ArrayList<>();
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
@@ -88,20 +88,12 @@ public class CustomUserReward extends BaseCustomReward
 		//GROSS, but idk what else todo
 		String userNameFinal = userName;
 		String typeFinal = type;
-		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
+		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() ->
 		{
-			@Override
-			public void run()
-			{
-				ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
-				EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
-
-				if(player != null)
-				{
-					player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
-					player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
-				}
-			}
+			ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
+			EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
+			player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
+			player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
 		});
 	}
 

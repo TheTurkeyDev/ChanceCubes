@@ -1,9 +1,5 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -20,9 +16,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class CoinFlipReward extends BaseCustomReward
 {
-	private List<EntityPlayer> inFlip = new ArrayList<EntityPlayer>();
+	private List<EntityPlayer> inFlip = new ArrayList<>();
 
 	public CoinFlipReward()
 	{
@@ -44,7 +44,7 @@ public class CoinFlipReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				timeUp(player, false);
+				timeUp(player);
 			}
 
 		};
@@ -52,7 +52,7 @@ public class CoinFlipReward extends BaseCustomReward
 		Scheduler.scheduleTask(task);
 	}
 
-	private void timeUp(EntityPlayer player, boolean correct)
+	private void timeUp(EntityPlayer player)
 	{
 		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
 			return;

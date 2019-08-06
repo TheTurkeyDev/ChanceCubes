@@ -146,16 +146,9 @@ public class CCubesCore
 			{
 				ItemStack stack = message.getItemStackValue();
 				Block block = Block.getBlockFromItem(stack.getItem());
-				if(block != null)
-				{
-					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
-					CCubesSettings.nonReplaceableBlocksIMC.add(state);
-					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
-				}
-				else
-				{
-					logger.error("Chance Cubes recieved an item stack via IMC from " + message.getSender() + " with an item that cannot be converted to a block. Item: " + stack.getItem().getTranslationKey());
-				}
+				IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
+				CCubesSettings.nonReplaceableBlocksIMC.add(state);
+				logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 			}
 		}
 	}

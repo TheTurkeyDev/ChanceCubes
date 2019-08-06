@@ -7,11 +7,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+
 public class MessageRewardType extends BaseRewardType<MessagePart>
 {
 	public MessageRewardType(MessagePart... messages)
 	{
 		super(messages);
+	}
+
+	public MessageRewardType(String... messages)
+	{
+		super(convertToMessageParts(messages));
+	}
+
+	private static MessagePart[] convertToMessageParts(String... messages)
+	{
+		MessagePart[] toReturn = new MessagePart[messages.length];
+		for(int i = 0; i < messages.length; i++)
+			toReturn[i] = new MessagePart(messages[i]);
+		return toReturn;
 	}
 
 	@Override

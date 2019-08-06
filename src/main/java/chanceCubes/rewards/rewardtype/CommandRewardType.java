@@ -2,6 +2,7 @@ package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.util.CCubesCommandSender;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,19 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 		super(commands);
 	}
 
+	public CommandRewardType(String... commands)
+	{
+		super(convertToCommandParts(commands));
+	}
+
+	private static CommandPart[] convertToCommandParts(String... messages)
+	{
+		CommandPart[] toReturn = new CommandPart[messages.length];
+		for(int i = 0; i < messages.length; i++)
+			toReturn[i] = new CommandPart(messages[i]);
+		return toReturn;
+	}
+
 	@Override
 	public void trigger(final CommandPart command, final World world, final int x, final int y, final int z, final EntityPlayer player)
 	{
@@ -25,14 +39,7 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 			@Override
 			public void callback()
 			{
-				String commandToRun = command.getParsedCommand(world, x, y, z, player);
-
-				CCubesCommandSender sender = new CCubesCommandSender(player, new BlockPos(x, y, z));
-				MinecraftServer server = world.getMinecraftServer();
-				Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-				server.getCommandManager().executeCommand(sender, commandToRun);
-				server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+				RewardsUtil.executeCommand(world, player, command.getParsedCommand(world, x, y, z, player));
 			}
 		});
 	}

@@ -44,12 +44,7 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 
 	public int getSettingAsInt(Map<String, Object> settings, String key, int defaultVal, int min, int max)
 	{
-		int value = getSettingAsInt(settings, key, defaultVal);
-		if(value < min)
-			return min;
-		if(value > max)
-			return max;
-		return value;
+		return Math.max(Math.min(getSettingAsInt(settings, key, defaultVal), max), min);
 	}
 
 	public int getSettingAsInt(Map<String, Object> settings, String key, int defaultVal)

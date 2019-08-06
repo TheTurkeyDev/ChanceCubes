@@ -55,7 +55,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
-		if(!world.isRemote && player != null && !(player instanceof FakePlayer))
+		if(!world.isRemote && !(player instanceof FakePlayer))
 		{
 			TileGiantCube te = (TileGiantCube) world.getTileEntity(pos);
 

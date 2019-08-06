@@ -1,10 +1,5 @@
 package chanceCubes.util;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -13,9 +8,11 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
@@ -34,11 +31,16 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class RewardsUtil
 {
-	private static List<String> oredicts = new ArrayList<String>();
-	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
-	private static List<String> fluids = new ArrayList<String>();
+	private static List<String> oredicts = new ArrayList<>();
+	private static String[] possibleModOres = new String[]{"oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc"};
+	private static List<String> fluids = new ArrayList<>();
 
 	public static final Random rand = new Random();
 
@@ -67,35 +69,19 @@ public class RewardsUtil
 			if(OreDictionary.doesOreNameExist(oreDict))
 				oredicts.add(oreDict);
 
-		for(String s : FluidRegistry.getRegisteredFluids().keySet())
-			fluids.add(s);
+		fluids.addAll(FluidRegistry.getRegisteredFluids().keySet());
 	}
 
-	/**
-	 * 
-	 * @param xSize
-	 * @param ySize
-	 * @param zSize
-	 * @param block
-	 * @param xOff
-	 * @param yOff
-	 * @param zOff
-	 * @param falling
-	 * @param delay
-	 * @param causeUpdate
-	 * @param relativeToPlayer
-	 * @return
-	 */
 	public static OffsetBlock[] fillArea(int xSize, int ySize, int zSize, Block block, int xOff, int yOff, int zOff, boolean falling, int delay, boolean causesUpdate, boolean relativeToPlayer)
 	{
-		List<OffsetBlock> toReturn = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> toReturn = new ArrayList<>();
 
 		for(int y = 0; y < ySize; y++)
 			for(int z = 0; z < zSize; z++)
 				for(int x = 0; x < xSize; x++)
 					toReturn.add(new OffsetBlock(x + xOff, y + yOff, z + zOff, block, falling, delay).setCausesBlockUpdate(causesUpdate).setRelativeToPlayer(relativeToPlayer));
 
-		return toReturn.toArray(new OffsetBlock[toReturn.size()]);
+		return toReturn.toArray(new OffsetBlock[0]);
 	}
 
 	public static OffsetBlock[] addBlocksLists(OffsetBlock[]... lists)
@@ -175,7 +161,7 @@ public class RewardsUtil
 	{
 		for(int i = 0; i < world.playerEntities.size(); ++i)
 		{
-			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+			EntityPlayer entityplayer = world.playerEntities.get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= distance)
 				entityplayer.sendMessage(new TextComponentString(message));
@@ -186,7 +172,7 @@ public class RewardsUtil
 	{
 		for(int i = 0; i < world.playerEntities.size(); ++i)
 		{
-			EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+			EntityPlayer entityplayer = world.playerEntities.get(i);
 			entityplayer.sendMessage(new TextComponentString(message));
 		}
 	}
@@ -238,6 +224,19 @@ public class RewardsUtil
 		return world.getBlockState(pos).getBlockHardness(world, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
 	}
 
+	public static Enchantment getEnchantSafe(String res)
+	{
+		return RewardsUtil.getEnchantSafe(new ResourceLocation(res));
+	}
+
+	public static Enchantment getEnchantSafe(ResourceLocation res)
+	{
+		Enchantment ench = Enchantment.REGISTRY.getObject(res);
+		if(ench == null)
+			return Enchantments.AQUA_AFFINITY;
+		return ench;
+	}
+
 	public static ItemStack getSpawnEggForEntity(ResourceLocation entityId)
 	{
 		ItemStack stack = new ItemStack(Items.SPAWN_EGG);
@@ -251,20 +250,7 @@ public class RewardsUtil
 
 	public static Block getRandomBlock()
 	{
-		int size = Block.REGISTRY.getKeys().size();
-		int randomblock = rand.nextInt(size);
-		Block b = Block.REGISTRY.getObjectById(randomblock);
-		int iteration = 0;
-		while(b == null)
-		{
-			iteration++;
-			randomblock = rand.nextInt(size);
-			if(iteration > 100)
-				b = Blocks.COBBLESTONE;
-			else
-				b = Block.REGISTRY.getObjectById(randomblock);
-		}
-		return b;
+		return Block.REGISTRY.getObjectById(rand.nextInt(Block.REGISTRY.getKeys().size()));
 	}
 
 	public static CustomEntry<Block, Integer> getRandomOre()
@@ -289,15 +275,12 @@ public class RewardsUtil
 			}
 		}
 
-		return new CustomEntry<Block, Integer>(ore, meta);
+		return new CustomEntry<>(ore, meta);
 	}
 
 	public static Item getRandomItem()
 	{
-		Item item = Item.getItemById(256 + rand.nextInt(166));
-		while(item == null)
-			item = Item.getItemById(256 + rand.nextInt(166));
-		return item;
+		return Item.getItemById(256 + rand.nextInt(166));
 	}
 
 	public static ItemStack getRandomFirework()
@@ -360,7 +343,7 @@ public class RewardsUtil
 			{
 				return new PotionEffect(MobEffects.WITHER, 5, 1);
 			}
-			potion = (Potion) Potion.REGISTRY.getObjectById(rand.nextInt(Potion.REGISTRY.getKeys().size()));
+			potion = Potion.REGISTRY.getObjectById(rand.nextInt(Potion.REGISTRY.getKeys().size()));
 			tries++;
 		} while(potion == null);
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
@@ -389,10 +372,10 @@ public class RewardsUtil
 	public static void executeCommand(World world, EntityPlayer player, String command)
 	{
 		MinecraftServer server = world.getMinecraftServer();
-		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+		boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", String.valueOf(rule));
 	}
 
 	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)

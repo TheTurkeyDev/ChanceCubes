@@ -78,7 +78,7 @@ build.dependsOn sourceJar
             maven { url mavendir }
         }
         else{
-        	logger.error('Failed to find maven directory')
+        	logger.error('Chance Cubes failed to find maven directory')
         }
     }
 }

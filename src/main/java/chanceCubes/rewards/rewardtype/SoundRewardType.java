@@ -1,10 +1,12 @@
 package chanceCubes.rewards.rewardtype;
 
+import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class SoundRewardType extends BaseRewardType<SoundPart>
@@ -12,6 +14,19 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 	public SoundRewardType(SoundPart... sounds)
 	{
 		super(sounds);
+	}
+
+	public SoundRewardType(SoundEvent... sounds)
+	{
+		super(convertToCommandParts(sounds));
+	}
+
+	private static SoundPart[] convertToCommandParts(SoundEvent... sounds)
+	{
+		SoundPart[] toReturn = new SoundPart[sounds.length];
+		for(int i = 0; i < sounds.length; i++)
+			toReturn[i] = new SoundPart(sounds[i]);
+		return toReturn;
 	}
 
 	@Override

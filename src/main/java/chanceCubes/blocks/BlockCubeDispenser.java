@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 
 public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityProvider
 {
-	public static final PropertyEnum<BlockCubeDispenser.DispenseType> DISPENSING = PropertyEnum.<BlockCubeDispenser.DispenseType> create("dispensing", BlockCubeDispenser.DispenseType.class);
+	public static final PropertyEnum<BlockCubeDispenser.DispenseType> DISPENSING = PropertyEnum.<BlockCubeDispenser.DispenseType>create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
@@ -53,12 +53,9 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 		else
 		{
-			if(player.inventory.getCurrentItem() != null)
-			{
-				Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
-				if(block != null && block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
-					player.inventory.decrStackSize(player.inventory.currentItem, 1);
-			}
+			Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
+			if(block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
+				player.inventory.decrStackSize(player.inventory.currentItem, 1);
 		}
 		return true;
 	}
@@ -70,6 +67,9 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
 			return;
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
+
+		if(te == null)
+			return;
 
 		EntityItem entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
 		entitem.setLocationAndAngles(player.posX, player.posY, player.posZ, 0, 0);
@@ -85,12 +85,14 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 		}
 	}
 
-	public boolean isOpaqueCube()
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
 	{
-		return false;
+		return true;
 	}
 
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return null;
 	}
@@ -120,13 +122,13 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 			return this.getDefaultState().withProperty(DISPENSING, DispenseType.CHANCE_CUBE);
 	}
 
-	public static enum DispenseType implements IStringSerializable
+	public enum DispenseType implements IStringSerializable
 	{
 		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GIANTCUBE("compact_giant_cube");
 
 		private String type;
 
-		private DispenseType(String name)
+		DispenseType(String name)
 		{
 			this.type = name;
 		}
@@ -165,6 +167,6 @@ public class BlockCubeDispenser extends BaseChanceBlock implements ITileEntityPr
 
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] { DISPENSING });
+		return new BlockStateContainer(this, DISPENSING);
 	}
 }

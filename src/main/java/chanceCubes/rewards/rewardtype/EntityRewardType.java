@@ -1,7 +1,5 @@
 package chanceCubes.rewards.rewardtype;
 
-import org.apache.logging.log4j.Level;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.RewardsUtil;
@@ -16,12 +14,26 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class EntityRewardType extends BaseRewardType<EntityPart>
 {
 	public EntityRewardType(EntityPart... entities)
 	{
 		super(entities);
+	}
+
+	public EntityRewardType(String... entities)
+	{
+		super(convertToEntityParts(entities));
+	}
+
+	private static EntityPart[] convertToEntityParts(String... entities)
+	{
+		EntityPart[] toReturn = new EntityPart[entities.length];
+		for(int i = 0; i < entities.length; i++)
+			toReturn[i] = new EntityPart(EntityRewardType.getBasicNBTForEntity(entities[i]));
+		return toReturn;
 	}
 
 	@Override

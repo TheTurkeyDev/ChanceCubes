@@ -1,21 +1,19 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.util.CCubesCommandSender;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
 public class BookOfMemesReward extends BaseCustomReward
 {
-	private List<String> memes = new ArrayList<String>();
+	private List<String> memes = new ArrayList<>();
 
 	public BookOfMemesReward()
 	{
@@ -38,12 +36,7 @@ public class BookOfMemesReward extends BaseCustomReward
 		List<String> allMemes = new ArrayList<>(memes);
 		allMemes.addAll(Arrays.asList(super.getSettingAsStringList(settings, "memes", new String[0])));
 		String meme = allMemes.get(RewardsUtil.rand.nextInt(allMemes.size()));
-		MinecraftServer server = world.getMinecraftServer();
-		Boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
-		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-		server.getCommandManager().executeCommand(sender, command);
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", rule.toString());
+		RewardsUtil.executeCommand(world, player, command);
 	}
 }

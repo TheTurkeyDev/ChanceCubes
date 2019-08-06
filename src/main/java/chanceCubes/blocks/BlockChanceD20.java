@@ -114,7 +114,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile != null && tile instanceof TileChanceD20)
+		if(tile instanceof TileChanceD20)
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
 			if(d20.transform != TRSRTransformation.identity())
@@ -127,6 +127,6 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 	@Override
 	public ExtendedBlockState createBlockState()
 	{
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { Properties.AnimationProperty });
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{Properties.AnimationProperty});
 	}
 }
