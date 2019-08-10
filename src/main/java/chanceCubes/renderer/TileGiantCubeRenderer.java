@@ -7,7 +7,10 @@ import chanceCubes.model.ModelGiantCube;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 {
 	protected final ModelGiantCube model;

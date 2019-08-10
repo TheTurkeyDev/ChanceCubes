@@ -3,6 +3,8 @@ package chanceCubes.renderer;
 import java.awt.Color;
 import java.util.Random;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -15,16 +17,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 
+@OnlyIn(Dist.CLIENT)
 public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 {
-	public static final TileChanceD20Renderer INSTANCE = new TileChanceD20Renderer();
 	private static final Random random = new Random();
 
 	private static final float HOVER_SPEED = 6F;
-
-	private TileChanceD20Renderer()
-	{
-	}
 
 	@Override
 	public void render(TileChanceD20 d20, double x, double y, double z, float partialTicks, int destroyStage)

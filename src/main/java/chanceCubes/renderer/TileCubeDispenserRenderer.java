@@ -12,7 +12,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class TileCubeDispenserRenderer extends TileEntityRenderer<TileCubeDispenser>
 {
 	private static final float ROTATE_SPEED = 2F;

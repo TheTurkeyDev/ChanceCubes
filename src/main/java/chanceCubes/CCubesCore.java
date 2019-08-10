@@ -1,11 +1,5 @@
 package chanceCubes;
 
-import java.io.File;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
@@ -48,6 +42,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -75,7 +74,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
 		// ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, ()
 		// -> CCubesGuiHandler::openGui);
 	}
@@ -102,9 +100,11 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, TileChanceD20Renderer.INSTANCE);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
+		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
+
+//		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
+//		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
+//		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 	}
 
 	@SubscribeEvent

@@ -3,9 +3,9 @@ package chanceCubes.listeners;
 import chanceCubes.util.Scheduler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.TickEvent.Type;
+import net.minecraftforge.event.TickEvent.Phase;
 
 public class TickListener
 {

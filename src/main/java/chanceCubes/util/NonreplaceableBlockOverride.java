@@ -289,11 +289,11 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Determines if a {@link net.minecraft.block.state.IBlockState} is still present in the
+	 * Determines if a {@link net.minecraft.block.BlockState} is still present in the
 	 * {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
 	 * 
 	 * @param toDetect
-	 *            The {@link net.minecraft.block.state.IBlockState} to check for.
+	 *            The {@link net.minecraft.block.BlockState} to check for.
 	 * @return Should be self explanatory...
 	 */
 	private static boolean noLongerExists(BlockState toDetect)

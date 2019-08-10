@@ -8,7 +8,6 @@ import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +26,7 @@ import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockChanceCube extends BaseChanceBlock
 {
-	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.<BlockChanceCube.EnumTexture>create("texture", BlockChanceCube.EnumTexture.class);
+	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.create("texture", BlockChanceCube.EnumTexture.class);
 
 	public static EnumTexture textureToSet = EnumTexture.DEFAULT;
 

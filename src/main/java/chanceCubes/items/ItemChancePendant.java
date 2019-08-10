@@ -7,11 +7,11 @@ public class ItemChancePendant extends BaseChanceCubesItem
 {
 	private int chanceIncrease;
 
-	public ItemChancePendant(int tier, int chancebonus)
+	public ItemChancePendant(int tier, int chanceBonus)
 	{
 		super((new Item.Properties()).maxStackSize(1).defaultMaxDamage(32), "chance_pendant_tier" + tier);
 		super.showDurabilityBar(new ItemStack(this));
-		chanceIncrease = chancebonus;
+		chanceIncrease = chanceBonus;
 		super.addLore("Increases the chance of Chance Cubes by:");
 		super.addLore("      +" + chanceIncrease + " when the block is broken");
 		super.addLore("Only needs to be in the players inventory to work");
