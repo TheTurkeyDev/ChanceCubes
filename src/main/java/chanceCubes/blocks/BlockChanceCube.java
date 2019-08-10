@@ -79,12 +79,14 @@ public class BlockChanceCube extends BaseChanceBlock
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
+	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
 		BlockState iblockstate = super.getStateForPlacement(context);
 		return iblockstate.with(TEXTURE, textureToSet);
 	}
 
+	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(TEXTURE);

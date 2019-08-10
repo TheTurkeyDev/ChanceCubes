@@ -3,7 +3,6 @@ package chanceCubes.blocks;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
@@ -19,7 +18,7 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public class BlockCubeDispenser extends BaseChanceBlock
 {
-	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.<BlockCubeDispenser.DispenseType>create("dispensing", BlockCubeDispenser.DispenseType.class);
+	public static final EnumProperty<BlockCubeDispenser.DispenseType> DISPENSING = EnumProperty.create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
@@ -52,7 +51,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		{
 			if(player.isSneaking())
 			{
-				state = this.cycleProperty(state, DISPENSING);
+				state = state.cycle(DISPENSING);
 				world.setBlockState(pos, state, 3);
 			}
 			else
