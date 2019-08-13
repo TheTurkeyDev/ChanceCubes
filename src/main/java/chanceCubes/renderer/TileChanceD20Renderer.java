@@ -1,10 +1,5 @@
 package chanceCubes.renderer;
 
-import java.awt.Color;
-import java.util.Random;
-
-import org.lwjgl.opengl.GL11;
-
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,12 +8,15 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.Random;
 
 public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD20>
 {
 	public static final TileChanceD20Renderer INSTANCE = new TileChanceD20Renderer();
 	private static final Random random = new Random();
-	private Color tmpClr;
 
 	private static final float HOVER_SPEED = 6F;
 
@@ -56,7 +54,7 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 		int stage = 0;
 
 		float color = (d20.getWorld().getTotalWorldTime() % 75) / 75F;
-		tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
+		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
 		int r = tmpClr.getRed();
 		int g = tmpClr.getGreen();
 		int b = tmpClr.getBlue();
@@ -72,14 +70,14 @@ public class TileChanceD20Renderer extends TileEntitySpecialRenderer<TileChanceD
 			GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.rotate(random.nextFloat() * 360.0F + f1 * 90.0F, 0.0F, 0.0F, 1.0F);
 
-			float f3 = random.nextFloat() * 20.0F;
-			float f4 = random.nextFloat() * 2.0F;
+			double f3 = random.nextDouble() * 20.0d;
+			double f4 = random.nextDouble() * 2.0d;
 			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
 			worldrenderer.pos(0.0D, 0.0D, 0.0D).color(r, g, b, alpha).endVertex();
-			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(0.0D, (double) f3, (double) (1.0F * f4)).color(r, g, b, 0).endVertex();
-			worldrenderer.pos(-0.866D * (double) f4, (double) f3, (double) (-0.5F * f4)).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(-0.866D * f4, f3, -0.5F * f4).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(0.866D * f4, f3, -0.5F * f4).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(0.0D, f3, 1.0F * f4).color(r, g, b, 0).endVertex();
+			worldrenderer.pos(-0.866D * f4, f3, -0.5F * f4).color(r, g, b, 0).endVertex();
 			tessellator.draw();
 		}
 

@@ -67,7 +67,7 @@ public class ProfileGui extends GuiScreen
 			try
 			{
 				Class<?> oclass = Class.forName("java.awt.Desktop");
-				Object object = oclass.getMethod("getDesktop").invoke((Object) null);
+				Object object = oclass.getMethod("getDesktop").invoke(null);
 				oclass.getMethod("browse", URI.class).invoke(object, new URI("https://github.com/Turkey2349/ChanceCubes/wiki/Chance-Cubes-Rewards-Evolution"));
 			} catch(Exception e)
 			{
@@ -90,7 +90,7 @@ public class ProfileGui extends GuiScreen
 		this.hoverText = text;
 	}
 
-	protected void actionPerformed(GuiButton button) throws IOException
+	protected void actionPerformed(GuiButton button)
 	{
 		if(button.enabled)
 		{

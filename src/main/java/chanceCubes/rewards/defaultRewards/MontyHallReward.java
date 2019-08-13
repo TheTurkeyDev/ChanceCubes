@@ -44,7 +44,7 @@ public class MontyHallReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
-			int[] chance = { RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1 };
+			int[] chance = {RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1};
 
 			@Override
 			public void callback()
@@ -56,15 +56,15 @@ public class MontyHallReward extends BaseCustomReward
 			public void update()
 			{
 				IBlockState state = world.getBlockState(pos.add(-1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
 					giveReward(chance[0]);
 
 				state = world.getBlockState(pos.add(0, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
 					giveReward(chance[1]);
 
 				state = world.getBlockState(pos.add(1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED).booleanValue())
+				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
 					giveReward(chance[2]);
 			}
 

@@ -1,18 +1,17 @@
 package chanceCubes.client.gui;
 
+import chanceCubes.profiles.BasicProfile;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.triggers.ITrigger;
+import com.google.gson.JsonObject;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import scala.actors.threadpool.Arrays;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.JsonObject;
-
-import chanceCubes.profiles.BasicProfile;
-import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.triggers.ITrigger;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import scala.actors.threadpool.Arrays;
 
 public class ProfileInfoGui extends GuiScreen
 {
@@ -40,15 +39,13 @@ public class ProfileInfoGui extends GuiScreen
 			List<String> stringsList = new ArrayList<>();
 			if(bProfile.getRewardsToEnable().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String toEnable : bProfile.getRewardsToEnable())
-				stringsList.add(toEnable);
+			stringsList.addAll(bProfile.getRewardsToEnable());
 			this.addTab("To Enable", stringsList);
 
 			stringsList = new ArrayList<>();
 			if(bProfile.getRewardsToDisable().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String toDisable : bProfile.getRewardsToDisable())
-				stringsList.add(toDisable);
+			stringsList.addAll(bProfile.getRewardsToDisable());
 			this.addTab("To Disable", stringsList);
 
 			stringsList = new ArrayList<>();
@@ -61,8 +58,7 @@ public class ProfileInfoGui extends GuiScreen
 			stringsList = new ArrayList<>();
 			if(bProfile.getChanceValueChanges().isEmpty())
 				stringsList.add("----- NONE -----");
-			for(String chanceValueChange : bProfile.getChanceValueChanges())
-				stringsList.add(chanceValueChange);
+			stringsList.addAll(bProfile.getChanceValueChanges());
 			this.addTab("New Chances", stringsList);
 
 			stringsList = new ArrayList<>();
@@ -123,7 +119,7 @@ public class ProfileInfoGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	protected void actionPerformed(GuiButton button) throws IOException
+	protected void actionPerformed(GuiButton button)
 	{
 		if(button.enabled)
 		{

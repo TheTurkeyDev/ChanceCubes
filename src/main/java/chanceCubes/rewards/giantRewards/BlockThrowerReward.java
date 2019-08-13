@@ -39,7 +39,7 @@ public class BlockThrowerReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Block_Thrower", 0);
 	}
-	
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
@@ -55,7 +55,7 @@ public class BlockThrowerReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Throw_Block", 450, 2)
 		{
-			private List<EntityFallingBlock> blocks = new ArrayList<EntityFallingBlock>();
+			private List<EntityFallingBlock> blocks = new ArrayList<>();
 
 			@Override
 			public void update()
@@ -64,7 +64,7 @@ public class BlockThrowerReward extends BaseCustomReward
 				{
 					int x = RewardsUtil.rand.nextInt(41) - 21;
 					int z = RewardsUtil.rand.nextInt(41) - 21;
-					int y = -2;
+					int y;
 					for(y = 12; y > -2; y--)
 						if(!world.isAirBlock(pos.add(x, y, z)))
 							break;

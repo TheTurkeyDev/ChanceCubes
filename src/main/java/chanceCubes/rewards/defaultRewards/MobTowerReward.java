@@ -77,11 +77,9 @@ public class MobTowerReward extends BaseCustomReward
 				ent.startRiding(last, true);
 				last = ent;
 				System.out.println(ent);
-			} catch(Exception e)
+			} catch(Exception ignored)
 			{
-				continue;
 			}
-
 		}
 	}
 }

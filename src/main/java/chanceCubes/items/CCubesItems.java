@@ -35,11 +35,11 @@ public class CCubesItems
 		e.getRegistry().register(rewardSelectorPendant = new ItemRewardSelectorPendant());
 		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_CUBE).setRegistryName(CCubesBlocks.CHANCE_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON).setRegistryName(CCubesBlocks.CHANCE_ICOSAHEDRON.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.GIANT_CUBE).setRegistryName(CCubesBlocks.GIANT_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE).setRegistryName(CCubesBlocks.COMPACT_GIANT_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER).setRegistryName(CCubesBlocks.CUBE_DISPENSER.getRegistryName()));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
+		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
 
 		e.getRegistry().register(scanner = new ItemScanner());
 	}

@@ -57,13 +57,11 @@ public class NetherBiome implements IBioDomeBiome
 			delay++;
 			osb = new OffsetBlock(x, y, z, Blocks.LAVA, false, (delay / BioDomeReward.delayShorten) + 1);
 			blocks.add(osb);
-			delay++;
 		}
 		else if(dist < 0 && rand.nextInt(20) == 0)
 		{
 			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SOUL_SAND, false, (delay / BioDomeReward.delayShorten) + 1);
 			blocks.add(osb);
-			delay++;
 		}
 	}
 }

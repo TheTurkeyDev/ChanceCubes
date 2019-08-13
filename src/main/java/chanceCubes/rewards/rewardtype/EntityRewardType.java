@@ -65,10 +65,10 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	public static NBTTagCompound getBasicNBTForEntity(String entity)
 	{
 		String json = "{id:" + entity + "}";
-		NBTTagCompound nbt = null;
+		NBTTagCompound nbt;
 		try
 		{
-			nbt = (NBTTagCompound) JsonToNBT.getTagFromJson(json);
+			nbt = JsonToNBT.getTagFromJson(json);
 		} catch(NBTException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);

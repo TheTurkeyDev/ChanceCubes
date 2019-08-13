@@ -11,7 +11,7 @@ public class FloatVar extends CustomVar
 {
 	public FloatVar()
 	{
-		
+
 	}
 
 	public FloatVar(float val)
@@ -21,7 +21,7 @@ public class FloatVar extends CustomVar
 
 	public FloatVar(Float[] val)
 	{
-		this.addPart(new ListPart<Float>(val));
+		this.addPart(new ListPart<>(val));
 	}
 
 	public float getFloatValue()
@@ -41,12 +41,12 @@ public class FloatVar extends CustomVar
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");
 			if(randParams.length == 1 && isFloat(randParams[0]))
-				return new RandomPart<Float>(0f, Float.parseFloat(randParams[0]));
+				return new RandomPart<>(0f, Float.parseFloat(randParams[0]));
 			else if(randParams.length == 2 && isFloat(randParams[0]) && isFloat(randParams[1]))
-				return new RandomPart<Float>(Float.parseFloat(randParams[0]), Float.parseFloat(randParams[1]));
+				return new RandomPart<>(Float.parseFloat(randParams[0]), Float.parseFloat(randParams[1]));
 			//TODO: Maybe add step random?
 		}
-		return new RandomPart<Float>(0f, 1f);
+		return new RandomPart<>(0f, 1f);
 	}
 
 	public static boolean isFloat(String input)

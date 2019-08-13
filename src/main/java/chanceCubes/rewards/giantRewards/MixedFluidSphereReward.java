@@ -20,11 +20,11 @@ public class MixedFluidSphereReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Mixed_Fluid_Sphere", 0);
 	}
-	
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 
 		int delay = 0;
 		for(int i = 0; i <= 5; i++)

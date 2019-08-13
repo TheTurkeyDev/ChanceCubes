@@ -27,9 +27,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Parses compatible strings into a {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
-	 * 
-	 * @param strings
-	 *            An array of {@link java.lang.String Strings} to attempt to parse.
+	 *
+	 * @param strings An array of {@link java.lang.String Strings} to attempt to parse.
 	 * @return The resulting {@link java.util.List} of {@link NonreplaceableBlockOverride} objects.
 	 */
 	public static List<NonreplaceableBlockOverride> parseStrings(String[] strings)
@@ -48,9 +47,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Parses a compatible string into a {@link NonreplaceableBlockOverride}.
-	 * 
-	 * @param string
-	 *            The string to parse.
+	 *
+	 * @param string The string to parse.
 	 * @return The resulting {@link NonreplaceableBlockOverride}.<
 	 */
 	@Nullable
@@ -85,9 +83,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#REMOVE REMOVE} {@link OverrideType} from the given Block ID.
-	 * 
-	 * @param substring
-	 *            The Block ID.
+	 *
+	 * @param substring The Block ID.
 	 * @return The {@link NonreplaceableBlockOverride} produced.
 	 */
 	private static NonreplaceableBlockOverride removeBlock(String substring)
@@ -120,9 +117,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Creates a {@link NonreplaceableBlockOverride} with the {@link OverrideType#ADD ADD} {@link OverrideType} from the given Block ID.
-	 * 
-	 * @param substring
-	 *            The Block ID.
+	 *
+	 * @param substring The Block ID.
 	 * @return The {@link NonreplaceableBlockOverride} produced.
 	 */
 	private static NonreplaceableBlockOverride addBlock(String substring)
@@ -155,9 +151,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Produces an array of {@link java.lang.String Strings} from a {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
-	 * 
-	 * @param overrides
-	 *            The {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
+	 *
+	 * @param overrides The {@link java.util.List} of {@link NonreplaceableBlockOverride NonreplaceableBlockOverrides}.
 	 * @return The {@link java.lang.String String} array produced.
 	 */
 	public static String[] parseOverrides(List<NonreplaceableBlockOverride> overrides)
@@ -171,15 +166,13 @@ public class NonreplaceableBlockOverride
 				strings.add(toAdd);
 			}
 		}
-		String[] stringArray = (String[]) strings.toArray();
-		return stringArray;
+		return (String[]) strings.toArray();
 	}
 
 	/**
 	 * Produces a{@link java.lang.String} from a {@link NonreplaceableBlockOverride NonreplaceableBlockOverride}.
-	 * 
-	 * @param override
-	 *            The {@link NonreplaceableBlockOverride NonreplaceableBlockOverride}.
+	 *
+	 * @param override The {@link NonreplaceableBlockOverride NonreplaceableBlockOverride}.
 	 * @return The {@link java.lang.String String} produced or null if an error occurs.
 	 */
 	@Nullable
@@ -261,7 +254,7 @@ public class NonreplaceableBlockOverride
 	 */
 	private static void purgeOverrides()
 	{
-		List<IBlockState> blocksToRemove = new ArrayList<IBlockState>();
+		List<IBlockState> blocksToRemove = new ArrayList<>();
 		for(IBlockState toRemove : CCubesSettings.nonReplaceableBlocks)
 		{
 			if(noLongerExists(toRemove))
@@ -275,9 +268,8 @@ public class NonreplaceableBlockOverride
 
 	/**
 	 * Determines if a {@link net.minecraft.block.state.IBlockState} is still present in the {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
-	 * 
-	 * @param toDetect
-	 *            The {@link net.minecraft.block.state.IBlockState} to check for.
+	 *
+	 * @param toDetect The {@link net.minecraft.block.state.IBlockState} to check for.
 	 * @return Should be self explanatory...
 	 */
 	private static boolean noLongerExists(IBlockState toDetect)

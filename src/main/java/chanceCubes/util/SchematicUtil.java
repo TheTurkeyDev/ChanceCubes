@@ -42,15 +42,15 @@ public class SchematicUtil
 
 	public static void createCustomSchematic(World world, BlockPos loc1, BlockPos loc2, String fileName)
 	{
-		List<Integer> blocks = new ArrayList<Integer>();
-		List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<CustomEntry<Integer, String>>();
-		List<CustomEntry<String, List<Integer>>> tileEntityData = new ArrayList<CustomEntry<String, List<Integer>>>();
-		int largeX = loc1.getX() > loc2.getX() ? loc1.getX() : loc2.getX();
-		int smallX = loc1.getX() < loc2.getX() ? loc1.getX() : loc2.getX();
-		int largeY = loc1.getY() > loc2.getY() ? loc1.getY() : loc2.getY();
-		int smallY = loc1.getY() < loc2.getY() ? loc1.getY() : loc2.getY();
-		int largeZ = loc1.getZ() > loc2.getZ() ? loc1.getZ() : loc2.getZ();
-		int smallZ = loc1.getZ() < loc2.getZ() ? loc1.getZ() : loc2.getZ();
+		List<Integer> blocks = new ArrayList<>();
+		List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<>();
+		List<CustomEntry<String, List<Integer>>> tileEntityData = new ArrayList<>();
+		int largeX = Math.max(loc1.getX(), loc2.getX());
+		int smallX = Math.min(loc1.getX(), loc2.getX());
+		int largeY = Math.max(loc1.getY(), loc2.getY());
+		int smallY = Math.min(loc1.getY(), loc2.getY());
+		int largeZ = Math.max(loc1.getZ(), loc2.getZ());
+		int smallZ = Math.min(loc1.getZ(), loc2.getZ());
 		StringBuilder blockData = new StringBuilder();
 		for(int y = smallY; y < largeY; y++)
 		{
@@ -77,7 +77,7 @@ public class SchematicUtil
 					if(id == -1)
 					{
 						id = blockDataIds.size();
-						blockDataIds.add(new CustomEntry<Integer, String>(id, blockString));
+						blockDataIds.add(new CustomEntry<>(id, blockString));
 					}
 					blocks.add(id);
 
@@ -94,9 +94,9 @@ public class SchematicUtil
 								break;
 							}
 						}
-						List<Integer> list = new ArrayList<Integer>();
+						List<Integer> list = new ArrayList<>();
 						list.add(blocks.size() - 1);
-						tileEntityData.add(new CustomEntry<String, List<Integer>>(nbt.toString(), list));
+						tileEntityData.add(new CustomEntry<>(nbt.toString(), list));
 					}
 				}
 			}
@@ -190,7 +190,7 @@ public class SchematicUtil
 
 		byte[] blocks = nbtdata.getByteArray("Blocks");
 		byte[] data = nbtdata.getByteArray("Data");
-		List<OffsetBlock> offsetBlocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> offsetBlocks = new ArrayList<>();
 
 		NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
 
@@ -222,27 +222,24 @@ public class SchematicUtil
 			}
 		}
 
-		if(tileentities != null)
+		for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
 		{
-			for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
-			{
-				NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
-				TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
+			NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
+			TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
 
-				if(tileentity != null)
-				{
-					Block b = null;
-					for(OffsetBlock osb : offsetBlocks)
-						if(osb.xOff.getIntValue() == halfWidth - tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == halfLength - tileentity.getPos().getZ())
-							b = osb.getBlockState().getBlock();
-					if(b == null)
-						b = Blocks.STONE;
-					OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
-					block.setRelativeToPlayer(relativeToPlayer);
-					block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
-					block.setPlaysSound(playSound);
-					offsetBlocks.add(block);
-				}
+			if(tileentity != null)
+			{
+				Block b = null;
+				for(OffsetBlock osb : offsetBlocks)
+					if(osb.xOff.getIntValue() == halfWidth - tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == halfLength - tileentity.getPos().getZ())
+						b = osb.getBlockState().getBlock();
+				if(b == null)
+					b = Blocks.STONE;
+				OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
+				block.setRelativeToPlayer(relativeToPlayer);
+				block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
+				block.setPlaysSound(playSound);
+				offsetBlocks.add(block);
 			}
 		}
 
@@ -265,23 +262,23 @@ public class SchematicUtil
 		if(elem == null)
 			return null;
 		JsonObject json = elem.getAsJsonObject();
-		List<OffsetBlock> offsetBlocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> offsetBlocks = new ArrayList<>();
 		JsonObject info = json.get("Schematic Data").getAsJsonObject();
 		int xSize = info.get("xSize").getAsInt();
 		int ySize = info.get("ySize").getAsInt();
 		int zSize = info.get("zSize").getAsInt();
-		List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<CustomEntry<Integer, String>>();
+		List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<>();
 
 		JsonArray blockDataArray = json.get("Block Data").getAsJsonArray();
 		for(JsonElement i : blockDataArray)
 		{
 			JsonObject index = i.getAsJsonObject();
 			for(Entry<String, JsonElement> obj : index.entrySet())
-				blockDataIds.add(new CustomEntry<Integer, String>(obj.getValue().getAsInt(), obj.getKey()));
+				blockDataIds.add(new CustomEntry<>(obj.getValue().getAsInt(), obj.getKey()));
 		}
 
 		int index = 0;
-		List<Integer> blockArray = new ArrayList<Integer>();
+		List<Integer> blockArray = new ArrayList<>();
 		for(JsonElement ids : json.get("Blocks").getAsJsonArray())
 		{
 			String entry = ids.getAsString();
@@ -344,7 +341,7 @@ public class SchematicUtil
 	{
 		try
 		{
-			return OffsetBlockToTileEntity(osb, (NBTTagCompound) JsonToNBT.getTagFromJson(nbt));
+			return OffsetBlockToTileEntity(osb, JsonToNBT.getTagFromJson(nbt));
 		} catch(NBTException e)
 		{
 			e.printStackTrace();

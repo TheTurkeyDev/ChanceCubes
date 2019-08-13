@@ -6,8 +6,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSilkTouchPendant extends BaseChanceCubesItem
 {
-	public String itemNameID = "silk_touch_pendant";
-
 	public ItemSilkTouchPendant()
 	{
 		super("silk_touch_pendant");

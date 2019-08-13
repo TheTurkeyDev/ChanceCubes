@@ -56,7 +56,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
-		this.buttonList.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward", new Object[0])));
+		this.buttonList.add(new GuiButton(0, i + 57, j + 27, 70, 20, I18n.format("Set Reward")));
 	}
 
 	public void onGuiClosed()

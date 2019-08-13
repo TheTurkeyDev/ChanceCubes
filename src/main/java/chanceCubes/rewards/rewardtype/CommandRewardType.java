@@ -1,13 +1,10 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.CommandPart;
-import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandRewardType extends BaseRewardType<CommandPart>

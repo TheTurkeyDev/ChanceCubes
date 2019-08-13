@@ -19,15 +19,11 @@ public class MazeGenerator
 	private int width;
 	private int height;
 	private int[][] map;
-	private ArrayList<Location2I> walls = new ArrayList<Location2I>();
+	private ArrayList<Location2I> walls = new ArrayList<>();
 	private RewardBlockCache cache;
 	private Random r = new Random();
 
-	private int currentX = 1;
-	private int currentY = 1;
-
 	private final int nonWall = 0;
-	private final int wall = 1;
 
 	private BlockPos startPos;
 	private Location2I endBlock;
@@ -39,19 +35,12 @@ public class MazeGenerator
 		startPos = pos;
 	}
 
-	/**
-	 * 
-	 * @param multiple
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 */
 	public void generate(World world, int width, int height)
 	{
 		this.width = width;
 		this.height = height;
 		map = new int[width][height];
+		int wall = 1;
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++)
 				map[x][y] = wall;
@@ -60,16 +49,16 @@ public class MazeGenerator
 
 		walls.add(new Location2I(1, 1));
 		Location2I current = new Location2I(0, 0);
-		Location2I north = new Location2I(0, 0);
-		Location2I east = new Location2I(0, 0);
-		Location2I south = new Location2I(0, 0);
-		Location2I west = new Location2I(0, 0);
+		Location2I north;
+		Location2I east;
+		Location2I south;
+		Location2I west;
 
 		do
 		{
 			int randomLoc = r.nextInt(walls.size());
-			currentX = walls.get(randomLoc).getX();
-			currentY = walls.get(randomLoc).getY();
+			int currentX = walls.get(randomLoc).getX();
+			int currentY = walls.get(randomLoc).getY();
 			current.setXY(currentX, currentY);
 			north = current.add(0, -1);
 			east = current.add(1, 0);
@@ -107,8 +96,8 @@ public class MazeGenerator
 		int endBlockZ = height - 1;
 		boolean run = true;
 		int i = 0;
-		int xx = 0;
-		int zz = 0;
+		int xx;
+		int zz;
 		while(run)
 		{
 			for(xx = 0; xx <= i; xx++)
@@ -185,7 +174,7 @@ public class MazeGenerator
 		}
 	}
 
-	public void endMaze(World world, EntityPlayer player)
+	public void endMaze(EntityPlayer player)
 	{
 		cache.restoreBlocks(player);
 	}

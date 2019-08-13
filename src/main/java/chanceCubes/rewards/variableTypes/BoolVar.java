@@ -9,9 +9,9 @@ public class BoolVar extends CustomVar
 {
 	public BoolVar()
 	{
-		
+
 	}
-	
+
 	public BoolVar(boolean val)
 	{
 		this.addPart(new StringPart(val));
@@ -19,9 +19,9 @@ public class BoolVar extends CustomVar
 
 	public BoolVar(Boolean[] val)
 	{
-		this.addPart(new ListPart<Boolean>(val));
+		this.addPart(new ListPart<>(val));
 	}
-	
+
 	public BoolVar(IPart part)
 	{
 		this.addPart(part);
@@ -31,9 +31,9 @@ public class BoolVar extends CustomVar
 	{
 		return Boolean.parseBoolean(super.getValue());
 	}
-	
+
 	public static RandomPart<Boolean> parseRandom(String input)
 	{
-		return new RandomPart<Boolean>(false, true);
+		return new RandomPart<>(false, true);
 	}
 }

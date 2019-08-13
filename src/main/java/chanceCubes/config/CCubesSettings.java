@@ -23,7 +23,7 @@ public class CCubesSettings
 	public static int oreGenAmount = 4;
 	public static boolean surfaceGeneration = true;
 	public static int surfaceGenAmount = 1;
-	public static String[] blockedWorlds = new String[] {};
+	public static String[] blockedWorlds = new String[]{};
 	public static boolean chestLoot = true;
 	public static boolean craftingRecipie = true;
 
@@ -39,8 +39,8 @@ public class CCubesSettings
 
 	public static int dropHeight = 20;
 
-	public static List<IBlockState> nonReplaceableBlocksIMC = new ArrayList<IBlockState>();
-	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<IBlockState>();
+	public static List<IBlockState> nonReplaceableBlocksIMC = new ArrayList<>();
+	public static List<IBlockState> nonReplaceableBlocks = new ArrayList<>();
 	public static List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
 	public static List<IBlockState> backupNRB = new ArrayList<>();
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
@@ -25,9 +26,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemChanceCube extends ItemBlock
 {
-	public ItemChanceCube(Block b)
+	public ItemChanceCube(BaseChanceBlock b)
 	{
 		super(b);
+		this.setRegistryName(b.getRegistryName());
 	}
 
 	public void setChance(ItemStack stack, int chance)
@@ -73,8 +75,7 @@ public class ItemChanceCube extends ItemBlock
 		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
 		{
 			list.add("==== Enabled Profiles ====");
-			for(String profile : ProfileManager.getEnabledProfileNames())
-				list.add(profile);
+			list.addAll(ProfileManager.getEnabledProfileNames());
 		}
 	}
 

@@ -45,7 +45,7 @@ public class CCubesServerCommands extends CommandBase
 
 	public CCubesServerCommands()
 	{
-		aliases = new ArrayList<String>();
+		aliases = new ArrayList<>();
 		aliases.add("Chancecubes");
 		aliases.add("chancecubes");
 		aliases.add("ChanceCube");
@@ -53,7 +53,7 @@ public class CCubesServerCommands extends CommandBase
 		aliases.add("chancecube");
 		aliases.add("CCubes");
 
-		tab = new ArrayList<String>();
+		tab = new ArrayList<>();
 		tab.add("reload");
 		tab.add("version");
 		tab.add("handNBT");
@@ -92,25 +92,21 @@ public class CCubesServerCommands extends CommandBase
 			return;
 		if(args[0].equalsIgnoreCase("reload"))
 		{
-			new Thread(new Runnable()
+			new Thread(() ->
 			{
-				@Override
-				public void run()
-				{
-					ChanceCubeRegistry.INSTANCE.ClearRewards();
-					GiantCubeRegistry.INSTANCE.ClearRewards();
-					ProfileManager.clearProfiles();
-					ChanceCubeRegistry.loadDefaultRewards();
-					GiantCubeRegistry.loadDefaultRewards();
-					CustomRewardsLoader.instance.loadCustomRewards();
-					CustomRewardsLoader.instance.fetchRemoteInfo();
-					ChanceCubeRegistry.loadCustomUserRewards(server);
-					ModHookUtil.loadCustomModRewards();
-					NonreplaceableBlockOverride.loadOverrides();
-					ProfileManager.initProfiles();
-					CustomProfileLoader.instance.loadProfiles();
-					sender.sendMessage(new TextComponentString("Rewards Reloaded"));
-				}
+				ChanceCubeRegistry.INSTANCE.ClearRewards();
+				GiantCubeRegistry.INSTANCE.ClearRewards();
+				ProfileManager.clearProfiles();
+				ChanceCubeRegistry.loadDefaultRewards();
+				GiantCubeRegistry.loadDefaultRewards();
+				CustomRewardsLoader.instance.loadCustomRewards();
+				CustomRewardsLoader.instance.fetchRemoteInfo();
+				ChanceCubeRegistry.loadCustomUserRewards(server);
+				ModHookUtil.loadCustomModRewards();
+				NonreplaceableBlockOverride.loadOverrides();
+				ProfileManager.initProfiles();
+				CustomProfileLoader.instance.loadProfiles();
+				sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 			}).start();
 		}
 		else if(args[0].equalsIgnoreCase("version"))
@@ -271,11 +267,8 @@ public class CCubesServerCommands extends CommandBase
 			GameProfile profile = ((EntityPlayer) sender).getGameProfile();
 			if(server.getPlayerList().canSendCommands(profile))
 			{
-				UserListOpsEntry userlistopsentry = (UserListOpsEntry) server.getPlayerList().getOppedPlayers().getEntry(profile);
-				if(userlistopsentry != null)
-					return userlistopsentry.getPermissionLevel() >= 2;
-				else
-					return server.getOpPermissionLevel() >= 2;
+				UserListOpsEntry userlistopsentry = server.getPlayerList().getOppedPlayers().getEntry(profile);
+				return userlistopsentry.getPermissionLevel() >= 2;
 			}
 			else
 			{
@@ -293,12 +286,12 @@ public class CCubesServerCommands extends CommandBase
 		else if(args.length > 1)
 		{
 			if(args[0].equalsIgnoreCase("disableReward"))
-				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getRewardNames());
+				return new ArrayList<>(ChanceCubeRegistry.INSTANCE.getRewardNames());
 			else if(args[0].equalsIgnoreCase("enableReward"))
-				return new ArrayList<String>(ChanceCubeRegistry.INSTANCE.getDisabledRewardNames());
+				return new ArrayList<>(ChanceCubeRegistry.INSTANCE.getDisabledRewardNames());
 			else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
 				return Arrays.asList("create", "cancel");
 		}
-		return Collections.<String> emptyList();
+		return Collections.emptyList();
 	}
 }

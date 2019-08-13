@@ -35,7 +35,7 @@ public class BeaconArenaReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		spawnWall(blocks);
 		spawnSmallBeacon(blocks, new BlockPos(17, 0, 17), Blocks.GOLD_BLOCK);
 		spawnSmallBeacon(blocks, new BlockPos(-17, 0, 17), Blocks.DIAMOND_BLOCK);
@@ -84,7 +84,7 @@ public class BeaconArenaReward extends BaseCustomReward
 
 	public void spawnWall(List<OffsetBlock> blocks)
 	{
-		List<BlockPos> usedPositions = new ArrayList<BlockPos>();
+		List<BlockPos> usedPositions = new ArrayList<>();
 		BlockPos temp;
 		for(int degree = 0; degree < 360; degree++)
 		{
@@ -111,7 +111,7 @@ public class BeaconArenaReward extends BaseCustomReward
 	public void editFloor(List<OffsetBlock> blocks)
 	{
 		int delay = 0;
-		List<BlockPos> usedPositions = new ArrayList<BlockPos>();
+		List<BlockPos> usedPositions = new ArrayList<>();
 		BlockPos temp;
 		for(int radius = 0; radius < 28; radius++)
 		{

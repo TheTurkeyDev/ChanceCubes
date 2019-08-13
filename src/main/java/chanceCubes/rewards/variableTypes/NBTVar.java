@@ -21,7 +21,7 @@ public class NBTVar extends CustomVar
 
 	public NBTVar(String val)
 	{
-		this.addPart(new StringPart(val.toString()));
+		this.addPart(new StringPart(val));
 	}
 
 	public NBTTagCompound getNBTValue()

@@ -36,7 +36,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 		player.setActiveHand(hand);
 		if(player.isSneaking() && world.isRemote)
 			FMLCommonHandler.instance().showGuiScreen(new RewardSelectorPendantGui(player, stack));
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
@@ -60,7 +60,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 			else if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 			{
 				TileEntity ent = world.getTileEntity(pos);
-				if(ent == null || !(ent instanceof TileGiantCube))
+				if(!(ent instanceof TileGiantCube))
 					return EnumActionResult.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
 				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));

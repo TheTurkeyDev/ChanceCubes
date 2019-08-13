@@ -65,12 +65,7 @@ public class BasicProfile implements IProfile
 
 	public BasicProfile addSettingsToReward(String reward, String key, Object value)
 	{
-		Map<String, Object> settings = rewardSettings.get(reward);
-		if(settings == null)
-		{
-			settings = new HashMap<String, Object>();
-			rewardSettings.put(reward, settings);
-		}
+		Map<String, Object> settings = rewardSettings.computeIfAbsent(reward, k -> new HashMap<>());
 		settings.put(key, value);
 		return this;
 	}
@@ -191,7 +186,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(Entry<String, Integer> change : this.chanceChanges.entrySet())
 			{
-				descFull.append(change.getKey() + " -> " + change.getValue());
+				descFull.append(change.getKey()).append(" -> ").append(change.getValue());
 				descFull.append("\n");
 			}
 			descFull.append("=== Sub Profiles ===");
@@ -200,7 +195,7 @@ public class BasicProfile implements IProfile
 				descFull.append("None\n");
 			for(IProfile subProf : this.subProfiles)
 			{
-				descFull.append(subProf.getName() + " (" + subProf.getID() + ")");
+				descFull.append(subProf.getName()).append(" (").append(subProf.getID()).append(")");
 				descFull.append("\n");
 			}
 		}

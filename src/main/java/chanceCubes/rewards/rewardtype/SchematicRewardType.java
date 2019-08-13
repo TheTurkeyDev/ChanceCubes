@@ -25,7 +25,7 @@ public class SchematicRewardType implements IRewardType
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
-		List<OffsetBlock> stack = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> stack = new ArrayList<>();
 		for(OffsetBlock osb : schematic.getBlocks())
 			if(schematic.includeAirBlocks() || !osb.getBlockState().getBlock().equals(Blocks.AIR))
 				stack.add(osb);

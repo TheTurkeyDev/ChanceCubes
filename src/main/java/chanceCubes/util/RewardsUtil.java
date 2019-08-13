@@ -335,7 +335,7 @@ public class RewardsUtil
 
 	public static PotionEffect getRandomPotionEffect()
 	{
-		Potion potion = null;
+		Potion potion;
 		int tries = 0;
 		do
 		{
@@ -372,10 +372,13 @@ public class RewardsUtil
 	public static void executeCommand(World world, EntityPlayer player, String command)
 	{
 		MinecraftServer server = world.getMinecraftServer();
-		boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-		server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
-		server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", String.valueOf(rule));
+		if(server != null)
+		{
+			boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
+			server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
+			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", String.valueOf(rule));
+		}
 	}
 
 	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)

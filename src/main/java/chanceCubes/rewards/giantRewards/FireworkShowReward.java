@@ -1,18 +1,16 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
-import chanceCubes.util.CCubesCommandSender;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class FireworkShowReward extends BaseCustomReward
 {
@@ -20,13 +18,11 @@ public class FireworkShowReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Firework_Show", 0);
 	}
-	
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		CCubesCommandSender sender = new CCubesCommandSender(player, pos);
-		MinecraftServer server = world.getMinecraftServer();
-		server.getCommandManager().executeCommand(sender, "/time set 15000");
+		RewardsUtil.executeCommand(world, player, "/time set 15000");
 		stage1(world, pos, player);
 	}
 

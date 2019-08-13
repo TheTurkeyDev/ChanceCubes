@@ -26,7 +26,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		final List<Entity> wolves = new ArrayList<Entity>();
+		final List<Entity> wolves = new ArrayList<>();
 		for(int i = 0; i < 10; i++)
 		{
 			for(int yy = 0; yy < 4; yy++)

@@ -9,9 +9,9 @@ public class EffectPart extends BasePart
 {
 	private IntVar radius = new IntVar(1);
 
-	private StringVar id = new StringVar("0");
-	private IntVar duration = new IntVar(0);
-	private IntVar amplifier = new IntVar(0);
+	private StringVar id;
+	private IntVar duration;
+	private IntVar amplifier;
 
 	public EffectPart(Potion pot, int duration, int amplifier)
 	{

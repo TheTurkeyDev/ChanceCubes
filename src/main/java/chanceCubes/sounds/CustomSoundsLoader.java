@@ -35,7 +35,7 @@ public class CustomSoundsLoader
 	private File zip;
 	private String name;
 	private String mcmeta;
-	private List<CustomFile> customsSounds = new ArrayList<CustomFile>();
+	private List<CustomFile> customsSounds = new ArrayList<>();
 	private static List<IResourcePack> defaultResourcePacks;
 
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -109,7 +109,7 @@ public class CustomSoundsLoader
 				FileUtil.safeDelete(zip);
 				FileUtil.writeNewFile(new File(dest.getParent() + "/readme.txt"), "This is the resource pack for loading in custom sounds to chance cubes. Feel free to ignore this file and folder.");
 				defaultResourcePacks.add(new FileResourcePack(dest));
-				
+
 				FMLClientHandler.instance().refreshResources(VanillaResourceType.SOUNDS);
 			} catch(Exception e)
 			{
@@ -118,7 +118,7 @@ public class CustomSoundsLoader
 		}
 	}
 
-	private class CustomFile
+	private static class CustomFile
 	{
 		private String ext;
 		private File file;

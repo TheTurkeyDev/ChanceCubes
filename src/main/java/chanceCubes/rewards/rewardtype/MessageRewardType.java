@@ -7,8 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-
 public class MessageRewardType extends BaseRewardType<MessagePart>
 {
 	public MessageRewardType(MessagePart... messages)
@@ -39,7 +37,7 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 			{
 				for(int i = 0; i < world.playerEntities.size(); ++i)
 				{
-					EntityPlayer entityplayer = (EntityPlayer) world.playerEntities.get(i);
+					EntityPlayer entityplayer = world.playerEntities.get(i);
 
 					if(entityplayer.equals(player))
 					{

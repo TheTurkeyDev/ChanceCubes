@@ -33,7 +33,7 @@ public class MathReward extends BaseCustomReward
 		super(CCubesCore.MODID + ":Math", -30);
 	}
 
-	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<EntityPlayer, RewardInfo>();
+	private Map<EntityPlayer, RewardInfo> inQuestion = new HashMap<>();
 
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
@@ -66,7 +66,7 @@ public class MathReward extends BaseCustomReward
 
 		if(!world.isRemote)
 		{
-			List<Entity> tnt = new ArrayList<Entity>();
+			List<Entity> tnt = new ArrayList<>();
 			for(int i = 0; i < 5; i++)
 			{
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
@@ -151,7 +151,7 @@ public class MathReward extends BaseCustomReward
 		}
 	}
 
-	private class RewardInfo
+	private static class RewardInfo
 	{
 		public int answer;
 		public List<Entity> tnt;

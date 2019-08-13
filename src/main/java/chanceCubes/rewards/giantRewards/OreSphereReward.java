@@ -24,7 +24,7 @@ public class OreSphereReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 
 		CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
 

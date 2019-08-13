@@ -18,11 +18,11 @@ import net.minecraft.world.World;
 public class OffsetBlock extends BasePart
 {
 	protected BoolVar relativeToPlayer = new BoolVar(false);
-	public IntVar xOff = new IntVar();
-	public IntVar yOff = new IntVar();
-	public IntVar zOff = new IntVar();
+	public IntVar xOff;
+	public IntVar yOff;
+	public IntVar zOff;
 
-	protected IBlockState state = null;
+	protected IBlockState state;
 
 	protected BoolVar falling;
 	protected BoolVar causeUpdate = new BoolVar(false);
@@ -218,7 +218,7 @@ public class OffsetBlock extends BasePart
 			BlockPos surfacefPos = placePos.add(0, -1, 0);
 			Block bSurface = world.getBlockState(surfacefPos).getBlock();
 			SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
-			world.playSound(null, (double) ((float) xx + 0.5F), (double) ((float) yy + 0.5F), (double) ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
+			world.playSound(null, ((float) xx + 0.5F), ((float) yy + 0.5F), ((float) zz + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
 		}
 		return placePos;
 	}

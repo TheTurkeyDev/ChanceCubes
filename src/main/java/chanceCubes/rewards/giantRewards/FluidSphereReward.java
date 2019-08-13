@@ -20,11 +20,11 @@ public class FluidSphereReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Fluid_Sphere", 0);
 	}
-	
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 
 		Block block = RewardsUtil.getRandomFluid().getBlock();
 

@@ -11,7 +11,7 @@ public class IntVar extends CustomVar
 {
 	public IntVar()
 	{
-		
+
 	}
 
 	public IntVar(int val)
@@ -41,12 +41,12 @@ public class IntVar extends CustomVar
 		{
 			String[] randParams = input.substring(4, input.lastIndexOf(')')).split(",");
 			if(randParams.length == 1 && isInteger(randParams[0]))
-				return new RandomPart<Integer>(0, Integer.parseInt(randParams[0]));
+				return new RandomPart<>(0, Integer.parseInt(randParams[0]));
 			else if(randParams.length == 2 && isInteger(randParams[0]) && isInteger(randParams[1]))
-				return new RandomPart<Integer>(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
+				return new RandomPart<>(Integer.parseInt(randParams[0]), Integer.parseInt(randParams[1]));
 			//TODO: Maybe add step random?
 		}
-		return new RandomPart<Integer>(0,1);
+		return new RandomPart<>(0, 1);
 	}
 
 	public static boolean isInteger(String input)

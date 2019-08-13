@@ -25,6 +25,6 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
 		FMLNetworkHandler.openGui(player, CCubesCore.instance, CCubesGuiHandler.CREATIVE_PENDANT_ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 }

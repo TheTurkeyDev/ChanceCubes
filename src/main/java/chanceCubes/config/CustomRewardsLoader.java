@@ -1,54 +1,13 @@
 package chanceCubes.config;
 
-import java.io.File;
-import java.io.FileReader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.apache.logging.log4j.Level;
-
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
-import chanceCubes.rewards.rewardparts.ChestChanceItem;
-import chanceCubes.rewards.rewardparts.CommandPart;
-import chanceCubes.rewards.rewardparts.EffectPart;
-import chanceCubes.rewards.rewardparts.EntityPart;
-import chanceCubes.rewards.rewardparts.ExpirencePart;
-import chanceCubes.rewards.rewardparts.ItemPart;
-import chanceCubes.rewards.rewardparts.MessagePart;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.rewardparts.ParticlePart;
-import chanceCubes.rewards.rewardparts.PotionPart;
-import chanceCubes.rewards.rewardparts.SoundPart;
-import chanceCubes.rewards.rewardparts.TitlePart;
-import chanceCubes.rewards.rewardtype.BlockRewardType;
-import chanceCubes.rewards.rewardtype.ChestRewardType;
-import chanceCubes.rewards.rewardtype.CommandRewardType;
-import chanceCubes.rewards.rewardtype.EffectRewardType;
-import chanceCubes.rewards.rewardtype.EntityRewardType;
-import chanceCubes.rewards.rewardtype.ExperienceRewardType;
-import chanceCubes.rewards.rewardtype.IRewardType;
-import chanceCubes.rewards.rewardtype.ItemRewardType;
-import chanceCubes.rewards.rewardtype.MessageRewardType;
-import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
-import chanceCubes.rewards.rewardtype.PotionRewardType;
-import chanceCubes.rewards.rewardtype.SchematicRewardType;
-import chanceCubes.rewards.rewardtype.SoundRewardType;
-import chanceCubes.rewards.rewardtype.TitleRewardType;
+import chanceCubes.rewards.rewardparts.*;
+import chanceCubes.rewards.rewardtype.*;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -62,11 +21,24 @@ import chanceCubes.util.FileUtil;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
+import org.apache.logging.log4j.Level;
+
+import java.io.File;
+import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class CustomRewardsLoader extends BaseLoader
 {
@@ -145,14 +117,13 @@ public class CustomRewardsLoader extends BaseLoader
 		try
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
-			JsonObject json = HTTPUtil.getWebFile("POST", "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<String, String>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
+			JsonObject json = HTTPUtil.getWebFile("POST", "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<>("version", CCubesCore.VERSION), new CustomEntry<String, String>("date", today)).getAsJsonObject();
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to fetch remote information for the mod!");
 			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -182,7 +153,7 @@ public class CustomRewardsLoader extends BaseLoader
 			if(holidays.has("Holiday") && !(holidays.get("Holiday") instanceof JsonNull) && holidays.has("Reward") && !(holidays.get("Reward") instanceof JsonNull))
 			{
 				String holidayName = holidays.get("Holiday").getAsString();
-				BasicReward basicReward = this.parseReward(new CustomEntry<String, JsonElement>(holidayName, holidays.get("Reward"))).getKey();
+				BasicReward basicReward = this.parseReward(new CustomEntry<>(holidayName, holidays.get("Reward"))).getKey();
 				if(basicReward != null)
 				{
 					CCubesSettings.doesHolidayRewardTrigger = true;
@@ -215,7 +186,7 @@ public class CustomRewardsLoader extends BaseLoader
 	public CustomEntry<BasicReward, Boolean> parseReward(Entry<String, JsonElement> reward)
 	{
 		currentParsingReward = reward.getKey();
-		List<IRewardType> rewards = new ArrayList<IRewardType>();
+		List<IRewardType> rewards = new ArrayList<>();
 		JsonObject rewardElements = reward.getValue().getAsJsonObject();
 		int chance = 0;
 		boolean isGiantCubeReward = false;
@@ -235,7 +206,7 @@ public class CustomRewardsLoader extends BaseLoader
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
 					{
 						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
-							return new CustomEntry<BasicReward, Boolean>(null, false);
+							return new CustomEntry<>(null, false);
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
 					{
@@ -255,7 +226,7 @@ public class CustomRewardsLoader extends BaseLoader
 					}
 				}
 				if(!gameversion && mcversionused)
-					return new CustomEntry<BasicReward, Boolean>(null, false);
+					return new CustomEntry<>(null, false);
 				continue;
 			}
 			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))
@@ -299,12 +270,12 @@ public class CustomRewardsLoader extends BaseLoader
 				ex.printStackTrace();
 			}
 		}
-		return new CustomEntry<BasicReward, Boolean>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[rewards.size()])), isGiantCubeReward);
+		return new CustomEntry<>(new BasicReward(reward.getKey(), chance, rewards.toArray(new IRewardType[0])), isGiantCubeReward);
 	}
 
 	public List<IRewardType> loadItemReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<ItemPart> items = new ArrayList<ItemPart>();
+		List<ItemPart> items = new ArrayList<>();
 		for(JsonElement fullelement : rawReward)
 		{
 			NBTVar nbt = this.getNBT(fullelement.getAsJsonObject(), "item");
@@ -318,13 +289,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			items.add(stack);
 		}
-		rewards.add(new ItemRewardType(items.toArray(new ItemPart[items.size()])));
+		rewards.add(new ItemRewardType(items.toArray(new ItemPart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadBlockReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -352,13 +323,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			blocks.add(offBlock);
 		}
-		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[blocks.size()])));
+		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadMessageReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<MessagePart> msgs = new ArrayList<MessagePart>();
+		List<MessagePart> msgs = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -370,13 +341,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			msgs.add(message);
 		}
-		rewards.add(new MessageRewardType(msgs.toArray(new MessagePart[msgs.size()])));
+		rewards.add(new MessageRewardType(msgs.toArray(new MessagePart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadCommandReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<CommandPart> commands = new ArrayList<CommandPart>();
+		List<CommandPart> commands = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -386,13 +357,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			commands.add(command);
 		}
-		rewards.add(new CommandRewardType(commands.toArray(new CommandPart[commands.size()])));
+		rewards.add(new CommandRewardType(commands.toArray(new CommandPart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadEntityReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<EntityPart> entities = new ArrayList<EntityPart>();
+		List<EntityPart> entities = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -401,17 +372,7 @@ public class CustomRewardsLoader extends BaseLoader
 			try
 			{
 				String jsonEdited = this.removedKeyQuotes(element.get("entity").getAsJsonObject().toString());
-				NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
-
-				if(!(nbtbase instanceof NBTTagCompound))
-				{
-					CCubesCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + element.toString());
-					continue;
-				}
-				else
-				{
-					ent = new EntityPart((NBTTagCompound) nbtbase);
-				}
+				ent = new EntityPart(JsonToNBT.getTagFromJson(jsonEdited));
 			} catch(Exception e1)
 			{
 				CCubesCore.logger.log(Level.ERROR, "The Entiy loading failed for custom reward \"" + this.currentParsingReward + "\"");
@@ -424,13 +385,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			entities.add(ent);
 		}
-		rewards.add(new EntityRewardType(entities.toArray(new EntityPart[entities.size()])));
+		rewards.add(new EntityRewardType(entities.toArray(new EntityPart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadExperienceReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<ExpirencePart> exp = new ArrayList<ExpirencePart>();
+		List<ExpirencePart> exp = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -441,13 +402,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			exp.add(exppart);
 		}
-		rewards.add(new ExperienceRewardType(exp.toArray(new ExpirencePart[exp.size()])));
+		rewards.add(new ExperienceRewardType(exp.toArray(new ExpirencePart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadPotionReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<PotionPart> potionEffects = new ArrayList<PotionPart>();
+		List<PotionPart> potionEffects = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -457,13 +418,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			potionEffects.add(potPart);
 		}
-		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[potionEffects.size()])));
+		rewards.add(new PotionRewardType(potionEffects.toArray(new PotionPart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadSoundReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<SoundPart> sounds = new ArrayList<SoundPart>();
+		List<SoundPart> sounds = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -479,7 +440,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 			sounds.add(sound);
 		}
-		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[sounds.size()])));
+		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[0])));
 		return rewards;
 	}
 
@@ -497,13 +458,13 @@ public class CustomRewardsLoader extends BaseLoader
 			items.add(new ChestChanceItem(this.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amount));
 
 		}
-		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[items.size()])));
+		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadParticleReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<ParticlePart> particles = new ArrayList<ParticlePart>();
+		List<ParticlePart> particles = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -513,7 +474,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 			particles.add(particle);
 		}
-		rewards.add(new ParticleEffectRewardType(particles.toArray(new ParticlePart[particles.size()])));
+		rewards.add(new ParticleEffectRewardType(particles.toArray(new ParticlePart[0])));
 		return rewards;
 	}
 
@@ -551,7 +512,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 	public List<IRewardType> loadEffectReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<EffectPart> effects = new ArrayList<EffectPart>();
+		List<EffectPart> effects = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -563,13 +524,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			effects.add(effectPart);
 		}
-		rewards.add(new EffectRewardType(effects.toArray(new EffectPart[effects.size()])));
+		rewards.add(new EffectRewardType(effects.toArray(new EffectPart[0])));
 		return rewards;
 	}
 
 	public List<IRewardType> loadTitleReward(JsonArray rawReward, List<IRewardType> rewards)
 	{
-		List<TitlePart> titles = new ArrayList<TitlePart>();
+		List<TitlePart> titles = new ArrayList<>();
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
@@ -586,13 +547,13 @@ public class CustomRewardsLoader extends BaseLoader
 
 			titles.add(titlePart);
 		}
-		rewards.add(new TitleRewardType(titles.toArray(new TitlePart[titles.size()])));
+		rewards.add(new TitleRewardType(titles.toArray(new TitlePart[0])));
 		return rewards;
 	}
 
 	public String removedKeyQuotes(String raw)
 	{
-		StringBuilder sb = new StringBuilder(raw.toString());
+		StringBuilder sb = new StringBuilder(raw);
 		int index = 0;
 		while((index = sb.indexOf("\"", index)) != -1)
 		{
@@ -671,7 +632,7 @@ public class CustomRewardsLoader extends BaseLoader
 
 	public void fixOldJsonKeys(JsonObject json)
 	{
-		for(String s : new String[] { "XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "Block", "Falling", "IncludeAirBlocks" })
+		for(String s : new String[]{"XOffSet", "YOffSet", "ZOffSet", "RelativeToPlayer", "Block", "Falling", "IncludeAirBlocks"})
 		{
 			if(json.has(s))
 			{
@@ -680,10 +641,5 @@ public class CustomRewardsLoader extends BaseLoader
 				json.remove(s);
 			}
 		}
-	}
-
-	public File getFolderFile()
-	{
-		return this.folder;
 	}
 }

@@ -27,7 +27,7 @@ public class MatchingReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		int[] metas = { 0, 1, 1, 2, 2, 3, 3, 4, 4 };
+		int[] metas = {0, 1, 1, 2, 2, 3, 3, 4, 4};
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int i = 0; i < 500; i++)
 		{
@@ -86,12 +86,8 @@ public class MatchingReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-
 				if(this.delayLeft % 20 == 0)
-				{
-					if(this.delayLeft % 20 == 0)
-						this.showTimeLeft(player, Type.ACTIONBAR);
-				}
+					this.showTimeLeft(player, Type.ACTIONBAR);
 
 				for(int i = 0; i < metas.length; i++)
 				{

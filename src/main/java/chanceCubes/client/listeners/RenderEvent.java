@@ -48,7 +48,7 @@ public class RenderEvent
 				if(chanceIncrease != 0)
 				{
 					int c = chance + chanceIncrease;
-					fontrenderer.drawString("Chance with pendants is: " + (c > 100 ? 100 : c < -100 ? -100 : c), (k / 2) - 80, (l / 2) - 15, 16777215);
+					fontrenderer.drawString("Chance with pendants is: " + Math.min(100, Math.max(c, -100)), (k / 2) - 80, (l / 2) - 15, 16777215);
 				}
 			}
 			GlStateManager.enableLighting();

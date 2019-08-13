@@ -1,6 +1,5 @@
 package chanceCubes.rewards.rewardtype;
 
-import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;

@@ -37,13 +37,13 @@ public class CreativePendantGui extends GuiContainer
 	{
 		super.initGui();
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1", new Object[0])));
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1", new Object[0])));
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5", new Object[0])));
-		this.buttonList.add(new GuiButton(3, this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5", new Object[0])));
-		this.buttonList.add(new GuiButton(4, this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10", new Object[0])));
-		this.buttonList.add(new GuiButton(5, this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10", new Object[0])));
-		this.buttonList.add(new GuiButton(6, this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance", new Object[0])));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 40, (this.height / 2) - 63, 20, 20, I18n.format("-1")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 15, (this.height / 2) - 63, 20, 20, I18n.format("+1")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 60, (this.height / 2) - 63, 20, 20, I18n.format("-5")));
+		this.buttonList.add(new GuiButton(3, this.width / 2 + 35, (this.height / 2) - 63, 20, 20, I18n.format("+5")));
+		this.buttonList.add(new GuiButton(4, this.width / 2 - 80, (this.height / 2) - 63, 20, 20, I18n.format("-10")));
+		this.buttonList.add(new GuiButton(5, this.width / 2 + 55, (this.height / 2) - 63, 20, 20, I18n.format("+10")));
+		this.buttonList.add(new GuiButton(6, this.width / 2 + 12, (this.height / 2) - 35, 70, 20, I18n.format("Set Chance")));
 	}
 
 	protected void actionPerformed(GuiButton button)

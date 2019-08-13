@@ -8,10 +8,6 @@ public interface IRewardType
 
 	/**
 	 * What occurs when the this Reward type is triggered
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
 	 */
-	public void trigger(World world, int x, int y, int z, EntityPlayer player);
+	void trigger(World world, int x, int y, int z, EntityPlayer player);
 }

@@ -37,12 +37,12 @@ public class WorldRenderListener
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
 			BlockPos pos2 = SchematicUtil.selectionPoints[1];
-			int lowX = pos1.getX() < pos2.getX() ? pos1.getX() : pos2.getX();
-			int highX = pos1.getX() > pos2.getX() ? pos1.getX() : pos2.getX();
-			int lowY = pos1.getY() < pos2.getY() ? pos1.getY() : pos2.getY();
-			int highY = pos1.getY() > pos2.getY() ? pos1.getY() : pos2.getY();
-			int lowZ = pos1.getZ() < pos2.getZ() ? pos1.getZ() : pos2.getZ();
-			int highZ = pos1.getZ() > pos2.getZ() ? pos1.getZ() : pos2.getZ();
+			int lowX = Math.min(pos1.getX(), pos2.getX());
+			int highX = Math.max(pos1.getX(), pos2.getX());
+			int lowY = Math.min(pos1.getY(), pos2.getY());
+			int highY = Math.max(pos1.getY(), pos2.getY());
+			int lowZ = Math.min(pos1.getZ(), pos2.getZ());
+			int highZ = Math.max(pos1.getZ(), pos2.getZ());
 
 			GlStateManager.color(0.9f, 0.0f, 0.5f, 1f);
 

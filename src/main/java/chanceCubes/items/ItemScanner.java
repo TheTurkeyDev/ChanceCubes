@@ -39,7 +39,7 @@ public class ItemScanner extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
 	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
@@ -50,58 +50,65 @@ public class ItemScanner extends BaseChanceCubesItem
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().equals(stack) && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().equals(stack))
+			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().equals(stack))
 			{
-				RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
-
-				if(movingobjectposition == null)
-					return;
-				if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
+				player.inventory.getCurrentItem();
+				if(player.inventory.getCurrentItem().equals(stack))
 				{
-					int i = movingobjectposition.getBlockPos().getX();
-					int j = movingobjectposition.getBlockPos().getY();
-					int k = movingobjectposition.getBlockPos().getZ();
-					boolean flag = false;
+					RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
 
-					BlockPos position = new BlockPos(i, j, k);
+					if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
+					{
+						int i = movingobjectposition.getBlockPos().getX();
+						int j = movingobjectposition.getBlockPos().getY();
+						int k = movingobjectposition.getBlockPos().getZ();
+						boolean flag = false;
 
-					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
-					{
-						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
-					}
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
-					{
-						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
-						te.setScanned(true);
-						CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-						flag = true;
-						RenderEvent.setLookingAtChance(te.getChance());
-					}
-					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
-					{
-						flag = false;
-						RenderEvent.setLookingAtChance(-201);
-						RenderEvent.setLookingAt(true);
-						RenderEvent.setChanceIncrease(0);
-					}
+						BlockPos position = new BlockPos(i, j, k);
 
-					if(flag)
-					{
-						RenderEvent.setLookingAt(true);
-						int chanceInc = 0;
-						for(ItemStack s : player.inventory.mainInventory)
+						if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 						{
-							if(!s.isEmpty() && s.getItem() instanceof ItemChancePendant)
+							TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
+							if(te != null)
 							{
-								chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
-								break;
+								te.setScanned(true);
+								CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
+								flag = true;
+								RenderEvent.setLookingAtChance(te.getChance());
 							}
 						}
-						RenderEvent.setChanceIncrease(chanceInc);
+						else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
+						{
+							TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
+							if(te != null)
+							{
+								te.setScanned(true);
+								CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
+								flag = true;
+								RenderEvent.setLookingAtChance(te.getChance());
+							}
+						}
+						else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+						{
+							RenderEvent.setLookingAtChance(-201);
+							RenderEvent.setLookingAt(true);
+							RenderEvent.setChanceIncrease(0);
+						}
+
+						if(flag)
+						{
+							RenderEvent.setLookingAt(true);
+							int chanceInc = 0;
+							for(ItemStack s : player.inventory.mainInventory)
+							{
+								if(!s.isEmpty() && s.getItem() instanceof ItemChancePendant)
+								{
+									chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
+									break;
+								}
+							}
+							RenderEvent.setChanceIncrease(chanceInc);
+						}
 					}
 				}
 			}

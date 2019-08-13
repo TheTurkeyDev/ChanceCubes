@@ -32,7 +32,7 @@ public class SnowGlobeBiome implements IBioDomeBiome
 				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(snowman);
 			}
-			else if(ri == 0)
+			else if(ri == 1)
 			{
 				EntityPolarBear polarBear = new EntityPolarBear(world);
 				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);

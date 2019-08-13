@@ -21,12 +21,12 @@ public class FloorIsLavaReward extends BaseCustomReward
 	{
 		super(CCubesCore.MODID + ":Floor_Is_Lava", 0);
 	}
-	
+
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Quick! The Floor is lava!"));
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = pos.getY() + 5; yy > pos.getY() - 5; yy--)
 		{

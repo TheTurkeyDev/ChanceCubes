@@ -40,9 +40,7 @@ public class CreativePendantContainer extends Container
 		{
 			public boolean isItemValid(ItemStack stack)
 			{
-				if(stack.getItem() instanceof ItemChanceCube)
-					return true;
-				return false;
+				return stack.getItem() instanceof ItemChanceCube;
 			}
 		});
 	}
@@ -57,7 +55,7 @@ public class CreativePendantContainer extends Container
 	public ItemStack transferStackInSlot(EntityPlayer player, int slot)
 	{
 		ItemStack stack = ItemStack.EMPTY;
-		Slot slotObject = (Slot) inventorySlots.get(slot);
+		Slot slotObject = inventorySlots.get(slot);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if(slotObject != null && slotObject.getHasStack())

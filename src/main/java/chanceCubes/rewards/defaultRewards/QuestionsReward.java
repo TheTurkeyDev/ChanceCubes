@@ -23,9 +23,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class QuestionsReward extends BaseCustomReward
 {
-	private Map<EntityPlayer, String> inQuestion = new HashMap<EntityPlayer, String>();
+	private Map<EntityPlayer, String> inQuestion = new HashMap<>();
 
-	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<CustomEntry<String, String>>();
+	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<>();
 
 	public QuestionsReward()
 	{
@@ -41,7 +41,7 @@ public class QuestionsReward extends BaseCustomReward
 
 	public void addQuestionAnswer(String q, String a)
 	{
-		questionsAndAnswers.add(new CustomEntry<String, String>(q, a));
+		questionsAndAnswers.add(new CustomEntry<>(q, a));
 	}
 
 	@Override
@@ -113,8 +113,13 @@ public class QuestionsReward extends BaseCustomReward
 			String answer = event.getMessage();
 			boolean correct = false;
 			for(String s : inQuestion.get(player).split("-or-"))
+			{
 				if(s.trim().equalsIgnoreCase(answer.trim()))
+				{
 					correct = true;
+					break;
+				}
+			}
 			this.timeUp(player, correct);
 			event.setCanceled(true);
 		}

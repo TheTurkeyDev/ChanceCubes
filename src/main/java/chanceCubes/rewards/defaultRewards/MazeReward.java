@@ -38,7 +38,7 @@ public class MazeReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				gen.endMaze(world, player);
+				gen.endMaze(player);
 				if(RewardsUtil.isPlayerOnline(player))
 					player.attackEntityFrom(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
 			}
@@ -57,7 +57,7 @@ public class MazeReward extends BaseCustomReward
 
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
 				{
-					gen.endMaze(world, player);
+					gen.endMaze(player);
 					player.sendMessage(new TextComponentString("Hey! You won!"));
 					player.sendMessage(new TextComponentString("Here, have a item!"));
 					player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));

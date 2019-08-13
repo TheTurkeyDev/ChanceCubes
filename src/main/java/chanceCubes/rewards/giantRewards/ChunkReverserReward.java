@@ -18,33 +18,33 @@ import net.minecraft.world.World;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
-	private List<Entry<Block, Block>> swappedMap = new ArrayList<Entry<Block, Block>>();
-	
+	private List<Entry<Block, Block>> swappedMap = new ArrayList<>();
+
 	public ChunkReverserReward()
 	{
 		super(CCubesCore.MODID + ":Chuck_Reverse", 0);
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.STONE, Blocks.DIRT));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIRT, Blocks.COBBLESTONE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRASS, Blocks.STONE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GRAVEL, Blocks.SAND));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.SAND, Blocks.GRAVEL));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.IRON_ORE, Blocks.GOLD_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.COAL_ORE, Blocks.DIAMOND_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.DIAMOND_ORE, Blocks.COAL_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LAVA, Blocks.WATER));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.WATER, Blocks.LAVA));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG, Blocks.LEAVES));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LOG2, Blocks.LEAVES2));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES, Blocks.LOG));
-		swappedMap.add(new CustomEntry<Block, Block>(Blocks.LEAVES2, Blocks.LOG2));
+		swappedMap.add(new CustomEntry<>(Blocks.DIRT, Blocks.COBBLESTONE));
+		swappedMap.add(new CustomEntry<>(Blocks.STONE, Blocks.DIRT));
+		swappedMap.add(new CustomEntry<>(Blocks.GRASS, Blocks.STONE));
+		swappedMap.add(new CustomEntry<>(Blocks.GRAVEL, Blocks.SAND));
+		swappedMap.add(new CustomEntry<>(Blocks.SAND, Blocks.GRAVEL));
+		swappedMap.add(new CustomEntry<>(Blocks.IRON_ORE, Blocks.GOLD_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.COAL_ORE, Blocks.DIAMOND_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.DIAMOND_ORE, Blocks.COAL_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
+		swappedMap.add(new CustomEntry<>(Blocks.LAVA, Blocks.WATER));
+		swappedMap.add(new CustomEntry<>(Blocks.WATER, Blocks.LAVA));
+		swappedMap.add(new CustomEntry<>(Blocks.LOG, Blocks.LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.LOG2, Blocks.LEAVES2));
+		swappedMap.add(new CustomEntry<>(Blocks.LEAVES, Blocks.LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.LEAVES2, Blocks.LOG2));
 	}
 
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("Initiating Block Inverter"));
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
 		{

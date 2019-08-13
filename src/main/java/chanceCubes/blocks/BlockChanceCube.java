@@ -6,7 +6,6 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +25,7 @@ import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
 {
-	public static final PropertyEnum<BlockChanceCube.EnumTexture> TEXTURE = PropertyEnum.<BlockChanceCube.EnumTexture> create("texture", BlockChanceCube.EnumTexture.class);
+	public static final PropertyEnum<BlockChanceCube.EnumTexture> TEXTURE = PropertyEnum.<BlockChanceCube.EnumTexture>create("texture", BlockChanceCube.EnumTexture.class);
 
 	public static EnumTexture textureToSet = EnumTexture.DEFAULT;
 
@@ -105,10 +104,10 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] { TEXTURE });
+		return new BlockStateContainer(this, TEXTURE);
 	}
 
-	public static enum EnumTexture implements IStringSerializable
+	public enum EnumTexture implements IStringSerializable
 	{
 		// @formatter:off
 		DEFAULT("default"), VALENTINES("valentines"), STPATRICKS("stpatricks"), 
@@ -117,7 +116,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 
 		private final String name;
 
-		private EnumTexture(String name)
+		EnumTexture(String name)
 		{
 			this.name = name;
 		}

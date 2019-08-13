@@ -24,7 +24,7 @@ public class OrePillarReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
-		List<OffsetBlock> blocks = new ArrayList<OffsetBlock>();
+		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int i = 0; i < RewardsUtil.rand.nextInt(4) + 2; i++)
 		{

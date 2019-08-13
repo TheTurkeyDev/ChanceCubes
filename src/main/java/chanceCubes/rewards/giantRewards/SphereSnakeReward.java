@@ -25,7 +25,7 @@ public class SphereSnakeReward extends BaseCustomReward
 			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
 			Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
-	
+
 	public SphereSnakeReward()
 	{
 		super(CCubesCore.MODID + ":Sphere_Snake", 0);
@@ -35,8 +35,8 @@ public class SphereSnakeReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
-		int[] posChange = { 0, 0, 0 };
-		int[] currentDir = { 0, 1, 0 };
+		int[] posChange = {0, 0, 0};
+		int[] currentDir = {0, 1, 0};
 
 		Scheduler.scheduleTask(new Task("Sphere_Snake_Spawn_Delay", 1000, 10)
 		{
@@ -48,7 +48,7 @@ public class SphereSnakeReward extends BaseCustomReward
 
 			public void update()
 			{
-				boolean valid = false;
+				boolean valid;
 				int xChange;
 				int yChange;
 				int zChange;

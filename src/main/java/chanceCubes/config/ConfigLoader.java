@@ -21,9 +21,6 @@ public class ConfigLoader
 
 	/**
 	 * Initializes and loads ChanceCubes settings from the config file. <br>
-	 * <br>
-	 * <b>Do not use outside of postInit eventhandler</b>, use {@link #reloadConfigSettings()}
-	 * instead.
 	 * 
 	 * @param file
 	 *            The default configuration file suggested by forge.

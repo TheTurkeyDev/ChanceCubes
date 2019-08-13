@@ -31,7 +31,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 			{
 				ItemStack potion = new ItemStack(Items.SPLASH_POTION);
 
-				List<PotionEffect> effects = new ArrayList<PotionEffect>();
+				List<PotionEffect> effects = new ArrayList<>();
 				effects.add(part.getEffect());
 				PotionUtils.appendEffects(potion, effects);
 
