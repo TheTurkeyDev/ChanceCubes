@@ -182,8 +182,7 @@ public class NonreplaceableBlockOverride
 				strings.add(toAdd);
 			}
 		}
-		String[] stringArray = (String[]) strings.toArray();
-		return stringArray;
+		return (String[]) strings.toArray();
 	}
 
 	/**

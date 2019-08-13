@@ -1,11 +1,5 @@
 package chanceCubes.util;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -28,7 +22,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -41,18 +34,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+
 public class RewardsUtil
 {
-	private static List<String> oredicts = new ArrayList<String>();
+	private static List<String> oredicts = new ArrayList<>();
 	private static String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/buby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
-	private static List<String> fluids = new ArrayList<String>();
+	private static List<String> fluids = new ArrayList<>();
 
 	public static final Random rand = new Random();
 
@@ -233,23 +232,23 @@ public class RewardsUtil
 
 	public static Enchantment getEnchantSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.ENCHANTMENTS, res, Enchantment.getEnchantmentByID(0));
+		return getRegistryEntrySafe(ForgeRegistries.ENCHANTMENTS, res, ForgeRegistries.ENCHANTMENTS.getDefaultKey());
 	}
 
 	public static Effect getPotionSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.POTIONS, res, Effects.BAD_OMEN);
+		return getRegistryEntrySafe(ForgeRegistries.POTIONS, res, ForgeRegistries.POTIONS.getDefaultKey());
 	}
 
 	public static ParticleType getParticleSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.PARTICLE_TYPES, res, ParticleTypes.AMBIENT_ENTITY_EFFECT);
+		return getRegistryEntrySafe(ForgeRegistries.PARTICLE_TYPES, res, ForgeRegistries.PARTICLE_TYPES.getDefaultKey());
 	}
 
-	public static <T extends IForgeRegistryEntry<T>> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, T defaultReturn)
+	public static <T extends IForgeRegistryEntry<T>> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
 	{
 		T val = registry.getValue(key);
-		return val == null ? defaultReturn : val;
+		return val == null ? registry.getValue(defaultReturn) : val;
 	}
 
 	public static Block getRandomOre()

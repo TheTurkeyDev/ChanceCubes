@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -33,11 +34,15 @@ public class PacketTriggerD20
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			TileEntity ico;
+			PlayerEntity player = ctx.get().getSender();
+			if(player != null)
+			{
+				TileEntity ico;
 
-			if((ico = Minecraft.getInstance().player.world.getTileEntity(msg.pos)) != null)
-				if(ico instanceof TileChanceD20)
-					((TileChanceD20) ico).startBreaking(Minecraft.getInstance().player);
+				if((ico = player.world.getTileEntity(msg.pos)) != null)
+					if(ico instanceof TileChanceD20)
+						((TileChanceD20) ico).startBreaking(player);
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

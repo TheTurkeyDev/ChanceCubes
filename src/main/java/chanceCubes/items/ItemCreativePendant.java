@@ -1,7 +1,5 @@
 package chanceCubes.items;
 
-import chanceCubes.client.gui.CreativePendantGui;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,10 +21,24 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
-		if(!world.isRemote)
+		if(world.isRemote)
 			return new ActionResult<>(ActionResultType.PASS, stack);
-		player.setActiveHand(hand);
-		Minecraft.getInstance().displayGuiScreen(new CreativePendantGui(player, world));
+
+		//TODO Reimplement
+//		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider()
+//		{
+//			@Override
+//			public ITextComponent getDisplayName()
+//			{
+//				return new StringTextComponent("Creative Pendant");
+//			}
+//
+//			@Override
+//			public Container createMenu(int p_createMenu_1_, PlayerInventory inv, PlayerEntity player)
+//			{
+//				return new CreativePendantContainer(0, inv);
+//			}
+//		});
 		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 }

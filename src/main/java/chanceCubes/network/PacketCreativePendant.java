@@ -14,25 +14,21 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 public class PacketCreativePendant
 {
-
-	private String playerName;
 	private int chancevalue;
 
-	public PacketCreativePendant(String player, int chance)
+	public PacketCreativePendant(int chance)
 	{
-		this.playerName = player;
 		this.chancevalue = chance;
 	}
 
 	public static void encode(PacketCreativePendant msg, PacketBuffer buf)
 	{
-		buf.writeString(msg.playerName);
 		buf.writeInt(msg.chancevalue);
 	}
 
 	public static PacketCreativePendant decode(PacketBuffer buf)
 	{
-		return new PacketCreativePendant(buf.readString(32767), buf.readInt());
+		return new PacketCreativePendant(buf.readInt());
 	}
 
 	public static void handle(PacketCreativePendant msg, Supplier<NetworkEvent.Context> ctx)

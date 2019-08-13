@@ -1,14 +1,13 @@
 package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.gui.RewardSelectorPendantGui;
+import chanceCubes.client.ClientProxy;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +18,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {
@@ -35,9 +36,14 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
-		if(player.isSneaking() && world.isRemote)
-			Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+		if(player.isSneaking() && world.isRemote && player.isCreative())
+		{
+			DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+			{
+				ClientProxy.openRewardSelectorGUI(player, stack);
+			});
+		}
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
@@ -27,9 +28,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemChanceCube extends BlockItem
 {
-	public ItemChanceCube(Block b)
+	public ItemChanceCube(BaseChanceBlock b)
 	{
 		super(b, getProps(b));
+		this.setRegistryName(b.getRegistryName());
 	}
 
 	public static Properties getProps(Block b)
@@ -69,18 +71,18 @@ public class ItemChanceCube extends BlockItem
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
 	{
 		Item item = stack.getItem();
-		if(!item.equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
+		if(!item.equals(CCubesItems.CUBE_DISPENSER))
 		{
 			String chance = this.getChanceAsStringValue(stack);
 			list.add(new StringTextComponent("Chance Value: " + chance));
 		}
 
-		if(item.equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
+		if(item.equals(CCubesItems.COMPACT_GIANT_CUBE))
 			list.add(new StringTextComponent(TextFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
-		else if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
+		else if(item.equals(CCubesItems.CHANCE_CUBE))
 			list.add(new StringTextComponent(TextFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
 
-		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
+		if(item.equals(CCubesItems.CHANCE_CUBE) || item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
 		{
 			list.add(new StringTextComponent("==== Enabled Profiles ===="));
 			for(String profile : ProfileManager.getEnabledProfileNames())

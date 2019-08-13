@@ -8,7 +8,6 @@ import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -76,7 +75,7 @@ public class BlockChanceD20 extends BaseChanceBlock
 		{
 			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
+				ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
 				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 				spawnAsEntity(world, pos, stack);
 				world.setBlockState(pos, Blocks.AIR.getDefaultState());

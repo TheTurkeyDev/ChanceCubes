@@ -30,20 +30,20 @@ public class BlockListener
 	@SubscribeEvent
 	public void onBlockInteract(RightClickBlock event)
 	{
-		if(this.setSchematicPoint(2, event.getEntityPlayer(), event.getPos()))
+		if(this.setSchematicPoint(2, event.getPlayer(), event.getPos()))
 			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public void onAirInteractRight(RightClickEmpty event)
 	{
-		this.setSchematicPoint(2, event.getEntityPlayer(), event.getPos());
+		this.setSchematicPoint(2, event.getPlayer(), event.getPos());
 	}
 
 	@SubscribeEvent
 	public void onAirInteractLeft(LeftClickEmpty event)
 	{
-		this.setSchematicPoint(1, event.getEntityPlayer(), event.getPos());
+		this.setSchematicPoint(1, event.getPlayer(), event.getPos());
 	}
 
 	public boolean setSchematicPoint(int point, PlayerEntity player, BlockPos pos)

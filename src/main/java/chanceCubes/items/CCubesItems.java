@@ -2,7 +2,10 @@ package chanceCubes.items;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.containers.CreativePendantContainer;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,6 +25,14 @@ public class CCubesItems
 
 	public static BaseChanceCubesItem scanner;
 
+	public static ItemChanceCube CHANCE_CUBE;
+	public static ItemChanceCube CHANCE_ICOSAHEDRON;
+	public static ItemChanceCube GIANT_CUBE;
+	public static ItemChanceCube COMPACT_GIANT_CUBE;
+	public static ItemChanceCube CUBE_DISPENSER;
+
+	public static ContainerType<CreativePendantContainer> CREATIVE_PENDANT_CONTAINER;
+
 	@SubscribeEvent
 	public static void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
@@ -34,12 +45,20 @@ public class CCubesItems
 		e.getRegistry().register(rewardSelectorPendant = new ItemRewardSelectorPendant());
 		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_CUBE).setRegistryName(CCubesBlocks.CHANCE_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON).setRegistryName(CCubesBlocks.CHANCE_ICOSAHEDRON.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.GIANT_CUBE).setRegistryName(CCubesBlocks.GIANT_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE).setRegistryName(CCubesBlocks.COMPACT_GIANT_CUBE.getRegistryName()));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER).setRegistryName(CCubesBlocks.CUBE_DISPENSER.getRegistryName()));
+		e.getRegistry().register(CHANCE_CUBE = new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
+		e.getRegistry().register(CHANCE_ICOSAHEDRON = new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
+		e.getRegistry().register(GIANT_CUBE = new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
+		e.getRegistry().register(COMPACT_GIANT_CUBE = new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
+		e.getRegistry().register(CUBE_DISPENSER = new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
 
 		e.getRegistry().register(scanner = new ItemScanner());
+	}
+
+	@SubscribeEvent
+	public static void onContainerRegistry(RegistryEvent.Register<ContainerType<?>> event)
+	{
+		CREATIVE_PENDANT_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
+		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
+		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
 	}
 }

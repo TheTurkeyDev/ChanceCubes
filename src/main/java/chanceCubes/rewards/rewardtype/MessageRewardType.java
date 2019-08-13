@@ -24,17 +24,17 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 			{
 				for(int i = 0; i < world.getPlayers().size(); ++i)
 				{
-					PlayerEntity PlayerEntity = world.getPlayers().get(i);
+					PlayerEntity playerEntity = world.getPlayers().get(i);
 
-					if(PlayerEntity.equals(player))
+					if(playerEntity.equals(player))
 					{
-						PlayerEntity.sendMessage(new StringTextComponent(message.getMessage()));
+						playerEntity.sendMessage(new StringTextComponent(message.getMessage()));
 					}
 					else
 					{
-						double dist = Math.sqrt(Math.pow(x - PlayerEntity.posX, 2) + Math.pow(y - PlayerEntity.posY, 2) + Math.pow(z - PlayerEntity.posZ, 2));
+						double dist = Math.sqrt(Math.pow(x - playerEntity.posX, 2) + Math.pow(y - playerEntity.posY, 2) + Math.pow(z - playerEntity.posZ, 2));
 						if(dist <= message.getRange() || message.isServerWide())
-							PlayerEntity.sendMessage(new StringTextComponent(message.getMessage()));
+							playerEntity.sendMessage(new StringTextComponent(message.getMessage()));
 					}
 				}
 			}

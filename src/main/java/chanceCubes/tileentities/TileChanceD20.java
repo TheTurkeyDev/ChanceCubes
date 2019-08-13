@@ -12,17 +12,17 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraftforge.common.model.TRSRTransformation;
 
-public class TileChanceD20 extends TileEntity implements ITickable
+public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 {
 	private static final Random random = new Random();
 

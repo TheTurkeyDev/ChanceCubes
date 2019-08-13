@@ -1,14 +1,7 @@
 package chanceCubes.commands;
 
-import org.apache.logging.log4j.Level;
-
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import chanceCubes.CCubesCore;
-import chanceCubes.client.gui.SchematicCreationGui;
+import chanceCubes.client.ClientProxy;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomProfileLoader;
@@ -22,7 +15,10 @@ import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
-import net.minecraft.client.Minecraft;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
@@ -35,30 +31,33 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
+import org.apache.logging.log4j.Level;
 
 public class CCubesServerCommands
 {
 	public CCubesServerCommands(CommandDispatcher<CommandSource> dispatcher)
 	{
 		// @formatter:off
-		dispatcher.register(LiteralArgumentBuilder.<CommandSource> literal("chancecubes").requires(cs -> {
+		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("chancecubes").requires(cs -> {
 			return cs.getEntity() instanceof ServerPlayerEntity;
-		}).then(Commands.literal("reload").executes(ctx -> this.executeReload(ctx)))
-				.then(Commands.literal("version").executes(ctx -> this.executeVersion(ctx)))
-				.then(Commands.literal("handNBT").executes(ctx -> this.executeHandNBT(ctx)))
-				.then(Commands.literal("handID").executes(ctx -> this.executeHandID(ctx)))
+		}).then(Commands.literal("reload").executes(this::executeReload))
+				.then(Commands.literal("version").executes(this::executeVersion))
+				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
+				.then(Commands.literal("handID").executes(this::executeHandID))
 				.then(Commands.literal("disableReward").then(Commands.argument("rewardName", new RewardArgument())
 		                .executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
 				.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
 		                .executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
 				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote)
-						.then(Commands.literal("create").executes(ctx -> this.executeSchematicCreate(ctx)))
-						.then(Commands.literal("cancel").executes(ctx -> this.executeSchematicCancel(ctx))))
-				.then(Commands.literal("rewardsInfo").executes(ctx -> this.executeRewardInfo(ctx)))
-				.then(Commands.literal("test").executes(ctx -> this.executeTest(ctx)))
-				.then(Commands.literal("testRewards").executes(ctx -> this.executeTestRewards(ctx)))
-				.then(Commands.literal("testCustomRewards").executes(ctx -> this.executeTestCustomRewards(ctx)))
+						.then(Commands.literal("create").executes(this::executeSchematicCreate))
+						.then(Commands.literal("cancel").executes(this::executeSchematicCancel)))
+				.then(Commands.literal("rewardsInfo").executes(this::executeRewardInfo))
+				.then(Commands.literal("test").executes(this::executeTest))
+				.then(Commands.literal("testRewards").executes(this::executeTestRewards))
+				.then(Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards))
 				.then(Commands.literal("spawnGiantCube").then(Commands.argument("pos", BlockPosArgument.blockPos())
 		                .executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos"))))));
 		// @formatter:on
@@ -187,9 +186,16 @@ public class CCubesServerCommands
 		{
 			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
-				Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(getPlayer(ctx.getSource())));
+			{
+				DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+				{
+					ClientProxy.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
+				});
+			}
 			else
+			{
 				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Please set both points before moving on!"));
+			}
 		}
 		else
 		{

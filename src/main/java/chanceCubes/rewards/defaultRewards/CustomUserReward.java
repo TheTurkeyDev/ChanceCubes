@@ -86,7 +86,7 @@ public class CustomUserReward extends BaseCustomReward
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
 
-		//GROSS, but idk what else todo
+		//GROSS, but idk what else to do
 		String userNameFinal = userName;
 		String typeFinal = type;
 		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);

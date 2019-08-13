@@ -42,6 +42,7 @@ public class BlockChanceCube extends BaseChanceBlock
 		return true;
 	}
 
+	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceCube();
@@ -57,7 +58,7 @@ public class BlockChanceCube extends BaseChanceBlock
 			TileChanceCube tileCube = (TileChanceCube) te;
 			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				ItemStack stackCube = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE), 1);
+				ItemStack stackCube = new ItemStack(CCubesItems.CHANCE_CUBE, 1);
 				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, tileCube.isScanned() ? tileCube.getChance() : -101);
 				ItemEntity blockstack = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stackCube);
 				world.setBlockState(pos, Blocks.AIR.getDefaultState());

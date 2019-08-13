@@ -1,15 +1,13 @@
 package chanceCubes;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.listeners.RenderEvent;
-import chanceCubes.client.listeners.WorldRenderListener;
+import chanceCubes.client.ClientProxy;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
-import chanceCubes.listeners.BlockListener;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
@@ -23,9 +21,10 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -61,14 +61,17 @@ public class CCubesCore
 	public CCubesCore()
 	{
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
-		// ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, ()
-		// -> CCubesGuiHandler::openGui);
+
+
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+			new ClientProxy();
+			//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ProfileGui::openGui);
+		});
 	}
 
 	@SubscribeEvent
@@ -84,20 +87,6 @@ public class CCubesCore
 			MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
 			CCubesCore.logger.log(Level.INFO, "Loaded GameStages support!");
 		}
-	}
-
-	@SubscribeEvent
-	public void clientStart(FMLClientSetupEvent event)
-	{
-		MinecraftForge.EVENT_BUS.register(new RenderEvent());
-		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
-		MinecraftForge.EVENT_BUS.register(new BlockListener());
-
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-
-//		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
-//		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
-//		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
 	}
 
 	@SubscribeEvent
