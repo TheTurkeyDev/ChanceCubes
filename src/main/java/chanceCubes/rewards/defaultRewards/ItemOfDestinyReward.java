@@ -62,7 +62,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 				{
 					if((iteration / 10) - 3 < enchants)
 					{
-						Enchantment ench = randomEnchantment();
+						Enchantment ench = RewardsUtil.getRandomEnchantment();
 						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
 						item.getItem().addEnchantment(ench, level);
 						player.sendMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
@@ -78,13 +78,5 @@ public class ItemOfDestinyReward extends BaseCustomReward
 				iteration++;
 			}
 		});
-	}
-
-	public Enchantment randomEnchantment()
-	{
-		Enchantment ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
-		while(ench == null)
-			ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
-		return ench;
 	}
 }

@@ -352,6 +352,23 @@ public class RewardsUtil
 		return new PotionEffect(potion, duration, amplifier);
 	}
 
+	public static Enchantment getRandomEnchantment()
+	{
+		Enchantment ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+		while(ench == null)
+			ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+		return ench;
+	}
+
+	public static CustomEntry<Enchantment, Integer> getRandomEnchantmentAndLevel()
+	{
+		Enchantment ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+		while(ench == null)
+			ench = Enchantment.getEnchantmentByID(RewardsUtil.rand.nextInt(Enchantment.REGISTRY.getKeys().size()));
+		int level = rand.nextInt(ench.getMaxLevel()) + ench.getMinLevel();
+		return new CustomEntry<>(ench, level);
+	}
+
 	public static int getRandomColor()
 	{
 		return (new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))).getRGB();

@@ -55,13 +55,13 @@ public class ItemScanner extends BaseChanceCubesItem
 				player.inventory.getCurrentItem();
 				if(player.inventory.getCurrentItem().equals(stack))
 				{
-					RayTraceResult movingobjectposition = this.rayTrace(world, player, true);
+					RayTraceResult movingObjectPosition = this.rayTrace(world, player, false);
 
-					if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
+					if(movingObjectPosition != null && movingObjectPosition.typeOfHit == RayTraceResult.Type.BLOCK)
 					{
-						int i = movingobjectposition.getBlockPos().getX();
-						int j = movingobjectposition.getBlockPos().getY();
-						int k = movingobjectposition.getBlockPos().getZ();
+						int i = movingObjectPosition.getBlockPos().getX();
+						int j = movingObjectPosition.getBlockPos().getY();
+						int k = movingObjectPosition.getBlockPos().getZ();
 						boolean flag = false;
 
 						BlockPos position = new BlockPos(i, j, k);

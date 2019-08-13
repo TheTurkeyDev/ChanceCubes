@@ -12,6 +12,7 @@ import chanceCubes.rewards.rewardparts.*;
 import chanceCubes.rewards.rewardtype.*;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
+import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardData;
 import chanceCubes.util.RewardsUtil;
@@ -24,6 +25,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityItem;
@@ -719,6 +721,44 @@ public class ChanceCubeRegistry implements IRewardRegistry
 						player.sendMessage(new TextComponentString("You didn't see anything......"));
 					}
 				});
+			}
+		});
+
+		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Hand_Enchant", 20)
+		{
+			@Override
+			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+			{
+				ItemStack toEnchant;
+				if(!player.getHeldItemMainhand().isEmpty())
+				{
+					toEnchant = player.getHeldItemMainhand();
+				}
+				else
+				{
+					List<ItemStack> stacks = new ArrayList<>();
+					for(ItemStack stack : player.inventory.mainInventory)
+						if(!stack.isEmpty())
+							stacks.add(stack);
+
+					for(ItemStack stack : player.inventory.armorInventory)
+						if(!stack.isEmpty())
+							stacks.add(stack);
+
+					if(stacks.size() == 0)
+					{
+						ItemStack dirt = new ItemStack(Blocks.DIRT);
+						dirt.setStackDisplayName("A lonley piece of dirt");
+						player.inventory.addItemStackToInventory(dirt);
+						RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:lonely_dirt");
+						return;
+					}
+
+					toEnchant = stacks.get(RewardsUtil.rand.nextInt(stacks.size()));
+				}
+
+				CustomEntry<Enchantment, Integer> enchantment = RewardsUtil.getRandomEnchantmentAndLevel();
+				toEnchant.addEnchantment(enchantment.getKey(), enchantment.getValue());
 			}
 		});
 

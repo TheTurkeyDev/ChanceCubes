@@ -25,7 +25,7 @@ public class InventoryChestReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
-		final List<ItemStack> stacks = new ArrayList<ItemStack>();
+		final List<ItemStack> stacks = new ArrayList<>();
 		for(ItemStack stack : player.inventory.mainInventory)
 			if(!stack.isEmpty())
 				stacks.add(stack.copy());
