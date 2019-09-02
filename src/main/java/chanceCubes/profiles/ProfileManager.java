@@ -55,16 +55,23 @@ public class ProfileManager
 
 	public static boolean getProfileEnabledSafe(IProfile profile, boolean defaultVal)
 	{
-		if(fileJson.has(profile.getName()))
+		if(fileJson.has(profile.getID()))
 		{
-			return fileJson.get(profile.getName()).getAsBoolean();
+			return fileJson.get(profile.getID()).getAsBoolean();
 		}
 		else
 		{
-			fileJson.addProperty(profile.getName(), defaultVal);
+			fileJson.addProperty(profile.getID(), defaultVal);
 			save();
 			return defaultVal;
 		}
+	}
+
+	public static void enableProfile(String id)
+	{
+		IProfile profile = getProfileFromID(id);
+		if(profile != null)
+			enableProfile(profile);
 	}
 
 	public static void enableProfile(IProfile profile)
@@ -73,9 +80,16 @@ public class ProfileManager
 		{
 			enabledProfiles.add(profile);
 			profile.onEnable();
-			fileJson.addProperty(profile.getName(), true);
+			fileJson.addProperty(profile.getID(), true);
 			save();
 		}
+	}
+
+	public static void disableProfile(String id)
+	{
+		IProfile profile = getProfileFromID(id);
+		if(profile != null)
+			disableProfile(profile);
 	}
 
 	public static void disableProfile(IProfile profile)
@@ -84,7 +98,7 @@ public class ProfileManager
 		{
 			disabledProfiles.add(profile);
 			profile.onDisable();
-			fileJson.addProperty(profile.getName(), false);
+			fileJson.addProperty(profile.getID(), false);
 			save();
 		}
 	}
@@ -238,7 +252,6 @@ public class ProfileManager
 		profile.addSubProfile(getProfileFromID("no_death_mg"));
 		profile.addRewardChanceChange("chancecubes:Half_Heart", -100);
 		profile.addRewardChanceChange("chancecubes:Cave_Spider_Web", -90);
-		profile.addTriggers(new DifficultyTrigger(profile, Difficulty.HARD));
 		registerProfile(profile);
 		
 		profile = new BasicProfile("nether", "Nether", "Updates the reward pool for when players are in the nether");

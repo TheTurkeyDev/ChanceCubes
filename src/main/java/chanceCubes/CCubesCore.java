@@ -67,8 +67,8 @@ public class CCubesCore
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 
-
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
 			new ClientProxy();
 			//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ProfileGui::openGui);
 		});

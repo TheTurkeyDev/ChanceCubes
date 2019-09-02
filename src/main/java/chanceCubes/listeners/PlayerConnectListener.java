@@ -1,6 +1,7 @@
 package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.profiles.ProfileManager;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,6 +16,9 @@ public class PlayerConnectListener
 		if(event.getPlayer().world.isRemote)
 			return;
 
+		if(event.getEntity().world.getWorldInfo().isHardcore())
+			ProfileManager.enableProfile("hardcore");
+
 		new Thread(() ->
 		{
 			CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID());
@@ -26,6 +30,9 @@ public class PlayerConnectListener
 	{
 		if(event.getPlayer().world.isRemote)
 			return;
+
+		if(event.getEntity().world.getWorldInfo().isHardcore())
+			ProfileManager.disableProfile("hardcore");
 
 		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.getPlayer().getCommandSource().getName());
 	}

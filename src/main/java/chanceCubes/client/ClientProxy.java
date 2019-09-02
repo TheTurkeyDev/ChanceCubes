@@ -2,6 +2,7 @@ package chanceCubes.client;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.CreativePendantGui;
+import chanceCubes.client.gui.ProfileGui;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
@@ -60,5 +61,10 @@ public class ClientProxy
 	public static void openSchematicCreatorGUI(PlayerEntity player)
 	{
 		Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
+	}
+
+	public static void openProfilesGUI()
+	{
+		Minecraft.getInstance().displayGuiScreen(new ProfileGui());
 	}
 }

@@ -43,23 +43,26 @@ public class CCubesServerCommands
 		// @formatter:off
 		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("chancecubes").requires(cs -> {
 			return cs.getEntity() instanceof ServerPlayerEntity;
-		}).then(Commands.literal("reload").executes(this::executeReload))
-				.then(Commands.literal("version").executes(this::executeVersion))
-				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
-				.then(Commands.literal("handID").executes(this::executeHandID))
-				.then(Commands.literal("disableReward").then(Commands.argument("rewardName", new RewardArgument())
-		                .executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
-				.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
-		                .executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
-				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote)
-						.then(Commands.literal("create").executes(this::executeSchematicCreate))
-						.then(Commands.literal("cancel").executes(this::executeSchematicCancel)))
-				.then(Commands.literal("rewardsInfo").executes(this::executeRewardInfo))
-				.then(Commands.literal("test").executes(this::executeTest))
-				.then(Commands.literal("testRewards").executes(this::executeTestRewards))
-				.then(Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards))
-				.then(Commands.literal("spawnGiantCube").then(Commands.argument("pos", BlockPosArgument.blockPos())
-		                .executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos"))))));
+		})
+			.then(Commands.literal("reload").executes(this::executeReload))
+			.then(Commands.literal("version").executes(this::executeVersion))
+			.then(Commands.literal("handNBT").executes(this::executeHandNBT))
+			.then(Commands.literal("handID").executes(this::executeHandID))
+			.then(Commands.literal("disableReward").then(Commands.argument("rewardName", new RewardArgument())
+					.executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
+			.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
+					.executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
+			.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote)
+					.then(Commands.literal("create").executes(this::executeSchematicCreate))
+					.then(Commands.literal("cancel").executes(this::executeSchematicCancel)))
+			.then(Commands.literal("rewardsInfo").executes(this::executeRewardInfo))
+			.then(Commands.literal("test").executes(this::executeTest))
+			.then(Commands.literal("testRewards").executes(this::executeTestRewards))
+			.then(Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards))
+			.then(Commands.literal("spawnGiantCube").then(Commands.argument("pos", BlockPosArgument.blockPos())
+					.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos")))))
+			.then(Commands.literal("profiles").requires(cs -> cs.getWorld().isRemote)
+					.executes(this::executeProfilesView)));
 		// @formatter:on
 	}
 
@@ -226,4 +229,12 @@ public class CCubesServerCommands
 		return 0;
 	}
 
+	public int executeProfilesView(CommandContext<CommandSource> ctx)
+	{
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			ClientProxy.openProfilesGUI();
+		});
+		return 0;
+	}
 }

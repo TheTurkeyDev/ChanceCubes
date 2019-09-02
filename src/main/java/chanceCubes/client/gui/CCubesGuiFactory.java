@@ -29,7 +29,7 @@ public class CCubesGuiFactory implements IModGuiFactory
 	@Override
 	public Screen createConfigGui(Screen parentScreen)
 	{
-		return new ProfileGui(parentScreen);
+		return new ProfileGui();
 	}
 
 }

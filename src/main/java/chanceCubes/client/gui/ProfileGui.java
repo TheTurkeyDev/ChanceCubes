@@ -9,17 +9,15 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class ProfileGui extends Screen implements IGuiEventListener
 {
-	private Screen parentScreen;
 	private ProfilesList profileList;
 
 	private String hoverText;
 
 	private String rewardsInfoUrlText = "Click here to see all the rewards and info about them";
 
-	public ProfileGui(Screen parentScreen)
+	public ProfileGui()
 	{
 		super(new StringTextComponent("Profiles"));
-		this.parentScreen = parentScreen;
 	}
 
 	@Override
@@ -28,8 +26,7 @@ public class ProfileGui extends Screen implements IGuiEventListener
 		this.profileList = new ProfilesList(this, super.minecraft, this.width, this.height, 64, this.height - 32, 20);
 		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Save", (button) ->
 		{
-			if(minecraft != null)
-				minecraft.displayGuiScreen(parentScreen);
+
 		}));
 	}
 
