@@ -1,9 +1,5 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.List;
-import java.util.Random;
-
-import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,6 +10,9 @@ import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class SnowGlobeBiome implements IBioDomeBiome
 {
@@ -71,7 +70,7 @@ public class SnowGlobeBiome implements IBioDomeBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SNOW_LAYER, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SNOW_LAYER, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 		}
 	}

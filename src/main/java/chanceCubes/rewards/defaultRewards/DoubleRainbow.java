@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class DoubleRainbow extends BaseCustomReward
 {
-	byte[] colorsMeta = { 14, 1, 4, 13, 11, 10 };
+	byte[] colorsMeta = {14, 1, 4, 13, 11, 10};
 
 	public DoubleRainbow()
 	{

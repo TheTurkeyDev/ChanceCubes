@@ -37,6 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.logging.log4j.Level;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -264,11 +265,16 @@ public class CCubesServerCommands extends CommandBase
 	{
 		if(sender instanceof EntityPlayer)
 		{
+			if(server.isSinglePlayer())
+			{
+				return true;
+			}
+
 			GameProfile profile = ((EntityPlayer) sender).getGameProfile();
 			if(server.getPlayerList().canSendCommands(profile))
 			{
 				UserListOpsEntry userlistopsentry = server.getPlayerList().getOppedPlayers().getEntry(profile);
-				return userlistopsentry.getPermissionLevel() >= 2;
+				return userlistopsentry != null && userlistopsentry.getPermissionLevel() >= 2;
 			}
 			else
 			{

@@ -1,9 +1,5 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.List;
-import java.util.Random;
-
-import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityGhast;
@@ -11,6 +7,9 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class NetherBiome implements IBioDomeBiome
 {
@@ -52,15 +51,15 @@ public class NetherBiome implements IBioDomeBiome
 
 		if(dist < 0 && rand.nextInt(50) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y - 1, z, Blocks.NETHERRACK, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y - 1, z, Blocks.NETHERRACK, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 			delay++;
-			osb = new OffsetBlock(x, y, z, Blocks.LAVA, false, (delay / BioDomeReward.delayShorten) + 1);
+			osb = new OffsetBlock(x, y, z, Blocks.LAVA, false, (delay / BioDomeGen.delayShorten) + 1);
 			blocks.add(osb);
 		}
 		else if(dist < 0 && rand.nextInt(20) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SOUL_SAND, false, (delay / BioDomeReward.delayShorten) + 1);
+			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SOUL_SAND, false, (delay / BioDomeGen.delayShorten) + 1);
 			blocks.add(osb);
 		}
 	}

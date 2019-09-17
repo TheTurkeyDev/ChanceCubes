@@ -65,6 +65,7 @@ import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -795,7 +796,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MontyHallReward());
 		INSTANCE.registerReward(new MatchingReward());
 		INSTANCE.registerReward(new TicTacToeReward());
-		INSTANCE.registerReward(new MobEffectsReward());
+		//INSTANCE.registerReward(new MobEffectsReward());
+		INSTANCE.registerReward(new BossMimicReward());
+		INSTANCE.registerReward(new BossSlimeQueenReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
@@ -1018,10 +1021,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		if(newReward != null)
 			sortedRewards.add(newReward);
 
-		sortedRewards.sort((o1, o2) ->
-		{
-			return o1.getChanceValue() - o2.getChanceValue();
-		});
+		sortedRewards.sort(Comparator.comparingInt(IChanceCubeReward::getChanceValue));
 	}
 
 	public int getNumberOfLoadedRewards()

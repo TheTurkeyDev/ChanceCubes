@@ -83,7 +83,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 						// if(!super.canSetAsBlock)
 						// {
 						if(block instanceof BlockFalling)
-							osb.placeInWorld(world, blockpos1, false);
+							osb.placeInWorld(world, blockpos1, false, null);
 
 						if(this.tileEntityData != null && block instanceof ITileEntityProvider)
 						{
@@ -123,7 +123,7 @@ public class BlockFallingCustom extends EntityFallingBlock
 				else if(normY == blockpos1.getY() || this.motionY == 0)
 				{
 					this.setDead();
-					osb.placeInWorld(world, blockpos1, false);
+					osb.placeInWorld(world, blockpos1, false, null);
 				}
 			}
 		}

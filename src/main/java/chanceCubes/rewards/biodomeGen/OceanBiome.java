@@ -1,15 +1,14 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.List;
-import java.util.Random;
-
-import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class OceanBiome implements IBioDomeBiome
 {
@@ -38,6 +37,6 @@ public class OceanBiome implements IBioDomeBiome
 	{
 		if(y == 0 || dist >= 0)
 			return;
-		blocks.add(new OffsetBlock(x, y, z, Blocks.WATER, false, delay / BioDomeReward.delayShorten));
+		blocks.add(new OffsetBlock(x, y, z, Blocks.WATER, false, delay / BioDomeGen.delayShorten));
 	}
 }

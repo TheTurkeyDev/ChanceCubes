@@ -35,6 +35,11 @@ public class RewardBlockCache
 
 	public void cacheBlock(BlockPos offset, IBlockState newState)
 	{
+		cacheBlock(offset, newState, 3);
+	}
+
+	public void cacheBlock(BlockPos offset, IBlockState newState, int update)
+	{
 		BlockPos adjPos = origin.add(offset);
 		IBlockState oldState = world.getBlockState(adjPos);
 		NBTTagCompound oldNBT = null;
@@ -47,7 +52,7 @@ public class RewardBlockCache
 
 		}
 
-		if(RewardsUtil.placeBlock(newState, world, adjPos, force))
+		if(RewardsUtil.placeBlock(newState, world, adjPos, update, force))
 		{
 			if(!storedBlocks.containsKey(offset))
 			{

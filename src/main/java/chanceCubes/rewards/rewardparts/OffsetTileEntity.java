@@ -3,6 +3,7 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
+import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
@@ -42,7 +43,7 @@ public class OffsetTileEntity extends OffsetBlock
 		this.teNBT = te;
 	}
 
-	public void spawnInWorld(final World world, final int x, final int y, final int z)
+	public void spawnInWorld(final World world, final int x, final int y, final int z, RewardBlockCache blockCache)
 	{
 		if(!falling.getBoolValue())
 		{
@@ -51,7 +52,7 @@ public class OffsetTileEntity extends OffsetBlock
 				@Override
 				public void callback()
 				{
-					placeInWorld(world, x, y, z, true);
+					placeInWorld(world, new BlockPos(x, y, z), true, blockCache);
 				}
 			});
 		}
@@ -62,18 +63,18 @@ public class OffsetTileEntity extends OffsetBlock
 				@Override
 				public void callback()
 				{
-					spawnFallingBlock(world, x, y, z);
+					spawnFallingBlock(world, x, y, z, blockCache);
 				}
 			});
 		}
 	}
 
-	public BlockPos placeInWorld(World world, int x, int y, int z, boolean offset)
+	public BlockPos placeInWorld(World world, BlockPos placeLoc, boolean offset, RewardBlockCache blockCache)
 	{
-		BlockPos pos = super.placeInWorld(world, x, y, z, offset);
+		BlockPos pos = super.placeInWorld(world, placeLoc, offset, blockCache);
 		TileEntity te = TileEntity.create(world, teNBT.getNBTValue());
 		if(!offset)
-			pos = new BlockPos(x, y, z);
+			pos = placeLoc;
 
 		te.setPos(pos);
 		world.setTileEntity(pos, te);

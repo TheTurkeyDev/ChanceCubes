@@ -1,5 +1,6 @@
 package chanceCubes.util;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -30,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -419,6 +421,22 @@ public class RewardsUtil
 	public static void setPlayerTitle(EntityPlayer player, SPacketTitle title)
 	{
 		if(player instanceof EntityPlayerMP)
+		{
+			//Update the title times to be what the title packet defines because times are updated separately of the title message....
+			SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.TIMES, new TextComponentString(""), title.getFadeInTime(), title.getDisplayTime(), title.getFadeOutTime());
+			((EntityPlayerMP) player).connection.sendPacket(titlePacket);
 			((EntityPlayerMP) player).connection.sendPacket(title);
+		}
+	}
+
+	public static void setPlayerTitleReset(EntityPlayer player)
+	{
+		if(player instanceof EntityPlayerMP)
+		{
+			SPacketTitle resetPacket = new SPacketTitle(SPacketTitle.Type.RESET, new TextComponentString(""), 0, 0, 0);
+			((EntityPlayerMP) player).connection.sendPacket(resetPacket);
+			resetPacket = new SPacketTitle(SPacketTitle.Type.CLEAR, new TextComponentString(""), 0, 0, 0);
+			((EntityPlayerMP) player).connection.sendPacket(resetPacket);
+		}
 	}
 }

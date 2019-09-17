@@ -1,16 +1,15 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class EndBiome implements IBioDomeBiome
 {
@@ -29,7 +28,7 @@ public class EndBiome implements IBioDomeBiome
 			return;
 		if(dist < -5 && rand.nextInt(200) == 0)
 		{
-			List<OffsetBlock> treeblocks = this.addTower(x, y, z, (delay / BioDomeReward.delayShorten));
+			List<OffsetBlock> treeblocks = this.addTower(x, y, z, (delay / BioDomeGen.delayShorten));
 			blocks.addAll(treeblocks);
 		}
 	}

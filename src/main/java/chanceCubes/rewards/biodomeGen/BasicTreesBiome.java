@@ -1,10 +1,5 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import chanceCubes.rewards.giantRewards.BioDomeReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
@@ -16,6 +11,10 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BasicTreesBiome implements IBioDomeBiome
 {
@@ -34,13 +33,13 @@ public class BasicTreesBiome implements IBioDomeBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.TALLGRASS, false, (delay / BioDomeReward.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.TALLGRASS, false, (delay / BioDomeGen.delayShorten));
 			osb.setBlockState(Blocks.TALLGRASS.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.GRASS));
 			blocks.add(osb);
 		}
 		else if(dist < -5 && rand.nextInt(100) == 0)
 		{
-			List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / BioDomeReward.delayShorten));
+			List<OffsetBlock> treeblocks = this.addTree(x, y, z, (delay / BioDomeGen.delayShorten));
 			blocks.addAll(treeblocks);
 		}
 	}
