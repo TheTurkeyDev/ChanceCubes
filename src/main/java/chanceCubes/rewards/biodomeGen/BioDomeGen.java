@@ -111,8 +111,8 @@ public class BioDomeGen
 		});
 	}
 
-	public void removeDome()
+	public void removeDome(boolean resetPlayer)
 	{
-		blockCache.restoreBlocks(player);
+		blockCache.restoreBlocks(resetPlayer ? player : null);
 	}
 }

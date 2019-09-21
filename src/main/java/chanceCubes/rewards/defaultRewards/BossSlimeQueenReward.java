@@ -1,5 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,6 +13,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 	@Override
 	public void onBossFightEnd(World world, BlockPos pos, EntityPlayer player)
 	{
+		CCubesCore.logger.log(Level.INFO, "End Fight!");
 		Scheduler.scheduleTask(new Task("boss_fight_slime_queen_kill_all", 200, 20)
 		{
 			@Override
@@ -59,7 +62,8 @@ public class BossSlimeQueenReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				List<EntitySlime> slimes = world.getEntitiesWithinAABB(EntitySlime.class, new AxisAlignedBB(pos.add(-15, -10, -15), pos.add(15, 15, 15)));
+				List<EntitySlime> slimes = world.getEntitiesWithinAABB(EntitySlime.class, new AxisAlignedBB(pos.add(-25, -25, -25), pos.add(25, 25, 25)));
+				CCubesCore.logger.log(Level.INFO, slimes.size());
 				for(EntitySlime slime : slimes)
 					slime.setDead();
 			}

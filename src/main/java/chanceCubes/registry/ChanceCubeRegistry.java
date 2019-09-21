@@ -798,7 +798,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new TicTacToeReward());
 		//INSTANCE.registerReward(new MobEffectsReward());
 		INSTANCE.registerReward(new BossMimicReward());
-		INSTANCE.registerReward(new BossSlimeQueenReward());
+		//INSTANCE.registerReward(new BossSlimeQueenReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);

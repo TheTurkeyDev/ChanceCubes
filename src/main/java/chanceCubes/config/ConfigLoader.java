@@ -21,9 +21,8 @@ public class ConfigLoader
 
 	/**
 	 * Initializes and loads ChanceCubes settings from the config file. <br>
-	 * 
-	 * @param file
-	 *            The default configuration file suggested by forge.
+	 *
+	 * @param file The default configuration file suggested by forge.
 	 */
 	public static void loadConfigSettings(File file)
 	{
@@ -35,7 +34,7 @@ public class ConfigLoader
 
 		config.setCategoryComment(rewardCat, "Set to false to disable a specific reward");
 
-		CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides", genCat, new String[] { "minecraft:bedrock" }, "Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
+		CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides", genCat, new String[]{"minecraft:bedrock"}, "Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
 		CCubesSettings.rangeMin = config.getInt("chanceRangeMin", genCat, 10, 0, 100, "The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.");
 		CCubesSettings.rangeMax = config.getInt("chanceRangeMax", genCat, 10, 0, 100, "The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.");
 		CCubesSettings.d20UseNormalChances = config.getBoolean("D20UseNormalChanceValues", genCat, false, "Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100");
@@ -49,9 +48,15 @@ public class ConfigLoader
 
 		int defaultGen = 100;
 		if(config.hasKey(genCat, "surfaceGenAmount"))
-			defaultGen = 100 / config.getInt("surfaceGenAmount", genCat, 1, 0, 100, "Percentage chance of a chunk to have a chance cube spawned on the surface. (OLD! REMOVE THIS CONFIG OPTION!)");
+		{
+			int oldGen = config.getInt("surfaceGenAmount", genCat, 1, 0, 100, "Percentage chance of a chunk to have a chance cube spawned on the surface. (OLD! REMOVE THIS CONFIG OPTION!)");
+			if(oldGen == 0)
+				defaultGen = 1;
+			else
+				defaultGen = 100 / oldGen;
+		}
 
-		CCubesSettings.surfaceGenAmount = config.getInt("surfaceGenerationAmount", genCat, defaultGen, 0, Integer.MAX_VALUE, "Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.");
+		CCubesSettings.surfaceGenAmount = config.getInt("surfaceGenerationAmount", genCat, defaultGen, 1, Integer.MAX_VALUE, "Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.");
 
 		CCubesSettings.blockedWorlds = config.getStringList("BlockedWorlds", genCat, new String[0], "Worlds that Chance cubes should not generate in");
 		CCubesSettings.chestLoot = config.getBoolean("ChestLoot", genCat, true, "true if Chance Cubes should generate as chest loot in the world. false if they should not");

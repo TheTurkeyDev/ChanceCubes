@@ -5,18 +5,23 @@ import chanceCubes.rewards.biodomeGen.BioDomeGen;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
 import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -103,19 +108,28 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				CCubesCore.logger.log(Level.INFO, trackedEntities.size());
 				for(int i = trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedEntities.get(i);
 					if(ent.isDead)
 					{
-						CCubesCore.logger.log(Level.INFO, "Dead");
-						trackedEntities.remove(i);
-						if(trackedEntities.isEmpty())
+						if(ent instanceof EntityPlayer)
 						{
-							CCubesCore.logger.log(Level.INFO, "Empty");
-							endBossfight(world, pos, player);
+							for(Entity entity : trackedEntities)
+								entity.setDead();
+							trackedEntities.clear();
+							endBossfight(false, world, pos, player);
 							Scheduler.removeTask(this);
+							return;
+						}
+						else
+						{
+							trackedEntities.remove(i);
+							if(trackedEntities.isEmpty())
+							{
+								endBossfight(true, world, pos, player);
+								Scheduler.removeTask(this);
+							}
 						}
 					}
 				}
@@ -123,10 +137,10 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void endBossfight(World world, BlockPos pos, EntityPlayer player)
+	public void endBossfight(boolean resetPlayer, World world, BlockPos pos, EntityPlayer player)
 	{
 		onBossFightEnd(world, pos, player);
-		domeGen.removeDome();
+		domeGen.removeDome(resetPlayer);
 	}
 
 	protected void trackEntities(Entity... ents)
@@ -137,4 +151,22 @@ public abstract class BossBaseReward extends BaseCustomReward
 	public abstract void spawnBoss(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings);
 
 	public abstract void onBossFightEnd(World world, BlockPos pos, EntityPlayer player);
+
+	public double getBossHealthDynamic(EntityPlayer player)
+	{
+		double maxDamage = 3;
+		for(ItemStack stack : player.inventory.mainInventory)
+		{
+			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EntityEquipmentSlot.MAINHAND, stack);
+			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			{
+				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+				for(AttributeModifier damage : damageList)
+					if(maxDamage < damage.getAmount())
+						maxDamage = damage.getAmount();
+			}
+		}
+
+		return maxDamage * 15;
+	}
 }

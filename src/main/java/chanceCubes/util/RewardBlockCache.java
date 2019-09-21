@@ -71,6 +71,8 @@ public class RewardBlockCache
 			if(storedTE.containsKey(loc))
 				world.getTileEntity(origin.add(loc)).deserializeNBT(storedTE.get(loc));
 		}
-		player.setPositionAndUpdate(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
+
+		if(player != null)
+			player.setPositionAndUpdate(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
 	}
 }
