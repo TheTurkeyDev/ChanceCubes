@@ -19,9 +19,9 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 
 	// @formatter:off
 	private String[] chanceSyn = {"Lucky", "Fortune", "Unforseen", "Probabalistic", "Favored", 
-			"Charmed", "Auspicious", "Advantageous"};
+			"Charmed", "Auspicious", "Advantageous", "Random"};
 	
-	private String[] cubeSyn = {"Blocks", "Squares", "Boxes", "Bricks", "Hunks", "Solids"};
+	private String[] cubeSyn = {"Blocks", "Squares", "Boxes", "Bricks", "Hunks", "Solids", "Voxels"};
 	
 	// @formatter:on
 	public ChanceCubeRenameReward()
