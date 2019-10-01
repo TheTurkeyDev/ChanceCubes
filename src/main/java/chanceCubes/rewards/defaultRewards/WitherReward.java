@@ -22,6 +22,7 @@ public class WitherReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
 	{
+		int realOutOf = super.getSettingAsInt(settings, "real_out_of", 10, 1, Integer.MAX_VALUE);
 		final EntityWither wither = new EntityWither(world);
 		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;
@@ -46,7 +47,7 @@ public class WitherReward extends BaseCustomReward
 
 			private boolean removeEnts(Entity ent)
 			{
-				if(RewardsUtil.rand.nextInt(10) != 1)
+				if(RewardsUtil.rand.nextInt(realOutOf) != 1)
 				{
 					ent.setDead();
 					return true;

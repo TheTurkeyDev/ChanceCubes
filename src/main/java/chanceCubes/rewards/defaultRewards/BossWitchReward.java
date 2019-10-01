@@ -45,7 +45,7 @@ public class BossWitchReward extends BossBaseReward
 		EntityWitch witch = new EntityWitch(world);
 		witch.setCustomNameTag("Evil Witch");
 		witch.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		witch.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player));
+		witch.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		witch.setHealth(witch.getMaxHealth());
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);

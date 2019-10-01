@@ -53,7 +53,11 @@ public class MobTowerReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		player.sendMessage(new TextComponentString("How did they end up like that? O.o"));
-		int height = RewardsUtil.rand.nextInt(6) + 7;
+		int minHeight = super.getSettingAsInt(settings, "min_height", 7, 0, 20);
+		int maxHeight = minHeight - super.getSettingAsInt(settings, "max_height", 13, 1, 50);
+		if(maxHeight < 1)
+			maxHeight = 1;
+		int height = RewardsUtil.rand.nextInt(maxHeight) + minHeight;
 		Entity last;
 		try
 		{

@@ -37,7 +37,9 @@ public class TrollTNTReward extends BaseCustomReward
 		world.spawnEntity(entitytntprimed);
 		world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-		if(RewardsUtil.rand.nextInt(5) != 1)
+		int outOf = super.getSettingAsInt(settings, "real_out_of", 5, 1, 1000);
+
+		if(RewardsUtil.rand.nextInt(outOf) != 1)
 		{
 			Scheduler.scheduleTask(new Task("TrollTNT", 77)
 			{

@@ -46,7 +46,9 @@ public class MatchingReward extends BaseCustomReward
 		}
 		player.sendMessage(new TextComponentString("Memerize these blocks!"));
 
-		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 200, 20)
+		int delay = super.getSettingAsInt(settings, "mem_duration", 200, 60, 600);
+
+		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", delay, 20)
 		{
 			@Override
 			public void callback()

@@ -177,7 +177,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	public abstract void onBossFightEnd(World world, BlockPos pos, EntityPlayer player);
 
-	public double getBossHealthDynamic(EntityPlayer player)
+	public double getBossHealthDynamic(EntityPlayer player, Map<String, Object> settings)
 	{
 		double maxDamage = 3;
 		for(ItemStack stack : player.inventory.mainInventory)
@@ -192,7 +192,11 @@ public abstract class BossBaseReward extends BaseCustomReward
 			}
 		}
 
-		return maxDamage * 15;
+		double prePofileHealth = maxDamage * 15.0;
+
+		double profileMult = super.getSettingAsDouble(settings, "boss_health_multiplier", 1.0, 0.0, 10.0);
+
+		return prePofileHealth * profileMult;
 	}
 
 	public ItemStack getHighestDamageItem(EntityPlayer player)

@@ -28,7 +28,7 @@ public class BossBlazeReward extends BossBaseReward
 		EntityBlaze blaze = new EntityBlaze(world);
 		blaze.setCustomNameTag("Demonic Blaze");
 		blaze.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		blaze.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player));
+		blaze.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		blaze.setHealth(blaze.getMaxHealth());
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)

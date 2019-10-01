@@ -79,7 +79,9 @@ public class MathReward extends BaseCustomReward
 			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
 		}
 
-		Scheduler.scheduleTask(new Task("Math", 100, 20)
+		int duration = super.getSettingAsInt(settings, "ans_duration", 100, 20, 2400);
+
+		Scheduler.scheduleTask(new Task("Math", duration, 20)
 		{
 			@Override
 			public void callback()

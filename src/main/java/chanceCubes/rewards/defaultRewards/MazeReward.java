@@ -33,7 +33,9 @@ public class MazeReward extends BaseCustomReward
 		BlockPos initialPos = new BlockPos(pos.getX() - 8, pos.getY(), pos.getZ() - 8);
 		player.setPositionAndUpdate(initialPos.getX() - 0.5, initialPos.getY(), initialPos.getZ() - 0.5);
 
-		Scheduler.scheduleTask(new Task("Maze_Reward_Update", 900, 20)
+		int duration = super.getSettingAsInt(settings, "time", 900, 600, 4800);
+
+		Scheduler.scheduleTask(new Task("Maze_Reward_Update", duration, 20)
 		{
 			@Override
 			public void callback()

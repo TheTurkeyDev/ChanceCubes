@@ -13,6 +13,7 @@ import net.minecraft.network.play.server.SPacketTitle.Type;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import scala.Int;
 
 public class MagicFeetReward extends BaseCustomReward
 {
@@ -24,8 +25,9 @@ public class MagicFeetReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
+		int duration = super.getSettingAsInt(settings, "duration", 300, 0, Integer.MAX_VALUE);
 		player.sendMessage(new TextComponentString("<Dovah_Jun> You've got magic feet!!!"));
-		Scheduler.scheduleTask(new Task("Megic_Feet_Reward_Delay", 300, 2)
+		Scheduler.scheduleTask(new Task("Megic_Feet_Reward_Delay", duration, 2)
 		{
 			BlockPos last = pos;
 

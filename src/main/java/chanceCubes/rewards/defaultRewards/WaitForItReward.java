@@ -29,7 +29,12 @@ public class WaitForItReward extends BaseCustomReward
 	{
 		player.sendMessage(new TextComponentString("Wait for it......."));
 
-		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(4000) + 1000)
+		int minDuration = super.getSettingAsInt(settings, "min_duration", 1000, 0, Integer.MAX_VALUE - 1);
+		int maxDuration = minDuration - super.getSettingAsInt(settings, "max_duration", 5000, 1, Integer.MAX_VALUE);
+		if(maxDuration < 1)
+			maxDuration = 1;
+
+		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(maxDuration) + minDuration)
 		{
 			@Override
 			public void callback()
