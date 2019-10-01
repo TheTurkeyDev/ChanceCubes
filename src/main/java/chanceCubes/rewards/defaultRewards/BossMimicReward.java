@@ -30,45 +30,27 @@ public class BossMimicReward extends BossBaseReward
 		mimic.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player));
 		mimic.setHealth(mimic.getMaxHealth());
 		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
+
 		mimic.setItemStackToSlot(EntityEquipmentSlot.HEAD, playerArmorInv.get(3).copy());
+		mimic.setDropChance(EntityEquipmentSlot.HEAD, 0);
 		mimic.setItemStackToSlot(EntityEquipmentSlot.CHEST, playerArmorInv.get(2).copy());
+		mimic.setDropChance(EntityEquipmentSlot.CHEST, 0);
 		mimic.setItemStackToSlot(EntityEquipmentSlot.LEGS, playerArmorInv.get(1).copy());
+		mimic.setDropChance(EntityEquipmentSlot.LEGS, 0);
 		mimic.setItemStackToSlot(EntityEquipmentSlot.FEET, playerArmorInv.get(0).copy());
+		mimic.setDropChance(EntityEquipmentSlot.FEET, 0);
+
 		mimic.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, getHighestDamageItem(player));
 		mimic.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, player.inventory.offHandInventory.get(0).copy());
 
 		world.spawnEntity(mimic);
 		super.trackEntities(mimic);
-		super.trackEntities(player);
+		super.trackedPlayers(player);
 	}
 
 	@Override
 	public void onBossFightEnd(World world, BlockPos pos, EntityPlayer player)
 	{
 
-	}
-
-	public ItemStack getHighestDamageItem(EntityPlayer player)
-	{
-		double maxDamage = -1;
-		ItemStack maxItem = ItemStack.EMPTY;
-		for(ItemStack stack : player.inventory.mainInventory)
-		{
-			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EntityEquipmentSlot.MAINHAND, stack);
-			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
-			{
-				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-				for(AttributeModifier damage : damageList)
-				{
-					if(maxDamage < damage.getAmount())
-					{
-						maxDamage = damage.getAmount();
-						maxItem = stack;
-					}
-				}
-			}
-		}
-
-		return maxItem;
 	}
 }

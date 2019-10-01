@@ -18,9 +18,10 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
+import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,11 @@ public abstract class BossBaseReward extends BaseCustomReward
 	private String bossName;
 
 	private List<Entity> trackedEntities = new ArrayList<>();
+	private List<Entity> trackedSubEntities = new ArrayList<>();
+	private List<EntityPlayer> trackedPlayers = new ArrayList<>();
 	private BioDomeGen domeGen;
+
+	private BlockPos rewardCenterPos;
 
 	public BossBaseReward(String bossName)
 	{
@@ -41,6 +46,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
+		this.rewardCenterPos = pos;
 		domeGen = new BioDomeGen(player);
 		domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
 		TextComponentString message = new TextComponentString("BOSS FIGHT!");
@@ -113,24 +119,29 @@ public abstract class BossBaseReward extends BaseCustomReward
 					Entity ent = trackedEntities.get(i);
 					if(ent.isDead)
 					{
-						if(ent instanceof EntityPlayer)
+						trackedEntities.remove(i);
+						if(trackedEntities.isEmpty())
 						{
-							for(Entity entity : trackedEntities)
-								entity.setDead();
-							trackedEntities.clear();
-							endBossfight(false, world, pos, player);
+							endBossfight(true, world, pos, player);
 							Scheduler.removeTask(this);
-							return;
 						}
-						else
-						{
-							trackedEntities.remove(i);
-							if(trackedEntities.isEmpty())
-							{
-								endBossfight(true, world, pos, player);
-								Scheduler.removeTask(this);
-							}
-						}
+					}
+				}
+
+				for(int i = trackedPlayers.size() - 1; i >= 0; i--)
+				{
+					Entity ent = trackedPlayers.get(i);
+					if(ent.getDistance(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 || ent.posY < rewardCenterPos.getY() - 1)
+						ent.setPositionAndUpdate(rewardCenterPos.getX(), rewardCenterPos.getY() + 1, rewardCenterPos.getZ());
+
+					if(ent.isDead)
+					{
+						for(Entity entity : trackedEntities)
+							entity.setDead();
+						trackedEntities.clear();
+						endBossfight(false, world, pos, player);
+						Scheduler.removeTask(this);
+						return;
 					}
 				}
 			}
@@ -139,6 +150,10 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	public void endBossfight(boolean resetPlayer, World world, BlockPos pos, EntityPlayer player)
 	{
+		for(Entity ent : trackedSubEntities)
+			if(!ent.isDead)
+				ent.setDead();
+		trackedSubEntities.clear();
 		onBossFightEnd(world, pos, player);
 		domeGen.removeDome(resetPlayer);
 	}
@@ -146,6 +161,16 @@ public abstract class BossBaseReward extends BaseCustomReward
 	protected void trackEntities(Entity... ents)
 	{
 		trackedEntities.addAll(Arrays.asList(ents));
+	}
+
+	protected void trackSubEntities(Entity... ents)
+	{
+		trackedSubEntities.addAll(Arrays.asList(ents));
+	}
+
+	protected void trackedPlayers(EntityPlayer... player)
+	{
+		trackedPlayers.addAll(Arrays.asList(player));
 	}
 
 	public abstract void spawnBoss(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings);
@@ -168,5 +193,29 @@ public abstract class BossBaseReward extends BaseCustomReward
 		}
 
 		return maxDamage * 15;
+	}
+
+	public ItemStack getHighestDamageItem(EntityPlayer player)
+	{
+		double maxDamage = -1;
+		ItemStack maxItem = ItemStack.EMPTY;
+		for(ItemStack stack : player.inventory.mainInventory)
+		{
+			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EntityEquipmentSlot.MAINHAND, stack);
+			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			{
+				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+				for(AttributeModifier damage : damageList)
+				{
+					if(maxDamage < damage.getAmount())
+					{
+						maxDamage = damage.getAmount();
+						maxItem = stack;
+					}
+				}
+			}
+		}
+
+		return maxItem;
 	}
 }

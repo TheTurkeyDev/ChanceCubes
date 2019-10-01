@@ -60,7 +60,6 @@ public class MobTowerReward extends BaseCustomReward
 			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
 			last.setPosition(pos.getX(), pos.getY(), pos.getZ());
 			world.spawnEntity(last);
-			System.out.println(last);
 		} catch(Exception e)
 		{
 			player.sendMessage(new TextComponentString("Uh oh! Something went wrong and the reward could not be spawned! Please repot this to the mod dev!"));
