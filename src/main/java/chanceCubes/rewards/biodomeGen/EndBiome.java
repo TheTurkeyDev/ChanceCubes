@@ -1,6 +1,7 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
@@ -11,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class EndBiome implements IBioDomeBiome
+public class EndBiome extends BaseBiome
 {
-	private Random rand = new Random();
+
+	public EndBiome(String name)
+	{
+		super(name);
+	}
 
 	@Override
 	public Block getFloorBlock()
@@ -55,10 +60,10 @@ public class EndBiome implements IBioDomeBiome
 	@Override
 	public void spawnEntities(BlockPos center, World world)
 	{
-		for(int i = 0; i < rand.nextInt(10) + 5; i++)
+		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
 			EntityEnderman enderman = new EntityEnderman(world);
-			enderman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+			enderman.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 			world.spawnEntity(enderman);
 		}
 	}

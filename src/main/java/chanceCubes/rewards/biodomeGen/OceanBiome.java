@@ -1,6 +1,7 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.init.Blocks;
@@ -10,17 +11,20 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class OceanBiome implements IBioDomeBiome
+public class OceanBiome extends BaseBiome
 {
-	private Random rand = new Random();
+	public OceanBiome(String name)
+	{
+		super(name);
+	}
 
 	@Override
 	public void spawnEntities(BlockPos pos, World world)
 	{
-		for(int i = 0; i < rand.nextInt(10) + 5; i++)
+		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
 			EntitySquid squid = new EntitySquid(world);
-			squid.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+			squid.setLocationAndAngles(pos.getX() + (RewardsUtil.rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 			squid.setCustomNameTag("Mango");
 			world.spawnEntity(squid);
 		}

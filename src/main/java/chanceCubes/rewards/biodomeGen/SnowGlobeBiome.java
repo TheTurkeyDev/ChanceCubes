@@ -1,6 +1,7 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
@@ -14,13 +15,17 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class SnowGlobeBiome implements IBioDomeBiome
+public class SnowGlobeBiome extends BaseBiome
 {
-	private Random rand = new Random();
+	public SnowGlobeBiome(String name)
+	{
+		super(name);
+	}
 
 	@Override
 	public void spawnEntities(final BlockPos pos, final World world)
 	{
+		Random rand = RewardsUtil.rand;
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
 			int ri = rand.nextInt(2);

@@ -1,11 +1,18 @@
 package chanceCubes.rewards.defaultRewards;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Multimap;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BioDomeGen;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -18,13 +25,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public abstract class BossBaseReward extends BaseCustomReward
 {

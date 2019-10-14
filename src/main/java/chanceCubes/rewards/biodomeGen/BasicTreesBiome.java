@@ -1,6 +1,7 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.passive.EntityChicken;
@@ -16,9 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BasicTreesBiome implements IBioDomeBiome
+public class BasicTreesBiome extends BaseBiome
 {
-	private Random rand = new Random();
+
+	public BasicTreesBiome(String name)
+	{
+		super(name);
+	}
 
 	@Override
 	public Block getFloorBlock()
@@ -85,38 +90,38 @@ public class BasicTreesBiome implements IBioDomeBiome
 	@Override
 	public void spawnEntities(BlockPos center, World world)
 	{
-		for(int i = 0; i < rand.nextInt(10) + 5; i++)
+		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
-			int ri = rand.nextInt(5);
+			int ri = RewardsUtil.rand.nextInt(5);
 
 			if(ri == 0)
 			{
 				EntityChicken chicken = new EntityChicken(world);
-				chicken.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				chicken.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(chicken);
 			}
 			else if(ri == 1)
 			{
 				EntityCow cow = new EntityCow(world);
-				cow.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				cow.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(cow);
 			}
 			else if(ri == 2)
 			{
 				EntityHorse horse = new EntityHorse(world);
-				horse.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				horse.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(horse);
 			}
 			else if(ri == 3)
 			{
 				EntityPig pig = new EntityPig(world);
-				pig.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				pig.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(pig);
 			}
 			else if(ri == 4)
 			{
 				EntitySheep sheep = new EntitySheep(world);
-				sheep.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				sheep.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				world.spawnEntity(sheep);
 			}
 		}

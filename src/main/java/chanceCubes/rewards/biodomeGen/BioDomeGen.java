@@ -1,42 +1,54 @@
 package chanceCubes.rewards.biodomeGen;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BioDomeGen
 {
 	public static final int delayShorten = 10;
 
 	// @formatter:off
-	public static final IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome(), new DesertBiome(),
-			new EndBiome(), new OceanBiome(), new SnowGlobeBiome(), new NetherBiome() };
+	public static final IBioDomeBiome[] biomes = new IBioDomeBiome[] { new BasicTreesBiome("trees_plains"),
+			new DesertBiome("desert"), new EndBiome("end"), new OceanBiome("ocean"), new SnowGlobeBiome("snow_globe"), 
+			new NetherBiome("nether") };
 	// @formatter:on
 
 	private EntityPlayer player;
 	private RewardBlockCache blockCache;
 	private int yinc;
 	private int xinc;
-
+	private List<String> blackListBiomes;
 
 	public BioDomeGen(EntityPlayer player)
 	{
+		this(player, new ArrayList<String>());
+	}
+
+	public BioDomeGen(EntityPlayer player, List<String> blackListBiomes)
+	{
 		this.player = player;
+		this.blackListBiomes = blackListBiomes;
 	}
 
 	public void genRandomDome(final BlockPos pos, final World world, int radius, boolean spawnEntities)
 	{
-		this.genDome(biomes[RewardsUtil.rand.nextInt(biomes.length)], pos, world, radius, spawnEntities);
+		IBioDomeBiome biome = biomes[0];
+		List<IBioDomeBiome> biomesFiltered = Arrays.asList(biomes).stream().filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).collect(Collectors.toList());
+		if(biomesFiltered.size() != 0)
+			biome = biomesFiltered.get(RewardsUtil.rand.nextInt(biomesFiltered.size()));
+		this.genDome(biome, pos, world, radius, spawnEntities);
 	}
 
 	public void genDome(IBioDomeBiome spawnedBiome, BlockPos pos, final World world, int radius, boolean spawnEntities)

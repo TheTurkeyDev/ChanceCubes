@@ -15,4 +15,6 @@ public interface IBioDomeBiome
 	void getRandomGenBlock(float dist, Random rand, int x, int y, int z, List<OffsetBlock> blocks, int delay);
 
 	void spawnEntities(BlockPos center, World world);
+
+	String getBiomeName();
 }

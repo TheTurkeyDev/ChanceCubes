@@ -1,6 +1,7 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -11,13 +12,18 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class NetherBiome implements IBioDomeBiome
+public class NetherBiome extends BaseBiome
 {
-	private Random rand = new Random();
+
+	public NetherBiome(String name)
+	{
+		super(name);
+	}
 
 	@Override
 	public void spawnEntities(BlockPos center, World world)
 	{
+		Random rand = RewardsUtil.rand;
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
 		{
 			int ri = rand.nextInt(5);

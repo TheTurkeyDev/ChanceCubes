@@ -9,8 +9,13 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class DesertBiome implements IBioDomeBiome
+public class DesertBiome extends BaseBiome
 {
+	public DesertBiome(String name)
+	{
+		super(name);
+	}
+
 	@Override
 	public Block getFloorBlock()
 	{

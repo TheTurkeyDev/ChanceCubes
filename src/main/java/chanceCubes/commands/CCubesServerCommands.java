@@ -37,7 +37,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.apache.logging.log4j.Level;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -93,8 +92,7 @@ public class CCubesServerCommands extends CommandBase
 			return;
 		if(args[0].equalsIgnoreCase("reload"))
 		{
-			new Thread(() ->
-			{
+			new Thread(() -> {
 				ChanceCubeRegistry.INSTANCE.ClearRewards();
 				GiantCubeRegistry.INSTANCE.ClearRewards();
 				ProfileManager.clearProfiles();

@@ -1,6 +1,10 @@
 package chanceCubes.util;
 
-import chanceCubes.CCubesCore;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
@@ -31,17 +35,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.logging.log4j.Level;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class RewardsUtil
 {
 	private static List<String> oredicts = new ArrayList<>();
-	private static String[] possibleModOres = new String[]{"oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc"};
+	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
 	private static List<String> fluids = new ArrayList<>();
 
 	public static final Random rand = new Random();
@@ -422,7 +420,7 @@ public class RewardsUtil
 	{
 		if(player instanceof EntityPlayerMP)
 		{
-			//Update the title times to be what the title packet defines because times are updated separately of the title message....
+			// Update the title times to be what the title packet defines because times are updated separately of the title message....
 			SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.TIMES, new TextComponentString(""), title.getFadeInTime(), title.getDisplayTime(), title.getFadeOutTime());
 			((EntityPlayerMP) player).connection.sendPacket(titlePacket);
 			((EntityPlayerMP) player).connection.sendPacket(title);
