@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import chanceCubes.profiles.triggers.AdvancementTrigger;
 import org.apache.logging.log4j.Level;
 
 import com.google.gson.JsonArray;
@@ -158,6 +159,14 @@ public class CustomProfileLoader
 										return;
 									}
 									profile.addTriggers(new DimensionChangeTrigger(profile, triggerJson.get("dim_id").getAsInt()));
+									break;
+								case "advancement":
+									if(!triggerJson.has("advancement_res"))
+									{
+										CCubesCore.logger.log(Level.ERROR, "Unable to parse profile \"" + profileID + "\" Triggers. Missing \"advancement_res\" json entry for the advancement trigger type.");
+										return;
+									}
+									profile.addTriggers(new AdvancementTrigger(profile, triggerJson.get("advancement_res").getAsString()));
 									break;
 								default:
 									CCubesCore.logger.log(Level.ERROR, "Profile trigger type \"" + type + "\" is not currently supported.");
