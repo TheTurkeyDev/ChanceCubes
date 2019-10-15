@@ -6,6 +6,7 @@ import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,9 @@ public class ProfileManager
 
 	private static Configuration config;
 	public static final String genCat = "Profile Status";
+	public static final String worldCat = "World Profile Data";
+
+	private static String worldName = "";
 
 	public static void registerProfile(IProfile profile)
 	{
@@ -31,6 +35,7 @@ public class ProfileManager
 	public static void registerProfile(IProfile profile, boolean enabled)
 	{
 		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
+		config.save();
 		if(enabled)
 		{
 			enabledProfiles.add(profile);
@@ -43,6 +48,43 @@ public class ProfileManager
 		}
 	}
 
+	public static void updateProfilesForWorld(String world)
+	{
+		worldName = world;
+		String cat = worldCat + "." + world;
+		if(!config.hasCategory(cat))
+		{
+			for(IProfile profile : enabledProfiles)
+				config.get(cat, profile.getName(), true);
+			for(IProfile profile : disabledProfiles)
+				config.get(cat, profile.getName(), false);
+
+			config.save();
+		}
+
+		Map<String, Property> props = config.getCategory(cat).getValues();
+		for(String key : props.keySet())
+		{
+			IProfile profile = ProfileManager.getProfileFromID(key);
+			if(profile == null)
+			{
+				//TODO: Remove it?
+				continue;
+			}
+			boolean enabled = props.get(key).getBoolean();
+			if(enabled && !ProfileManager.isProfileEnabled(profile))
+			{
+				enabledProfiles.add(profile);
+				profile.onEnable();
+			}
+			else if(!enabled && ProfileManager.isProfileEnabled(profile))
+			{
+				disabledProfiles.add(profile);
+				profile.onDisable();
+			}
+		}
+	}
+
 	public static void enableProfile(IProfile profile)
 	{
 		if(disabledProfiles.remove(profile))
@@ -50,7 +92,7 @@ public class ProfileManager
 			enabledProfiles.add(profile);
 			profile.onEnable();
 			config.load();
-			config.get(genCat, profile.getName(), "").setValue(true);
+			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(true);
 			config.save();
 		}
 	}
@@ -62,7 +104,7 @@ public class ProfileManager
 			disabledProfiles.add(profile);
 			profile.onDisable();
 			config.load();
-			config.get(genCat, profile.getName(), "").setValue(false);
+			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(false);
 			config.save();
 		}
 	}

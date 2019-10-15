@@ -1,6 +1,7 @@
 package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.profiles.ProfileManager;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,6 +15,8 @@ public class PlayerConnectListener
 	{
 		if(event.player.world.isRemote)
 			return;
+
+		ProfileManager.updateProfilesForWorld(event.player.world.getWorldInfo().getWorldName());
 
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
 	}
