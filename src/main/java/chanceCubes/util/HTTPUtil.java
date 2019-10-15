@@ -62,6 +62,8 @@ public class HTTPUtil
 		while((line = reader.readLine()) != null)
 			buffer.append(line);
 
+		con.disconnect();
+
 		String page = buffer.toString();
 
 		return json.parse(page);

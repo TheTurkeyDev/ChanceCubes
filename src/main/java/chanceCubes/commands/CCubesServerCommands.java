@@ -209,7 +209,8 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.sendMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " regular rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + GiantCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " giant rewards loaded and " + GiantCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		}
 		else if(args[0].equalsIgnoreCase("testRewards"))
 		{

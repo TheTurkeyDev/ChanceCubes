@@ -27,6 +27,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 
 	private Map<String, IChanceCubeReward> nameToReward = Maps.newHashMap();
 	private List<IChanceCubeReward> sortedRewards = Lists.newArrayList();
+	private Map<String, IChanceCubeReward> disabledNameToReward = Maps.newHashMap();
 
 	/**
 	 * loads the default rewards of the Chance Cube
@@ -66,6 +67,10 @@ public class GiantCubeRegistry implements IRewardRegistry
 			nameToReward.put(reward.getName(), reward);
 			redoSort(reward);
 		}
+		else
+		{
+			this.disabledNameToReward.put(reward.getName(), reward);
+		}
 	}
 
 	@Override
@@ -75,6 +80,42 @@ public class GiantCubeRegistry implements IRewardRegistry
 		if(reward != null)
 			return sortedRewards.remove(reward);
 		return false;
+	}
+
+	public boolean enableReward(String reward)
+	{
+		if(this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
+			return this.enableReward(this.nameToReward.get(reward));
+		return this.isRewardEnabled(reward);
+	}
+
+	public boolean enableReward(IChanceCubeReward reward)
+	{
+		this.disabledNameToReward.remove(reward.getName());
+		redoSort(reward);
+		return this.isRewardEnabled(reward.getName());
+	}
+
+	public boolean disableReward(String reward)
+	{
+		if(!this.disabledNameToReward.containsKey(reward) && this.nameToReward.containsKey(reward))
+			return this.disableReward(this.nameToReward.get(reward));
+		return !this.isRewardEnabled(reward);
+	}
+
+	public boolean disableReward(IChanceCubeReward reward)
+	{
+		if(reward != null)
+		{
+			this.disabledNameToReward.put(reward.getName(), reward);
+			return sortedRewards.remove(reward);
+		}
+		return false;
+	}
+
+	public boolean isRewardEnabled(String reward)
+	{
+		return !this.disabledNameToReward.containsKey(reward);
 	}
 
 	@Override
@@ -113,9 +154,20 @@ public class GiantCubeRegistry implements IRewardRegistry
 		sortedRewards.sort((o1, o2) -> o1.getChanceValue() - o2.getChanceValue());
 	}
 
+	public int getNumberOfLoadedRewards()
+	{
+		return this.sortedRewards.size();
+	}
+
+	public int getNumberOfDisabledRewards()
+	{
+		return this.disabledNameToReward.size();
+	}
+
 	public void ClearRewards()
 	{
 		this.sortedRewards.clear();
 		this.nameToReward.clear();
+		this.disabledNameToReward.clear();
 	}
 }

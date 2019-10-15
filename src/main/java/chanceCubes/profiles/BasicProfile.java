@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import chanceCubes.registry.GiantCubeRegistry;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
@@ -75,10 +76,12 @@ public class BasicProfile implements IProfile
 	{
 		for(String s : this.rewardsToDisable)
 			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
+				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
+					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(String s : this.rewardsToEnable)
 			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
+				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
+					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onEnable();
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
@@ -90,10 +93,12 @@ public class BasicProfile implements IProfile
 	{
 		for(String s : this.rewardsToDisable)
 			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
+				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
+					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(String s : this.rewardsToEnable)
 			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
+				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
+					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(IProfile prof : this.subProfiles)
 			prof.onDisable();
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
