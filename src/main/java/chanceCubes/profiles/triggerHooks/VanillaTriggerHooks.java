@@ -1,5 +1,6 @@
 package chanceCubes.profiles.triggerHooks;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.AdvancementTrigger;
@@ -12,6 +13,7 @@ import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import org.apache.logging.log4j.Level;
 
 public class VanillaTriggerHooks
 {

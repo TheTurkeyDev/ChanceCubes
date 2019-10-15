@@ -26,7 +26,7 @@ public class TileGiantCube extends TileEntity
 	 */
 	public boolean checkForMaster()
 	{
-		TileEntity tile = world.getTileEntity(masterPos);
+		TileEntity tile = world.getTileEntity(this.pos.add(masterPos));
 		return (tile instanceof TileGiantCube);
 	}
 
@@ -105,6 +105,6 @@ public class TileGiantCube extends TileEntity
 
 	public void setMasterCoords(BlockPos pos)
 	{
-		this.masterPos = pos;
+		this.masterPos = this.pos.subtract(pos);
 	}
 }
