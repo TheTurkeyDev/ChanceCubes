@@ -105,6 +105,6 @@ public class TileGiantCube extends TileEntity
 
 	public void setMasterCoords(BlockPos pos)
 	{
-		this.masterPos = this.pos.subtract(pos);
+		this.masterPos = pos.subtract(this.pos);
 	}
 }
