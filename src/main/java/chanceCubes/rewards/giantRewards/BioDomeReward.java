@@ -21,6 +21,7 @@ public class BioDomeReward extends BaseCustomReward
 	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
 		String[] blacklist = super.getSettingAsStringList(settings, "biomes_blacklist", new String[0]);
-		(new BioDomeGen(player, Arrays.asList(blacklist))).genRandomDome(pos, world, 25, true);
+		boolean spawnEntities = super.getSettingAsBoolean(settings, "spawn_entities", true);
+		(new BioDomeGen(player, Arrays.asList(blacklist))).genRandomDome(pos, world, 25, spawnEntities);
 	}
 }

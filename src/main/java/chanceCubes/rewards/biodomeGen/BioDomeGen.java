@@ -33,7 +33,7 @@ public class BioDomeGen
 
 	public BioDomeGen(EntityPlayer player)
 	{
-		this(player, new ArrayList<String>());
+		this(player, new ArrayList<>());
 	}
 
 	public BioDomeGen(EntityPlayer player, List<String> blackListBiomes)

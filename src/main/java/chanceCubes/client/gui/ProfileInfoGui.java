@@ -6,10 +6,10 @@ import chanceCubes.profiles.triggers.ITrigger;
 import com.google.gson.JsonObject;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import scala.actors.threadpool.Arrays;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

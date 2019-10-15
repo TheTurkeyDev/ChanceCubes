@@ -42,6 +42,22 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 		return this.name;
 	}
 
+	public boolean getSettingAsBoolean(Map<String, Object> settings, String key, boolean defaultVal)
+	{
+		if(settings.containsKey(key))
+		{
+			try
+			{
+				return (boolean) settings.get(key);
+			} catch(Exception e)
+			{
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a boolean!");
+				return defaultVal;
+			}
+		}
+		return defaultVal;
+	}
+
 	public int getSettingAsInt(Map<String, Object> settings, String key, int defaultVal, int min, int max)
 	{
 		return Math.max(Math.min(getSettingAsInt(settings, key, defaultVal), max), min);
