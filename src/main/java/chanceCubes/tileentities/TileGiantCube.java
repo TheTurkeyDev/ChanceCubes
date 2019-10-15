@@ -85,7 +85,7 @@ public class TileGiantCube extends TileEntity
 
 	public BlockPos getMasterPostion()
 	{
-		return masterPos;
+		return this.pos.add(masterPos);
 	}
 
 	public void setHasMaster(boolean bool)
