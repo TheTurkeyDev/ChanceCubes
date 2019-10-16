@@ -34,18 +34,22 @@ public class ProfileManager
 
 	public static void registerProfile(IProfile profile, boolean enabled)
 	{
+		if(enabledProfiles.contains(profile) || disabledProfiles.contains(profile))
+			return;
+
 		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
 		config.save();
-		if(enabled)
+
+		if(profile instanceof BasicProfile)
 		{
-			enabledProfiles.add(profile);
-			profile.onEnable();
+			for(IProfile subProfile : ((BasicProfile) profile).getSubProfiles())
+				ProfileManager.registerProfile(subProfile);
 		}
+
+		if(enabled && !enabledProfiles.contains(profile))
+			enableProfile(profile);
 		else
-		{
-			disabledProfiles.add(profile);
-			profile.onDisable();
-		}
+			disableProfile(profile);
 	}
 
 	public static void updateProfilesForWorld(String world)
@@ -73,22 +77,17 @@ public class ProfileManager
 			}
 			boolean enabled = props.get(key).getBoolean();
 			if(enabled && !ProfileManager.isProfileEnabled(profile))
-			{
-				enabledProfiles.add(profile);
-				profile.onEnable();
-			}
+				enableProfile(profile);
 			else if(!enabled && ProfileManager.isProfileEnabled(profile))
-			{
-				disabledProfiles.add(profile);
-				profile.onDisable();
-			}
+				disableProfile(profile);
 		}
 	}
 
 	public static void enableProfile(IProfile profile)
 	{
-		if(disabledProfiles.remove(profile))
-		{
+		if(!enabledProfiles.contains(profile))
+		{disabledProfiles.remove(profile);
+
 			enabledProfiles.add(profile);
 			profile.onEnable();
 			config.load();
@@ -99,8 +98,9 @@ public class ProfileManager
 
 	public static void disableProfile(IProfile profile)
 	{
-		if(enabledProfiles.remove(profile))
+		if(!disabledProfiles.contains(profile))
 		{
+			enabledProfiles.remove(profile);
 			disabledProfiles.add(profile);
 			profile.onDisable();
 			config.load();

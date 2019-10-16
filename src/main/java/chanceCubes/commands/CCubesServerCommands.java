@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import chanceCubes.profiles.IProfile;
 import com.mojang.authlib.GameProfile;
 
 import chanceCubes.CCubesCore;
@@ -92,7 +93,8 @@ public class CCubesServerCommands extends CommandBase
 			return;
 		if(args[0].equalsIgnoreCase("reload"))
 		{
-			new Thread(() -> {
+			new Thread(() ->
+			{
 				ChanceCubeRegistry.INSTANCE.ClearRewards();
 				GiantCubeRegistry.INSTANCE.ClearRewards();
 				ProfileManager.clearProfiles();
@@ -253,6 +255,40 @@ public class CCubesServerCommands extends CommandBase
 			GiantCubeUtil.setupStructure(pos.add(-1, -1, -1), world, true);
 
 			world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		}
+		else if(args[0].equalsIgnoreCase("enableProfile"))
+		{
+			if(args.length < 2)
+			{
+				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes enableProfile <profile_id>"));
+				return;
+			}
+
+			IProfile profile = ProfileManager.getProfileFromID(args[1]);
+			if(profile == null)
+				profile = ProfileManager.getProfilefromName(args[1]);
+
+			if(profile != null)
+				ProfileManager.enableProfile(profile);
+			else
+				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
+		}
+		else if(args[0].equalsIgnoreCase("disableProfile"))
+		{
+			if(args.length < 2)
+			{
+				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes disableProfile <profile_id>"));
+				return;
+			}
+
+			IProfile profile = ProfileManager.getProfileFromID(args[1]);
+			if(profile == null)
+				profile = ProfileManager.getProfilefromName(args[1]);
+
+			if(profile != null)
+				ProfileManager.disableProfile(profile);
+			else
+				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
 		}
 		else
 		{

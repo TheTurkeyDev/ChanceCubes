@@ -83,7 +83,7 @@ public class BasicProfile implements IProfile
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(IProfile prof : this.subProfiles)
-			prof.onEnable();
+			ProfileManager.enableProfile(prof);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
@@ -100,7 +100,7 @@ public class BasicProfile implements IProfile
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(IProfile prof : this.subProfiles)
-			prof.onDisable();
+			ProfileManager.disableProfile(prof);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
