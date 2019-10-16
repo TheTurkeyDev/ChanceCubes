@@ -42,6 +42,7 @@ public class CustomProfileLoader
 	public void loadProfiles()
 	{
 		Map<BasicProfile, List<String>> unfoundSubProfiles = new HashMap<>();
+		List<BasicProfile> customProfiles = new ArrayList<>();
 
 		if(folder == null || !folder.isDirectory())
 		{
@@ -82,7 +83,7 @@ public class CustomProfileLoader
 					String profileDesc = profileJson.get("description").getAsString();
 
 					BasicProfile profile = new BasicProfile(profileID, profileName, profileDesc);
-					ProfileManager.registerProfile(profile);
+					customProfiles.add(profile);
 
 					if(profileJson.has("rewards_to_enable"))
 					{
@@ -265,6 +266,8 @@ public class CustomProfileLoader
 					CCubesCore.logger.log(Level.ERROR, "Unable to find subprofile \"" + subProfID + "\" for the profile \"" + prof.getID() + "\".");
 			}
 		}
-	}
 
+		for(BasicProfile profile : customProfiles)
+			ProfileManager.registerProfile(profile);
+	}
 }
