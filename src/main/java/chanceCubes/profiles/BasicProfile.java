@@ -74,6 +74,8 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onEnable()
 	{
+		for(IProfile prof : this.subProfiles)
+			ProfileManager.enableProfile(prof);
 		for(String s : this.rewardsToDisable)
 			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
@@ -82,8 +84,6 @@ public class BasicProfile implements IProfile
 			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
-		for(IProfile prof : this.subProfiles)
-			ProfileManager.enableProfile(prof);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
@@ -91,6 +91,8 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onDisable()
 	{
+		for(IProfile prof : this.subProfiles)
+			ProfileManager.disableProfile(prof);
 		for(String s : this.rewardsToDisable)
 			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
@@ -99,8 +101,6 @@ public class BasicProfile implements IProfile
 			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
-		for(IProfile prof : this.subProfiles)
-			ProfileManager.disableProfile(prof);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
 			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
