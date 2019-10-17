@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
@@ -39,7 +40,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class RewardsUtil
 {
 	private static List<String> oredicts = new ArrayList<>();
-	private static String[] possibleModOres = new String[] { "oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc" };
+	private static String[] possibleModOres = new String[]{"oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc"};
 	private static List<String> fluids = new ArrayList<>();
 
 	public static final Random rand = new Random();
@@ -255,7 +256,17 @@ public class RewardsUtil
 
 	public static CustomEntry<Block, Integer> getRandomOre()
 	{
-		List<ItemStack> ores = OreDictionary.getOres(RewardsUtil.getRandomOreDict());
+		return getRandomOre(new ArrayList<>());
+	}
+
+	public static CustomEntry<Block, Integer> getRandomOre(List<String> blacklist)
+	{
+		return RewardsUtil.getRandomOreFromOreDict(RewardsUtil.getRandomOreDict(blacklist));
+	}
+
+	public static CustomEntry<Block, Integer> getRandomOreFromOreDict(String oreDict)
+	{
+		List<ItemStack> ores = OreDictionary.getOres(oreDict);
 		Block ore = null;
 		int meta = 0;
 
@@ -322,7 +333,13 @@ public class RewardsUtil
 
 	public static String getRandomOreDict()
 	{
-		return RewardsUtil.getOreDicts().get(rand.nextInt(RewardsUtil.getOreDicts().size()));
+		return getRandomOreDict(new ArrayList<>());
+	}
+
+	public static String getRandomOreDict(List<String> blacklist)
+	{
+		Stream<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line));
+		return oredicts.skip(rand.nextInt((int) oredicts.count())).findFirst().orElse("oreCoal");
 	}
 
 	public static Fluid getRandomFluid()

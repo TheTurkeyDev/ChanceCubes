@@ -1,6 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,18 @@ public class OreSphereReward extends BaseCustomReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 
-		CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
+		List<String> whiteList = Arrays.asList(super.getSettingAsStringList(settings, "white_list", new String[0]));
+
+		CustomEntry<Block, Integer> ore;
+		if(whiteList.size() > 0)
+		{
+			ore = RewardsUtil.getRandomOreFromOreDict(whiteList.get(RewardsUtil.rand.nextInt(whiteList.size())));
+		}
+		else
+		{
+			List<String> blackList = Arrays.asList(super.getSettingAsStringList(settings, "black_list", new String[0]));
+			ore = RewardsUtil.getRandomOre(blackList);
+		}
 
 		int delay = 0;
 		for(int i = 0; i < 5; i++)
