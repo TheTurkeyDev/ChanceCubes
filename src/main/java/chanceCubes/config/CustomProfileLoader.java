@@ -262,7 +262,7 @@ public class CustomProfileLoader
 				IProfile subProf = ProfileManager.getProfileFromID(subProfID);
 				if(subProf == null)
 					for(BasicProfile profile : customProfiles)
-						if(prof.getID().equals(subProfID))
+						if(profile.getID().equals(subProfID))
 							subProf = profile;
 
 				if(subProf != null)
