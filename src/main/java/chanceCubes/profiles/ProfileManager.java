@@ -86,10 +86,15 @@ public class ProfileManager
 	public static void enableProfile(IProfile profile)
 	{
 		if(!enabledProfiles.contains(profile))
-		{disabledProfiles.remove(profile);
+		{
+			disabledProfiles.remove(profile);
 
 			enabledProfiles.add(profile);
 			profile.onEnable();
+		}
+
+		if(!worldName.isEmpty())
+		{
 			config.load();
 			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(true);
 			config.save();
@@ -103,6 +108,10 @@ public class ProfileManager
 			enabledProfiles.remove(profile);
 			disabledProfiles.add(profile);
 			profile.onDisable();
+		}
+
+		if(!worldName.isEmpty())
+		{
 			config.load();
 			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(false);
 			config.save();
