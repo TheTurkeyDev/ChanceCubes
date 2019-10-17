@@ -260,6 +260,11 @@ public class CustomProfileLoader
 			for(String subProfID : unfoundSubProfiles.get(prof))
 			{
 				IProfile subProf = ProfileManager.getProfileFromID(subProfID);
+				if(subProf == null)
+					for(BasicProfile profile : customProfiles)
+						if(prof.getID().equals(subProfID))
+							subProf = profile;
+
 				if(subProf != null)
 					prof.addSubProfile(subProf);
 				else
