@@ -1,6 +1,7 @@
 package chanceCubes.rewards.giantRewards;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ public class OrePillarReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
 	{
+		List<String> whiteList = Arrays.asList(super.getSettingAsStringList(settings, "white_list", new String[0]));
+		List<String> blackList = Arrays.asList(super.getSettingAsStringList(settings, "black_list", new String[0]));
+
+
 		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int i = 0; i < RewardsUtil.rand.nextInt(4) + 2; i++)
@@ -32,7 +37,11 @@ public class OrePillarReward extends BaseCustomReward
 			int zz = RewardsUtil.rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
-				CustomEntry<Block, Integer> ore = RewardsUtil.getRandomOre();
+				CustomEntry<Block, Integer> ore;
+				if(whiteList.size() > 0)
+					ore = RewardsUtil.getRandomOreFromOreDict(whiteList.get(RewardsUtil.rand.nextInt(whiteList.size())));
+				else
+					ore = RewardsUtil.getRandomOre(blackList);
 				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore.getKey(), false, delay / 3);
 				osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
 				blocks.add(osb);
