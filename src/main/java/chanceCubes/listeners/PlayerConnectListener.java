@@ -18,7 +18,7 @@ public class PlayerConnectListener
 			return;
 
 		World world = event.player.world;
-		ProfileManager.updateProfilesForWorld(world.getWorldInfo().getWorldName() + "-" + world.getSeed());
+		ProfileManager.updateProfilesForWorld(world);
 
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
 	}

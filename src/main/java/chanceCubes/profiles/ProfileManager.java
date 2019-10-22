@@ -1,13 +1,24 @@
 package chanceCubes.profiles;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
+import org.apache.logging.log4j.Level;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,16 +27,18 @@ import java.util.Map;
 
 public class ProfileManager
 {
+	private static final JsonParser PARSER = new JsonParser();
+	private static final Gson GSON = new GsonBuilder().create();
+
 	private static List<IProfile> enabledProfiles = new ArrayList<>();
 	private static List<IProfile> disabledProfiles = new ArrayList<>();
 
 	private static Map<String, List<Integer>> chanceChangesCache = new HashMap<>();
 
+	private static File worldSaveFile = null;
+	private static JsonObject worldSaveJson = new JsonObject();
 	private static Configuration config;
 	public static final String genCat = "Profile Status";
-	public static final String worldCat = "World Profile Data";
-
-	private static String worldName = "";
 
 	public static void registerProfile(IProfile profile)
 	{
@@ -37,7 +50,7 @@ public class ProfileManager
 		if(enabledProfiles.contains(profile) || disabledProfiles.contains(profile))
 			return;
 
-		enabled = config.getBoolean(profile.getName(), genCat, enabled, profile.getDesc());
+		enabled = config.getBoolean(profile.getID(), genCat, enabled, profile.getDesc());
 		config.save();
 
 		if(profile instanceof BasicProfile)
@@ -52,30 +65,63 @@ public class ProfileManager
 			disableProfile(profile);
 	}
 
-	public static void updateProfilesForWorld(String world)
+	public static void updateProfilesForWorld(World world)
 	{
-		worldName = world;
-		String cat = worldCat + "." + world;
-		if(!config.hasCategory(cat))
+		worldSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
+		try
 		{
-			for(IProfile profile : enabledProfiles)
-				config.get(cat, profile.getName(), true);
-			for(IProfile profile : disabledProfiles)
-				config.get(cat, profile.getName(), false);
-
-			config.save();
+			if(!worldSaveFile.exists())
+			{
+				worldSaveFile.createNewFile();
+				worldSaveJson = new JsonObject();
+			}
+			else
+			{
+				FileReader reader = new FileReader(worldSaveFile);
+				JsonElement elem = PARSER.parse(reader);
+				reader.close();
+				if(elem.isJsonObject())
+					worldSaveJson = elem.getAsJsonObject();
+				else
+					worldSaveJson = new JsonObject();
+			}
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to load the World specific profile data");
+			e.printStackTrace();
+			return;
 		}
 
-		Map<String, Property> props = config.getCategory(cat).getValues();
-		for(String key : props.keySet())
+		JsonObject profileJson;
+		if(worldSaveJson.has("profiles") && worldSaveJson.get("profiles").isJsonObject())
 		{
-			IProfile profile = ProfileManager.getProfileFromID(key);
-			if(profile == null)
+			profileJson = worldSaveJson.getAsJsonObject("profiles");
+		}
+		else
+		{
+			profileJson = new JsonObject();
+			worldSaveJson.add("profiles", profileJson);
+		}
+
+		for(IProfile profile : enabledProfiles)
+			if(!profileJson.has(profile.getID()))
+				profileJson.addProperty(profile.getID(), true);
+		for(IProfile profile : disabledProfiles)
+			if(!profileJson.has(profile.getID()))
+				profileJson.addProperty(profile.getID(), false);
+
+		if(!saveWorldSaveFile())
+			return;
+
+		for(Map.Entry<String, JsonElement> profileEntry : profileJson.entrySet())
+		{
+			IProfile profile = ProfileManager.getProfileFromID(profileEntry.getKey());
+			if(profile == null || !profileEntry.getValue().isJsonPrimitive())
 			{
 				//TODO: Remove it?
 				continue;
 			}
-			boolean enabled = props.get(key).getBoolean();
+			boolean enabled = profileEntry.getValue().getAsBoolean();
 			if(enabled && !ProfileManager.isProfileEnabled(profile))
 				enableProfile(profile);
 			else if(!enabled && ProfileManager.isProfileEnabled(profile))
@@ -93,11 +139,13 @@ public class ProfileManager
 			profile.onEnable();
 		}
 
-		if(!worldName.isEmpty())
+		if(worldSaveFile != null)
 		{
-			config.load();
-			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(true);
-			config.save();
+			if(worldSaveJson.has("profiles") && worldSaveJson.get("profiles").isJsonObject())
+			{
+				worldSaveJson.getAsJsonObject("profiles").addProperty(profile.getID(), true);
+				saveWorldSaveFile();
+			}
 		}
 	}
 
@@ -110,11 +158,13 @@ public class ProfileManager
 			profile.onDisable();
 		}
 
-		if(!worldName.isEmpty())
+		if(worldSaveFile != null)
 		{
-			config.load();
-			config.get(worldCat + "." + worldName, profile.getName(), "").setValue(false);
-			config.save();
+			if(worldSaveJson.has("profiles") && worldSaveJson.get("profiles").isJsonObject())
+			{
+				worldSaveJson.getAsJsonObject("profiles").addProperty(profile.getID(), false);
+				saveWorldSaveFile();
+			}
 		}
 	}
 
@@ -341,5 +391,22 @@ public class ProfileManager
 	public static void setupConfig(Configuration configuration)
 	{
 		config = configuration;
+	}
+
+	public static boolean saveWorldSaveFile()
+	{
+		try
+		{
+			CCubesCore.logger.log(Level.INFO, "Saving to " + worldSaveFile.getAbsolutePath() + "!: " + worldSaveJson.toString());
+			FileWriter writer = new FileWriter(worldSaveFile);
+			GSON.toJson(worldSaveJson, writer);
+			writer.close();
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to save the World specific profile data");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }
