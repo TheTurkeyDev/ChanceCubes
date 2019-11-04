@@ -30,6 +30,8 @@ public class ProfileManager
 	private static final JsonParser PARSER = new JsonParser();
 	private static final Gson GSON = new GsonBuilder().create();
 
+	private static Map<IProfile, Boolean> profileDefaults = new HashMap<>();
+
 	private static List<IProfile> enabledProfiles = new ArrayList<>();
 	private static List<IProfile> disabledProfiles = new ArrayList<>();
 
@@ -47,9 +49,10 @@ public class ProfileManager
 
 	public static void registerProfile(IProfile profile, boolean enabled)
 	{
-		if(enabledProfiles.contains(profile) || disabledProfiles.contains(profile))
+		if(profileDefaults.containsKey(profile))
 			return;
 
+		profileDefaults.put(profile, enabled);
 		enabled = config.getBoolean(profile.getID(), genCat, enabled, profile.getDesc());
 		config.save();
 
@@ -59,7 +62,7 @@ public class ProfileManager
 				ProfileManager.registerProfile(subProfile);
 		}
 
-		if(enabled && !enabledProfiles.contains(profile))
+		if(enabled)
 			enableProfile(profile);
 		else
 			disableProfile(profile);
@@ -103,12 +106,9 @@ public class ProfileManager
 			worldSaveJson.add("profiles", profileJson);
 		}
 
-		for(IProfile profile : enabledProfiles)
+		for(IProfile profile : profileDefaults.keySet())
 			if(!profileJson.has(profile.getID()))
-				profileJson.addProperty(profile.getID(), true);
-		for(IProfile profile : disabledProfiles)
-			if(!profileJson.has(profile.getID()))
-				profileJson.addProperty(profile.getID(), false);
+				profileJson.addProperty(profile.getID(), profileDefaults.get(profile));
 
 		if(!saveWorldSaveFile())
 			return;
