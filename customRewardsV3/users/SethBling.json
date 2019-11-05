@@ -1,0 +1,48 @@
+{
+    "Seth_Bling": {
+        "chance": 0,
+        "Message": [
+            {
+                "message": "I know there's already a reward in this mod that is named after you...."
+            },
+            {
+                "message": "But you can never have enough Redstone!",
+                "delay": 40
+            },
+            {
+                "message": "Welcome back, Chance Cubes here!",
+                "delay": 80
+            }
+        ],
+        "Item": [
+            {
+                "item": {
+                    "id": "minecraft:redstone",
+                    "Count": 32
+                },
+                "delay": 40
+            },
+            {
+                "item": {
+                    "id": "minecraft:repeater",
+                    "Count": 8
+                },
+                "delay": 40
+            },
+            {
+                "item": {
+                    "id": "minecraft:redstone_lamp",
+                    "Count": 8
+                },
+                "delay": 40
+            },
+            {
+                "item": {
+                    "id": "minecraft:redstone_torch",
+                    "Count": 8
+                },
+                "delay": 40
+            }
+        ]
+    }
+}

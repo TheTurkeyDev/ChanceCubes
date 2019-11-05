@@ -1,0 +1,31 @@
+{
+    "Vintage_Beef": {
+        "chance": 0,
+        "Message": [
+            {
+                "message": "Heh heh, get it? Vintage Beef.... Zombie Flesh...."
+            },
+            {
+                "message": "It's old and rotten meat...",
+                "delay": 20
+            },
+            {
+                "message": "I'll just leave...",
+                "delay": 40
+            }
+        ],
+        "Item": [
+            {
+                "item": {
+                    "id": "minecraft:rotten_flesh",
+                    "Count": 1,
+                    "tag": {
+                        "display": {
+                            "Name": "Vintage Beef"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

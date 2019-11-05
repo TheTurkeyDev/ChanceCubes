@@ -1,0 +1,17 @@
+{
+    "Only_Bently": {
+        "chance": 0,
+        "Message": [
+            {
+                "message": "OnlyBently died", 
+                "delay": 40, 
+                "serverWide": true
+            },
+            {
+                "message": "<OnlyBently> And I did it on purpose!",
+                "delay": 80, 
+                "serverWide": true
+            }
+        ]
+    }
+}
