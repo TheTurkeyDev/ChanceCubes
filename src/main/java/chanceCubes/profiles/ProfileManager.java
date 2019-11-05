@@ -397,7 +397,6 @@ public class ProfileManager
 	{
 		try
 		{
-			CCubesCore.logger.log(Level.INFO, "Saving to " + worldSaveFile.getAbsolutePath() + "!: " + worldSaveJson.toString());
 			FileWriter writer = new FileWriter(worldSaveFile);
 			GSON.toJson(worldSaveJson, writer);
 			writer.close();
