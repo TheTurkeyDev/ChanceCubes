@@ -1,0 +1,16 @@
+{
+	"the_opener_x33n":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Here's a little gift for actually wanting to open my cubes!"},
+			{"message":"<3 Turkey2349", "delay":10, "serverWide":true}
+		],
+        "Command":
+        [
+          {"command":"/summon item ~ ~1 ~ {Item:{id:\"minecraft:pumpkin\",Count:1b,tag:{display:{Name:\"Pierre\"}}}}", "delay": 20},
+          {"command":"/summon item ~ ~1 ~ {Item:{id:\"minecraft:leaves\",Count:1b,tag:{display:{Name:\"Bushe\"}}}}", "delay": 20}
+        ]
+	}
+}

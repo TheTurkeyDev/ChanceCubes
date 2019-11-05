@@ -1,0 +1,40 @@
+{
+	"ok":
+	{
+		"chance": 0,
+		"Message":
+		[
+            {"message":"\"DatFailGamur: collection of skeles and creepers?\""},
+            {"message":"You know what? I say there's too much death and destruction", "delay": 20},
+            {"message":"So here have a diamon instead!", "delay": 60},
+            {"message":"-Turkey", "delay": 60},
+            {"message":"You're not buying it are you?", "delay": 160},
+            {"message":"Wise...", "delay": 200}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:diamond","Count":1}, "delay": 60}
+        ],
+		"Command":
+		[
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon zombie ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240},
+            {"command":"/summon skeleton ~ ~ ~", "delay": 240}
+		]
+	}
+}

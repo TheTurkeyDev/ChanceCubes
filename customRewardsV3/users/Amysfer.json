@@ -1,0 +1,15 @@
+{
+    "More":
+    {
+        "chance": 0,
+        "Message":
+        [
+            {"message":"I don't think you have enough Chance Cubes ;)", "serverWide":true},
+            {"message":"<3 Turkey", "delay":25, "serverWide":true}
+        ],
+        "Item":
+        [
+            {"item":{"id":"chancecubes:chance_Cube","Count":10}, "delay":20}
+        ]
+    }
+}

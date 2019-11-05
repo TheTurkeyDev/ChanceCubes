@@ -10,18 +10,18 @@
 		],
 		"Command":
 		[
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40},
-			{"command":"/summon minecraft:tnt %x %y %z {Fuse:80,Riding:{id:\"minecraft:bat\"}}", "delay":40}
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40},
+			{"command":"/summon PrimedTnt %x %y %z {Fuse:80,Riding:{id:\"Bat\"}}", "delay":40}
 		]
 	},
 	"Hard_Enough_Wither":
@@ -36,12 +36,31 @@
 		],
 		"Command":
 		[
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
-			{"command":"/summon minecraft:pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"minecraft:bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50}
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50},
+			{"command":"/summon Pig ~ ~1 ~ {CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Pig\",CustomName:\"Wither\",CustomNameVisible:1,Riding:{id:\"Bat\",CustomName:\"Ender Dragon\",CustomNameVisible:1}}}}}", "delay":50}
+		]
+	},
+	"Nice":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"Let's take a trip down memory lane!"},
+			{"message":"Ok... I'll be nice now", "delay": 20},
+			{"message":"LOL JK. GET REKT", "delay": 200}
+		],
+		"Entity":
+		[
+			{"entity":{"id":"EnderDragon"}, "delay": 280},
+			{"entity":{"id":"EnderDragon"}, "delay": 280}
+		],
+		"Item":
+		[
+			{"item":{"id":"minecraft:cookie","Count":32, "delay": 20}}
 		]
 	},
 	"Nicer":
@@ -55,9 +74,9 @@
 		],
 		"Command":
 		[
-			{"command":"/summon minecraft:creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
-			{"command":"/summon minecraft:creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
-			{"command":"/summon minecraft:creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160}
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160},
+			{"command":"/summon Creeper %x %y %z {powered:1,ActiveEffects:[{Id:11,Amplifier:10,Duration:19980,ShowParticles:0b}]}", "delay": 160}
 		],
 		"Block":
 		[
@@ -77,7 +96,7 @@
 		],
 		"Command":
 		[
-			{"command":"/summon minecraft:item ~ ~1 ~ {Item:{id:wooden_sword,Count:1,tag:{display:{Name:\"The Crayon\"},ench:[{id:20,lvl:2},{id:51,lvl:1},{id:49,lvl:5},{id:32,lvl:5}]}}}", "delay": 120}
+			{"command":"/summon Item ~ ~1 ~ {Item:{id:wooden_sword,Count:1,tag:{display:{Name:\"The Crayon\"},ench:[{id:20,lvl:2},{id:51,lvl:1},{id:49,lvl:5},{id:32,lvl:5}]}}}", "delay": 120}
 		]
 	}
 }

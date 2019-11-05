@@ -6,11 +6,12 @@
 		[
 			{"message":"Fly you fool!!!"},
 			{"message":"<3 Turkey", "delay":5},
-			{"message":"P.S. I'm told I have to include the word hypu, so ENDER DRAGON HYPU!!", "delay":20}
+			{"message":"P.S. I'm told I have to include the word hypu, so ENDER DRAGON HYPU!!", "delay":20},
+			{"message":"Ender Dragon no longer works, so I guess a wither will suffice", "delay":60}
 		],
 		"Command":
 		[
-			{"command":"/summon EnderDragon ~ ~10 ~ {CustomName:\"Eagle of Freedom\",CustomNameVisible:1}", "delay": 100}
+			{"command":"/summon wither ~ ~10 ~ {CustomName:\"Eagle of Freedom\",CustomNameVisible:1}", "delay": 100}
 		]
 	}
 }

@@ -1,37 +1,142 @@
 {
-	"NewYears":
-	{
+	"NewYears": {
 		"chance": 0,
-		"Message":
-		[
-			{"message":"5"},
-			{"message":"4", "delay":20},
-			{"message":"3", "delay":40},
-			{"message":"2", "delay":60},
-			{"message":"1", "delay":80},
-			{"message":"Happy New Year from the Chance Cubes Team!", "delay":100}
+		"Message": [
+		  {
+			"message": "5"
+		  },
+		  {
+			"message": "4",
+			"delay": 20
+		  },
+		  {
+			"message": "3",
+			"delay": 40
+		  },
+		  {
+			"message": "2",
+			"delay": 60
+		  },
+		  {
+			"message": "1",
+			"delay": 80
+		  },
+		  {
+			"message": "Happy New Year from the Chance Cubes Team!",
+			"delay": 100
+		  }
 		],
-		"Block":
-		[
-			{"XOffSet":0,"YOffSet":4,"ZOffSet":0,"Block":"chancecubes:Chance_Icosahedron", "Falling":false},
-			{"XOffSet":0,"YOffSet":4,"ZOffSet":0,"Block":"minecraft:air", "Falling":false, "delay":20},
-			{"XOffSet":0,"YOffSet":3,"ZOffSet":0,"Block":"chancecubes:Chance_Icosahedron", "Falling":false, "delay":20},
-			{"XOffSet":0,"YOffSet":3,"ZOffSet":0,"Block":"minecraft:air", "Falling":false, "delay":40},
-			{"XOffSet":0,"YOffSet":2,"ZOffSet":0,"Block":"chancecubes:Chance_Icosahedron", "Falling":false, "delay":40},
-			{"XOffSet":0,"YOffSet":2,"ZOffSet":0,"Block":"minecraft:air", "Falling":false, "delay":60},
-			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"chancecubes:Chance_Icosahedron", "Falling":false, "delay":60},
-			{"XOffSet":0,"YOffSet":1,"ZOffSet":0,"Block":"minecraft:air", "Falling":false, "delay":80},
-			{"XOffSet":0,"YOffSet":0,"ZOffSet":0,"Block":"chancecubes:Chance_Icosahedron", "Falling":false, "delay":80},
-			{"XOffSet":0,"YOffSet":0,"ZOffSet":0,"Block":"minecraft:air", "Falling":false, "delay":100}
+		"Block": [
+		  {
+			"xOffSet": 0,
+			"yOffSet": 4,
+			"zOffSet": 0,
+			"block": "chancecubes:chance_icosahedron",
+			"falling": false
+		  },
+		  {
+			"delay": 19,
+			"xOffSet": 0,
+			"yOffSet": 4,
+			"zOffSet": 0,
+			"block": "minecraft:air",
+			"falling": false,
+			"removeUnbreakableBlocks": true
+		  },
+		  {
+			"delay": 20,
+			"xOffSet": 0,
+			"yOffSet": 3,
+			"zOffSet": 0,
+			"block": "chancecubes:chance_icosahedron",
+			"falling": false
+		  },
+		  {
+			"delay": 39,
+			"xOffSet": 0,
+			"yOffSet": 3,
+			"zOffSet": 0,
+			"block": "minecraft:air",
+			"falling": false,
+			"removeUnbreakableBlocks": true
+		  },
+		  {
+			"delay": 40,
+			"xOffSet": 0,
+			"yOffSet": 2,
+			"zOffSet": 0,
+			"block": "chancecubes:chance_icosahedron",
+			"falling": false
+		  },
+		  {
+			"delay": 59,
+			"xOffSet": 0,
+			"yOffSet": 2,
+			"zOffSet": 0,
+			"block": "minecraft:air",
+			"falling": false,
+			"removeUnbreakableBlocks": true
+		  },
+		  {
+			"delay": 60,
+			"xOffSet": 0,
+			"yOffSet": 1,
+			"zOffSet": 0,
+			"block": "chancecubes:chance_icosahedron",
+			"falling": false
+		  },
+		  {
+			"delay": 79,
+			"xOffSet": 0,
+			"yOffSet": 1,
+			"zOffSet": 0,
+			"block": "minecraft:air",
+			"falling": false,
+			"removeUnbreakableBlocks": true
+		  },
+		  {
+			"delay": 80,
+			"xOffSet": 0,
+			"yOffSet": 0,
+			"zOffSet": 0,
+			"block": "chancecubes:chance_icosahedron",
+			"falling": false
+		  },
+		  {
+			"delay": 99,
+			"xOffSet": 0,
+			"yOffSet": 0,
+			"zOffSet": 0,
+			"block": "minecraft:air",
+			"falling": false,
+			"removeUnbreakableBlocks": true
+		  }
 		],
-		"Command":
-		[
-			{"command":"/summon FireworksRocketEntity ~0 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}", "delay": 100},
-			{"command":"/summon FireworksRocketEntity ~1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}", "delay": 100},
-			{"command":"/summon FireworksRocketEntity ~0 ~0 ~1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[1245329,3366143],FadeColors:[16777215,16777215]}]}}}}", "delay": 100},
-			{"command":"/summon FireworksRocketEntity ~-1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}", "delay": 100},
-			{"command":"/summon FireworksRocketEntity ~0 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}", "delay": 100},
-			{"command":"/summon FireworksRocketEntity ~1 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:401,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[2216959,2490517],FadeColors:[7602175]}]}}}}", "delay": 100}
+		"Command": [
+		  {
+			"command": "/summon fireworks_rocket ~0 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[I;1245329,3366143],FadeColors:[I;16777215,16777215]}]}}}}",
+			"delay": 100
+		  },
+		  {
+			"command": "/summon fireworks_rocket ~1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[I;1245329,3366143],FadeColors:[I;16777215,16777215]}]}}}}",
+			"delay": 100
+		  },
+		  {
+			"command": "/summon fireworks_rocket ~0 ~0 ~1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:0,Trail:1,Colors:[I;1245329,3366143],FadeColors:[I;16777215,16777215]}]}}}}",
+			"delay": 100
+		  },
+		  {
+			"command": "/summon fireworks_rocket ~-1 ~0 ~0 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[I;2216959,2490517],FadeColors:[I;7602175]}]}}}}",
+			"delay": 100
+		  },
+		  {
+			"command": "/summon fireworks_rocket ~0 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[I;2216959,2490517],FadeColors:[I;7602175]}]}}}}",
+			"delay": 100
+		  },
+		  {
+			"command": "/summon fireworks_rocket ~1 ~0 ~-1 {LifeTime:20,Motion:[0.00,0.10,0.00],FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1,Trail:1,Colors:[I;2216959,2490517],FadeColors:[I;7602175]}]}}}}",
+			"delay": 100
+		  }
 		]
-	}
+	  }
 }
