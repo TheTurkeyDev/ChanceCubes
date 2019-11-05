@@ -85,6 +85,11 @@ public class CustomProfileLoader
 					BasicProfile profile = new BasicProfile(profileID, profileName, profileDesc);
 					customProfiles.add(profile);
 
+					if(profileJson.has("any_trigger"))
+					{
+						profile.setAnyTrigger(profileJson.get("any_trigger").getAsBoolean());
+					}
+
 					if(profileJson.has("rewards_to_enable"))
 					{
 						JsonArray rewardsToEnable = profileJson.getAsJsonArray("rewards_to_enable");

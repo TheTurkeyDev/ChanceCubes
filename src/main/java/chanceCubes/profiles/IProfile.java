@@ -4,6 +4,7 @@ import chanceCubes.profiles.triggers.ITrigger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface IProfile
 {
@@ -19,7 +20,9 @@ public interface IProfile
 
 	void onDisable();
 
-	List<ITrigger<?>> getTriggers();
+	Set<ITrigger<?>> getTriggers();
+
+	void setTriggerState(ITrigger<?> trigger, boolean completed);
 
 	Map<String, Map<String, Object>> getRewardSettings();
 }

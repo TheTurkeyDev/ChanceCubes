@@ -20,9 +20,9 @@ public class DimensionChangeTrigger implements ITrigger<Integer>
 		if(args.length == 2)
 		{
 			if(args[0].equals(dimID))
-				ProfileManager.enableProfile(prof);
+				prof.setTriggerState(this, true);
 			else if(args[1].equals(dimID))
-				ProfileManager.disableProfile(prof);
+				prof.setTriggerState(this, false);
 		}
 	}
 

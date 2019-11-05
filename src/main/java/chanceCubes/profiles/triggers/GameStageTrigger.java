@@ -22,9 +22,9 @@ public class GameStageTrigger implements ITrigger<String>
 			if(args[0].equals(stageName))
 			{
 				if(args[1].equals("A"))
-					ProfileManager.enableProfile(prof);
+					prof.setTriggerState(this, true);
 				else
-					ProfileManager.disableProfile(prof);
+					prof.setTriggerState(this, false);
 			}
 		}
 	}

@@ -21,9 +21,9 @@ public class DifficultyTrigger implements ITrigger<EnumDifficulty>
 		if(args.length == 2)
 		{
 			if(args[0].equals(diff))
-				ProfileManager.enableProfile(prof);
+				prof.setTriggerState(this, true);
 			else if(args[1].equals(diff))
-				ProfileManager.disableProfile(prof);
+				prof.setTriggerState(this, false);
 		}
 	}
 

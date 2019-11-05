@@ -1,26 +1,28 @@
 package chanceCubes.profiles;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.profiles.triggers.ITrigger;
+import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.GiantCubeRegistry;
+import org.apache.logging.log4j.Level;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import chanceCubes.registry.GiantCubeRegistry;
-import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.profiles.triggers.ITrigger;
-import chanceCubes.registry.ChanceCubeRegistry;
+import java.util.Set;
 
 public class BasicProfile implements IProfile
 {
+	private boolean enabled;
 	private String id;
 	private String name;
 	private String desc;
+	private boolean anyTrigger = true;
 	private StringBuilder descFull = new StringBuilder();
-	private List<ITrigger<?>> triggers = new ArrayList<>();
+	private Map<ITrigger<?>, Boolean> triggers = new HashMap<>();
 	private List<String> rewardsToEnable = new ArrayList<>();
 	private List<String> rewardsToDisable = new ArrayList<>();
 	private List<IProfile> subProfiles = new ArrayList<>();
@@ -32,6 +34,11 @@ public class BasicProfile implements IProfile
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
+	}
+
+	public void setAnyTrigger(boolean anyTrigger)
+	{
+		this.anyTrigger = anyTrigger;
 	}
 
 	public BasicProfile addEnabledRewards(String... rewards)
@@ -48,7 +55,8 @@ public class BasicProfile implements IProfile
 
 	public BasicProfile addTriggers(ITrigger<?>... triggers)
 	{
-		this.triggers.addAll(Arrays.asList(triggers));
+		for(ITrigger<?> trigger : triggers)
+			this.triggers.put(trigger, false);
 		return this;
 	}
 
@@ -74,6 +82,7 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onEnable()
 	{
+		enabled = true;
 		for(IProfile prof : this.subProfiles)
 			ProfileManager.enableProfile(prof);
 		for(String s : this.rewardsToDisable)
@@ -91,6 +100,7 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onDisable()
 	{
+		enabled = false;
 		for(IProfile prof : this.subProfiles)
 			ProfileManager.disableProfile(prof);
 		for(String s : this.rewardsToDisable)
@@ -180,7 +190,7 @@ public class BasicProfile implements IProfile
 			descFull.append("\n");
 			if(this.triggers.size() == 0)
 				descFull.append("None\n");
-			for(ITrigger<?> t : this.triggers)
+			for(ITrigger<?> t : this.triggers.keySet())
 			{
 				descFull.append(t.getTriggerDesc());
 				descFull.append("\n");
@@ -208,8 +218,51 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
-	public List<ITrigger<?>> getTriggers()
+	public Set<ITrigger<?>> getTriggers()
 	{
-		return triggers;
+		return triggers.keySet();
+	}
+
+	public void setTriggerState(ITrigger<?> trigger, boolean completed)
+	{
+		this.triggers.replace(trigger, completed);
+		for(Boolean triggerCompeleted : triggers.values())
+		{
+			//Bit awkward looking code, but idk what to do right now
+			if(this.enabled && !triggerCompeleted && !anyTrigger)
+			{
+				ProfileManager.disableProfile(this);
+				return;
+			}
+			else if(this.enabled && !triggerCompeleted && anyTrigger)
+			{
+				continue;
+			}
+			else if(!this.enabled && triggerCompeleted && anyTrigger)
+			{
+				ProfileManager.enableProfile(this);
+				return;
+			}
+			else if(!this.enabled && triggerCompeleted && !anyTrigger)
+			{
+				continue;
+			}
+			else
+			{
+				return;
+			}
+		}
+
+		if(enabled)
+			ProfileManager.disableProfile(this);
+		else
+			ProfileManager.enableProfile(this);
 	}
 }
+
+/*						AnyTrigger			!AnyTrigger
+Last Enabled				N/C					E
+First enabled				E					N/C
+Last disabled				D					N/C
+First Disabled				N/C					D
+ */

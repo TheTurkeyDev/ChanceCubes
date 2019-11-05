@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggers;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 
 public class AdvancementTrigger implements ITrigger<String>
 {
@@ -18,7 +17,7 @@ public class AdvancementTrigger implements ITrigger<String>
 	public void onTrigger(String[] args)
 	{
 		if(args.length == 1 && args[0].equals(advancement))
-			ProfileManager.enableProfile(prof);
+			prof.setTriggerState(this, true);
 	}
 
 	@Override
