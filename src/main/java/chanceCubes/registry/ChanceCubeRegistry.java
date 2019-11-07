@@ -867,7 +867,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	public boolean isRewardEnabled(String reward)
 	{
-		return !this.disabledNameToReward.containsKey(reward);
+		return !this.disabledNameToReward.containsKey(reward) && nameToReward.containsKey(reward);
 	}
 
 	@Override
