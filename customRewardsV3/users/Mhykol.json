@@ -1,16 +1,16 @@
 {
-	"Mhykol":
-	{
-		"chance": 0,
-		"Message":
-		[
-            {"message":"This Mhykol guy is pretty cool!", "delay":0, "serverWide":true},
-			{"message":"██╗    ██╗██╗  ██╗ ██████╗ ██████╗ ", "delay":60, "serverWide":true},
-			{"message":"██║    ██║██║  ██║██╔═══██╗╚════██╗", "delay":61, "serverWide":true},
-			{"message":"██║ █╗ ██║███████║██║   ██║  ▄███╔╝", "delay":62, "serverWide":true},
-			{"message":"██║███╗██║██╔══██║██║   ██║  ▀▀══╝ ", "delay":63, "serverWide":true},
-			{"message":"╚███╔███╔╝██║  ██║╚██████╔╝  ██╗   ", "delay":64, "serverWide":true},
-			{"message":" ╚══╝╚══╝ ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ", "delay":65, "serverWide":true}
-		]
-	}
+    "Mhykol":
+    {
+      "chance": 0,
+      "Message":
+      [
+        {"message":"This Mhykol guy is pretty cool!", "delay":0, "serverWide":true},
+        {"message":"██╗          ██╗██╗     ██╗  ██████╗  ██████╗ ", "delay":60, "serverWide":true},
+        {"message":"██║          ██║██║     ██║██╔═══██╗╚════██╗", "delay":61, "serverWide":true},
+        {"message":"██║   █╗   ██║███████║██║       ██║    ▄███╔╝", "delay":62, "serverWide":true},
+        {"message":"██║ ███╗██║██╔══██║ ██║       ██║  ▀▀══╝ ", "delay":63, "serverWide":true},
+        {"message":"╚███╔███╔╝██║     ██║╚██████╔╝   ██╗   ", "delay":64, "serverWide":true},
+        {"message":"  ╚══╝╚══╝   ╚═╝    ╚═╝  ╚═════╝      ╚═╝   ", "delay":65, "serverWide":true}
+      ]
+    }
 }
