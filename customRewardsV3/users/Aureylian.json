@@ -1,0 +1,19 @@
+{
+	"diamond_nub":
+	{
+		"chance": 0,
+		"Message":
+		[
+			{"message":"PINK!!!!"}
+		],
+		"Item":
+		[
+            {"item":{"id":"minecraft:wool","Count":3, "Damage":6}},
+            {"item":{"id":"minecraft:red_flower","Count":3, "Damage":7}},
+            {"item":{"id":"minecraft:bed","Count":1, "Damage":6}},
+            {"item":{"id":"minecraft:stained_hardened_clay","Count":16, "Damage":6}},
+            {"item":{"id":"minecraft:stained_glass","Count":16, "Damage":6}},
+            {"item":{"id":"minecraft:concrete","Count":16, "Damage":6}}
+		]
+	}
+}
