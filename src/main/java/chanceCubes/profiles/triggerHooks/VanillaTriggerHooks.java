@@ -1,19 +1,16 @@
 package chanceCubes.profiles.triggerHooks;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.AdvancementTrigger;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import org.apache.logging.log4j.Level;
 
 public class VanillaTriggerHooks
 {

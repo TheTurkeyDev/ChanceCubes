@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggers;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import net.minecraft.world.EnumDifficulty;
 
 public class DifficultyTrigger implements ITrigger<EnumDifficulty>

@@ -278,6 +278,6 @@ public class CustomProfileLoader
 		}
 
 		for(BasicProfile profile : customProfiles)
-			ProfileManager.registerProfile(profile);
+			ProfileManager.registerProfile(profile, profile.getTriggers().size() == 0);
 	}
 }

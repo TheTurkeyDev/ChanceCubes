@@ -1,10 +1,9 @@
 package chanceCubes.profiles;
 
-import chanceCubes.profiles.triggers.ITrigger;
-
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import chanceCubes.profiles.triggers.ITrigger;
 
 public interface IProfile
 {

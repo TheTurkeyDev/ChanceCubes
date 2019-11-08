@@ -73,7 +73,7 @@ import java.util.Set;
 @SuppressWarnings("deprecation")
 public class ChanceCubeRegistry implements IRewardRegistry
 {
-	//TODO: Per player reward pools?
+	// TODO: Per player reward pools?
 	public static ChanceCubeRegistry INSTANCE = new ChanceCubeRegistry();
 
 	private List<IChanceCubeReward> customRewards = Lists.newArrayList();
@@ -101,7 +101,7 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP", 35, new ExperienceRewardType(new ExpirencePart(100).setNumberofOrbs(10))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP_Shower", 35, new ExperienceRewardType(new ExpirencePart(10), new ExpirencePart(10, 10), new ExpirencePart(10, 10), new ExpirencePart(10, 20), new ExpirencePart(10, 30), new ExpirencePart(10, 40), new ExpirencePart(10, 50), new ExpirencePart(10, 60), new ExpirencePart(10, 70), new ExpirencePart(10, 80), new ExpirencePart(10, 90), new ExpirencePart(10, 100), new ExpirencePart(10, 110), new ExpirencePart(10, 120), new ExpirencePart(10, 130), new ExpirencePart(10, 140), new ExpirencePart(10, 150))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Poison", -25, new EffectRewardType(new EffectPart(MobEffects.POISON, 25, 1).setRadius(30))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wither_Status_Effect", -25, new EffectRewardType(new EffectPart(new StringVar(String.valueOf(Potion.getIdFromPotion(MobEffects.WITHER))), new IntVar(new Integer[]{3, 5, 6, 8, 10}), new IntVar(new Integer[]{1, 2})).setRadius(30))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wither_Status_Effect", -25, new EffectRewardType(new EffectPart(new StringVar(String.valueOf(Potion.getIdFromPotion(MobEffects.WITHER))), new IntVar(new Integer[] { 3, 5, 6, 8, 10 }), new IntVar(new Integer[] { 1, 2 })).setRadius(30))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chat_Message", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hearts", 0, new ParticleEffectRewardType(RewardsUtil.spawnXParticles(34, 5))));
 		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(SoundEvents.ENTITY_GENERIC_EXPLODE)));
@@ -306,7 +306,6 @@ public class ChanceCubeRegistry implements IRewardRegistry
 				player.setHealth(1f);
 			}
 		});
-
 
 		ChanceCubeRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":No_Exp", -40)
 		{
@@ -790,9 +789,9 @@ public class ChanceCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new MontyHallReward());
 		INSTANCE.registerReward(new MatchingReward());
 		INSTANCE.registerReward(new TicTacToeReward());
-		//INSTANCE.registerReward(new MobEffectsReward());
+		// INSTANCE.registerReward(new MobEffectsReward());
 		INSTANCE.registerReward(new BossMimicReward());
-		//INSTANCE.registerReward(new BossSlimeQueenReward());
+		// INSTANCE.registerReward(new BossSlimeQueenReward());
 		INSTANCE.registerReward(new BossWitchReward());
 		INSTANCE.registerReward(new BossBlazeReward());
 
@@ -823,14 +822,13 @@ public class ChanceCubeRegistry implements IRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward, boolean enabledDefault)
 	{
-		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, enabledDefault, "") && !this.nameToReward.containsKey(reward.getName()))
+		if(!this.nameToReward.containsKey(reward.getName()))
 		{
 			nameToReward.put(reward.getName(), reward);
-			redoSort(reward);
-		}
-		else
-		{
-			this.disabledNameToReward.put(reward.getName(), reward);
+			if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, enabledDefault, ""))
+				redoSort(reward);
+			else
+				this.disabledNameToReward.put(reward.getName(), reward);
 		}
 	}
 
