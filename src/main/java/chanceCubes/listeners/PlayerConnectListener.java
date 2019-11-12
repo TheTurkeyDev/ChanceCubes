@@ -1,10 +1,9 @@
 package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.profiles.ProfileManager;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.profiles.GlobalProfileManager;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -17,8 +16,9 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
-		World world = event.player.world;
-		ProfileManager.updateProfilesForWorld(world);
+		String playerUUID = event.player.getUniqueID().toString();
+		GlobalProfileManager.initPlayerProfiles(playerUUID);
+		GlobalCCRewardRegistry.INSTANCE.initPlayerRewards(playerUUID);
 
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
 	}
@@ -29,6 +29,10 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
-		ChanceCubeRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
+		GlobalCCRewardRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
+
+		String playerUUID = event.player.getUniqueID().toString();
+		GlobalProfileManager.removePlayerProfiles(playerUUID);
+		GlobalCCRewardRegistry.INSTANCE.removePlayerRewards(playerUUID);
 	}
 }

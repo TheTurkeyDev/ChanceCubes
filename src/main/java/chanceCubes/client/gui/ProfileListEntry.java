@@ -1,7 +1,7 @@
 package chanceCubes.client.gui;
 
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
@@ -17,10 +17,11 @@ public class ProfileListEntry implements IGuiListEntry
 
 	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName)
 	{
-		this.profile = ProfileManager.getProfilefromName(profileName);
+		//TODO: ClientSide
+		this.profile = GlobalProfileManager.getProfilefromName(profileName);
 		this.profilesList = profilesList;
 		this.mc = mcIn;
-		enabled = ProfileManager.isProfileEnabled(profile);
+		enabled = GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).isProfileEnabled(profile);
 		this.enableToggleBtn = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled");
 		this.editBtn = new GuiButton(1, 0, 0, 40, 16, "Info");
 	}
@@ -55,10 +56,12 @@ public class ProfileListEntry implements IGuiListEntry
 		{
 			enableToggleBtn.playPressSound(mc.getSoundHandler());
 			enabled = !enabled;
+			//TODO: Needs packet to server
+			String playerUUID = Minecraft.getMinecraft().player.getUniqueID().toString();
 			if(enabled)
-				ProfileManager.enableProfile(profile);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(profile, playerUUID);
 			else
-				ProfileManager.disableProfile(profile);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile, playerUUID);
 
 			this.enableToggleBtn.displayString = enabled ? "Enabled" : "Disabled";
 			return true;

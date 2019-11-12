@@ -1,23 +1,14 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import org.apache.logging.log4j.Level;
-
-import com.google.gson.JsonElement;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonElement;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +18,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.logging.log4j.Level;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class CustomUserReward extends BaseCustomReward
 {
@@ -90,7 +88,8 @@ public class CustomUserReward extends BaseCustomReward
 		String typeFinal = type;
 		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() ->
 		{
-			ChanceCubeRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
+			//TODO: Only register/ enable for that user?
+			GlobalCCRewardRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 			player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
 			player.sendMessage(new TextComponentString("Let the fun begin! >:)"));

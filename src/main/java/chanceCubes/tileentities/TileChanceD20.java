@@ -1,14 +1,7 @@
 package chanceCubes.tileentities;
 
-import java.util.Random;
-
-import javax.vecmath.AxisAngle4d;
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Quat4f;
-import javax.vecmath.Vector3f;
-
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +12,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.model.TRSRTransformation;
+
+import javax.vecmath.AxisAngle4d;
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
+import javax.vecmath.Vector3f;
+import java.util.Random;
 
 public class TileChanceD20 extends TileEntity implements ITickable
 {
@@ -90,7 +89,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			{
 				this.world.setBlockToAir(this.pos);
 				this.world.removeTileEntity(this.pos);
-				ChanceCubeRegistry.INSTANCE.triggerRandomReward(this.world, this.pos, player, this.getChance());
+				GlobalCCRewardRegistry.INSTANCE.triggerRandomReward(this.world, this.pos, player, this.getChance());
 			}
 		}
 		else if(world.isRemote)

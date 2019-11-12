@@ -15,14 +15,14 @@ public class DifficultyTrigger implements ITrigger<EnumDifficulty>
 	}
 
 	@Override
-	public void onTrigger(EnumDifficulty[] args)
+	public void onTrigger(String playerUUID, EnumDifficulty[] args)
 	{
 		if(args.length == 2)
 		{
 			if(args[0].equals(diff))
-				prof.setTriggerState(this, true);
+				prof.setTriggerState(this, playerUUID, true);
 			else if(args[1].equals(diff))
-				prof.setTriggerState(this, false);
+				prof.setTriggerState(this, playerUUID, false);
 		}
 	}
 

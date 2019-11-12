@@ -22,11 +22,6 @@ public interface IChanceCubeReward
 	int getChanceValue();
 
 	/**
-	 * @return Set how "lucky" this block is (can be negative). 0 would indicate an "average" reward. Range -100 to 100.
-	 */
-	void setChanceValue(int chance);
-
-	/**
 	 * @return Unique name for reward (suggested to pre-pend MODID).
 	 */
 	String getName();

@@ -31,12 +31,6 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 	}
 
 	@Override
-	public void setChanceValue(int chance)
-	{
-		this.chance = chance;
-	}
-
-	@Override
 	public String getName()
 	{
 		return this.name;

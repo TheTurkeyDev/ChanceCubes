@@ -1,14 +1,16 @@
 package chanceCubes.profiles.triggerHooks;
 
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.AdvancementTrigger;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 
@@ -19,14 +21,17 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDifficultyChange(DifficultyChangeEvent event)
 	{
-		for(IProfile prof : ProfileManager.getAllProfiles())
+		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers())
 		{
-			for(ITrigger<?> module : prof.getTriggers())
+			for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player.getUniqueID().toString()).getAllProfiles())
 			{
-				if(module instanceof DifficultyTrigger)
+				for(ITrigger<?> module : prof.getTriggers())
 				{
-					DifficultyTrigger trigger = (DifficultyTrigger) module;
-					trigger.onTrigger(new EnumDifficulty[]{event.getDifficulty(), event.getOldDifficulty()});
+					if(module instanceof DifficultyTrigger)
+					{
+						DifficultyTrigger trigger = (DifficultyTrigger) module;
+						trigger.onTrigger(player.getUniqueID().toString(), new EnumDifficulty[]{event.getDifficulty(), event.getOldDifficulty()});
+					}
 				}
 			}
 		}
@@ -35,14 +40,15 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDimensionChange(PlayerChangedDimensionEvent event)
 	{
-		for(IProfile prof : ProfileManager.getAllProfiles())
+		EntityPlayer player = event.player;
+		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())
 			{
 				if(module instanceof DimensionChangeTrigger)
 				{
 					DimensionChangeTrigger trigger = (DimensionChangeTrigger) module;
-					trigger.onTrigger(new Integer[]{event.toDim, event.fromDim});
+					trigger.onTrigger(player.getUniqueID().toString(), new Integer[]{event.toDim, event.fromDim});
 				}
 			}
 		}
@@ -51,14 +57,15 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onAdvancementComplete(AdvancementEvent event)
 	{
-		for(IProfile prof : ProfileManager.getAllProfiles())
+		EntityPlayer player = event.getEntityPlayer();
+		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())
 			{
 				if(module instanceof AdvancementTrigger)
 				{
 					AdvancementTrigger trigger = (AdvancementTrigger) module;
-					trigger.onTrigger(new String[]{event.getAdvancement().getId().toString()});
+					trigger.onTrigger(player.getUniqueID().toString(), new String[]{event.getAdvancement().getId().toString()});
 				}
 			}
 		}

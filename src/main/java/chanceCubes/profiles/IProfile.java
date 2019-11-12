@@ -1,9 +1,9 @@
 package chanceCubes.profiles;
 
-import java.util.Map;
-import java.util.Set;
-
 import chanceCubes.profiles.triggers.ITrigger;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IProfile
 {
@@ -15,13 +15,15 @@ public interface IProfile
 
 	String getDescLong();
 
-	void onEnable();
+	void onEnable(String playerUUID);
 
-	void onDisable();
+	void onDisable(String playerUUID);
 
-	Set<ITrigger<?>> getTriggers();
+	boolean isRewardEnabled(String reward);
 
-	void setTriggerState(ITrigger<?> trigger, boolean completed);
+	List<ITrigger<?>> getTriggers();
+
+	void setTriggerState(ITrigger<?> trigger, String playerUUID, boolean completed);
 
 	Map<String, Map<String, Object>> getRewardSettings();
 }

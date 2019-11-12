@@ -2,7 +2,6 @@ package chanceCubes.config;
 
 import java.io.File;
 
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraftforge.common.config.Configuration;
 
@@ -86,7 +85,5 @@ public class ConfigLoader
 		customConfigFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/Profiles");
 		customConfigFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
-		ProfileManager.setupConfig(new Configuration(new File(folder + "/" + "Profiles.cfg")));
-
 	}
 }

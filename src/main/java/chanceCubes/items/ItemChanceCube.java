@@ -1,15 +1,12 @@
 package chanceCubes.items;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,6 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemChanceCube extends ItemBlock
 {
@@ -73,8 +73,10 @@ public class ItemChanceCube extends ItemBlock
 
 		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
 		{
+			//TODO: figure out client side stuff for this
 			list.add("==== Enabled Profiles ====");
-			list.addAll(ProfileManager.getEnabledProfileNames());
+			if(Minecraft.getMinecraft().player != null)
+				list.addAll(GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).getEnabledProfileNames());
 		}
 	}
 

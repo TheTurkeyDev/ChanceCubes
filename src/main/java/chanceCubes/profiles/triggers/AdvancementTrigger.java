@@ -14,10 +14,10 @@ public class AdvancementTrigger implements ITrigger<String>
 	}
 
 	@Override
-	public void onTrigger(String[] args)
+	public void onTrigger(String playerUUID, String[] args)
 	{
 		if(args.length == 1 && args[0].equals(advancement))
-			prof.setTriggerState(this, true);
+			prof.setTriggerState(this, playerUUID, true);
 	}
 
 	@Override

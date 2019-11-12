@@ -3,7 +3,8 @@ package chanceCubes.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.GlobalProfileManager;
+import chanceCubes.profiles.IProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
@@ -16,8 +17,8 @@ public class ProfilesList extends GuiListExtended
 	{
 		super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
 		this.profGui = profGui;
-		for(String s : ProfileManager.getAllProfileNames(true))
-			profiles.add(new ProfileListEntry(this, mcIn, s));
+		for(IProfile s : GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).getAllProfiles())
+			profiles.add(new ProfileListEntry(this, mcIn, s.getName()));
 	}
 
 	@Override
@@ -31,14 +32,14 @@ public class ProfilesList extends GuiListExtended
 	{
 		return profiles.size();
 	}
-	
-    protected int getScrollBarX()
-    {
-        return this.width / 2 + 160;
-    }
 
-    public int getListWidth()
-    {
-        return 250;
-    }
+	protected int getScrollBarX()
+	{
+		return this.width / 2 + 160;
+	}
+
+	public int getListWidth()
+	{
+		return 250;
+	}
 }

@@ -14,14 +14,14 @@ public class DimensionChangeTrigger implements ITrigger<Integer>
 	}
 
 	@Override
-	public void onTrigger(Integer[] args)
+	public void onTrigger(String playerUUID, Integer[] args)
 	{
 		if(args.length == 2)
 		{
 			if(args[0].equals(dimID))
-				prof.setTriggerState(this, true);
+				prof.setTriggerState(this, playerUUID, true);
 			else if(args[1].equals(dimID))
-				prof.setTriggerState(this, false);
+				prof.setTriggerState(this, playerUUID, false);
 		}
 	}
 

@@ -2,8 +2,9 @@ package chanceCubes.profiles;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.profiles.triggers.ITrigger;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -12,17 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class BasicProfile implements IProfile
 {
-	private boolean enabled;
+	private Map<String, Map<ITrigger<?>, Boolean>> triggerStates = new HashMap<>();
 	private String id;
 	private String name;
 	private String desc;
 	private boolean anyTrigger = true;
 	private StringBuilder descFull = new StringBuilder();
-	private Map<ITrigger<?>, Boolean> triggers = new HashMap<>();
+	private List<ITrigger<?>> triggers = new ArrayList<>();
 	private List<String> rewardsToEnable = new ArrayList<>();
 	private List<String> rewardsToDisable = new ArrayList<>();
 	private List<IProfile> subProfiles = new ArrayList<>();
@@ -55,8 +55,7 @@ public class BasicProfile implements IProfile
 
 	public BasicProfile addTriggers(ITrigger<?>... triggers)
 	{
-		for(ITrigger<?> trigger : triggers)
-			this.triggers.put(trigger, false);
+		this.triggers.addAll(Arrays.asList(triggers));
 		return this;
 	}
 
@@ -80,39 +79,39 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
-	public void onEnable()
+	public void onEnable(String playerUUID)
 	{
-		enabled = true;
+		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			ProfileManager.enableProfile(prof);
+			GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(prof, playerUUID);
 		for(String s : this.rewardsToDisable)
-			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
+			if(!playerRewards.disableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(String s : this.rewardsToEnable)
-			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
+			if(!playerRewards.enableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			playerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
 	@Override
-	public void onDisable()
+	public void onDisable(String playerUUID)
 	{
-		enabled = false;
+		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			ProfileManager.disableProfile(prof);
+			GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(prof, playerUUID);
 		for(String s : this.rewardsToDisable)
-			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
+			if(!playerRewards.enableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
 		for(String s : this.rewardsToEnable)
-			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
+			if(!playerRewards.disableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
 					CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			playerRewards.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
 	}
 
 	public Map<String, Map<String, Object>> getRewardSettings()
@@ -190,7 +189,7 @@ public class BasicProfile implements IProfile
 			descFull.append("\n");
 			if(this.triggers.size() == 0)
 				descFull.append("None\n");
-			for(ITrigger<?> t : this.triggers.keySet())
+			for(ITrigger<?> t : this.triggers)
 			{
 				descFull.append(t.getTriggerDesc());
 				descFull.append("\n");
@@ -218,32 +217,48 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
-	public Set<ITrigger<?>> getTriggers()
+	public boolean isRewardEnabled(String reward)
 	{
-		return triggers.keySet();
+		if(this.rewardsToEnable.contains(reward))
+			return true;
+		else if(this.rewardsToDisable.contains(reward))
+			return false;
+		for(IProfile subProf : this.subProfiles)
+			if(!subProf.isRewardEnabled(reward))
+				return false;
+		return true;
 	}
 
-	public void setTriggerState(ITrigger<?> trigger, boolean completed)
+	@Override
+	public List<ITrigger<?>> getTriggers()
 	{
-		this.triggers.replace(trigger, completed);
-		for(Boolean triggerCompeleted : triggers.values())
+		return triggers;
+	}
+
+	public void setTriggerState(ITrigger<?> trigger, String playerUUID, boolean completed)
+	{
+		PlayerProfileManager playerProfileManager = GlobalProfileManager.getPlayerProfileManager(playerUUID);
+		boolean enabled = playerProfileManager.isProfileEnabled(this);
+		Map<ITrigger<?>, Boolean> playerTriggerStates = triggerStates.getOrDefault(playerUUID, new HashMap<>());
+		playerTriggerStates.replace(trigger, completed);
+		for(Boolean triggerCompeleted : playerTriggerStates.values())
 		{
 			//Bit awkward looking code, but idk what to do right now
-			if(this.enabled && !triggerCompeleted && !anyTrigger)
+			if(enabled && !triggerCompeleted && !anyTrigger)
 			{
-				ProfileManager.disableProfile(this);
+				playerProfileManager.disableProfile(this, playerUUID);
 				return;
 			}
-			else if(this.enabled && !triggerCompeleted && anyTrigger)
+			else if(enabled && !triggerCompeleted && anyTrigger)
 			{
 				continue;
 			}
-			else if(!this.enabled && triggerCompeleted && anyTrigger)
+			else if(!enabled && triggerCompeleted && anyTrigger)
 			{
-				ProfileManager.enableProfile(this);
+				playerProfileManager.enableProfile(this, playerUUID);
 				return;
 			}
-			else if(!this.enabled && triggerCompeleted && !anyTrigger)
+			else if(!enabled && triggerCompeleted && !anyTrigger)
 			{
 				continue;
 			}
@@ -254,15 +269,8 @@ public class BasicProfile implements IProfile
 		}
 
 		if(enabled)
-			ProfileManager.disableProfile(this);
+			playerProfileManager.disableProfile(this, playerUUID);
 		else
-			ProfileManager.enableProfile(this);
+			playerProfileManager.enableProfile(this, playerUUID);
 	}
 }
-
-/*						AnyTrigger			!AnyTrigger
-Last Enabled				N/C					E
-First enabled				E					N/C
-Last disabled				D					N/C
-First Disabled				N/C					D
- */

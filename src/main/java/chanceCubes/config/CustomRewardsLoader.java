@@ -3,8 +3,8 @@ package chanceCubes.config;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.*;
 import chanceCubes.rewards.rewardtype.*;
@@ -99,9 +99,7 @@ public class CustomRewardsLoader extends BaseLoader
 					if(parsedReward.getValue())
 						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
 					else
-						ChanceCubeRegistry.INSTANCE.registerReward(basicReward);
-
-					ChanceCubeRegistry.INSTANCE.addCustomReward(basicReward);
+						GlobalCCRewardRegistry.INSTANCE.registerReward(basicReward);
 
 					if(this.reSaveCurrentJson)
 						FileUtil.writeJsonToFile(f, fileJson);
@@ -175,7 +173,7 @@ public class CustomRewardsLoader extends BaseLoader
 		{
 			for(JsonElement reward : disabledRewards)
 			{
-				boolean removed = ChanceCubeRegistry.INSTANCE.disableReward(reward.getAsString());
+				boolean removed = GlobalCCRewardRegistry.INSTANCE.disableReward(reward.getAsString());
 				if(!removed)
 					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
 				CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");

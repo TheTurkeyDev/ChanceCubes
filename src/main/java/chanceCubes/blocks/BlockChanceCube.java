@@ -2,7 +2,7 @@ package chanceCubes.blocks;
 
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.ITileEntityProvider;
@@ -62,7 +62,7 @@ public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvi
 			if(te != null)
 			{
 				world.setBlockToAir(pos);
-				ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, pos, player, te.getChance());
+				GlobalCCRewardRegistry.INSTANCE.triggerRandomReward(world, pos, player, te.getChance());
 			}
 		}
 		return true;

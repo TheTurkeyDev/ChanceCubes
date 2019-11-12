@@ -14,16 +14,16 @@ public class GameStageTrigger implements ITrigger<String>
 	}
 
 	@Override
-	public void onTrigger(String[] args)
+	public void onTrigger(String playerUUID, String[] args)
 	{
 		if(args.length == 2)
 		{
 			if(args[0].equals(stageName))
 			{
 				if(args[1].equals("A"))
-					prof.setTriggerState(this, true);
+					prof.setTriggerState(this, playerUUID, true);
 				else
-					prof.setTriggerState(this, false);
+					prof.setTriggerState(this, playerUUID, false);
 			}
 		}
 	}

@@ -1,5 +1,21 @@
 package chanceCubes.config;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.profiles.BasicProfile;
+import chanceCubes.profiles.GlobalProfileManager;
+import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.triggers.AdvancementTrigger;
+import chanceCubes.profiles.triggers.DifficultyTrigger;
+import chanceCubes.profiles.triggers.DimensionChangeTrigger;
+import chanceCubes.profiles.triggers.GameStageTrigger;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import net.minecraft.world.EnumDifficulty;
+import org.apache.logging.log4j.Level;
+
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -7,24 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import chanceCubes.profiles.triggers.AdvancementTrigger;
-import org.apache.logging.log4j.Level;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.profiles.BasicProfile;
-import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
-import chanceCubes.profiles.triggers.DifficultyTrigger;
-import chanceCubes.profiles.triggers.DimensionChangeTrigger;
-import chanceCubes.profiles.triggers.GameStageTrigger;
-import net.minecraft.world.EnumDifficulty;
 
 public class CustomProfileLoader
 {
@@ -113,7 +111,7 @@ public class CustomProfileLoader
 						JsonArray subProfiles = profileJson.getAsJsonArray("sub_profiles");
 						subProfiles.forEach(element ->
 						{
-							IProfile subProf = ProfileManager.getProfileFromID(element.getAsString());
+							IProfile subProf = GlobalProfileManager.getProfileFromID(element.getAsString());
 							if(subProf != null)
 							{
 								profile.addSubProfile(subProf);
@@ -264,7 +262,7 @@ public class CustomProfileLoader
 		{
 			for(String subProfID : unfoundSubProfiles.get(prof))
 			{
-				IProfile subProf = ProfileManager.getProfileFromID(subProfID);
+				IProfile subProf = GlobalProfileManager.getProfileFromID(subProfID);
 				if(subProf == null)
 					for(BasicProfile profile : customProfiles)
 						if(profile.getID().equals(subProfID))
@@ -278,6 +276,6 @@ public class CustomProfileLoader
 		}
 
 		for(BasicProfile profile : customProfiles)
-			ProfileManager.registerProfile(profile, profile.getTriggers().size() == 0);
+			GlobalProfileManager.registerProfile(profile, profile.getTriggers().size() == 0);
 	}
 }

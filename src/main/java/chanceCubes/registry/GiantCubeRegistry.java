@@ -3,7 +3,7 @@ package chanceCubes.registry;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
-import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.*;
@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class GiantCubeRegistry implements IRewardRegistry
+public class GiantCubeRegistry
 {
 	public static GiantCubeRegistry INSTANCE = new GiantCubeRegistry();
 
@@ -59,7 +59,6 @@ public class GiantCubeRegistry implements IRewardRegistry
 		INSTANCE.registerReward(new BlockThrowerReward());
 	}
 
-	@Override
 	public void registerReward(IChanceCubeReward reward)
 	{
 		if(ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.giantRewardCat, true, "") && !this.nameToReward.containsKey(reward.getName()))
@@ -73,7 +72,6 @@ public class GiantCubeRegistry implements IRewardRegistry
 		}
 	}
 
-	@Override
 	public boolean unregisterReward(String name)
 	{
 		IChanceCubeReward reward = nameToReward.remove(name);
@@ -118,13 +116,11 @@ public class GiantCubeRegistry implements IRewardRegistry
 		return !this.disabledNameToReward.containsKey(reward);
 	}
 
-	@Override
 	public IChanceCubeReward getRewardByName(String name)
 	{
 		return nameToReward.get(name);
 	}
 
-	@Override
 	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
 	{
 		if(pos == null)
@@ -142,7 +138,7 @@ public class GiantCubeRegistry implements IRewardRegistry
 
 	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
 	{
-		Map<String, Object> settings = ProfileManager.getRewardSpawnSettings(reward);
+		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);
 	}
 

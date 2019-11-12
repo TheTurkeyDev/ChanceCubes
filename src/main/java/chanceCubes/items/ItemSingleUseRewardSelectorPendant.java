@@ -2,8 +2,8 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
@@ -51,10 +51,10 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 			{
 				world.setBlockToAir(pos);
-				IChanceCubeReward reward = ChanceCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				IChanceCubeReward reward = GlobalCCRewardRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
 				{
-					ChanceCubeRegistry.INSTANCE.triggerReward(reward, world, pos, player);
+					GlobalCCRewardRegistry.INSTANCE.triggerReward(reward, world, pos, player);
 					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}
 				else

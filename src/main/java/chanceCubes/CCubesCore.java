@@ -1,9 +1,5 @@
 package chanceCubes;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CCubesGuiHandler;
 import chanceCubes.commands.CCubesServerCommands;
@@ -14,10 +10,10 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.profiles.ProfileManager;
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.proxy.CommonProxy;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -38,6 +34,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.client.gui.CCubesGuiFactory")
 public class CCubesCore
@@ -105,11 +104,11 @@ public class CCubesCore
 	{
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
-		ChanceCubeRegistry.loadDefaultRewards();
+		DefaultRewards.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		CustomRewardsLoader.instance.fetchRemoteInfo();
-		ProfileManager.initProfiles();
+		GlobalProfileManager.initProfiles();
 		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
 		ConfigLoader.config.save();

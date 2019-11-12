@@ -1,13 +1,5 @@
 package chanceCubes.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import chanceCubes.profiles.IProfile;
-import com.mojang.authlib.GameProfile;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
@@ -15,14 +7,16 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
-import chanceCubes.profiles.ProfileManager;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -38,6 +32,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -95,17 +94,17 @@ public class CCubesServerCommands extends CommandBase
 		{
 			new Thread(() ->
 			{
-				ChanceCubeRegistry.INSTANCE.ClearRewards();
+				GlobalCCRewardRegistry.INSTANCE.ClearRewards();
 				GiantCubeRegistry.INSTANCE.ClearRewards();
-				ProfileManager.clearProfiles();
-				ChanceCubeRegistry.loadDefaultRewards();
+				GlobalProfileManager.clearProfiles();
+				DefaultRewards.loadDefaultRewards();
 				GiantCubeRegistry.loadDefaultRewards();
 				CustomRewardsLoader.instance.loadCustomRewards();
 				CustomRewardsLoader.instance.fetchRemoteInfo();
-				ChanceCubeRegistry.loadCustomUserRewards(server);
+				GlobalCCRewardRegistry.loadCustomUserRewards(server);
 				ModHookUtil.loadCustomModRewards();
 				NonreplaceableBlockOverride.loadOverrides();
-				ProfileManager.initProfiles();
+				GlobalProfileManager.initProfiles();
 				CustomProfileLoader.instance.loadProfiles();
 				sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 			}).start();
@@ -142,26 +141,43 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("disableReward"))
 		{
-			if(args.length > 1)
+			if(args.length > 2)
 			{
-				if(ChanceCubeRegistry.INSTANCE.disableReward(args[1]))
-					sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
+				if(args[1].equalsIgnoreCase("global"))
+				{
+					//TODO: Giant Cube Rewards
+					if(GlobalCCRewardRegistry.INSTANCE.disableReward(args[1]))
+						sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
+					else
+						sender.sendMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
+				}
 				else
-					sender.sendMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
+				{
+					//TODO: per user disable
+				}
+
 			}
 			else
 			{
-				sender.sendMessage(new TextComponentString("Try /chancecubes enableReward <Reward Name>"));
+				sender.sendMessage(new TextComponentString("Try /chancecubes enableReward <global|playername> <Reward Name>"));
 			}
 		}
 		else if(args[0].equalsIgnoreCase("enableReward"))
 		{
-			if(args.length > 1)
+			if(args.length > 2)
 			{
-				if(ChanceCubeRegistry.INSTANCE.enableReward(args[1]))
-					sender.sendMessage(new TextComponentString(args[1] + " Has been enabled."));
+				if(args[1].equalsIgnoreCase("global"))
+				{
+					//TODO: Giant Cube Rewards
+					if(GlobalCCRewardRegistry.INSTANCE.enableReward(args[1]))
+						sender.sendMessage(new TextComponentString(args[1] + " Has been enabled."));
+					else
+						sender.sendMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
+				}
 				else
-					sender.sendMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
+				{
+					//TODO: per user enable
+				}
 			}
 			else
 			{
@@ -211,7 +227,7 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.sendMessage(new TextComponentString("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " regular rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.INSTANCE.getNumberOfLoadedRewards() + " regular rewards loaded"));
 			sender.sendMessage(new TextComponentString("There are currently " + GiantCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " giant rewards loaded and " + GiantCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
 		}
 		else if(args[0].equalsIgnoreCase("testRewards"))
@@ -258,37 +274,41 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("enableProfile"))
 		{
-			if(args.length < 2)
-			{
-				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes enableProfile <profile_id>"));
-				return;
-			}
-
-			IProfile profile = ProfileManager.getProfileFromID(args[1]);
-			if(profile == null)
-				profile = ProfileManager.getProfilefromName(args[1]);
-
-			if(profile != null)
-				ProfileManager.enableProfile(profile);
-			else
-				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
+			//TODO: Enable again
+			sender.sendMessage(new TextComponentString("Temporarily removed!"));
+//			if(args.length < 2)
+//			{
+//				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes enableProfile <profile_id>"));
+//				return;
+//			}
+//
+//			IProfile profile = GlobalProfileManager.getProfileFromID(args[1]);
+//			if(profile == null)
+//				profile = GlobalProfileManager.getProfilefromName(args[1]);
+//
+//			if(profile != null)
+//				GlobalProfileManager.enableProfile(profile);
+//			else
+//				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
 		}
 		else if(args[0].equalsIgnoreCase("disableProfile"))
 		{
-			if(args.length < 2)
-			{
-				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes disableProfile <profile_id>"));
-				return;
-			}
-
-			IProfile profile = ProfileManager.getProfileFromID(args[1]);
-			if(profile == null)
-				profile = ProfileManager.getProfilefromName(args[1]);
-
-			if(profile != null)
-				ProfileManager.disableProfile(profile);
-			else
-				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
+			//TODO: Enable again
+			sender.sendMessage(new TextComponentString("Temporarily removed!"));
+//			if(args.length < 2)
+//			{
+//				sender.sendMessage(new TextComponentString("Invalid arguments! Try /chancecubes disableProfile <profile_id>"));
+//				return;
+//			}
+//
+//			IProfile profile = ProfileManager.getProfileFromID(args[1]);
+//			if(profile == null)
+//				profile = ProfileManager.getProfilefromName(args[1]);
+//
+//			if(profile != null)
+//				ProfileManager.disableProfile(profile);
+//			else
+//				sender.sendMessage(new TextComponentString(args[1] + " is not a valid profile id!"));
 		}
 		else
 		{
@@ -326,10 +346,11 @@ public class CCubesServerCommands extends CommandBase
 			return tab;
 		else if(args.length > 1)
 		{
+			//TODO: make enable and disable smarter
 			if(args[0].equalsIgnoreCase("disableReward"))
-				return new ArrayList<>(ChanceCubeRegistry.INSTANCE.getRewardNames());
+				return new ArrayList<>(GlobalCCRewardRegistry.INSTANCE.getRewardNames());
 			else if(args[0].equalsIgnoreCase("enableReward"))
-				return new ArrayList<>(ChanceCubeRegistry.INSTANCE.getDisabledRewardNames());
+				return new ArrayList<>(GlobalCCRewardRegistry.INSTANCE.getRewardNames());
 			else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
 				return Arrays.asList("create", "cancel");
 		}

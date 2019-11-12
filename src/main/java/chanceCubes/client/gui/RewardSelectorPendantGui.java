@@ -1,7 +1,10 @@
 package chanceCubes.client.gui;
 
-import java.io.IOException;
-
+import chanceCubes.CCubesCore;
+import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.PacketRewardSelector;
+import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -12,15 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketRewardSelector;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class RewardSelectorPendantGui extends GuiScreen
@@ -71,7 +69,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		{
 			if(button.id == 0)
 			{
-				if(ChanceCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
+				if(GlobalCCRewardRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
 				{
 					NBTTagCompound nbt = stack.getTagCompound();
 					if(nbt == null)
