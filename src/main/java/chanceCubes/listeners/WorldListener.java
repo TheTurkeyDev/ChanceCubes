@@ -4,16 +4,25 @@ import java.util.Random;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.profiles.GlobalProfileManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class WorldGen
+public class WorldListener
 {
+	@SubscribeEvent
+	public void onWorldLoad(WorldEvent.Load event)
+	{
+		if(!event.getWorld().isRemote && !GlobalProfileManager.isWorldProfilesLoaded())
+			GlobalProfileManager.updateProfilesForWorld(event.getWorld());
+	}
+
 	@SubscribeEvent
 	public void onGenerate(PopulateChunkEvent.Pre event)
 	{

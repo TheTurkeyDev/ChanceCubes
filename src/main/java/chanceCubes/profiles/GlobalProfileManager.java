@@ -28,6 +28,8 @@ public class GlobalProfileManager
 	private static final JsonParser PARSER = new JsonParser();
 	private static final Gson GSON = new GsonBuilder().create();
 
+	private static boolean worldProfilesLoaded = false;
+
 	private static Map<IProfile, Boolean> profileDefaults = new HashMap<>();
 	private static Map<String, PlayerProfileManager> playerToProfiles = new HashMap<>();
 
@@ -53,9 +55,14 @@ public class GlobalProfileManager
 		}
 	}
 
-	public static void initPlayerProfiles(String playerUUID)
+	public static PlayerProfileManager getPlayerProfileManager(EntityPlayer player)
 	{
-		if(!playerToProfiles.containsKey(playerUUID))
+		return getPlayerProfileManager(player.getUniqueID().toString());
+	}
+
+	public static PlayerProfileManager getPlayerProfileManager(String playerUUID)
+	{
+		return playerToProfiles.computeIfAbsent(playerUUID, (k) ->
 		{
 			PlayerProfileManager playerProfileManager = new PlayerProfileManager();
 			for(Map.Entry<IProfile, Boolean> profileEntry : profileDefaults.entrySet())
@@ -66,7 +73,8 @@ public class GlobalProfileManager
 					playerProfileManager.disableProfile(profileEntry.getKey(), playerUUID);
 			}
 			playerToProfiles.put(playerUUID, playerProfileManager);
-		}
+			return playerProfileManager;
+		});
 	}
 
 	public static void removePlayerProfiles(String playerUUID)
@@ -76,6 +84,7 @@ public class GlobalProfileManager
 
 	public static void updateProfilesForWorld(World world)
 	{
+		worldProfilesLoaded = true;
 		playerToProfiles.clear();
 		profileSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
 		try
@@ -151,7 +160,7 @@ public class GlobalProfileManager
 	{
 		if(profileSaveFile != null)
 		{
-			if(profileSaveJson.has("profileSaveJson") && profileSaveJson.get("profiles").isJsonObject())
+			if(profileSaveJson.has("profiles") && profileSaveJson.get("profiles").isJsonObject())
 			{
 				profileSaveJson.getAsJsonObject("profiles").add(playerUUID, json);
 				saveWorldSaveFile();
@@ -215,18 +224,10 @@ public class GlobalProfileManager
 		return null;
 	}
 
-	public static PlayerProfileManager getPlayerProfileManager(EntityPlayer player)
+	// Not Proper english hurts, but idk what to do! areWorldProfilesLoaded just doesn't seem like the right thing to do
+	public static boolean isWorldProfilesLoaded()
 	{
-		return getPlayerProfileManager(player.getUniqueID().toString());
-	}
-
-	public static PlayerProfileManager getPlayerProfileManager(String playerUUID)
-	{
-		return playerToProfiles.computeIfAbsent(playerUUID, (k) ->
-		{
-			//TODO: Somehow sync with the server?
-			return new PlayerProfileManager();
-		});
+		return worldProfilesLoaded;
 	}
 
 

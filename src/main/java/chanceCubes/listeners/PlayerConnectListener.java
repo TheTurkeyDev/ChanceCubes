@@ -16,10 +16,6 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
-		String playerUUID = event.player.getUniqueID().toString();
-		GlobalProfileManager.initPlayerProfiles(playerUUID);
-		GlobalCCRewardRegistry.INSTANCE.initPlayerRewards(playerUUID);
-
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
 	}
 
@@ -29,7 +25,9 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
-		GlobalCCRewardRegistry.INSTANCE.unregisterReward(CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName());
+		String rewardName = CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName();
+		if(GlobalCCRewardRegistry.INSTANCE.isRewardEnabled(rewardName))
+			GlobalCCRewardRegistry.INSTANCE.unregisterReward(rewardName);
 
 		String playerUUID = event.player.getUniqueID().toString();
 		GlobalProfileManager.removePlayerProfiles(playerUUID);

@@ -79,11 +79,11 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
-	public void onEnable(String playerUUID)
+	public void onEnable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
 		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(prof, playerUUID);
+			playerProfileManager.enableProfile(prof, playerUUID);
 		for(String s : this.rewardsToDisable)
 			if(!playerRewards.disableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.disableReward(s))
@@ -97,11 +97,11 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
-	public void onDisable(String playerUUID)
+	public void onDisable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
 		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(prof, playerUUID);
+			playerProfileManager.disableProfile(prof, playerUUID);
 		for(String s : this.rewardsToDisable)
 			if(!playerRewards.enableReward(s))
 				if(!GiantCubeRegistry.INSTANCE.enableReward(s))

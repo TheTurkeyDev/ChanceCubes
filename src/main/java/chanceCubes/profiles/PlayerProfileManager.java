@@ -2,7 +2,6 @@ package chanceCubes.profiles;
 
 import chanceCubes.rewards.IChanceCubeReward;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class PlayerProfileManager
 			disabledProfiles.remove(profile);
 
 			enabledProfiles.add(profile);
-			profile.onEnable(playerUUID);
+			profile.onEnable(this, playerUUID);
 		}
 
 		playerProfilejson.addProperty(profile.getID(), true);
@@ -36,7 +35,7 @@ public class PlayerProfileManager
 		{
 			enabledProfiles.remove(profile);
 			disabledProfiles.add(profile);
-			profile.onDisable(playerUUID);
+			profile.onDisable(this, playerUUID);
 		}
 
 		playerProfilejson.addProperty(profile.getID(), false);

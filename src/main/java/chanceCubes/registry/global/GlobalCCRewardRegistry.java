@@ -4,7 +4,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.profiles.GlobalProfileManager;
-import chanceCubes.profiles.PlayerProfileManager;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
@@ -48,20 +47,6 @@ public class GlobalCCRewardRegistry
 		for(PlayerCCRewardRegistry playerRewards : this.playerToRewards.values())
 			playerRewards.disableReward(name);
 		return nameToReward.remove(name) != null;
-	}
-
-	public PlayerCCRewardRegistry initPlayerRewards(String playerUUID)
-	{
-		return this.playerToRewards.computeIfAbsent(playerUUID, (k) ->
-		{
-			PlayerCCRewardRegistry playerRewardRegistry = new PlayerCCRewardRegistry();
-			PlayerProfileManager playerProfileManager = GlobalProfileManager.getPlayerProfileManager(playerUUID);
-			for(GlobalRewardInfo reward : this.nameToReward.values())
-				if(reward.enabled && playerProfileManager.isRewardenabled(reward.reward.getName()))
-					playerRewardRegistry.enableReward(reward.reward);
-
-			return playerRewardRegistry;
-		});
 	}
 
 	public void removePlayerRewards(String playerUUID)
@@ -125,7 +110,12 @@ public class GlobalCCRewardRegistry
 
 	public boolean isRewardEnabled(String reward)
 	{
-		return nameToReward.containsKey(reward) && nameToReward.get(reward).enabled;
+		return isValidRewardName(reward) && nameToReward.get(reward).enabled;
+	}
+
+	public boolean isValidRewardName(String reward)
+	{
+		return nameToReward.containsKey(reward);
 	}
 
 	public IChanceCubeReward getRewardByName(String name)
@@ -145,7 +135,12 @@ public class GlobalCCRewardRegistry
 	{
 		return this.playerToRewards.computeIfAbsent(playerUUID, (k) ->
 		{
-			return initPlayerRewards(playerUUID);
+			PlayerCCRewardRegistry playerRewardRegistry = new PlayerCCRewardRegistry();
+			for(GlobalRewardInfo reward : this.nameToReward.values())
+				if(reward.enabled)
+					playerRewardRegistry.enableReward(reward.reward);
+
+			return playerRewardRegistry;
 		});
 	}
 

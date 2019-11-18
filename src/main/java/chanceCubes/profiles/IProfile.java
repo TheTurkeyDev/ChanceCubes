@@ -15,9 +15,9 @@ public interface IProfile
 
 	String getDescLong();
 
-	void onEnable(String playerUUID);
+	void onEnable(PlayerProfileManager playerProfileManager, String playerUUID);
 
-	void onDisable(String playerUUID);
+	void onDisable(PlayerProfileManager playerProfileManager, String playerUUID);
 
 	boolean isRewardEnabled(String reward);
 

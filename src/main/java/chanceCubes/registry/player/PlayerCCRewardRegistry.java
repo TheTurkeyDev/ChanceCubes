@@ -26,7 +26,9 @@ public class PlayerCCRewardRegistry
 
 	public boolean enableReward(String reward)
 	{
-		return this.enableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(reward))
+			return this.enableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		return false;
 	}
 
 	public boolean enableReward(IChanceCubeReward reward)
@@ -44,7 +46,9 @@ public class PlayerCCRewardRegistry
 
 	public boolean disableReward(String reward)
 	{
-		return this.disableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(reward))
+			return this.disableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		return false;
 	}
 
 	public boolean disableReward(IChanceCubeReward reward)
