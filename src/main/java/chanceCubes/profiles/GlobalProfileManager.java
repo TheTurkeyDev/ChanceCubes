@@ -62,9 +62,13 @@ public class GlobalProfileManager
 
 	public static PlayerProfileManager getPlayerProfileManager(String playerUUID)
 	{
+		if(!worldProfilesLoaded)
+			return null;
+
 		return playerToProfiles.computeIfAbsent(playerUUID, (k) ->
 		{
-			PlayerProfileManager playerProfileManager = new PlayerProfileManager();
+			PlayerProfileManager playerProfileManager;
+			playerProfileManager = new PlayerProfileManager();
 			for(Map.Entry<IProfile, Boolean> profileEntry : profileDefaults.entrySet())
 			{
 				if(profileEntry.getValue())
@@ -72,19 +76,12 @@ public class GlobalProfileManager
 				else
 					playerProfileManager.disableProfile(profileEntry.getKey(), playerUUID);
 			}
-			playerToProfiles.put(playerUUID, playerProfileManager);
 			return playerProfileManager;
 		});
 	}
 
-	public static void removePlayerProfiles(String playerUUID)
-	{
-		playerToProfiles.remove(playerUUID);
-	}
-
 	public static void updateProfilesForWorld(World world)
 	{
-		worldProfilesLoaded = true;
 		playerToProfiles.clear();
 		profileSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
 		try
@@ -136,29 +133,43 @@ public class GlobalProfileManager
 		for(Map.Entry<String, JsonElement> playerProfilesElement : profileJson.entrySet())
 		{
 			JsonObject playerProfiles = playerProfilesElement.getValue().getAsJsonObject();
-			PlayerProfileManager playerProfileManager = new PlayerProfileManager();
-			playerToProfiles.put(playerProfilesElement.getKey(), playerProfileManager);
-
-			for(Map.Entry<String, JsonElement> profileEntry : playerProfiles.entrySet())
-			{
-				IProfile profile = GlobalProfileManager.getProfileFromID(profileEntry.getKey());
-				if(profile == null || !profileEntry.getValue().isJsonPrimitive())
-				{
-					//TODO: Remove it?
-					continue;
-				}
-
-				if(profileEntry.getValue().getAsBoolean())
-					playerProfileManager.enableProfile(profile, playerProfilesElement.getKey());
-				else
-					playerProfileManager.disableProfile(profile, playerProfilesElement.getKey());
-			}
+			playerToProfiles.put(playerProfilesElement.getKey(), loadPlayerProfilesFromJson(playerProfilesElement.getKey(), playerProfiles));
 		}
+		worldProfilesLoaded = true;
+	}
+
+	private static PlayerProfileManager loadPlayerProfilesFromJson(String playerUUID, JsonObject playerProfilesJson)
+	{
+		PlayerProfileManager playerProfileManager = new PlayerProfileManager();
+		for(Map.Entry<String, JsonElement> profileEntry : playerProfilesJson.entrySet())
+		{
+			IProfile profile = GlobalProfileManager.getProfileFromID(profileEntry.getKey());
+			if(profile == null || !profileEntry.getValue().isJsonPrimitive())
+			{
+				//TODO: Remove it?
+				continue;
+			}
+
+			if(profileEntry.getValue().getAsBoolean())
+				playerProfileManager.enableProfile(profile, playerUUID);
+			else
+				playerProfileManager.disableProfile(profile, playerUUID);
+		}
+		return playerProfileManager;
+	}
+
+	public static void unloadProfilesForWorld()
+	{
+		worldProfilesLoaded = false;
+		playerToProfiles.clear();
+
+		profileSaveFile = null;
+		profileSaveJson = new JsonObject();
 	}
 
 	public static void updateProfileSaveFile(String playerUUID, JsonObject json)
 	{
-		if(profileSaveFile != null)
+		if(profileSaveFile != null && worldProfilesLoaded)
 		{
 			if(profileSaveJson.has("profiles") && profileSaveJson.get("profiles").isJsonObject())
 			{

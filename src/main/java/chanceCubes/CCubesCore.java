@@ -22,6 +22,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -31,7 +33,9 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
@@ -133,6 +137,26 @@ public class CCubesCore
 		// event.registerServerCommand(new CCubesServerCommands());
 		// }
 		event.registerServerCommand(new CCubesServerCommands());
+	}
+
+	@EventHandler
+	public void onServerStart(FMLServerStartedEvent event)
+	{
+		WorldServer[] dimensionWorlds = FMLCommonHandler.instance().getMinecraftServerInstance().worlds;
+		if(dimensionWorlds.length > 0 && !GlobalProfileManager.isWorldProfilesLoaded())
+		{
+			GlobalProfileManager.updateProfilesForWorld(dimensionWorlds[0]);
+		}
+	}
+
+	@EventHandler
+	public void onServerStart(FMLServerStoppedEvent event)
+	{
+		WorldServer[] dimensionWorlds = FMLCommonHandler.instance().getMinecraftServerInstance().worlds;
+		if(dimensionWorlds.length > 0 && GlobalProfileManager.isWorldProfilesLoaded())
+		{
+			GlobalProfileManager.unloadProfilesForWorld();
+		}
 	}
 
 	@EventHandler

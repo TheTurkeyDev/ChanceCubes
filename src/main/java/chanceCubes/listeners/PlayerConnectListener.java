@@ -7,6 +7,7 @@ import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import org.apache.logging.log4j.Level;
 
 public class PlayerConnectListener
 {
@@ -30,7 +31,6 @@ public class PlayerConnectListener
 			GlobalCCRewardRegistry.INSTANCE.unregisterReward(rewardName);
 
 		String playerUUID = event.player.getUniqueID().toString();
-		GlobalProfileManager.removePlayerProfiles(playerUUID);
 		GlobalCCRewardRegistry.INSTANCE.removePlayerRewards(playerUUID);
 	}
 }

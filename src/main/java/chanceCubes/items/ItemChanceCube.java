@@ -3,6 +3,7 @@ package chanceCubes.items;
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.profiles.GlobalProfileManager;
+import chanceCubes.profiles.PlayerProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.state.IBlockState;
@@ -76,7 +77,11 @@ public class ItemChanceCube extends ItemBlock
 			//TODO: figure out client side stuff for this
 			list.add("==== Enabled Profiles ====");
 			if(Minecraft.getMinecraft().player != null)
-				list.addAll(GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).getEnabledProfileNames());
+			{
+				PlayerProfileManager ppm = GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString());
+				if(ppm != null)
+					list.addAll(ppm.getEnabledProfileNames());
+			}
 		}
 	}
 
