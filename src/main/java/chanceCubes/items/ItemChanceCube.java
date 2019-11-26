@@ -70,7 +70,7 @@ public class ItemChanceCube extends ItemBlock
 		if(item.equals(Item.getItemFromBlock(CCubesBlocks.COMPACT_GIANT_CUBE)))
 			list.add("WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned.");
 		else if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)))
-			list.add("Warning: It is recommended you don't open these in or next toy your base.");
+			list.add("Warning: It is recommended you don't open these in or next to your base.");
 
 		if(item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE)) || item.equals(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON)))
 		{
