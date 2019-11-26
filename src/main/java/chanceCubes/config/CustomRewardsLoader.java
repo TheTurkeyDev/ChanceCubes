@@ -86,6 +86,7 @@ public class CustomRewardsLoader extends BaseLoader
 					continue;
 				}
 
+				int addedRewards = 0;
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
 					CustomEntry<BasicReward, Boolean> parsedReward = this.parseReward(reward);
@@ -101,11 +102,13 @@ public class CustomRewardsLoader extends BaseLoader
 					else
 						GlobalCCRewardRegistry.INSTANCE.registerReward(basicReward);
 
+					addedRewards++;
+
 					if(this.reSaveCurrentJson)
 						FileUtil.writeJsonToFile(f, fileJson);
 				}
 
-				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName());
+				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName() + "! Added " + addedRewards + " rewards");
 			}
 		}
 	}

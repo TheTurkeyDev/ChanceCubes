@@ -5,6 +5,7 @@ import java.util.List;
 
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
+import chanceCubes.profiles.PlayerProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
@@ -17,8 +18,13 @@ public class ProfilesList extends GuiListExtended
 	{
 		super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
 		this.profGui = profGui;
-		for(IProfile s : GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).getAllProfiles())
-			profiles.add(new ProfileListEntry(this, mcIn, s.getName()));
+		if(Minecraft.getMinecraft().player != null)
+		{
+			PlayerProfileManager ppm = GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString());
+			if(ppm != null)
+				for(IProfile s : ppm.getAllProfiles())
+					profiles.add(new ProfileListEntry(this, mcIn, s.getName()));
+		}
 	}
 
 	@Override
