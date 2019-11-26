@@ -52,7 +52,12 @@ public class GlobalProfileManager
 		if(profile instanceof BasicProfile)
 		{
 			for(IProfile subProfile : ((BasicProfile) profile).getSubProfiles())
-				GlobalProfileManager.registerProfile(subProfile);
+			{
+				if(subProfile instanceof BasicProfile)
+					GlobalProfileManager.registerProfile(subProfile, ((BasicProfile) subProfile).getTriggers().size() == 0);
+				else
+					GlobalProfileManager.registerProfile(subProfile);
+			}
 		}
 	}
 
