@@ -47,7 +47,7 @@ public class GlobalProfileManager
 			return;
 
 		profileDefaults.put(profile, enabled);
-		CCubesCore.logger.log(Level.DEBUG, profile.getName() + " default:" + enabled);
+		CCubesCore.logger.log(Level.INFO, profile.getName() + " default:" + enabled);
 
 		if(profile instanceof BasicProfile)
 		{
