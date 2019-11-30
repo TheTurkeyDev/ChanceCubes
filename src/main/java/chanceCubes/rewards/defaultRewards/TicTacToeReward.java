@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -31,6 +33,8 @@ public class TicTacToeReward extends BaseCustomReward
 		player.sendMessage(new TextComponentString("Lets play Tic-Tac-Toe!"));
 		player.sendMessage(new TextComponentString("Beat the Computer to get 500 Diamonds!"));
 		player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.WOOL, 5, 14)));
+
+		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 0, 0, Integer.MAX_VALUE);
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int x = -2; x < 3; x++)
@@ -82,7 +86,13 @@ public class TicTacToeReward extends BaseCustomReward
 				if(!board.isGameOver())
 				{
 					//Make CPU Move
-					board.minimax(0, 1);
+					Turn benefit = Turn.CPU;
+					if(mistakeChance > 0 && RewardsUtil.rand.nextInt(mistakeChance) == 0)
+					{
+						benefit = Turn.PLAYER;
+						CCubesCore.logger.log(Level.INFO, "Tic-Tac-Toe AI making a bad move.");
+					}
+					board.minimax(0, Turn.CPU, benefit);
 					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
 					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, 11));
 				}
@@ -92,7 +102,10 @@ public class TicTacToeReward extends BaseCustomReward
 					if(board.hasCPUWon())
 						player.sendMessage(new TextComponentString("The Computer won! Better luck next time!"));
 					else if(board.hasPlayerWon())
+					{
+						player.sendMessage(new TextComponentString("You win. This time...."));
 						player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Items.DIAMOND, 500)));
+					}
 					else
 						player.sendMessage(new TextComponentString("You tied! Better luck next time!"));
 
@@ -167,13 +180,24 @@ public class TicTacToeReward extends BaseCustomReward
 			board[x][y] = player;
 		}
 
-		public int minimax(int depth, int turn)
+		public int minimax(int depth, Turn turn, Turn benefit)
 		{
 			//Game status...
-			if(hasCPUWon())
-				return +1;
-			if(hasPlayerWon())
-				return -1;
+			if(benefit == Turn.PLAYER)
+			{
+				if(hasCPUWon())
+					return -1;
+				if(hasPlayerWon())
+					return +1;
+			}
+			else
+			{
+				if(hasCPUWon())
+					return +1;
+				if(hasPlayerWon())
+					return -1;
+			}
+
 
 			List<Point> pointsAvailable = getAvailableStates();
 			if(pointsAvailable.isEmpty())
@@ -182,10 +206,10 @@ public class TicTacToeReward extends BaseCustomReward
 			for(int i = 0; i < pointsAvailable.size(); ++i)
 			{
 				Point point = pointsAvailable.get(i);
-				if(turn == 1)
+				if(turn == Turn.CPU)
 				{
 					placeMove(point.x, point.y, 1);
-					int currentScore = minimax(depth + 1, 2);
+					int currentScore = minimax(depth + 1, Turn.PLAYER, benefit);
 					max = Math.max(currentScore, max);
 
 					if(currentScore >= 0 && depth == 0)
@@ -200,10 +224,10 @@ public class TicTacToeReward extends BaseCustomReward
 					if(i == pointsAvailable.size() - 1 && max < 0 && depth == 0)
 						computersMove = point;
 				}
-				else if(turn == 2)
+				else if(turn == Turn.PLAYER)
 				{
 					placeMove(point.x, point.y, 2);
-					int currentScore = minimax(depth + 1, 1);
+					int currentScore = minimax(depth + 1, Turn.CPU, benefit);
 					min = Math.min(currentScore, min);
 					if(min == -1)
 					{
@@ -213,7 +237,11 @@ public class TicTacToeReward extends BaseCustomReward
 				}
 				board[point.x][point.y] = 0;
 			}
-			return turn == 1 ? max : min;
+			return turn == Turn.CPU ? max : min;
 		}
+	}
+	public enum Turn
+	{
+		CPU, PLAYER;
 	}
 }
