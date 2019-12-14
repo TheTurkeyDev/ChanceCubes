@@ -9,7 +9,6 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.sounds.CustomSoundsLoader;
 import chanceCubes.util.CustomEntry;
-import chanceCubes.util.FileUtil;
 import chanceCubes.util.HTTPUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -92,10 +91,7 @@ public class CustomRewardsLoader
 				CCubesCore.logger.log(Level.INFO, "Loaded custom rewards file " + f.getName() + "! Added " + addedRewards + " rewards");
 			}
 		}
-	}
 
-	public void fetchRemoteInfo()
-	{
 		try
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
@@ -160,7 +156,9 @@ public class CustomRewardsLoader
 				boolean removed = GlobalCCRewardRegistry.INSTANCE.disableReward(reward.getAsString());
 				if(!removed)
 					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
-				CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
+
+				if(removed)
+					CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
 			}
 		}
 	}

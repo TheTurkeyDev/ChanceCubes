@@ -100,7 +100,6 @@ public class CCubesServerCommands extends CommandBase
 				DefaultRewards.loadDefaultRewards();
 				GiantCubeRegistry.loadDefaultRewards();
 				CustomRewardsLoader.instance.loadCustomRewards();
-				CustomRewardsLoader.instance.fetchRemoteInfo();
 				GlobalCCRewardRegistry.loadCustomUserRewards(server);
 				ModHookUtil.loadCustomModRewards();
 				NonreplaceableBlockOverride.loadOverrides();

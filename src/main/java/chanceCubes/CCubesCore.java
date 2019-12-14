@@ -111,7 +111,6 @@ public class CCubesCore
 		DefaultRewards.loadDefaultRewards();
 		GiantCubeRegistry.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
-		CustomRewardsLoader.instance.fetchRemoteInfo();
 		GlobalProfileManager.initProfiles();
 		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();

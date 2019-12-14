@@ -61,7 +61,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,16 +77,16 @@ public class DefaultRewards
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		for(File f : RewardsUtil.getHardcodedRewards())
+		for(String fileName : RewardsUtil.getHardcodedRewards())
 		{
-			JsonObject json = RewardsUtil.getRewardJson(f.getName());
+			JsonObject json = RewardsUtil.getRewardJson(fileName);
 			for(Map.Entry<String, JsonElement> reward : json.entrySet())
 			{
 				CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward);
 				BasicReward basicReward = parsedReward.getKey();
 				if(basicReward == null)
 				{
-					CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + f.getName());
+					CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + fileName);
 					continue;
 				}
 
