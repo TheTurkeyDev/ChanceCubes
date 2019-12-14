@@ -81,10 +81,9 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onEnable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
-		CCubesCore.logger.log(Level.INFO, name + " enabled!");
 		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			playerProfileManager.enableProfile(prof, playerUUID);
+			prof.onEnable(playerProfileManager, playerUUID);
 
 		for(String s : this.rewardsToDisable)
 		{
@@ -109,10 +108,12 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onDisable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
-		CCubesCore.logger.log(Level.INFO, name + " disabled!");
+		if(playerProfileManager.isProfileEnabled(this))
+			return;
+
 		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			playerProfileManager.disableProfile(prof, playerUUID);
+			prof.onDisable(playerProfileManager, playerUUID);
 
 		for(String s : this.rewardsToDisable)
 		{

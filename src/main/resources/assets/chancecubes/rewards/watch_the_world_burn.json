@@ -1,0 +1,26 @@
+{
+  "chancecubes:Watch_World_Burn": {
+    "chance": -5,
+    "Area": [
+      {
+        "xSize": 7,
+        "ySize": 1,
+        "zSize": 7,
+        "block": "minecraft:fire",
+        "xOff": -3,
+        "yOff": 0,
+        "zOff": -3,
+        "falling": false,
+        "delay": 0,
+        "causesUpdate": true,
+        "relativeToPlayer": true
+      }
+    ],
+    "Message": [
+      {
+        "message": "Some people just want to watch the world burn.",
+        "range": 25
+      }
+    ]
+  }
+}

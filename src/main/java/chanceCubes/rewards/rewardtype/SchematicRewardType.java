@@ -3,7 +3,9 @@ package chanceCubes.rewards.rewardtype;
 import java.util.ArrayList;
 import java.util.List;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -12,19 +14,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class SchematicRewardType implements IRewardType
 {
-	private CustomSchematic schematic;
+	private SchematicPart part;
 
-	public SchematicRewardType(CustomSchematic schematic)
+	public SchematicRewardType(SchematicPart part)
 	{
-		this.schematic = schematic;
+		this.part = part;
 	}
 
 	@Override
 	public void trigger(World world, int x, int y, int z, EntityPlayer player)
 	{
+		CustomSchematic schematic = part.getSchematic();
+		if(schematic == null)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Failed to load a schematic reward with the file name " + part.getFileName());
+			return;
+		}
 		List<OffsetBlock> stack = new ArrayList<>();
 		for(OffsetBlock osb : schematic.getBlocks())
 			if(schematic.includeAirBlocks() || !osb.getBlockState().getBlock().equals(Blocks.AIR))

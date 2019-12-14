@@ -7,9 +7,8 @@ import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.*;
+import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.rewards.rewardtype.SchematicRewardType;
-import chanceCubes.util.RewardData;
-import chanceCubes.util.SchematicUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +17,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +37,8 @@ public class GiantCubeRegistry
 		if(!CCubesSettings.enableHardCodedRewards)
 			return;
 
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getVillageSchematic(), 0, -1, 0, 0.1f, false, false, false, true, 0))));
-		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(SchematicUtil.loadCustomSchematic(RewardData.getWoodlandMansionSchematic(), 0, -1, 0, 0.05f, false, false, true, true, 0))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Village", 0, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/village.ccs", true))));
+		INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Woodland_Mansion", 0, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/mansion.ccs", true).setSpacingdelay(0.05f).shouldPlaceAitBlocks(true))));
 
 		INSTANCE.registerReward(new BioDomeReward());
 		INSTANCE.registerReward(new TNTSlingReward());
@@ -147,7 +147,7 @@ public class GiantCubeRegistry
 		if(newReward != null)
 			sortedRewards.add(newReward);
 
-		sortedRewards.sort((o1, o2) -> o1.getChanceValue() - o2.getChanceValue());
+		sortedRewards.sort(Comparator.comparingInt(IChanceCubeReward::getChanceValue));
 	}
 
 	public int getNumberOfLoadedRewards()

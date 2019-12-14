@@ -3,7 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
@@ -81,7 +81,7 @@ public class CustomUserReward extends BaseCustomReward
 		List<BasicReward> customRewards = new ArrayList<>();
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-			customRewards.add(CustomRewardsLoader.instance.parseReward(reward).getKey());
+			customRewards.add(RewardParser.parseReward(reward).getKey());
 
 		//GROSS, but idk what else todo
 		String userNameFinal = userName;

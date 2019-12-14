@@ -145,18 +145,16 @@ public class CCubesCore
 		WorldServer[] dimensionWorlds = FMLCommonHandler.instance().getMinecraftServerInstance().worlds;
 		if(dimensionWorlds.length > 0 && !GlobalProfileManager.isWorldProfilesLoaded())
 		{
-			GlobalProfileManager.updateProfilesForWorld(dimensionWorlds[0]);
+			WorldServer world = dimensionWorlds[0];
+			GlobalProfileManager.updateProfilesForWorld(world);
 		}
 	}
 
 	@EventHandler
 	public void onServerStart(FMLServerStoppedEvent event)
 	{
-		WorldServer[] dimensionWorlds = FMLCommonHandler.instance().getMinecraftServerInstance().worlds;
-		if(dimensionWorlds.length > 0 && GlobalProfileManager.isWorldProfilesLoaded())
-		{
+		if(GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.unloadProfilesForWorld();
-		}
 	}
 
 	@EventHandler

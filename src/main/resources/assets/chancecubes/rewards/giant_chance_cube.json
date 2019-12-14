@@ -1,0 +1,20 @@
+{
+  "chancecubes:Giant_Chance_Cube": {
+    "chance": -45,
+    "Area": [
+      {
+        "xSize": 3,
+        "ySize": 3,
+        "zSize": 3,
+        "block": "chancecubes:chancecube",
+        "xOff": -1,
+        "yOff": 0,
+        "zOff": -1,
+        "falling": false,
+        "delay": 0,
+        "causesUpdate": true,
+        "relativeToPlayer": false
+      }
+    ]
+  }
+}

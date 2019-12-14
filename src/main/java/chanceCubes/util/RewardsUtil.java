@@ -1,17 +1,25 @@
 package chanceCubes.util;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.ParticlePart;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -36,6 +44,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
+import org.lwjgl.Sys;
 
 public class RewardsUtil
 {
@@ -71,39 +81,6 @@ public class RewardsUtil
 				oredicts.add(oreDict);
 
 		fluids.addAll(FluidRegistry.getRegisteredFluids().keySet());
-	}
-
-	public static OffsetBlock[] fillArea(int xSize, int ySize, int zSize, Block block, int xOff, int yOff, int zOff, boolean falling, int delay, boolean causesUpdate, boolean relativeToPlayer)
-	{
-		List<OffsetBlock> toReturn = new ArrayList<>();
-
-		for(int y = 0; y < ySize; y++)
-			for(int z = 0; z < zSize; z++)
-				for(int x = 0; x < xSize; x++)
-					toReturn.add(new OffsetBlock(x + xOff, y + yOff, z + zOff, block, falling, delay).setCausesBlockUpdate(causesUpdate).setRelativeToPlayer(relativeToPlayer));
-
-		return toReturn.toArray(new OffsetBlock[0]);
-	}
-
-	public static OffsetBlock[] addBlocksLists(OffsetBlock[]... lists)
-	{
-		int size = 0;
-		for(OffsetBlock[] list : lists)
-			size += list.length;
-
-		OffsetBlock[] toReturn = new OffsetBlock[size];
-
-		int i = 0;
-		for(OffsetBlock[] list : lists)
-		{
-			for(OffsetBlock osb : list)
-			{
-				toReturn[i] = osb;
-				i++;
-			}
-		}
-
-		return toReturn;
 	}
 
 	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount)
@@ -453,5 +430,38 @@ public class RewardsUtil
 			resetPacket = new SPacketTitle(SPacketTitle.Type.CLEAR, new TextComponentString(""), 0, 0, 0);
 			((EntityPlayerMP) player).connection.sendPacket(resetPacket);
 		}
+	}
+
+	public static File[] getHardcodedRewards()
+	{
+		try
+		{
+			File rewardsFolder = new File(RewardsUtil.class.getResource("/assets/chancecubes/rewards").toURI());
+			return rewardsFolder.listFiles();
+		} catch(URISyntaxException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "CHANCE CUBES WAS UNABLE TO LOAD IN ITS DEFAULT REWARDS!!!!");
+			CCubesCore.logger.log(Level.ERROR, "REPORT TO MOD AUTHOR ASAP!!!");
+			e.printStackTrace();
+		}
+		return new File[0];
+	}
+
+	public static JsonObject getRewardJson(String file)
+	{
+		BufferedReader in = new BufferedReader(new InputStreamReader(RewardsUtil.class.getResourceAsStream("/assets/chancecubes/rewards/" + file)));
+		StringBuilder builder = new StringBuilder();
+		try
+		{
+			String line;
+			while((line = in.readLine()) != null)
+				builder.append(line);
+
+			in.close();
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		return FileUtil.JSON_PARSER.parse(builder.toString()).getAsJsonObject();
 	}
 }

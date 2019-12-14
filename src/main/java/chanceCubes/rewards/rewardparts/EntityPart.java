@@ -9,6 +9,7 @@ public class EntityPart extends BasePart
 	private NBTVar nbtData;
 
 	private boolean removedBlocks = true;
+	private IntVar copies = new IntVar(0);
 
 	public EntityPart(NBTTagCompound nbtData)
 	{
@@ -45,5 +46,15 @@ public class EntityPart extends BasePart
 	{
 		this.removedBlocks = removedBlocks;
 		return this;
+	}
+
+	public IntVar getCopies()
+	{
+		return copies;
+	}
+
+	public void setCopies(IntVar copies)
+	{
+		this.copies = copies;
 	}
 }
