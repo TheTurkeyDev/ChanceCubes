@@ -53,7 +53,7 @@ public class GlobalProfileManager
 			for(IProfile subProfile : ((BasicProfile) profile).getSubProfiles())
 			{
 				if(subProfile instanceof BasicProfile)
-					GlobalProfileManager.registerProfile(subProfile, ((BasicProfile) subProfile).getTriggers().size() == 0);
+					GlobalProfileManager.registerProfile(subProfile, subProfile.getTriggers().size() == 0);
 				else
 					GlobalProfileManager.registerProfile(subProfile);
 			}
@@ -72,15 +72,8 @@ public class GlobalProfileManager
 
 		return playerToProfiles.computeIfAbsent(playerUUID, (k) ->
 		{
-			PlayerProfileManager playerProfileManager;
-			playerProfileManager = new PlayerProfileManager();
-			for(Map.Entry<IProfile, Boolean> profileEntry : profileDefaults.entrySet())
-			{
-				if(profileEntry.getValue())
-					playerProfileManager.enableProfile(profileEntry.getKey(), playerUUID);
-				else
-					playerProfileManager.disableProfile(profileEntry.getKey(), playerUUID);
-			}
+			PlayerProfileManager playerProfileManager = new PlayerProfileManager(playerUUID);
+			playerProfileManager.loadFromDefaults(profileDefaults);
 			return playerProfileManager;
 		});
 	}
@@ -145,21 +138,8 @@ public class GlobalProfileManager
 
 	private static PlayerProfileManager loadPlayerProfilesFromJson(String playerUUID, JsonObject playerProfilesJson)
 	{
-		PlayerProfileManager playerProfileManager = new PlayerProfileManager();
-		for(Map.Entry<String, JsonElement> profileEntry : playerProfilesJson.entrySet())
-		{
-			IProfile profile = GlobalProfileManager.getProfileFromID(profileEntry.getKey());
-			if(profile == null || !profileEntry.getValue().isJsonPrimitive())
-			{
-				//TODO: Remove it?
-				continue;
-			}
-
-			if(profileEntry.getValue().getAsBoolean())
-				playerProfileManager.enableProfile(profile, playerUUID);
-			else
-				playerProfileManager.disableProfile(profile, playerUUID);
-		}
+		PlayerProfileManager playerProfileManager = new PlayerProfileManager(playerUUID);
+		playerProfileManager.loadFromJson(playerProfilesJson);
 		return playerProfileManager;
 	}
 

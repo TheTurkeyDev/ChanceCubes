@@ -59,9 +59,9 @@ public class ProfileListEntry implements IGuiListEntry
 			//TODO: Needs packet to server
 			String playerUUID = Minecraft.getMinecraft().player.getUniqueID().toString();
 			if(enabled)
-				GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(profile, playerUUID);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(profile);
 			else
-				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile, playerUUID);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile);
 
 			this.enableToggleBtn.displayString = enabled ? "Enabled" : "Disabled";
 			return true;

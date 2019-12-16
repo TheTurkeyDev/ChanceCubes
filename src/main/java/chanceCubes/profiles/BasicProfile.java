@@ -267,7 +267,7 @@ public class BasicProfile implements IProfile
 			//Bit awkward looking code, but idk what to do right now
 			if(enabled && !triggerCompeleted && !anyTrigger)
 			{
-				playerProfileManager.disableProfile(this, playerUUID);
+				playerProfileManager.disableProfile(this);
 				return;
 			}
 			else if(enabled && !triggerCompeleted && anyTrigger)
@@ -276,7 +276,7 @@ public class BasicProfile implements IProfile
 			}
 			else if(!enabled && triggerCompeleted && anyTrigger)
 			{
-				playerProfileManager.enableProfile(this, playerUUID);
+				playerProfileManager.enableProfile(this);
 				return;
 			}
 			else if(!enabled && triggerCompeleted && !anyTrigger)
@@ -290,8 +290,8 @@ public class BasicProfile implements IProfile
 		}
 
 		if(enabled)
-			playerProfileManager.disableProfile(this, playerUUID);
+			playerProfileManager.disableProfile(this);
 		else
-			playerProfileManager.enableProfile(this, playerUUID);
+			playerProfileManager.enableProfile(this);
 	}
 }
