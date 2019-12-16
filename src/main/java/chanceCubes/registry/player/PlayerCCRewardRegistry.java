@@ -36,8 +36,12 @@ public class PlayerCCRewardRegistry
 		if(reward != null)
 		{
 			int i = 0;
-			while(i < sortedRewards.size() && sortedRewards.get(i).getChanceValue() < reward.getChanceValue())
+			while(i < sortedRewards.size() && sortedRewards.get(i).getChanceValue() <= reward.getChanceValue())
+			{
+				if(sortedRewards.get(i).reward.getName().equals(reward.getName()))
+					return false;
 				i++;
+			}
 			sortedRewards.add(i, new PlayerRewardInfo(reward));
 			return true;
 		}
@@ -53,6 +57,7 @@ public class PlayerCCRewardRegistry
 
 	public boolean disableReward(IChanceCubeReward reward)
 	{
+		int k = 1;
 		for(int i = sortedRewards.size() - 1; i >= 0; i--)
 			if(sortedRewards.get(i).reward == reward)
 				return sortedRewards.remove(i) != null;
@@ -179,5 +184,10 @@ public class PlayerCCRewardRegistry
 	{
 		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);
+	}
+
+	public List<PlayerRewardInfo> getPlayersRewards()
+	{
+		return new ArrayList<>(this.sortedRewards);
 	}
 }

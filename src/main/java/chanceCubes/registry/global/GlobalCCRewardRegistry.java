@@ -169,7 +169,7 @@ public class GlobalCCRewardRegistry
 		}
 
 		if(player != null)
-			this.playerToRewards.get(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
+			this.getPlayerRewardRegistry(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
 	}
 
 	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
