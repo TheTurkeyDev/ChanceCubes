@@ -224,6 +224,7 @@ public class RewardParser
 				continue;
 			}
 
+			ent.setRemovedBlocks(ParserUtil.getBoolean(element, "removeBlocks", true));
 			ent.setCopies(ParserUtil.getInt(element, "copies", 0));
 			ent.setDelay(ParserUtil.getInt(element, "delay", ent.getDelay()));
 

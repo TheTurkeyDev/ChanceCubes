@@ -1,5 +1,6 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,7 +9,7 @@ public class EntityPart extends BasePart
 {
 	private NBTVar nbtData;
 
-	private boolean removedBlocks = true;
+	private BoolVar removedBlocks = new BoolVar(true);
 	private IntVar copies = new IntVar(0);
 
 	public EntityPart(NBTTagCompound nbtData)
@@ -39,10 +40,10 @@ public class EntityPart extends BasePart
 
 	public boolean shouldRemovedBlocks()
 	{
-		return removedBlocks;
+		return removedBlocks.getBoolValue();
 	}
 
-	public EntityPart setRemovedBlocks(boolean removedBlocks)
+	public EntityPart setRemovedBlocks(BoolVar removedBlocks)
 	{
 		this.removedBlocks = removedBlocks;
 		return this;

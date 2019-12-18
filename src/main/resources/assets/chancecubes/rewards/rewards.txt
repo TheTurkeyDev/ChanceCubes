@@ -1,12 +1,15 @@
 anti_slab.json
+bedrock.json
 carpet.json
 cave_spider_web.json
 chance_cube_cube.json
 d_rude_sandstorm.json
 gaurdians.json
 giant_chance_cube.json
+help_me.json
 hot_tub.json
 ice_cold.json
+redstone_diamond.json
 saplings.json
 squid_horde.json
 string.json
