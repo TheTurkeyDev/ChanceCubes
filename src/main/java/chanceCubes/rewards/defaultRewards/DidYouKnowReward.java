@@ -29,6 +29,6 @@ public class DidYouKnowReward extends BaseCustomReward
 	{
 		String fact = "Did you know?\n" + dyk.get(RewardsUtil.rand.nextInt(dyk.size()));
 		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Did You know?\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + fact + "\\\",color:black}\"]}}}";
-		RewardsUtil.executeCommand(world, player, command);
+		RewardsUtil.executeCommand(world, player, pos, command);
 	}
 }

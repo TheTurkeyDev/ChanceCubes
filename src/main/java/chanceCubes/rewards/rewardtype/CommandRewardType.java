@@ -5,6 +5,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandRewardType extends BaseRewardType<CommandPart>
@@ -36,7 +37,7 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 			@Override
 			public void callback()
 			{
-				RewardsUtil.executeCommand(world, player, command.getParsedCommand(world, x, y, z, player));
+				RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), command.getParsedCommand(world, x, y, z, player));
 			}
 		});
 	}

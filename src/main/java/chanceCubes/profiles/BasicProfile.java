@@ -83,7 +83,8 @@ public class BasicProfile implements IProfile
 	{
 		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
-			prof.onEnable(playerProfileManager, playerUUID);
+			if(!playerProfileManager.isProfileEnabled(prof))
+				prof.onEnable(playerProfileManager, playerUUID);
 
 		for(String s : this.rewardsToDisable)
 		{

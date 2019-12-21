@@ -199,6 +199,11 @@ public class GlobalProfileManager
 		//TODO: Also clear player data?
 	}
 
+	public static void removePlayerProfile(String uuid)
+	{
+		profileDefaults.remove(uuid);
+	}
+
 	public static List<IProfile> getAllProfiles()
 	{
 		return new ArrayList<>(profileDefaults.keySet());

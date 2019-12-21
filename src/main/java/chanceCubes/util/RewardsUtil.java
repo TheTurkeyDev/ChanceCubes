@@ -377,12 +377,17 @@ public class RewardsUtil
 
 	public static void executeCommand(World world, EntityPlayer player, String command)
 	{
+		executeCommand(world, player, player.getPosition(), command);
+	}
+
+	public static void executeCommand(World world, EntityPlayer player, BlockPos pos, String command)
+	{
 		MinecraftServer server = world.getMinecraftServer();
 		if(server != null)
 		{
 			boolean rule = server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
 			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", "false");
-			server.getCommandManager().executeCommand(new CCubesCommandSender(player, player.getPosition()), command);
+			server.getCommandManager().executeCommand(new CCubesCommandSender(player, pos), command);
 			server.worlds[0].getGameRules().setOrCreateGameRule("commandBlockOutput", String.valueOf(rule));
 		}
 	}
