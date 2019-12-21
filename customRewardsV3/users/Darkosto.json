@@ -1,12 +1,100 @@
 {
-	"No_Reward":
-	{
+	"No_Reward": {
 		"chance": 0,
-		"Message":
-		[
-			{"message":"Happy Birthday Darkosto!"},
-			{"message":"Guess what I got you for your birthday present!", "delay":60},
-			{"message":"Nothing....... DarkoLUL darkoBday", "delay":150}
+		"Message": [
+			{
+				"message": "Happy Birthday Darkosto!"
+			},
+			{
+				"message": "Guess what I got you for your birthday present!",
+				"delay": 60
+			},
+			{
+				"message": "Nothing....... DarkoLUL darkoBday",
+				"delay": 150
+			}
+		]
+	},
+	"Darkosto": {
+		"chance": 0,
+		"Message": [
+			{
+				"message": "Selecting random item"
+			},
+			{
+				"message": "<OnlyBently> And I did it on purpose!",
+				"delay": 260
+			}
+		],
+		"Command": [
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:stick\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 0
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:diamond_block\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 10
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:deadbush\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 20
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:clay\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 30
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:quartz_block\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 40
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:gold_block\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 50
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:prismarine\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 60
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:sea_lantern\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 70
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:diamond_block\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 80
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:fish\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 90
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:mutton\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 100
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:dragon_egg\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 110
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:elytra\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 120
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:end_crystal\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 130
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:skull\",Damage:1,Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 140
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:beacon\",Count:1b},PickupDelay:10000, Lifespan:10}",
+				"delay": 150
+			},
+			{
+				"command": "/summon item ~ ~ ~ {Item:{id:\"minecraft:nether_star\",Count:1b},PickupDelay:10000, Lifespan:100}",
+				"delay": 160
+			}
 		]
 	}
 }
