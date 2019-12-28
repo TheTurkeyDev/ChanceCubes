@@ -1,0 +1,14 @@
+{
+  "chancecubes:chat_message": {
+    "chance": 0,
+    "Message": [
+      {
+        "message": "You have escaped the wrath of the Chance Cubes........."
+      },
+      {
+        "message": "For now......",
+        "delay": 1
+      }
+    ]
+  }
+}

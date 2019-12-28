@@ -7,12 +7,26 @@ import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.*;
-import chanceCubes.rewards.rewardparts.*;
-import chanceCubes.rewards.rewardtype.*;
+import chanceCubes.rewards.rewardparts.CommandPart;
+import chanceCubes.rewards.rewardparts.EntityPart;
+import chanceCubes.rewards.rewardparts.ItemPart;
+import chanceCubes.rewards.rewardparts.MessagePart;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.rewardparts.ParticlePart;
+import chanceCubes.rewards.rewardparts.SchematicPart;
+import chanceCubes.rewards.rewardparts.SoundPart;
+import chanceCubes.rewards.rewardtype.BlockRewardType;
+import chanceCubes.rewards.rewardtype.CommandRewardType;
+import chanceCubes.rewards.rewardtype.EntityRewardType;
+import chanceCubes.rewards.rewardtype.ItemRewardType;
+import chanceCubes.rewards.rewardtype.MessageRewardType;
+import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
+import chanceCubes.rewards.rewardtype.SchematicRewardType;
+import chanceCubes.rewards.rewardtype.SoundRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
-import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -22,7 +36,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -45,7 +58,6 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
@@ -86,7 +98,7 @@ public class DefaultRewards
 				BasicReward basicReward = parsedReward.getKey();
 				if(basicReward == null)
 				{
-					CCubesCore.logger.log(Level.ERROR, "Seems your reward is setup incorrectly, or is disabled for this version of minecraft with a depedency, and Chance Cubes was not able to parse the reward " + reward.getKey() + " for the file " + fileName);
+					CCubesCore.logger.log(Level.ERROR, "A hard coded reward failed to parse! Please report this to the mod dev! " + reward.getKey() + " for the file " + fileName);
 					continue;
 				}
 
@@ -97,13 +109,6 @@ public class DefaultRewards
 			}
 		}
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sethbling_Reward", 30, new MessageRewardType("Welcome back, SethBling here :)"), new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Items.REDSTONE, 32), new ItemStack(Items.REPEATER, 3), new ItemStack(Items.COMPARATOR, 3), new ItemStack(Blocks.REDSTONE_LAMP, 3), new ItemStack(Blocks.REDSTONE_TORCH, 3)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP", 35, new ExperienceRewardType(new ExpirencePart(100).setNumberofOrbs(10))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":EXP_Shower", 35, new ExperienceRewardType(new ExpirencePart(10), new ExpirencePart(10, 10), new ExpirencePart(10, 10), new ExpirencePart(10, 20), new ExpirencePart(10, 30), new ExpirencePart(10, 40), new ExpirencePart(10, 50), new ExpirencePart(10, 60), new ExpirencePart(10, 70), new ExpirencePart(10, 80), new ExpirencePart(10, 90), new ExpirencePart(10, 100), new ExpirencePart(10, 110), new ExpirencePart(10, 120), new ExpirencePart(10, 130), new ExpirencePart(10, 140), new ExpirencePart(10, 150))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Poison", -25, new EffectRewardType(new EffectPart(MobEffects.POISON, 25, 1).setRadius(30))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wither_Status_Effect", -25, new EffectRewardType(new EffectPart(new StringVar(String.valueOf(Potion.getIdFromPotion(MobEffects.WITHER))), new IntVar(new Integer[]{3, 5, 6, 8, 10}), new IntVar(new Integer[]{1, 2})).setRadius(30))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Chat_Message", 0, new MessageRewardType("You have escaped the wrath of the Chance Cubes.........", "For now......")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Hearts", 0, new ParticleEffectRewardType(RewardsUtil.spawnXParticles(34, 5))));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(SoundEvents.ENTITY_GENERIC_EXPLODE)));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wool", 25, new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Blocks.WOOL, 4, 0), new ItemStack(Blocks.WOOL, 4, 1), new ItemStack(Blocks.WOOL, 4, 2), new ItemStack(Blocks.WOOL, 4, 3), new ItemStack(Blocks.WOOL, 4, 4), new ItemStack(Blocks.WOOL, 4, 5), new ItemStack(Blocks.WOOL, 4, 6), new ItemStack(Blocks.WOOL, 4, 7), new ItemStack(Blocks.WOOL, 4, 8), new ItemStack(Blocks.WOOL, 4, 9), new ItemStack(Blocks.WOOL, 4, 10), new ItemStack(Blocks.WOOL, 4, 11), new ItemStack(Blocks.WOOL, 4, 12), new ItemStack(Blocks.WOOL, 4, 13), new ItemStack(Blocks.WOOL, 4, 14), new ItemStack(Blocks.WOOL, 4, 15)))));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemPart(new ItemStack(Blocks.ENCHANTING_TABLE)))));
