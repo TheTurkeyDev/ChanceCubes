@@ -13,7 +13,6 @@ import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
-import chanceCubes.rewards.rewardparts.ParticlePart;
 import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.rewards.rewardtype.BlockRewardType;
@@ -21,7 +20,6 @@ import chanceCubes.rewards.rewardtype.CommandRewardType;
 import chanceCubes.rewards.rewardtype.EntityRewardType;
 import chanceCubes.rewards.rewardtype.ItemRewardType;
 import chanceCubes.rewards.rewardtype.MessageRewardType;
-import chanceCubes.rewards.rewardtype.ParticleEffectRewardType;
 import chanceCubes.rewards.rewardtype.SchematicRewardType;
 import chanceCubes.rewards.rewardtype.SoundRewardType;
 import chanceCubes.rewards.variableTypes.BoolVar;
@@ -109,8 +107,6 @@ public class DefaultRewards
 			}
 		}
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explosion", 0, new ParticleEffectRewardType(new ParticlePart(2)), new SoundRewardType(SoundEvents.ENTITY_GENERIC_EXPLODE)));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Wool", 25, new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Blocks.WOOL, 4, 0), new ItemStack(Blocks.WOOL, 4, 1), new ItemStack(Blocks.WOOL, 4, 2), new ItemStack(Blocks.WOOL, 4, 3), new ItemStack(Blocks.WOOL, 4, 4), new ItemStack(Blocks.WOOL, 4, 5), new ItemStack(Blocks.WOOL, 4, 6), new ItemStack(Blocks.WOOL, 4, 7), new ItemStack(Blocks.WOOL, 4, 8), new ItemStack(Blocks.WOOL, 4, 9), new ItemStack(Blocks.WOOL, 4, 10), new ItemStack(Blocks.WOOL, 4, 11), new ItemStack(Blocks.WOOL, 4, 12), new ItemStack(Blocks.WOOL, 4, 13), new ItemStack(Blocks.WOOL, 4, 14), new ItemStack(Blocks.WOOL, 4, 15)))));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemPart(new ItemStack(Blocks.ENCHANTING_TABLE)))));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.BOOKSHELF, 8)))));
 		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 50, new ItemRewardType(RewardsUtil.generateItemParts(Items.COAL, Items.REDSTONE, Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND, Items.EMERALD))));
@@ -166,88 +162,6 @@ public class DefaultRewards
 
 		ItemStack stack;
 		NBTTagCompound nbt;
-
-		stack = new ItemStack(Items.STICK);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("sharpness"), 5);
-		stack.setStackDisplayName("A Big Stick");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Roosevelt's_Stick", 70, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.FISHING_ROD);
-		stack.setItemDamage(stack.getMaxDamage() / 2);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Half_Fishingrod", 5, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.GOLDEN_APPLE, 1, 1);
-		stack.setStackDisplayName("Notch");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Notch", 70, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.NETHER_STAR);
-		stack.setStackDisplayName("North Star");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Star", 100, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.DIAMOND_SWORD);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("sharpness"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("unbreaking"), 10);
-		stack.setItemDamage(stack.getMaxDamage() - 2);
-		stack.setStackDisplayName("The Divine Sword");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Sword", 95, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.DIAMOND_HELMET);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("protection"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("aqua_affinity"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("unbreaking"), 10);
-		stack.setItemDamage(stack.getMaxDamage() - 2);
-		stack.setStackDisplayName("The Divine Helmet");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Helmet", 95, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("blast_protection"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("thorns"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("unbreaking"), 10);
-		stack.setItemDamage(stack.getMaxDamage() - 2);
-		stack.setStackDisplayName("The Divine Chestplate");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Chestplate", 95, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.DIAMOND_LEGGINGS);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("projectile_protection"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("unbreaking"), 10);
-		stack.setItemDamage(stack.getMaxDamage() - 2);
-		stack.setStackDisplayName("The Divine Leggings");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Leggings", 95, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.DIAMOND_BOOTS);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("fire_protection"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("unbreaking"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("feather_falling"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("depth_strider"), 10);
-		stack.setItemDamage(stack.getMaxDamage() - 2);
-		stack.setStackDisplayName("The Divine Boots");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Divine_Boots", 95, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.WOODEN_PICKAXE);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("efficiency"), 10);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("fortune"), 3);
-		stack.setStackDisplayName("Giga Breaker");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Giga_Breaker", 70, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.BOW);
-		stack.setItemDamage(stack.getMaxDamage());
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("power"), 5);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("punch"), 3);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("flame"), 2);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Shot", 75, new ItemRewardType(new ItemPart(stack), new ItemPart(new ItemStack(Items.ARROW, 1)))));
-
-		stack = new ItemStack(Items.FISH, 1, 2);
-		stack.setStackDisplayName("Nemo");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Nemo", 10, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.FISH, 1, 2);
-		stack.setStackDisplayName("Marlin");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Finding_Marlin", 10, new ItemRewardType(new ItemPart(stack))));
-
-		stack = new ItemStack(Items.FIRE_CHARGE, 1);
-		stack.addEnchantment(RewardsUtil.getEnchantSafe("fire_aspect"), 2);
-		stack.setStackDisplayName("Why not?");
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fire_Aspect_Fire", 60, new ItemRewardType(new ItemPart(stack))));
 
 		TileEntitySign sign = new TileEntitySign();
 		sign.signText[0] = new TextComponentString("The broken path");

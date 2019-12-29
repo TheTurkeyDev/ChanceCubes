@@ -1,0 +1,19 @@
+{
+  "chancecubes:nether_star": {
+    "chance": 70,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:nether_star",
+          "Count": 1,
+          "Damage": 1
+        },
+        "tag": {
+          "display": {
+            "Name": "Notch"
+          }
+        }
+      }
+    ]
+  }
+}

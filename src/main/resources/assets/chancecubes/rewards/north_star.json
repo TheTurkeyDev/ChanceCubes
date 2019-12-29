@@ -1,0 +1,18 @@
+{
+  "chancecubes:notch": {
+    "chance": 100,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:golden_apple",
+          "Count": 1
+        },
+        "tag": {
+          "display": {
+            "Name": "North Star"
+          }
+        }
+      }
+    ]
+  }
+}

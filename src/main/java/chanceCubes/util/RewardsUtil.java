@@ -5,7 +5,6 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.rewards.rewardparts.ItemPart;
-import chanceCubes.rewards.rewardparts.ParticlePart;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -103,14 +102,6 @@ public class RewardsUtil
 			part.setDelay(delay);
 			toReturn[i] = part;
 		}
-		return toReturn;
-	}
-
-	public static ParticlePart[] spawnXParticles(int particle, int amount)
-	{
-		ParticlePart[] toReturn = new ParticlePart[amount];
-		for(int i = 0; i < amount; i++)
-			toReturn[i] = new ParticlePart(particle);
 		return toReturn;
 	}
 
