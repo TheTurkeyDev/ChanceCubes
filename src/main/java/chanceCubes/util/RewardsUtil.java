@@ -32,6 +32,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -268,7 +269,7 @@ public class RewardsUtil
 
 	public static Enchantment randomEnchantment()
 	{
-		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Enchantment.getEnchantmentByID(0));
+		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Registry.ENCHANTMENT.getRandom(rand));
 	}
 
 	public static Effect getRandomPotionEffect()
