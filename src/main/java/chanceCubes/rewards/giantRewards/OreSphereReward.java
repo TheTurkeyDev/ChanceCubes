@@ -19,7 +19,7 @@ public class OreSphereReward extends BaseCustomReward
 {
 	public OreSphereReward()
 	{
-		super(CCubesCore.MODID + ":Ore_Sphere", 0);
+		super(CCubesCore.MODID + ":ore_sphere", 0);
 	}
 
 	@Override

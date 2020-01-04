@@ -4,7 +4,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.parsers.RewardParser;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.*;
 import chanceCubes.rewards.rewardparts.CommandPart;
@@ -101,66 +100,62 @@ public class DefaultRewards
 				}
 
 				if(parsedReward.getValue())
-					GiantCubeRegistry.INSTANCE.registerReward(basicReward);
+					GlobalCCRewardRegistry.GIANT.registerReward(basicReward);
 				else
-					GlobalCCRewardRegistry.INSTANCE.registerReward(basicReward);
+					GlobalCCRewardRegistry.DEFAULT.registerReward(basicReward);
 			}
 		}
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Enchanting", 80, new ItemRewardType(new ItemPart(new ItemStack(Blocks.ENCHANTING_TABLE)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bookshelves", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.BOOKSHELF, 8)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Ores_Galore", 50, new ItemRewardType(RewardsUtil.generateItemParts(Items.COAL, Items.REDSTONE, Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND, Items.EMERALD))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", -10, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_CUBE, 3))), new MessageRewardType("I hear you like Chance Cubes.", "So I put some Chance Cubes in your Chance Cubes!")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType("Time to farm!"), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_HOE)), new ItemPart(new ItemStack(Items.BUCKET)), new ItemPart(new ItemStack(Items.WHEAT_SEEDS, 16)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Pig"))), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Cow"))), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Sheep"))))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 25, new MessageRewardType("SPARTAAA!!!"), new ItemRewardType(RewardsUtil.generateItemParts(Items.IRON_SWORD, Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pssst", -5, new MessageRewardType("Pssssst.... Over here!"), new EntityRewardType(new EntityPart("Creeper"))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 30, new MessageRewardType("Lets go on a journey!"), new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Items.COMPASS), new ItemStack(Items.CLOCK), new ItemStack(Blocks.TORCH, 64), new ItemStack(Items.IRON_PICKAXE)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Mitas", 50, new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Items.GOLD_NUGGET, 32), new ItemStack(Items.GOLD_INGOT, 8), new ItemStack(Items.GOLDEN_CARROT, 16), new ItemStack(Items.GOLDEN_HELMET)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -25, new MessageRewardType("Release the horde!"), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Zombie"), 15))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -40, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -5, new CommandRewardType("/weather thunder 20000")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -20, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.FISH, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("wolf"))))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Bone_Cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.BONE, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("ocelot"))))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType("/summon xp_orb ~ ~1 ~ {Value:1,Passengers:[{id:\"ender_crystal\"}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType("/summon ocelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"tnt\",Fuse:80}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Slime_Man", 10, new CommandRewardType("/summon slime ~ ~1 ~ {Size:3,Glowing:1b,Passengers:[{id:\"Slime\",Size:2,Glowing:1b,Passengers:[{id:\"Slime\",CustomName:\"Slime Man\",CustomNameVisible:1,Size:1,Glowing:1b}]}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 5, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.WATER, false)), new CommandRewardType("/summon Boat %x %y %z"), new MessageRewardType("Come sail away!")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -15, new CommandRewardType("/summon witch %x %y %z ")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 25, new CommandRewardType("/summon Chicken ~ ~1 ~ {CustomName:\"Cluckington\",CustomNameVisible:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980}],Passengers:[{id:\"Zombie\",CustomName:\"wyld\",CustomNameVisible:1,IsVillager:0,IsBaby:1,ArmorItems:[{},{},{},{id:\"minecraft:skull\",Damage:3,tag:{SkullOwner:\"wyld\"},Count:1}]}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 25, new CommandRewardType("/summon slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 25, new CommandRewardType("/summon zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 25, new CommandRewardType("/summon villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Pickles", 25, new CommandRewardType("/summon mooshroom ~ ~1 ~ {Age:-10000,CustomName:\"Pickles\"}"), new MessageRewardType("Why is his name pickles? The world may never know")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Want_To_Build_A_Snowman", 45, new MessageRewardType("Do you want to build a snowman?"), new ItemRewardType(new ItemPart(new ItemStack(Blocks.SNOW, 2)), new ItemPart(new ItemStack(Blocks.PUMPKIN)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Diamond_Block", 85, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.DIAMOND_BLOCK, true, 200))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.DIAMOND_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_GENERIC_EXPLODE, 120).setAtPlayersLocation(true))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_GHAST_SCREAM).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":No", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE, false)), new MessageRewardType("No")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Creeper", -30, new CommandRewardType("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zombie", -35, new CommandRewardType("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",CustomNameVisible:1,IsVillager:0,IsBaby:1,HandItems:[{id:stick,Count:1,tag:{AttributeModifiers:[{AttributeName:\"generic.knockbackResistance\",Name:\"generic.knockbackResistance\",Amount:100,Operation:0,UUIDLeast:724513,UUIDMost:715230}],ench:[{id:19,lvl:100}],display:{Name:\"The Spartan Kick\"}}},{}],HandDropChances:[0.0F,0.085F],ActiveEffects:[{Id:1,Amplifier:5,Duration:199980,ShowParticles:0b},{Id:8,Amplifier:2,Duration:199980}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Actual_Invisible_Ghast", -80, new CommandRewardType("/summon Ghast ~ ~10 ~ {ActiveEffects:[{Id:14,Amplifier:0,Duration:2000,ShowParticles:0b}]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Fireworks", 5, new CommandRewardType(RewardsUtil.executeXCommands("/summon fireworks_rocket ~ ~1 ~ {LifeTime:15,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Colors:[I;16711680],FadeColors:[I;16711680]}]}}}}", 4))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -50, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"tnt\",Fuse:80}]}", 10))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon bat ~ ~1 ~ {Passengers:[{id:\"magma_cube\",CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3}]}", 10))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,ArmorItems:[{},{},{id:diamond_chestplate,Count:1,tag:{ench:[{id:7,lvl:1000}]}},{}],ArmorDropChances:[0.085F,0.085F,0.0F,0.085F]}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":DIY_Pie", 5, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.PUMPKIN, false), new OffsetBlock(1, 1, 0, Blocks.REEDS, false)), new CommandRewardType("/summon Chicken ~ ~1 ~ {CustomName:\"Zeeth_Kyrah\",CustomNameVisible:1}"), new MessageRewardType("Do it yourself Pumpkin Pie!")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Coal_To_Diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":SpongeBob_SquarePants", 15, new CommandRewardType("/summon Item ~ ~ ~ {Item:{id:sponge,Count:1,tag:{display:{Name:\"SpongeBob\"}}}}", "/summon Item ~ ~ ~ {Item:{id:leather_leggings,Count:1,tag:{display:{Name:\"SquarePants\"}}}}")));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Quidditch", -30, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~ ~ {Passengers:[{id:\"Witch\"}]}", 7)), new MessageRewardType(new MessagePart("Quidditch anyone?").setRange(32))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":One_Man_Army", -10, new EntityRewardType("zombie_pigman"), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie_pigman ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cuteness", 10, new CommandRewardType(RewardsUtil.executeXCommands("/summon rabbit ~ ~1 ~ {CustomName:\"Fluffy\",CustomNameVisible:1,RabbitType:5}", 20)), new MessageRewardType(new MessagePart("Cuteness overload!").setRange(32))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -35, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Silverfish", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Glowing:1b,ActiveEffects:[{Id:1,Amplifier:1,Duration:200000},{Id:14,Amplifier:0,Duration:20000}],Passengers:[{id:\"Silverfish\",ActiveEffects:[{Id:14,Amplifier:0,Duration:20000}]}]}", 5))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Trap", -25, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/arrow_trap.ccs", true, new IntVar(1), new IntVar(-1), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0)))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Trampoline", 15, new MessageRewardType("Time to bounce!"), new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/trampoline.ccs", true, new IntVar(1), new IntVar(-3), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0))), new BlockRewardType(new OffsetBlock(2, -2, -2, Blocks.REDSTONE_BLOCK, false, 3).setRelativeToPlayer(true).setCausesBlockUpdate(true), new OffsetBlock(2, -2, -2, Blocks.REDSTONE_WIRE, false, 5).setRelativeToPlayer(true).setCausesBlockUpdate(true))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Skeleton_Bats", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"Skeleton\",ArmorItems:[{},{},{},{id:leather_helmet,Count:1}],HandItems:[{id:bow,Count:1},{}]}]}", 10))));
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie_Monster", -5, new MessageRewardType(new MessagePart("Here have some cookies!").setRange(32), new MessagePart("[Cookie Monster] Hey! Those are mine!", 30).setRange(32)), new CommandRewardType(new CommandPart("/summon item ~ ~1 ~ {Item:{id:\"minecraft:cookie\",Count:8b}}"), new CommandPart("/summon zombie ~ ~1 ~ {CustomName:\"Cookie Monster\",CustomNameVisible:1,IsVillager:0,IsBaby:1}", 30))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Have_Another", -10, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_CUBE, 3))), new MessageRewardType("I hear you like Chance Cubes.", "So I put some Chance Cubes in your Chance Cubes!")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Icsahedron", 0, new ItemRewardType(new ItemPart(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Farmer", 35, new MessageRewardType("Time to farm!"), new ItemRewardType(new ItemPart(new ItemStack(Items.IRON_HOE)), new ItemPart(new ItemStack(Items.BUCKET)), new ItemPart(new ItemStack(Items.WHEAT_SEEDS, 16)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Rancher", 60, new ItemRewardType(new ItemPart(new ItemStack(Blocks.OAK_FENCE, 32)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Pig"))), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Cow"))), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("Sheep"))))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Fighter", 25, new MessageRewardType("SPARTAAA!!!"), new ItemRewardType(RewardsUtil.generateItemParts(Items.IRON_SWORD, Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Pssst", -5, new MessageRewardType("Pssssst.... Over here!"), new EntityRewardType(new EntityPart("Creeper"))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Explorer", 30, new MessageRewardType("Lets go on a journey!"), new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Items.COMPASS), new ItemStack(Items.CLOCK), new ItemStack(Blocks.TORCH, 64), new ItemStack(Items.IRON_PICKAXE)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Mitas", 50, new ItemRewardType(RewardsUtil.generateItemParts(new ItemStack(Items.GOLD_NUGGET, 32), new ItemStack(Items.GOLD_INGOT, 8), new ItemStack(Items.GOLDEN_CARROT, 16), new ItemStack(Items.GOLDEN_HELMET)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Horde", -25, new MessageRewardType("Release the horde!"), new EntityRewardType(RewardsUtil.spawnXEntities(EntityRewardType.getBasicNBTForEntity("Zombie"), 15))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Lava_Ring", -40, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Rain", -5, new CommandRewardType("/weather thunder 20000")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Silverfish_Surround", -20, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 0, Blocks.MONSTER_EGG, false).setRelativeToPlayer(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Fish_Dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.FISH, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("wolf"))))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Bone_Cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.BONE, 5)), new ItemPart(RewardsUtil.getSpawnEggForEntity(new ResourceLocation("ocelot"))))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":XP_Crystal", -60, new CommandRewardType("/summon xp_orb ~ ~1 ~ {Value:1,Passengers:[{id:\"ender_crystal\"}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Cat", -25, new CommandRewardType("/summon ocelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"tnt\",Fuse:80}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Slime_Man", 10, new CommandRewardType("/summon slime ~ ~1 ~ {Size:3,Glowing:1b,Passengers:[{id:\"Slime\",Size:2,Glowing:1b,Passengers:[{id:\"Slime\",CustomName:\"Slime Man\",CustomNameVisible:1,Size:1,Glowing:1b}]}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Sail_Away", 5, new BlockRewardType(new OffsetBlock(0, -1, 0, Blocks.WATER, false)), new CommandRewardType("/summon Boat %x %y %z"), new MessageRewardType("Come sail away!")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Witch", -15, new CommandRewardType("/summon witch %x %y %z ")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Cluckington", 25, new CommandRewardType("/summon Chicken ~ ~1 ~ {CustomName:\"Cluckington\",CustomNameVisible:1,ActiveEffects:[{Id:1,Amplifier:3,Duration:199980}],Passengers:[{id:\"Zombie\",CustomName:\"wyld\",CustomNameVisible:1,IsVillager:0,IsBaby:1,ArmorItems:[{},{},{},{id:\"minecraft:skull\",Damage:3,tag:{SkullOwner:\"wyld\"},Count:1}]}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Jerry", 25, new CommandRewardType("/summon slime %x %y %z {Size:1,CustomName:\"Jerry\",CustomNameVisible:1}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Glenn", 25, new CommandRewardType("/summon zombie %x %y %z {CustomName:\"Glenn\",CustomNameVisible:1}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Dr_Trayaurus", 25, new CommandRewardType("/summon villager %x %y %z {CustomName:\"Dr Trayaurus\",CustomNameVisible:1,Profession:1}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Spawn_Pickles", 25, new CommandRewardType("/summon mooshroom ~ ~1 ~ {Age:-10000,CustomName:\"Pickles\"}"), new MessageRewardType("Why is his name pickles? The world may never know")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Want_To_Build_A_Snowman", 45, new MessageRewardType("Do you want to build a snowman?"), new ItemRewardType(new ItemPart(new ItemStack(Blocks.SNOW, 2)), new ItemPart(new ItemStack(Blocks.PUMPKIN)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Diamond_Block", 85, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.DIAMOND_BLOCK, true, 200))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.DIAMOND_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Fake_TNT", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_TNT_PRIMED), new SoundPart(SoundEvents.ENTITY_GENERIC_EXPLODE, 120).setAtPlayersLocation(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.ENTITY_GHAST_SCREAM).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true), new SoundPart(SoundEvents.ENTITY_GHAST_WARN).setServerWide(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":No", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE, false)), new MessageRewardType("No")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Invisible_Creeper", -30, new CommandRewardType("/summon Creeper %x %y %z {ActiveEffects:[{Id:14,Amplifier:0,Duration:200,ShowParticles:0b}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Knockback_Zombie", -35, new CommandRewardType("/summon Zombie ~ ~1 ~ {CustomName:\"Leonidas\",CustomNameVisible:1,IsVillager:0,IsBaby:1,HandItems:[{id:stick,Count:1,tag:{AttributeModifiers:[{AttributeName:\"generic.knockbackResistance\",Name:\"generic.knockbackResistance\",Amount:100,Operation:0,UUIDLeast:724513,UUIDMost:715230}],ench:[{id:19,lvl:100}],display:{Name:\"The Spartan Kick\"}}},{}],HandDropChances:[0.0F,0.085F],ActiveEffects:[{Id:1,Amplifier:5,Duration:199980,ShowParticles:0b},{Id:8,Amplifier:2,Duration:199980}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Actual_Invisible_Ghast", -80, new CommandRewardType("/summon Ghast ~ ~10 ~ {ActiveEffects:[{Id:14,Amplifier:0,Duration:2000,ShowParticles:0b}]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Fireworks", 5, new CommandRewardType(RewardsUtil.executeXCommands("/summon fireworks_rocket ~ ~1 ~ {LifeTime:15,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Colors:[I;16711680],FadeColors:[I;16711680]}]}}}}", 4))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":TNT_Bats", -50, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"tnt\",Fuse:80}]}", 10))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Nether_Jelly_Fish", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon bat ~ ~1 ~ {Passengers:[{id:\"magma_cube\",CustomName:\"Nether Jelly Fish\",CustomNameVisible:1,Size:3}]}", 10))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Pig_Of_Destiny", 15, new CommandRewardType("/summon Pig ~ ~1 ~ {CustomName:\"The Pig of Destiny\",CustomNameVisible:1,ArmorItems:[{},{},{id:diamond_chestplate,Count:1,tag:{ench:[{id:7,lvl:1000}]}},{}],ArmorDropChances:[0.085F,0.085F,0.0F,0.085F]}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":DIY_Pie", 5, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.PUMPKIN, false), new OffsetBlock(1, 1, 0, Blocks.REEDS, false)), new CommandRewardType("/summon Chicken ~ ~1 ~ {CustomName:\"Zeeth_Kyrah\",CustomNameVisible:1}"), new MessageRewardType("Do it yourself Pumpkin Pie!")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Coal_To_Diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":SpongeBob_SquarePants", 15, new CommandRewardType("/summon Item ~ ~ ~ {Item:{id:sponge,Count:1,tag:{display:{Name:\"SpongeBob\"}}}}", "/summon Item ~ ~ ~ {Item:{id:leather_leggings,Count:1,tag:{display:{Name:\"SquarePants\"}}}}")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Quidditch", -30, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~ ~ {Passengers:[{id:\"Witch\"}]}", 7)), new MessageRewardType(new MessagePart("Quidditch anyone?").setRange(32))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":One_Man_Army", -10, new EntityRewardType("zombie_pigman"), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombie_pigman ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Cuteness", 10, new CommandRewardType(RewardsUtil.executeXCommands("/summon rabbit ~ ~1 ~ {CustomName:\"Fluffy\",CustomNameVisible:1,RabbitType:5}", 20)), new MessageRewardType(new MessagePart("Cuteness overload!").setRange(32))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Silvermite_Stacks", -35, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\",Passengers:[{id:\"Endermite\",Passengers:[{id:\"Silverfish\"}]}]}]}]}]}]}]}]}]}]}", 5))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Invizible_Silverfish", -55, new CommandRewardType(RewardsUtil.executeXCommands("/summon Silverfish ~ ~1 ~ {Glowing:1b,ActiveEffects:[{Id:1,Amplifier:1,Duration:200000},{Id:14,Amplifier:0,Duration:20000}],Passengers:[{id:\"Silverfish\",ActiveEffects:[{Id:14,Amplifier:0,Duration:20000}]}]}", 5))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Arrow_Trap", -25, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/arrow_trap.ccs", true, new IntVar(1), new IntVar(-1), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Trampoline", 15, new MessageRewardType("Time to bounce!"), new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/trampoline.ccs", true, new IntVar(1), new IntVar(-3), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0))), new BlockRewardType(new OffsetBlock(2, -2, -2, Blocks.REDSTONE_BLOCK, false, 3).setRelativeToPlayer(true).setCausesBlockUpdate(true), new OffsetBlock(2, -2, -2, Blocks.REDSTONE_WIRE, false, 5).setRelativeToPlayer(true).setCausesBlockUpdate(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Skeleton_Bats", -40, new CommandRewardType(RewardsUtil.executeXCommands("/summon Bat ~ ~1 ~ {Passengers:[{id:\"Skeleton\",ArmorItems:[{},{},{},{id:leather_helmet,Count:1}],HandItems:[{id:bow,Count:1},{}]}]}", 10))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Cookie_Monster", -5, new MessageRewardType(new MessagePart("Here have some cookies!").setRange(32), new MessagePart("[Cookie Monster] Hey! Those are mine!", 30).setRange(32)), new CommandRewardType(new CommandPart("/summon item ~ ~1 ~ {Item:{id:\"minecraft:cookie\",Count:8b}}"), new CommandPart("/summon zombie ~ ~1 ~ {CustomName:\"Cookie Monster\",CustomNameVisible:1,IsVillager:0,IsBaby:1}", 30))));
 
-		ItemStack stack;
 		NBTTagCompound nbt;
 
 		TileEntitySign sign = new TileEntitySign();
@@ -168,7 +163,7 @@ public class DefaultRewards
 		sign.signText[1] = new TextComponentString("to succeed");
 		nbt = new NBTTagCompound();
 		((TileEntity) sign).writeToNBT(nbt);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.STANDING_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Path_To_Succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.STANDING_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
 
 
 		OffsetBlock[] blocks = new OffsetBlock[35];
@@ -187,9 +182,9 @@ public class DefaultRewards
 			}
 		}
 		blocks[i] = new OffsetBlock(0, 2, 0, Blocks.BEACON, true, 200);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":Beacon_Build", 100, new BlockRewardType(blocks)));
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Half_Heart", -30)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Half_Heart", -30)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -198,7 +193,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":No_Exp", -40)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":No_Exp", -40)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -210,7 +205,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Smite", -10)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Smite", -10)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -220,7 +215,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Cookie-splosion", 35)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Cookie-splosion", 35)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -240,7 +235,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Status_Effect", 0)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -260,7 +255,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Arrow_Spray", -15)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Arrow_Spray", -15)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -281,7 +276,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Lingering_Potions_Ring", -10)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -300,7 +295,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Charged_Creeper", -40)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Charged_Creeper", -40)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -324,7 +319,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Disco", 40)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Disco", 40)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -347,7 +342,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Ender_Crystal_Timer", -90)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Ender_Crystal_Timer", -90)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -367,7 +362,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":5_Prongs", -10)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":5_Prongs", -10)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -395,7 +390,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Inventory_Bomb", -55)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Inventory_Bomb", -55)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -425,7 +420,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Nuke", -75)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Nuke", -75)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -450,7 +445,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Teleport", -15)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Random_Teleport", -15)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -475,7 +470,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Rotten_Food", -30)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Rotten_Food", -30)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -491,7 +486,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Thrown_In_Air", -35)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Thrown_In_Air", -35)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -518,7 +513,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Torches_To_Creepers", -40)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Torches_To_Creepers", -40)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -544,7 +539,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Traveller", 15)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Traveller", 15)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -562,7 +557,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Troll_Hole", -20)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Troll_Hole", -20)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -588,7 +583,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Saw_Nothing_Diamond", 0)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Saw_Nothing_Diamond", 0)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -609,7 +604,7 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Hand_Enchant", 20)
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":Hand_Enchant", 20)
 		{
 			@Override
 			public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
@@ -647,55 +642,55 @@ public class DefaultRewards
 			}
 		});
 
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new AnvilRain());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new HerobrineReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new SurroundedReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new CreeperSurroundedReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new WitherReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new TrollTNTReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new WaitForItReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ClearInventoryReward());
-		// GlobalCCRewardRegistry.INSTANCE.registerReward(new ZombieCopyCatReward());
-		// GlobalCCRewardRegistry.INSTANCE.registerReward(new InventoryChestReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ItemOfDestinyReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new JukeBoxReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BookOfMemesReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new TableFlipReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new MazeReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new OneIsLuckyReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new SkyblockReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new CakeIsALieReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ItemRenamer());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new DoubleRainbow());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new WolvesToCreepersReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new DidYouKnowReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ArmorStandArmorReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new RainingCatsAndCogsReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ItemChestReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new MagicFeetReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new DigBuildReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new ChanceCubeRenameReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new CountDownReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new MobTowerReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new MontyHallReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new MatchingReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new TicTacToeReward());
-		// GlobalCCRewardRegistry.INSTANCE.registerReward(new MobEffectsReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BossMimicReward());
-		// GlobalCCRewardRegistry.INSTANCE.registerReward(new BossSlimeQueenReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BossWitchReward());
-		GlobalCCRewardRegistry.INSTANCE.registerReward(new BossBlazeReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new AnvilRain());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new HerobrineReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new SurroundedReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new CreeperSurroundedReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new WitherReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new TrollTNTReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new WaitForItReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ClearInventoryReward());
+		// GlobalCCRewardRegistry.DEFAULT.registerReward(new ZombieCopyCatReward());
+		// GlobalCCRewardRegistry.DEFAULT.registerReward(new InventoryChestReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ItemOfDestinyReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new JukeBoxReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BookOfMemesReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new TableFlipReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new MazeReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new OneIsLuckyReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new SkyblockReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new CakeIsALieReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ItemRenamer());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new DoubleRainbow());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new WolvesToCreepersReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new DidYouKnowReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ArmorStandArmorReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new RainingCatsAndCogsReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ItemChestReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new MagicFeetReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new DigBuildReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ChanceCubeRenameReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new CountDownReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new MobTowerReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new MontyHallReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new MatchingReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new TicTacToeReward());
+		// GlobalCCRewardRegistry.DEFAULT.registerReward(new MobEffectsReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossMimicReward());
+		// GlobalCCRewardRegistry.DEFAULT.registerReward(new BossSlimeQueenReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossWitchReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossBlazeReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(math);
+		GlobalCCRewardRegistry.DEFAULT.registerReward(math);
 
 		QuestionsReward question = new QuestionsReward();
 		MinecraftForge.EVENT_BUS.register(question);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(question);
+		GlobalCCRewardRegistry.DEFAULT.registerReward(question);
 
 		CoinFlipReward coinFlip = new CoinFlipReward();
 		MinecraftForge.EVENT_BUS.register(coinFlip);
-		GlobalCCRewardRegistry.INSTANCE.registerReward(coinFlip);
+		GlobalCCRewardRegistry.DEFAULT.registerReward(coinFlip);
 	}
 }

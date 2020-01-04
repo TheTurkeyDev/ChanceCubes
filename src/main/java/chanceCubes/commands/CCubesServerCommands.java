@@ -8,8 +8,8 @@ import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.profiles.GlobalProfileManager;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
@@ -94,11 +94,11 @@ public class CCubesServerCommands extends CommandBase
 		{
 			new Thread(() ->
 			{
-				GlobalCCRewardRegistry.INSTANCE.ClearRewards();
-				GiantCubeRegistry.INSTANCE.ClearRewards();
+				GlobalCCRewardRegistry.DEFAULT.ClearRewards();
+				GlobalCCRewardRegistry.GIANT.ClearRewards();
 				GlobalProfileManager.clearProfiles();
 				DefaultRewards.loadDefaultRewards();
-				GiantCubeRegistry.loadDefaultRewards();
+				DefaultGiantRewards.loadDefaultRewards();
 				CustomRewardsLoader.instance.loadCustomRewards();
 				GlobalCCRewardRegistry.loadCustomUserRewards(server);
 				ModHookUtil.loadCustomModRewards();
@@ -145,7 +145,7 @@ public class CCubesServerCommands extends CommandBase
 				if(args[1].equalsIgnoreCase("global"))
 				{
 					//TODO: Giant Cube Rewards
-					if(GlobalCCRewardRegistry.INSTANCE.disableReward(args[1]))
+					if(GlobalCCRewardRegistry.DEFAULT.disableReward(args[1]))
 						sender.sendMessage(new TextComponentString(args[1] + " Has been temporarily disabled."));
 					else
 						sender.sendMessage(new TextComponentString(args[1] + " is either not currently enabled or is not a valid reward name."));
@@ -168,7 +168,7 @@ public class CCubesServerCommands extends CommandBase
 				if(args[1].equalsIgnoreCase("global"))
 				{
 					//TODO: Giant Cube Rewards
-					if(GlobalCCRewardRegistry.INSTANCE.enableReward(args[1]))
+					if(GlobalCCRewardRegistry.DEFAULT.enableReward(args[1]))
 						sender.sendMessage(new TextComponentString(args[1] + " Has been enabled."));
 					else
 						sender.sendMessage(new TextComponentString(args[1] + " is either not currently disabled or is not a valid reward name."));
@@ -226,8 +226,8 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.INSTANCE.getNumberOfLoadedRewards() + " regular rewards loaded"));
-			sender.sendMessage(new TextComponentString("There are currently " + GiantCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " giant rewards loaded and " + GiantCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded"));
+			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded"));
 		}
 		else if(args[0].equalsIgnoreCase("testRewards"))
 		{
@@ -347,9 +347,9 @@ public class CCubesServerCommands extends CommandBase
 		{
 			//TODO: make enable and disable smarter
 			if(args[0].equalsIgnoreCase("disableReward"))
-				return new ArrayList<>(GlobalCCRewardRegistry.INSTANCE.getRewardNames());
+				return new ArrayList<>(GlobalCCRewardRegistry.DEFAULT.getRewardNames());
 			else if(args[0].equalsIgnoreCase("enableReward"))
-				return new ArrayList<>(GlobalCCRewardRegistry.INSTANCE.getRewardNames());
+				return new ArrayList<>(GlobalCCRewardRegistry.DEFAULT.getRewardNames());
 			else if(args[0].equalsIgnoreCase("schematic") && args.length == 2)
 				return Arrays.asList("create", "cancel");
 		}

@@ -21,7 +21,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 
 	public RainingCatsAndCogsReward()
 	{
-		super(CCubesCore.MODID + ":Cats_And_Dogs", 15);
+		super(CCubesCore.MODID + ":cats_and_dogs", 15);
 	}
 
 	@Override

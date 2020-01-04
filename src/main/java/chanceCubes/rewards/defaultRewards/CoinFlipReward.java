@@ -26,7 +26,7 @@ public class CoinFlipReward extends BaseCustomReward
 
 	public CoinFlipReward()
 	{
-		super(CCubesCore.MODID + ":Heads_or_Tails", 0);
+		super(CCubesCore.MODID + ":heads_or_tails", 0);
 	}
 
 	@Override

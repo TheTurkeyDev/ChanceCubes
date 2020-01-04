@@ -12,7 +12,7 @@ import chanceCubes.items.CCubesItems;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.proxy.CommonProxy;
-import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CCubesRecipies;
@@ -109,7 +109,7 @@ public class CCubesCore
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		DefaultRewards.loadDefaultRewards();
-		GiantCubeRegistry.loadDefaultRewards();
+		DefaultGiantRewards.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		GlobalProfileManager.initProfiles();
 		CustomProfileLoader.instance.loadProfiles();

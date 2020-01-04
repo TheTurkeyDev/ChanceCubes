@@ -18,7 +18,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 {
 	public ItemOfDestinyReward()
 	{
-		super(CCubesCore.MODID + ":Item_Of_Destiny", 40);
+		super(CCubesCore.MODID + ":item_of_destiny", 40);
 	}
 
 	@Override

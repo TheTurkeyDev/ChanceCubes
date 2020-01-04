@@ -14,7 +14,7 @@ public class BioDomeReward extends BaseCustomReward
 {
 	public BioDomeReward()
 	{
-		super(CCubesCore.MODID + ":BioDome", 0);
+		super(CCubesCore.MODID + ":biodome", 0);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
 import chanceCubes.parsers.RewardParser;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.sounds.CustomSoundsLoader;
@@ -81,9 +80,9 @@ public class CustomRewardsLoader
 					}
 
 					if(parsedReward.getValue())
-						GiantCubeRegistry.INSTANCE.registerReward(basicReward);
+						GlobalCCRewardRegistry.GIANT.registerReward(basicReward);
 					else
-						GlobalCCRewardRegistry.INSTANCE.registerReward(basicReward);
+						GlobalCCRewardRegistry.DEFAULT.registerReward(basicReward);
 
 					addedRewards++;
 				}
@@ -153,9 +152,9 @@ public class CustomRewardsLoader
 		{
 			for(JsonElement reward : disabledRewards)
 			{
-				boolean removed = GlobalCCRewardRegistry.INSTANCE.disableReward(reward.getAsString());
+				boolean removed = GlobalCCRewardRegistry.DEFAULT.disableReward(reward.getAsString());
 				if(!removed)
-					removed = GiantCubeRegistry.INSTANCE.unregisterReward(reward.getAsString());
+					removed = GlobalCCRewardRegistry.GIANT.disableReward(reward.getAsString());
 
 				if(removed)
 					CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");

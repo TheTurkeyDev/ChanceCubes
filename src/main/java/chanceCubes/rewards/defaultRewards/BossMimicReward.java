@@ -15,7 +15,7 @@ public class BossMimicReward extends BossBaseReward
 {
 	public BossMimicReward()
 	{
-		super("Mimic");
+		super("mimic");
 	}
 
 	@Override

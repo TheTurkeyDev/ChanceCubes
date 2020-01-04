@@ -20,7 +20,8 @@ import java.util.Set;
 
 public class GlobalCCRewardRegistry
 {
-	public static GlobalCCRewardRegistry INSTANCE = new GlobalCCRewardRegistry();
+	public static GlobalCCRewardRegistry DEFAULT = new GlobalCCRewardRegistry();
+	public static GlobalCCRewardRegistry GIANT = new GlobalCCRewardRegistry();
 
 	private Map<String, GlobalRewardInfo> nameToReward = new HashMap<>();
 	private Map<String, PlayerCCRewardRegistry> playerToRewards = new HashMap<>();

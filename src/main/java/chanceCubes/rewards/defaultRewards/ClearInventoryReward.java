@@ -20,7 +20,7 @@ public class ClearInventoryReward extends BaseCustomReward
 
 	public ClearInventoryReward()
 	{
-		super(CCubesCore.MODID + ":Clear_Inventory", -100);
+		super(CCubesCore.MODID + ":clear_inventory", -100);
 	}
 
 	@Override

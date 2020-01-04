@@ -16,7 +16,7 @@ public class FireworkShowReward extends BaseCustomReward
 {
 	public FireworkShowReward()
 	{
-		super(CCubesCore.MODID + ":Firework_Show", 0);
+		super(CCubesCore.MODID + ":firework_show", 0);
 	}
 
 	@Override

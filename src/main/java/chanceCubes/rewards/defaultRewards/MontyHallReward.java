@@ -26,7 +26,7 @@ public class MontyHallReward extends BaseCustomReward
 {
 	public MontyHallReward()
 	{
-		super(CCubesCore.MODID + ":Monty_Hall", 0);
+		super(CCubesCore.MODID + ":monty_hall", 0);
 	}
 
 	@Override

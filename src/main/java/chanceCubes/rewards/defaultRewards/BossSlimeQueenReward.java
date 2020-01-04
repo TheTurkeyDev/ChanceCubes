@@ -22,7 +22,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 {
 	public BossSlimeQueenReward()
 	{
-		super("Slime_Queen");
+		super("slime_queen");
 	}
 
 	@Override

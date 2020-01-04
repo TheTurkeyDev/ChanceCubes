@@ -36,7 +36,7 @@ public class BossWitchReward extends BossBaseReward
 	//@formatter:on
 	public BossWitchReward()
 	{
-		super("Evil_Witch");
+		super("evil_witch");
 	}
 
 	@Override

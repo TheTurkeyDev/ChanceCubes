@@ -1,0 +1,13 @@
+{
+  "chancecubes:enchanting": {
+    "chance": 80,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:enchant_table",
+          "Count": 1
+        }
+      }
+    ]
+  }
+}

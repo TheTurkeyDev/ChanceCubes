@@ -39,7 +39,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	public BossBaseReward(String bossName)
 	{
-		super(CCubesCore.MODID + ":Boss_" + bossName, -35);
+		super(CCubesCore.MODID + ":boss_" + bossName, -35);
 		this.bossName = bossName.replace("_", " ");
 	}
 

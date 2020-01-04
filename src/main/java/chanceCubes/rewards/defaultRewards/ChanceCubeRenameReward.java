@@ -26,7 +26,7 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	// @formatter:on
 	public ChanceCubeRenameReward()
 	{
-		super(CCubesCore.MODID + ":Cube_Rename", 0);
+		super(CCubesCore.MODID + ":cube_rename", 0);
 	}
 
 	@Override

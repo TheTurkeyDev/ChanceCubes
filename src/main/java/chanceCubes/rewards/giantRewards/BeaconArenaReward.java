@@ -29,7 +29,7 @@ public class BeaconArenaReward extends BaseCustomReward
 
 	public BeaconArenaReward()
 	{
-		super(CCubesCore.MODID + ":Beacon_Arena", 0);
+		super(CCubesCore.MODID + ":beacon_arena", 0);
 	}
 
 	@Override

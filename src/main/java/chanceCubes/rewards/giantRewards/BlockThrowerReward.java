@@ -37,7 +37,7 @@ public class BlockThrowerReward extends BaseCustomReward
 {
 	public BlockThrowerReward()
 	{
-		super(CCubesCore.MODID + ":Block_Thrower", 0);
+		super(CCubesCore.MODID + ":block_thrower", 0);
 	}
 
 	@Override

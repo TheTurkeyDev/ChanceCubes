@@ -1,11 +1,8 @@
 package chanceCubes.profiles;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.profiles.triggers.ITrigger;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
-import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,29 +78,36 @@ public class BasicProfile implements IProfile
 	@Override
 	public void onEnable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
-		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry defaultPlayerRewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry giantPlayerRewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(playerUUID);
+
 		for(IProfile prof : this.subProfiles)
 			if(!playerProfileManager.isProfileEnabled(prof))
 				prof.onEnable(playerProfileManager, playerUUID);
 
 		for(String s : this.rewardsToDisable)
 		{
-			if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(s))
-				playerRewards.disableReward(s);
-			else if(!GiantCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.disableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.disableReward(s);
 		}
 
 		for(String s : this.rewardsToEnable)
 		{
-			if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(s))
-				playerRewards.enableReward(s);
-			else if(!GiantCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.enableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.enableReward(s);
 		}
 
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			playerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(rewardInfo.getKey()))
+				defaultPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(rewardInfo.getKey()))
+				giantPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		}
 	}
 
 	@Override
@@ -112,28 +116,34 @@ public class BasicProfile implements IProfile
 		if(playerProfileManager.isProfileEnabled(this))
 			return;
 
-		PlayerCCRewardRegistry playerRewards = GlobalCCRewardRegistry.INSTANCE.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry defaultPlayerRewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry giantPlayerRewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(playerUUID);
 		for(IProfile prof : this.subProfiles)
 			prof.onDisable(playerProfileManager, playerUUID);
 
 		for(String s : this.rewardsToDisable)
 		{
-			if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(s))
-				playerRewards.enableReward(s);
-			else if(!GiantCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.enableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.enableReward(s);
 		}
 
 		for(String s : this.rewardsToEnable)
 		{
-			if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(s))
-				playerRewards.disableReward(s);
-			else if(!GiantCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.disableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.disableReward(s);
 		}
 
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			playerRewards.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(rewardInfo.getKey()))
+				defaultPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(rewardInfo.getKey()))
+				giantPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		}
 	}
 
 	public Map<String, Map<String, Object>> getRewardSettings()

@@ -3,7 +3,7 @@ package chanceCubes.blocks;
 import java.util.Random;
 
 import chanceCubes.items.CCubesItems;
-import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
@@ -74,7 +74,7 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 					return false;
 				}
 				RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:giant_chance_cube");
-				GiantCubeRegistry.INSTANCE.triggerRandomReward(world, te.getMasterPostion(), player, 0);
+				GlobalCCRewardRegistry.GIANT.triggerRandomReward(world, te.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
 			}
 		}

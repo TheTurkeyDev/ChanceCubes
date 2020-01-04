@@ -3,7 +3,6 @@ package chanceCubes.client.gui;
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -69,7 +68,7 @@ public class RewardSelectorPendantGui extends GuiScreen
 		{
 			if(button.id == 0)
 			{
-				if(GlobalCCRewardRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(this.rewardField.getText()) != null)
+				if(GlobalCCRewardRegistry.DEFAULT.getRewardByName(this.rewardField.getText()) != null || GlobalCCRewardRegistry.GIANT.getRewardByName(this.rewardField.getText()) != null)
 				{
 					NBTTagCompound nbt = stack.getTagCompound();
 					if(nbt == null)

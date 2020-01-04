@@ -19,7 +19,7 @@ public class ItemChestReward extends BaseCustomReward
 {
 	public ItemChestReward()
 	{
-		super(CCubesCore.MODID + ":Item_Chest", 25);
+		super(CCubesCore.MODID + ":item_chest", 25);
 	}
 
 	//@formatter:off

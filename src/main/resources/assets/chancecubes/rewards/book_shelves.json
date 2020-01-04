@@ -1,0 +1,13 @@
+{
+  "chancecubes:bookshelves": {
+    "chance": 60,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:book_shelf",
+          "Count": 8
+        }
+      }
+    ]
+  }
+}

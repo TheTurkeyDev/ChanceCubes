@@ -2,7 +2,6 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
@@ -51,10 +50,10 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			if(world.getBlockState(pos).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 			{
 				world.setBlockToAir(pos);
-				IChanceCubeReward reward = GlobalCCRewardRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
 				{
-					GlobalCCRewardRegistry.INSTANCE.triggerReward(reward, world, pos, player);
+					GlobalCCRewardRegistry.DEFAULT.triggerReward(reward, world, pos, player);
 					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}
 				else
@@ -69,10 +68,10 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				if(!(ent instanceof TileGiantCube))
 					return EnumActionResult.FAIL;
 				TileGiantCube giant = (TileGiantCube) ent;
-				IChanceCubeReward reward = GiantCubeRegistry.INSTANCE.getRewardByName(stack.getTagCompound().getString("Reward"));
+				IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(stack.getTagCompound().getString("Reward"));
 				if(reward != null)
 				{
-					GiantCubeRegistry.INSTANCE.triggerReward(reward, world, pos, player);
+					GlobalCCRewardRegistry.GIANT.triggerReward(reward, world, pos, player);
 					GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				}

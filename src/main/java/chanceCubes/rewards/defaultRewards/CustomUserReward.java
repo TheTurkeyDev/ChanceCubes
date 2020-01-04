@@ -89,7 +89,7 @@ public class CustomUserReward extends BaseCustomReward
 		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() ->
 		{
 			//TODO: Only register/ enable for that user?
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 			player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
 			player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
@@ -98,7 +98,7 @@ public class CustomUserReward extends BaseCustomReward
 
 	public CustomUserReward(String un, UUID uuid, String type, List<BasicReward> rewards)
 	{
-		super(CCubesCore.MODID + ":CR_" + un, 0);
+		super(CCubesCore.MODID + ":cr_" + un, 0);
 		this.userName = un;
 		this.uuid = uuid;
 		this.type = type;

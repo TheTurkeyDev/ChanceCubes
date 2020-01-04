@@ -17,7 +17,7 @@ public class BookOfMemesReward extends BaseCustomReward
 
 	public BookOfMemesReward()
 	{
-		super(CCubesCore.MODID + ":Book_of_Memes", 0);
+		super(CCubesCore.MODID + ":book_of_memes", 0);
 		memes.add("Sodium, atomic number 11, was first isolated by Peter Dager in 1807. A chemical component of salt, he named it Na in honor of the saltiest region on earth, North America.");
 		memes.add("(╯°□°）╯︵ ┻━┻ \n ༼ᕗຈل͜ຈ༽ᕗ RAISE YOUR DONGERS ༼ᕗຈل͜ຈ༽ᕗ");
 		memes.add("Darude- status \n ☐ Not Sandstorm \n ☑ Sandstorm");

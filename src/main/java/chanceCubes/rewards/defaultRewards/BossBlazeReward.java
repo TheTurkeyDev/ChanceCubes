@@ -19,7 +19,7 @@ public class BossBlazeReward extends BossBaseReward
 {
 	public BossBlazeReward()
 	{
-		super("Demonic_Blaze");
+		super("demonic_blaze");
 	}
 
 	@Override

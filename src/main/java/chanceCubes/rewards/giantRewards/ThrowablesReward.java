@@ -20,7 +20,7 @@ public class ThrowablesReward extends BaseCustomReward
 {
 	public ThrowablesReward()
 	{
-		super(CCubesCore.MODID + ":Throwables", 0);
+		super(CCubesCore.MODID + ":throwables", 0);
 	}
 	
 	@Override
