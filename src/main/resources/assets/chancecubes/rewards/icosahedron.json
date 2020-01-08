@@ -1,0 +1,13 @@
+{
+  "chancecubes:icsahedron": {
+    "chance": 0,
+    "Item": [
+      {
+        "item": {
+          "id": "chancecubes:chance_icosahedron",
+          "Count": 1
+        }
+      }
+    ]
+  }
+}
