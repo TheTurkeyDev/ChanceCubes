@@ -37,14 +37,14 @@ public class ExtraUtilsModHook extends BaseModHook
 			nbt.setString("Type", "extrautils2:generator_pink");
 			stack.setTagCompound(nbt);
 			stack.setStackDisplayName("Useless Generator");
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Pink_Generator", 80, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":pink_generator", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "wateringcan", 1);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(0);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Watering_Can", 30, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":watering_can", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "drum", 1);
@@ -54,99 +54,99 @@ public class ExtraUtilsModHook extends BaseModHook
 			NBTTagCompound nbt = new NBTTagCompound();
 			new FluidStack(FluidRegistry.WATER, 65536000).writeToNBT(nbt);
 			stack.setTagInfo("Fluid", nbt);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Water_Drum", 80, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":water_drum", 80, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "biomemarker", 1);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Biome_Marker", 75, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":biome_marker", 75, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "snowglobe", 1);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Snow_Globe", 90, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":snow_globe", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "suncrystal", 1);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(250);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Sun_Crystal", 85, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":sun_crystal", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "interactionproxy", 1);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Porcupine", 90, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":ender_porcupine", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "klein", 1);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Klein_Bottle", 85, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":klein_bottle", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "minichest", 1);
 		if(!stack.isEmpty())
 		{
 			stack.setStackDisplayName("World's Smallest Chest");
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Mini_Chest", 30, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":mini_chest", 30, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "bagofholding", 1);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Golden_Bag", 90, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":golden_bag", 90, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "enderlilly", 3);
 		if(!stack.isEmpty())
 		{
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Ender_Lilly", 65, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":ender_lilly", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedcobblestone", 4);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(5);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Cobble", 45, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":compressed_cobble", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressednetherrack", 4);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(5);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Netherrack", 65, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":compressed_netherrack", 65, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compresseddirt", 4);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(3);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Dirt", 50, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":compressed_dirt", 50, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedgravel", 4);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(1);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Gravel", 45, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":compressed_gravel", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "compressedsand", 4);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(1);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Compressed_Sand", 45, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":compressed_sand", 45, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		stack = RewardsUtil.getItemStack(super.modId, "decorativesolid", 1);
 		if(!stack.isEmpty())
 		{
 			stack.setItemDamage(8);
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Rainbow_Stone", 85, new ItemRewardType(new ItemPart(stack))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":rainbow_stone", 85, new ItemRewardType(new ItemPart(stack))));
 		}
 
 		block = RewardsUtil.getBlock(super.modId, "spike_iron");
@@ -175,7 +175,7 @@ public class ExtraUtilsModHook extends BaseModHook
 
 				}
 			}
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Spikes", -40, new BlockRewardType(spikes)));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":spikes", -40, new BlockRewardType(spikes)));
 		}
 
 		block = RewardsUtil.getBlock(super.modId, "cursedearth");
@@ -191,7 +191,7 @@ public class ExtraUtilsModHook extends BaseModHook
 					index++;
 				}
 			}
-			GlobalCCRewardRegistry.INSTANCE.registerReward(new BasicReward(this.modId + ":Cursed", -60, new BlockRewardType(cursedEarth), new CommandRewardType(new CommandPart("/time set 15000"))));
+			GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(this.modId + ":cursed", -60, new BlockRewardType(cursedEarth), new CommandRewardType(new CommandPart("/time set 15000"))));
 		}
 	}
 }

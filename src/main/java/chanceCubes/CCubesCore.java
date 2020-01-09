@@ -107,7 +107,6 @@ public class CCubesCore
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
-		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:obsidian"), 0));
 		DefaultRewards.loadDefaultRewards();
 		DefaultGiantRewards.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();

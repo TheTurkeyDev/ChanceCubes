@@ -9,6 +9,7 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.registry.player.PlayerRewardInfo;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
@@ -105,6 +106,7 @@ public class CCubesServerCommands extends CommandBase
 				NonreplaceableBlockOverride.loadOverrides();
 				GlobalProfileManager.initProfiles();
 				CustomProfileLoader.instance.loadProfiles();
+				GlobalProfileManager.updateProfilesForWorld(server.getEntityWorld());
 				sender.sendMessage(new TextComponentString("Rewards Reloaded"));
 			}).start();
 		}
@@ -226,8 +228,34 @@ public class CCubesServerCommands extends CommandBase
 		}
 		else if(args[0].equalsIgnoreCase("rewardsInfo"))
 		{
-			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded"));
-			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded"));
+			int defaultEnabled = 0;
+			int giantEnabled = 0;
+			if(sender instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) sender;
+				List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
+				List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
+				defaultEnabled = defaultrewards.size();
+				giantEnabled = giantrewards.size();
+				if(args.length > 1 && args[1].equalsIgnoreCase("list"))
+				{
+					if(args.length > 2 && args[2].equalsIgnoreCase("default"))
+					{
+						sender.sendMessage(new TextComponentString("===DEFAULT REWARDS==="));
+						for(PlayerRewardInfo reward : defaultrewards)
+							sender.sendMessage(new TextComponentString(reward.reward.getName()));
+					}
+					else if(args.length > 2 && args[2].equalsIgnoreCase("giant"))
+					{
+						sender.sendMessage(new TextComponentString("===GIANT REWARDS==="));
+						for(PlayerRewardInfo reward : giantrewards)
+							sender.sendMessage(new TextComponentString(reward.reward.getName()));
+					}
+				}
+			}
+
+			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled"));
+			sender.sendMessage(new TextComponentString("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled"));
 		}
 		else if(args[0].equalsIgnoreCase("testRewards"))
 		{

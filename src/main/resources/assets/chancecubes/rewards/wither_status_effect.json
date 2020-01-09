@@ -4,8 +4,8 @@
     "Effect": [
       {
         "potionid": "wither",
-        "duration": "%%[3, 5, 6, 8, 10]%%",
-        "amplifier": "%%[1, 2]%%",
+        "duration": "%%[3,5,6,8,10]%%",
+        "amplifier": "%%[1,2]%%",
         "radius": 32
       }
     ]

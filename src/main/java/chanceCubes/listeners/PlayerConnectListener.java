@@ -26,11 +26,12 @@ public class PlayerConnectListener
 			return;
 
 		String rewardName = CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName();
-		if(GlobalCCRewardRegistry.INSTANCE.isRewardEnabled(rewardName))
-			GlobalCCRewardRegistry.INSTANCE.unregisterReward(rewardName);
+		if(GlobalCCRewardRegistry.DEFAULT.isRewardEnabled(rewardName))
+			GlobalCCRewardRegistry.DEFAULT.unregisterReward(rewardName);
 
 		String playerUUID = event.player.getUniqueID().toString();
-		GlobalCCRewardRegistry.INSTANCE.removePlayerRewards(playerUUID);
+		GlobalCCRewardRegistry.DEFAULT.removePlayerRewards(playerUUID);
+		GlobalCCRewardRegistry.GIANT.removePlayerRewards(playerUUID);
 		GlobalProfileManager.removePlayerProfile(playerUUID);
 	}
 }

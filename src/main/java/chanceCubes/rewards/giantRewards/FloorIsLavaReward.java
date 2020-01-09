@@ -60,11 +60,4 @@ public class FloorIsLavaReward extends BaseCustomReward
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}
-
-	@Override
-	public String getName()
-	{
-		return CCubesCore.MODID + ":Floor_Is_Lava";
-	}
-
 }

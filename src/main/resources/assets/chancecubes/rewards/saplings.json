@@ -5,42 +5,42 @@
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 0,
+          "Damage": 0,
           "Count": 4
         }
       },
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 1,
+          "Damage": 1,
           "Count": 4
         }
       },
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 2,
+          "Damage": 2,
           "Count": 4
         }
       },
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 3,
+          "Damage": 3,
           "Count": 4
         }
       },
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 4,
+          "Damage": 4,
           "Count": 4
         }
       },
       {
         "item": {
           "id": "minecraft:sapling",
-          "damage": 5,
+          "Damage": 5,
           "Count": 4
         }
       }

@@ -1,15 +1,15 @@
 package chanceCubes.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import chanceCubes.CCubesCore;
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles modifications to {@link CCubesSettings#nonReplaceableBlocks} after blocks have been added by IMC messages.
@@ -247,6 +247,10 @@ public class NonreplaceableBlockOverride
 			CCubesSettings.nonReplaceableBlocks = CCubesSettings.nonReplaceableBlocksIMC;
 			CCubesSettings.nonReplaceableBlocks.addAll(CCubesSettings.backupNRB);
 		}
+
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.getDefaultState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.getDefaultState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState());
 	}
 
 	/**

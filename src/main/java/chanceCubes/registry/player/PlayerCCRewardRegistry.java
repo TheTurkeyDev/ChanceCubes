@@ -2,7 +2,6 @@ package chanceCubes.registry.player;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.items.ItemChancePendant;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
@@ -26,8 +25,10 @@ public class PlayerCCRewardRegistry
 
 	public boolean enableReward(String reward)
 	{
-		if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(reward))
-			return this.enableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(reward))
+			return this.enableReward(GlobalCCRewardRegistry.DEFAULT.getRewardByName(reward));
+		else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(reward))
+			return this.enableReward(GlobalCCRewardRegistry.GIANT.getRewardByName(reward));
 		return false;
 	}
 
@@ -50,8 +51,10 @@ public class PlayerCCRewardRegistry
 
 	public boolean disableReward(String reward)
 	{
-		if(GlobalCCRewardRegistry.INSTANCE.isValidRewardName(reward))
-			return this.disableReward(GlobalCCRewardRegistry.INSTANCE.getRewardByName(reward));
+		if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(reward))
+			return this.disableReward(GlobalCCRewardRegistry.DEFAULT.getRewardByName(reward));
+		else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(reward))
+			return this.disableReward(GlobalCCRewardRegistry.GIANT.getRewardByName(reward));
 		return false;
 	}
 
