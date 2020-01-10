@@ -34,13 +34,8 @@ public class GlobalCCRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward)
 	{
-		this.registerReward(reward, true);
-	}
-
-	public void registerReward(IChanceCubeReward reward, boolean enabledDefault)
-	{
 		if(!this.nameToReward.containsKey(reward.getName()))
-			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, ConfigLoader.config.getBoolean(reward.getName(), ConfigLoader.rewardCat, enabledDefault, "")));
+			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, true));
 	}
 
 	public boolean unregisterReward(String name)
@@ -188,7 +183,6 @@ public class GlobalCCRewardRegistry
 	public void ClearRewards()
 	{
 		this.nameToReward.clear();
-		//TODO: Should we claear this?
 		this.playerToRewards.clear();
 	}
 }

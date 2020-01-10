@@ -251,6 +251,18 @@ public class CCubesServerCommands extends CommandBase
 						for(PlayerRewardInfo reward : giantrewards)
 							sender.sendMessage(new TextComponentString(reward.reward.getName()));
 					}
+					else if(args.length > 2 && args[2].equalsIgnoreCase("defaultall"))
+					{
+						sender.sendMessage(new TextComponentString("===DEFAULT REWARDS==="));
+						for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
+							sender.sendMessage(new TextComponentString(reward));
+					}
+					else if(args.length > 2 && args[2].equalsIgnoreCase("giantall"))
+					{
+						sender.sendMessage(new TextComponentString("===GIANT REWARDS==="));
+						for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
+							sender.sendMessage(new TextComponentString(reward));
+					}
 				}
 			}
 
