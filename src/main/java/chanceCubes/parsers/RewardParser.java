@@ -353,9 +353,9 @@ public class RewardParser
 		for(JsonElement elementElem : rawReward)
 		{
 			JsonObject element = elementElem.getAsJsonObject();
-			EffectPart effectPart = new EffectPart(ParserUtil.getString(element, "potionID", "speed"), ParserUtil.getInt(element, "duration", 1), ParserUtil.getInt(element, "amplifier", 0));
+			EffectPart effectPart = new EffectPart(ParserUtil.getString(element, "potionid", "speed"), ParserUtil.getInt(element, "duration", 1), ParserUtil.getInt(element, "amplifier", 0));
 
-			effectPart.setDelay(ParserUtil.getInt(element, "radius", 1));
+			effectPart.setRadius(ParserUtil.getInt(element, "radius", 1));
 
 			effectPart.setDelay(ParserUtil.getInt(element, "delay", effectPart.getDelay()));
 

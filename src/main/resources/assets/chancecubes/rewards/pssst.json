@@ -1,0 +1,18 @@
+{
+  "chancecubes:pssst": {
+    "chance": -5,
+    "Entity": [
+      {
+        "entity": {
+          "id": "Creeper"
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "Pssssst.... Over here!",
+        "range": 25
+      }
+    ]
+  }
+}
