@@ -1,15 +1,15 @@
 {
-  "chancecubes:notch": {
+  "chancecubes:nether_star": {
     "chance": 100,
     "Item": [
       {
         "item": {
-          "id": "minecraft:golden_apple",
+          "id": "minecraft:nether_star",
           "Count": 1
         },
         "tag": {
           "display": {
-            "Name": "North Star"
+            "Name": "North Start"
           }
         }
       }
