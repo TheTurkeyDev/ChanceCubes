@@ -44,36 +44,42 @@ public class ItemChestReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				spawnItems(world, pos, chest);
-				chest.numPlayersUsing++;
-				world.addBlockEvent(pos, chest.getBlockType(), 1, chest.numPlayersUsing);
-				world.notifyNeighborsOfStateChange(pos, chest.getBlockType(), true);
-				world.notifyNeighborsOfStateChange(pos.down(), chest.getBlockType(), true);
+				if(chest == null)
+				{
+					spawnItems(world, pos);
+				}
+				else
+				{
+					spawnItems(chest.getWorld(), chest.getPos());
+					chest.numPlayersUsing++;
+					world.addBlockEvent(pos, chest.getBlockType(), 1, chest.numPlayersUsing);
+					world.notifyNeighborsOfStateChange(pos, chest.getBlockType(), true);
+					world.notifyNeighborsOfStateChange(pos.down(), chest.getBlockType(), true);
+				}
 			}
 		});
 	}
 
-	public void spawnItems(World world, BlockPos pos, TileEntityChest chest)
+	public void spawnItems(World world, BlockPos pos)
 	{
 		Scheduler.scheduleTask(new Task("Item_Chest_Squids", 250, 5)
 		{
 			@Override
 			public void callback()
 			{
-				if(chest != null)
-					chest.getWorld().setBlockToAir(chest.getPos());
+					world.setBlockToAir(pos);
 			}
 
 			@Override
 			public void update()
 			{
-				if(chest == null || !(chest.getWorld().getTileEntity(chest.getPos()) instanceof  TileEntityChest))
+				if(!(world.getTileEntity(pos) instanceof  TileEntityChest))
 				{
 					Scheduler.removeTask(this);
 					return;
 				}
-				EntityItem item = new EntityItem(chest.getWorld(),  chest.getPos().getX() + 0.5, chest.getPos().getY() + 0.5, chest.getPos().getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
-				chest.getWorld().spawnEntity(item);
+				EntityItem item = new EntityItem(world,  pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
+				world.spawnEntity(item);
 				item.motionX = 0;
 				item.motionY = 1.5;
 				item.motionZ = -1;

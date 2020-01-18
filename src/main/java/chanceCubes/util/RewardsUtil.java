@@ -39,7 +39,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class RewardsUtil
 {
@@ -77,14 +77,6 @@ public class RewardsUtil
 		fluids.addAll(FluidRegistry.getRegisteredFluids().keySet());
 	}
 
-	public static EntityPart[] spawnXEntities(NBTTagCompound entityNbt, int amount)
-	{
-		EntityPart[] toReturn = new EntityPart[amount];
-		for(int i = 0; i < amount; i++)
-			toReturn[i] = new EntityPart(entityNbt);
-		return toReturn;
-	}
-
 	public static CommandPart[] executeXCommands(String command, int amount)
 	{
 		CommandPart[] toReturn = new CommandPart[amount];
@@ -102,22 +94,6 @@ public class RewardsUtil
 			part.setDelay(delay);
 			toReturn[i] = part;
 		}
-		return toReturn;
-	}
-
-	public static ItemPart[] generateItemParts(ItemStack... stacks)
-	{
-		ItemPart[] toReturn = new ItemPart[stacks.length];
-		for(int i = 0; i < stacks.length; i++)
-			toReturn[i] = new ItemPart(stacks[i]);
-		return toReturn;
-	}
-
-	public static ItemPart[] generateItemParts(Item... items)
-	{
-		ItemPart[] toReturn = new ItemPart[items.length];
-		for(int i = 0; i < items.length; i++)
-			toReturn[i] = new ItemPart(new ItemStack(items[i]));
 		return toReturn;
 	}
 
@@ -301,8 +277,8 @@ public class RewardsUtil
 
 	public static String getRandomOreDict(List<String> blacklist)
 	{
-		Stream<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line));
-		return oredicts.skip(rand.nextInt((int) oredicts.count())).findFirst().orElse("oreCoal");
+		List<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line)).collect(Collectors.toList());
+		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "oreCoal";
 	}
 
 	public static Fluid getRandomFluid()

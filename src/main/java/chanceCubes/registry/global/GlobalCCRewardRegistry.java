@@ -118,7 +118,6 @@ public class GlobalCCRewardRegistry
 	{
 		if(nameToReward.containsKey(name))
 			return nameToReward.get(name).reward;
-		CCubesCore.logger.log(Level.ERROR, "Requested reward with the name of " + name + ", but that reward does not exist!");
 		return null;
 	}
 

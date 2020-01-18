@@ -13,8 +13,8 @@ public class GiantCubeUtil
 	/**
 	 * Check that structure is properly formed
 	 *
-	 * @param pos
-	 * @param world
+	 * @param pos to start the check at
+	 * @param world world
 	 * @param build if the giant cube should be built if the structure is valid
 	 * @return if there is a valid 3x3x3 configuration
 	 */
@@ -72,7 +72,10 @@ public class GiantCubeUtil
 				for(int y = cy; y < cy + 3; y++)
 				{
 					i++;
-					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2, false);
+
+					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.getDefaultState(), world, new BlockPos(x, y, z), i == 27 ? 3 : 2, world.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCE_CUBE));
+
+
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
 					boolean master = (x == cx && y == cy + 1 && z == cz);
