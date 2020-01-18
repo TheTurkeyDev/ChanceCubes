@@ -47,11 +47,11 @@ public class BossBlazeReward extends BossBaseReward
 					return;
 				}
 
-				if(RewardsUtil.rand.nextInt(15) == 4)
+				if(RewardsUtil.rand.nextInt(10) == 4)
 					goInvisible(blaze);
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					setGroundOnFire(world, player.getPosition());
-				if(RewardsUtil.rand.nextInt(5) == 4)
+				if(RewardsUtil.rand.nextInt(3) == 4)
 					shootFireballs(world, blaze, player);
 			}
 		});

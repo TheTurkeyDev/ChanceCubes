@@ -6,7 +6,7 @@
         "xSize": 1,
         "ySize": 3,
         "zSize": 1,
-        "block": "minecraft:brick",
+        "block": "minecraft:brick_block",
         "xOff": 0,
         "yOff": 0,
         "zOff": 0,

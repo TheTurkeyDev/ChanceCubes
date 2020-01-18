@@ -6,7 +6,7 @@
         "xSize": 3,
         "ySize": 3,
         "zSize": 3,
-        "block": "chancecubes:chancecube",
+        "block": "chancecubes:chance_cube",
         "xOff": -1,
         "yOff": 0,
         "zOff": -1,

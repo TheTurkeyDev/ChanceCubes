@@ -5,11 +5,11 @@
       {
         "item": {
           "id": "minecraft:nether_star",
-          "Count": 1
-        },
-        "tag": {
-          "display": {
-            "Name": "North Start"
+          "Count": 1,
+          "tag": {
+            "display": {
+              "Name": "North Start"
+            }
           }
         }
       }

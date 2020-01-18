@@ -5,17 +5,17 @@
       {
         "item": {
           "id": "minecraft:stick",
-          "Count": 1
-        },
-        "tag": {
-          "ench": [
-            {
-              "id": 16,
-              "lvl": 5
+          "Count": 1,
+          "tag": {
+            "ench": [
+              {
+                "id": 16,
+                "lvl": 5
+              }
+            ],
+            "display": {
+              "Name": "A Big Stick"
             }
-          ],
-          "display": {
-            "Name": "A Big Stick"
           }
         }
       }
