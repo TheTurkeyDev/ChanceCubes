@@ -239,7 +239,7 @@ public class GlobalProfileManager
 		//@formatter:off
 		profile = new BasicProfile("default", "Default", "Rewards that are disabled by default");
 		profile.addDisabledRewards("chancecubes:clear_inventory");
-		profile.addDisabledRewards("chancecubes:chancecubes:giant_chance_cube");
+		profile.addDisabledRewards("chancecubes:giant_chance_cube");
 		registerProfile(profile, true);
 
 		profile = new BasicProfile("no_explosions", "No Explosions", "Disable all rewards that use explode");
