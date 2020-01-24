@@ -89,4 +89,10 @@ public class SchematicPart extends BasePart
 		this.placeAirBlocks = new BoolVar(placeAirBlocks);
 		return this;
 	}
+
+	public SchematicPart setBlocksFalling(boolean falling)
+	{
+		this.falling = new BoolVar(falling);
+		return this;
+	}
 }

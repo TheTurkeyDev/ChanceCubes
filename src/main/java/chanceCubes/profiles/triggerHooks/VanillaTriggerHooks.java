@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 
 public class VanillaTriggerHooks
@@ -23,6 +24,8 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDifficultyChange(DifficultyChangeEvent event)
 	{
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			return;
 		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers())
 		{
 			for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player.getUniqueID().toString()).getAllProfiles())
@@ -42,6 +45,8 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDimensionChange(PlayerChangedDimensionEvent event)
 	{
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			return;
 		EntityPlayer player = event.player;
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
@@ -59,6 +64,8 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onAdvancementComplete(AdvancementEvent event)
 	{
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			return;
 		EntityPlayer player = event.getEntityPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
