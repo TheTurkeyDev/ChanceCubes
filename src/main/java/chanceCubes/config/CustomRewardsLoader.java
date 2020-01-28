@@ -152,9 +152,9 @@ public class CustomRewardsLoader
 		{
 			for(JsonElement reward : disabledRewards)
 			{
-				boolean removed = GlobalCCRewardRegistry.DEFAULT.disableReward(reward.getAsString());
+				boolean removed = GlobalCCRewardRegistry.DEFAULT.unregisterReward(reward.getAsString());
 				if(!removed)
-					removed = GlobalCCRewardRegistry.GIANT.disableReward(reward.getAsString());
+					removed = GlobalCCRewardRegistry.GIANT.unregisterReward(reward.getAsString());
 
 				if(removed)
 					CCubesCore.logger.log(Level.WARN, "The reward " + reward.getAsString() + " has been disabled by the mod author due to a bug or some other reason.");
