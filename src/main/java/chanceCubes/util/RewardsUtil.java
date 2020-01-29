@@ -25,6 +25,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
@@ -359,7 +360,7 @@ public class RewardsUtil
 		}
 	}
 
-	public static void setNearPlayersTitle(World world, SPacketTitle spackettitle, BlockPos pos, int range)
+	public static void setNearPlayersTitle(World world, BlockPos pos, int range, SPacketTitle.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.playerEntities.size(); ++i)
 		{
@@ -367,24 +368,25 @@ public class RewardsUtil
 
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= range)
-				setPlayerTitle(entityplayer, spackettitle);
+				setPlayerTitle(entityplayer, location, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, SPacketTitle spackettitle)
+	public static void setAllPlayersTitle(World world, SPacketTitle.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.playerEntities.size(); ++i)
-			setPlayerTitle(world.playerEntities.get(i), spackettitle);
+			setPlayerTitle(world.playerEntities.get(i), location, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(EntityPlayer player, SPacketTitle title)
+	public static void setPlayerTitle(EntityPlayer player, SPacketTitle.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		if(player instanceof EntityPlayerMP)
 		{
 			// Update the title times to be what the title packet defines because times are updated separately of the title message....
-			SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.TIMES, new TextComponentString(""), title.getFadeInTime(), title.getDisplayTime(), title.getFadeOutTime());
+			SPacketTitle titlePacket = new SPacketTitle(location, message, fadeInTime, displayTime, fadeOutTime);
+			SPacketTitle timesPacket = new SPacketTitle(SPacketTitle.Type.TIMES, new TextComponentString(""), fadeInTime, displayTime, fadeOutTime);
+			((EntityPlayerMP) player).connection.sendPacket(timesPacket);
 			((EntityPlayerMP) player).connection.sendPacket(titlePacket);
-			((EntityPlayerMP) player).connection.sendPacket(title);
 		}
 	}
 

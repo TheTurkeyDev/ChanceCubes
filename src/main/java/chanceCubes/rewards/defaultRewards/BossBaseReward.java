@@ -51,8 +51,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
 		TextComponentString message = new TextComponentString("BOSS FIGHT!");
 		message.setStyle((new Style()).setColor(TextFormatting.RED));
-		SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.TITLE, message, 10, 500, 0);
-		RewardsUtil.setNearPlayersTitle(world, titlePacket, pos, 50);
+		RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.TITLE, message, 10, 500, 0);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
 		{
@@ -71,8 +70,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				message.appendText(sbSpace.toString());
 
 				message.setStyle((new Style()).setColor(TextFormatting.RED));
-				SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.SUBTITLE, message, 0, 500, 0);
-				RewardsUtil.setNearPlayersTitle(world, titlePacket, pos, 50);
+				RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.SUBTITLE, message, 0, 500, 0);
 			}
 		});
 
@@ -86,8 +84,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				message.appendText(" VS ");
 				message.appendText(bossName);
 				message.setStyle((new Style()).setColor(TextFormatting.RED));
-				SPacketTitle titlePacket = new SPacketTitle(SPacketTitle.Type.SUBTITLE, message, 0, 100, 10);
-				RewardsUtil.setNearPlayersTitle(world, titlePacket, pos, 50);
+				RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.SUBTITLE, message, 0, 100, 10);
 			}
 		});
 

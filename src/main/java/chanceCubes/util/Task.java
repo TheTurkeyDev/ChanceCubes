@@ -45,12 +45,12 @@ public abstract class Task
 	{
 
 	}
-	
+
 	public void showTimeLeft(EntityPlayer player, Type location)
 	{
 		int time = this.delayLeft / 20;
 		TextComponentString message = new TextComponentString(String.valueOf(time));
 		message.getStyle().setBold(true).setColor(TextFormatting.RED);
-		RewardsUtil.setPlayerTitle(player, new SPacketTitle(location, message, 0, 20, 0));
+		RewardsUtil.setPlayerTitle(player, location, message, 0, 20, 0);
 	}
 }
