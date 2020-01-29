@@ -2,7 +2,7 @@ package chanceCubes.blocks;
 
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
-import chanceCubes.registry.ChanceCubeRegistry;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.Block;
@@ -13,7 +13,6 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -67,7 +66,7 @@ public class BlockChanceCube extends BaseChanceBlock
 			}
 
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
-			ChanceCubeRegistry.INSTANCE.triggerRandomReward(world, pos, player, tileCube.getChance());
+			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, tileCube.getChance());
 		}
 
 		return removed;

@@ -1,8 +1,6 @@
 package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.profiles.ProfileManager;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;

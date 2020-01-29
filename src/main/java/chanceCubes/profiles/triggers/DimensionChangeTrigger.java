@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggers;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 
 public class DimensionChangeTrigger implements ITrigger<Integer>
 {

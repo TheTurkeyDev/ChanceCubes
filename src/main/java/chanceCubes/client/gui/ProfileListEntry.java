@@ -1,7 +1,7 @@
 package chanceCubes.client.gui;
 
+import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -19,19 +19,20 @@ public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileList
 
 	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName, Screen parentScreen)
 	{
-		this.profile = ProfileManager.getProfilefromName(profileName);
+		this.profile = GlobalProfileManager.getProfilefromName(profileName);
 		this.profilesList = profilesList;
 		this.mc = mcIn;
-		enabled = ProfileManager.isProfileEnabled(profile);
+		enabled = GlobalProfileManager.getPlayerProfileManager(Minecraft.getInstance().player.getUniqueID().toString()).isProfileEnabled(profile);
 
 		this.enableToggleBtn = new Button(0, 0, 50, 16, enabled ? "Enabled" : "Disabled", (button) ->
 		{
 			enableToggleBtn.playDownSound(mc.getSoundHandler());
 			enabled = !enabled;
+			String playerUUID = Minecraft.getInstance().player.getUniqueID().toString();
 			if(enabled)
-				ProfileManager.enableProfile(profile);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(profile);
 			else
-				ProfileManager.disableProfile(profile);
+				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile);
 
 			enableToggleBtn.setMessage(enabled ? "Enabled" : "Disabled");
 		});

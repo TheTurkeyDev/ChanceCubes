@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.apache.commons.lang3.tuple.Pair;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.profiles.ProfileManager;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

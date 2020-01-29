@@ -1,12 +1,11 @@
 package chanceCubes.client.gui;
 
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import org.lwjgl.opengl.GL11;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -62,7 +61,7 @@ public class RewardSelectorPendantGui extends Screen
 			@Override
 			public void onPress(Button p_onPress_1_)
 			{
-				if(ChanceCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null || GiantCubeRegistry.INSTANCE.getRewardByName(rewardField.getText()) != null)
+				if(GlobalCCRewardRegistry.DEFAULT.getRewardByName(rewardField.getText()) != null || GlobalCCRewardRegistry.GIANT.getRewardByName(rewardField.getText()) != null)
 				{
 					CompoundNBT nbt = stack.getTag();
 					if(nbt == null)

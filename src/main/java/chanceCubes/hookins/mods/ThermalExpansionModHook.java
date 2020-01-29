@@ -1,6 +1,5 @@
 package chanceCubes.hookins.mods;
 
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;

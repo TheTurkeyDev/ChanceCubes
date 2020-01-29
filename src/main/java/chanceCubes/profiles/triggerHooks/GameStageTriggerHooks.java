@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggerHooks;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.GameStageTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
 import net.darkhax.gamestages.event.GameStageEvent;

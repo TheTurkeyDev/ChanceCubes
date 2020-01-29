@@ -1,5 +1,9 @@
 package chanceCubes.profiles;
 
+import chanceCubes.profiles.triggers.ITrigger;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.registry.player.PlayerCCRewardRegistry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,17 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.profiles.triggers.ITrigger;
-import chanceCubes.registry.ChanceCubeRegistry;
-
 public class BasicProfile implements IProfile
 {
+	private Map<String, Map<ITrigger<?>, Boolean>> triggerStates = new HashMap<>();
 	private String id;
 	private String name;
 	private String desc;
+	private boolean anyTrigger = true;
 	private StringBuilder descFull = new StringBuilder();
 	private List<ITrigger<?>> triggers = new ArrayList<>();
 	private List<String> rewardsToEnable = new ArrayList<>();
@@ -31,6 +31,11 @@ public class BasicProfile implements IProfile
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
+	}
+
+	public void setAnyTrigger(boolean anyTrigger)
+	{
+		this.anyTrigger = anyTrigger;
 	}
 
 	public BasicProfile addEnabledRewards(String... rewards)
@@ -63,34 +68,82 @@ public class BasicProfile implements IProfile
 		return this;
 	}
 
-	@Override
-	public void onEnable()
+	public BasicProfile addSettingsToReward(String reward, String key, Object value)
 	{
-		for(String s : this.rewardsToDisable)
-			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
-		for(String s : this.rewardsToEnable)
-			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
-		for(IProfile prof : this.subProfiles)
-			prof.onEnable();
-		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			ProfileManager.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		Map<String, Object> settings = rewardSettings.computeIfAbsent(reward, k -> new HashMap<>());
+		settings.put(key, value);
+		return this;
 	}
 
 	@Override
-	public void onDisable()
+	public void onEnable(PlayerProfileManager playerProfileManager, String playerUUID)
 	{
-		for(String s : this.rewardsToDisable)
-			if(!ChanceCubeRegistry.INSTANCE.enableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to enable reward " + s);
-		for(String s : this.rewardsToEnable)
-			if(!ChanceCubeRegistry.INSTANCE.disableReward(s))
-				CCubesCore.logger.log(Level.ERROR, name + " failed to disable reward " + s);
+		PlayerCCRewardRegistry defaultPlayerRewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry giantPlayerRewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(playerUUID);
+
 		for(IProfile prof : this.subProfiles)
-			prof.onDisable();
+			if(!playerProfileManager.isProfileEnabled(prof))
+				prof.onEnable(playerProfileManager, playerUUID);
+
+		for(String s : this.rewardsToDisable)
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.disableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.disableReward(s);
+		}
+
+		for(String s : this.rewardsToEnable)
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.enableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.enableReward(s);
+		}
+
 		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
-			ProfileManager.resetRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(rewardInfo.getKey()))
+				defaultPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(rewardInfo.getKey()))
+				giantPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		}
+	}
+
+	@Override
+	public void onDisable(PlayerProfileManager playerProfileManager, String playerUUID)
+	{
+		if(playerProfileManager.isProfileEnabled(this))
+			return;
+
+		PlayerCCRewardRegistry defaultPlayerRewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(playerUUID);
+		PlayerCCRewardRegistry giantPlayerRewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(playerUUID);
+		for(IProfile prof : this.subProfiles)
+			prof.onDisable(playerProfileManager, playerUUID);
+
+		for(String s : this.rewardsToDisable)
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.enableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.enableReward(s);
+		}
+
+		for(String s : this.rewardsToEnable)
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(s))
+				defaultPlayerRewards.disableReward(s);
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(s))
+				giantPlayerRewards.disableReward(s);
+		}
+
+		for(Entry<String, Integer> rewardInfo : this.chanceChanges.entrySet())
+		{
+			if(GlobalCCRewardRegistry.DEFAULT.isValidRewardName(rewardInfo.getKey()))
+				defaultPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+			else if(GlobalCCRewardRegistry.GIANT.isValidRewardName(rewardInfo.getKey()))
+				giantPlayerRewards.setRewardChanceValue(rewardInfo.getKey(), rewardInfo.getValue());
+		}
 	}
 
 	public Map<String, Map<String, Object>> getRewardSettings()
@@ -196,8 +249,60 @@ public class BasicProfile implements IProfile
 	}
 
 	@Override
+	public boolean isRewardEnabled(String reward)
+	{
+		if(this.rewardsToEnable.contains(reward))
+			return true;
+		else if(this.rewardsToDisable.contains(reward))
+			return false;
+		for(IProfile subProf : this.subProfiles)
+			if(!subProf.isRewardEnabled(reward))
+				return false;
+		return true;
+	}
+
+	@Override
 	public List<ITrigger<?>> getTriggers()
 	{
 		return triggers;
+	}
+
+	public void setTriggerState(ITrigger<?> trigger, String playerUUID, boolean completed)
+	{
+		PlayerProfileManager playerProfileManager = GlobalProfileManager.getPlayerProfileManager(playerUUID);
+		boolean enabled = playerProfileManager.isProfileEnabled(this);
+		Map<ITrigger<?>, Boolean> playerTriggerStates = triggerStates.getOrDefault(playerUUID, new HashMap<>());
+		playerTriggerStates.replace(trigger, completed);
+		for(Boolean triggerCompeleted : playerTriggerStates.values())
+		{
+			//Bit awkward looking code, but idk what to do right now
+			if(enabled && !triggerCompeleted && !anyTrigger)
+			{
+				playerProfileManager.disableProfile(this);
+				return;
+			}
+			else if(enabled && !triggerCompeleted && anyTrigger)
+			{
+				continue;
+			}
+			else if(!enabled && triggerCompeleted && anyTrigger)
+			{
+				playerProfileManager.enableProfile(this);
+				return;
+			}
+			else if(!enabled && triggerCompeleted && !anyTrigger)
+			{
+				continue;
+			}
+			else
+			{
+				return;
+			}
+		}
+
+		if(enabled)
+			playerProfileManager.disableProfile(this);
+		else
+			playerProfileManager.enableProfile(this);
 	}
 }

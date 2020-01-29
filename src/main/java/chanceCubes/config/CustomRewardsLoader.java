@@ -3,8 +3,6 @@ package chanceCubes.config;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BlockChanceCube;
 import chanceCubes.blocks.BlockChanceCube.EnumTexture;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.*;
 import chanceCubes.rewards.rewardtype.*;

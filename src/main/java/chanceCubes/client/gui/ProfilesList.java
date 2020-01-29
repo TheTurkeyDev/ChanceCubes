@@ -3,7 +3,6 @@ package chanceCubes.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import chanceCubes.profiles.ProfileManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.client.gui.widget.list.ExtendedList;

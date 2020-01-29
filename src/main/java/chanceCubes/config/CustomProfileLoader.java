@@ -18,7 +18,6 @@ import com.google.gson.JsonParser;
 import chanceCubes.CCubesCore;
 import chanceCubes.profiles.BasicProfile;
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.GameStageTrigger;

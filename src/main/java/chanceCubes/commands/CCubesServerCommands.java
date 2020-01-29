@@ -7,9 +7,9 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.hookins.ModHookUtil;
-import chanceCubes.profiles.ProfileManager;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
+import chanceCubes.profiles.GlobalProfileManager;
+import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.registry.player.PlayerRewardInfo;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -35,6 +35,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import org.apache.logging.log4j.Level;
+
+import java.util.List;
 
 public class CCubesServerCommands
 {
@@ -83,18 +85,18 @@ public class CCubesServerCommands
 	{
 		new Thread(() ->
 		{
-			ChanceCubeRegistry.INSTANCE.ClearRewards();
-			GiantCubeRegistry.INSTANCE.ClearRewards();
-			ProfileManager.clearProfiles();
-			ChanceCubeRegistry.loadDefaultRewards();
-			GiantCubeRegistry.loadDefaultRewards();
+			GlobalCCRewardRegistry.DEFAULT.ClearRewards();
+			GlobalCCRewardRegistry.GIANT.ClearRewards();
+			GlobalProfileManager.clearProfiles();
+			DefaultRewards.loadDefaultRewards();
+			DefaultGiantRewards.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();
-			CustomRewardsLoader.instance.fetchRemoteInfo();
-			ChanceCubeRegistry.loadCustomUserRewards();
+			GlobalCCRewardRegistry.loadCustomUserRewards(server);
 			ModHookUtil.loadCustomModRewards();
 			NonreplaceableBlockOverride.loadOverrides();
-			ProfileManager.initProfiles();
+			GlobalProfileManager.initProfiles();
 			CustomProfileLoader.instance.loadProfiles();
+			GlobalProfileManager.updateProfilesForWorld(server.getEntityWorld());
 			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
 		}).start();
 		return 0;
@@ -130,36 +132,63 @@ public class CCubesServerCommands
 
 	public int executeDisableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
-
-		if(ChanceCubeRegistry.INSTANCE.disableReward(reward))
-			player.sendMessage(new StringTextComponent(reward + " Has been temporarily disabled."));
-		else
-			player.sendMessage(new StringTextComponent(reward + " is either not currently enabled or is not a valid reward name."));
+		//TODO:
 		return 0;
 	}
 
 	public int executeEnableReward(CommandContext<CommandSource> ctx, String reward)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
-
-		if(ChanceCubeRegistry.INSTANCE.enableReward(reward))
-			player.sendMessage(new StringTextComponent(reward + " Has been enabled."));
-		else
-			player.sendMessage(new StringTextComponent(reward + " is either not currently disabled or is not a valid reward name."));
+		//TODO:
 		return 0;
 	}
 
 	public int executeRewardInfo(CommandContext<CommandSource> ctx)
 	{
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + ChanceCubeRegistry.INSTANCE.getNumberOfLoadedRewards() + " rewards loaded and " + ChanceCubeRegistry.INSTANCE.getNumberOfDisabledRewards() + " rewards disabled"));
+		int defaultEnabled = 0;
+		int giantEnabled = 0;
+		PlayerEntity player = getPlayer(ctx.getSource());
+		List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
+		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
+		defaultEnabled = defaultrewards.size();
+		giantEnabled = giantrewards.size();
+//		if(args.length > 1 && args[1].equalsIgnoreCase("list"))
+//		{
+//			if(args.length > 2 && args[2].equalsIgnoreCase("default"))
+//			{
+//				sender.sendMessage(new TextComponentString("===DEFAULT REWARDS==="));
+//				for(PlayerRewardInfo reward : defaultrewards)
+//					sender.sendMessage(new TextComponentString(reward.reward.getName()));
+//			}
+//			else if(args.length > 2 && args[2].equalsIgnoreCase("giant"))
+//			{
+//				sender.sendMessage(new TextComponentString("===GIANT REWARDS==="));
+//				for(PlayerRewardInfo reward : giantrewards)
+//					sender.sendMessage(new TextComponentString(reward.reward.getName()));
+//			}
+//			else if(args.length > 2 && args[2].equalsIgnoreCase("defaultall"))
+//			{
+//				sender.sendMessage(new TextComponentString("===DEFAULT REWARDS==="));
+//				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
+//					sender.sendMessage(new TextComponentString(reward));
+//			}
+//			else if(args.length > 2 && args[2].equalsIgnoreCase("giantall"))
+//			{
+//				sender.sendMessage(new TextComponentString("===GIANT REWARDS==="));
+//				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
+//					sender.sendMessage(new TextComponentString(reward));
+//			}
+//		}
+
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled"));
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled"));
+
 		return 0;
 	}
 
 	public int executeTestRewards(CommandContext<CommandSource> ctx)
 	{
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
-		CCubesSettings.testingRewardIndex = 25;
+		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testRewards)
 			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"));
 		else

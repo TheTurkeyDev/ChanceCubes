@@ -14,7 +14,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.CustomRewardsLoader;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;

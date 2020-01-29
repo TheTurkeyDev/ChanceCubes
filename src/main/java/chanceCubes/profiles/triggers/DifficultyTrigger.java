@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggers;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import net.minecraft.world.Difficulty;
 
 public class DifficultyTrigger implements ITrigger<Difficulty>

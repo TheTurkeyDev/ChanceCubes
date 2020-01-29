@@ -1,7 +1,6 @@
 package chanceCubes.profiles.triggerHooks;
 
 import chanceCubes.profiles.IProfile;
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;

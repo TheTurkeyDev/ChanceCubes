@@ -12,11 +12,8 @@ import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.profiles.ProfileManager;
 import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
 import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
@@ -38,7 +35,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.function.Consumer;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore

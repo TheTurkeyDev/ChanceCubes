@@ -9,7 +9,6 @@ import javax.vecmath.Vector3f;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.registry.ChanceCubeRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;

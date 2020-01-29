@@ -2,8 +2,6 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.ClientProxy;
-import chanceCubes.registry.ChanceCubeRegistry;
-import chanceCubes.registry.GiantCubeRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
