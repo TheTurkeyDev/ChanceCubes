@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class CCubesServerCommands extends CommandBase
 {
@@ -262,6 +263,26 @@ public class CCubesServerCommands extends CommandBase
 						sender.sendMessage(new TextComponentString("===GIANT REWARDS==="));
 						for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 							sender.sendMessage(new TextComponentString(reward));
+					}
+					else if(args.length > 2 && args[2].equalsIgnoreCase("defaultdisabled"))
+					{
+						sender.sendMessage(new TextComponentString("===DEFAULT REWARDS DISABLED==="));
+						List<String> playerRewards = new ArrayList<>();
+						for(PlayerRewardInfo reward : defaultrewards)
+							playerRewards.add(reward.reward.getName());
+						for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
+							if(!playerRewards.contains(reward))
+								sender.sendMessage(new TextComponentString(reward));
+					}
+					else if(args.length > 2 && args[2].equalsIgnoreCase("giantdisabled"))
+					{
+						sender.sendMessage(new TextComponentString("===GIANT REWARDS DISABLED==="));
+						List<String> playerRewards = new ArrayList<>();
+						for(PlayerRewardInfo reward : giantrewards)
+							playerRewards.add(reward.reward.getName());
+						for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
+							if(!playerRewards.contains(reward))
+								sender.sendMessage(new TextComponentString(reward));
 					}
 				}
 			}
