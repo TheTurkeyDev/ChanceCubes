@@ -24,7 +24,7 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDifficultyChange(DifficultyChangeEvent event)
 	{
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 			return;
 		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers())
 		{
@@ -45,7 +45,7 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDimensionChange(PlayerChangedDimensionEvent event)
 	{
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 			return;
 		EntityPlayer player = event.player;
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
@@ -64,7 +64,7 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onAdvancementComplete(AdvancementEvent event)
 	{
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 			return;
 		EntityPlayer player = event.getEntityPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())

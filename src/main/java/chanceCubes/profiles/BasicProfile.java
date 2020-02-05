@@ -267,42 +267,51 @@ public class BasicProfile implements IProfile
 		return triggers;
 	}
 
+	public Map<ITrigger<?>, Boolean> getDefaultTriggerMap()
+	{
+		Map<ITrigger<?>, Boolean> triggerMap = new HashMap<>();
+		for(ITrigger<?> trig : getTriggers())
+			triggerMap.put(trig, false);
+		return triggerMap;
+	}
+
 	public void setTriggerState(ITrigger<?> trigger, String playerUUID, boolean completed)
 	{
 		PlayerProfileManager playerProfileManager = GlobalProfileManager.getPlayerProfileManager(playerUUID);
 		boolean enabled = playerProfileManager.isProfileEnabled(this);
-		Map<ITrigger<?>, Boolean> playerTriggerStates = triggerStates.getOrDefault(playerUUID, new HashMap<>());
+		Map<ITrigger<?>, Boolean> playerTriggerStates = triggerStates.computeIfAbsent(playerUUID, k -> getDefaultTriggerMap());
 		playerTriggerStates.replace(trigger, completed);
-		for(Boolean triggerCompeleted : playerTriggerStates.values())
-		{
-			//Bit awkward looking code, but idk what to do right now
-			if(enabled && !triggerCompeleted && !anyTrigger)
-			{
-				playerProfileManager.disableProfile(this);
-				return;
-			}
-			else if(enabled && !triggerCompeleted && anyTrigger)
-			{
-				continue;
-			}
-			else if(!enabled && triggerCompeleted && anyTrigger)
-			{
-				playerProfileManager.enableProfile(this);
-				return;
-			}
-			else if(!enabled && triggerCompeleted && !anyTrigger)
-			{
-				continue;
-			}
-			else
-			{
-				return;
-			}
-		}
 
-		if(enabled)
-			playerProfileManager.disableProfile(this);
-		else
+		if(!enabled && anyTrigger && completed)
+		{
 			playerProfileManager.enableProfile(this);
+		}
+		else if(enabled && !anyTrigger && !completed)
+		{
+			playerProfileManager.disableProfile(this);
+		}
+		else
+		{
+			boolean shouldDisable = true;
+			boolean shouldEnable = true;
+			for(Boolean triggerCompeleted : playerTriggerStates.values())
+			{
+				if(enabled && anyTrigger && triggerCompeleted)
+				{
+					shouldDisable = false;
+					break;
+				}
+				else if(!enabled && !anyTrigger && !triggerCompeleted)
+				{
+					shouldEnable = false;
+					break;
+				}
+			}
+
+			if(shouldEnable)
+				playerProfileManager.enableProfile(this);
+			if(shouldDisable)
+				playerProfileManager.disableProfile(this);
+		}
 	}
 }
