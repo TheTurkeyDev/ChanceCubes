@@ -60,7 +60,6 @@ public class PlayerCCRewardRegistry
 
 	public boolean disableReward(IChanceCubeReward reward)
 	{
-		int k = 1;
 		for(int i = sortedRewards.size() - 1; i >= 0; i--)
 			if(sortedRewards.get(i).reward == reward)
 				return sortedRewards.remove(i) != null;

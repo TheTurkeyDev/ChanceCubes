@@ -5,11 +5,12 @@ import chanceCubes.rewards.variableParts.StringPart;
 
 public class StringVar extends CustomVar
 {
-	
+
 	public StringVar()
 	{
-		
+
 	}
+
 	public StringVar(String val)
 	{
 		super.addPart(new StringPart(val));
@@ -17,6 +18,6 @@ public class StringVar extends CustomVar
 
 	public StringVar(String[] val)
 	{
-		super.addPart(new ListPart<String>(val));
+		super.addPart(new ListPart<>(val));
 	}
 }

@@ -231,7 +231,7 @@ public class RewardsUtil
 
 	public static Item getRandomItem()
 	{
-		return Item.getItemById(256 + rand.nextInt(166));
+		return Item.REGISTRY.getObjectById(rand.nextInt(Item.REGISTRY.getKeys().size()));
 	}
 
 	public static ItemStack getRandomFirework()

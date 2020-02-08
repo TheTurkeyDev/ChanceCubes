@@ -2,6 +2,8 @@ package chanceCubes.parsers;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.variableParts.ListPart;
+import chanceCubes.rewards.variableParts.RandomBlock;
+import chanceCubes.rewards.variableParts.RandomItem;
 import chanceCubes.rewards.variableParts.StringPart;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
@@ -157,6 +159,10 @@ public class ParserUtil
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
 				var.addPart(new ListPart<>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']') - 1).split(",")));
+			else if(part.startsWith("ITEM"))
+				var.addPart(new RandomItem());
+			else if(part.startsWith("BLOCK"))
+				var.addPart(new RandomBlock());
 			else
 				var.addPart(new StringPart(part));
 		}
@@ -199,6 +205,10 @@ public class ParserUtil
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
 				var.addPart(new ListPart<>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")));
+			else if(part.startsWith("ITEM"))
+				var.addPart(new RandomItem());
+			else if(part.startsWith("BLOCK"))
+				var.addPart(new RandomBlock());
 			else
 				var.addPart(new StringPart(part));
 		}
