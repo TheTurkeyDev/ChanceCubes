@@ -3,8 +3,6 @@ package chanceCubes.util;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
-import chanceCubes.rewards.rewardparts.EntityPart;
-import chanceCubes.rewards.rewardparts.ItemPart;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -231,7 +229,11 @@ public class RewardsUtil
 
 	public static Item getRandomItem()
 	{
-		return Item.REGISTRY.getObjectById(rand.nextInt(Item.REGISTRY.getKeys().size()));
+		Item item;
+		do
+			item = Item.REGISTRY.getObjectById(rand.nextInt(Item.REGISTRY.getKeys().size()));
+		while(item == null || item.getCreativeTab() == null);
+		return item;
 	}
 
 	public static ItemStack getRandomFirework()
