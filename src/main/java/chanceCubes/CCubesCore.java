@@ -124,16 +124,6 @@ public class CCubesCore
 		ModHookUtil.loadCustomModRewards();
 		ConfigLoader.config.save();
 
-		// if(event.getSide().isClient())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Client-side commands loaded");
-		// ClientCommandHandler.instance.registerCommand(new CCubesClientCommands());
-		// }
-		// else if(event.getSide().isServer())
-		// {
-		// CCubesCore.logger.log(Level.INFO, "Server-side commands loaded");
-		// event.registerServerCommand(new CCubesServerCommands());
-		// }
 		event.registerServerCommand(new CCubesServerCommands());
 	}
 
@@ -149,7 +139,7 @@ public class CCubesCore
 	}
 
 	@EventHandler
-	public void onServerStart(FMLServerStoppedEvent event)
+	public void onServerStop(FMLServerStoppedEvent event)
 	{
 		if(GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.unloadProfilesForWorld();
