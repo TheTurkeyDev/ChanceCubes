@@ -136,6 +136,33 @@ public class GlobalProfileManager
 		worldProfilesLoaded = true;
 	}
 
+	public static void loadPlayerProfile(String playerUUID)
+	{
+		if(!worldProfilesLoaded || playerToProfiles.containsKey(playerUUID))
+			return;
+
+		JsonObject profileJson = profileSaveJson.getAsJsonObject("profiles");
+
+		for(Map.Entry<String, JsonElement> playerProfilesElement : profileJson.entrySet())
+		{
+			JsonObject playerProfiles = playerProfilesElement.getValue().getAsJsonObject();
+			if(playerProfilesElement.getKey().equals(playerUUID))
+			{
+				playerToProfiles.put(playerUUID, loadPlayerProfilesFromJson(playerUUID, playerProfiles));
+				return;
+			}
+		}
+
+		JsonObject playerProfiles = new JsonObject();
+		for(IProfile profile : profileDefaults.keySet())
+			playerProfiles.addProperty(profile.getID(), profileDefaults.get(profile));
+
+		playerToProfiles.put(playerUUID, loadPlayerProfilesFromJson(playerUUID, playerProfiles));
+		profileJson.add(playerUUID, playerProfiles);
+
+		saveWorldSaveFile();
+	}
+
 	private static PlayerProfileManager loadPlayerProfilesFromJson(String playerUUID, JsonObject playerProfilesJson)
 	{
 		PlayerProfileManager playerProfileManager = new PlayerProfileManager(playerUUID);
@@ -201,7 +228,7 @@ public class GlobalProfileManager
 
 	public static void removePlayerProfile(String uuid)
 	{
-		profileDefaults.remove(uuid);
+		playerToProfiles.remove(uuid);
 	}
 
 	public static List<IProfile> getAllProfiles()

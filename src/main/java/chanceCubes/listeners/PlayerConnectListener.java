@@ -16,6 +16,7 @@ public class PlayerConnectListener
 		if(event.player.world.isRemote)
 			return;
 
+		GlobalProfileManager.loadPlayerProfile(event.player.getUniqueID().toString());
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
 	}
 
