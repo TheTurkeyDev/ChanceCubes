@@ -1,19 +1,19 @@
 package chanceCubes.rewards.biodomeGen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BioDomeGen
 {
@@ -25,18 +25,18 @@ public class BioDomeGen
 			new NetherBiome("nether") };
 	// @formatter:on
 
-	private EntityPlayer player;
+	private PlayerEntity player;
 	private RewardBlockCache blockCache;
 	private int yinc;
 	private int xinc;
 	private List<String> blackListBiomes;
 
-	public BioDomeGen(EntityPlayer player)
+	public BioDomeGen(PlayerEntity player)
 	{
 		this(player, new ArrayList<>());
 	}
 
-	public BioDomeGen(EntityPlayer player, List<String> blackListBiomes)
+	public BioDomeGen(PlayerEntity player, List<String> blackListBiomes)
 	{
 		this.player = player;
 		this.blackListBiomes = blackListBiomes;
@@ -66,7 +66,7 @@ public class BioDomeGen
 		for(int z = -radius; z <= radius; z++)
 		{
 			BlockPos loc = new BlockPos(xinc, yinc, z);
-			float dist = (float) (Math.abs(loc.getDistance(0, 0, 0)) - radius);
+			float dist = (float) (Math.abs(loc.distanceSq(0, 0, 0, false)) - radius);
 			if(dist < 1)
 			{
 				if(dist >= 0)

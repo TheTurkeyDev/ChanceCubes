@@ -1,20 +1,20 @@
 package chanceCubes.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RewardBlockCache
 {
-	protected Map<BlockPos, IBlockState> storedBlocks = new HashMap<>();
-	protected Map<BlockPos, NBTTagCompound> storedTE = new HashMap<>();
+	protected Map<BlockPos, BlockState> storedBlocks = new HashMap<>();
+	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
 
 	private BlockPos origin;
 	private BlockPos playerloc;
@@ -33,16 +33,16 @@ public class RewardBlockCache
 		this.force = force;
 	}
 
-	public void cacheBlock(BlockPos offset, IBlockState newState)
+	public void cacheBlock(BlockPos offset, BlockState newState)
 	{
 		cacheBlock(offset, newState, 3);
 	}
 
-	public void cacheBlock(BlockPos offset, IBlockState newState, int update)
+	public void cacheBlock(BlockPos offset, BlockState newState, int update)
 	{
 		BlockPos adjPos = origin.add(offset);
-		IBlockState oldState = world.getBlockState(adjPos);
-		NBTTagCompound oldNBT = null;
+		BlockState oldState = world.getBlockState(adjPos);
+		CompoundNBT oldNBT = null;
 		TileEntity te = world.getTileEntity(adjPos);
 		if(te != null)
 		{

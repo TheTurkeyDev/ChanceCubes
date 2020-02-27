@@ -5,14 +5,14 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
 import chanceCubes.util.Task;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickEmpty;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BlockListener
 {
@@ -28,39 +28,39 @@ public class BlockListener
 	@SubscribeEvent
 	public void onBlockInteract(RightClickBlock event)
 	{
-		if(this.setSchematicPoint(2, event.getEntityPlayer(), event.getPos()))
+		if(this.setSchematicPoint(2, event.getPlayer(), event.getPos()))
 			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public void onAirInteractRight(RightClickEmpty event)
 	{
-		this.setSchematicPoint(2, event.getEntityPlayer(), event.getPos());
+		this.setSchematicPoint(2, event.getPlayer(), event.getPos());
 	}
 
 	@SubscribeEvent
 	public void onAirInteractLeft(LeftClickEmpty event)
 	{
-		this.setSchematicPoint(1, event.getEntityPlayer(), event.getPos());
+		this.setSchematicPoint(1, event.getPlayer(), event.getPos());
 	}
 
-	public boolean setSchematicPoint(int point, EntityPlayer player, BlockPos pos)
+	public boolean setSchematicPoint(int point, PlayerEntity player, BlockPos pos)
 	{
-		if(Minecraft.getMinecraft().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
+		if(Minecraft.getInstance().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
 		{
-			if(player.capabilities.isCreativeMode)
+			if(player.abilities.isCreativeMode)
 			{
 				boolean flag = false;
 				if(point == 1)
 				{
 					SchematicUtil.selectionPoints[0] = pos;
-					player.sendMessage(new TextComponentString("Point 1 set"));
+					player.sendMessage(new StringTextComponent("Point 1 set"));
 					flag = true;
 				}
 				else if(point == 2)
 				{
 					SchematicUtil.selectionPoints[1] = pos;
-					player.sendMessage(new TextComponentString("Point 2 set"));
+					player.sendMessage(new StringTextComponent("Point 2 set"));
 					flag = true;
 				}
 

@@ -1,19 +1,18 @@
 package chanceCubes.rewards.giantRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.rewards.defaultRewards.BaseCustomReward;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.CustomEntry;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class OreSphereReward extends BaseCustomReward
 {
@@ -23,13 +22,13 @@ public class OreSphereReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 
 		List<String> whiteList = Arrays.asList(super.getSettingAsStringList(settings, "white_list", new String[0]));
 
-		CustomEntry<Block, Integer> ore;
+		Block ore;
 		if(whiteList.size() > 0)
 		{
 			ore = RewardsUtil.getRandomOreFromOreDict(whiteList.get(RewardsUtil.rand.nextInt(whiteList.size())));
@@ -50,11 +49,10 @@ public class OreSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.abs(loc.getDistance(0, 0, 0));
+						double dist = Math.abs(loc.distanceSq(0, 0, 0, false));
 						if(dist <= i && dist > i - 1)
 						{
-							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore.getKey(), false, delay);
-							osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
+							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);
 							blocks.add(osb);
 							delay++;
 						}

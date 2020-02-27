@@ -6,63 +6,41 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.network.PacketDistributor;
 
-public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceD20 extends BaseChanceBlock
 {
 
 	public BlockChanceD20()
 	{
-		super("chance_icosahedron");
-		super.setHardness(-1F);
-		this.setLightLevel(7);
+		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).lightValue(7), "chance_icosahedron");
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceD20();
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
 	{
 		return false;
 	}
@@ -73,17 +51,18 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player)
+	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+	@Override
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
 	{
 		return this.startd20(world, pos, player);
 	}
 
-	public boolean startd20(World world, BlockPos pos, EntityPlayer player)
+	public boolean startd20(World world, BlockPos pos, PlayerEntity player)
 	{
 		if(world.isRemote || player == null || player instanceof FakePlayer)
 			return true;
@@ -91,42 +70,31 @@ public class BlockChanceD20 extends BaseChanceBlock implements ITileEntityProvid
 		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
 		if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_ICOSAHEDRON), 1);
+			ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			super.dropBlockAsItem(world, pos, this.getDefaultState(), 1);
-			world.setBlockToAir(pos);
+			spawnAsEntity(world, pos, stack);
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			world.removeTileEntity(pos);
 			return true;
 		}
 
-		if(te != null)
-		{
-			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:chance_icosahedron");
-			te.startBreaking(player);
-			CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketTriggerD20(pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
-			return true;
-		}
-
-		return false;
+		RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
+		te.startBreaking(player);
+		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketTriggerD20(pos));
+		return true;
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
+	public BlockState getExtendedState(BlockState state, IBlockReader world, BlockPos pos)
 	{
-		TileEntity tile = world.getTileEntity(pos);
+		/*TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileChanceD20)
 		{
 			TileChanceD20 d20 = (TileChanceD20) tile;
 			if(d20.transform != TRSRTransformation.identity())
 				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
-		}
+		}*/
 
 		return state;
-	}
-
-	@Override
-	public ExtendedBlockState createBlockState()
-	{
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{Properties.AnimationProperty});
 	}
 }

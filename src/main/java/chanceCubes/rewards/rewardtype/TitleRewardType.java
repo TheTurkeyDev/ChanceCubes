@@ -3,9 +3,9 @@ package chanceCubes.rewards.rewardtype;
 import chanceCubes.rewards.rewardparts.TitlePart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.world.World;
 
 public class TitleRewardType extends BaseRewardType<TitlePart>
@@ -16,20 +16,20 @@ public class TitleRewardType extends BaseRewardType<TitlePart>
 	}
 
 	@Override
-	public void trigger(TitlePart part, World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(TitlePart part, World world, int x, int y, int z, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Title Delay", part.getDelay())
 		{
 			@Override
 			public void callback()
 			{
-				SPacketTitle spackettitle = new SPacketTitle(part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
-				for(int i = 0; i < world.playerEntities.size(); ++i)
+				STitlePacket spackettitle = new STitlePacket(part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
+				for(int i = 0; i < world.getPlayers().size(); ++i)
 				{
-					if(!(world.playerEntities.get(i) instanceof EntityPlayerMP))
+					if(!(world.getPlayers().get(i) instanceof ServerPlayerEntity))
 						continue;
 
-					EntityPlayerMP entityplayer = (EntityPlayerMP) world.playerEntities.get(i);
+					ServerPlayerEntity entityplayer = (ServerPlayerEntity) world.getPlayers().get(i);
 
 					if(entityplayer.equals(player))
 					{

@@ -23,11 +23,16 @@ import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -35,6 +40,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class SchematicUtil
 {
@@ -61,7 +67,7 @@ public class SchematicUtil
 				for(int z = smallZ; z < largeZ; z++)
 				{
 					BlockPos pos = new BlockPos(x, y, z);
-					IBlockState blockState = world.getBlockState(pos);
+					BlockState blockState = world.getBlockState(pos);
 					blockData.append(blockState.getBlock().getRegistryName().toString());
 					// TODO: Find better way?
 					blockData.setLength(0);
@@ -86,8 +92,8 @@ public class SchematicUtil
 					if(world.getTileEntity(pos) != null)
 					{
 						TileEntity te = world.getTileEntity(pos);
-						NBTTagCompound nbt = new NBTTagCompound();
-						nbt = te.writeToNBT(nbt);
+						CompoundNBT nbt = new CompoundNBT();
+						nbt = te.write(nbt);
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))
@@ -170,7 +176,7 @@ public class SchematicUtil
 	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
-		NBTTagCompound nbtdata;
+		CompoundNBT nbtdata;
 		try
 		{
 			FileInputStream is = new FileInputStream(schematic);
@@ -184,7 +190,7 @@ public class SchematicUtil
 		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 	}
 
-	public static CustomSchematic loadLegacySchematic(NBTTagCompound nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
+	public static CustomSchematic loadLegacySchematic(CompoundNBT nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		short width = nbtdata.getShort("Width");
 		short height = nbtdata.getShort("Height");
@@ -194,7 +200,7 @@ public class SchematicUtil
 		byte[] data = nbtdata.getByteArray("Data");
 		List<OffsetBlock> offsetBlocks = new ArrayList<>();
 
-		NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+		ListNBT tileentities = nbtdata.getList("TileEntities", 10);
 
 		int i = 0;
 		short halfLength = (short) (length / 2);
@@ -224,10 +230,10 @@ public class SchematicUtil
 			}
 		}
 
-		for(int i1 = 0; i1 < tileentities.tagCount(); ++i1)
+		for(int i1 = 0; i1 < tileentities.size(); ++i1)
 		{
-			NBTTagCompound nbttagcompound4 = tileentities.getCompoundTagAt(i1);
-			TileEntity tileentity = TileEntity.create(null, nbttagcompound4);
+			CompoundNBT nbttagcompound4 = tileentities.getCompound(i1);
+			TileEntity tileentity = TileEntity.create(nbttagcompound4);
 
 			if(tileentity != null)
 			{
@@ -302,7 +308,7 @@ public class SchematicUtil
 						}
 					}
 					String[] dataParts = blockData.split(":");
-					Block b = Block.REGISTRY.getObject(new ResourceLocation(dataParts[0], dataParts[1]));
+					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(dataParts[0], dataParts[1]));
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, new IntVar(0));
 					// TODO: Find better way?
 					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
@@ -339,7 +345,7 @@ public class SchematicUtil
 		try
 		{
 			return OffsetBlockToTileEntity(osb, JsonToNBT.getTagFromJson(nbt));
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			e.printStackTrace();
 			return null;
@@ -356,7 +362,7 @@ public class SchematicUtil
 		return oste;
 	}
 
-	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTTagCompound nbt)
+	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, CompoundNBT nbt)
 	{
 		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), new NBTVar(nbt), osb.isFallingVar(), osb.getDelayVar());
 		oste.setBlockState(osb.getBlockState());

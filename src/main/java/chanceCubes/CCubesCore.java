@@ -1,164 +1,170 @@
 package chanceCubes;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.gui.CCubesGuiHandler;
+import chanceCubes.client.ClientProxy;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
-import chanceCubes.hookins.ModHookUtil;
-import chanceCubes.items.CCubesItems;
+import chanceCubes.listeners.PlayerConnectListener;
+import chanceCubes.listeners.TickListener;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.profiles.GlobalProfileManager;
-import chanceCubes.proxy.CommonProxy;
+import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
+import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
-import chanceCubes.sounds.CCubesSounds;
-import chanceCubes.util.CCubesRecipies;
 import chanceCubes.util.NonreplaceableBlockOverride;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = CCubesCore.MODID, version = CCubesCore.VERSION, name = CCubesCore.NAME, guiFactory = "chanceCubes.client.gui.CCubesGuiFactory")
+import java.io.File;
+
+@Mod(CCubesCore.MODID)
 public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
-	public static final String VERSION = "@VERSION@";
-	public static final String NAME = "Chance Cubes";
 
-	public static final String gameVersion = "1.12.1";
-
-	@Instance(value = MODID)
-	public static CCubesCore instance;
-	@SidedProxy(clientSide = "chanceCubes.proxy.ClientProxy", serverSide = "chanceCubes.proxy.CommonProxy")
-	public static CommonProxy proxy;
-	public static CreativeTabs modTab = new CreativeTabs(MODID)
+	public static ItemGroup modTab = new ItemGroup(MODID)
 	{
+		@Override
 		public ItemStack createIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
 	};
-	public static Logger logger;
+	public static final Logger logger = LogManager.getLogger(MODID);
 
-	@EventHandler
-	public void init(FMLInitializationEvent event)
+	public CCubesCore()
 	{
-		CCubesRecipies.loadRecipies();
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		MinecraftForge.EVENT_BUS.register(this);
+		ConfigLoader.initParentFolder();
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 
-		if(event.getSide() == Side.CLIENT)
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 		{
-			CCubesItems.registerItems();
-			CCubesBlocks.registerBlocksItems();
-		}
-
-		proxy.registerRenderings();
+			new ClientProxy();
+			//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ProfileGui::openGui);
+		});
 	}
 
-	@EventHandler
-	public void load(FMLPreInitializationEvent event)
+	@SubscribeEvent
+	public void commonStart(FMLCommonSetupEvent event)
 	{
-		logger = event.getModLog();
-		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-
 		CCubesPacketHandler.init();
-		proxy.registerEvents();
-		CCubesSounds.loadSolunds();
-
-		if(CCubesSettings.chestLoot)
+		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
+		MinecraftForge.EVENT_BUS.register(new TickListener());
+		//MinecraftForge.EVENT_BUS.register(new WorldGen());
+		MinecraftForge.EVENT_BUS.register(new VanillaTriggerHooks());
+		if(ModList.get().isLoaded("gamestages"))
 		{
-			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1, 2, 5));
+			MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
+			CCubesCore.logger.log(Level.INFO, "Loaded GameStages support!");
 		}
-
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CCubesGuiHandler());
 	}
 
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
+	@SubscribeEvent
+	public void serverStart(FMLServerStartingEvent event)
 	{
-		CCubesSettings.backupNRB.add(RewardsUtil.getBlockStateFromBlockMeta(Block.getBlockFromName("minecraft:bedrock"), 0));
+		// ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
+
+		if(CCubesSettings.chestLoot.get())
+		{
+			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
+			// 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
+			// 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
+			// 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
+			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new
+			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
+			// 2, 5));
+		}
+
+		CCubesSettings.backupNRB.add(Blocks.BEDROCK.getDefaultState());
+		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.getDefaultState());
 		DefaultRewards.loadDefaultRewards();
 		DefaultGiantRewards.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
 		GlobalProfileManager.initProfiles();
 		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
-		ConfigLoader.config.save();
+		// ConfigLoader.config.save();
+
+		// See ForgeCommand
+		new CCubesServerCommands(event.getCommandDispatcher());
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
 
-	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event)
-	{
-		ModHookUtil.loadCustomModRewards();
-		ConfigLoader.config.save();
-
-		event.registerServerCommand(new CCubesServerCommands());
-	}
-
-	@EventHandler
+	@SubscribeEvent
 	public void onServerStart(FMLServerStartedEvent event)
 	{
-		WorldServer[] dimensionWorlds = FMLCommonHandler.instance().getMinecraftServerInstance().worlds;
-		if(dimensionWorlds.length > 0 && !GlobalProfileManager.isWorldProfilesLoaded())
-		{
-			WorldServer world = dimensionWorlds[0];
+
+		ServerWorld world = event.getServer().getWorld(DimensionType.OVERWORLD);
+		if(!GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.updateProfilesForWorld(world);
-		}
 	}
 
-	@EventHandler
+	@SubscribeEvent
 	public void onServerStop(FMLServerStoppedEvent event)
 	{
 		if(GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.unloadProfilesForWorld();
 	}
 
-	@EventHandler
-	public void onIMCMessage(IMCEvent e)
+	@SubscribeEvent
+	public void onIMCMessage(InterModProcessEvent e)
 	{
-		Logger logger = LogManager.getLogger(MODID);
-		for(IMCMessage message : e.getMessages())
+		e.getIMCStream().forEach((message) ->
 		{
-			if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
+			/*Logger logger = LogManager.getLogger(MODID);
+			for(IMCMessage message : e.getMessages())
 			{
-				ItemStack stack = message.getItemStackValue();
-				Block block = Block.getBlockFromItem(stack.getItem());
-				IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
-				CCubesSettings.nonReplaceableBlocksIMC.add(state);
-				logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
-			}
-		}
+				if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
+				{
+					ItemStack stack = message.getItemStackValue();
+					Block block = Block.getBlockFromItem(stack.getItem());
+					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
+					CCubesSettings.nonReplaceableBlocksIMC.add(state);
+					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
+				}
+			}*/
+		});
 	}
 }

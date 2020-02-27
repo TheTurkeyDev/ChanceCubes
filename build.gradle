@@ -1,44 +1,89 @@
 buildscript {
     repositories {
+        mavenLocal()
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-
-apply plugin: 'java'
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-compileJava.options.encoding = 'UTF-8'
- 
 ext.buildnumber = 0
 if (System.getenv('BUILD_NUMBER') != null)
     project.buildnumber = System.getenv('BUILD_NUMBER')
 else
     logger.lifecycle "No build number detected, setting to 0"
 
-
 group= "com.theprogrammingturkey.chancecubes"
 archivesBaseName= "ChanceCubes"
 version= "${mc_version}-${mod_version}.${buildnumber}"
 
-sourceCompatibility = targetCompatibility = "1.8"
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run-1.12"
+    mappings channel: 'snapshot', version: '20190719-1.14.3'
 
-    mappings = "stable_39"
+    //accessTransformer = file('my_at.cfg')
 
-    replace "@VERSION@", project.version
-    replaceIn "CCubesCore.java"
-    replaceIn "mcmod.info"
+    // default run configurations.
+    // these can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            workingDirectory project.file('run-1.14')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                chancecubes {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run-1.14')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                chancecubes {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run-1.14')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'chancecubes', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                chancecubes {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 repositories {
@@ -46,43 +91,36 @@ repositories {
 }
 
 dependencies {
-    compileOnly "net.darkhax.gamestages:GameStages-1.12.2:2.0.112"
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    compileOnly "net.darkhax.gamestages:GameStages-1.14.4:4.2.11"
 }
 
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes(["Specification-Title": "chance_cubes",
+                    "Specification-Vendor": "turkey2349",
+                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": "${version}",
+                    "Implementation-Vendor" :"turkey2349",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
 
-build.dependsOn sourceJar
- 
- publishing {
-    tasks.publish.dependsOn 'build'
-    publications {
-        mavenJava(MavenPublication) {
-        	artifactId 'ChanceCubes'
-            from components.java
- 
-            artifact sourceJar
-        }
-    }
-
-    repositories {
-        if (project.hasProperty('mavendir')) {
-            maven { url mavendir }
-        }
-        else{
-        	logger.error('Chance Cubes failed to find maven directory')
-        }
-    }
-}
+//def reobfFile = file("$buildDir/reobfJar/output.jar")
+//def reobfArtifact = artifacts.add('default', reobfFile) {
+//    type 'jar'
+//    builtBy 'reobfJar'
+//}
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            artifact reobfArtifact
+//        }
+//    }
+//    repositories {
+//        maven {
+//            url "file:///${project.projectDir}/mcmodsrepo"
+//        }
+//    }
+//}

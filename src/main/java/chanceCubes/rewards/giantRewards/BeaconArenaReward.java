@@ -1,30 +1,27 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BeaconArenaReward extends BaseCustomReward
 {
 	// @formatter:off
-	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
-			Blocks.MELON_BLOCK.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
-			Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))),
-			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(),
-			Blocks.NETHERRACK.getDefaultState()};
+	private BlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(),
+			Blocks.STONE.getDefaultState(),Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(),
+			Blocks.CLAY.getDefaultState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.getDefaultState(),
+			Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 
 	public BeaconArenaReward()
@@ -33,7 +30,7 @@ public class BeaconArenaReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 		spawnWall(blocks);
@@ -129,7 +126,7 @@ public class BeaconArenaReward extends BaseCustomReward
 		}
 		for(BlockPos pos : usedPositions)
 		{
-			IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
+			BlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 			blocks.add(new OffsetBlock(pos.getX(), -1, pos.getZ(), state, false, (delay / 8)));
 			delay++;
 		}

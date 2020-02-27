@@ -1,29 +1,27 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BlockInfectionReward extends BaseCustomReward
 {
 	// @formatter:off
-	private IBlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.STONE.getDefaultState(), 
-			Blocks.MELON_BLOCK.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(), Blocks.CLAY.getDefaultState(),
-			Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byMetadata(RewardsUtil.rand.nextInt(16))),
-			Blocks.BRICK_BLOCK.getDefaultState(), Blocks.WEB.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
+	private BlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(),
+			Blocks.STONE.getDefaultState(),Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(),
+			Blocks.CLAY.getDefaultState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.getDefaultState(),
+			Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
 	// @formatter:on
 
 	private BlockPos[] touchingPos = {new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
@@ -34,7 +32,7 @@ public class BlockInfectionReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		int delay = 0;
 		int delayShorten = 20;
@@ -62,7 +60,7 @@ public class BlockInfectionReward extends BaseCustomReward
 
 			changedBlocks.add(nextPos);
 			addSurroundingBlocks(world, pos, nextPos, changedBlocks, possibleBlocks);
-			IBlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
+			BlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 			blocks.add(new OffsetBlock(nextPos.getX(), nextPos.getY(), nextPos.getZ(), state, false, (delay / delayShorten)));
 			delay++;
 			lastPos = nextPos;
@@ -80,7 +78,7 @@ public class BlockInfectionReward extends BaseCustomReward
 			BlockPos checkPos = offsetCord.add(pos);
 			if(!changedBlocks.contains(checkPos) && !possibleBlocks.contains(checkPos))
 			{
-				if(!(world.getBlockState(worldCord.add(checkPos)).getBlock() instanceof BlockAir))
+				if(!(world.getBlockState(worldCord.add(checkPos)).getBlock() instanceof AirBlock))
 				{
 					possibleBlocks.add(checkPos);
 				}

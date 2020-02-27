@@ -5,10 +5,11 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
-import net.minecraft.entity.monster.EntityPolarBear;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.PolarBearEntity;
+import net.minecraft.entity.passive.SnowGolemEntity;
+import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,15 +33,15 @@ public class SnowGlobeBiome extends BaseBiome
 
 			if(ri == 0)
 			{
-				EntitySnowman snowman = new EntitySnowman(world);
+				SnowGolemEntity snowman = EntityType.SNOW_GOLEM.create(world);
 				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntity(snowman);
+				world.addEntity(snowman);
 			}
 			else if(ri == 1)
 			{
-				EntityPolarBear polarBear = new EntityPolarBear(world);
+				PolarBearEntity polarBear = EntityType.POLAR_BEAR.create(world);
 				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntity(polarBear);
+				world.addEntity(polarBear);
 			}
 		}
 
@@ -51,12 +52,10 @@ public class SnowGlobeBiome extends BaseBiome
 			{
 				for(int i = 0; i < 100; i++)
 				{
-					EntitySnowball snowball = new EntitySnowball(world);
-					snowball.motionX = -1 + (Math.random() * 2);
-					snowball.motionY = 0.8;
-					snowball.motionZ = -1 + (Math.random() * 2);
+					SnowballEntity snowball = EntityType.SNOWBALL.create(world);
+					snowball.setMotion(-1 + (Math.random() * 2), 0.8, -1 + (Math.random() * 2));
 					snowball.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-					world.spawnEntity(snowball);
+					world.addEntity(snowball);
 				}
 			}
 		});
@@ -75,7 +74,7 @@ public class SnowGlobeBiome extends BaseBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SNOW_LAYER, false, (delay / BioDomeGen.delayShorten));
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SNOW, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 		}
 	}

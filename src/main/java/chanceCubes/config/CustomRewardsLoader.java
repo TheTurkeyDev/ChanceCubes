@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraftforge.fml.ModList;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -94,7 +95,8 @@ public class CustomRewardsLoader
 		try
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
-			JsonObject json = HTTPUtil.getWebFile("POST", "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<>("version", CCubesCore.VERSION), new CustomEntry<>("date", today)).getAsJsonObject();
+			String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
+			JsonObject json = HTTPUtil.getWebFile("POST", "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<>("version", ver), new CustomEntry<>("date", today)).getAsJsonObject();
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
 		} catch(Exception e)
@@ -106,7 +108,7 @@ public class CustomRewardsLoader
 
 	private void loadHolidayRewards(JsonElement json)
 	{
-		if(!CCubesSettings.holidayRewards)
+		if(!CCubesSettings.holidayRewards.get())
 			return;
 
 		JsonObject holidays = json.getAsJsonObject();
@@ -125,7 +127,7 @@ public class CustomRewardsLoader
 			if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
 				BlockChanceCube.textureToSet = t;
 
-		if(!CCubesSettings.holidayRewardTriggered)
+		if(!CCubesSettings.holidayRewardTriggered.get())
 		{
 			if(holidays.has("Holiday") && !(holidays.get("Holiday") instanceof JsonNull) && holidays.has("Reward") && !(holidays.get("Reward") instanceof JsonNull))
 			{
@@ -148,7 +150,7 @@ public class CustomRewardsLoader
 
 	private void loadDisabledRewards(JsonArray disabledRewards)
 	{
-		if(CCubesSettings.disabledRewards)
+		if(CCubesSettings.disabledRewards.get())
 		{
 			for(JsonElement reward : disabledRewards)
 			{

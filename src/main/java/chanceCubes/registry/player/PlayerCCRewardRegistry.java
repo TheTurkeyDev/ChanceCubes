@@ -9,6 +9,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -88,7 +89,7 @@ public class PlayerCCRewardRegistry
 		return null;
 	}
 
-	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
+	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
 	{
 		if(CCubesSettings.testRewards)
 		{
@@ -127,7 +128,7 @@ public class PlayerCCRewardRegistry
 				{
 					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 					pendant.damage(stack);
-					if(stack.getItemDamage() >= CCubesSettings.pendantUses)
+					if(stack.getDamage() >= CCubesSettings.pendantUses.get())
 						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 					chance += pendant.getChanceIncrease();
 					if(chance > 100)
@@ -139,8 +140,8 @@ public class PlayerCCRewardRegistry
 
 		int lowerIndex = 0;
 		int upperIndex = sortedRewards.size() - 1;
-		int lowerRange = Math.max(chance - CCubesSettings.rangeMin, -100);
-		int upperRange = Math.min(chance + CCubesSettings.rangeMax, 100);
+		int lowerRange = Math.max(chance - CCubesSettings.rangeMin.get(), -100);
+		int upperRange = Math.min(chance + CCubesSettings.rangeMax.get(), 100);
 
 		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 		{
@@ -182,7 +183,7 @@ public class PlayerCCRewardRegistry
 		}
 	}
 
-	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
+	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player)
 	{
 		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);

@@ -5,106 +5,89 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockChanceCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockChanceCube extends BaseChanceBlock
 {
-	public static final PropertyEnum<BlockChanceCube.EnumTexture> TEXTURE = PropertyEnum.<BlockChanceCube.EnumTexture>create("texture", BlockChanceCube.EnumTexture.class);
+	public static final EnumProperty<BlockChanceCube.EnumTexture> TEXTURE = EnumProperty.create("texture", BlockChanceCube.EnumTexture.class);
 
 	public static EnumTexture textureToSet = EnumTexture.DEFAULT;
 
 	public BlockChanceCube()
 	{
-		super("chance_cube");
-		this.setLightLevel(2);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TEXTURE, textureToSet));
+		super(getBuilder().lightValue(2), "chance_cube");
+		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, EnumTexture.DEFAULT));
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int p_149915_2_)
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceCube();
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
 	{
 		if(!world.isRemote && !(player instanceof FakePlayer) && world.getTileEntity(pos) instanceof TileChanceCube)
 		{
 			TileChanceCube te = (TileChanceCube) world.getTileEntity(pos);
 			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 			{
-				ItemStack stack = new ItemStack(Item.getItemFromBlock(CCubesBlocks.CHANCE_CUBE), 1);
-				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-				EntityItem blockstack = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-				world.setBlockToAir(pos);
+				ItemStack stackCube = new ItemStack(CCubesItems.CHANCE_CUBE, 1);
+				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, te.isScanned() ? te.getChance() : -101);
+				ItemEntity blockstack = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stackCube);
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				world.removeTileEntity(pos);
-				world.spawnEntity(blockstack);
+				world.addEntity(blockstack);
 				return true;
 			}
 
-			if(te != null)
-			{
-				world.setBlockToAir(pos);
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, te.getChance());
-			}
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, te.getChance());
 		}
 		return true;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack)
 	{
 		GiantCubeUtil.checkMultiBlockForm(pos, worldIn, true);
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		IBlockState iblockstate = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
-		return iblockstate.withProperty(TEXTURE, textureToSet);
+		BlockState iblockstate = super.getStateForPlacement(context);
+		return iblockstate.with(TEXTURE, textureToSet);
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	public IBlockState getStateFromMeta(int meta)
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return this.getDefaultState().withProperty(TEXTURE, textureToSet);
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	public int getMetaFromState(IBlockState state)
-	{
-		return 0;
-	}
-
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		return this.getDefaultState().withProperty(TEXTURE, textureToSet);
-	}
-
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, TEXTURE);
+		builder.add(TEXTURE);
 	}
 
 	public enum EnumTexture implements IStringSerializable

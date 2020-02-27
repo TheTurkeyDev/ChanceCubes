@@ -1,30 +1,44 @@
 package chanceCubes.items;
 
-import chanceCubes.CCubesCore;
-import chanceCubes.client.gui.CCubesGuiHandler;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class ItemCreativePendant extends BaseChanceCubesItem
 {
 	public ItemCreativePendant()
 	{
-		super("creative_pendant");
-		this.setMaxStackSize(1);
+		super((new Item.Properties()).maxStackSize(1), "creative_pendant");
 		super.addLore("Right click to change the chance");
 		super.addLore("of the inserted cubes.");
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
-		player.setActiveHand(hand);
-		FMLNetworkHandler.openGui(player, CCubesCore.instance, CCubesGuiHandler.CREATIVE_PENDANT_ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
-		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		if(world.isRemote)
+			return new ActionResult<>(ActionResultType.PASS, stack);
+
+		//TODO Reimplement
+//		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider()
+//		{
+//			@Override
+//			public ITextComponent getDisplayName()
+//			{
+//				return new StringTextComponent("Creative Pendant");
+//			}
+//
+//			@Override
+//			public Container createMenu(int p_createMenu_1_, PlayerInventory inv, PlayerEntity player)
+//			{
+//				return new CreativePendantContainer(0, inv);
+//			}
+//		});
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 }

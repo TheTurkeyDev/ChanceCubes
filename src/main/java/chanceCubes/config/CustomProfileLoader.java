@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -146,7 +146,7 @@ public class CustomProfileLoader
 										CCubesCore.logger.log(Level.ERROR, "Unable to parse profile \"" + profileID + "\" Triggers. Missing \"difficulty\" json entry for the diffuculty trigger type.");
 										return;
 									}
-									profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.valueOf(triggerJson.get("difficulty").getAsString().toUpperCase())));
+									profile.addTriggers(new DifficultyTrigger(profile, Difficulty.valueOf(triggerJson.get("difficulty").getAsString().toUpperCase())));
 									break;
 								case "gamestage":
 									if(!triggerJson.has("stage"))

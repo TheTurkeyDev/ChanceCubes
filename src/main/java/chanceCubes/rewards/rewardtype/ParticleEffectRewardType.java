@@ -1,7 +1,6 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketParticle;
 import chanceCubes.rewards.rewardparts.ParticlePart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

@@ -5,7 +5,7 @@ import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -47,7 +47,7 @@ public class BlockAreaPart extends BasePart
 		this(new IntVar(xSize), new IntVar(ySize), new IntVar(zSize), block, new IntVar(xOff), new IntVar(yOff), new IntVar(zOff), new BoolVar(falling), new IntVar(delay), new BoolVar(causesUpdate), new BoolVar(relativeToPlayer));
 	}
 
-	public void placeBlocks(World world, EntityPlayer player, int worldX, int worldY, int worldZ)
+	public void placeBlocks(World world, PlayerEntity player, int worldX, int worldY, int worldZ)
 	{
 		String[] blockDataParts = block.getValue().split(":");
 		Block osbBlock;

@@ -1,39 +1,38 @@
 package chanceCubes.client.listeners;
 
-import org.lwjgl.opengl.GL11;
-
-import chanceCubes.CCubesCore;
 import chanceCubes.util.SchematicUtil;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 
 public class WorldRenderListener
 {
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
 	{
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 		{
 			GlStateManager.pushMatrix();
-			
-			Entity entity = CCubesCore.proxy.getClientPlayer();
-			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
-	        double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
-	        double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
 
-	        GlStateManager.translate(-interpPosX, -interpPosY, -interpPosZ);
-	        GlStateManager.disableTexture2D();
-	        GlStateManager.enableBlend();
-	        GlStateManager.enableAlpha();
-	        GlStateManager.disableLighting();
-	        GlStateManager.glLineWidth(2f);
-	        GlStateManager.glBegin(GL11.GL_LINES);
+			Entity entity = Minecraft.getInstance().player;
+			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
+			double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
+			double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
+
+			GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
+			GlStateManager.disableTexture();
+			GlStateManager.enableBlend();
+			GlStateManager.enableAlphaTest();
+			GlStateManager.disableLighting();
+			GlStateManager.lineWidth(2f);
+			GlStateManager.begin(GL11.GL_LINES);
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
 			BlockPos pos2 = SchematicUtil.selectionPoints[1];
@@ -44,9 +43,9 @@ public class WorldRenderListener
 			int lowZ = Math.min(pos1.getZ(), pos2.getZ());
 			int highZ = Math.max(pos1.getZ(), pos2.getZ());
 
-			GlStateManager.color(0.9f, 0.0f, 0.5f, 1f);
+			GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
 
-			
+
 			GL11.glVertex3d(lowX, lowY, lowZ);
 			GL11.glVertex3d(highX, lowY, lowZ);
 			GL11.glVertex3d(lowX, lowY, highZ);
@@ -74,9 +73,9 @@ public class WorldRenderListener
 			GL11.glVertex3d(highX, lowY, highZ);
 			GL11.glVertex3d(highX, highY, highZ);
 
-			GlStateManager.glEnd();
+			GlStateManager.end();
 			GlStateManager.enableLighting();
-			GlStateManager.enableTexture2D();
+			GlStateManager.enableTexture();
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 		}

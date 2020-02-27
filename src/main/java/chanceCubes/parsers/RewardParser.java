@@ -17,8 +17,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -49,7 +55,7 @@ public class RewardParser
 				{
 					if(dependencies.getKey().equalsIgnoreCase("mod"))
 					{
-						if(!Loader.isModLoaded(dependencies.getValue().getAsString()))
+						if(!ModList.get().isLoaded(dependencies.getValue().getAsString()))
 							return new CustomEntry<>(null, false);
 					}
 					else if(dependencies.getKey().equalsIgnoreCase("mcVersion"))
@@ -58,7 +64,13 @@ public class RewardParser
 						String[] versionsToCheck = dependencies.getValue().getAsString().split(",");
 						for(String toCheckV : versionsToCheck)
 						{
-							String currentMCV = CCubesCore.gameVersion;
+
+							String currentMCV;
+							if(EffectiveSide.get() == LogicalSide.CLIENT)
+								currentMCV = Minecraft.getInstance().getVersion();
+							else
+								currentMCV = ServerLifecycleHooks.getCurrentServer().getMinecraftVersion();
+
 							if(toCheckV.contains("*"))
 							{
 								currentMCV = currentMCV.substring(0, currentMCV.lastIndexOf("."));
@@ -161,10 +173,11 @@ public class RewardParser
 			offBlock.setRemoveUnbreakableBlocks(ParserUtil.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
 			offBlock.setPlaysSound(ParserUtil.getBoolean(element, "playSound", offBlock.doesPlaySound()));
 
+			//TODO
 			if(blockDataParts.length > 2)
-				offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
+				//offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
 
-			blocks.add(offBlock);
+				blocks.add(offBlock);
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[0])));
 		return rewards;
@@ -295,12 +308,11 @@ public class RewardParser
 		for(JsonElement element : rawReward)
 		{
 			JsonObject obj = element.getAsJsonObject();
-			IntVar meta = ParserUtil.getInt(obj, "meta", 0);
 			IntVar amount = ParserUtil.getInt(obj, "amount", 1);
 			IntVar chance = ParserUtil.getInt(obj, "chance", 50);
 
 			// TODO: Handle items
-			items.add(new ChestChanceItem(ParserUtil.getString(obj, "item", "minecraft:dirt").getValue(), meta, chance, amount));
+			items.add(new ChestChanceItem(ParserUtil.getString(obj, "item", "minecraft:dirt").getValue(), chance, amount));
 
 		}
 		rewards.add(new ChestRewardType(items.toArray(new ChestChanceItem[0])));

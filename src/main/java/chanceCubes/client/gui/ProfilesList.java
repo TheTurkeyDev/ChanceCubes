@@ -1,47 +1,31 @@
 package chanceCubes.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.PlayerProfileManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.client.gui.widget.list.ExtendedList;
 
-public class ProfilesList extends GuiListExtended
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProfilesList extends ExtendedList<ProfileListEntry>
 {
-	private List<IGuiListEntry> profiles = new ArrayList<>();
+	private List<AbstractList.AbstractListEntry<ProfileListEntry>> profiles = new ArrayList<>();
 	public ProfileGui profGui;
 
 	public ProfilesList(ProfileGui profGui, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
 	{
 		super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
 		this.profGui = profGui;
-		if(Minecraft.getMinecraft().player != null)
+		if(Minecraft.getInstance().player != null)
 		{
-			PlayerProfileManager ppm = GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString());
+			PlayerProfileManager ppm = GlobalProfileManager.getPlayerProfileManager(Minecraft.getInstance().player.getUniqueID().toString());
 			if(ppm != null)
 				for(IProfile s : ppm.getAllProfiles())
-					profiles.add(new ProfileListEntry(this, mcIn, s.getName()));
+					profiles.add(new ProfileListEntry(this, mcIn, s.getName(), profGui));
 		}
-	}
-
-	@Override
-	public IGuiListEntry getListEntry(int index)
-	{
-		return profiles.get(index);
-	}
-
-	@Override
-	protected int getSize()
-	{
-		return profiles.size();
-	}
-
-	protected int getScrollBarX()
-	{
-		return this.width / 2 + 160;
 	}
 
 	public int getListWidth()

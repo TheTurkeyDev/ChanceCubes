@@ -1,119 +1,114 @@
 package chanceCubes.client.gui;
 
-import java.io.IOException;
-
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.util.SchematicUtil;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class SchematicCreationGui extends GuiScreen
+@OnlyIn(Dist.CLIENT)
+public class SchematicCreationGui extends Screen
 {
-	private GuiTextField nameField;
+	private TextFieldWidget nameField;
 
-	private EntityPlayer player;
+	private PlayerEntity player;
 
-	private String[] buttonText = { "x--", "x++", "y--", "y++", "z--", "z++" };
+	private String[] buttonText = {"x--", "x++", "y--", "y++", "z--", "z++"};
 
-	public SchematicCreationGui(EntityPlayer player)
+	public SchematicCreationGui(PlayerEntity player)
 	{
+		super(new StringTextComponent("Test"));
 		this.player = player;
 	}
 
 	/**
 	 * Adds the buttons (and other controls) to the screen in question.
 	 */
-	public void initGui()
+	@Override
+	public void init()
 	{
-		this.buttonList.clear();
+		this.buttons.clear();
 		int i = this.width / 2;
-		this.nameField = new GuiTextField(0, this.fontRenderer, i - 70, 10, 140, 12);
+		this.nameField = new TextFieldWidget(this.font, i - 70, 10, 140, 12, "TEST");
 		this.nameField.setTextColor(-1);
 		this.nameField.setDisabledTextColour(-1);
 		this.nameField.setEnableBackgroundDrawing(true);
 		this.nameField.setMaxStringLength(100);
 		this.nameField.setText("Schematic Name");
 
-		this.buttonList.add(new GuiButton(9, i - 50, this.height - 70, 100, 20, "Back"));
-		this.buttonList.add(new GuiButton(10, i - 50, this.height - 40, 100, 20, "Create"));
-
-		for(int j = 0; j < 2; j++)
-			for(int k = 0; k < 6; k++)
-				this.buttonList.add(new GuiButton(11 + ((j * 6) + k), (i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k]));
-	}
-
-	public void onGuiClosed()
-	{
-		super.onGuiClosed();
-	}
-
-	protected void actionPerformed(GuiButton button)
-	{
-		if(button.enabled)
+		this.buttons.add(new Button(i - 50, this.height - 70, 100, 20, "Back", (button) ->
 		{
-			if(button.id == 9)
-			{
-				FMLCommonHandler.instance().showGuiScreen(null);
-			}
-			else if(button.id == 10)
-			{
-				String fileName = nameField.getText();
-				fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
-				SchematicUtil.createCustomSchematic(player.world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
-				player.sendMessage(new TextComponentString("Schematic file named " + fileName + " created!"));
-				RenderEvent.setCreatingSchematic(false);
-				SchematicUtil.selectionPoints[0] = null;
-				SchematicUtil.selectionPoints[1] = null;
-				FMLCommonHandler.instance().showGuiScreen(null);
-			}
-			else if(button.id > 10 && button.id < 24)
-			{
-				int id = (button.id - 11) % 6;
-				int point = (button.id - 11) / 6;
+			SchematicCreationGui.this.onClose();
+		}));
 
-				if(id == 0)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(-1, 0, 0);
-				else if(id == 1)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(1, 0, 0);
-				else if(id == 2)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, -1, 0);
-				else if(id == 3)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 1, 0);
-				else if(id == 4)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, -1);
-				else if(id == 5)
-					SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, 1);
+		this.buttons.add(new Button(i - 50, this.height - 40, 100, 20, "Create", (button) ->
+		{
+			String fileName = nameField.getText();
+			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
+			SchematicUtil.createCustomSchematic(player.world, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
+			player.sendMessage(new StringTextComponent("Schematic file named " + fileName + " created!"));
+			RenderEvent.setCreatingSchematic(false);
+			SchematicUtil.selectionPoints[0] = null;
+			SchematicUtil.selectionPoints[1] = null;
+			SchematicCreationGui.this.onClose();
+		}));
+
+
+		int[][] offsets = {{-1}, {}};
+		for(int j = 0; j < 2; j++)
+		{
+			for(int k = 0; k < 6; k++)
+			{
+				int buttonID = (j * 2) + k;
+				this.buttons.add(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k], (button) ->
+				{
+					int idNormalized = buttonID % 6;
+					int point = (buttonID) / 6;
+
+					if(idNormalized == 0)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(-1, 0, 0);
+					else if(idNormalized == 1)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(1, 0, 0);
+					else if(idNormalized == 2)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, -1, 0);
+					else if(idNormalized == 3)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 1, 0);
+					else if(idNormalized == 4)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, -1);
+					else if(idNormalized == 5)
+						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].add(0, 0, 1);
+				}));
 			}
 		}
 	}
 
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) throws IOException
+	public boolean charTyped(char p_73869_1_, int p_73869_2_)
 	{
-		if(!this.nameField.textboxKeyTyped(p_73869_1_, p_73869_2_))
-			super.keyTyped(p_73869_1_, p_73869_2_);
+		if(!this.nameField.charTyped(p_73869_1_, p_73869_2_))
+			return super.charTyped(p_73869_1_, p_73869_2_);
+		return false;
 	}
 
-	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) throws IOException
+	@Override
+	public boolean mouseClicked(double x, double y, int mouseEvent)
 	{
-		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-		this.nameField.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+		super.mouseClicked(x, y, mouseEvent);
+		return this.nameField.mouseClicked(x, y, mouseEvent);
 	}
 
-	public void drawScreen(int mouseX, int mouseY, float p_73863_3_)
+	@Override
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		this.drawGradientRect(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
+		this.blit(0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
-			this.nameField.drawTextBox();
+			this.nameField.render(mouseX, mouseY, partialTicks);
 		int i = this.width / 2;
-		this.drawCenteredString(this.fontRenderer, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
-		this.drawCenteredString(this.fontRenderer, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
-		super.drawScreen(mouseX, mouseY, p_73863_3_);
+		this.drawCenteredString(this.font, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
+		this.drawCenteredString(this.font, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 }

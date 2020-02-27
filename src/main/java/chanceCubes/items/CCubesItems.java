@@ -2,12 +2,12 @@ package chanceCubes.items;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import chanceCubes.containers.CreativePendantContainer;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CCubesItems
 {
@@ -23,6 +23,14 @@ public class CCubesItems
 
 	public static BaseChanceCubesItem scanner;
 
+	public static ItemChanceCube CHANCE_CUBE;
+	public static ItemChanceCube CHANCE_ICOSAHEDRON;
+	public static ItemChanceCube GIANT_CUBE;
+	public static ItemChanceCube COMPACT_GIANT_CUBE;
+	public static ItemChanceCube CUBE_DISPENSER;
+
+	public static ContainerType<CreativePendantContainer> CREATIVE_PENDANT_CONTAINER;
+
 	@SubscribeEvent
 	public void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
@@ -35,27 +43,21 @@ public class CCubesItems
 		e.getRegistry().register(rewardSelectorPendant = new ItemRewardSelectorPendant());
 		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
-		e.getRegistry().register(new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
+		e.getRegistry().register(CHANCE_CUBE = new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
+		e.getRegistry().register(CHANCE_ICOSAHEDRON = new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
+		e.getRegistry().register(GIANT_CUBE = new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
+		e.getRegistry().register(COMPACT_GIANT_CUBE = new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
+		e.getRegistry().register(CUBE_DISPENSER = new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
 
 		e.getRegistry().register(scanner = new ItemScanner());
 	}
 
-	public static void registerItems()
+	@SubscribeEvent
+	public static void onContainerRegistry(RegistryEvent.Register<ContainerType<?>> event)
 	{
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-		mesher.register(CCubesItems.silkPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.silkPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT1, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT1.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT2, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT2.getItemName(), "inventory"));
-		mesher.register(CCubesItems.chancePendantT3, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.chancePendantT3.getItemName(), "inventory"));
-		mesher.register(CCubesItems.creativePendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.creativePendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.rewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.rewardSelectorPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.singleUseRewardSelectorPendant, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.singleUseRewardSelectorPendant.getItemName(), "inventory"));
-		mesher.register(CCubesItems.scanner, 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CCubesItems.scanner.getItemName(), "inventory"));
+		CREATIVE_PENDANT_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
+		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
+		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
 	}
 
 }

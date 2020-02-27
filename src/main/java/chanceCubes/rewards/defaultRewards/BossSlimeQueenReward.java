@@ -3,15 +3,16 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.monster.SlimeEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
@@ -26,29 +27,31 @@ public class BossSlimeQueenReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		EntitySlime queen = new EntitySlime(world);
-		queen.setCustomNameTag("Slime Queen");
+		SlimeEntity queen = EntityType.SLIME.create(world);
+		queen.setCustomName(new StringTextComponent("Slime Queen"));
 		queen.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 
-		queen.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Chance Cubes Boss Modifier", 10, 1));
+		queen.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		queen.setHealth(queen.getMaxHealth());
 
 		// Lol ok
-		NBTTagCompound nbt = queen.writeToNBT(new NBTTagCompound());
-		nbt.setInteger("Size", 10);
-		queen.readFromNBT(nbt);
+		//TODO:
+		CompoundNBT nbt = new CompoundNBT();
+		queen.writeAdditional(nbt);
+		nbt.putInt("Size", 10);
+		queen.readAdditional(nbt);
 
-		queen.addPotionEffect(new PotionEffect(MobEffects.GLOWING, Integer.MAX_VALUE, 0, true, false));
+		queen.addPotionEffect(new EffectInstance(Effects.GLOWING, Integer.MAX_VALUE, 0, true, false));
 
-		world.spawnEntity(queen);
+		world.addEntity(queen);
 
 		super.trackEntities(queen);
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, EntityPlayer player)
+	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
 	{
 		CCubesCore.logger.log(Level.INFO, "End Fight!");
 		Scheduler.scheduleTask(new Task("boss_fight_slime_queen_kill_all", 200, 20)
@@ -62,10 +65,10 @@ public class BossSlimeQueenReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				List<EntitySlime> slimes = world.getEntitiesWithinAABB(EntitySlime.class, new AxisAlignedBB(pos.add(-25, -25, -25), pos.add(25, 25, 25)));
+				List<SlimeEntity> slimes = world.getEntitiesWithinAABB(SlimeEntity.class, new AxisAlignedBB(pos.add(-25, -25, -25), pos.add(25, 25, 25)));
 				CCubesCore.logger.log(Level.INFO, slimes.size());
-				for(EntitySlime slime : slimes)
-					slime.setDead();
+				for(SlimeEntity slime : slimes)
+					slime.remove();
 			}
 		});
 

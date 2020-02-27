@@ -3,8 +3,8 @@ package chanceCubes.rewards.rewardtype;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class MessageRewardType extends BaseRewardType<MessagePart>
@@ -28,26 +28,26 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 	}
 
 	@Override
-	public void trigger(final MessagePart message, final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(final MessagePart message, final World world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Message Reward Delay", message.getDelay())
 		{
 			@Override
 			public void callback()
 			{
-				for(int i = 0; i < world.playerEntities.size(); ++i)
+				for(int i = 0; i < world.getPlayers().size(); ++i)
 				{
-					EntityPlayer entityplayer = world.playerEntities.get(i);
+					PlayerEntity entityplayer = world.getPlayers().get(i);
 
 					if(entityplayer.equals(player))
 					{
-						entityplayer.sendMessage(new TextComponentString(message.getMessage()));
+						entityplayer.sendMessage(new StringTextComponent(message.getMessage()));
 					}
 					else
 					{
 						double dist = Math.sqrt(Math.pow(x - entityplayer.posX, 2) + Math.pow(y - entityplayer.posY, 2) + Math.pow(z - entityplayer.posZ, 2));
 						if(dist <= message.getRange() || message.isServerWide())
-							entityplayer.sendMessage(new TextComponentString(message.getMessage()));
+							entityplayer.sendMessage(new StringTextComponent(message.getMessage()));
 					}
 				}
 			}

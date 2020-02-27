@@ -1,16 +1,16 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class AnvilRain extends BaseCustomReward
 {
@@ -21,7 +21,7 @@ public class AnvilRain extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos position, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
 	{
 		final RewardBlockCache cache = new RewardBlockCache(world, position, player.getPosition());
 		for(int i = 0; i < super.getSettingAsInt(settings, "num_anvils", 5, 0, 100); i++)

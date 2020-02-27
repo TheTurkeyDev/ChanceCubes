@@ -2,7 +2,7 @@ package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -35,7 +35,7 @@ public class DesertBiome extends BaseBiome
 			osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 			delay++;
-			osb = new OffsetBlock(x, y + 1, z, Blocks.DEADBUSH, false, (delay / BioDomeGen.delayShorten));
+			osb = new OffsetBlock(x, y + 1, z, Blocks.DEAD_BUSH, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 			delay++;
 		}

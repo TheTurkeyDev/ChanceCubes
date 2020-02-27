@@ -1,8 +1,9 @@
 package chanceCubes.tileentities;
 
-import net.minecraft.nbt.NBTTagCompound;
+import chanceCubes.blocks.CCubesBlocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -10,6 +11,11 @@ public class TileGiantCube extends TileEntity
 {
 	private boolean hasMaster, isMaster;
 	private BlockPos masterPos;
+
+	public TileGiantCube()
+	{
+		super(CCubesBlocks.TILE_CHANCE_GIANT);
+	}
 
 	/**
 	 * Reset method to be run when the master is gone or tells them to
@@ -31,46 +37,47 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound data)
+	public CompoundNBT write(CompoundNBT data)
 	{
-		data = super.writeToNBT(data);
+		data = super.write(data);
 		if(masterPos == null)
 			masterPos = new BlockPos(0, 0, 0);
-		data.setInteger("masterX", masterPos.getX());
-		data.setInteger("masterY", masterPos.getY());
-		data.setInteger("masterZ", masterPos.getZ());
-		data.setBoolean("hasMaster", hasMaster);
-		data.setBoolean("isMaster", isMaster);
+		data.putInt("masterX", masterPos.getX());
+		data.putInt("masterY", masterPos.getY());
+		data.putInt("masterZ", masterPos.getZ());
+		data.putBoolean("hasMaster", hasMaster);
+		data.putBoolean("isMaster", isMaster);
 		return data;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound data)
+	public void read(CompoundNBT data)
 	{
-		super.readFromNBT(data);
-		int masterX = data.getInteger("masterX");
-		int masterY = data.getInteger("masterY");
-		int masterZ = data.getInteger("masterZ");
+		super.read(data);
+		int masterX = data.getInt("masterX");
+		int masterY = data.getInt("masterY");
+		int masterZ = data.getInt("masterZ");
 		this.masterPos = new BlockPos(masterX, masterY, masterZ);
 		hasMaster = data.getBoolean("hasMaster");
 		isMaster = data.getBoolean("isMaster");
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
-	}
-
-	public NBTTagCompound getUpdateTag()
-	{
-		return this.writeToNBT(new NBTTagCompound());
+		return new SUpdateTileEntityPacket(this.pos, 0, getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public CompoundNBT getUpdateTag()
 	{
-		readFromNBT(pkt.getNbtCompound());
+		return this.write(new CompoundNBT());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
 	}
 
 	public boolean hasMaster()

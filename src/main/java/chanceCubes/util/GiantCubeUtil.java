@@ -3,6 +3,7 @@ package chanceCubes.util;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileGiantCube;
+import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +14,7 @@ public class GiantCubeUtil
 	/**
 	 * Check that structure is properly formed
 	 *
-	 * @param pos to start the check at
+	 * @param pos   to start the check at
 	 * @param world world
 	 * @param build if the giant cube should be built if the structure is valid
 	 * @return if there is a valid 3x3x3 configuration
@@ -150,7 +151,7 @@ public class GiantCubeUtil
 					{
 						((TileGiantCube) tile).reset();
 						world.removeTileEntity(blockPos);
-						world.setBlockToAir(blockPos);
+						world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 					}
 				}
 	}

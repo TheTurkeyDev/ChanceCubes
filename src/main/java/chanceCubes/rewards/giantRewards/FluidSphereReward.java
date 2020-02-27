@@ -1,18 +1,18 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FluidSphereReward extends BaseCustomReward
 {
@@ -22,11 +22,11 @@ public class FluidSphereReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 
-		Block block = RewardsUtil.getRandomFluid().getBlock();
+		Fluid fluid = RewardsUtil.getRandomFluid();
 
 		int delay = 0;
 		for(int i = 0; i <= 5; i++)
@@ -38,7 +38,7 @@ public class FluidSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.abs(loc.getDistance(0, 0, 0));
+						double dist = Math.abs(loc.distanceSq(0, 0, 0, false));
 						if(dist <= 5 - i && dist > 5 - (i + 1))
 						{
 							if(i == 0)
@@ -50,8 +50,7 @@ public class FluidSphereReward extends BaseCustomReward
 							}
 							else
 							{
-								OffsetBlock osb = new OffsetBlock(xx, yy, zz, block, false, delay);
-								osb.setBlockState(block.getDefaultState());
+								OffsetBlock osb = new OffsetBlock(xx, yy, zz, fluid.getDefaultState().getBlockState(), false, delay);
 								blocks.add(osb);
 								delay++;
 							}

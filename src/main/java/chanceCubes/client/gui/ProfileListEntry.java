@@ -3,81 +3,54 @@ package chanceCubes.client.gui;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.text.StringTextComponent;
 
-public class ProfileListEntry implements IGuiListEntry
+public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileListEntry>
 {
 	private ProfilesList profilesList;
 	private IProfile profile;
 	private Minecraft mc;
-	private GuiButton enableToggleBtn;
-	private GuiButton editBtn;
+	private Button enableToggleBtn;
+	private Button editBtn;
 	private boolean enabled;
 
-	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName)
+	public ProfileListEntry(ProfilesList profilesList, Minecraft mcIn, String profileName, Screen parentScreen)
 	{
-		//TODO: ClientSide
 		this.profile = GlobalProfileManager.getProfilefromName(profileName);
 		this.profilesList = profilesList;
 		this.mc = mcIn;
-		enabled = GlobalProfileManager.getPlayerProfileManager(Minecraft.getMinecraft().player.getUniqueID().toString()).isProfileEnabled(profile);
-		this.enableToggleBtn = new GuiButton(0, 0, 0, 50, 16, enabled ? "Enabled" : "Disabled");
-		this.editBtn = new GuiButton(1, 0, 0, 40, 16, "Info");
-	}
+		enabled = GlobalProfileManager.getPlayerProfileManager(Minecraft.getInstance().player.getUniqueID().toString()).isProfileEnabled(profile);
 
-	@Override
-	public void updatePosition(int slotIndex, int x, int y, float partialTicks)
-	{
-
-	}
-
-	@Override
-	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
-	{
-		mc.fontRenderer.drawString(profile.getName(), x, y + 1, 16777215);
-		this.enableToggleBtn.x = x + this.profilesList.getListWidth() - 90;
-		this.enableToggleBtn.y = y;
-		this.editBtn.x = x + this.profilesList.getListWidth() - 35;
-		this.editBtn.y = y;
-		//this.button.enabled = enabled() && !isDefault();
-		this.enableToggleBtn.drawButton(this.mc, mouseX, mouseY, partialTicks);
-		this.editBtn.drawButton(this.mc, mouseX, mouseY, partialTicks);
-		if(isSelected && mouseX - x < this.profilesList.getListWidth() - 55)
+		this.enableToggleBtn = new Button(0, 0, 50, 16, enabled ? "Enabled" : "Disabled", (button) ->
 		{
-			profilesList.profGui.setHoverText(this.profile.getDescLong());
-		}
-	}
-
-	@Override
-	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
-	{
-		if(this.enableToggleBtn.mousePressed(this.mc, mouseX, mouseY))
-		{
-			enableToggleBtn.playPressSound(mc.getSoundHandler());
+			enableToggleBtn.playDownSound(mc.getSoundHandler());
 			enabled = !enabled;
-			//TODO: Needs packet to server
-			String playerUUID = Minecraft.getMinecraft().player.getUniqueID().toString();
+			String playerUUID = Minecraft.getInstance().player.getUniqueID().toString();
 			if(enabled)
 				GlobalProfileManager.getPlayerProfileManager(playerUUID).enableProfile(profile);
 			else
 				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile);
 
-			this.enableToggleBtn.displayString = enabled ? "Enabled" : "Disabled";
-			return true;
-		}
-		else if(this.editBtn.mousePressed(this.mc, mouseX, mouseY))
+			enableToggleBtn.setMessage(enabled ? "Enabled" : "Disabled");
+		});
+
+		this.editBtn = new Button(0, 0, 40, 16, "Info", (button) ->
 		{
-			editBtn.playPressSound(mc.getSoundHandler());
-			this.mc.displayGuiScreen(new ProfileInfoGui(this.profilesList.profGui, profile));
-		}
-		return false;
+			editBtn.playDownSound(mc.getSoundHandler());
+			mc.displayGuiScreen(new ProfileInfoGui(new StringTextComponent(""), profile, parentScreen));
+		});
 	}
 
 	@Override
-	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY)
+	public void render(int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
 	{
-
+		mc.fontRenderer.drawString(profile.getName(), left, top + 1, 16777215);
+		this.enableToggleBtn.x = left + this.profilesList.getListWidth() - 50;
+		this.enableToggleBtn.y = top;
+		if(isSelected && mouseX - left < this.profilesList.getListWidth() - 55)
+			profilesList.profGui.setHoverText(this.profile.getDescLong());
 	}
-
 }

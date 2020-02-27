@@ -1,16 +1,18 @@
 package chanceCubes.tileentities;
 
+import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.sounds.CCubesSounds;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Util;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 import javax.vecmath.AxisAngle4d;
@@ -19,14 +21,14 @@ import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 import java.util.Random;
 
-public class TileChanceD20 extends TileEntity implements ITickable
+public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 {
 	private static final Random random = new Random();
 
 	private boolean breaking = false;
 	private int stage = 0;
 	public float rotation = 0, rotationDelta = 0, rotationInc = 0, wave = 0;
-	private EntityPlayer player;
+	private PlayerEntity player;
 
 	private int chance;
 	private boolean isScanned = false;
@@ -35,7 +37,8 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public TileChanceD20()
 	{
-		if(!CCubesSettings.d20UseNormalChances)
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
+		if(!CCubesSettings.d20UseNormalChances.get())
 		{
 			this.chance = random.nextBoolean() ? -100 : 100;
 		}
@@ -49,6 +52,7 @@ public class TileChanceD20 extends TileEntity implements ITickable
 
 	public TileChanceD20(int initialChance)
 	{
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
 		this.chance = initialChance;
 	}
 
@@ -63,22 +67,22 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public CompoundNBT write(CompoundNBT nbt)
 	{
-		nbt.setInteger("chance", this.getChance());
-		nbt = super.writeToNBT(nbt);
+		nbt.putInt("chance", this.getChance());
+		nbt = super.write(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void read(CompoundNBT nbt)
 	{
-		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		super.read(nbt);
+		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
-	public void update()
+	public void tick()
 	{
 		if(breaking)
 			stage++;
@@ -87,14 +91,14 @@ public class TileChanceD20 extends TileEntity implements ITickable
 			breaking = false;
 			if(!this.world.isRemote)
 			{
-				this.world.setBlockToAir(this.pos);
+				this.world.setBlockState(this.pos, Blocks.AIR.getDefaultState());
 				this.world.removeTileEntity(this.pos);
 				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(this.world, this.pos, player, this.getChance());
 			}
 		}
 		else if(world.isRemote)
 		{
-			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Minecraft.getSystemTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
+			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Util.nanoTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
 			AxisAngle4d pitch = new AxisAngle4d(1, 0, 0, 0F);
 
 			// Translation
@@ -116,11 +120,11 @@ public class TileChanceD20 extends TileEntity implements ITickable
 				matrix.setRotation(rot);
 			}
 			transform = new TRSRTransformation(matrix);
-			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
+			//this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
 	}
 
-	public void startBreaking(EntityPlayer player)
+	public void startBreaking(PlayerEntity player)
 	{
 		if(!breaking)
 		{
@@ -140,17 +144,17 @@ public class TileChanceD20 extends TileEntity implements ITickable
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		NBTTagCompound syncData = new NBTTagCompound();
-		syncData = this.writeToNBT(syncData);
-		return new SPacketUpdateTileEntity(this.pos, 1, syncData);
+		CompoundNBT syncData = new CompoundNBT();
+		syncData = this.write(syncData);
+		return new SUpdateTileEntityPacket(this.pos, 1, syncData);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
+		this.read(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

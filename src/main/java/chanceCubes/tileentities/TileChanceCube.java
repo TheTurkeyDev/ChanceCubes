@@ -1,11 +1,12 @@
 package chanceCubes.tileentities;
 
-import java.util.Random;
-
-import net.minecraft.nbt.NBTTagCompound;
+import chanceCubes.blocks.CCubesBlocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+
+import java.util.Random;
 
 public class TileChanceCube extends TileEntity
 {
@@ -21,6 +22,7 @@ public class TileChanceCube extends TileEntity
 
 	public TileChanceCube(int initialChance)
 	{
+		super(CCubesBlocks.TILE_CHANCE_CUBE);
 		while(initialChance > 100 || initialChance < -100)
 			initialChance = Math.round((float) (random.nextGaussian() * 40));
 		this.setChance(initialChance);
@@ -37,35 +39,36 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public CompoundNBT write(CompoundNBT nbt)
 	{
-		super.writeToNBT(nbt);
-		nbt.setInteger("chance", this.getChance());
+		super.write(nbt);
+		nbt.putInt("chance", this.getChance());
 		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void read(CompoundNBT nbt)
 	{
-		super.readFromNBT(nbt);
-		this.chance = nbt.getInteger("chance");
+		super.read(nbt);
+		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
-	}
-
-	public NBTTagCompound getUpdateTag()
-	{
-		return this.writeToNBT(new NBTTagCompound());
+		return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public CompoundNBT getUpdateTag()
 	{
-		readFromNBT(pkt.getNbtCompound());
+		return this.write(new CompoundNBT());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

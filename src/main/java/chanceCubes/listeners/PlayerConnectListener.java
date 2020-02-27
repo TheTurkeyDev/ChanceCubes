@@ -4,33 +4,33 @@ import chanceCubes.CCubesCore;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class PlayerConnectListener
 {
 	@SubscribeEvent
-	public void onPlayerLogin(final PlayerLoggedInEvent event)
+	public void onPlayerLogin(PlayerLoggedInEvent event)
 	{
-		if(event.player.world.isRemote)
+		if(event.getPlayer().world.isRemote)
 			return;
 
-		GlobalProfileManager.loadPlayerProfile(event.player.getUniqueID().toString());
-		new Thread(() -> CustomUserReward.getCustomUserReward(event.player.getUniqueID())).start();
+		GlobalProfileManager.loadPlayerProfile(event.getPlayer().getUniqueID().toString());
+		new Thread(() -> CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID())).start();
 	}
 
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.player.world.isRemote)
+		if(event.getPlayer().world.isRemote)
 			return;
 
-		String rewardName = CCubesCore.MODID + ":CR_" + event.player.getCommandSenderEntity().getName();
+		String rewardName = CCubesCore.MODID + ":CR_" + event.getPlayer().getName();
 		if(GlobalCCRewardRegistry.DEFAULT.isRewardEnabled(rewardName))
 			GlobalCCRewardRegistry.DEFAULT.unregisterReward(rewardName);
 
-		String playerUUID = event.player.getUniqueID().toString();
+		String playerUUID = event.getPlayer().getUniqueID().toString();
 		GlobalCCRewardRegistry.DEFAULT.removePlayerRewards(playerUUID);
 		GlobalCCRewardRegistry.GIANT.removePlayerRewards(playerUUID);
 		GlobalProfileManager.removePlayerProfile(playerUUID);

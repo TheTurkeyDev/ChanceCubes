@@ -1,62 +1,45 @@
 package chanceCubes.network;
 
+import java.util.function.Supplier;
+
 import chanceCubes.items.CCubesItems;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class PacketRewardSelector implements IMessage
+public class PacketRewardSelector
 {
-
-	private String playerName;
 	private String reward;
 
-	public PacketRewardSelector()
+	public PacketRewardSelector(String reward)
 	{
-	}
-
-	public PacketRewardSelector(String player, String reward)
-	{
-		this.playerName = player;
 		this.reward = reward;
 	}
 
-	@Override
-	public void toBytes(ByteBuf buf)
+	public static void encode(PacketRewardSelector msg, PacketBuffer buf)
 	{
-		ByteBufUtils.writeUTF8String(buf, playerName);
-		ByteBufUtils.writeUTF8String(buf, reward);
-
+		buf.writeString(msg.reward);
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buf)
+	public static PacketRewardSelector decode(PacketBuffer buf)
 	{
-		this.playerName = ByteBufUtils.readUTF8String(buf);
-		this.reward = ByteBufUtils.readUTF8String(buf);
-
+		return new PacketRewardSelector(buf.readString(32767));
 	}
 
-	public static final class Handler implements IMessageHandler<PacketRewardSelector, IMessage>
+	public static void handle(PacketRewardSelector msg, Supplier<NetworkEvent.Context> ctx)
 	{
-		@Override
-		public IMessage onMessage(PacketRewardSelector message, MessageContext ctx)
-		{
-			ItemStack stack = ctx.getServerHandler().player.inventory.getCurrentItem();
+		ctx.get().enqueueWork(() -> {
+			ItemStack stack = ctx.get().getSender().inventory.getCurrentItem();
 			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
 			{
-				NBTTagCompound nbt = stack.getTagCompound();
+				CompoundNBT nbt = stack.getTag();
 				if(nbt == null)
-					nbt = new NBTTagCompound();
-				nbt.setString("Reward", message.reward);
-				stack.setTagCompound(nbt);
+					nbt = new CompoundNBT();
+				nbt.putString("Reward", msg.reward);
+				stack.setTag(nbt);
 			}
-			return null;
-		}
+		});
+		ctx.get().setPacketHandled(true);
 	}
-
 }

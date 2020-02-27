@@ -1,19 +1,18 @@
 package chanceCubes.listeners;
 
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
-import net.minecraftforge.fml.relauncher.Side;
 import chanceCubes.util.Scheduler;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.TickEvent.Type;
+import net.minecraftforge.event.TickEvent.Phase;
 
 public class TickListener
 {
-
 	@SubscribeEvent
 	public void onTick(ServerTickEvent event)
 	{
-		if(event.side == Side.SERVER && event.type == Type.SERVER && event.phase == Phase.START)
+		if(event.side == LogicalSide.SERVER && event.type == Type.SERVER && event.phase == Phase.START)
 			Scheduler.tickTasks();
 	}
 }

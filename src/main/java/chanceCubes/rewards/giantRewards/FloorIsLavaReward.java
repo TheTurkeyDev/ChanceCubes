@@ -1,19 +1,19 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FloorIsLavaReward extends BaseCustomReward
 {
@@ -23,9 +23,9 @@ public class FloorIsLavaReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Quick! The Floor is lava!"));
+		player.sendMessage(new StringTextComponent("Quick! The Floor is lava!"));
 		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = pos.getY() + 5; yy > pos.getY() - 5; yy--)

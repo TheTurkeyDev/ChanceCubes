@@ -7,8 +7,8 @@ import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class GlobalCCRewardRegistry
 
 	public static void loadCustomUserRewards(MinecraftServer server)
 	{
-		for(EntityPlayerMP player : server.getPlayerList().getPlayers())
+		for(ServerPlayerEntity player : server.getPlayerList().getPlayers())
 			CustomUserReward.getCustomUserReward(player.getUniqueID());
 	}
 
@@ -139,7 +139,7 @@ public class GlobalCCRewardRegistry
 		});
 	}
 
-	public void triggerRandomReward(World world, BlockPos pos, EntityPlayer player, int chance)
+	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
 	{
 		if(CCubesSettings.testRewards)
 		{
@@ -167,7 +167,7 @@ public class GlobalCCRewardRegistry
 			this.getPlayerRewardRegistry(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
 	}
 
-	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, EntityPlayer player)
+	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player)
 	{
 		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);

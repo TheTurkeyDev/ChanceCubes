@@ -1,9 +1,15 @@
 package chanceCubes.rewards.rewardparts;
 
+import org.apache.logging.log4j.Level;
+
+import chanceCubes.CCubesCore;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class EffectPart extends BasePart
 {
@@ -13,9 +19,14 @@ public class EffectPart extends BasePart
 	private IntVar duration;
 	private IntVar amplifier;
 
-	public EffectPart(Potion pot, int duration, int amplifier)
+	public EffectPart(Effect effect, int duration, int amplifier)
 	{
-		this(new StringVar(String.valueOf(Potion.getIdFromPotion(pot))), new IntVar(duration), new IntVar(amplifier));
+		this(effect, new IntVar(duration), new IntVar(amplifier));
+	}
+
+	public EffectPart(Effect effect, IntVar duration, IntVar amplifier)
+	{
+		this(new StringVar(String.valueOf(ForgeRegistries.POTIONS.getKey(effect))), duration, amplifier);
 	}
 
 	public EffectPart(String id, int duration, int amplifier)
@@ -46,15 +57,22 @@ public class EffectPart extends BasePart
 		return this;
 	}
 
-	public PotionEffect getEffect()
+	public EffectInstance getEffect()
 	{
-		Potion pot;
+		Effect pot;
 
 		String val = id.getValue();
 		if(IntVar.isInteger(val))
-			pot = Potion.getPotionById(Integer.parseInt(val));
+			pot = Effect.get(Integer.parseInt(val));
 		else
-			pot = Potion.getPotionFromResourceLocation(val);
-		return new PotionEffect(pot, duration.getIntValue() * 20, amplifier.getIntValue());
+			pot = ForgeRegistries.POTIONS.getValue(new ResourceLocation(val));
+
+		if(pot == null)
+		{
+			pot = Effects.BLINDNESS;
+			CCubesCore.logger.log(Level.ERROR, "The Potion Effect with the id of " + val + " does not exist! Falling back to default to avoid crash!");
+		}
+
+		return new EffectInstance(pot, duration.getIntValue() * 20, amplifier.getIntValue());
 	}
 }

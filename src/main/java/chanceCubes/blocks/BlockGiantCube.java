@@ -1,51 +1,42 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.items.CCubesItems;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvider
+public class BlockGiantCube extends BaseChanceBlock
 {
 	public BlockGiantCube()
 	{
-		super("giant_chance_cube");
-		this.setCreativeTab(null);
+		super(getBuilder(), "giant_chance_cube");
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileGiantCube();
 	}
 
-	@Override
-	public int quantityDropped(Random rand)
-	{
-		return 0;
-	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean isOpaqueCube(IBlockState blockState)
-	{
-		return false;
-	}
-
-	@SideOnly(Side.CLIENT)
 	@Override
 	public BlockRenderLayer getRenderLayer()
 	{
@@ -53,31 +44,30 @@ public class BlockGiantCube extends BaseChanceBlock implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
 	{
+		TileEntity te = world.getTileEntity(pos);
+		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 		if(!world.isRemote && !(player instanceof FakePlayer))
 		{
-			TileGiantCube te = (TileGiantCube) world.getTileEntity(pos);
-
-			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
-			{
-				CCubesBlocks.COMPACT_GIANT_CUBE.dropBlockAsItem(world, pos, CCubesBlocks.COMPACT_GIANT_CUBE.getDefaultState(), 1);
-				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
-				return true;
-			}
-
 			if(te != null)
 			{
-				if(!te.hasMaster() || !te.checkForMaster())
+				TileGiantCube gcte = (TileGiantCube) te;
+				if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
 				{
-					world.setBlockToAir(pos);
-					return false;
+					spawnAsEntity(world, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
+					GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 				}
-				RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:giant_chance_cube");
-				GlobalCCRewardRegistry.GIANT.triggerRandomReward(world, te.getMasterPostion(), player, 0);
-				GiantCubeUtil.removeStructure(te.getMasterPostion(), world);
+
+				if(!gcte.hasMaster() || !gcte.checkForMaster())
+				{
+					world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				}
+				RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:giant_chance_cube");
+				GlobalCCRewardRegistry.GIANT.triggerRandomReward(world, gcte.getMasterPostion(), player, 0);
+				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 			}
 		}
-		return true;
+		return removed;
 	}
 }

@@ -5,8 +5,8 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.FireworkRocketEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,13 +20,13 @@ public class FireworkShowReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		RewardsUtil.executeCommand(world, player, "/time set 15000");
+		RewardsUtil.executeCommand(world, player, pos, "/time set 15000");
 		stage1(world, pos, player);
 	}
 
-	public void stage1(World world, BlockPos pos, EntityPlayer player)
+	public void stage1(World world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_1", 200, 5)
 		{
@@ -49,7 +49,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage2(World world, BlockPos pos, EntityPlayer player)
+	public void stage2(World world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 5)
 		{
@@ -72,7 +72,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage3(World world, BlockPos pos, EntityPlayer player)
+	public void stage3(World world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 3)
 		{
@@ -94,6 +94,6 @@ public class FireworkShowReward extends BaseCustomReward
 
 	public void spawnFirework(World world, double x, double y, double z)
 	{
-		world.spawnEntity(new EntityFireworkRocket(world, x, y, z, RewardsUtil.getRandomFirework()));
+		world.addEntity(new FireworkRocketEntity(world, x, y, z, RewardsUtil.getRandomFirework()));
 	}
 }

@@ -9,9 +9,9 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,7 +23,7 @@ public class OffsetBlock extends BasePart
 	public IntVar yOff;
 	public IntVar zOff;
 
-	protected IBlockState state;
+	protected BlockState state;
 
 	protected BoolVar falling;
 	protected BoolVar causeUpdate = new BoolVar(false);
@@ -50,12 +50,12 @@ public class OffsetBlock extends BasePart
 		this(x, y, z, b.getDefaultState(), falling, delay);
 	}
 
-	public OffsetBlock(int x, int y, int z, IBlockState state, boolean falling)
+	public OffsetBlock(int x, int y, int z, BlockState state, boolean falling)
 	{
 		this(x, y, z, state, falling, 0);
 	}
 
-	public OffsetBlock(int x, int y, int z, IBlockState state, boolean falling, int delay)
+	public OffsetBlock(int x, int y, int z, BlockState state, boolean falling, int delay)
 	{
 		this(new IntVar(x), new IntVar(y), new IntVar(z), state, new BoolVar(falling), new IntVar(delay));
 	}
@@ -65,7 +65,7 @@ public class OffsetBlock extends BasePart
 		this(x, y, z, b.getDefaultState(), falling, new IntVar(0));
 	}
 
-	public OffsetBlock(IntVar x, IntVar y, IntVar z, IBlockState state, BoolVar falling, IntVar delay)
+	public OffsetBlock(IntVar x, IntVar y, IntVar z, BlockState state, BoolVar falling, IntVar delay)
 	{
 		this.xOff = x;
 		this.yOff = y;
@@ -111,7 +111,7 @@ public class OffsetBlock extends BasePart
 		int xOffVal = xOff.getIntValue();
 		int yOffVal = yOff.getIntValue();
 		int zOffVal = zOff.getIntValue();
-		double yy = (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5) >= 256 ? 255 : (((double) (y + yOffVal + CCubesSettings.dropHeight)) + 0.5);
+		double yy = (((double) (y + yOffVal + CCubesSettings.dropHeight.get())) + 0.5) >= 256 ? 255 : (((double) (y + yOffVal + CCubesSettings.dropHeight.get())) + 0.5);
 		for(int yyy = (int) yy; yyy >= y + yOffVal; yyy--)
 		{
 			BlockPos offsetPos = new BlockPos((x + xOffVal), yyy, (z + zOffVal));
@@ -121,16 +121,16 @@ public class OffsetBlock extends BasePart
 				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, offsetPos, removeUnbreakableBlocks.getBoolValue());
 		}
 		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
-		world.spawnEntity(entityfallingblock);
+		world.addEntity(entityfallingblock);
 	}
 
-	public OffsetBlock setBlockState(IBlockState state)
+	public OffsetBlock setBlockState(BlockState state)
 	{
 		this.state = state;
 		return this;
 	}
 
-	public IBlockState getBlockState()
+	public BlockState getBlockState()
 	{
 		return this.state;
 	}

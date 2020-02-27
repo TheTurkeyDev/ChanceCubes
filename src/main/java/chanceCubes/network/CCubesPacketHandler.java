@@ -1,21 +1,29 @@
 package chanceCubes.network;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import chanceCubes.CCubesCore;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class CCubesPacketHandler
 {
-	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(CCubesCore.MODID);
 	private static int id = 0;
-	
+	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CCubesCore.MODID, "packets")).clientAcceptedVersions(a -> true).serverAcceptedVersions(a -> true).networkProtocolVersion(() -> FMLNetworkConstants.NETVERSION).simpleChannel();
+
+
 	public static void init()
 	{
-		INSTANCE.registerMessage(PacketCreativePendant.Handler.class, PacketCreativePendant.class, id++, Side.SERVER);
-		INSTANCE.registerMessage(PacketRewardSelector.Handler.class, PacketRewardSelector.class, id++, Side.SERVER);
-		INSTANCE.registerMessage(PacketTriggerD20.Handler.class, PacketTriggerD20.class, id++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketParticle.Handler.class, PacketParticle.class, id++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketCubeScan.Handler.class, PacketCubeScan.class, id++, Side.SERVER);
+		CHANNEL.registerMessage(id++, PacketCreativePendant.class, PacketCreativePendant::encode, PacketCreativePendant::decode, PacketCreativePendant::handle);
+		CHANNEL.registerMessage(id++, PacketRewardSelector.class, PacketRewardSelector::encode, PacketRewardSelector::decode, PacketRewardSelector::handle);
+		CHANNEL.registerMessage(id++, PacketTriggerD20.class, PacketTriggerD20::encode, PacketTriggerD20::decode, PacketTriggerD20::handle);
+		CHANNEL.registerMessage(id++, PacketCubeScan.class, PacketCubeScan::encode, PacketCubeScan::decode, PacketCubeScan::handle);
+	}
+
+	public static void sendToPlayer(Object msg, ServerPlayerEntity player)
+	{
+		CHANNEL.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	}
 }

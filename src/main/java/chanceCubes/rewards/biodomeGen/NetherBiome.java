@@ -3,9 +3,10 @@ package chanceCubes.rewards.biodomeGen;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.monster.ZombiePigmanEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -30,15 +31,15 @@ public class NetherBiome extends BaseBiome
 
 			if(ri == 0)
 			{
-				EntityGhast ghast = new EntityGhast(world);
+				GhastEntity ghast = EntityType.GHAST.create(world);
 				ghast.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 5, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntity(ghast);
+				world.addEntity(ghast);
 			}
 			else
 			{
-				EntityPigZombie pigman = new EntityPigZombie(world);
+				ZombiePigmanEntity pigman = EntityType.ZOMBIE_PIGMAN.create(world);
 				pigman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.spawnEntity(pigman);
+				world.addEntity(pigman);
 			}
 		}
 	}

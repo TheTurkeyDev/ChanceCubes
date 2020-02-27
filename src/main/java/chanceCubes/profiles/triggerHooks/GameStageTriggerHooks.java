@@ -6,15 +6,15 @@ import chanceCubes.profiles.triggers.GameStageTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
 import net.darkhax.gamestages.event.GameStageEvent.Added;
 import net.darkhax.gamestages.event.GameStageEvent.Removed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class GameStageTriggerHooks
 {
 	@SubscribeEvent
 	public void onStageAdd(Added event)
 	{
-		EntityPlayer player = event.getEntityPlayer();
+		PlayerEntity player = event.getEntityPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())
@@ -31,7 +31,7 @@ public class GameStageTriggerHooks
 	@SubscribeEvent
 	public void onStageRemove(Removed event)
 	{
-		EntityPlayer player = event.getEntityPlayer();
+		PlayerEntity player = event.getEntityPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())

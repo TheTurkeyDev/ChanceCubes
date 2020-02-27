@@ -1,18 +1,16 @@
 package chanceCubes.util;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StandingSignBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.SignTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import net.minecraft.block.BlockStandingSign;
-import net.minecraft.block.BlockTorch;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 
 public class MazeGenerator
 {
@@ -148,7 +146,8 @@ public class MazeGenerator
 				if(this.map[xx][zz] == 0)
 				{
 					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+					//TODO
+					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.getDefaultState());
 					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.AIR.getDefaultState());
 					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
 				}
@@ -163,18 +162,18 @@ public class MazeGenerator
 		}
 
 		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
-		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, 7));
+		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.getDefaultState().with(StandingSignBlock.ROTATION, 7));
 		TileEntity te = world.getTileEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
-		if(te instanceof TileEntitySign)
+		if(te instanceof SignTileEntity)
 		{
-			TileEntitySign sign = (TileEntitySign) te;
-			sign.signText[0] = new TextComponentString("Break me");
-			sign.signText[1] = new TextComponentString("To beat the");
-			sign.signText[2] = new TextComponentString("Maze");
+			SignTileEntity sign = (SignTileEntity) te;
+			sign.signText[0] = new StringTextComponent("Break me");
+			sign.signText[1] = new StringTextComponent("To beat the");
+			sign.signText[2] = new StringTextComponent("Maze");
 		}
 	}
 
-	public void endMaze(EntityPlayer player)
+	public void endMaze(PlayerEntity player)
 	{
 		cache.restoreBlocks(player);
 	}

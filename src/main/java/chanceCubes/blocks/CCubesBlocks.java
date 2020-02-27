@@ -6,18 +6,10 @@ import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID)
 public class CCubesBlocks
@@ -28,6 +20,11 @@ public class CCubesBlocks
 	public static BaseChanceBlock COMPACT_GIANT_CUBE;
 	public static BaseChanceBlock CUBE_DISPENSER;
 
+	public static TileEntityType<?> TILE_CHANCE_CUBE;
+	public static TileEntityType<?> TILE_CHANCE_ICOSAHEDRON;
+	public static TileEntityType<?> TILE_CHANCE_GIANT;
+	public static TileEntityType<?> TILE_CUBE_DISPENSER;
+
 	@SubscribeEvent
 	public void onBlockRegistry(RegistryEvent.Register<Block> e)
 	{
@@ -36,28 +33,14 @@ public class CCubesBlocks
 		e.getRegistry().register(GIANT_CUBE = new BlockGiantCube());
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new BlockCompactGiantCube());
 		e.getRegistry().register(CUBE_DISPENSER = new BlockCubeDispenser());
-
-		GameRegistry.registerTileEntity(TileChanceCube.class, new ResourceLocation(CCubesCore.MODID, "tilechancecube"));
-		GameRegistry.registerTileEntity(TileChanceD20.class, new ResourceLocation(CCubesCore.MODID, "tilechanceicosahedron"));
-		GameRegistry.registerTileEntity(TileGiantCube.class, new ResourceLocation(CCubesCore.MODID, "tilechancegiant"));
-		GameRegistry.registerTileEntity(TileCubeDispenser.class, new ResourceLocation(CCubesCore.MODID, "tilecubedispenser"));
 	}
 
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event)
+	public static void onTileEntityRegistry(RegistryEvent.Register<TileEntityType<?>> event)
 	{
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CHANCE_ICOSAHEDRON.getRegistryName(), "inventory"));
-	}
-
-	public static void registerBlocksItems()
-	{
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-		mesher.register(Item.getItemFromBlock(CHANCE_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + GIANT_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(COMPACT_GIANT_CUBE), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + COMPACT_GIANT_CUBE.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CUBE_DISPENSER), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CUBE_DISPENSER.getBlockName(), "inventory"));
-		mesher.register(Item.getItemFromBlock(CHANCE_ICOSAHEDRON), 0, new ModelResourceLocation(CCubesCore.MODID + ":" + CHANCE_ICOSAHEDRON.getBlockName(), "inventory"));
+		event.getRegistry().register(TILE_CHANCE_CUBE = TileEntityType.Builder.create(TileChanceCube::new, CCubesBlocks.CHANCE_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_cube"));
+		event.getRegistry().register(TILE_CHANCE_ICOSAHEDRON = TileEntityType.Builder.create(TileChanceD20::new, CCubesBlocks.CHANCE_ICOSAHEDRON).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_icosahedron"));
+		event.getRegistry().register(TILE_CHANCE_GIANT = TileEntityType.Builder.create(TileGiantCube::new, CCubesBlocks.GIANT_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_giant"));
+		event.getRegistry().register(TILE_CUBE_DISPENSER = TileEntityType.Builder.create(TileCubeDispenser::new, CCubesBlocks.CUBE_DISPENSER).build(null).setRegistryName(CCubesCore.MODID, "tile_cube_dispenser"));
 	}
 }

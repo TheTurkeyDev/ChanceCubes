@@ -3,7 +3,7 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 public class ItemPart extends BasePart
 {
@@ -21,11 +21,11 @@ public class ItemPart extends BasePart
 
 	public ItemPart(ItemStack stack, IntVar delay)
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString("id", stack.getItem().getRegistryName().toString());
-		nbt.setByte("Count", (byte) stack.getCount());
-		nbt.setShort("Damage", (short) stack.getItemDamage());
-		nbt.setTag("tag", stack.getTagCompound() == null ? new NBTTagCompound() : stack.getTagCompound());
+		CompoundNBT nbt = new CompoundNBT();
+		nbt.putString("id", stack.getItem().getRegistryName().toString());
+		nbt.putByte("Count", (byte) stack.getCount());
+		nbt.putShort("Damage", (short) stack.getDamage());
+		nbt.put("tag", stack.getTag() == null ? new CompoundNBT() : stack.getTag());
 		this.itemNBT = new NBTVar(nbt);
 		this.setDelay(delay);
 	}
@@ -48,6 +48,6 @@ public class ItemPart extends BasePart
 
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(this.itemNBT.getNBTValue());
+		return ItemStack.read(this.itemNBT.getNBTValue());
 	}
 }

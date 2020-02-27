@@ -5,16 +5,18 @@ import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
+
+import java.util.Optional;
 
 public class EntityRewardType extends BaseRewardType<EntityPart>
 {
@@ -37,7 +39,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	}
 
 	@Override
-	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final EntityPlayer player)
+	public void trigger(final EntityPart part, final World world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Entity Reward Delay", part.getDelay())
 		{
@@ -53,27 +55,28 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 				int copies = part.getCopies().getIntValue() + 1;
 				for(int i = 0; i < copies; i++)
 				{
-					Entity newEnt = EntityList.createEntityFromNBT(part.getNBT(), world);
-					if(newEnt == null)
+					Optional<Entity> opt = EntityType.loadEntityUnchecked(part.getNBT(), world);
+					if(!opt.isPresent())
 					{
 						CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
 						return;
 					}
+					Entity newEnt = opt.get();
 					newEnt.setPosition(x + 0.5, y, z + 0.5);
-					world.spawnEntity(newEnt);
+					world.addEntity(newEnt);
 				}
 			}
 		});
 	}
 
-	public static NBTTagCompound getBasicNBTForEntity(String entity)
+	public static CompoundNBT getBasicNBTForEntity(String entity)
 	{
 		String json = "{id:" + entity + "}";
-		NBTTagCompound nbt;
+		CompoundNBT nbt;
 		try
 		{
 			nbt = JsonToNBT.getTagFromJson(json);
-		} catch(NBTException e)
+		} catch(CommandSyntaxException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;

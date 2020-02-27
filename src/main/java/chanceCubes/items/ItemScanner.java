@@ -7,13 +7,15 @@ import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -21,94 +23,92 @@ public class ItemScanner extends BaseChanceCubesItem
 {
 	public ItemScanner()
 	{
-		super("scanner");
-		this.setMaxStackSize(1);
+		super((new Item.Properties()).maxStackSize(1), "scanner");
 	}
 
-	public EnumAction getItemUseAction(ItemStack p_77661_1_)
+	@Override
+	public UseAction getUseAction(ItemStack stack)
 	{
-		return EnumAction.BLOCK;
+		return UseAction.BLOCK;
 	}
 
-	public int getMaxItemUseDuration(ItemStack stack)
+	@Override
+	public int getUseDuration(ItemStack stack)
 	{
 		return 72000;
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
-		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 
-	public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean isSelected)
 	{
 		if(!world.isRemote)
 			return;
-		RenderEvent.setLookingAt(false);
-		if(entity instanceof EntityPlayer)
+		if(entity instanceof PlayerEntity)
 		{
-			EntityPlayer player = (EntityPlayer) entity;
-			if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().equals(stack))
+			RenderEvent.setLookingAt(false);
+			PlayerEntity player = (PlayerEntity) entity;
+			if(isSelected)
 			{
-				player.inventory.getCurrentItem();
-				if(player.inventory.getCurrentItem().equals(stack))
+				RayTraceResult movingobjectposition = Item.rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+
+				if(movingobjectposition.getType() == RayTraceResult.Type.BLOCK)
 				{
-					RayTraceResult movingObjectPosition = this.rayTrace(world, player, false);
+					double i = movingobjectposition.getHitVec().getX();
+					double j = movingobjectposition.getHitVec().getY();
+					double k = movingobjectposition.getHitVec().getZ();
+					boolean flag = false;
 
-					if(movingObjectPosition != null && movingObjectPosition.typeOfHit == RayTraceResult.Type.BLOCK)
+					BlockPos position = new BlockPos(i, j, k);
+
+					if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 					{
-						int i = movingObjectPosition.getBlockPos().getX();
-						int j = movingObjectPosition.getBlockPos().getY();
-						int k = movingObjectPosition.getBlockPos().getZ();
-						boolean flag = false;
-
-						BlockPos position = new BlockPos(i, j, k);
-
-						if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+						TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
+						if(te != null)
 						{
-							TileChanceCube te = ((TileChanceCube) world.getTileEntity(new BlockPos(i, j, k)));
-							if(te != null)
+							te.setScanned(true);
+							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
+							flag = true;
+							RenderEvent.setLookingAtChance(te.getChance());
+						}
+					}
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
+					{
+						TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
+						if(te != null)
+						{
+							te.setScanned(true);
+							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getPos()));
+							flag = true;
+							RenderEvent.setLookingAtChance(te.getChance());
+						}
+					}
+					else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+					{
+						RenderEvent.setLookingAtChance(-201);
+						RenderEvent.setLookingAt(true);
+						RenderEvent.setChanceIncrease(0);
+					}
+
+					if(flag)
+					{
+						RenderEvent.setLookingAt(true);
+						int chanceInc = 0;
+						for(ItemStack s : player.inventory.mainInventory)
+						{
+							if(!s.isEmpty() && s.getItem() instanceof ItemChancePendant)
 							{
-								te.setScanned(true);
-								CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-								flag = true;
-								RenderEvent.setLookingAtChance(te.getChance());
+								chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
+								break;
 							}
 						}
-						else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
-						{
-							TileChanceD20 te = ((TileChanceD20) world.getTileEntity(new BlockPos(i, j, k)));
-							if(te != null)
-							{
-								te.setScanned(true);
-								CCubesPacketHandler.INSTANCE.sendToServer(new PacketCubeScan(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-								flag = true;
-								RenderEvent.setLookingAtChance(te.getChance());
-							}
-						}
-						else if(world.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
-						{
-							RenderEvent.setLookingAtChance(-201);
-							RenderEvent.setLookingAt(true);
-							RenderEvent.setChanceIncrease(0);
-						}
-
-						if(flag)
-						{
-							RenderEvent.setLookingAt(true);
-							int chanceInc = 0;
-							for(ItemStack s : player.inventory.mainInventory)
-							{
-								if(!s.isEmpty() && s.getItem() instanceof ItemChancePendant)
-								{
-									chanceInc += ((ItemChancePendant) s.getItem()).getChanceIncrease();
-									break;
-								}
-							}
-							RenderEvent.setChanceIncrease(chanceInc);
-						}
+						RenderEvent.setChanceIncrease(chanceInc);
 					}
 				}
 			}

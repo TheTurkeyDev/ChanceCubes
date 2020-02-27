@@ -3,37 +3,33 @@ package chanceCubes.rewards.giantRewards;
 import java.util.Map;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.network.PacketParticle;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class RandomExplosionReward extends BaseCustomReward
 {
 	public RandomExplosionReward()
 	{
-		super(CCubesCore.MODID + ":random_explosion", 0);
+		super(CCubesCore.MODID + ":Random_Explosion", 0);
 	}
-	
+
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 1f, 1f);
 		Scheduler.scheduleTask(new Task("Random Explosion", 300, 2)
@@ -53,41 +49,39 @@ public class RandomExplosionReward extends BaseCustomReward
 					{
 						if(rand == 0)
 						{
-							ent = new EntityCreeper(world);
+							ent = EntityType.CREEPER.create(world);
 						}
 						else if(rand == 1)
 						{
-							ent = new EntityTNTPrimed(world);
+							ent = EntityType.TNT.create(world);
 						}
 						else if(rand == 2)
 						{
-							ent = new EntityItem(world);
-							((EntityItem) ent).setItem(new ItemStack(Items.DIAMOND));
+							ent = EntityType.ITEM.create(world);
+							((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 						}
 						else if(rand == 3)
 						{
-							ent = new EntityItem(world);
-							((EntityItem) ent).setItem(new ItemStack(Items.MELON));
+							ent = EntityType.ITEM.create(world);
+							((ItemEntity) ent).setItem(new ItemStack(Items.MELON_SLICE));
 						}
 						else if(rand == 4)
 						{
-							ent = new EntityBat(world);
+							ent = EntityType.BAT.create(world);
 						}
 						else if(rand == 5)
 						{
-							ent = new EntityZombie(world);
+							ent = EntityType.ZOMBIE.create(world);
 						}
 						else
 						{
-							ent = new EntityItem(world);
-							((EntityItem) ent).setItem(new ItemStack(Items.DIAMOND));
+							ent = EntityType.ITEM.create(world);
+							((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 						}
 
 						ent.setPosition(pos.getX(), pos.getY() + 1D, pos.getZ());
-						world.spawnEntity(ent);
-						ent.motionX = xx;
-						ent.motionY = Math.random();
-						ent.motionZ = zz;
+						world.addEntity(ent);
+						ent.setMotion(xx, Math.random(), zz);
 					}
 				}
 			}
@@ -109,20 +103,16 @@ public class RandomExplosionReward extends BaseCustomReward
 					int zInc = RewardsUtil.rand.nextInt(2) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 					if(delay < 3)
 					{
-						CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("hugeexplosion", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+						((ServerWorld) world).spawnParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0, 0, 1);
 						world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
 					}
 					else
 					{
 						if(RewardsUtil.rand.nextBoolean())
-						{
 							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f, 1f);
-						}
 						else
-						{
 							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.BLOCKS, 1f, 1f);
-						}
-						CCubesPacketHandler.INSTANCE.sendToAllAround(new PacketParticle("lava", pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 0, 0, 0), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 50));
+						((ServerWorld) world).spawnParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0, 0, 1);
 					}
 
 				}

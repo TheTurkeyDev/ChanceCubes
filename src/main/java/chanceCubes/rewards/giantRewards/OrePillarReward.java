@@ -1,19 +1,18 @@
 package chanceCubes.rewards.giantRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.rewards.defaultRewards.BaseCustomReward;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.util.CustomEntry;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class OrePillarReward extends BaseCustomReward
 {
@@ -23,7 +22,7 @@ public class OrePillarReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<String> whiteList = Arrays.asList(super.getSettingAsStringList(settings, "white_list", new String[0]));
 		List<String> blackList = Arrays.asList(super.getSettingAsStringList(settings, "black_list", new String[0]));
@@ -37,13 +36,12 @@ public class OrePillarReward extends BaseCustomReward
 			int zz = RewardsUtil.rand.nextInt(30) - 15;
 			for(int yy = 1; yy < 255; yy++)
 			{
-				CustomEntry<Block, Integer> ore;
+				Block ore;
 				if(whiteList.size() > 0)
 					ore = RewardsUtil.getRandomOreFromOreDict(whiteList.get(RewardsUtil.rand.nextInt(whiteList.size())));
 				else
 					ore = RewardsUtil.getRandomOre(blackList);
-				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore.getKey(), false, delay / 3);
-				osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(ore.getKey(), ore.getValue()));
+				OffsetBlock osb = new OffsetBlock(xx, yy - pos.getY(), zz, ore, false, delay / 3);
 				blocks.add(osb);
 				delay++;
 			}

@@ -1,20 +1,20 @@
 package chanceCubes.rewards.rewardtype;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockAir;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SchematicRewardType implements IRewardType
 {
@@ -26,7 +26,7 @@ public class SchematicRewardType implements IRewardType
 	}
 
 	@Override
-	public void trigger(World world, int x, int y, int z, EntityPlayer player)
+	public void trigger(World world, int x, int y, int z, PlayerEntity player)
 	{
 		CustomSchematic schematic = part.getSchematic();
 		if(schematic == null)
@@ -62,7 +62,7 @@ public class SchematicRewardType implements IRewardType
 							if(schematic.isRelativeToPlayer())
 							{
 								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff.getIntValue(), (int) Math.floor(player.posY) + osb.yOff.getIntValue(), (int) Math.floor(player.posZ) + osb.zOff.getIntValue());
-								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
+								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
 								{
 									continue;
 								}
@@ -71,7 +71,7 @@ public class SchematicRewardType implements IRewardType
 							else
 							{
 								BlockPos pos = new BlockPos(x + osb.xOff.getIntValue(), y + osb.yOff.getIntValue(), z + osb.zOff.getIntValue());
-								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof BlockAir)
+								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
 								{
 									continue;
 								}

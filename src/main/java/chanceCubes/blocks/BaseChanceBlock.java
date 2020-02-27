@@ -1,45 +1,30 @@
 package chanceCubes.blocks;
 
-import java.util.Random;
-
 import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class BaseChanceBlock extends Block
 {
-	private String blockName = "chance_cube_unnamed";
-
-	public BaseChanceBlock(String name)
+	public BaseChanceBlock(Properties builder, String name)
 	{
-		super(Material.GROUND);
-		this.blockName = name;
-		this.setHardness(0.5f);
-		this.setTranslationKey(blockName);
-		this.setCreativeTab(CCubesCore.modTab);
-		this.setRegistryName(CCubesCore.MODID, this.blockName);
-	}
-	
-	public String getBlockName()
-	{
-		return this.blockName;
-	}
-
-	public float getExplosionResistance(Entity exploder)
-	{
-		return Float.MAX_VALUE;
+		super(builder);
+		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
 	@Override
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
+	public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion)
 	{
-		return false;
+		return this.blockResistance;
 	}
 
 	@Override
@@ -49,14 +34,13 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
+	public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion)
 	{
 		return false;
 	}
 
-	@Override
-	public int quantityDropped(Random rand)
+	protected static Properties getBuilder()
 	{
-		return 0;
+		return Properties.create(Material.EARTH).hardnessAndResistance(0.5f, Float.MAX_VALUE);
 	}
 }

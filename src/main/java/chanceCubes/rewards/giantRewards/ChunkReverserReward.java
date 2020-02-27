@@ -1,20 +1,20 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
@@ -34,16 +34,24 @@ public class ChunkReverserReward extends BaseCustomReward
 		swappedMap.add(new CustomEntry<>(Blocks.GOLD_ORE, Blocks.IRON_ORE));
 		swappedMap.add(new CustomEntry<>(Blocks.LAVA, Blocks.WATER));
 		swappedMap.add(new CustomEntry<>(Blocks.WATER, Blocks.LAVA));
-		swappedMap.add(new CustomEntry<>(Blocks.LOG, Blocks.LEAVES));
-		swappedMap.add(new CustomEntry<>(Blocks.LOG2, Blocks.LEAVES2));
-		swappedMap.add(new CustomEntry<>(Blocks.LEAVES, Blocks.LOG));
-		swappedMap.add(new CustomEntry<>(Blocks.LEAVES2, Blocks.LOG2));
+		swappedMap.add(new CustomEntry<>(Blocks.ACACIA_LOG, Blocks.ACACIA_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.ACACIA_LEAVES, Blocks.ACACIA_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.DARK_OAK_LEAVES, Blocks.DARK_OAK_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.OAK_LOG, Blocks.OAK_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.OAK_LEAVES, Blocks.OAK_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.BIRCH_LEAVES, Blocks.BIRCH_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.JUNGLE_LOG, Blocks.JUNGLE_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.JUNGLE_LEAVES, Blocks.JUNGLE_LOG));
+		swappedMap.add(new CustomEntry<>(Blocks.SPRUCE_LOG, Blocks.SPRUCE_LEAVES));
+		swappedMap.add(new CustomEntry<>(Blocks.SPRUCE_LEAVES, Blocks.SPRUCE_LOG));
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Initiating Block Inverter"));
+		player.sendMessage(new StringTextComponent("Initiating Block Inverter"));
 		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
@@ -83,7 +91,7 @@ public class ChunkReverserReward extends BaseCustomReward
 			}
 		}
 
-		player.sendMessage(new TextComponentString("Inverting " + blocks.size() + " Blocks... May take a minute..."));
+		player.sendMessage(new StringTextComponent("Inverting " + blocks.size() + " Blocks... May take a minute..."));
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}

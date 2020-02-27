@@ -8,9 +8,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -60,7 +60,7 @@ public class GlobalProfileManager
 		}
 	}
 
-	public static PlayerProfileManager getPlayerProfileManager(EntityPlayer player)
+	public static PlayerProfileManager getPlayerProfileManager(PlayerEntity player)
 	{
 		return getPlayerProfileManager(player.getUniqueID().toString());
 	}
@@ -78,7 +78,7 @@ public class GlobalProfileManager
 		});
 	}
 
-	public static void updateProfilesForWorld(World world)
+	public static void updateProfilesForWorld(ServerWorld world)
 	{
 		playerToProfiles.clear();
 		profileSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
@@ -296,7 +296,7 @@ public class GlobalProfileManager
 		profile.addRewardChanceChange("chancecubes:half_heart", -100);
 		profile.addRewardChanceChange("chancecubes:cave_spider_web", -90);
 		profile.addRewardChanceChange("chancecubes:guardians", -85);
-		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.HARD));
+		profile.addTriggers(new DifficultyTrigger(profile, Difficulty.HARD));
 		registerProfile(profile);
 
 		profile = new BasicProfile("nether", "Nether", "Updates the reward pool for when players are in the nether");
@@ -315,7 +315,7 @@ public class GlobalProfileManager
 				"chancecubes:cookie_monster", "chancecubes:charged_creeper", "chancecubes:torches_to_creepers", "chancecubes:herobrine",
 				"chancecubes:surrounded", "chancecubes:surrounded_creeper", "chancecubes:wither", "chancecubes:wait_for_it",
 				"chancecubes:cake", "chancecubes:wolves_to_creepers", "chancecubes:countdown", "chancecubes:mob_tower");
-		profile.addTriggers(new DifficultyTrigger(profile, EnumDifficulty.PEACEFUL));
+		profile.addTriggers(new DifficultyTrigger(profile, Difficulty.PEACEFUL));
 		registerProfile(profile);
 
 		profile = new BasicProfile("no_area_of_effects", "No Area of Effect Rewards", "Disables rewards that place blocks that have a 3x3x3 area of effect or greater (Does not include rewards that reset blocks to their original state after)");

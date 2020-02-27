@@ -1,39 +1,39 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionType;
+import net.minecraft.item.Items;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class PotionsReward extends BaseCustomReward
 {
-	private EntityPotion pot;
-	
+	private PotionEntity pot;
+
 	public PotionsReward()
 	{
 		super(CCubesCore.MODID + ":raining_potions", 0);
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentTranslation("chancecubes.reward.raining_potions"));
-		throwPoitonCircle(0, world, pos, player);
+		player.sendMessage(new TranslationTextComponent("chancecubes.reward.raining_potions"));
+		throwPoitonCircle(world, pos, player);
 	}
 
-	private void throwPoitonCircle(final int itteration, final World world, final BlockPos pos, final EntityPlayer player)
+	private void throwPoitonCircle(final World world, final BlockPos pos, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Potion Circle", 100, 20)
 		{
@@ -48,19 +48,18 @@ public class PotionsReward extends BaseCustomReward
 			{
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 				{
-					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
-					pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+					Potion potionType = RewardsUtil.getRandomPotionType();
+					pot = new PotionEntity(world, player);
+					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.motionX = Math.cos(rad) * (0.1 + (0.05 * itteration));
-					pot.motionY = 1;
-					pot.motionZ = Math.sin(rad) * (0.1 + (0.05 * itteration));
-					world.spawnEntity(pot);
+					pot.setMotion(Math.cos(rad) * (0.1), 1, Math.sin(rad) * (0.1));
+					world.addEntity(pot);
 				}
 			}
 		});
 	}
 
-	private void throwPoiton(final World world, final BlockPos pos, final EntityPlayer player)
+	private void throwPoiton(final World world, final BlockPos pos, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Throw potion", 400, 2)
 		{
@@ -75,13 +74,12 @@ public class PotionsReward extends BaseCustomReward
 			{
 				for(double yy = -0.2; yy <= 1; yy += 0.1)
 				{
-					PotionType potionType = PotionType.REGISTRY.getObjectById(RewardsUtil.rand.nextInt(PotionType.REGISTRY.getKeys().size()));
-					pot = new EntityPotion(world, player, PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+					Potion potionType = RewardsUtil.getRandomPotionType();
+					pot = new PotionEntity(world, player);
+					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.motionX = Math.cos((this.delayLeft / 2) * (Math.PI / 30));
-					pot.motionY = yy;
-					pot.motionZ = Math.sin((this.delayLeft / 2) * (Math.PI / 30));
-					world.spawnEntity(pot);
+					pot.setMotion(Math.cos((this.delayLeft / 2f) * (Math.PI / 30)), yy, Math.sin((this.delayLeft / 2f) * (Math.PI / 30)));
+					world.addEntity(pot);
 				}
 			}
 		});

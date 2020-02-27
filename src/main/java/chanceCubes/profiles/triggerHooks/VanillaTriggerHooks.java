@@ -1,21 +1,20 @@
 package chanceCubes.profiles.triggerHooks;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
 import chanceCubes.profiles.triggers.AdvancementTrigger;
 import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.Difficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.Level;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 public class VanillaTriggerHooks
 {
@@ -24,9 +23,10 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onDifficultyChange(DifficultyChangeEvent event)
 	{
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+		if(EffectiveSide.get() == LogicalSide.CLIENT)
 			return;
-		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers())
+
+		for(PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers())
 		{
 			for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player.getUniqueID().toString()).getAllProfiles())
 			{
@@ -35,7 +35,7 @@ public class VanillaTriggerHooks
 					if(module instanceof DifficultyTrigger)
 					{
 						DifficultyTrigger trigger = (DifficultyTrigger) module;
-						trigger.onTrigger(player.getUniqueID().toString(), new EnumDifficulty[]{event.getDifficulty(), event.getOldDifficulty()});
+						trigger.onTrigger(player.getUniqueID().toString(), new Difficulty[]{event.getDifficulty(), event.getOldDifficulty()});
 					}
 				}
 			}
@@ -43,11 +43,12 @@ public class VanillaTriggerHooks
 	}
 
 	@SubscribeEvent
-	public void onDimensionChange(PlayerChangedDimensionEvent event)
+	public void onDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event)
 	{
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+
+		if(EffectiveSide.get() == LogicalSide.CLIENT)
 			return;
-		EntityPlayer player = event.player;
+		PlayerEntity player = event.getPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())
@@ -55,7 +56,7 @@ public class VanillaTriggerHooks
 				if(module instanceof DimensionChangeTrigger)
 				{
 					DimensionChangeTrigger trigger = (DimensionChangeTrigger) module;
-					trigger.onTrigger(player.getUniqueID().toString(), new Integer[]{event.toDim, event.fromDim});
+					trigger.onTrigger(player.getUniqueID().toString(), new Integer[]{event.getTo().getId(), event.getFrom().getId()});
 				}
 			}
 		}
@@ -64,9 +65,9 @@ public class VanillaTriggerHooks
 	@SubscribeEvent
 	public void onAdvancementComplete(AdvancementEvent event)
 	{
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+		if(EffectiveSide.get() == LogicalSide.CLIENT)
 			return;
-		EntityPlayer player = event.getEntityPlayer();
+		PlayerEntity player = event.getPlayer();
 		for(IProfile prof : GlobalProfileManager.getPlayerProfileManager(player).getAllProfiles())
 		{
 			for(ITrigger<?> module : prof.getTriggers())

@@ -3,14 +3,16 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.monster.BlazeEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.SmallFireballEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -23,12 +25,12 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		EntityBlaze blaze = new EntityBlaze(world);
-		blaze.setCustomNameTag("Demonic Blaze");
+		BlazeEntity blaze = EntityType.BLAZE.create(world);
+		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
 		blaze.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		blaze.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		blaze.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		blaze.setHealth(blaze.getMaxHealth());
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)
@@ -41,7 +43,7 @@ public class BossBlazeReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				if(blaze.isDead)
+				if(!blaze.isAlive())
 				{
 					Scheduler.removeTask(this);
 					return;
@@ -57,14 +59,14 @@ public class BossBlazeReward extends BossBaseReward
 		});
 
 
-		world.spawnEntity(blaze);
+		world.addEntity(blaze);
 		super.trackEntities(blaze);
 		super.trackedPlayers(player);
 	}
 
-	private void goInvisible(EntityBlaze blaze)
+	private void goInvisible(BlazeEntity blaze)
 	{
-		blaze.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, 5));
+		blaze.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 5));
 	}
 
 	private void setGroundOnFire(World world, BlockPos playerPos)
@@ -79,21 +81,21 @@ public class BossBlazeReward extends BossBaseReward
 		}
 	}
 
-	private void shootFireballs(World world, EntityBlaze blaze, EntityPlayer player)
+	private void shootFireballs(World world, BlazeEntity blaze, PlayerEntity player)
 	{
 		double d1 = player.posX - blaze.posX;
-		double d2 = player.getEntityBoundingBox().minY + (double) (player.height / 2.0F) - (blaze.posY + (double) (blaze.height / 2.0F));
+		double d2 = player.getBoundingBox().minY + (double) (player.getHeight() / 2.0F) - (blaze.posY + (double) (blaze.getHeight() / 2.0F));
 		double d3 = player.posZ - blaze.posZ;
 		for(int i = 0; i < 5; i++)
 		{
-			EntitySmallFireball entitysmallfireball = new EntitySmallFireball(world, blaze, d1 + blaze.getRNG().nextGaussian(), d2, d3 + blaze.getRNG().nextGaussian());
-			entitysmallfireball.posY = blaze.posY + (double) (blaze.height / 2.0F) + 0.5D;
-			world.spawnEntity(entitysmallfireball);
+			SmallFireballEntity entitysmallfireball = new SmallFireballEntity(world, blaze, d1 + blaze.getRNG().nextGaussian(), d2, d3 + blaze.getRNG().nextGaussian());
+			entitysmallfireball.posY = blaze.posY + (double) (blaze.getHeight() / 2.0F) + 0.5D;
+			world.addEntity(entitysmallfireball);
 		}
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, EntityPlayer player)
+	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
 	{
 
 	}

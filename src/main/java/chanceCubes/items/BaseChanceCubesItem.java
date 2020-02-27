@@ -1,35 +1,27 @@
 package chanceCubes.items;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-
 import chanceCubes.CCubesCore;
+import com.google.common.collect.Lists;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class BaseChanceCubesItem extends Item
 {
-	private String itemName;
 	private List<String> lore = Lists.newArrayList();
 
-	public BaseChanceCubesItem(String name)
+	public BaseChanceCubesItem(Properties builder, String name)
 	{
-		itemName = name;
-		this.setTranslationKey(name);
-		this.setRegistryName(CCubesCore.MODID, this.itemName);
-		this.setCreativeTab(CCubesCore.modTab);
-	}
-
-	public String getItemName()
-	{
-		return this.itemName;
+		super(builder.group(CCubesCore.modTab));
+		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
 	public void addLore(String info)
@@ -37,9 +29,12 @@ public class BaseChanceCubesItem extends Item
 		lore.add(info);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn)
+	@OnlyIn(Dist.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
 	{
-		list.addAll(lore);
+		for(String s : lore)
+		{
+			list.add(new StringTextComponent(s));
+		}
 	}
 }

@@ -1,30 +1,29 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Multimap;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BioDomeGen;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public abstract class BossBaseReward extends BaseCustomReward
 {
@@ -32,7 +31,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	private List<Entity> trackedEntities = new ArrayList<>();
 	private List<Entity> trackedSubEntities = new ArrayList<>();
-	private List<EntityPlayer> trackedPlayers = new ArrayList<>();
+	private List<PlayerEntity> trackedPlayers = new ArrayList<>();
 	private BioDomeGen domeGen;
 
 	private BlockPos rewardCenterPos;
@@ -44,21 +43,22 @@ public abstract class BossBaseReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		this.rewardCenterPos = pos;
 		domeGen = new BioDomeGen(player);
 		domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
-		TextComponentString message = new TextComponentString("BOSS FIGHT!");
+		StringTextComponent message = new StringTextComponent("BOSS FIGHT!");
 		message.setStyle((new Style()).setColor(TextFormatting.RED));
-		RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.TITLE, message, 10, 500, 0);
+		STitlePacket packet = new STitlePacket(STitlePacket.Type.TITLE, message, 10, 500, 0);
+		RewardsUtil.setNearPlayersTitle(world, packet, pos, 50);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
 		{
 			@Override
 			public void callback()
 			{
-				TextComponentString message = new TextComponentString("");
+				StringTextComponent message = new StringTextComponent("");
 				message.appendSibling(player.getDisplayName());
 
 				StringBuilder sbSpace = new StringBuilder();
@@ -70,7 +70,8 @@ public abstract class BossBaseReward extends BaseCustomReward
 				message.appendText(sbSpace.toString());
 
 				message.setStyle((new Style()).setColor(TextFormatting.RED));
-				RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.SUBTITLE, message, 0, 500, 0);
+				STitlePacket packet = new STitlePacket(STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
+				RewardsUtil.setNearPlayersTitle(world, packet, pos, 50);
 			}
 		});
 
@@ -79,12 +80,13 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				TextComponentString message = new TextComponentString("");
+				StringTextComponent message = new StringTextComponent("");
 				message.appendSibling(player.getDisplayName());
 				message.appendText(" VS ");
 				message.appendText(bossName);
 				message.setStyle((new Style()).setColor(TextFormatting.RED));
-				RewardsUtil.setNearPlayersTitle(world, pos, 50, SPacketTitle.Type.SUBTITLE, message, 0, 100, 10);
+				STitlePacket packet = new STitlePacket(STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
+				RewardsUtil.setNearPlayersTitle(world, packet, pos, 50);
 			}
 		});
 
@@ -98,7 +100,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void startBossFight(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void startBossFight(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		spawnBoss(world, pos, player, settings);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
@@ -114,7 +116,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedEntities.get(i);
-					if(ent.isDead)
+					if(!ent.isAlive())
 					{
 						trackedEntities.remove(i);
 						if(trackedEntities.isEmpty())
@@ -128,13 +130,13 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = trackedPlayers.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedPlayers.get(i);
-					if(ent.getDistance(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 || ent.posY < rewardCenterPos.getY() - 1)
+					if(ent.getDistanceSq(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 * 15 || ent.posY < rewardCenterPos.getY() - 1)
 						ent.setPositionAndUpdate(rewardCenterPos.getX(), rewardCenterPos.getY() + 1, rewardCenterPos.getZ());
 
-					if(ent.isDead)
+					if(!ent.isAlive())
 					{
 						for(Entity entity : trackedEntities)
-							entity.setDead();
+							entity.remove();
 						trackedEntities.clear();
 						endBossfight(false, world, pos, player);
 						Scheduler.removeTask(this);
@@ -145,11 +147,11 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void endBossfight(boolean resetPlayer, World world, BlockPos pos, EntityPlayer player)
+	public void endBossfight(boolean resetPlayer, World world, BlockPos pos, PlayerEntity player)
 	{
 		for(Entity ent : trackedSubEntities)
-			if(!ent.isDead)
-				ent.setDead();
+			if(ent.isAlive())
+				ent.remove();
 		trackedSubEntities.clear();
 		onBossFightEnd(world, pos, player);
 		domeGen.removeDome(resetPlayer);
@@ -165,21 +167,21 @@ public abstract class BossBaseReward extends BaseCustomReward
 		trackedSubEntities.addAll(Arrays.asList(ents));
 	}
 
-	protected void trackedPlayers(EntityPlayer... player)
+	protected void trackedPlayers(PlayerEntity... player)
 	{
 		trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract void spawnBoss(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings);
+	public abstract void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings);
 
-	public abstract void onBossFightEnd(World world, BlockPos pos, EntityPlayer player);
+	public abstract void onBossFightEnd(World world, BlockPos pos, PlayerEntity player);
 
-	public double getBossHealthDynamic(EntityPlayer player, Map<String, Object> settings)
+	public double getBossHealthDynamic(PlayerEntity player, Map<String, Object> settings)
 	{
 		double maxDamage = 3;
 		for(ItemStack stack : player.inventory.mainInventory)
 		{
-			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EntityEquipmentSlot.MAINHAND, stack);
+			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
 			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
 			{
 				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
@@ -196,13 +198,13 @@ public abstract class BossBaseReward extends BaseCustomReward
 		return prePofileHealth * profileMult;
 	}
 
-	public ItemStack getHighestDamageItem(EntityPlayer player)
+	public ItemStack getHighestDamageItem(PlayerEntity player)
 	{
 		double maxDamage = -1;
 		ItemStack maxItem = ItemStack.EMPTY;
 		for(ItemStack stack : player.inventory.mainInventory)
 		{
-			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EntityEquipmentSlot.MAINHAND, stack);
+			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
 			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
 			{
 				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());

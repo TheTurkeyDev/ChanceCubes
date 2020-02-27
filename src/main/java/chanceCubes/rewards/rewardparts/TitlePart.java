@@ -1,11 +1,10 @@
 package chanceCubes.rewards.rewardparts;
 
-import com.google.gson.JsonObject;
-
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import com.google.gson.JsonObject;
+import net.minecraft.network.play.server.STitlePacket.Type;
 import net.minecraft.util.text.ITextComponent;
 
 public class TitlePart extends BasePart
@@ -31,17 +30,17 @@ public class TitlePart extends BasePart
 
 	public TitlePart(StringVar type, JsonObject message)
 	{
-		this(type, ITextComponent.Serializer.jsonToComponent(message.toString()), new IntVar(0));
+		this(type, ITextComponent.Serializer.fromJson(message.toString()), new IntVar(0));
 	}
 
 	public TitlePart(StringVar type, String message)
 	{
-		this(type, ITextComponent.Serializer.jsonToComponent(message), new IntVar(0));
+		this(type, ITextComponent.Serializer.fromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(String type, String message, int delay)
 	{
-		this(new StringVar(type), ITextComponent.Serializer.jsonToComponent(message), new IntVar(delay));
+		this(new StringVar(type), ITextComponent.Serializer.fromJson(message), new IntVar(delay));
 	}
 
 	public TitlePart(StringVar type, ITextComponent message, IntVar delay)
@@ -53,7 +52,7 @@ public class TitlePart extends BasePart
 
 	public Type getType()
 	{
-		return Type.byName(type.getValue());
+		return Type.valueOf(type.getValue());
 	}
 
 	public TitlePart setType(String type)
