@@ -1,17 +1,17 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 
 public class ItemRenamer extends BaseCustomReward
 {
@@ -34,7 +34,7 @@ public class ItemRenamer extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		List<ItemStack> stacks = new ArrayList<>();
 		for(ItemStack stack : player.inventory.mainInventory)
@@ -48,9 +48,9 @@ public class ItemRenamer extends BaseCustomReward
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			dirt.setStackDisplayName("A lonley piece of dirt");
+			dirt.setDisplayName(new StringTextComponent("A lonley piece of dirt"));
 			player.inventory.addItemStackToInventory(dirt);
-			RewardsUtil.executeCommand(world, player, "/advancement grant @p only chancecubes:lonely_dirt");
+			RewardsUtil.executeCommand(world, player, player.getPosition(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
 		}
 
@@ -64,10 +64,10 @@ public class ItemRenamer extends BaseCustomReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setStackDisplayName(newName);
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setDisplayName(new StringTextComponent(newName));
 		}
 
-		player.sendMessage(new TextComponentString("Those items of yours need a little personality!"));
+		player.sendMessage(new StringTextComponent("Those items of yours need a little personality!"));
 
 	}
 }

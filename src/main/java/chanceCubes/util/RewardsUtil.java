@@ -32,6 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -348,7 +349,7 @@ public class RewardsUtil
 		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(World world, STitlePacket spackettitle, BlockPos pos, int range)
+	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
@@ -356,20 +357,25 @@ public class RewardsUtil
 
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= range)
-				setPlayerTitle(entityplayer, spackettitle);
+				setPlayerTitle(entityplayer, location, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, STitlePacket spackettitle)
+	public static void setAllPlayersTitle(World world, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
-			setPlayerTitle(world.getPlayers().get(i), spackettitle);
+			setPlayerTitle(world.getPlayers().get(i), location, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(PlayerEntity player, STitlePacket title)
+	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		if(player instanceof ServerPlayerEntity)
-			((ServerPlayerEntity) player).connection.sendPacket(title);
+		{
+			STitlePacket titlePacket = new STitlePacket(location, message, fadeInTime, displayTime, fadeOutTime);
+			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new StringTextComponent(""), fadeInTime, displayTime, fadeOutTime);
+			((ServerPlayerEntity) player).connection.sendPacket(timesPacket);
+			((ServerPlayerEntity) player).connection.sendPacket(titlePacket);
+		}
 	}
 
 	public static String[] getHardcodedRewards()

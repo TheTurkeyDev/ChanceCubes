@@ -1,18 +1,20 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
+import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class ItemOfDestinyReward extends BaseCustomReward
 {
@@ -22,12 +24,12 @@ public class ItemOfDestinyReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		final EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
+		final ItemEntity item = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
 		item.setPickupDelay(100000);
-		world.spawnEntity(item);
-		player.sendMessage(new TextComponentString("Selecting random item"));
+		world.addEntity(item);
+		player.sendMessage(new StringTextComponent("Selecting random item"));
 		Scheduler.scheduleTask(new Task("Item_Of_Destiny_Reward", -1, 5)
 		{
 			int iteration = 0;
@@ -48,28 +50,27 @@ public class ItemOfDestinyReward extends BaseCustomReward
 				}
 				else if(iteration == 17)
 				{
-					player.sendMessage(new TextComponentString("Random item selected"));
-					player.sendMessage(new TextComponentString("Selecting number of enchants to give item"));
+					player.sendMessage(new StringTextComponent("Random item selected"));
+					player.sendMessage(new StringTextComponent("Selecting number of enchants to give item"));
 				}
 				else if(iteration == 27)
 				{
 					int i = RewardsUtil.rand.nextInt(9);
 					enchants = i < 5 ? 1 : i < 8 ? 2 : 3;
-					player.sendMessage(new TextComponentString(enchants + " random enchants will be added!"));
-					player.sendMessage(new TextComponentString("Selecting random enchant to give to the item"));
+					player.sendMessage(new StringTextComponent(enchants + " random enchants will be added!"));
+					player.sendMessage(new StringTextComponent("Selecting random enchant to give to the item"));
 				}
 				else if(iteration > 27 && (iteration - 7) % 10 == 0)
 				{
 					if((iteration / 10) - 3 < enchants)
 					{
-						Enchantment ench = RewardsUtil.getRandomEnchantment();
-						int level = ench.getMinLevel() + RewardsUtil.rand.nextInt(ench.getMaxLevel());
-						item.getItem().addEnchantment(ench, level);
-						player.sendMessage(new TextComponentString(ench.getTranslatedName(level) + " Has been added to the item!"));
+						CustomEntry<Enchantment, Integer> ench = RewardsUtil.getRandomEnchantmentAndLevel();
+						item.getItem().addEnchantment(ench.getKey(), ench.getValue());
+						player.sendMessage(new StringTextComponent(LanguageMap.getInstance().translateKey(ench.getKey().getName()) + " Has been added to the item!"));
 					}
 					else
 					{
-						player.sendMessage(new TextComponentString("Your item of destiny is complete! Enjoy!"));
+						player.sendMessage(new StringTextComponent("Your item of destiny is complete! Enjoy!"));
 						item.setPickupDelay(0);
 						Scheduler.removeTask(this);
 					}

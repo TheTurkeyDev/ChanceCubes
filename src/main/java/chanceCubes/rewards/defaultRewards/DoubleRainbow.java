@@ -1,18 +1,20 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Map;
+
 public class DoubleRainbow extends BaseCustomReward
 {
-	byte[] colorsMeta = {14, 1, 4, 13, 11, 10};
+	private static Block[] colors = new Block[]{Blocks.RED_WOOL, Blocks.ORANGE_WOOL, Blocks.YELLOW_WOOL, Blocks.GREEN_WOOL, Blocks.BLUE_WOOL, Blocks.PURPLE_WOOL};
+
 
 	public DoubleRainbow()
 	{
@@ -20,7 +22,7 @@ public class DoubleRainbow extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Double Rainbow!");
 		OffsetBlock b;
@@ -28,12 +30,12 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 8; y++)
 			{
-				float dist = (float) (Math.abs(pos.getDistance(pos.getX() + x, pos.getY() + y, pos.getZ())));
-				if(dist > 1 && dist <= 8)
+				float dist = (float) (Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				if(dist > 1 && dist <= 64)
 				{
 					int distIndex = (int) (dist - 2);
-					b = new OffsetBlock(x, y, 0, Blocks.WOOL, false);
-					b.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, colorsMeta[distIndex]));
+					Block wool = colors[distIndex];
+					b = new OffsetBlock(x, y, 0, wool, false);
 					b.setDelay((x + 7) * 10);
 					b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 				}
@@ -44,12 +46,12 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 18; y++)
 			{
-				float dist = (float) (Math.abs(pos.getDistance(pos.getX() + x, pos.getY() + y, pos.getZ())));
-				if(dist >= 12 && dist <= 18)
+				float dist = (float) (Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				if(dist >= 144 && dist <= 18 * 18)
 				{
 					int distIndex = (int) (dist - 12);
-					b = new OffsetBlock(x, y, 0, Blocks.WOOL, false);
-					b.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, colorsMeta[distIndex]));
+					Block wool = colors[distIndex];
+					b = new OffsetBlock(x, y, 0, wool, false);
 					b.setDelay((x + 12) * 5);
 					b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 				}

@@ -10,14 +10,16 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonElement;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class CustomUserReward extends BaseCustomReward
 
 	public static void getCustomUserReward(UUID uuid)
 	{
-		if(!CCubesSettings.userSpecificRewards)
+		if(!CCubesSettings.userSpecificRewards.get())
 			return;
 
 		JsonElement users;
@@ -86,14 +88,15 @@ public class CustomUserReward extends BaseCustomReward
 		//GROSS, but idk what else todo
 		String userNameFinal = userName;
 		String typeFinal = type;
-		FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() ->
+		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+		server.execute(() ->
 		{
 			//TODO: Only register/ enable for that user?
 			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(uuid.toString()).enableReward(CCubesCore.MODID + ":cr_" + userNameFinal);
-			EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
-			player.sendMessage(new TextComponentString("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
-			player.sendMessage(new TextComponentString("Let the fun begin! >:)"));
+			PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);
+			player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
+			player.sendMessage(new StringTextComponent("Let the fun begin! >:)"));
 		});
 	}
 
@@ -107,18 +110,18 @@ public class CustomUserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 
-		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName()))
+		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getFormattedText()))
 		{
-			player.sendMessage(new TextComponentString("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
-			Entity itemEnt = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-			world.spawnEntity(itemEnt);
+			player.sendMessage(new StringTextComponent("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
+			Entity itemEnt = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
+			world.addEntity(itemEnt);
 			return;
 		}
 
-		player.sendMessage(new TextComponentString("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
+		player.sendMessage(new StringTextComponent("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
 
 		Scheduler.scheduleTask(new Task("Custom Reward", 100)
 		{

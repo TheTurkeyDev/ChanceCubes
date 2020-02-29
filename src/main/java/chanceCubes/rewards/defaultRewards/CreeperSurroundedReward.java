@@ -1,16 +1,17 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class CreeperSurroundedReward extends BaseCustomReward
 {
@@ -20,14 +21,14 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		final int chargedChance = super.getSettingAsInt(settings, "charged_chance", 10, 0, 100);
 		int px = (int) player.posX;
 		int pz = (int) player.posZ;
-		player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 100, 1, true, false));
+		player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 100, 1, true, false));
 		boolean skip = false;
-		EntityCreeper creeper;
+		CreeperEntity creeper;
 		for(int xx = 0; xx < 2; xx++)
 		{
 			int xValue = px + (xx == 0 ? -4 : 4);
@@ -35,17 +36,17 @@ public class CreeperSurroundedReward extends BaseCustomReward
 			{
 				if(!skip)
 				{
-					IBlockState blockState = world.getBlockState(new BlockPos(xValue, pos.getY(), pz + zz));
-					IBlockState blockState2 = world.getBlockState(new BlockPos(xValue, pos.getY() + 1, pz + zz));
-					IBlockState blockState3 = world.getBlockState(new BlockPos(xValue, pos.getY() + 2, pz + zz));
-					if(!blockState.isFullBlock() && !blockState2.isFullBlock() && !blockState3.isFullBlock())
+					BlockState blockState = world.getBlockState(new BlockPos(xValue, pos.getY(), pz + zz));
+					BlockState blockState2 = world.getBlockState(new BlockPos(xValue, pos.getY() + 1, pz + zz));
+					BlockState blockState3 = world.getBlockState(new BlockPos(xValue, pos.getY() + 2, pz + zz));
+					if(!blockState.isSolid() && !blockState2.isSolid() && !blockState3.isSolid())
 					{
-						creeper = new EntityCreeper(world);
+						creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
-						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
+						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							creeper.onStruckByLightning(null);
-						world.spawnEntity(creeper);
+						world.addEntity(creeper);
 					}
 				}
 				skip = !skip;
@@ -59,17 +60,17 @@ public class CreeperSurroundedReward extends BaseCustomReward
 			{
 				if(!skip)
 				{
-					IBlockState blockState = world.getBlockState(new BlockPos(px + xx, pos.getY(), zValue));
-					IBlockState blockState2 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zValue));
-					IBlockState blockState3 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zValue));
-					if(!blockState.isFullBlock() && !blockState2.isFullBlock() && !blockState3.isFullBlock())
+					BlockState blockState = world.getBlockState(new BlockPos(px + xx, pos.getY(), zValue));
+					BlockState blockState2 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 1, zValue));
+					BlockState blockState3 = world.getBlockState(new BlockPos(px + xx, pos.getY() + 2, zValue));
+					if(!blockState.isSolid() && !blockState2.isSolid() && !blockState3.isSolid())
 					{
-						creeper = new EntityCreeper(world);
+						creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
-						creeper.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 5));
+						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							creeper.onStruckByLightning(null);
-						world.spawnEntity(creeper);
+						world.addEntity(creeper);
 					}
 				}
 				skip = !skip;
