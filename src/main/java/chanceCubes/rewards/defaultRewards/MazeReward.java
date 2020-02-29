@@ -1,21 +1,21 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.MazeGenerator;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class MazeReward extends BaseCustomReward
 {
@@ -25,9 +25,9 @@ public class MazeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Generating maze..... May be some lag..."));
+		player.sendMessage(new StringTextComponent("Generating maze..... May be some lag..."));
 		final MazeGenerator gen = new MazeGenerator(world, pos, player.getPosition());
 		gen.generate(world, 20, 20);
 		BlockPos initialPos = new BlockPos(pos.getX() - 8, pos.getY(), pos.getZ() - 8);
@@ -48,27 +48,27 @@ public class MazeReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(initialPos.getDistance(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ()) < 2)
+				if(initialPos.distanceSq(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(), false) < 4)
 				{
 					this.delayLeft++;
 					return;
 				}
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, Type.ACTIONBAR);
+					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
 
-				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.STANDING_SIGN))
+				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.OAK_SIGN))
 				{
 					gen.endMaze(player);
-					player.sendMessage(new TextComponentString("Hey! You won!"));
-					player.sendMessage(new TextComponentString("Here, have a item!"));
-					player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.sendMessage(new StringTextComponent("Hey! You won!"));
+					player.sendMessage(new StringTextComponent("Here, have a item!"));
+					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 			}
 		});
 
-		player.sendMessage(new TextComponentString("Beat the maze and find the sign!"));
-		player.sendMessage(new TextComponentString("You have 45 seconds!"));
+		player.sendMessage(new StringTextComponent("Beat the maze and find the sign!"));
+		player.sendMessage(new StringTextComponent("You have 45 seconds!"));
 	}
 }
