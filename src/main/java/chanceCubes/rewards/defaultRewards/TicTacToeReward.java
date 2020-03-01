@@ -1,22 +1,21 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.util.RewardBlockCache;
+import chanceCubes.util.Scheduler;
+import chanceCubes.util.Task;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.util.RewardBlockCache;
-import chanceCubes.util.RewardsUtil;
-import chanceCubes.util.Scheduler;
-import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 
 public class TicTacToeReward extends BaseCustomReward
 {
@@ -26,11 +25,11 @@ public class TicTacToeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Lets play Tic-Tac-Toe!"));
-		player.sendMessage(new TextComponentString("Beat the Computer to get 500 Diamonds!"));
-		player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.WOOL, 5, 14)));
+		player.sendMessage(new StringTextComponent("Lets play Tic-Tac-Toe!"));
+		player.sendMessage(new StringTextComponent("Beat the Computer to get 500 Diamonds!"));
+		player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.RED_WOOL, 5)));
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int x = -2; x < 3; x++)
@@ -84,17 +83,17 @@ public class TicTacToeReward extends BaseCustomReward
 					//Make CPU Move
 					board.minimax(0, 1);
 					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
-					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), RewardsUtil.getBlockStateFromBlockMeta(Blocks.WOOL, 11));
+					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
 
 				if(board.isGameOver())
 				{
 					if(board.hasCPUWon())
-						player.sendMessage(new TextComponentString("The Computer won! Better luck next time!"));
+						player.sendMessage(new StringTextComponent("The Computer won! Better luck next time!"));
 					else if(board.hasPlayerWon())
-						player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(Items.DIAMOND, 500)));
+						player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(Items.DIAMOND, 500)));
 					else
-						player.sendMessage(new TextComponentString("You tied! Better luck next time!"));
+						player.sendMessage(new StringTextComponent("You tied! Better luck next time!"));
 
 					Task superTask = this;
 					Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)
@@ -129,7 +128,7 @@ public class TicTacToeReward extends BaseCustomReward
 
 		public boolean isGameOver()
 		{
-			return(hasPlayerWon() || hasCPUWon() || getAvailableStates().isEmpty());
+			return (hasPlayerWon() || hasCPUWon() || getAvailableStates().isEmpty());
 		}
 
 		public boolean hasCPUWon()

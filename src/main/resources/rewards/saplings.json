@@ -1,0 +1,55 @@
+{
+  "chancecubes:saplings": {
+    "chance": 35,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 0,
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 1,
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 2,
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 3,
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 4,
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sapling",
+          "Damage": 5,
+          "Count": 4
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "Seems you have purchased the saplings DLC",
+        "range": 25
+      }
+    ]
+  }
+}

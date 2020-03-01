@@ -45,7 +45,7 @@ public class CCubesSounds
 				CCubesCore.logger.log(Level.WARN, "A new sound was added after the sounds were registered and therefore the new sound could not be added!");
 			ResourceLocation res = new ResourceLocation("minecraft", soundID);
 			sound = new SoundEvent(res).setRegistryName(res);
-			ForgeRegistries.SOUND_EVENTS.register(sound);
+			//ForgeRegistries.SOUND_EVENTS.register(sound);
 			customSounds.put(soundID, sound);
 		}
 		else

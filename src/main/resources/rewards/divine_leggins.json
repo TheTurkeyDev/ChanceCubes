@@ -1,0 +1,29 @@
+{
+  "chancecubes:divine_leggings": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_leggings",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 4,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine Leggings"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

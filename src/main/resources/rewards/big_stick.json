@@ -1,0 +1,24 @@
+{
+  "chancecubes:roosevelts_stick": {
+    "chance": 70,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:stick",
+          "Count": 1,
+          "tag": {
+            "ench": [
+              {
+                "id": 16,
+                "lvl": 5
+              }
+            ],
+            "display": {
+              "Name": "A Big Stick"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

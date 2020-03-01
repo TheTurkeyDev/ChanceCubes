@@ -11,7 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = CCubesCore.MODID)
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesBlocks
 {
 	public static BaseChanceBlock CHANCE_CUBE;
@@ -26,7 +26,7 @@ public class CCubesBlocks
 	public static TileEntityType<?> TILE_CUBE_DISPENSER;
 
 	@SubscribeEvent
-	public void onBlockRegistry(RegistryEvent.Register<Block> e)
+	public static void onBlockRegistry(RegistryEvent.Register<Block> e)
 	{
 		e.getRegistry().register(CHANCE_CUBE = new BlockChanceCube());
 		e.getRegistry().register(CHANCE_ICOSAHEDRON = new BlockChanceD20());

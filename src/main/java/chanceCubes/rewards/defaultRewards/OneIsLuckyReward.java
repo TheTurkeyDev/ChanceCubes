@@ -1,19 +1,19 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class OneIsLuckyReward extends BaseCustomReward
 {
@@ -23,20 +23,20 @@ public class OneIsLuckyReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "A Lucky Block Salute");
-		TileEntitySign sign = new TileEntitySign();
-		sign.signText[0] = new TextComponentString("One is lucky");
-		sign.signText[1] = new TextComponentString("One is not");
-		sign.signText[3] = new TextComponentString("#OGLuckyBlocks");
+		SignTileEntity sign = new SignTileEntity();
+		sign.signText[0] = new StringTextComponent("One is lucky");
+		sign.signText[1] = new StringTextComponent("One is not");
+		sign.signText[3] = new StringTextComponent("#OGLuckyBlocks");
 		boolean leftLucky = RewardsUtil.rand.nextBoolean();
 		TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100);
 		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);
 
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(-1, 0, 0)))
 			world.setTileEntity(pos.add(-1, 0, 0), leftCube);
-		if(RewardsUtil.placeBlock(Blocks.STANDING_SIGN.getDefaultState(), world, pos))
+		if(RewardsUtil.placeBlock(Blocks.OAK_SIGN.getDefaultState(), world, pos))
 			world.setTileEntity(pos, sign);
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.getDefaultState(), world, pos.add(1, 0, 0)))
 			world.setTileEntity(pos.add(1, 0, 0), rightCube);
@@ -46,9 +46,9 @@ public class OneIsLuckyReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				world.setBlockToAir(pos.add(-1, 0, 0));
-				world.setBlockToAir(pos);
-				world.setBlockToAir(pos.add(1, 0, 0));
+				world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
 			}
 
 			@Override

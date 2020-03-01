@@ -1,0 +1,22 @@
+{
+  "chancecubes:have_another": {
+    "chance": -10,
+    "Item": [
+      {
+        "item": {
+          "id": "chancecubes:chance_cube",
+          "Count": 3
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "I hear you like Chance Cubes."
+      },
+      {
+        "message": "So I put some Chance Cubes in your Chance Cubes!",
+        "delay": 1
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 {
-   "pack": {
-     "pack_format": 3,
-     "description": "ChanceCubes Assets"
-   }
- }
+    "pack": {
+        "description": "Chance Cube resources",
+        "pack_format": 4,
+        "_comment": "Gobble Gobble"
+    }
+}

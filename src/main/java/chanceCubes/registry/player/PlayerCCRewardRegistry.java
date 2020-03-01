@@ -8,7 +8,6 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.RewardsUtil;
 import com.google.common.collect.Lists;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;

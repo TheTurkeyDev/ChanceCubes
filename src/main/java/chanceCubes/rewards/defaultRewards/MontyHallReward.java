@@ -1,26 +1,25 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.BlockButton;
-import net.minecraft.block.BlockButtonStone;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StoneButtonBlock;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class MontyHallReward extends BaseCustomReward
 {
@@ -30,17 +29,17 @@ public class MontyHallReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(final World world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TextComponentString("Which button do you press?"));
+		player.sendMessage(new StringTextComponent("Which button do you press?"));
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
 		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
-		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().withProperty(BlockButtonStone.FACING, EnumFacing.SOUTH));
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
@@ -55,16 +54,16 @@ public class MontyHallReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				IBlockState state = world.getBlockState(pos.add(-1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
+				BlockState state = world.getBlockState(pos.add(-1, 0, 1));
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
 					giveReward(chance[0]);
 
 				state = world.getBlockState(pos.add(0, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
 					giveReward(chance[1]);
 
 				state = world.getBlockState(pos.add(1, 0, 1));
-				if(state.getPropertyKeys().contains(BlockButton.POWERED) && state.getValue(BlockButton.POWERED))
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
 					giveReward(chance[2]);
 			}
 
@@ -72,18 +71,18 @@ public class MontyHallReward extends BaseCustomReward
 			{
 				if(value == -1)
 				{
-					EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, player.posX, player.posY + 1D, player.posZ, player);
-					world.spawnEntity(entitytntprimed);
+					TNTEntity entitytntprimed = new TNTEntity(world, player.posX, player.posY + 1D, player.posZ, player);
+					world.addEntity(entitytntprimed);
 					world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 					entitytntprimed.setFuse(40);
 				}
 				else if(value == 0)
 				{
-					player.sendMessage(new TextComponentString("You walk away to live another day..."));
+					player.sendMessage(new StringTextComponent("You walk away to live another day..."));
 				}
 				else if(value == 1)
 				{
-					player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 
 				this.callback();

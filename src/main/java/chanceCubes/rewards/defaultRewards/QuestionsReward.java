@@ -1,29 +1,30 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketTitle.Type;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class QuestionsReward extends BaseCustomReward
 {
-	private Map<EntityPlayer, String> inQuestion = new HashMap<>();
+	private Map<PlayerEntity, String> inQuestion = new HashMap<>();
 
 	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<>();
 
@@ -45,7 +46,7 @@ public class QuestionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -55,8 +56,8 @@ public class QuestionsReward extends BaseCustomReward
 
 		int question = world.rand.nextInt(questionsAndAnswers.size());
 
-		player.sendMessage(new TextComponentString(questionsAndAnswers.get(question).getKey()));
-		player.sendMessage(new TextComponentString("You have 20 seconds to answer! (Answer is not case sensitive)"));
+		player.sendMessage(new StringTextComponent(questionsAndAnswers.get(question).getKey()));
+		player.sendMessage(new StringTextComponent("You have 20 seconds to answer! (Answer is not case sensitive)"));
 
 		if(!world.isRemote)
 		{
@@ -75,27 +76,27 @@ public class QuestionsReward extends BaseCustomReward
 			public void update()
 			{
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, Type.ACTIONBAR);
+					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
 			}
 
 		});
 	}
 
-	private void timeUp(EntityPlayer player, boolean correct)
+	private void timeUp(PlayerEntity player, boolean correct)
 	{
 		if(!inQuestion.containsKey(player))
 			return;
 
 		if(correct)
 		{
-			player.sendMessage(new TextComponentString("Correct!"));
-			player.sendMessage(new TextComponentString("Here, have a item!"));
-			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.sendMessage(new StringTextComponent("Correct!"));
+			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.sendMessage(new TextComponentString("Incorrect! The answer was " + this.inQuestion.get(player)));
-			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, false);
+			player.sendMessage(new StringTextComponent("Incorrect! The answer was " + this.inQuestion.get(player)));
+			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Explosion.Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}
 
@@ -106,7 +107,7 @@ public class QuestionsReward extends BaseCustomReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		EntityPlayer player = event.getPlayer();
+		PlayerEntity player = event.getPlayer();
 
 		if(inQuestion.containsKey(player))
 		{

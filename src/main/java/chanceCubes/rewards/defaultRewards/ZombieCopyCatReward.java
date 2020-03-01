@@ -1,33 +1,34 @@
 package chanceCubes.rewards.defaultRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class ZombieCopyCatReward extends BaseCustomReward
 {
 	public ZombieCopyCatReward()
 	{
-		super(CCubesCore.MODID + ":copy_cat_zombie", -25);
+		super(CCubesCore.MODID + ":Copy_Cat_Zombie", -25);
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, EntityPlayer player, Map<String, Object> settings)
+	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		EntityZombie zombie = new EntityZombie(world);
+		ZombieEntity zombie = EntityType.ZOMBIE.create(world);
 		zombie.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 		ItemStack weapon = ItemStack.EMPTY;
 		for(int i = 0; i < 9; i++)
 		{
 			ItemStack stack = player.inventory.mainInventory.get(i);
-			if(!stack.isEmpty() && stack.getItem() instanceof ItemSword)
+			if(!stack.isEmpty() && stack.getItem() instanceof SwordItem)
 			{
 				weapon = stack.copy();
 			}
@@ -36,19 +37,29 @@ public class ZombieCopyCatReward extends BaseCustomReward
 		if(weapon.isEmpty() && !player.inventory.getCurrentItem().isEmpty())
 			weapon = player.inventory.getCurrentItem().copy();
 
-		zombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weapon);
-		// TODO: Change?
-		zombie.setDropItemsWhenDead(true);
+		zombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, weapon);
 
 		if(!player.inventory.armorInventory.get(0).isEmpty())
-			zombie.setItemStackToSlot(EntityEquipmentSlot.FEET, player.inventory.armorInventory.get(0).copy());
+		{
+			zombie.setItemStackToSlot(EquipmentSlotType.FEET, player.inventory.armorInventory.get(0).copy());
+			zombie.setDropChance(EquipmentSlotType.FEET, 1);
+		}
 		if(!player.inventory.armorInventory.get(1).isEmpty())
-			zombie.setItemStackToSlot(EntityEquipmentSlot.LEGS, player.inventory.armorInventory.get(1).copy());
+		{
+			zombie.setItemStackToSlot(EquipmentSlotType.LEGS, player.inventory.armorInventory.get(1).copy());
+			zombie.setDropChance(EquipmentSlotType.LEGS, 1);
+		}
 		if(!player.inventory.armorInventory.get(2).isEmpty())
-			zombie.setItemStackToSlot(EntityEquipmentSlot.CHEST, player.inventory.armorInventory.get(2).copy());
+		{
+			zombie.setItemStackToSlot(EquipmentSlotType.CHEST, player.inventory.armorInventory.get(2).copy());
+			zombie.setDropChance(EquipmentSlotType.CHEST, 1);
+		}
 		if(!player.inventory.armorInventory.get(3).isEmpty())
-			zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, player.inventory.armorInventory.get(3).copy());
+		{
+			zombie.setItemStackToSlot(EquipmentSlotType.HEAD, player.inventory.armorInventory.get(3).copy());
+			zombie.setDropChance(EquipmentSlotType.HEAD, 1);
+		}
 
-		world.spawnEntity(zombie);
+		world.addEntity(zombie);
 	}
 }

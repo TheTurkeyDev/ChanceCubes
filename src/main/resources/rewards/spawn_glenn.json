@@ -1,0 +1,10 @@
+{
+  "chancecubes:spawn_glenn": {
+    "chance": 25,
+    "Command": [
+      {
+        "command": "/summon zombie %x %y %z {CustomName:\"\\\"Glenn\"\\\",CustomNameVisible:1}"
+      }
+    ]
+  }
+}

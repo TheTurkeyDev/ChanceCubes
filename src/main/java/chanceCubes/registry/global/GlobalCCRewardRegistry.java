@@ -2,7 +2,6 @@ package chanceCubes.registry.global;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
-import chanceCubes.config.ConfigLoader;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -157,9 +156,8 @@ public class GlobalCCRewardRegistry
 			triggerReward(CCubesSettings.holidayReward, world, pos, player);
 			CCubesCore.logger.log(Level.INFO, "The " + CCubesSettings.holidayReward.getName() + " holiday reward has been triggered!!!!");
 			CCubesSettings.doesHolidayRewardTrigger = false;
-			CCubesSettings.holidayRewardTriggered = true;
-			ConfigLoader.config.get(ConfigLoader.genCat, "HolidayRewardTriggered", false, "Don't touch! Well I mean you can touch it, if you want. I can't stop you. I'm only text.").setValue(true);
-			ConfigLoader.config.save();
+			//TODO: Check that is updates the config
+			CCubesSettings.holidayRewardTriggered.set(true);
 			return;
 		}
 

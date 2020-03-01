@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "chancecubes:compact_giant_chance_cube" }
+        "normal": { "model": "chancecubes:block/compact_giant_chance_cube" }
     }
 }

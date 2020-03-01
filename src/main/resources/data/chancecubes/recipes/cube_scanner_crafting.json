@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IGI",
+        "GPG",
+        "IGI"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:glass"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "P": {
+            "item": "chancecubes:chance_pendant_tier1"
+        }
+    },
+    "result": {
+        "item": "chancecubes:scanner"
+    }
+}

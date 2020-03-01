@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 public class RewardsUtil
 {
 	private static List<String> oredicts = new ArrayList<>();
-	private static String[] possibleModOres = new String[]{"oreAluminum", "oreCopper", "oreMythril", "oreLead", "orePlutonium", "oreQuartz", "oreRuby", "oreSalt", "oreSapphire", "oreSilver", "oreTin", "oreUranium", "oreZinc"};
+	private static String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/quartz", "ores/ruby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
 
 	public static final Random rand = new Random();
 
@@ -68,14 +68,14 @@ public class RewardsUtil
 
 	public static void initData()
 	{
-		oredicts.add("oreGold");
-		oredicts.add("oreIron");
-		oredicts.add("oreLapis");
-		oredicts.add("oreDiamond");
-		oredicts.add("oreRedstone");
-		oredicts.add("oreEmerald");
-		oredicts.add("oreQuartz");
-		oredicts.add("oreCoal");
+		oredicts.add("ores/gold");
+		oredicts.add("ores/iron");
+		oredicts.add("ores/lapis");
+		oredicts.add("ores/diamond");
+		oredicts.add("ores/redstone");
+		oredicts.add("ores/emerald");
+		oredicts.add("ores/quartz");
+		oredicts.add("ores/coal");
 
 		for(String oreDict : possibleModOres)
 			if(BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)) != null)

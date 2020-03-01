@@ -229,6 +229,9 @@ public class CCubesServerCommands
 		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
 		defaultEnabled = defaultrewards.size();
 		giantEnabled = giantrewards.size();
+		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
+		for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
+			player.sendMessage(new StringTextComponent(reward));
 //		if(args.length > 1 && args[1].equalsIgnoreCase("list"))
 //		{
 //			if(args.length > 2 && args[2].equalsIgnoreCase("default"))

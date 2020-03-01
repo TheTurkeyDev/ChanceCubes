@@ -1,5 +1,32 @@
 package chanceCubes.util;
 
+import chanceCubes.config.ConfigLoader;
+import chanceCubes.rewards.rewardparts.OffsetBlock;
+import chanceCubes.rewards.rewardparts.OffsetTileEntity;
+import chanceCubes.rewards.variableTypes.BoolVar;
+import chanceCubes.rewards.variableTypes.FloatVar;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.NBTVar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,39 +35,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import chanceCubes.config.ConfigLoader;
-import chanceCubes.rewards.rewardparts.OffsetBlock;
-import chanceCubes.rewards.rewardparts.OffsetTileEntity;
-import chanceCubes.rewards.variableTypes.BoolVar;
-import chanceCubes.rewards.variableTypes.FloatVar;
-import chanceCubes.rewards.variableTypes.IntVar;
-import chanceCubes.rewards.variableTypes.NBTVar;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class SchematicUtil
 {
@@ -69,10 +63,6 @@ public class SchematicUtil
 					BlockPos pos = new BlockPos(x, y, z);
 					BlockState blockState = world.getBlockState(pos);
 					blockData.append(blockState.getBlock().getRegistryName().toString());
-					// TODO: Find better way?
-					blockData.setLength(0);
-					blockData.append(":");
-					blockData.append(blockState.getBlock().getMetaFromState(blockState));
 					String blockString = blockData.toString();
 					int id = -1;
 					for(CustomEntry<Integer, String> data : blockDataIds)
@@ -197,7 +187,6 @@ public class SchematicUtil
 		short length = nbtdata.getShort("Length");
 
 		byte[] blocks = nbtdata.getByteArray("Blocks");
-		byte[] data = nbtdata.getByteArray("Data");
 		List<OffsetBlock> offsetBlocks = new ArrayList<>();
 
 		ListNBT tileentities = nbtdata.getList("TileEntities", 10);
@@ -216,12 +205,12 @@ public class SchematicUtil
 					if(j < 0)
 						j = 128 + (128 + j);
 
-					Block b = Block.getBlockById(j);
+					//TODO: Support legacy still? uses ID's
+					Block b = ForgeRegistries.BLOCKS.getValues().stream().skip(j).findFirst().get();
 					if(b != Blocks.AIR)
 					{
 						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
 						block.setRelativeToPlayer(relativeToPlayer);
-						block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i]));
 						block.setPlaysSound(playSound);
 						offsetBlocks.add(block);
 					}
@@ -245,7 +234,6 @@ public class SchematicUtil
 					b = Blocks.STONE;
 				OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
 				block.setRelativeToPlayer(relativeToPlayer);
-				block.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, data[i1]));
 				block.setPlaysSound(playSound);
 				offsetBlocks.add(block);
 			}
@@ -307,11 +295,8 @@ public class SchematicUtil
 							break;
 						}
 					}
-					String[] dataParts = blockData.split(":");
-					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(dataParts[0], dataParts[1]));
+					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockData));
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, new IntVar(0));
-					// TODO: Find better way?
-					osb.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(b, Integer.parseInt(dataParts[2])));
 					osb.setRelativeToPlayer(relativeToPlayer);
 					osb.setPlaysSound(playSound);
 					offsetBlocks.add(osb);

@@ -8,7 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesItems
 {
 
@@ -32,7 +34,7 @@ public class CCubesItems
 	public static ContainerType<CreativePendantContainer> CREATIVE_PENDANT_CONTAINER;
 
 	@SubscribeEvent
-	public void onItemRegistry(RegistryEvent.Register<Item> e)
+	public static void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
 		e.getRegistry().register(chancePendantT1 = new ItemChancePendant(1, 10));
 		e.getRegistry().register(chancePendantT2 = new ItemChancePendant(2, 25));

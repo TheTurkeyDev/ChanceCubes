@@ -70,7 +70,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 					{
 						this.remove();
 						if(block instanceof FallingBlock)
-							osb.placeInWorld(world, blockpos1, false);
+							osb.placeInWorld(world, blockpos1, false, null);
 
 						if(this.tileEntityData != null && block.hasTileEntity(fallTile))
 						{
@@ -106,7 +106,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 				else if(normY == blockpos1.getY() || this.getMotion().y == 0)
 				{
 					this.remove();
-					osb.placeInWorld(world, blockpos1, false);
+					osb.placeInWorld(world, blockpos1, false, null);
 				}
 			}
 		}

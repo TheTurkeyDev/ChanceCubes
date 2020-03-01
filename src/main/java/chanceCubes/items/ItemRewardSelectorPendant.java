@@ -1,31 +1,24 @@
 package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.gui.RewardSelectorPendantGui;
-import chanceCubes.proxy.ClientProxy;
+import chanceCubes.client.ClientProxy;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {

@@ -1,0 +1,10 @@
+{
+  "chancecubes:bedrock": {
+    "chance": -20,
+    "Block": [
+      {
+        "block": "minecraft:bedrock"
+      }
+    ]
+  }
+}

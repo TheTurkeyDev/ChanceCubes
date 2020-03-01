@@ -1,0 +1,30 @@
+{
+  "chancecubes:farmer": {
+    "chance": 35,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:iron_hoe",
+          "Count": 1
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:bucket",
+          "Count": 1
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:wheat_seeds",
+          "Count": 16
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "Time to farm!"
+      }
+    ]
+  }
+}

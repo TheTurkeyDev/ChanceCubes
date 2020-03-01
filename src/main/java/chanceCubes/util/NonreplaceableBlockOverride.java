@@ -6,6 +6,8 @@ import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -91,28 +93,8 @@ public class NonreplaceableBlockOverride
 	private static NonreplaceableBlockOverride removeBlock(String substring)
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
-		if(substring.matches(".*:.*:[0-9]*"))
-		{
-			output.overrideType = OverrideType.REMOVE;
-			String block;
-			String damage;
-			int damageValue;
-			BlockState blockState;
-			block = substring.substring(0, substring.lastIndexOf(':') - 1);
-			damage = substring.substring(substring.lastIndexOf(':') + 1);
-			damageValue = Integer.parseInt(damage);
-			Block blockActual = Block.getBlockFromName(block);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
-			output.overriddenBlock = blockState;
-		}
-		else
-		{
-			output.overrideType = OverrideType.REMOVE;
-			BlockState blockState;
-			Block blockActual = Block.getBlockFromName(substring);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
-			output.overriddenBlock = blockState;
-		}
+		output.overrideType = OverrideType.REMOVE;
+		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).getDefaultState();
 		return output;
 	}
 
@@ -125,28 +107,8 @@ public class NonreplaceableBlockOverride
 	private static NonreplaceableBlockOverride addBlock(String substring)
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
-		if(substring.matches(".*:.*:[0-9]*"))
-		{
-			output.overrideType = OverrideType.ADD;
-			String block;
-			String damage;
-			int damageValue;
-			BlockState blockState;
-			block = substring.substring(0, substring.lastIndexOf(':'));
-			damage = substring.substring(substring.lastIndexOf(':') + 1);
-			damageValue = Integer.parseInt(damage);
-			Block blockActual = Block.getBlockFromName(block);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, damageValue);
-			output.overriddenBlock = blockState;
-		}
-		else
-		{
-			output.overrideType = OverrideType.ADD;
-			BlockState blockState;
-			Block blockActual = Block.getBlockFromName(substring);
-			blockState = RewardsUtil.getBlockStateFromBlockMeta(blockActual, 0);
-			output.overriddenBlock = blockState;
-		}
+		output.overrideType = OverrideType.ADD;
+		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).getDefaultState();
 		return output;
 	}
 
@@ -215,11 +177,11 @@ public class NonreplaceableBlockOverride
 						if(!CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
-							CCubesCore.logger.info("Adding " + override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " to NRB array.");
+							CCubesCore.logger.info("Adding " + override.overriddenBlock.getBlock().getRegistryName() + " to NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " already exists in the NRB array, skipping.");
+							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " already exists in the NRB array, skipping.");
 						}
 						break;
 					}
@@ -228,11 +190,11 @@ public class NonreplaceableBlockOverride
 						if(CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.remove(override.overriddenBlock);
-							CCubesCore.logger.info("Removing " + override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " from NRB array.");
+							CCubesCore.logger.info("Removing " + override.overriddenBlock.getBlock().getRegistryName() + " from NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + ":" + override.overriddenBlock.getBlock().getMetaFromState(override.overriddenBlock) + " has already been removed from the NRB array, skipping.");
+							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " has already been removed from the NRB array, skipping.");
 						}
 						break;
 					}
@@ -265,7 +227,7 @@ public class NonreplaceableBlockOverride
 			if(noLongerExists(toRemove))
 			{
 				blocksToRemove.add(toRemove);
-				CCubesCore.logger.info("Removing " + toRemove.getBlock().getRegistryName() + ":" + toRemove.getBlock().getMetaFromState(toRemove) + " from Overrides list.");
+				CCubesCore.logger.info("Removing " + toRemove.getBlock().getRegistryName() + " from Overrides list.");
 			}
 		}
 		CCubesSettings.nonReplaceableBlocks.removeAll(blocksToRemove);

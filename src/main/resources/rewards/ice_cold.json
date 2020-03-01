@@ -1,0 +1,26 @@
+{
+  "chancecubes:ice_cold": {
+    "chance": -10,
+    "Area": [
+      {
+        "xSize": 5,
+        "ySize": 3,
+        "zSize": 5,
+        "block": "minecraft:ice",
+        "xOff": -2,
+        "yOff": 0,
+        "zOff": -2,
+        "falling": false,
+        "delay": 0,
+        "causesUpdate": false,
+        "relativeToPlayer": true
+      }
+    ],
+    "Message": [
+      {
+        "message": "<Shinauko> You're as cold as ice",
+        "range": 25
+      }
+    ]
+  }
+}
