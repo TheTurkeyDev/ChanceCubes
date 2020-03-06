@@ -62,9 +62,9 @@ public class SchematicUtil
 				{
 					BlockPos pos = new BlockPos(x, y, z);
 					IBlockState blockState = world.getBlockState(pos);
+					blockData.setLength(0);
 					blockData.append(blockState.getBlock().getRegistryName().toString());
 					// TODO: Find better way?
-					blockData.setLength(0);
 					blockData.append(":");
 					blockData.append(blockState.getBlock().getMetaFromState(blockState));
 					String blockString = blockData.toString();
