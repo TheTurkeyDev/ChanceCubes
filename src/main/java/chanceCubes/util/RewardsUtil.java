@@ -107,7 +107,7 @@ public class RewardsUtil
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
 			PlayerEntity entityplayer = world.getPlayers().get(i);
-			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= distance)
 				entityplayer.sendMessage(new StringTextComponent(message));
 		}
@@ -355,7 +355,7 @@ public class RewardsUtil
 		{
 			PlayerEntity entityplayer = world.getPlayers().get(i);
 
-			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= range)
 				setPlayerTitle(entityplayer, location, message, fadeInTime, displayTime, fadeOutTime);
 		}

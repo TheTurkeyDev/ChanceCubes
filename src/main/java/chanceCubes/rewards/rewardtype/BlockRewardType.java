@@ -19,8 +19,8 @@ public class BlockRewardType extends BaseRewardType<OffsetBlock>
 	{
 		if(block == null)
 			return;
-		if(block.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ))))
-			block.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+		if(block.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()))))
+			block.spawnInWorld(world, (int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()));
 		else if(!RewardsUtil.isBlockUnbreakable(world, new BlockPos(x, y + 3, z)))
 			block.spawnInWorld(world, x, y, z);
 	}

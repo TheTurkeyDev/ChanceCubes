@@ -38,9 +38,9 @@ public class BlockFallingCustom extends FallingBlockEntity
 		}
 		else
 		{
-			this.prevPosX = this.posX;
-			this.prevPosY = this.posY;
-			this.prevPosZ = this.posZ;
+			this.prevPosX = this.getPosX();
+			this.prevPosY = this.getPosY();
+			this.prevPosZ = this.getPosZ();
 			Block block = this.fallTile.getBlock();
 			if(this.fallTime++ == 0)
 			{

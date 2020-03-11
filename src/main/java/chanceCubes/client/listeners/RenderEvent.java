@@ -26,8 +26,8 @@ public class RenderEvent
 
 		Minecraft mc = Minecraft.getInstance();
 
-		int k = Minecraft.getInstance().mainWindow.getScaledWidth();
-		int l = Minecraft.getInstance().mainWindow.getScaledHeight();
+		int k = Minecraft.getInstance().getMainWindow().getScaledWidth();
+		int l = Minecraft.getInstance().getMainWindow().getScaledHeight();
 
 		FontRenderer fontrenderer = mc.fontRenderer;
 

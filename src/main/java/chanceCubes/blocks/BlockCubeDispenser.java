@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -38,15 +39,16 @@ public class BlockCubeDispenser extends BaseChanceBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_)
 	{
 		if(world.isRemote)
-			return true;
+			return ActionResultType.PASS;
 		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
-			return true;
+			return ActionResultType.PASS;
 
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
-		if(player.isSneaking())
+		//isCrouching ???? wtf
+		if(player.isShiftKeyDown())
 		{
 			state = state.cycle(DISPENSING);
 			world.setBlockState(pos, state, 3);
@@ -57,7 +59,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			if(block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
 				player.inventory.decrStackSize(player.inventory.currentItem, 1);
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
@@ -72,8 +74,8 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			return;
 
 		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
-		entitem.setLocationAndAngles(player.posX, player.posY, player.posZ, 0, 0);
-		if(player.isSneaking())
+		entitem.setLocationAndAngles(player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0);
+		if(player.isShiftKeyDown())
 		{
 			entitem.getItem().setCount(1);
 			world.addEntity(entitem);

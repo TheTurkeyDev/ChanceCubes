@@ -27,7 +27,7 @@ version= "${mc_version}-${mod_version}.${buildnumber}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190719-1.14.3'
+    mappings channel: 'snapshot', version: '20200225-1.15.1'
 
     //accessTransformer = file('my_at.cfg')
 
@@ -35,7 +35,7 @@ minecraft {
     // these can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            workingDirectory project.file('run-1.14')
+            workingDirectory project.file('run-1.15')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -51,7 +51,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run-1.14')
+            workingDirectory project.file('run-1.15')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -67,7 +67,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run-1.14')
+            workingDirectory project.file('run-1.15')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -92,14 +92,14 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
-    compileOnly "net.darkhax.gamestages:GameStages-1.14.4:4.2.11"
+    //compileOnly "net.darkhax.gamestages:GameStages-1.14.4:4.2.11"
 }
 
 jar {
     manifest {
         attributes(["Specification-Title": "chance_cubes",
                     "Specification-Vendor": "turkey2349",
-                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Specification-Version": "1", // We are version 1 of ourselves
                     "Implementation-Title": project.name,
                     "Implementation-Version": "${version}",
                     "Implementation-Vendor" :"turkey2349",

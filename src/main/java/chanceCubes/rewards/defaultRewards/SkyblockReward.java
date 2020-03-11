@@ -10,11 +10,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 
@@ -37,6 +39,9 @@ public class SkyblockReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
+		if(world.isRemote())
+			return;
+
 		int skyblockHeight = world.getActualHeight() - 16;
 		if(!world.dimension.hasSkyLight())
 			skyblockHeight = pos.getY();
@@ -62,8 +67,9 @@ public class SkyblockReward extends BaseCustomReward
 		}
 		RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, skyblockPos.add(0, 1, 0));
 
-		TreeFeature treeGen = new TreeFeature(NoFeatureConfig::deserialize, true);
-		treeGen.place(world, world.getChunkProvider().getChunkGenerator(), RewardsUtil.rand, skyblockPos.add(3, 3, 3), IFeatureConfig.NO_FEATURE_CONFIG);
+		//TODO:
+		//Feature<?> treeGen = ForgeRegistries.FEATURES.getValue(new ResourceLocation("normal_tree"));
+		//treeGen.place(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), RewardsUtil.rand, skyblockPos.add(3, 3, 3), IFeatureConfig.NO_FEATURE_CONFIG);
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, skyblockPos.add(-1, 3, 0));
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(skyblockPos.add(-1, 3, 0));

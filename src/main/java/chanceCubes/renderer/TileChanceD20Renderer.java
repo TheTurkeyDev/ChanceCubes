@@ -1,38 +1,41 @@
 package chanceCubes.renderer;
 
 import chanceCubes.tileentities.TileChanceD20;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Random;
 
 public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 {
-	public static final TileChanceD20Renderer INSTANCE = new TileChanceD20Renderer();
 	private static final Random random = new Random();
 
 	private static final float HOVER_SPEED = 6F;
 
-	public TileChanceD20Renderer()
+	public TileChanceD20Renderer(TileEntityRendererDispatcher rendererDispatcherIn)
 	{
+		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TileChanceD20 d20, double x, double y, double z, float partialTicks, int destroyStage)
+	public void render(TileChanceD20 d20, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
 	{
 		float wave = d20.getStage() == 0 ? MathHelper.sin((((d20.getWorld().getGameTime() % (HOVER_SPEED * 1000F) + partialTicks) / (HOVER_SPEED * 1000F)) + random.nextFloat()) * 360F) : ((d20.getStage() + partialTicks) / 10f);
 		d20.wave = wave;
 
-		GlStateManager.pushMatrix();
+		matrixStackIn.push();
 
-		GlStateManager.translated(x + 0.5F, y + 1.5F + wave * 0.15f, z + 2.5F);
+		matrixStackIn.translate(0.5F, 1.5F + wave * 0.15f, 2.5F);
 		Tessellator tessellator = Tessellator.getInstance();
 		float f1 = ((float) d20.getWorld().getGameTime() % 750 + partialTicks) / 750.0F;
 
@@ -81,7 +84,6 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 			tessellator.draw();
 		}
 
-		GlStateManager.popMatrix();
 		GlStateManager.depthMask(true);
 		GlStateManager.disableCull();
 		GlStateManager.disableBlend();
@@ -91,6 +93,6 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 		GlStateManager.enableAlphaTest();
 		RenderHelper.enableStandardItemLighting();
 
-		GlStateManager.popMatrix();
+		matrixStackIn.pop();
 	}
 }

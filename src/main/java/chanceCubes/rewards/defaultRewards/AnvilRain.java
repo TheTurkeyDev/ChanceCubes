@@ -39,8 +39,8 @@ public class AnvilRain extends BaseCustomReward
 		cache.cacheBlock(new BlockPos(0, 25, 0), Blocks.ANVIL.getDefaultState());
 
 		for(yy = 0; yy < 25; yy++)
-			cache.cacheBlock(new BlockPos(player.posX - position.getX(), yy, player.posZ - position.getZ()), Blocks.AIR.getDefaultState());
-		cache.cacheBlock(new BlockPos(player.posX - position.getX(), 25, player.posZ - position.getZ()), Blocks.ANVIL.getDefaultState());
+			cache.cacheBlock(new BlockPos(player.getPosX() - position.getX(), yy, player.getPosZ() - position.getZ()), Blocks.AIR.getDefaultState());
+		cache.cacheBlock(new BlockPos(player.getPosX() - position.getX(), 25, player.getPosZ() - position.getZ()), Blocks.ANVIL.getDefaultState());
 
 		for(int xx = 0; xx < 2; xx++)
 			for(int zz = -4; zz < 5; zz++)

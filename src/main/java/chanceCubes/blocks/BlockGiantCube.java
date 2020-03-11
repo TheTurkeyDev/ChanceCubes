@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -34,13 +33,6 @@ public class BlockGiantCube extends BaseChanceBlock
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileGiantCube();
-	}
-
-
-	@Override
-	public BlockRenderLayer getRenderLayer()
-	{
-		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
 	@Override

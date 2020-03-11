@@ -71,9 +71,9 @@ public class MontyHallReward extends BaseCustomReward
 			{
 				if(value == -1)
 				{
-					TNTEntity entitytntprimed = new TNTEntity(world, player.posX, player.posY + 1D, player.posZ, player);
+					TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
 					world.addEntity(entitytntprimed);
-					world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 					entitytntprimed.setFuse(40);
 				}
 				else if(value == 0)
@@ -82,7 +82,7 @@ public class MontyHallReward extends BaseCustomReward
 				}
 				else if(value == 1)
 				{
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 
 				this.callback();

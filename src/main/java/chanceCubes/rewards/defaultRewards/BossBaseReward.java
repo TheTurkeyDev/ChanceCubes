@@ -127,7 +127,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = trackedPlayers.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedPlayers.get(i);
-					if(ent.getDistanceSq(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 * 15 || ent.posY < rewardCenterPos.getY() - 1)
+					if(ent.getDistanceSq(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < rewardCenterPos.getY() - 1)
 						ent.setPositionAndUpdate(rewardCenterPos.getX(), rewardCenterPos.getY() + 1, rewardCenterPos.getZ());
 
 					if(!ent.isAlive())

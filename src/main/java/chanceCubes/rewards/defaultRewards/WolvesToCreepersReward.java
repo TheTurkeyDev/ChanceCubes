@@ -56,7 +56,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 				{
 					wolf.remove();
 					CreeperEntity creeper = EntityType.CREEPER.create(world);
-					creeper.setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
+					creeper.setPositionAndRotation(wolf.getPosX(), wolf.getPosY(), wolf.getPosZ(), wolf.rotationYaw, wolf.rotationPitch);
 					creeper.setCustomName(new StringTextComponent("Jacky"));
 					world.addEntity(creeper);
 				}

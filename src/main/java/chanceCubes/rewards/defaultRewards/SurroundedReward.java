@@ -20,8 +20,8 @@ public class SurroundedReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		int px = (int) player.posX;
-		int pz = (int) player.posZ;
+		int px = (int) player.getPosX();
+		int pz = (int) player.getPosZ();
 		EndermanEntity enderman;
 		for(int xx = 0; xx < 2; xx++)
 		{

@@ -45,22 +45,22 @@ public class WaitForItReward extends BaseCustomReward
 
 				if(reward == 0)
 				{
-					world.addEntity(new TNTEntity(world, player.posX, player.posY + 1, player.posZ, null));
+					world.addEntity(new TNTEntity(world, player.getPosX(), player.getPosY() + 1, player.getPosZ(), null));
 				}
 				else if(reward == 1)
 				{
 					CreeperEntity ent = EntityType.CREEPER.create(world);
-					ent.setLocationAndAngles(player.posX, player.posY + 1, player.posZ, 0, 0);
+					ent.setLocationAndAngles(player.getPosX(), player.getPosY() + 1, player.getPosZ(), 0, 0);
 					ent.onStruckByLightning(null);
 					world.addEntity(ent);
 				}
 				else if(reward == 2)
 				{
-					RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, new BlockPos(player.posX, player.posY, player.posZ));
+					RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ()));
 				}
 				else if(reward == 3)
 				{
-					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.getDefaultState(), world, new BlockPos(player.posX, player.posY, player.posZ));
+					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.getDefaultState(), world, new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ()));
 				}
 				else if(reward == 4)
 				{

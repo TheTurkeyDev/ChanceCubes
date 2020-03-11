@@ -10,8 +10,8 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
 
 import java.util.Map;

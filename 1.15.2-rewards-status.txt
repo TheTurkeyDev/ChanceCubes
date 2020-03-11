@@ -1,4 +1,10 @@
 Working:
+
+
+Not Working:
+
+
+Untested:
 chancecubes:item_of_destiny
 chancecubes:path_to_succeed
 chancecubes:ores_galore
@@ -13,8 +19,6 @@ chancecubes:tnt_cat
 chancecubes:hand_enchant
 chancecubes:troll_hole
 chancecubes:random_status_effect
-
-Not Working:
 chancecubes:wool
 chancecubes:help_me
 chancecubes:cave_spider_web
@@ -24,8 +28,6 @@ chancecubes:spawn_jerry
 chancecubes:tnt_bats
 chancecubes:want_to_build_a_snowman
 chancecubes:invisible_creeper
-
-Untested:
 chancecubes:table_flip
 chancecubes:lingering_potions_ring
 chancecubes:sky_block

@@ -35,7 +35,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		player.setActiveHand(hand);
 		ItemStack stack = player.getHeldItem(hand);
-		if(player.isSneaking() && world.isRemote && player.isCreative())
+		if(player.isShiftKeyDown() && world.isRemote && player.isCreative())
 		{
 			DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 			{
@@ -48,7 +48,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		if(context.isPlacerSneaking())
+		if(context.getPlayer() == null || context.getPlayer().isShiftKeyDown())
 			return ActionResultType.FAIL;
 		if(context.getWorld().isRemote)
 			return ActionResultType.PASS;

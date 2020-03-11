@@ -197,7 +197,7 @@ public class DefaultRewards
 			{
 				if(world.isRemote)
 					return;
-				((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, player.posX, player.posY, player.posZ, false));
+				((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, player.getPosX(), player.getPosY(), player.getPosZ(), false));
 				player.sendMessage(new StringTextComponent("Thou has been smitten!"));
 			}
 		});
@@ -473,9 +473,9 @@ public class DefaultRewards
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
-				int px = (int) Math.floor(player.posX);
-				int py = (int) Math.floor(player.posY) + 1;
-				int pz = (int) Math.floor(player.posZ);
+				int px = (int) Math.floor(player.getPosX());
+				int py = (int) Math.floor(player.getPosY()) + 1;
+				int pz = (int) Math.floor(player.getPosZ());
 
 				for(int y = 0; y < 40; y++)
 					for(int x = -1; x < 2; x++)
@@ -544,7 +544,7 @@ public class DefaultRewards
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
-				final BlockPos worldPos = new BlockPos(Math.floor(player.posX), Math.floor(player.posY) - 1, Math.floor(player.posZ));
+				final BlockPos worldPos = new BlockPos(Math.floor(player.getPosX()), Math.floor(player.getPosY()) - 1, Math.floor(player.getPosZ()));
 				final RewardBlockCache cache = new RewardBlockCache(world, worldPos, new BlockPos(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
 
 				for(int y = 0; y > -75; y--)

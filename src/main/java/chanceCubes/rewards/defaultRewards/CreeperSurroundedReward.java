@@ -24,8 +24,8 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		final int chargedChance = super.getSettingAsInt(settings, "charged_chance", 10, 0, 100);
-		int px = (int) player.posX;
-		int pz = (int) player.posZ;
+		int px = (int) player.getPosX();
+		int pz = (int) player.getPosZ();
 		player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 100, 1, true, false));
 		boolean skip = false;
 		CreeperEntity creeper;

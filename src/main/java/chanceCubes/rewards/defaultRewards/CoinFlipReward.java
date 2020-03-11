@@ -88,15 +88,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Heads"))
 				{
 					player.sendMessage(new StringTextComponent("It was heads! You're correct!"));
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					player.sendMessage(new StringTextComponent("It was heads! You're incorrect!"));
 					for(int i = 0; i < 5; i++)
 					{
-						player.world.addEntity(new TNTEntity(player.world, player.posX, player.posY + 1D, player.posZ, player));
-						player.world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
+						player.world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}
@@ -105,15 +105,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Tails"))
 				{
 					player.sendMessage(new StringTextComponent("It was tails! You're correct!"));
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					player.sendMessage(new StringTextComponent("It was tails! You're incorrect!"));
 					for(int i = 0; i < 5; i++)
 					{
-						player.world.addEntity(new TNTEntity(player.world, player.posX, player.posY + 1D, player.posZ, player));
-						player.world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
+						player.world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}

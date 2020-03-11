@@ -83,13 +83,13 @@ public class BossBlazeReward extends BossBaseReward
 
 	private void shootFireballs(World world, BlazeEntity blaze, PlayerEntity player)
 	{
-		double d1 = player.posX - blaze.posX;
-		double d2 = player.getBoundingBox().minY + (double) (player.getHeight() / 2.0F) - (blaze.posY + (double) (blaze.getHeight() / 2.0F));
-		double d3 = player.posZ - blaze.posZ;
+		double d1 = player.getPosX() - blaze.getPosX();
+		double d2 = player.getBoundingBox().minY + (double) (player.getHeight() / 2.0F) - (blaze.getPosY() + (double) (blaze.getHeight() / 2.0F));
+		double d3 = player.getPosZ() - blaze.getPosZ();
 		for(int i = 0; i < 5; i++)
 		{
 			SmallFireballEntity entitysmallfireball = new SmallFireballEntity(world, blaze, d1 + blaze.getRNG().nextGaussian(), d2, d3 + blaze.getRNG().nextGaussian());
-			entitysmallfireball.posY = blaze.posY + (double) (blaze.getHeight() / 2.0F) + 0.5D;
+			entitysmallfireball.getPosition().add(0, blaze.getPosY() + (double) (blaze.getHeight() / 2.0F) + 0.5D, 0);
 			world.addEntity(entitysmallfireball);
 		}
 	}

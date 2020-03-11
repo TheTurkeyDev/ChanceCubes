@@ -39,6 +39,16 @@ public class TileCubeDispenser extends TileEntity
 		return this.entityItem;
 	}
 
+	public ItemStack getCurrentStack(DispenseType type)
+	{
+		if(type == DispenseType.CHANCE_ICOSAHEDRON)
+			return new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1);
+		else if(type == DispenseType.COMPACT_GIANTCUBE)
+			return new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1);
+		else
+			return new ItemStack(CCubesBlocks.CHANCE_CUBE, 1);
+	}
+
 	public ItemEntity getNewEntityItem(DispenseType type)
 	{
 		ItemEntity ent;

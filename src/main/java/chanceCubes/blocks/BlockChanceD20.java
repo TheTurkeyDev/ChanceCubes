@@ -11,7 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -45,21 +45,15 @@ public class BlockChanceD20 extends BaseChanceBlock
 		return false;
 	}
 
-	@Override
-	public BlockRenderLayer getRenderLayer()
-	{
-		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
-
 	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_)
 	{
-		return this.startd20(world, pos, player);
+		return this.startd20(world, pos, player) ? ActionResultType.PASS : ActionResultType.FAIL;
 	}
 
 	public boolean startd20(World world, BlockPos pos, PlayerEntity player)

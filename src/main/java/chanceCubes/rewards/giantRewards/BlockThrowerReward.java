@@ -1,9 +1,5 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
@@ -27,6 +23,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BlockThrowerReward extends BaseCustomReward
 {
@@ -82,9 +82,9 @@ public class BlockThrowerReward extends BaseCustomReward
 
 				for(FallingBlockEntity b : blocks)
 				{
-					if(b.posY > pos.getY() + 8)
+					if(b.getPosY() > pos.getY() + 8)
 					{
-						b.posY = pos.getY() + 8;
+						b.setPosition(b.getPosX(), pos.getY() + 8, b.getPosZ());
 						b.setMotion(0, 0, 0);
 					}
 				}
@@ -97,7 +97,7 @@ public class BlockThrowerReward extends BaseCustomReward
 				int rand = RewardsUtil.rand.nextInt(6);
 				for(FallingBlockEntity b : blocks)
 				{
-					world.addParticle(ParticleTypes.EXPLOSION, b.posX, b.posY, b.posZ, 0, 0, 0);
+					world.addParticle(ParticleTypes.EXPLOSION, b.getPosX(), b.getPosY(), b.getPosZ(), 0, 0, 0);
 
 					b.remove();
 
@@ -135,7 +135,7 @@ public class BlockThrowerReward extends BaseCustomReward
 						((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 					}
 
-					ent.setPosition(b.posX, b.posY, b.posZ);
+					ent.setPosition(b.getPosX(), b.getPosY(), b.getPosZ());
 					world.addEntity(ent);
 				}
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);

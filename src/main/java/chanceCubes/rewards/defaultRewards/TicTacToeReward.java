@@ -29,7 +29,7 @@ public class TicTacToeReward extends BaseCustomReward
 	{
 		player.sendMessage(new StringTextComponent("Lets play Tic-Tac-Toe!"));
 		player.sendMessage(new StringTextComponent("Beat the Computer to get 500 Diamonds!"));
-		player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(Blocks.RED_WOOL, 5)));
+		player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Blocks.RED_WOOL, 5)));
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int x = -2; x < 3; x++)
@@ -91,7 +91,7 @@ public class TicTacToeReward extends BaseCustomReward
 					if(board.hasCPUWon())
 						player.sendMessage(new StringTextComponent("The Computer won! Better luck next time!"));
 					else if(board.hasPlayerWon())
-						player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(Items.DIAMOND, 500)));
+						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
 					else
 						player.sendMessage(new StringTextComponent("You tied! Better luck next time!"));
 

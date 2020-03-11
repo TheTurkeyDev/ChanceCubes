@@ -37,9 +37,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 
 				PotionEntity entity = new PotionEntity(world, player);
 				entity.setItem(PotionUtils.appendEffects(new ItemStack(Items.SPLASH_POTION), effects));
-				entity.posX = player.posX;
-				entity.posY = player.posY + 2;
-				entity.posZ = player.posZ;
+				entity.setPosition(player.getPosX(), player.getPosY() + 2, player.getPosZ());
 				entity.setMotion(0, 0.1, 0);
 
 				world.addEntity(entity);

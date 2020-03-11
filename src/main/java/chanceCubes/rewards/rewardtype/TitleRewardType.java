@@ -37,7 +37,7 @@ public class TitleRewardType extends BaseRewardType<TitlePart>
 					}
 					else
 					{
-						double dist = Math.sqrt(Math.pow(x - entityplayer.posX, 2) + Math.pow(y - entityplayer.posY, 2) + Math.pow(z - entityplayer.posZ, 2));
+						double dist = Math.sqrt(Math.pow(x - entityplayer.getPosX(), 2) + Math.pow(y - entityplayer.getPosY(), 2) + Math.pow(z - entityplayer.getPosZ(), 2));
 						if(dist <= part.getRange() || part.isServerWide())
 							entityplayer.connection.sendPacket(spackettitle);
 					}

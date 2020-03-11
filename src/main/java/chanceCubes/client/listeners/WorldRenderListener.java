@@ -1,6 +1,7 @@
 package chanceCubes.client.listeners;
 
 import chanceCubes.util.SchematicUtil;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -17,22 +18,24 @@ public class WorldRenderListener
 	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
 	{
+		MatrixStack matrixStack = event.getMatrixStack();
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 		{
-			GlStateManager.pushMatrix();
+			matrixStack.push();
 
 			Entity entity = Minecraft.getInstance().player;
-			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
-			double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
-			double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
+			double interpPosX = entity.lastTickPosX + (entity.getPosX() - entity.lastTickPosX) * event.getPartialTicks();
+			double interpPosY = entity.lastTickPosY + (entity.getPosY() - entity.lastTickPosY) * event.getPartialTicks();
+			double interpPosZ = entity.lastTickPosZ + (entity.getPosZ() - entity.lastTickPosZ) * event.getPartialTicks();
 
-			GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
+			matrixStack.translate(-interpPosX, -interpPosY, -interpPosZ);
 			GlStateManager.disableTexture();
 			GlStateManager.enableBlend();
 			GlStateManager.enableAlphaTest();
 			GlStateManager.disableLighting();
 			GlStateManager.lineWidth(2f);
-			GlStateManager.begin(GL11.GL_LINES);
+			//TODO
+			//GlStateManager.begin(GL11.GL_LINES);
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
 			BlockPos pos2 = SchematicUtil.selectionPoints[1];
@@ -73,7 +76,7 @@ public class WorldRenderListener
 			GL11.glVertex3d(highX, lowY, highZ);
 			GL11.glVertex3d(highX, highY, highZ);
 
-			GlStateManager.end();
+			//GlStateManager.end();
 			GlStateManager.enableLighting();
 			GlStateManager.enableTexture();
 			GlStateManager.disableBlend();

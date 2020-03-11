@@ -75,8 +75,8 @@ public class BlockAreaPart extends BasePart
 				{
 					OffsetBlock osb = new OffsetBlock(x + xOffCalc, y + yOffCalc, z + zOffCalc, osbBlock, falling, delay).setCausesBlockUpdate(causesUpdate).setRelativeToPlayer(relativeToPlayer);
 
-					if(osb.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ))))
-						osb.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+					if(osb.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()))))
+						osb.spawnInWorld(world, (int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()));
 					else if(!RewardsUtil.isBlockUnbreakable(world, new BlockPos(worldX, worldY + 3, worldZ)))
 						osb.spawnInWorld(world, worldX, worldY, worldZ);
 				}

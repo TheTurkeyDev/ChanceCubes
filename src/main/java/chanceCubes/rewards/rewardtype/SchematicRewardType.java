@@ -61,12 +61,12 @@ public class SchematicRewardType implements IRewardType
 							OffsetBlock osb = stack.remove(0);
 							if(schematic.isRelativeToPlayer())
 							{
-								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff.getIntValue(), (int) Math.floor(player.posY) + osb.yOff.getIntValue(), (int) Math.floor(player.posZ) + osb.zOff.getIntValue());
+								BlockPos pos = new BlockPos((int) Math.floor(player.getPosX()) + osb.xOff.getIntValue(), (int) Math.floor(player.getPosY()) + osb.yOff.getIntValue(), (int) Math.floor(player.getPosZ()) + osb.zOff.getIntValue());
 								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
 								{
 									continue;
 								}
-								osb.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+								osb.spawnInWorld(world, (int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()));
 							}
 							else
 							{

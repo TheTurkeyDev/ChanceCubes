@@ -47,7 +47,7 @@ public class MathReward extends BaseCustomReward
 
 		player.sendMessage(new StringTextComponent("Quick, what's " + num1 + "+" + num2 + "?"));
 
-		BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
+		BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
 		RewardBlockCache cache = new RewardBlockCache(world, playerPos, player.getPosition());
 		for(int xx = -2; xx < 3; xx++)
 		{
@@ -63,16 +63,16 @@ public class MathReward extends BaseCustomReward
 			}
 		}
 
-		player.setPositionAndUpdate((int) player.posX, ((int) player.posY) + 2, (int) player.posZ);
+		player.setPositionAndUpdate((int) player.getPosX(), ((int) player.getPosY()) + 2, (int) player.getPosZ());
 
 		if(!world.isRemote)
 		{
 			List<Entity> tnt = new ArrayList<>();
 			for(int i = 0; i < 5; i++)
 			{
-				TNTEntity entitytntprimed = new TNTEntity(world, player.posX, player.posY + 1D, player.posZ, player);
+				TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
 				world.addEntity(entitytntprimed);
-				world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				entitytntprimed.setFuse(140);
 				tnt.add(entitytntprimed);
 			}
@@ -113,11 +113,11 @@ public class MathReward extends BaseCustomReward
 		{
 			player.sendMessage(new StringTextComponent("Correct!"));
 			player.sendMessage(new StringTextComponent("Here, have a item!"));
-			player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Explosion.Mode.NONE);
+			player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 

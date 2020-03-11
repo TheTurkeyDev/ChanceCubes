@@ -113,9 +113,9 @@ public class BossWitchReward extends BossBaseReward
 		PotionEntity pot = new PotionEntity(world, witch);
 		pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
 		double d0 = playerPos.getY() + 0.5;
-		double d1 = playerPos.getX() - witch.posX;
-		double d2 = d0 - pot.posY;
-		double d3 = playerPos.getZ() - witch.posZ;
+		double d1 = playerPos.getX() - witch.getPosX();
+		double d2 = d0 - pot.getPosY();
+		double d3 = playerPos.getZ() - witch.getPosZ();
 		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 		pot.shoot(d1, d2 + (double) f, d3, 1.6F, 12.0F);
 		world.addEntity(pot);

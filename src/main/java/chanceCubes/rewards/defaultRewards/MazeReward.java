@@ -62,7 +62,7 @@ public class MazeReward extends BaseCustomReward
 					gen.endMaze(player);
 					player.sendMessage(new StringTextComponent("Hey! You won!"));
 					player.sendMessage(new StringTextComponent("Here, have a item!"));
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 			}

@@ -37,7 +37,7 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 			public void callback()
 			{
 				if(sound.playAtPlayersLocation())
-					world.playSound(null, player.posX, player.posY, player.posZ, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
+					world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
 				else
 					world.playSound(null, x, y, z, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
 			}

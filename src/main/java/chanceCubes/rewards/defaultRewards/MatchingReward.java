@@ -134,7 +134,7 @@ public class MatchingReward extends BaseCustomReward
 
 			private void lose()
 			{
-				player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Explosion.Mode.NONE);
+				player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
 				player.attackEntityFrom(CCubesDamageSource.MATCHING_FAIL, Float.MAX_VALUE);
 				reset();
 			}
@@ -142,7 +142,7 @@ public class MatchingReward extends BaseCustomReward
 			private void win()
 			{
 				player.sendMessage(new StringTextComponent("Good job! Have a cool little item!"));
-				player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+				player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				reset();
 			}
 

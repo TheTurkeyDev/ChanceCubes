@@ -50,7 +50,7 @@ public class DigBuildReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.world.createExplosion(player, player.posX, player.posY, player.posZ, 1.0F, Explosion.Mode.NONE);
+				player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
 				player.attackEntityFrom(CCubesDamageSource.DIG_BUILD_FAIL, Float.MAX_VALUE);
 			}
 
@@ -61,14 +61,14 @@ public class DigBuildReward extends BaseCustomReward
 				{
 					player.sendMessage(new StringTextComponent("Good Job!"));
 					player.sendMessage(new StringTextComponent("Here, have a item!"));
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 				else if(!up && player.getPosition().getY() <= initalY - distance)
 				{
 					player.sendMessage(new StringTextComponent("Good Job!"));
 					player.sendMessage(new StringTextComponent("Here, have a item!"));
-					player.world.addEntity(new ItemEntity(player.world, player.posX, player.posY, player.posZ, new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 
