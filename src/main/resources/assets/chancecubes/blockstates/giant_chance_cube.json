@@ -1,9 +1,11 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-      "transform": "forge:default-block"
-    },
-    "variants": {
-        "normal": { "model": "chancecubes:block/giant_chance_cube" }
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "": {
+      "model": "chancecubes:block/giant_chance_cube"
     }
+  }
 }

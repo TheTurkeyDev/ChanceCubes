@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "normal": { "model": "chancecubes:block/compact_giant_chance_cube" }
+  "variants": {
+    "": {
+      "model": "chancecubes:block/compact_giant_chance_cube"
     }
+  }
 }

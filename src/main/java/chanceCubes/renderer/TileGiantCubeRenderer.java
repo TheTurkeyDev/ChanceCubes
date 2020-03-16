@@ -17,7 +17,7 @@ public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 {
 	protected final ModelGiantCube model;
 	private static final ResourceLocation GIANT_CUBE_ATLAS = new ResourceLocation("textures/atlas/giant_chance_cube.png");
-	private Material GIANT_CUBE_TEXTURE = new Material(GIANT_CUBE_ATLAS, new ResourceLocation(CCubesCore.MODID,"textures/models/giant_chance_cube"));
+	private static final Material GIANT_CUBE_TEXTURE = new Material(GIANT_CUBE_ATLAS, new ResourceLocation(CCubesCore.MODID,"textures/models/giant_chance_cube"));
 
 	/**
 	 * Make a new instance.
@@ -43,7 +43,6 @@ public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 //			GlStateManager.matrixMode(5888);
 //		}
 
-		Material material;
 		matrixStackIn.push();
 		RenderSystem.enableRescaleNormal();
 		matrixStackIn.translate(2.5f, 1.5f, 2.5F);

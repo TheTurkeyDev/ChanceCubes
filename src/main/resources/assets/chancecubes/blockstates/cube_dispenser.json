@@ -1,7 +1,13 @@
 {
-	"variants": {
-		"dispensing=chance_cube": { "model": "chancecubes:block/cube_dispenser" },
-		"dispensing=chance_icosahedron": { "model": "chancecubes:block/cube_dispenser" },
-		"dispensing=compact_giant_cube": { "model": "chancecubes:block/cube_dispenser" }
-	}
+  "variants": {
+    "dispensing=chance_cube": {
+      "model": "chancecubes:block/cube_dispenser"
+    },
+    "dispensing=chance_icosahedron": {
+      "model": "chancecubes:block/cube_dispenser"
+    },
+    "dispensing=compact_giant_cube": {
+      "model": "chancecubes:block/cube_dispenser"
+    }
+  }
 }
