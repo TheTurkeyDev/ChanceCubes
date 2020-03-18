@@ -79,7 +79,7 @@ public class GiantCubeUtil
 
 					TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 					// Check if block is bottom center block
-					boolean master = (x == cx && y == cy + 1 && z == cz);
+					boolean master = (x == cx + 1 && y == cy + 1 && z == cz + 1);
 					if(tile instanceof TileGiantCube)
 					{
 						((TileGiantCube) tile).setMasterCoords(cx + 1, cy + 1, cz + 1);

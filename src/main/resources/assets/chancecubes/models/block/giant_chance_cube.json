@@ -1,6 +1,5 @@
 {
-    "parent": "block/cube_all",
     "textures": {
-        "all": "chancecubes:blocks/empty"
+        "particle": "chancecubes:blocks/chance_cube"
     }
 }

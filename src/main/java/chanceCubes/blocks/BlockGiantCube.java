@@ -49,6 +49,7 @@ public class BlockGiantCube extends BaseChanceBlock
 				{
 					spawnAsEntity(world, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
 					GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
+					return true;
 				}
 
 				if(!gcte.hasMaster() || !gcte.checkForMaster())

@@ -1,23 +1,15 @@
 package chanceCubes.renderer;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.model.ModelGiantCube;
 import chanceCubes.tileentities.TileGiantCube;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
 
 public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 {
 	protected final ModelGiantCube model;
-	private static final ResourceLocation GIANT_CUBE_ATLAS = new ResourceLocation("textures/atlas/giant_chance_cube.png");
-	private static final Material GIANT_CUBE_TEXTURE = new Material(GIANT_CUBE_ATLAS, new ResourceLocation(CCubesCore.MODID,"textures/models/giant_chance_cube"));
 
 	/**
 	 * Make a new instance.
@@ -29,10 +21,22 @@ public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 	}
 
 	@Override
-	public void render(TileGiantCube tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
+	public void render(TileGiantCube tile, float partialTicks, MatrixStack matrix, IRenderTypeBuffer bufferIn, int light, int overlayLight)
 	{
 		if(!tile.isMaster())
 			return;
+
+		matrix.push();
+		matrix.translate(0.5f, 0.5f, 0.5F);
+		matrix.scale(3, 3, 3);
+		//TODO: Breaks with block on top
+		int lightToUse = light;
+		if(tile.getWorld() != null)
+			lightToUse = tile.getWorld().getLight(tile.getPos().add(0, 2, 0)) * 100;
+
+		model.render(matrix, bufferIn, lightToUse, overlayLight);
+		matrix.pop();
+
 //		if(destroyStage >= 0)
 //		{
 //			RenderSystem.bindTexture(DESTROY_STAGES[destroyStage]);
@@ -43,21 +47,17 @@ public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 //			GlStateManager.matrixMode(5888);
 //		}
 
-		matrixStackIn.push();
-		RenderSystem.enableRescaleNormal();
-		matrixStackIn.translate(2.5f, 1.5f, 2.5F);
-		IVertexBuilder ivertexbuilder = GIANT_CUBE_TEXTURE.getBuffer(bufferIn, RenderType::getEntityCutoutNoCull);
-		model.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
-		matrixStackIn.translate(-1, -1, -1);
-		matrixStackIn.scale(3f, 3f, 3f);
-		RenderSystem.disableRescaleNormal();
-		matrixStackIn.pop();
-
 //		if(destroyStage >= 0)
 //		{
 //			GlStateManager.matrixMode(5890);
 //			GlStateManager.popMatrix();
 //			GlStateManager.matrixMode(5888);
 //		}
+	}
+
+	@Override
+	public boolean isGlobalRenderer(TileGiantCube tile)
+	{
+		return true;
 	}
 }
