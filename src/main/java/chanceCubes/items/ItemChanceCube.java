@@ -82,6 +82,9 @@ public class ItemChanceCube extends BlockItem
 			list.add(new StringTextComponent(TextFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
 		else if(item.equals(CCubesItems.CHANCE_CUBE))
 			list.add(new StringTextComponent(TextFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
+		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
+			list.add(new StringTextComponent(TextFormatting.RED + "WORK IN PROGRESS"));
+
 
 		if(item.equals(CCubesItems.CHANCE_CUBE) || item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
 		{

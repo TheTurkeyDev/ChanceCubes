@@ -6,6 +6,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +16,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -22,6 +25,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 public class BlockChanceD20 extends BaseChanceBlock
 {
+	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.1, 0.1, 0.1, 15.9, 15.9, 15.9);
 
 	public BlockChanceD20()
 	{
@@ -37,6 +41,12 @@ public class BlockChanceD20 extends BaseChanceBlock
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileChanceD20();
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return SHAPE;
 	}
 
 	@Override
@@ -81,13 +91,13 @@ public class BlockChanceD20 extends BaseChanceBlock
 	@Override
 	public BlockState getExtendedState(BlockState state, IBlockReader world, BlockPos pos)
 	{
-		/*TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileChanceD20)
-		{
-			TileChanceD20 d20 = (TileChanceD20) tile;
-			if(d20.transform != TRSRTransformation.identity())
-				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
-		}*/
+//		TileEntity tile = world.getTileEntity(pos);
+//		if(tile instanceof TileChanceD20)
+//		{
+//			TileChanceD20 d20 = (TileChanceD20) tile;
+//			if(d20.transform != TRSRTransformation.identity())
+//				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
+//		}
 
 		return state;
 	}

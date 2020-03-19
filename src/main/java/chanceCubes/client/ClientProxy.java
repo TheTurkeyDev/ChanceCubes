@@ -1,6 +1,5 @@
 package chanceCubes.client;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CreativePendantGui;
 import chanceCubes.client.gui.ProfileGui;
@@ -13,16 +12,12 @@ import chanceCubes.listeners.BlockListener;
 import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
-import chanceCubes.tileentities.TileChanceD20;
-import chanceCubes.tileentities.TileCubeDispenser;
-import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -43,8 +38,6 @@ public class ClientProxy
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		//OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-
 		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, TileChanceD20Renderer::new);
 		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER, TileCubeDispenserRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT, TileGiantCubeRenderer::new);
@@ -54,6 +47,18 @@ public class ClientProxy
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
 	}
+
+//	@SubscribeEvent
+//	public static void onModelBake(ModelBakeEvent event)
+//	{
+//		try
+//		{
+//			OBJLoader.INSTANCE.loadModel(new ModelSettings(new ResourceLocation(CCubesCore.MODID, "models/block.chance_icosahedron.obj"), true, false, true, true, null));
+//		} catch(Exception e)
+//		{
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	public static void openRewardSelectorGUI(PlayerEntity player, ItemStack stack)
 	{

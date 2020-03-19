@@ -28,7 +28,7 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	private int chance;
 	private boolean isScanned = false;
 
-	// public TRSRTransformation transform = TRSRTransformation.identity();
+	//public Transformation transform = TRSRTransformation.identity();
 
 	public TileChanceD20()
 	{
@@ -50,6 +50,7 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
 		this.chance = initialChance;
 	}
+
 
 	public void setChance(int newChance)
 	{
@@ -93,7 +94,6 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 		}
 		else if(world.isRemote)
 		{
-			//TODO:
 //			AxisAngle4d yaw = new AxisAngle4d(0, 1, 0, Math.toRadians((Util.nanoTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1)));
 //			AxisAngle4d pitch = new AxisAngle4d(1, 0, 0, 0F);
 //
@@ -116,7 +116,7 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 //				matrix.setRotation(rot);
 //			}
 //			transform = new TRSRTransformation(matrix);
-//			//this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
+			//this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
 	}
 
