@@ -6,7 +6,7 @@
         "xSize": 3,
         "ySize": 1,
         "zSize": 3,
-        "block": "minecraft:stonebrick",
+        "block": "minecraft:stone_bricks",
         "xOff": -1,
         "yOff": -1,
         "zOff": -1,
@@ -57,19 +57,19 @@
         "delay": 5
       },
       {
-        "command": "/setblock ~2 ~1 ~0 minecraft:wall_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
+        "command": "/setblock ~2 ~1 ~0 minecraft:oak_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
         "delay": 5
       },
       {
-        "command": "/setblock ~-2 ~1 ~0 minecraft:wall_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
+        "command": "/setblock ~-2 ~1 ~0 minecraft:oak_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
         "delay": 5
       },
       {
-        "command": "/setblock ~0 ~1 ~2 minecraft:wall_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
+        "command": "/setblock ~0 ~1 ~2 minecraft:oak_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
         "delay": 5
       },
       {
-        "command": "/setblock ~0 ~1 ~-2 minecraft:wall_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
+        "command": "/setblock ~0 ~1 ~-2 minecraft:oak_sign 2 replace {Text1:\"{\\\"text\\\":\\\"Help Me!\\\"}\"}",
         "delay": 5
       }
     ]

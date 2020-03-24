@@ -142,7 +142,7 @@ public class GlobalCCRewardRegistry
 	{
 		if(CCubesSettings.testRewards)
 		{
-			CCubesCore.logger.log(Level.INFO, "This feature has been temporarily removed!");
+
 			return;
 		}
 		else if(CCubesSettings.testCustomRewards)

@@ -210,6 +210,7 @@ public class RewardParser
 			CommandPart command = new CommandPart(ParserUtil.getString(element, "command", "/help"));
 
 			command.setDelay(ParserUtil.getInt(element, "delay", command.getDelay()));
+			command.setCopies(ParserUtil.getInt(element, "copies", 0));
 
 			commands.add(command);
 		}

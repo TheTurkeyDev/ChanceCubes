@@ -33,13 +33,13 @@ chancecubes:maze
 chancecubes:random_teleport
 chancecubes:arrow_spray
 chancecubes:tnt_diamond
+chancecubes:wool
+chancecubes:invizible_silverfish
+chancecubes:cave_spider_web
 
 Not Working:
-chancecubes:wool
 chancecubes:help_me
-chancecubes:cave_spider_web
 chancecubes:arrow_trap
-chancecubes:invizible_silverfish
 chancecubes:spawn_jerry
 chancecubes:tnt_bats
 chancecubes:want_to_build_a_snowman

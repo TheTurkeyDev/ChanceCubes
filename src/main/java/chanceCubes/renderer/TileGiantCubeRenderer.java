@@ -37,7 +37,7 @@ public class TileGiantCubeRenderer extends TileEntityRenderer<TileGiantCube>
 
 		GlStateManager.pushMatrix();
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.translatef((float) x + 2.5f, (float) y + 1.5f, (float) z + 2.5F);
+		GlStateManager.translatef((float) x + 1.5f, (float) y + 1.5f, (float) z + 1.5F);
 		bindTexture(this.blockTexture);
 		GlStateManager.translated(-1, -1, -1);
 		GlStateManager.scalef(3f, 3f, 3f);

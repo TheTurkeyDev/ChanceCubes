@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 public class TileGiantCube extends TileEntity
 {
 	private boolean hasMaster, isMaster;
-	private BlockPos masterPos;
+	private BlockPos masterPos = BlockPos.ZERO;
 
 	public TileGiantCube()
 	{

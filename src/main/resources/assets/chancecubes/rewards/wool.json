@@ -4,9 +4,8 @@
     "Item": [
       {
         "item": {
-          "id": "minecraft:wool",
-          "Count": 16,
-          "Damage": "%%RND(0,16)%%"
+          "id": "minecraft:%%[white,orange,magenta,light_blue,yellow,lime,pink,gray,light_gray,cyan,blue,purple,green,brown,red,black]%%_wool",
+          "Count": 16
         }
       }
     ]

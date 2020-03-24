@@ -37,7 +37,9 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 			@Override
 			public void callback()
 			{
-				RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), command.getParsedCommand(world, x, y, z, player));
+				int copies = command.getCopies().getIntValue() + 1;
+				for(int i = 0; i < copies; i++)
+					RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), command.getParsedCommand(world, x, y, z, player));
 			}
 		});
 	}

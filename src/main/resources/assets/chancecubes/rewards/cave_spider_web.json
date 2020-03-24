@@ -6,7 +6,7 @@
         "xSize": 7,
         "ySize": 4,
         "zSize": 7,
-        "block": "minecraft:web",
+        "block": "minecraft:cobweb",
         "xOff": -3,
         "yOff": 0,
         "zOff": -3,
@@ -18,22 +18,8 @@
     ],
     "Command": [
       {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
-      },
-      {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
-      },
-      {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
-      },
-      {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
-      },
-      {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
-      },
-      {
-        "command": "/summon cave_spider ~ ~1 ~ {CustomName:\"CascadingDongs\",CustomNameVisible:1}"
+        "command": "/summon minecraft:cave_spider %px %py %pz {CustomName:'{\"text\":\"CascadingDongs\"}'}",
+        "copies": 5
       }
     ]
   }

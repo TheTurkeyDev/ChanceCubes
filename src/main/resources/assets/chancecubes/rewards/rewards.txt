@@ -51,3 +51,5 @@ watch_the_world_burn.json
 why_not.json
 wither_status_effect.json
 wool.json
+invizible_silverfish.json
+spawn_jerry.json

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +26,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		this.setDefaultState(this.stateContainer.getBaseState().with(DISPENSING, DispenseType.CHANCE_CUBE));
 	}
 
+
 	@Override
 	public boolean hasTileEntity(BlockState state)
 	{
@@ -35,6 +37,12 @@ public class BlockCubeDispenser extends BaseChanceBlock
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileCubeDispenser();
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer()
+	{
+		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
 	@Override
@@ -60,7 +68,8 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		return true;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
+	@Override
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		if(world.isRemote)
 			return;
