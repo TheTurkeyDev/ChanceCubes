@@ -1,0 +1,10 @@
+{
+  "chancecubes:actual_invisible_ghast": {
+    "chance": -80,
+    "Command": [
+      {
+        "command": "/summon minecraft:ghast ~ ~10 ~ {ActiveEffects:[{Id:minecraft:invisibility,Amplifier:1b,Duration:12000,ShowParticles:0b}]}"
+      }
+    ]
+  }
+}

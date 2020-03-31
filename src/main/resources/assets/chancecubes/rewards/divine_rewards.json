@@ -1,0 +1,153 @@
+{
+  "chancecubes:divine_boots": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_boots",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 1,
+                "lvl": 10
+              },
+              {
+                "id": 2,
+                "lvl": 10
+              },
+              {
+                "id": 8,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine_Boots"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_helmet": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_helmet",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 0,
+                "lvl": 10
+              },
+              {
+                "id": 6,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine Helmet"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_chestplate": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_chestplate",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 3,
+                "lvl": 10
+              },
+              {
+                "id": 7,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine Chestplate"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_leggings": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_leggings",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 4,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine Leggings"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_sword": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_sword",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "ench": [
+              {
+                "id": 16,
+                "lvl": 10
+              },
+              {
+                "id": 34,
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "The Divine Sword"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

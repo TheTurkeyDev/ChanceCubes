@@ -46,9 +46,6 @@ public class ItemChestReward extends BaseCustomReward
 			{
 				spawnItems(world, pos, chest);
 				chest.openInventory(player);
-//					world.addBlockEvent(pos, chest.getBlockType(), 1, chest.numPlayersUsing);
-//					world.notifyNeighborsOfStateChange(pos, chest.getBlockType(), true);
-//					world.notifyNeighborsOfStateChange(pos.down(), chest.getBlockType(), true);
 			}
 		});
 	}
@@ -68,7 +65,7 @@ public class ItemChestReward extends BaseCustomReward
 			{
 				ItemEntity item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
 				world.addEntity(item);
-				item.setMotion(0, 1.5, -1);
+				item.setMotion(0, 1.5, (RewardsUtil.rand.nextDouble() * -2) - 1);
 				item.setPickupDelay(60);
 			}
 		});

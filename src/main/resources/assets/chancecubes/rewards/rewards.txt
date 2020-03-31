@@ -1,3 +1,4 @@
+actual_invisible_ghast.json
 anti_slab.json
 bedrock.json
 big_stick.json
@@ -7,11 +8,7 @@ cave_spider_web.json
 chance_cube_cube.json
 chat_message.json
 d_rude_sandstorm.json
-divine_boots.json
-divine_chestplate.json
-divine_helmet.json
-divine_leggins.json
-divine_sword.json
+divine_rewards.json
 enchanting.json
 exp.json
 exp_shower.json
@@ -30,6 +27,7 @@ horde.json
 hot_tub.json
 ice_cold.json
 icosahedron.json
+invizible_silverfish.json
 marlin.json
 mitas.json
 nemo.json
@@ -43,6 +41,8 @@ rancher.json
 redstone_diamond.json
 saplings.json
 sethbling.json
+spawn_glenn.json
+spawn_jerry.json
 squid_horde.json
 string.json
 take_this.json
@@ -51,5 +51,3 @@ watch_the_world_burn.json
 why_not.json
 wither_status_effect.json
 wool.json
-invizible_silverfish.json
-spawn_jerry.json

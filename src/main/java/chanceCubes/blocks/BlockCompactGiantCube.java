@@ -26,6 +26,7 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 
 		GiantCubeUtil.setupStructure(pos.add(-1, 0, -1), world, true);
 
+		//TODO: Not working
 		world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 }
