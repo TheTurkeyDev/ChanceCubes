@@ -41,7 +41,11 @@ public class CustomSoundsLoader
 	public void addCustomSounds()
 	{
 		JsonObject root = new JsonObject();
-		for(File f : new File(folder.getAbsolutePath() + "/Sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
+		FileFilter filter = FileFilterUtils.suffixFileFilter(".ogg");
+		File soundsFolder = new File(folder.getAbsolutePath() + "/sounds");
+		if(!soundsFolder.exists())
+			return;
+		for(File f : soundsFolder.listFiles(filter))
 		{
 			String simpleName = f.getName().substring(0, f.getName().indexOf('.'));
 			customsSounds.add(new CustomFile("assets/minecraft/sounds", f));// add record .ogg

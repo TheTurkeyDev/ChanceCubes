@@ -38,10 +38,10 @@ minecraft {
             workingDirectory project.file('run-1.15')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', ''
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 chancecubes {
@@ -51,13 +51,13 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run-1.15')
+            workingDirectory project.file('run-server-1.15')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', ''
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 chancecubes {
@@ -70,10 +70,10 @@ minecraft {
             workingDirectory project.file('run-1.15')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', ''
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             args '--mod', 'chancecubes', '--all', '--output', file('src/generated/resources/')
 
