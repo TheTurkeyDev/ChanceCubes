@@ -59,7 +59,7 @@ public class CustomSoundsLoader
 			event.add("sounds", sounds);
 			root.add(simpleName, event); // event name (same as name sent to ItemCustomRecord)
 		}
-		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/Sounds/sounds.json", gson.toJson(root))));// add record .ogg
+		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/sounds/sounds.json", gson.toJson(root))));// add record .ogg
 	}
 
 	public void assemble()
