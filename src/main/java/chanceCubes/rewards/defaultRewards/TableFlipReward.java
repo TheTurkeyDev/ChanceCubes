@@ -27,7 +27,7 @@ public class TableFlipReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		RewardsUtil.sendMessageToAllPlayers(world, "(╯°□°）╯︵ ┻━┻)");
+		RewardsUtil.sendMessageToAllPlayers(world, "(\u256f\u00b0\u25a1\u00b0\uff09\u256f\ufe35 \u253b\u2501\u253b)");
 
 		Scheduler.scheduleTask(new Task("Table_Flip", 1000, 10)
 		{
