@@ -12,15 +12,15 @@ import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.SchematicUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
@@ -159,7 +159,6 @@ public class RewardParser
 			IntVar x = ParserUtil.getInt(element, "xOffSet", 0);
 			IntVar y = ParserUtil.getInt(element, "yOffSet", 0);
 			IntVar z = ParserUtil.getInt(element, "zOffSet", 0);
-			// TODO: Change to Block instead of String
 			String[] blockDataParts = ParserUtil.getString(element, "block", "minecraft:dirt").getValue().split(":");
 			String mod = blockDataParts[0];
 			String blockName = blockDataParts[1];
@@ -173,11 +172,14 @@ public class RewardParser
 			offBlock.setRemoveUnbreakableBlocks(ParserUtil.getBoolean(element, "removeUnbreakableBlocks", offBlock.doesRemoveUnbreakableBlocks()));
 			offBlock.setPlaysSound(ParserUtil.getBoolean(element, "playSound", offBlock.doesPlaySound()));
 
-			//TODO
 			if(blockDataParts.length > 2)
-				//offBlock.setBlockState(RewardsUtil.getBlockStateFromBlockMeta(block, Integer.parseInt(blockDataParts[2])));
+			{
+				BlockState state = block.getDefaultState();
+				SchematicUtil.decodeBlockState(state, blockDataParts[2]);
+				offBlock.setBlockState(state);
+			}
 
-				blocks.add(offBlock);
+			blocks.add(offBlock);
 		}
 		rewards.add(new BlockRewardType(blocks.toArray(new OffsetBlock[0])));
 		return rewards;

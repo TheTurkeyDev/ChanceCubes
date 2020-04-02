@@ -1,8 +1,5 @@
 package chanceCubes.client.gui;
 
-import chanceCubes.registry.global.GlobalCCRewardRegistry;
-import org.lwjgl.opengl.GL11;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
@@ -18,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantGui extends Screen
@@ -55,30 +53,17 @@ public class RewardSelectorPendantGui extends Screen
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
 		this.children.add(this.rewardField);
-		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward"), new Button.IPressable()
+		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward"), p_onPress_1_ ->
 		{
+			CompoundNBT nbt = stack.getTag();
+			if(nbt == null)
+				nbt = new CompoundNBT();
+			nbt.putString("Reward", rewardName);
+			stack.setTag(nbt);
 
-			@Override
-			public void onPress(Button p_onPress_1_)
-			{
-				if(GlobalCCRewardRegistry.DEFAULT.getRewardByName(rewardField.getText()) != null || GlobalCCRewardRegistry.GIANT.getRewardByName(rewardField.getText()) != null)
-				{
-					CompoundNBT nbt = stack.getTag();
-					if(nbt == null)
-						nbt = new CompoundNBT();
-					nbt.putString("Reward", rewardName);
-					stack.setTag(nbt);
-
-					CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getText()));
-					rewardName = rewardField.getText();
-					player.closeScreen();
-				}
-				else
-				{
-					rewardField.setText("Invalid Name!");
-					rewardName = "";
-				}
-			}
+			CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getText()));
+			rewardName = rewardField.getText();
+			player.closeScreen();
 		}));
 	}
 

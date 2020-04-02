@@ -6,7 +6,7 @@
         "xSize": 11,
         "ySize": 5,
         "zSize": 11,
-        "block": "minecraft:carpet",
+        "block": "minecraft:%%[white,orange,magenta,light_blue,yellow,lime,pink,gray,light_gray,cyan,blue,purple,green,brown,red,black]%%_carpet",
         "xOff": -5,
         "yOff": 0,
         "zOff": -5,

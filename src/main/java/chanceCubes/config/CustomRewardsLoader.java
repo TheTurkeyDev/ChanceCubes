@@ -137,7 +137,7 @@ public class CustomRewardsLoader
 				{
 					CCubesSettings.doesHolidayRewardTrigger = true;
 					CCubesSettings.holidayReward = basicReward;
-					CCubesCore.logger.log(Level.ERROR, "Custom holiday reward \"" + holidayName + "\" loaded!");
+					CCubesCore.logger.log(Level.INFO, "Custom holiday reward \"" + holidayName + "\" loaded!");
 				}
 				else
 				{

@@ -28,7 +28,7 @@ public class BasicTreesBiome extends BaseBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.GRASS;
+		return Blocks.GRASS_BLOCK;
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class BasicTreesBiome extends BaseBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.TALL_GRASS, false, (delay / BioDomeGen.delayShorten));
-			osb.setBlockState(Blocks.TALL_GRASS.getDefaultState());
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.GRASS, false, (delay / BioDomeGen.delayShorten));
+			osb.setBlockState(Blocks.GRASS.getDefaultState());
 			blocks.add(osb);
 		}
 		else if(dist < -5 && rand.nextInt(100) == 0)

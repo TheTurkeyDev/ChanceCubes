@@ -1,10 +1,12 @@
 package chanceCubes.rewards.rewardtype;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {

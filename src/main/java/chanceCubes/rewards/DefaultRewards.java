@@ -57,6 +57,7 @@ import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
@@ -278,6 +279,9 @@ public class DefaultRewards
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
+				if(world.isRemote)
+					return;
+
 				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 				CreeperEntity ent = EntityType.CREEPER.create(world);
 				ent.setLocationAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
@@ -285,15 +289,13 @@ public class DefaultRewards
 				ent.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 300, 99, true, false));
 				world.addEntity(ent);
 
-				if(!world.isRemote)
-					return;
-
 				Scheduler.scheduleTask(new Task("Charged Creeper Reward", 2)
 				{
 					@Override
 					public void callback()
 					{
 						((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, pos.getX(), pos.getY(), pos.getZ(), false));
+						world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.HOSTILE, 1f, 1f);
 						ent.setFire(0);
 					}
 				});
