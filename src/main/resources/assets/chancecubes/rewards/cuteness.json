@@ -1,0 +1,17 @@
+{
+  "chancecubes:cuteness": {
+    "chance": 10,
+    "Message": [
+      {
+        "message": "Cuteness overload!",
+        "range": 32
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:rabbit ~ ~ ~ {RabbitType:99,CustomName:'{\"text\":\"Cuteness\"}'}",
+        "copies": 20
+      }
+    ]
+  }
+}

@@ -29,8 +29,8 @@ public class ChunkFlipReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		int z = pos.getZ() >> 4;
-		int x = pos.getX() >> 4;
+		int z = (pos.getZ() >> 4) << 4;
+		int x = (pos.getX() >> 4) << 4;
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		player.sendMessage(new StringTextComponent("Inception!!!!"));
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
