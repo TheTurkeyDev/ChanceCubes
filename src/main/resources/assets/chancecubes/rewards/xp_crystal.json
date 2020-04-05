@@ -1,0 +1,10 @@
+{
+  "chancecubes:xp_crystal": {
+    "chance": -60,
+    "Command": [
+      {
+        "command": "/summon minecraft:experience_orb ~ ~ ~ {Passengers:[{id:\"minecraft:end_crystal\"}]}"
+      }
+    ]
+  }
+}

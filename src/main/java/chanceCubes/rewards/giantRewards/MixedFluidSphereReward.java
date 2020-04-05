@@ -36,7 +36,7 @@ public class MixedFluidSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.abs(loc.distanceSq(0, 0, 0, false));
+						double dist = Math.sqrt(Math.abs(loc.distanceSq(0, 0, 0, false)));
 						if(dist <= 5 - i && dist > 5 - (i + 1))
 						{
 							if(i == 0)
@@ -48,7 +48,7 @@ public class MixedFluidSphereReward extends BaseCustomReward
 							}
 							else
 							{
-								Fluid fluid = RewardsUtil.getRandomFluid();
+								Fluid fluid = RewardsUtil.getRandomFluid(true);
 								OffsetBlock osb = new OffsetBlock(xx, yy, zz, fluid.getDefaultState().getBlockState(), false, delay);
 								blocks.add(osb);
 								delay++;

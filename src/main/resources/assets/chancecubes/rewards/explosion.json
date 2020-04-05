@@ -3,7 +3,7 @@
     "chance": 0,
     "Particle": [
       {
-        "particle": "hugeexplosion"
+        "particle": "explosion"
       }
     ],
     "Sound": [

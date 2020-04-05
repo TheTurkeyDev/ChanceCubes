@@ -4,44 +4,26 @@
     "Item": [
       {
         "item": {
-          "id": "minecraft:fence",
+          "id": "minecraft:oak_fence",
           "Count": 32
         }
       },
       {
         "item": {
-          "id": "minecraft:spawn_egg",
-          "Damage": 90,
+          "id": "minecraft:pig_spawn_egg",
           "Count": 1
-        },
-        "tag": {
-          "EntityTag": {
-            "id": "minecraft:pig"
-          }
         }
       },
       {
         "item": {
-          "id": "minecraft:spawn_egg",
-          "Damage": 92,
+          "id": "minecraft:cow_spawn_egg",
           "Count": 1
-        },
-        "tag": {
-          "EntityTag": {
-            "id": "minecraft:cow"
-          }
         }
       },
       {
         "item": {
-          "id": "minecraft:spawn_egg",
-          "Damage": 91,
+          "id": "minecraft:sheep_spawn_egg",
           "Count": 1
-        },
-        "tag": {
-          "EntityTag": {
-            "id": "minecraft:sheep"
-          }
         }
       }
     ]

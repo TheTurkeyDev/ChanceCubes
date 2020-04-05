@@ -6,8 +6,8 @@
         "item": {
           "id": "minecraft:diamond_boots",
           "Count": 1,
-          "Damage": 360,
           "tag": {
+            "Damage": 360,
             "Enchantments": [
               {
                 "id": "minecraft:fire_protection",
@@ -27,7 +27,7 @@
               }
             ],
             "display": {
-              "Name": "'{\"text\":\"The Divine Boots\",\"color\":\"dark_aqua\"}'"
+              "Name": "{\"text\":\"The Divine Boots\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -41,8 +41,8 @@
         "item": {
           "id": "minecraft:diamond_helmet",
           "Count": 1,
-          "Damage": 360,
           "tag": {
+            "Damage": 360,
             "Enchantments": [
               {
                 "id": "minecraft:protection",
@@ -58,7 +58,7 @@
               }
             ],
             "display": {
-              "Name": "'{\"text\":\"The Divine Helmet\",\"color\":\"dark_aqua\"}'"
+              "Name": "{\"text\":\"The Divine Helmet\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -72,8 +72,8 @@
         "item": {
           "id": "minecraft:diamond_chestplate",
           "Count": 1,
-          "Damage": 360,
           "tag": {
+            "Damage": 360,
             "Enchantments": [
               {
                 "id": "minecraft:blast_protection",
@@ -89,7 +89,7 @@
               }
             ],
             "display": {
-              "Name": "'{\"text\":\"The Divine Chestplate\",\"color\":\"dark_aqua\"}'"
+              "Name": "{\"text\":\"The Divine Chestplate\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -105,6 +105,7 @@
           "Count": 1,
           "Damage": 360,
           "tag": {
+            "Damage": 360,
             "Enchantments": [
               {
                 "id": "minecraft:projectile_protection",
@@ -116,7 +117,7 @@
               }
             ],
             "display": {
-              "Name": "'{\"text\":\"The Divine Leggings\",\"color\":\"dark_aqua\"}'"
+              "Name": "{\"text\":\"The Divine Leggings\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -130,8 +131,8 @@
         "item": {
           "id": "minecraft:diamond_sword",
           "Count": 1,
-          "Damage": 360,
           "tag": {
+            "Damage": 360,
             "Enchantments": [
               {
                 "id": "minecraft:sharpness",
@@ -143,7 +144,7 @@
               }
             ],
             "display": {
-              "Name": "'{\"text\":\"The Divine Sword\",\"color\":\"dark_aqua\"}'"
+              "Name": "{\"text\":\"The Divine Sword\",\"color\":\"dark_aqua\"}"
             }
           }
         }

@@ -8,7 +8,7 @@
           "Count": 1,
           "tag": {
             "display": {
-              "Name": "North Star"
+              "Name": "{\"text\":\"North Star\",\"color\":\"dark_aqua\"}"
             }
           }
         }

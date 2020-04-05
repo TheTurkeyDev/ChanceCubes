@@ -1,0 +1,25 @@
+{
+  "chancecubes:want_to_build_a_snowman": {
+    "chance": 45,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:snow_block",
+          "Count": 2
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:jack_o_lantern",
+          "Count": 1
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "Do you want to build a snowman?",
+        "range": 32
+      }
+    ]
+  }
+}

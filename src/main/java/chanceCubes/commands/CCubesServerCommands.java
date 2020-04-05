@@ -11,7 +11,6 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerRewardInfo;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
-import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -223,13 +222,11 @@ public class CCubesServerCommands
 
 	public int executeRewardInfo(CommandContext<CommandSource> ctx)
 	{
-		int defaultEnabled = 0;
-		int giantEnabled = 0;
 		PlayerEntity player = getPlayer(ctx.getSource());
 		List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
 		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
-		defaultEnabled = defaultrewards.size();
-		giantEnabled = giantrewards.size();
+		int defaultEnabled = defaultrewards.size();
+		int giantEnabled = giantrewards.size();
 		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
 		for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 			player.sendMessage(new StringTextComponent(reward));
@@ -310,22 +307,6 @@ public class CCubesServerCommands
 
 	public int executeTest(CommandContext<CommandSource> ctx)
 	{
-		for(String rewardName : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
-		{
-			IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(rewardName);
-			System.out.println("INSERT INTO `chance_cubes`.`rewards` VALUES ('" + rewardName + "', " + reward.getChanceValue() + ", 0);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.12','" + rewardName + "',0);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.14','" + rewardName + "',0);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.15','" + rewardName + "',0);");
-		}
-		for(String rewardName : GlobalCCRewardRegistry.GIANT.getRewardNames())
-		{
-			IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(rewardName);
-			System.out.println("INSERT INTO `chance_cubes`.`rewards` VALUES ('" + rewardName + "', " + reward.getChanceValue() + ", 1);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.12','" + rewardName + "',0);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.14','" + rewardName + "',0);");
-			System.out.println("INSERT INTO `chance_cubes`.`version_status` VALUES ('1.15','" + rewardName + "',0);");
-		}
 		return 0;
 	}
 

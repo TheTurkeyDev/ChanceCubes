@@ -3,7 +3,7 @@
     "chance": 25,
     "Command": [
       {
-        "command": "/summon minecraft:zombie ~ ~ ~ {CustomName:'{\"text\":\"Glenn\"}'}"
+        "command": "/summon minecraft:zombie ~ ~ ~ {CustomNameVisible:1b,CustomName:'{\"text\":\"Glenn\"}'}"
       }
     ]
   }

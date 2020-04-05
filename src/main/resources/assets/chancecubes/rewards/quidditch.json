@@ -1,0 +1,17 @@
+{
+  "chancecubes:quidditch": {
+    "chance": -30,
+    "Message": [
+      {
+        "message": "Quidditch anyone?",
+        "range": 32
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:bat ~ ~ ~ {Passengers:[{id:\"minecraft:witch\"}]}",
+        "copies": 7
+      }
+    ]
+  }
+}

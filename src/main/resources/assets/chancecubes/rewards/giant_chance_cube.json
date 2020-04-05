@@ -1,19 +1,9 @@
 {
   "chancecubes:giant_chance_cube": {
     "chance": -45,
-    "Area": [
+    "Command": [
       {
-        "xSize": 3,
-        "ySize": 3,
-        "zSize": 3,
-        "block": "chancecubes:chance_cube",
-        "xOff": -1,
-        "yOff": 0,
-        "zOff": -1,
-        "falling": false,
-        "delay": 0,
-        "causesUpdate": true,
-        "relativeToPlayer": false
+        "command": "/chancecubes spawnGiantCube ~ ~1 ~"
       }
     ]
   }

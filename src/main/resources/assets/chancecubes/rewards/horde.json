@@ -10,7 +10,7 @@
     "Entity": [
       {
         "entity": {
-          "id": "Zombie"
+          "id": "minecraft:zombie"
         },
         "copies": 15
       }

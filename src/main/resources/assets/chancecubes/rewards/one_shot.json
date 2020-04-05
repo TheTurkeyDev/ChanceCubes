@@ -6,25 +6,25 @@
         "item": {
           "id": "minecraft:bow",
           "Count": 1,
-          "Damage": 1
-        },
-        "tag": {
-          "ench": [
-            {
-              "id": 48,
-              "lvl": 5
-            },
-            {
-              "id": 49,
-              "lvl": 3
-            },
-            {
-              "id": 50,
-              "lvl": 2
+          "tag": {
+            "Damage": 384,
+            "Enchantments": [
+              {
+                "id": "minecraft:power",
+                "lvl": 5
+              },
+              {
+                "id": "minecraft:punch",
+                "lvl": 3
+              },
+              {
+                "id": "minecraft:flame",
+                "lvl": 2
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"One Shot\"}"
             }
-          ],
-          "display": {
-            "Name": "One Shot"
           }
         }
       },

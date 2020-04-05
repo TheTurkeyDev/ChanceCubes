@@ -3,7 +3,7 @@
     "chance": 25,
     "Command": [
       {
-        "command": "/summon minecraft:slime ~ ~ ~ {CustomName:'{\"text\":\"Jerry\"}'}"
+        "command": "/summon minecraft:slime ~ ~ ~ {CustomNameVisible:1b,CustomName:'{\"text\":\"Jerry\",\"color\":\"green\",\"bold\":true}'}"
       }
     ]
   }

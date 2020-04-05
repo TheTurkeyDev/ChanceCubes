@@ -1,0 +1,11 @@
+{
+  "chancecubes:skeleton_bats": {
+    "chance": -40,
+    "Command": [
+      {
+        "command": "/summon minecraft:bat ~ ~ ~ {Passengers:[{id:\"minecraft:skeleton\",HandItems:[{id:\"minecraft:bow\",Count:1b},{}],ArmorItems:[{},{},{},{id:\"minecraft:leather_helmet\",Count:1b}]}]}",
+        "copies": 10
+      }
+    ]
+  }
+}

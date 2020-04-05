@@ -1,0 +1,11 @@
+{
+  "chancecubes:silvermite_stacks": {
+    "chance": -35,
+    "Command": [
+      {
+        "command": "/summon minecraft:silverfish ~ ~1 ~ {Passengers:[{id:\"minecraft:endermite\",Passengers:[{id:\"minecraft:silverfish\",Passengers:[{id:\"minecraft:endermite\",Passengers:[{id:\"minecraft:silverfish\",Passengers:[{id:\"minecraft:endermite\",Passengers:[{id:\"minecraft:silverfish\",Passengers:[{id:\"minecraft:endermite\",Passengers:[{id:\"minecraft:silverfish\",Passengers:[{id:\"minecraft:endermite\",Passengers:[{id:\"minecraft:silverfish\"}]}]}]}]}]}]}]}]}]}]}",
+        "copies": 5
+      }
+    ]
+  }
+}

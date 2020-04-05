@@ -37,6 +37,8 @@ public class PotionsReward extends BaseCustomReward
 	{
 		Scheduler.scheduleTask(new Task("Potion Circle", 100, 20)
 		{
+			int tick = 0;
+
 			@Override
 			public void callback()
 			{
@@ -46,13 +48,14 @@ public class PotionsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
+				tick++;
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 				{
 					Potion potionType = RewardsUtil.getRandomPotionType();
 					pot = new PotionEntity(world, player);
 					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.setMotion(Math.cos(rad) * (0.1), 1, Math.sin(rad) * (0.1));
+					pot.setMotion(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
 					world.addEntity(pot);
 				}
 			}

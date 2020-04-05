@@ -1,0 +1,11 @@
+{
+  "chancecubes:fireworks": {
+    "chance": 5,
+    "Command": [
+      {
+        "command": "/summon minecraft:firework_rocket ~ ~ ~ {Glowing:1b,LifeTime:10,FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Explosions:[{Type:1,Flicker:1b,Trail:1b,Colors:[I;16711680]}]}}}}",
+        "copies": 4
+      }
+    ]
+  }
+}

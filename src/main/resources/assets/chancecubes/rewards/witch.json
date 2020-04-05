@@ -1,0 +1,12 @@
+{
+  "chancecubes:witch": {
+    "chance": -15,
+    "Entity": [
+      {
+        "entity": {
+          "id": "witch"
+        }
+      }
+    ]
+  }
+}

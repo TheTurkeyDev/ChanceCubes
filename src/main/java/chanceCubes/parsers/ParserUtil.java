@@ -158,7 +158,7 @@ public class ParserUtil
 			if(part.startsWith("RND"))
 				var.addPart(IntVar.parseRandom(part));
 			else if(part.charAt(0) == '[' && part.indexOf(']') != -1)
-				var.addPart(new ListPart<>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']') - 1).split(",")));
+				var.addPart(new ListPart<>(part.replaceAll(" ", "").substring(1, part.lastIndexOf(']')).split(",")));
 			else if(part.startsWith("ITEM"))
 				var.addPart(new RandomItem());
 			else if(part.startsWith("BLOCK"))

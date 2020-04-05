@@ -75,6 +75,9 @@ public class QuestionsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
+				if(!inQuestion.containsKey(player))
+					Scheduler.removeTask(this);
+
 				if(this.delayLeft % 20 == 0)
 					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
 			}

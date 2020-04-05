@@ -6,7 +6,7 @@
         "xSize": 1,
         "ySize": 3,
         "zSize": 1,
-        "block": "minecraft:brick_block",
+        "block": "minecraft:bricks",
         "xOff": 0,
         "yOff": 0,
         "zOff": 0,
@@ -31,15 +31,15 @@
     ],
     "Command": [
       {
-        "command": "/summon item_frame ~ ~ ~1 {Item:{id:\"minecraft:stick\", Count:1b},Facing:0,ItemRotation:7}",
+        "command": "/summon minecraft:item_frame ~ ~ ~1 {ItemRotation:3b,Facing:3b,Item:{id:\"minecraft:stick\",Count:1b}}",
         "delay": 2
       },
       {
-        "command": "/summon item_frame ~ ~1 ~1 {Item:{id:\"minecraft:diamond\", Count:1b},Facing:0,ItemRotation:0}",
+        "command": "/summon minecraft:item_frame ~ ~1 ~1 {Facing:3b,Item:{id:\"minecraft:diamond\",Count:1b}}",
         "delay": 2
       },
       {
-        "command": "/summon item_frame ~ ~2 ~1 {Item:{id:\"minecraft:diamond\", Count:1b},Facing:0,ItemRotation:0}",
+        "command": "/summon minecraft:item_frame ~ ~2 ~1 {Facing:3b,Item:{id:\"minecraft:diamond\",Count:1b}}",
         "delay": 2
       }
     ],

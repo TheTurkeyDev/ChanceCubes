@@ -8,8 +8,9 @@
       },
       {
         "block": "minecraft:sugar_cane",
-        "xOffset": 1,
-        "yOffset": 1
+        "xOffSet": 1,
+        "yOffSet": 1,
+        "delay": 2
       }
     ],
     "Message": [

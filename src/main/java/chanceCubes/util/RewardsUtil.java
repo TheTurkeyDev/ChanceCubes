@@ -302,9 +302,14 @@ public class RewardsUtil
 		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "oreCoal";
 	}
 
-	public static Fluid getRandomFluid()
+	public static Fluid getRandomFluid(boolean onlySources)
 	{
-		return randomRegistryEntry(ForgeRegistries.FLUIDS, Fluids.WATER);
+		Fluid fluid;
+		do
+			fluid = randomRegistryEntry(ForgeRegistries.FLUIDS, Fluids.WATER);
+		while(onlySources && !fluid.isSource(fluid.getDefaultState()));
+
+		return fluid;
 	}
 
 	public static int getRandomColor()

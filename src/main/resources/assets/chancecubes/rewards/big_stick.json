@@ -7,15 +7,15 @@
           "id": "minecraft:stick",
           "Count": 1,
           "tag": {
-            "ench": [
+            "display": {
+              "Name": "{\"text\":\"A Big Stick\"}"
+            },
+            "Enchantments": [
               {
-                "id": 16,
+                "id": "minecraft:sharpness",
                 "lvl": 5
               }
-            ],
-            "display": {
-              "Name": "A Big Stick"
-            }
+            ]
           }
         }
       }

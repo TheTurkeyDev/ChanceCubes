@@ -22,6 +22,7 @@ public class DidYouKnowReward extends BaseCustomReward
 		dyk.add("The nuke reward that says \\'May death rain upon them\\' is a reference to the Essentials Bukkit plugin?");
 		dyk.add("The real reason his name is pickles is because a user from Wyld\\'s Twtich chat suggested the reward.");
 		dyk.add("Today is Darkosto\\'s Birthday!");
+		dyk.add("The stick that the Leonidas zombie uses is called `The Spartan Kick`!");
 	}
 
 	@Override

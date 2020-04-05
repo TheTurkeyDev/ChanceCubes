@@ -6,7 +6,9 @@
         "item": {
           "id": "minecraft:fishing_rod",
           "Count": 1,
-          "Damage": 20
+          "tag": {
+            "Damage": 32
+          }
         }
       }
     ]

@@ -1,0 +1,10 @@
+{
+  "chancecubes:knockback_zombie": {
+    "chance": -35,
+    "Command": [
+      {
+        "command": "/summon minecraft:zombie ~ ~ ~ {CustomNameVisible:1b,IsBaby:1b,CustomName:'{\"text\":\"Leonidas\",\"color\":\"red\"}',HandItems:[{id:\"minecraft:stick\",Count:1b,tag:{display:{Name:'{\"text\":\"The Spartan Kick\"}'},Enchantments:[{id:\"minecraft:knockback\",lvl:100s}],AttributeModifiers:[{AttributeName:\"generic.knockbackResistance\",Name:\"generic.knockbackResistance\",Amount:100,Operation:0,UUIDLeast:67361,UUIDMost:630890}]}},{}],HandDropChances:[0.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:5b,Duration:200000},{Id:8b,Amplifier:1b,Duration:200000}]}"
+      }
+    ]
+  }
+}

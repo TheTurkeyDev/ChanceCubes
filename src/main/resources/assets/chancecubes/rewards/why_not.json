@@ -1,23 +1,9 @@
 {
   "chancecubes:fire_aspect_fire": {
     "chance": 60,
-    "Item": [
+    "Command": [
       {
-        "item": {
-          "id": "minecraft:fire_charge",
-          "Count": 1,
-          "tag": {
-            "ench": [
-              {
-                "id": 20,
-                "lvl": 2
-              }
-            ],
-            "display": {
-              "Name": "Why not?"
-            }
-          }
-        }
+        "command": "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:fire_charge\",Count:1b,tag:{display:{Name:'{\"text\":\"Why Not?\",\"color\":\"gold\"}'},Enchantments:[{id:\"minecraft:fire_aspect\",lvl:2s}]}}}"
       }
     ]
   }

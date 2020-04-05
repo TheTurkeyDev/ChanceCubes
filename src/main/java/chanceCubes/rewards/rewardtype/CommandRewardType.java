@@ -21,11 +21,11 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 		super(convertToCommandParts(commands));
 	}
 
-	private static CommandPart[] convertToCommandParts(String... messages)
+	private static CommandPart[] convertToCommandParts(String... commands)
 	{
-		CommandPart[] toReturn = new CommandPart[messages.length];
-		for(int i = 0; i < messages.length; i++)
-			toReturn[i] = new CommandPart(messages[i]);
+		CommandPart[] toReturn = new CommandPart[commands.length];
+		for(int i = 0; i < commands.length; i++)
+			toReturn[i] = new CommandPart(commands[i]);
 		return toReturn;
 	}
 
@@ -38,8 +38,9 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 			public void callback()
 			{
 				int copies = command.getCopies().getIntValue() + 1;
+				String commandStr = command.getParsedCommand(world, x, y, z, player);
 				for(int i = 0; i < copies; i++)
-					RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), command.getParsedCommand(world, x, y, z, player));
+					RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), commandStr);
 			}
 		});
 	}

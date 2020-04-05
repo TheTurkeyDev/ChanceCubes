@@ -1,0 +1,21 @@
+{
+  "chancecubes:sail_away": {
+    "chance": 5,
+    "Block": [
+      {
+        "block": "minecraft:water",
+        "yOffSet": -1
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:boat ~ ~ ~ {Type:\"oak\"}"
+      }
+    ],
+    "Message": [
+      {
+        "message": "Come sail away!"
+      }
+    ]
+  }
+}

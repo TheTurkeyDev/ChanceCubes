@@ -4,43 +4,37 @@
     "Item": [
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 0,
+          "id": "minecraft:acacia_sapling",
           "Count": 4
         }
       },
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 1,
+          "id": "minecraft:birch_sapling",
           "Count": 4
         }
       },
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 2,
+          "id": "minecraft:dark_oak_sapling",
           "Count": 4
         }
       },
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 3,
+          "id": "minecraft:jungle_sapling",
           "Count": 4
         }
       },
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 4,
+          "id": "minecraft:oak_sapling",
           "Count": 4
         }
       },
       {
         "item": {
-          "id": "minecraft:sapling",
-          "Damage": 5,
+          "id": "minecraft:spruce_sapling",
           "Count": 4
         }
       }
