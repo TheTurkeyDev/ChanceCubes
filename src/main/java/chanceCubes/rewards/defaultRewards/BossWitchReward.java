@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.WitchEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -27,14 +27,14 @@ import org.apache.logging.log4j.Level;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class BossWitchReward extends BossBaseReward
 {
 
 	//@formatter:off
-	private List<Class<? extends Entity>> entities = Arrays.asList(CreeperEntity.class, SkeletonEntity.class, BlazeEntity.class,
-			EndermanEntity.class, EndermiteEntity.class, ZombiePigmanEntity.class, SilverfishEntity.class, SlimeEntity.class,
-			SpiderEntity.class, ZombieEntity.class);
+	private List<String> entities = Arrays.asList("creeper", "skeleton", "blaze",  "enderman", "endermite",
+			"zombie_pigman",  "silverfish", "slime",  "spider", "zombie");
 	//@formatter:on
 	public BossWitchReward()
 	{
@@ -130,7 +130,12 @@ public class BossWitchReward extends BossBaseReward
 
 			try
 			{
-				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
+				Optional<EntityType<?>> entType = EntityType.byKey(entities.get(RewardsUtil.rand.nextInt(entities.size())));
+				Entity ent;
+				if(entType.isPresent())
+					ent = entType.get().create(world);
+				else
+					ent = EntityType.CREEPER.create(world);
 				BlockPos adjPos = pos.offset(facing);
 				ent.setPosition(adjPos.getX(), adjPos.getY(), adjPos.getZ());
 				world.addEntity(ent);

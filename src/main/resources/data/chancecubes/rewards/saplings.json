@@ -1,0 +1,49 @@
+{
+  "chancecubes:saplings": {
+    "chance": 35,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:acacia_sapling",
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:birch_sapling",
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:dark_oak_sapling",
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:jungle_sapling",
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:oak_sapling",
+          "Count": 4
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:spruce_sapling",
+          "Count": 4
+        }
+      }
+    ],
+    "Message": [
+      {
+        "message": "Seems you have purchased the saplings DLC",
+        "range": 25
+      }
+    ]
+  }
+}

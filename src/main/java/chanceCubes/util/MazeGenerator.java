@@ -146,7 +146,6 @@ public class MazeGenerator
 				if(this.map[xx][zz] == 0)
 				{
 					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					//TODO
 					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.getDefaultState());
 					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.AIR.getDefaultState());
 					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.BEDROCK.getDefaultState());

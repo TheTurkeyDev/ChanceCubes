@@ -30,11 +30,12 @@ public class DesertBiome extends BaseBiome
 		if(dist < 0 && rand.nextInt(50) == 0)
 		{
 			delay++;
-			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeGen.delayShorten) + 1);
+			OffsetBlock osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
-			osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeGen.delayShorten));
+			delay += BioDomeGen.delayShorten;
+			osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
-			delay++;
+			delay += BioDomeGen.delayShorten;
 			osb = new OffsetBlock(x, y + 1, z, Blocks.DEAD_BUSH, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 			delay++;
@@ -43,11 +44,12 @@ public class DesertBiome extends BaseBiome
 		if(dist < 0 && rand.nextInt(60) == 0)
 		{
 			delay++;
-			OffsetBlock osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeGen.delayShorten) + 1);
+			OffsetBlock osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
-			osb = new OffsetBlock(x, y - 1, z, Blocks.SANDSTONE, false, (delay / BioDomeGen.delayShorten));
+			delay += BioDomeGen.delayShorten;
+			osb = new OffsetBlock(x, y, z, Blocks.SAND, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
-			delay++;
+			delay += BioDomeGen.delayShorten;
 			osb = new OffsetBlock(x, y + 1, z, Blocks.CACTUS, false, (delay / BioDomeGen.delayShorten));
 			blocks.add(osb);
 			delay++;

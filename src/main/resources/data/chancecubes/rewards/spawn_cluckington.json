@@ -1,0 +1,10 @@
+{
+  "chancecubes:spawn_cluckington": {
+    "chance": 25,
+    "Command": [
+      {
+        "command": "/summon minecraft:chicken ~ ~ ~ {CustomNameVisible:1b,Passengers:[{id:\"minecraft:zombie\",CustomNameVisible:1b,IsBaby:1b,CustomName:'{\"text\":\"Wyld\"}',ArmorItems:[{},{},{},{id:\"minecraft:player_head\",Count:1b,tag:{SkullOwner:{Name:\"wyld\"}}}]}],CustomName:'{\"text\":\"Cluckington\"}',ActiveEffects:[{Id:1b,Amplifier:3b,Duration:200000}]}"
+      }
+    ]
+  }
+}

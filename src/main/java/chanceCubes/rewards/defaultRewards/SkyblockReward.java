@@ -50,7 +50,7 @@ public class SkyblockReward extends BaseCustomReward
 		for(int i = 0; i < 3; i++)
 		{
 			if(i == 2)
-				b = Blocks.GRASS;
+				b = Blocks.GRASS_BLOCK;
 			for(int c = 0; c < 3; c++)
 			{
 				int xOffset = c == 0 ? -1 : 2;

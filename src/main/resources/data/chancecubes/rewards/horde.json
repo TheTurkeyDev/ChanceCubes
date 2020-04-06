@@ -1,0 +1,19 @@
+{
+  "chancecubes:horde": {
+    "chance": -25,
+    "Message": [
+      {
+        "message": "Release the horde!",
+        "range": 25
+      }
+    ],
+    "Entity": [
+      {
+        "entity": {
+          "id": "minecraft:zombie"
+        },
+        "copies": 15
+      }
+    ]
+  }
+}

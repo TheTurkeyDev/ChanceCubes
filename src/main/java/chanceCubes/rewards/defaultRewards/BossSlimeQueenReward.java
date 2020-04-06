@@ -37,7 +37,6 @@ public class BossSlimeQueenReward extends BossBaseReward
 		queen.setHealth(queen.getMaxHealth());
 
 		// Lol ok
-		//TODO:
 		CompoundNBT nbt = new CompoundNBT();
 		queen.writeAdditional(nbt);
 		nbt.putInt("Size", 10);

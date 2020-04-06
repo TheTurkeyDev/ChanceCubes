@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 public class CommandPart extends BasePart
 {
 	private StringVar command;
+	private IntVar copies = new IntVar(0);
 
 	public CommandPart(String command)
 	{
@@ -52,5 +53,15 @@ public class CommandPart extends BasePart
 		parsedCommand = parsedCommand.replace("%ppitch", "" + player.rotationPitch);
 
 		return parsedCommand;
+	}
+
+	public IntVar getCopies()
+	{
+		return copies;
+	}
+
+	public void setCopies(IntVar copies)
+	{
+		this.copies = copies;
 	}
 }

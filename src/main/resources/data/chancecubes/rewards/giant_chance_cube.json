@@ -1,0 +1,10 @@
+{
+  "chancecubes:giant_chance_cube": {
+    "chance": -45,
+    "Command": [
+      {
+        "command": "/chancecubes spawnGiantCube ~ ~1 ~"
+      }
+    ]
+  }
+}

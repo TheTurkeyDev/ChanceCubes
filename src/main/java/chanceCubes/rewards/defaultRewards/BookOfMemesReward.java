@@ -36,7 +36,7 @@ public class BookOfMemesReward extends BaseCustomReward
 		List<String> allMemes = new ArrayList<>(memes);
 		allMemes.addAll(Arrays.asList(super.getSettingAsStringList(settings, "memes", new String[0])));
 		String meme = allMemes.get(RewardsUtil.rand.nextInt(allMemes.size()));
-		String command = "/summon Item ~ ~1 ~ {Item:{id:written_book,Count:1,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:0,pages:[\"{text:\\\"" + meme + "\\\",color:black}\"]}}}";
+		String command = "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:written_book\",Count:1b,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:2,pages:['{\"text\":\"" + meme + "\",\"color\":\"black\"}']}}}";
 		RewardsUtil.executeCommand(world, player, pos, command);
 	}
 }

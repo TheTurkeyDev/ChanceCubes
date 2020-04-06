@@ -25,7 +25,7 @@ public class SphereSnakeReward extends BaseCustomReward
 
 	public SphereSnakeReward()
 	{
-		super(CCubesCore.MODID + ":Sphere_Snake", 0);
+		super(CCubesCore.MODID + ":sphere_snake", 0);
 	}
 
 	@Override

@@ -1,0 +1,10 @@
+{
+  "chancecubes:invisible_creeper": {
+    "chance": -30,
+    "Command": [
+      {
+        "command": "/summon minecraft:creeper ~ ~ ~ {ActiveEffects:[{Id:14b,Amplifier:1b,Duration:200000,ShowParticles:0b}]}"
+      }
+    ]
+  }
+}

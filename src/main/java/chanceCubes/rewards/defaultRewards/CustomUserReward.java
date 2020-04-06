@@ -85,13 +85,12 @@ public class CustomUserReward extends BaseCustomReward
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
 			customRewards.add(RewardParser.parseReward(reward).getKey());
 
-		//GROSS, but idk what else todo
+		//GROSS, but idk what else to do
 		String userNameFinal = userName;
 		String typeFinal = type;
 		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
 		server.execute(() ->
 		{
-			//TODO: Only register/ enable for that user?
 			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(uuid.toString()).enableReward(CCubesCore.MODID + ":cr_" + userNameFinal);
 			PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);

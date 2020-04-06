@@ -1,0 +1,19 @@
+{
+  "chancecubes:finding_nemo": {
+    "chance": 10,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:tropical_fish",
+          "Count": 1,
+          "Damage": 2,
+          "tag": {
+            "display": {
+              "Name": "{\"text\":\"Nemo\",\"color\":\"gold\"}"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

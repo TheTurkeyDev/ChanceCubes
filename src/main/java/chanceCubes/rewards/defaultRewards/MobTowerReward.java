@@ -3,9 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
@@ -18,11 +16,11 @@ import java.util.Map;
 public class MobTowerReward extends BaseCustomReward
 {
 	//@formatter:off
-	private List<Class<? extends Entity>> entities = Arrays.asList(CreeperEntity.class, SkeletonEntity.class, BlazeEntity.class,
-			EndermanEntity.class, EndermiteEntity.class, ZombiePigmanEntity.class, SilverfishEntity.class, SlimeEntity.class,
-			SnowGolemEntity.class, SpiderEntity.class, WitchEntity.class, ZombieEntity.class, BatEntity.class, ChickenEntity.class,
-			CowEntity.class, OcelotEntity.class, ParrotEntity.class, PigEntity.class, RabbitEntity.class, SheepEntity.class,
-			VillagerEntity.class, WolfEntity.class);
+	private List<EntityType<? extends Entity>> entities = Arrays.asList(EntityType.CREEPER, EntityType.SKELETON, EntityType.BLAZE,
+			EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ZOMBIE_PIGMAN, EntityType.SILVERFISH, EntityType.SLIME,
+			EntityType.SNOW_GOLEM, EntityType.SPIDER, EntityType.WITCH, EntityType.ZOMBIE, EntityType.BAT, EntityType.CHICKEN,
+			EntityType.COW, EntityType.OCELOT, EntityType.PARROT, EntityType.PIG, EntityType.RABBIT, EntityType.SHEEP,
+			EntityType.VILLAGER, EntityType.WOLF);
 	//@formatter:on
 
 	public MobTowerReward()
@@ -42,7 +40,7 @@ public class MobTowerReward extends BaseCustomReward
 		Entity last;
 		try
 		{
-			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
+			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(world);
 			last.setPosition(pos.getX(), pos.getY(), pos.getZ());
 			world.addEntity(last);
 		} catch(Exception e)
@@ -55,7 +53,7 @@ public class MobTowerReward extends BaseCustomReward
 		{
 			try
 			{
-				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).getConstructor(World.class).newInstance(world);
+				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(world);
 				ent.setPosition(pos.getX(), pos.getY(), pos.getZ());
 				world.addEntity(ent);
 				ent.startRiding(last, true);

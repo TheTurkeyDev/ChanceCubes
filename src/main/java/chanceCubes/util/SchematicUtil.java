@@ -14,13 +14,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.state.IProperty;
+import net.minecraft.state.IStateHolder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -28,12 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class SchematicUtil
@@ -62,7 +61,8 @@ public class SchematicUtil
 				{
 					BlockPos pos = new BlockPos(x, y, z);
 					BlockState blockState = world.getBlockState(pos);
-					blockData.append(blockState.getBlock().getRegistryName().toString());
+					blockData.append(blockState.getBlock().getRegistryName().toString()).append(":");
+					blockData.append(encodeBlockState(blockState));
 					String blockString = blockData.toString();
 					int id = -1;
 					for(CustomEntry<Integer, String> data : blockDataIds)
@@ -163,85 +163,6 @@ public class SchematicUtil
 		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
-	public static CustomSchematic loadLegacySchematic(String fileName, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
-	{
-		File schematic = new File(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName);
-		CompoundNBT nbtdata;
-		try
-		{
-			FileInputStream is = new FileInputStream(schematic);
-			nbtdata = CompressedStreamTools.readCompressed(is);
-			is.close();
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-		return loadLegacySchematic(nbtdata, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
-	}
-
-	public static CustomSchematic loadLegacySchematic(CompoundNBT nbtdata, int xoff, int yoff, int zoff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
-	{
-		short width = nbtdata.getShort("Width");
-		short height = nbtdata.getShort("Height");
-		short length = nbtdata.getShort("Length");
-
-		byte[] blocks = nbtdata.getByteArray("Blocks");
-		List<OffsetBlock> offsetBlocks = new ArrayList<>();
-
-		ListNBT tileentities = nbtdata.getList("TileEntities", 10);
-
-		int i = 0;
-		short halfLength = (short) (length / 2);
-		short halfWidth = (short) (width / 2);
-
-		for(int yy = 0; yy < height; yy++)
-		{
-			for(int zz = 0; zz < length; zz++)
-			{
-				for(int xx = 0; xx < width; xx++)
-				{
-					int j = blocks[i];
-					if(j < 0)
-						j = 128 + (128 + j);
-
-					//TODO: Support legacy still? uses ID's
-					Block b = ForgeRegistries.BLOCKS.getValues().stream().skip(j).findFirst().get();
-					if(b != Blocks.AIR)
-					{
-						OffsetBlock block = new OffsetBlock(halfWidth - xx, yy, halfLength - zz, b, falling);
-						block.setRelativeToPlayer(relativeToPlayer);
-						block.setPlaysSound(playSound);
-						offsetBlocks.add(block);
-					}
-					i++;
-				}
-			}
-		}
-
-		for(int i1 = 0; i1 < tileentities.size(); ++i1)
-		{
-			CompoundNBT nbttagcompound4 = tileentities.getCompound(i1);
-			TileEntity tileentity = TileEntity.create(nbttagcompound4);
-
-			if(tileentity != null)
-			{
-				Block b = null;
-				for(OffsetBlock osb : offsetBlocks)
-					if(osb.xOff.getIntValue() == halfWidth - tileentity.getPos().getX() && osb.yOff.getIntValue() == tileentity.getPos().getY() && osb.zOff.getIntValue() == halfLength - tileentity.getPos().getZ())
-						b = osb.getBlockState().getBlock();
-				if(b == null)
-					b = Blocks.STONE;
-				OffsetTileEntity block = new OffsetTileEntity(halfWidth - tileentity.getPos().getX(), tileentity.getPos().getY(), halfLength - tileentity.getPos().getZ(), b.getDefaultState(), nbttagcompound4, falling);
-				block.setRelativeToPlayer(relativeToPlayer);
-				block.setPlaysSound(playSound);
-				offsetBlocks.add(block);
-			}
-		}
-
-		return new CustomSchematic(offsetBlocks, width, height, length, relativeToPlayer, includeAirBlocks, spacingDelay, delay);
-	}
-
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
 		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
@@ -295,8 +216,18 @@ public class SchematicUtil
 							break;
 						}
 					}
-					Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockData));
-					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, b, falling, new IntVar(0));
+					BlockState state;
+					String[] parts = blockData.split(":");
+					if(parts.length == 1)
+						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0])).getDefaultState();
+					else
+						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1])).getDefaultState();
+
+					if(parts.length == 3)
+						decodeBlockState(state, parts[2]);
+
+					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, state.getBlock(), falling, new IntVar(0));
+					osb.setBlockState(state);
 					osb.setRelativeToPlayer(relativeToPlayer);
 					osb.setPlaysSound(playSound);
 					offsetBlocks.add(osb);
@@ -373,5 +304,35 @@ public class SchematicUtil
 			e.printStackTrace();
 		}
 		return FileUtil.JSON_PARSER.parse(builder.toString());
+	}
+
+	public static String encodeBlockState(BlockState state)
+	{
+		StringBuilder builder = new StringBuilder("[");
+		for(IProperty<?> prop : state.getProperties())
+			if(state.has(prop))
+				builder.append(prop.getName()).append("=").append(state.get(prop).toString()).append(",");
+
+		builder.deleteCharAt(builder.length() - 1);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	//[key=value, key2=value2,....] Basically how vanilla does it
+	public static void decodeBlockState(BlockState defaultState, String stateString)
+	{
+		if(!stateString.matches("\\[.*]"))
+			return;
+		stateString = stateString.substring(1, stateString.length() - 1);
+		Map<String, String> map = new HashMap<>();
+		Arrays.stream(stateString.split(",")).forEach((s) ->
+		{
+			String[] entry = s.split("=");
+			map.put(entry[0], entry[1]);
+		});
+
+		for(IProperty<?> prop : defaultState.getProperties())
+			if(map.containsKey(prop.getName()))
+				IStateHolder.withString(defaultState, prop, prop.getName(), "", map.get(prop.getName()));
 	}
 }

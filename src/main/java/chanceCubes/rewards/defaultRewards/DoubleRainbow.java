@@ -30,8 +30,8 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 8; y++)
 			{
-				float dist = (float) (Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
-				if(dist > 1 && dist <= 64)
+				float dist = (float) Math.sqrt(Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				if(dist > 1 && dist <= 8)
 				{
 					int distIndex = (int) (dist - 2);
 					Block wool = colors[distIndex];
@@ -46,8 +46,8 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 18; y++)
 			{
-				float dist = (float) (Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
-				if(dist >= 144 && dist <= 18 * 18)
+				float dist = (float) Math.sqrt(Math.abs(pos.distanceSq(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				if(dist >= 12 && dist <= 18)
 				{
 					int distIndex = (int) (dist - 12);
 					Block wool = colors[distIndex];

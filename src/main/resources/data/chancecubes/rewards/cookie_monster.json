@@ -1,0 +1,25 @@
+{
+  "chancecubes:cookie_monster": {
+    "chance": -5,
+    "Message": [
+      {
+        "message": "Here have some cookies!",
+        "range": 32
+      },
+      {
+        "message": "[Cookie Monster] Hey! Those are mine!",
+        "range": 32,
+        "delay": 30
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:cookie\",Count:8b}}"
+      },
+      {
+        "command": "/summon minecraft:zombie ~ ~ ~ {IsBaby:1b,CustomName:'{\"text\":\"Cookie Monster\"}'}",
+        "delay": 30
+      }
+    ]
+  }
+}

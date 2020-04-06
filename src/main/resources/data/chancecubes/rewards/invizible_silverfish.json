@@ -1,0 +1,12 @@
+{
+  "chancecubes:invizible_silverfish": {
+    "chance": -55,
+    "Command": [
+      {
+        "command": "/summon minecraft:silverfish ~ ~ ~ {Glowing:1b,Passengers:[{id:\"minecraft:silverfish\",ActiveEffects:[{Id:14b,Amplifier:1b,Duration:200000,ShowParticles:0b}]}],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:14b,Amplifier:1b,Duration:200000,ShowParticles:0b}]}",
+        "delay": 5,
+        "copies": 5
+      }
+    ]
+  }
+}

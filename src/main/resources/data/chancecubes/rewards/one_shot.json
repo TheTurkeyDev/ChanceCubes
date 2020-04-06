@@ -1,0 +1,39 @@
+{
+  "chancecubes:one_shot": {
+    "chance": 75,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:bow",
+          "Count": 1,
+          "tag": {
+            "Damage": 384,
+            "Enchantments": [
+              {
+                "id": "minecraft:power",
+                "lvl": 5
+              },
+              {
+                "id": "minecraft:punch",
+                "lvl": 3
+              },
+              {
+                "id": "minecraft:flame",
+                "lvl": 2
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"One Shot\"}"
+            }
+          }
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:arrow",
+          "Count": 1
+        }
+      }
+    ]
+  }
+}

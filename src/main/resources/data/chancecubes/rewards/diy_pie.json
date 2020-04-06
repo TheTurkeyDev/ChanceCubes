@@ -1,0 +1,28 @@
+{
+  "chancecubes:diy_pie": {
+    "chance": 5,
+    "Block": [
+      {
+        "block": "minecraft:pumpkin",
+        "xOffSet": 1
+      },
+      {
+        "block": "minecraft:sugar_cane",
+        "xOffSet": 1,
+        "yOffSet": 1,
+        "delay": 2
+      }
+    ],
+    "Message": [
+      {
+        "message": "Do it yourself Pumpkin Pie!",
+        "range": 32
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:chicken ~ ~1 ~ {CustomName:'{\"text\":\"Zeeth_Kyrah\"}'}"
+      }
+    ]
+  }
+}

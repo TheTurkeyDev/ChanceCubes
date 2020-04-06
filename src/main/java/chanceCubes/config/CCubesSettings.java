@@ -26,7 +26,6 @@ public class CCubesSettings
 	public static IntValue surfaceGenAmount;
 	public static ConfigValue<List<? extends String>> blockedWorlds;
 	public static BooleanValue chestLoot;
-	public static BooleanValue craftingRecipie;
 
 	public static BooleanValue userSpecificRewards;
 	public static BooleanValue disabledRewards;

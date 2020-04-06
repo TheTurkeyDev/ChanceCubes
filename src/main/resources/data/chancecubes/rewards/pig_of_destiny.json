@@ -1,0 +1,10 @@
+{
+  "chancecubes:pig_of_destiny": {
+    "chance": 15,
+    "Command": [
+      {
+        "command": "/summon minecraft:pig ~ ~ ~ {CustomNameVisible:1b,CustomName:'{\"text\":\"The Pig of Destiny\",\"bold\":true}',ArmorItems:[{},{},{id:\"minecraft:diamond_chestplate\",Count:1b,tag:{Unbreakable:1b,Enchantments:[{id:\"minecraft:thorns\",lvl:1000s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.000F,0.085F]}"
+      }
+    ]
+  }
+}

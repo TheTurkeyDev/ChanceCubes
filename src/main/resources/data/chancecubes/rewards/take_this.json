@@ -1,0 +1,53 @@
+{
+  "chancecubes:take_this": {
+    "chance": 55,
+    "Area": [
+      {
+        "xSize": 1,
+        "ySize": 3,
+        "zSize": 1,
+        "block": "minecraft:bricks",
+        "xOff": 0,
+        "yOff": 0,
+        "zOff": 0,
+        "falling": false,
+        "delay": 1,
+        "causesUpdate": false,
+        "relativeToPlayer": false
+      },
+      {
+        "xSize": 1,
+        "ySize": 3,
+        "zSize": 1,
+        "block": "minecraft:air",
+        "xOff": 0,
+        "yOff": 0,
+        "zOff": 0,
+        "falling": false,
+        "delay": 0,
+        "causesUpdate": false,
+        "relativeToPlayer": false
+      }
+    ],
+    "Command": [
+      {
+        "command": "/summon minecraft:item_frame ~ ~ ~1 {ItemRotation:3b,Facing:3b,Item:{id:\"minecraft:stick\",Count:1b}}",
+        "delay": 2
+      },
+      {
+        "command": "/summon minecraft:item_frame ~ ~1 ~1 {Facing:3b,Item:{id:\"minecraft:diamond\",Count:1b}}",
+        "delay": 2
+      },
+      {
+        "command": "/summon minecraft:item_frame ~ ~2 ~1 {Facing:3b,Item:{id:\"minecraft:diamond\",Count:1b}}",
+        "delay": 2
+      }
+    ],
+    "Message": [
+      {
+        "message": "It's dangerous to go alone, here take this!",
+        "range": 25
+      }
+    ]
+  }
+}

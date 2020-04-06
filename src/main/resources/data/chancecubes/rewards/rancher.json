@@ -1,0 +1,31 @@
+{
+  "chancecubes:rancher": {
+    "chance": 60,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:oak_fence",
+          "Count": 32
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:pig_spawn_egg",
+          "Count": 1
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:cow_spawn_egg",
+          "Count": 1
+        }
+      },
+      {
+        "item": {
+          "id": "minecraft:sheep_spawn_egg",
+          "Count": 1
+        }
+      }
+    ]
+  }
+}

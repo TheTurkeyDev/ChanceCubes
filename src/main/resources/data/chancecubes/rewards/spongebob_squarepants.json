@@ -1,0 +1,13 @@
+{
+  "chancecubes:spongebob_squarepants": {
+    "chance": 15,
+    "Command": [
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:sponge\",Count:1b,tag:{display:{Name:'{\"text\":\"SpongeBob\",\"color\":\"yellow\"}'}}}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:leather_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"SquarePants\",\"color\":\"yellow\"}'}}}}"
+      }
+    ]
+  }
+}

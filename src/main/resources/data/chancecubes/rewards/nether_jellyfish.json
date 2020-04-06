@@ -1,0 +1,11 @@
+{
+  "chancecubes:nether_jelly_fish": {
+    "chance": -40,
+    "Command": [
+      {
+        "command": "/summon minecraft:bat ~ ~ ~ {Passengers:[{id:\"minecraft:magma_cube\",CustomNameVisible:1b,Size:3,CustomName:'{\"text\":\"Nether Jelly Fish\",\"color\":\"gold\"}'}]}",
+        "copies": 10
+      }
+    ]
+  }
+}

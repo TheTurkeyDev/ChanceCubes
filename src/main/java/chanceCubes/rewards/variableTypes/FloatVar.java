@@ -51,7 +51,6 @@ public class FloatVar extends CustomVar
 
 	public static boolean isFloat(String input)
 	{
-		//TODO: Check that it is within the range of an integer?
 		return input.matches("[-+]?[0-9]*\\.?[0-9]+");
 	}
 

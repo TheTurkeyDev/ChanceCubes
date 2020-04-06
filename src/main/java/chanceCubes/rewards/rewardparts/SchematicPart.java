@@ -1,5 +1,6 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
@@ -70,10 +71,11 @@ public class SchematicPart extends BasePart
 		}
 		else
 		{
-			if(fileName.endsWith(".ccs"))
-				return SchematicUtil.loadCustomSchematic(fileName, xOff.getIntValue(), yOff.getIntValue(), zOff.getIntValue(), spacingDelay, falling, relativeToPlayer, placeAirBlocks, playSound, delay);
+			if(fileName.endsWith(".schematic"))
+				CCubesCore.logger.error("Legacy Schematic files no longer work in this version of Minecraft!");
 			else
-				return SchematicUtil.loadLegacySchematic(fileName, xOff.getIntValue(), yOff.getIntValue(), zOff.getIntValue(), spacingDelay, falling, relativeToPlayer, placeAirBlocks, playSound, delay);
+				CCubesCore.logger.error("Chance Cubes does not support the file and given extension!: " + fileName);
+			return null;
 		}
 	}
 

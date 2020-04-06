@@ -64,7 +64,7 @@ public class SnowGlobeBiome extends BaseBiome
 	@Override
 	public Block getFloorBlock()
 	{
-		return Blocks.SNOW;
+		return Blocks.SNOW_BLOCK;
 	}
 
 	@Override

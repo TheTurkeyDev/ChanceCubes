@@ -222,13 +222,11 @@ public class CCubesServerCommands
 
 	public int executeRewardInfo(CommandContext<CommandSource> ctx)
 	{
-		int defaultEnabled = 0;
-		int giantEnabled = 0;
 		PlayerEntity player = getPlayer(ctx.getSource());
 		List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
 		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
-		defaultEnabled = defaultrewards.size();
-		giantEnabled = giantrewards.size();
+		int defaultEnabled = defaultrewards.size();
+		int giantEnabled = giantrewards.size();
 		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
 		for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 			player.sendMessage(new StringTextComponent(reward));

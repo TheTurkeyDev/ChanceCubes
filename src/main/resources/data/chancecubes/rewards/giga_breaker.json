@@ -1,0 +1,28 @@
+{
+  "chancecubes:giga_breaker": {
+    "chance": 70,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:wooden_pickaxe",
+          "Count": 1,
+          "tag": {
+            "Enchantments": [
+              {
+                "id": "minecraft:efficiency",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:fortune",
+                "lvl": 3
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"Giga Breaker\",\"color\":\"dark_purple\",\"bold\":true}"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

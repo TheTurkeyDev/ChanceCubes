@@ -26,7 +26,7 @@ public class FluidSphereReward extends BaseCustomReward
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 
-		Fluid fluid = RewardsUtil.getRandomFluid();
+		Fluid fluid = RewardsUtil.getRandomFluid(true);
 
 		int delay = 0;
 		for(int i = 0; i <= 5; i++)
@@ -38,7 +38,7 @@ public class FluidSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.abs(loc.distanceSq(0, 0, 0, false));
+						double dist = Math.sqrt(Math.abs(loc.distanceSq(0, 0, 0, false)));
 						if(dist <= 5 - i && dist > 5 - (i + 1))
 						{
 							if(i == 0)

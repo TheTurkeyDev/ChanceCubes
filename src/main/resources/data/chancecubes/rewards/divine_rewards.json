@@ -1,0 +1,154 @@
+{
+  "chancecubes:divine_boots": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_boots",
+          "Count": 1,
+          "tag": {
+            "Damage": 360,
+            "Enchantments": [
+              {
+                "id": "minecraft:fire_protection",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:feather_falling",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:depth_strider",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:unbreaking",
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"The Divine Boots\",\"color\":\"dark_aqua\"}"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_helmet": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_helmet",
+          "Count": 1,
+          "tag": {
+            "Damage": 360,
+            "Enchantments": [
+              {
+                "id": "minecraft:protection",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:aqua_affinity",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:unbreaking",
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"The Divine Helmet\",\"color\":\"dark_aqua\"}"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_chestplate": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_chestplate",
+          "Count": 1,
+          "tag": {
+            "Damage": 360,
+            "Enchantments": [
+              {
+                "id": "minecraft:blast_protection",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:thorns",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:unbreaking",
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"The Divine Chestplate\",\"color\":\"dark_aqua\"}"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_leggings": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_leggings",
+          "Count": 1,
+          "Damage": 360,
+          "tag": {
+            "Damage": 360,
+            "Enchantments": [
+              {
+                "id": "minecraft:projectile_protection",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:unbreaking",
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"The Divine Leggings\",\"color\":\"dark_aqua\"}"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "chancecubes:divine_sword": {
+    "chance": 95,
+    "Item": [
+      {
+        "item": {
+          "id": "minecraft:diamond_sword",
+          "Count": 1,
+          "tag": {
+            "Damage": 360,
+            "Enchantments": [
+              {
+                "id": "minecraft:sharpness",
+                "lvl": 10
+              },
+              {
+                "id": "minecraft:unbreaking",
+                "lvl": 10
+              }
+            ],
+            "display": {
+              "Name": "{\"text\":\"The Divine Sword\",\"color\":\"dark_aqua\"}"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

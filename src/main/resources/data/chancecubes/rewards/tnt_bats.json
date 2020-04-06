@@ -1,0 +1,11 @@
+{
+  "chancecubes:tnt_bats": {
+    "chance": -50,
+    "Command": [
+      {
+        "command": "/summon minecraft:bat ~ ~ ~ {Passengers:[{id:\"minecraft:tnt\",Fuse:80}]}",
+        "copies": 10
+      }
+    ]
+  }
+}

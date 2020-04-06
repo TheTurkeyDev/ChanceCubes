@@ -1,0 +1,10 @@
+{
+  "chancecubes:spawn_jerry": {
+    "chance": 25,
+    "Command": [
+      {
+        "command": "/summon minecraft:slime ~ ~ ~ {CustomNameVisible:1b,CustomName:'{\"text\":\"Jerry\",\"color\":\"green\",\"bold\":true}'}"
+      }
+    ]
+  }
+}

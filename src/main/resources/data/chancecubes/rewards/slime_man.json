@@ -1,0 +1,10 @@
+{
+  "chancecubes:slime_man": {
+    "chance": 10,
+    "Command": [
+      {
+        "command": "/summon minecraft:slime ~ ~ ~ {Glowing:1b,Size:3,Passengers:[{id:\"minecraft:slime\",Glowing:1b,Size:2,Passengers:[{id:\"minecraft:slime\",Glowing:1b,CustomNameVisible:1b,Size:1,CustomName:'{\"text\":\"Slime Man\",\"color\":\"white\"}'}]}]}"
+      }
+    ]
+  }
+}
