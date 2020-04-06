@@ -6,8 +6,10 @@
         "command": "/summon minecraft:mooshroom ~ ~ ~ {CustomNameVisible:1b,Age:-999999,CustomName:'{\"text\":\"Pickles\",\"color\":\"light_purple\",\"bold\":true}'}"
       }
     ],
-    "Message": {
-      "message": "Why is his name pickles? The world may never know"
-    }
+    "Message": [
+      {
+        "message": "Why is his name pickles? The world may never know"
+      }
+    ]
   }
 }

@@ -124,7 +124,7 @@ public class RewardParser
 					loadAreaReward(rewardTypes, rewards);
 			} catch(Exception ex)
 			{
-				CCubesCore.logger.log(Level.ERROR, "Failed to load a custom reward for some reason. The " + currentParsingPart + " part of the reward may be the issue! I will try better next time.");
+				CCubesCore.logger.log(Level.ERROR, "Failed to load the custom reward \"" + reward.getKey() + "\" for some reason. The " + currentParsingPart + " part of the reward may be the issue! I will try better next time.");
 				ex.printStackTrace();
 			}
 		}
