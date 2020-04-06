@@ -94,6 +94,7 @@ public class CCubesCore
 
 		if(CCubesSettings.chestLoot.get())
 		{
+			// TODO: The loot again
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
 			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
 			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new

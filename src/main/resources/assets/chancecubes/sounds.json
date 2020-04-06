@@ -1,4 +1,20 @@
 {
-	"d20_break": {"category": "block","sounds": [{"name": "chancecubes:d20_break","stream": false}]},
-	"giant_cube_spawn": {"category": "block", "sounds": [{"name": "chancecubes:giant_cube_spawn","stream": false}]}
+  "d20_break": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "chancecubes:d20_break",
+        "stream": false
+      }
+    ]
+  },
+  "giant_cube_spawn": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "chancecubes:giant_cube_spawn",
+        "stream": false
+      }
+    ]
+  }
 }

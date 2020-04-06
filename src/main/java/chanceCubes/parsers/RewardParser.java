@@ -138,7 +138,6 @@ public class RewardParser
 		{
 			NBTVar nbt = ParserUtil.getNBT(fullelement.getAsJsonObject(), "item");
 
-			// TODO: Make dynamic?
 			ItemPart stack = new ItemPart(nbt);
 
 			stack.setDelay(ParserUtil.getInt(fullelement.getAsJsonObject(), "delay", stack.getDelay()));

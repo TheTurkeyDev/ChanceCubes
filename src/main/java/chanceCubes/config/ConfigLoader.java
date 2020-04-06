@@ -27,7 +27,6 @@ public class ConfigLoader
 	}
 
 	public static final String genCat = "General Settings";
-	public static final String rewardCat = "Rewards";
 
 	public static File folder;
 
@@ -44,8 +43,6 @@ public class ConfigLoader
 	 */
 	public ConfigLoader(ForgeConfigSpec.Builder builder)
 	{
-		builder.push(rewardCat).comment("Set to false to disable a specific reward");
-
 		builder.push(genCat).comment("Set to false to disable a specific reward");
 
 		//CCubesSettings.nonReplaceableBlocksOverrides = NonreplaceableBlockOverride.parseStrings(config.getStringList("nonreplaceableBlockOverrides", genCat, new String[] { "minecraft:bedrock" }, "Blocks that ChanceCube rewards will be unable to replace or remove, can override IMC-added blocks by prefacing the block ID with \'-\'."));
@@ -90,9 +87,6 @@ public class ConfigLoader
 		CCubesSettings.chestLoot = builder
 				.comment("True if Chance Cubes should generate as chest loot in the world. false if they should not")
 				.define("ChestLoot", true);
-		CCubesSettings.craftingRecipie = builder
-				.comment("True if Chance Cubes should have a crafting recipe. false if they should not")
-				.define("CraftingRecipe", true);
 
 		CCubesSettings.dropHeight = builder
 				.comment("How many blocks above the Chance Cube that a block that will fall should be dropped from")
@@ -131,7 +125,5 @@ public class ConfigLoader
 		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");
 		customProfileFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
-
-		//ProfileManager.initConfig(folder);
 	}
 }

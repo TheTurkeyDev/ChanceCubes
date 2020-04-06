@@ -1,17 +1,17 @@
 package chanceCubes.sounds;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.logging.log4j.Level;
-
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.Level;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesSounds
 {
 	public static SoundEvent D20_BREAK;
@@ -22,15 +22,14 @@ public class CCubesSounds
 	private static boolean registered = false;
 
 	@SubscribeEvent
-	public void onSoundRegistry(RegistryEvent.Register<SoundEvent> e)
+	public static void onSoundRegistry(RegistryEvent.Register<SoundEvent> e)
 	{
 		ResourceLocation res = new ResourceLocation(CCubesCore.MODID, "d20_break");
 		D20_BREAK = new SoundEvent(res).setRegistryName(res);
-		e.getRegistry().register(D20_BREAK);
-
 		res = new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn");
 		GIANT_CUBE_SPAWN = new SoundEvent(res).setRegistryName(res);
-		e.getRegistry().register(GIANT_CUBE_SPAWN);
+
+		e.getRegistry().registerAll(D20_BREAK, GIANT_CUBE_SPAWN);
 
 		registered = true;
 	}
