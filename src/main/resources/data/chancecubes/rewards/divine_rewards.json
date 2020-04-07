@@ -7,7 +7,7 @@
           "id": "minecraft:diamond_boots",
           "Count": 1,
           "tag": {
-            "Damage": 360,
+            "Damage": 426,
             "Enchantments": [
               {
                 "id": "minecraft:fire_protection",
@@ -73,7 +73,7 @@
           "id": "minecraft:diamond_chestplate",
           "Count": 1,
           "tag": {
-            "Damage": 360,
+            "Damage": 525,
             "Enchantments": [
               {
                 "id": "minecraft:blast_protection",
@@ -103,9 +103,8 @@
         "item": {
           "id": "minecraft:diamond_leggings",
           "Count": 1,
-          "Damage": 360,
           "tag": {
-            "Damage": 360,
+            "Damage": 492,
             "Enchantments": [
               {
                 "id": "minecraft:projectile_protection",
@@ -132,7 +131,7 @@
           "id": "minecraft:diamond_sword",
           "Count": 1,
           "tag": {
-            "Damage": 360,
+            "Damage": 1558,
             "Enchantments": [
               {
                 "id": "minecraft:sharpness",

@@ -387,7 +387,7 @@ public class RewardsUtil
 	{
 		try
 		{
-			BufferedReader in = new BufferedReader(new InputStreamReader(RewardsUtil.class.getResourceAsStream("/assets/chancecubes/rewards/rewards.txt")));
+			BufferedReader in = new BufferedReader(new InputStreamReader(RewardsUtil.class.getResourceAsStream("/data/chancecubes/rewards/rewards.txt")));
 			List<String> files = new ArrayList<>();
 			String line;
 			while((line = in.readLine()) != null)
@@ -405,7 +405,7 @@ public class RewardsUtil
 
 	public static JsonObject getRewardJson(String file)
 	{
-		BufferedReader in = new BufferedReader(new InputStreamReader(RewardsUtil.class.getResourceAsStream("/assets/chancecubes/rewards/" + file)));
+		BufferedReader in = new BufferedReader(new InputStreamReader(RewardsUtil.class.getResourceAsStream("/data/chancecubes/rewards/" + file)));
 		StringBuilder builder = new StringBuilder();
 		try
 		{

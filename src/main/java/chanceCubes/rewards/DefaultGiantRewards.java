@@ -12,8 +12,8 @@ public class DefaultGiantRewards
 
 	public static void loadDefaultRewards()
 	{
-		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":village", 0, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/village.ccs", true))));
-		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":woodland_mansion", 0, new SchematicRewardType(new SchematicPart("/assets/chancecubes/schematics/mansion.ccs", true).setSpacingdelay(0.05f).shouldPlaceAitBlocks(true))));
+		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":village", 0, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/village.ccs", true))));
+		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":woodland_mansion", 0, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/mansion.ccs", true).setSpacingdelay(0.05f).shouldPlaceAitBlocks(true))));
 
 		GlobalCCRewardRegistry.GIANT.registerReward(new BioDomeReward());
 		GlobalCCRewardRegistry.GIANT.registerReward(new TNTSlingReward());

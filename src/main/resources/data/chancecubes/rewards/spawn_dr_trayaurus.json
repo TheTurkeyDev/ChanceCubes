@@ -1,0 +1,10 @@
+{
+  "chancecubes:spawn_dr_trayaurus": {
+    "chance": 25,
+    "Command": [
+      {
+        "command": "/summon minecraft:villager ~ ~ ~ {CustomName:'{\"text\":\"Dr Trayaurus\",\"color\":\"white\"}', CustomNameVisible:1b,VillagerData:{level:1,profession:\"minecraft:butcher\",type:\"minecraft:plains\"}}"
+      }
+    ]
+  }
+}

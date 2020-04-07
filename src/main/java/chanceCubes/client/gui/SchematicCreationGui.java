@@ -31,7 +31,6 @@ public class SchematicCreationGui extends Screen
 	@Override
 	public void init()
 	{
-		this.buttons.clear();
 		int i = this.width / 2;
 		this.nameField = new TextFieldWidget(this.font, i - 70, 10, 140, 12, "TEST");
 		this.nameField.setTextColor(-1);
@@ -39,13 +38,15 @@ public class SchematicCreationGui extends Screen
 		this.nameField.setEnableBackgroundDrawing(true);
 		this.nameField.setMaxStringLength(100);
 		this.nameField.setText("Schematic Name");
+		this.children.add(this.nameField);
 
-		this.buttons.add(new Button(i - 50, this.height - 70, 100, 20, "Back", (button) ->
+		this.addButton(new Button(i - 50, this.height - 70, 100, 20, "Back", (button) ->
 		{
+			RenderEvent.setCreatingSchematic(true);
 			SchematicCreationGui.this.onClose();
 		}));
 
-		this.buttons.add(new Button(i - 50, this.height - 40, 100, 20, "Create", (button) ->
+		this.addButton(new Button(i - 50, this.height - 40, 100, 20, "Create", (button) ->
 		{
 			String fileName = nameField.getText();
 			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
@@ -58,13 +59,12 @@ public class SchematicCreationGui extends Screen
 		}));
 
 
-		int[][] offsets = {{-1}, {}};
 		for(int j = 0; j < 2; j++)
 		{
 			for(int k = 0; k < 6; k++)
 			{
 				int buttonID = (j * 2) + k;
-				this.buttons.add(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k], (button) ->
+				this.addButton(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, buttonText[k], (button) ->
 				{
 					int idNormalized = buttonID % 6;
 					int point = (buttonID) / 6;
@@ -84,20 +84,6 @@ public class SchematicCreationGui extends Screen
 				}));
 			}
 		}
-	}
-
-	public boolean charTyped(char p_73869_1_, int p_73869_2_)
-	{
-		if(!this.nameField.charTyped(p_73869_1_, p_73869_2_))
-			return super.charTyped(p_73869_1_, p_73869_2_);
-		return false;
-	}
-
-	@Override
-	public boolean mouseClicked(double x, double y, int mouseEvent)
-	{
-		super.mouseClicked(x, y, mouseEvent);
-		return this.nameField.mouseClicked(x, y, mouseEvent);
 	}
 
 	@Override

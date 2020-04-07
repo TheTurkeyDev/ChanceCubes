@@ -57,7 +57,7 @@ public class CCubesServerCommands
 						.executes(ctx -> executeDisableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
 				.then(Commands.literal("enableReward").then(Commands.argument("rewardName", new RewardArgument())
 						.executes(ctx -> executeEnableReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName")))))
-				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote)
+				.then(Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2) || !cs.getServer().isDedicatedServer())
 						.then(Commands.literal("create").executes(this::executeSchematicCreate))
 						.then(Commands.literal("cancel").executes(this::executeSchematicCancel)))
 				.then(Commands.literal("rewardsInfo").executes(this::executeRewardInfo))
@@ -197,6 +197,7 @@ public class CCubesServerCommands
 			{
 				DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 				{
+					RenderEvent.setCreatingSchematic(false);
 					ClientProxy.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
 				});
 			}

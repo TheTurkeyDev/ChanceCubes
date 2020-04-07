@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 public class WorldRenderListener
 {
+	public static final float NO_Z_FIGHTING_PLOX = 0.01f;
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
@@ -23,7 +24,7 @@ public class WorldRenderListener
 
 			Entity entity = Minecraft.getInstance().player;
 			double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * event.getPartialTicks();
-			double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks();
+			double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * event.getPartialTicks() + 1.625;
 			double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * event.getPartialTicks();
 
 			GlStateManager.translated(-interpPosX, -interpPosY, -interpPosZ);
@@ -36,42 +37,42 @@ public class WorldRenderListener
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
 			BlockPos pos2 = SchematicUtil.selectionPoints[1];
-			int lowX = Math.min(pos1.getX(), pos2.getX());
-			int highX = Math.max(pos1.getX(), pos2.getX());
-			int lowY = Math.min(pos1.getY(), pos2.getY());
-			int highY = Math.max(pos1.getY(), pos2.getY());
-			int lowZ = Math.min(pos1.getZ(), pos2.getZ());
-			int highZ = Math.max(pos1.getZ(), pos2.getZ());
+			float lowX = Math.min(pos1.getX(), pos2.getX()) - NO_Z_FIGHTING_PLOX;
+			float highX = Math.max(pos1.getX(), pos2.getX()) + NO_Z_FIGHTING_PLOX;
+			float lowY = Math.min(pos1.getY(), pos2.getY()) - NO_Z_FIGHTING_PLOX;
+			float highY = Math.max(pos1.getY(), pos2.getY()) + NO_Z_FIGHTING_PLOX;
+			float lowZ = Math.min(pos1.getZ(), pos2.getZ()) - NO_Z_FIGHTING_PLOX;
+			float highZ = Math.max(pos1.getZ(), pos2.getZ()) + NO_Z_FIGHTING_PLOX;
 
 			GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
 
 
-			GL11.glVertex3d(lowX, lowY, lowZ);
-			GL11.glVertex3d(highX, lowY, lowZ);
-			GL11.glVertex3d(lowX, lowY, highZ);
-			GL11.glVertex3d(highX, lowY, highZ);
-			GL11.glVertex3d(lowX, highY, lowZ);
-			GL11.glVertex3d(highX, highY, lowZ);
-			GL11.glVertex3d(lowX, highY, highZ);
-			GL11.glVertex3d(highX, highY, highZ);
+			GL11.glVertex3f(lowX, lowY, lowZ);
+			GL11.glVertex3f(highX, lowY, lowZ);
+			GL11.glVertex3f(lowX, lowY, highZ);
+			GL11.glVertex3f(highX, lowY, highZ);
+			GL11.glVertex3f(lowX, highY, lowZ);
+			GL11.glVertex3f(highX, highY, lowZ);
+			GL11.glVertex3f(lowX, highY, highZ);
+			GL11.glVertex3f(highX, highY, highZ);
 
-			GL11.glVertex3d(lowX, lowY, lowZ);
-			GL11.glVertex3d(lowX, lowY, highZ);
-			GL11.glVertex3d(highX, lowY, lowZ);
-			GL11.glVertex3d(highX, lowY, highZ);
-			GL11.glVertex3d(lowX, highY, lowZ);
-			GL11.glVertex3d(lowX, highY, highZ);
-			GL11.glVertex3d(highX, highY, lowZ);
-			GL11.glVertex3d(highX, highY, highZ);
+			GL11.glVertex3f(lowX, lowY, lowZ);
+			GL11.glVertex3f(lowX, lowY, highZ);
+			GL11.glVertex3f(highX, lowY, lowZ);
+			GL11.glVertex3f(highX, lowY, highZ);
+			GL11.glVertex3f(lowX, highY, lowZ);
+			GL11.glVertex3f(lowX, highY, highZ);
+			GL11.glVertex3f(highX, highY, lowZ);
+			GL11.glVertex3f(highX, highY, highZ);
 
-			GL11.glVertex3d(lowX, lowY, lowZ);
-			GL11.glVertex3d(lowX, highY, lowZ);
-			GL11.glVertex3d(highX, lowY, lowZ);
-			GL11.glVertex3d(highX, highY, lowZ);
-			GL11.glVertex3d(lowX, lowY, highZ);
-			GL11.glVertex3d(lowX, highY, highZ);
-			GL11.glVertex3d(highX, lowY, highZ);
-			GL11.glVertex3d(highX, highY, highZ);
+			GL11.glVertex3f(lowX, lowY, lowZ);
+			GL11.glVertex3f(lowX, highY, lowZ);
+			GL11.glVertex3f(highX, lowY, lowZ);
+			GL11.glVertex3f(highX, highY, lowZ);
+			GL11.glVertex3f(lowX, lowY, highZ);
+			GL11.glVertex3f(lowX, highY, highZ);
+			GL11.glVertex3f(highX, lowY, highZ);
+			GL11.glVertex3f(highX, highY, highZ);
 
 			GlStateManager.end();
 			GlStateManager.enableLighting();
