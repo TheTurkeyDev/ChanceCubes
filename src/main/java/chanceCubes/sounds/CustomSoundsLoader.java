@@ -41,7 +41,7 @@ public class CustomSoundsLoader
 	public void addCustomSounds()
 	{
 		JsonObject root = new JsonObject();
-		for(File f : new File(folder.getAbsolutePath() + "/Sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
+		for(File f : new File(folder.getAbsolutePath() + "/sounds").listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".ogg")))
 		{
 			String simpleName = f.getName().substring(0, f.getName().indexOf('.'));
 			customsSounds.add(new CustomFile("assets/minecraft/sounds", f));// add record .ogg
@@ -55,7 +55,7 @@ public class CustomSoundsLoader
 			event.add("sounds", sounds);
 			root.add(simpleName, event); // event name (same as name sent to ItemCustomRecord)
 		}
-		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/Sounds/sounds.json", gson.toJson(root))));// add record .ogg
+		customsSounds.add(new CustomFile("assets/minecraft", FileUtil.writeToFile(folder.getAbsolutePath() + "/sounds/sounds.json", gson.toJson(root))));// add record .ogg
 	}
 
 	public void assemble()
