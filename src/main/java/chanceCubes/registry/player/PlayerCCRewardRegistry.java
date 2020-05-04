@@ -6,6 +6,7 @@ import chanceCubes.items.ItemChancePendant;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
+import chanceCubes.rewards.defaultRewards.StreamerReward;
 import chanceCubes.util.RewardsUtil;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,6 +23,8 @@ public class PlayerCCRewardRegistry
 {
 	private List<PlayerRewardInfo> sortedRewards = Lists.newArrayList();
 	private List<IChanceCubeReward> cooldownList = new ArrayList<>();
+
+	public static StreamerReward streamerReward = null;
 
 	public boolean enableReward(String reward)
 	{
@@ -90,6 +93,13 @@ public class PlayerCCRewardRegistry
 
 	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
 	{
+		if(streamerReward != null)
+		{
+			//TODO: % chance
+			streamerReward.trigger(world, pos, player);
+			return;
+		}
+
 		if(CCubesSettings.testRewards)
 		{
 			CCubesCore.logger.log(Level.INFO, "This feature has been temporarily removed!");

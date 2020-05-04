@@ -366,17 +366,17 @@ public class RewardsUtil
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setAllPlayersTitle(World world, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
-			setPlayerTitle(world.getPlayers().get(i), location, message, fadeInTime, displayTime, fadeOutTime);
+			setPlayerTitle(world.getPlayers().get(i), type, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		if(player instanceof ServerPlayerEntity)
 		{
-			STitlePacket titlePacket = new STitlePacket(location, message, fadeInTime, displayTime, fadeOutTime);
+			STitlePacket titlePacket = new STitlePacket(type, message, fadeInTime, displayTime, fadeOutTime);
 			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new StringTextComponent(""), fadeInTime, displayTime, fadeOutTime);
 			((ServerPlayerEntity) player).connection.sendPacket(timesPacket);
 			((ServerPlayerEntity) player).connection.sendPacket(titlePacket);

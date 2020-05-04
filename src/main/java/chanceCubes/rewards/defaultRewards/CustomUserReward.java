@@ -5,10 +5,12 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.LogicalSide;
@@ -53,12 +57,16 @@ public class CustomUserReward extends BaseCustomReward
 
 		String userName = "";
 		String type = "";
-		for(JsonElement user : users.getAsJsonArray())
+		String twitch = "";
+		for(JsonElement userElem : users.getAsJsonArray())
 		{
-			if(user.getAsJsonObject().get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
+			JsonObject user = userElem.getAsJsonObject();
+			if(user.get("UUID").getAsString().equalsIgnoreCase(uuid.toString()))
 			{
-				userName = user.getAsJsonObject().get("Name").getAsString();
-				type = user.getAsJsonObject().get("Type").getAsString();
+				userName = user.get("Name").getAsString();
+				type = user.get("Type").getAsString();
+				if(user.has("Twitch"))
+					twitch = user.get("Twitch").getAsString();
 			}
 		}
 
@@ -69,10 +77,12 @@ public class CustomUserReward extends BaseCustomReward
 		}
 
 		JsonElement userRewards;
+		JsonObject contentCreatorStuff;
 
 		try
 		{
 			userRewards = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/users/" + userName + ".json");
+			contentCreatorStuff = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/ContentCreators.json").getAsJsonObject();
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");
@@ -88,14 +98,34 @@ public class CustomUserReward extends BaseCustomReward
 		//GROSS, but idk what else to do
 		String userNameFinal = userName;
 		String typeFinal = type;
+		String twitchFinal = twitch;
 		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
 		server.execute(() ->
 		{
 			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(uuid.toString()).enableReward(CCubesCore.MODID + ":cr_" + userNameFinal);
 			PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);
-			player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "...."));
-			player.sendMessage(new StringTextComponent("Let the fun begin! >:)"));
+			if(player == null)
+				return;
+
+			Style ccStyle = new Style().setColor(TextFormatting.DARK_AQUA);
+
+			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
+			{
+				for(JsonElement messageElem : contentCreatorStuff.get("Messages").getAsJsonArray())
+				{
+					String message = messageElem.getAsJsonObject().get("message").getAsString();
+					message = message.replace("%username%", userNameFinal);
+					player.sendMessage(new StringTextComponent(message).setStyle(ccStyle));
+				}
+
+				PlayerCCRewardRegistry.streamerReward = new StreamerReward(twitchFinal, contentCreatorStuff.get("T").getAsString(), contentCreatorStuff.getAsJsonArray("Options"));
+			}
+			else
+			{
+				player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
+				player.sendMessage(new StringTextComponent("Let the fun begin! >:)").setStyle(ccStyle));
+			}
 		});
 	}
 
