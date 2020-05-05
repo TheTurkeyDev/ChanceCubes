@@ -60,6 +60,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
@@ -209,7 +210,9 @@ public class DefaultRewards
 					public void callback()
 					{
 						EffectInstance effect = RewardsUtil.getRandomPotionEffectInstance();
-						player.sendMessage(new StringTextComponent("You have been given " + I18n.format(effect.getEffectName()).trim() + " " + (effect.getAmplifier() + 1) + " for " + (effect.getDuration() / 20) + " seconds!"));
+						player.sendMessage(new StringTextComponent("You have been given: "));
+						player.sendMessage(new TranslationTextComponent(effect.getEffectName()));
+						player.sendMessage(new StringTextComponent("for " + (effect.getDuration() / 20) + " seconds!"));
 						player.addPotionEffect(effect);
 					}
 				});

@@ -299,7 +299,7 @@ public class RewardsUtil
 	public static String getRandomOreDict(List<String> blacklist)
 	{
 		List<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line)).collect(Collectors.toList());
-		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "oreCoal";
+		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "ores/coal";
 	}
 
 	public static Fluid getRandomFluid(boolean onlySources)
@@ -354,7 +354,7 @@ public class RewardsUtil
 		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
@@ -362,21 +362,21 @@ public class RewardsUtil
 
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.posX, 2) + Math.pow(pos.getY() - entityplayer.posY, 2) + Math.pow(pos.getZ() - entityplayer.posZ, 2));
 			if(dist <= range)
-				setPlayerTitle(entityplayer, location, message, fadeInTime, displayTime, fadeOutTime);
+				setPlayerTitle(entityplayer, type, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setAllPlayersTitle(World world, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
-			setPlayerTitle(world.getPlayers().get(i), location, message, fadeInTime, displayTime, fadeOutTime);
+			setPlayerTitle(world.getPlayers().get(i), type, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		if(player instanceof ServerPlayerEntity)
 		{
-			STitlePacket titlePacket = new STitlePacket(location, message, fadeInTime, displayTime, fadeOutTime);
+			STitlePacket titlePacket = new STitlePacket(type, message, fadeInTime, displayTime, fadeOutTime);
 			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new StringTextComponent(""), fadeInTime, displayTime, fadeOutTime);
 			((ServerPlayerEntity) player).connection.sendPacket(timesPacket);
 			((ServerPlayerEntity) player).connection.sendPacket(titlePacket);

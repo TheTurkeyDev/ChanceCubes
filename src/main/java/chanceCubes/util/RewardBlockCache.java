@@ -67,9 +67,11 @@ public class RewardBlockCache
 	{
 		for(BlockPos loc : storedBlocks.keySet())
 		{
-			RewardsUtil.placeBlock(storedBlocks.get(loc), world, origin.add(loc), true);
-			if(storedTE.containsKey(loc))
-				world.getTileEntity(origin.add(loc)).deserializeNBT(storedTE.get(loc));
+			BlockPos worldPos = origin.add(loc);
+			RewardsUtil.placeBlock(storedBlocks.get(loc), world, worldPos, true);
+			TileEntity tile = world.getTileEntity(worldPos);
+			if(storedTE.containsKey(loc) && tile != null)
+				tile.deserializeNBT(storedTE.get(loc));
 		}
 
 		if(player != null)
