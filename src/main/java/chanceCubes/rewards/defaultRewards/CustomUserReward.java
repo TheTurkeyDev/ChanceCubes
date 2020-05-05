@@ -111,6 +111,9 @@ public class CustomUserReward extends BaseCustomReward
 			Style ccStyle = new Style().setColor(TextFormatting.DARK_AQUA);
 
 			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
+				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.get("T").getAsString(), contentCreatorStuff.getAsJsonArray("Options")));
+
+			if(contentCreatorStuff.get("Messages").getAsJsonArray().size() > 0)
 			{
 				for(JsonElement messageElem : contentCreatorStuff.get("Messages").getAsJsonArray())
 				{
@@ -118,8 +121,6 @@ public class CustomUserReward extends BaseCustomReward
 					message = message.replace("%username%", userNameFinal);
 					player.sendMessage(new StringTextComponent(message).setStyle(ccStyle));
 				}
-
-				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.get("T").getAsString(), contentCreatorStuff.getAsJsonArray("Options")));
 			}
 			else
 			{
