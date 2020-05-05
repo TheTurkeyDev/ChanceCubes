@@ -15,16 +15,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class PlayerCCRewardRegistry
 {
 	private List<PlayerRewardInfo> sortedRewards = Lists.newArrayList();
 	private List<IChanceCubeReward> cooldownList = new ArrayList<>();
 
-	public static StreamerReward streamerReward = null;
+	public static Map<UUID, StreamerReward> streamerReward = new HashMap<>();
 
 	public boolean enableReward(String reward)
 	{
@@ -91,12 +94,11 @@ public class PlayerCCRewardRegistry
 		return null;
 	}
 
-	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
+	public void triggerRandomReward(World world, BlockPos pos, @Nonnull PlayerEntity player, int chance)
 	{
-		if(streamerReward != null)
+		if(streamerReward.containsKey(player.getUniqueID()) && RewardsUtil.rand.nextInt(100) == 42)
 		{
-			//TODO: % chance
-			streamerReward.trigger(world, pos, player);
+			streamerReward.get(player.getUniqueID()).trigger(world, pos, player);
 			return;
 		}
 
@@ -105,7 +107,8 @@ public class PlayerCCRewardRegistry
 			CCubesCore.logger.log(Level.INFO, "This feature has been temporarily removed!");
 			return;
 		}
-		else if(CCubesSettings.testCustomRewards)
+
+		if(CCubesSettings.testCustomRewards)
 		{
 			CCubesCore.logger.log(Level.INFO, "This feature has been temporarily removed!");
 			return;
@@ -128,22 +131,19 @@ public class PlayerCCRewardRegistry
 //			return;
 //		}
 
-		if(player != null)
+		for(int i = 0; i < player.inventory.mainInventory.size(); i++)
 		{
-			for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+			ItemStack stack = player.inventory.mainInventory.get(i);
+			if(!stack.isEmpty() && stack.getItem() instanceof ItemChancePendant)
 			{
-				ItemStack stack = player.inventory.mainInventory.get(i);
-				if(!stack.isEmpty() && stack.getItem() instanceof ItemChancePendant)
-				{
-					ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
-					pendant.damage(stack);
-					if(stack.getDamage() >= CCubesSettings.pendantUses.get())
-						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-					chance += pendant.getChanceIncrease();
-					if(chance > 100)
-						chance = 100;
-					break;
-				}
+				ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
+				pendant.damage(stack);
+				if(stack.getDamage() >= CCubesSettings.pendantUses.get())
+					player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+				chance += pendant.getChanceIncrease();
+				if(chance > 100)
+					chance = 100;
+				break;
 			}
 		}
 
@@ -187,9 +187,7 @@ public class PlayerCCRewardRegistry
 		triggerReward(pickedReward, world, pos, player);
 		cooldownList.add(pickedReward);
 		if(cooldownList.size() > 15)
-		{
 			cooldownList.remove(0);
-		}
 	}
 
 	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player)

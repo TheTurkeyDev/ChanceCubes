@@ -299,7 +299,7 @@ public class RewardsUtil
 	public static String getRandomOreDict(List<String> blacklist)
 	{
 		List<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line)).collect(Collectors.toList());
-		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "oreCoal";
+		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "ores/coal";
 	}
 
 	public static Fluid getRandomFluid(boolean onlySources)
@@ -354,7 +354,7 @@ public class RewardsUtil
 		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type location, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
@@ -362,7 +362,7 @@ public class RewardsUtil
 
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= range)
-				setPlayerTitle(entityplayer, location, message, fadeInTime, displayTime, fadeOutTime);
+				setPlayerTitle(entityplayer, type, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
