@@ -38,7 +38,7 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 		if(d20.getStage() == 0)
 			wave = MathHelper.sin((((d20.getWorld().getGameTime() % HOVER_SPEED + partialTicks) / HOVER_SPEED) + random.nextFloat()) * 360F) * 0.3f;
 		else
-			wave = ((d20.getStage() + partialTicks) / 40f);
+			wave = ((d20.getStage() + partialTicks) / 70f);
 
 		d20.wave = wave;
 		float rotation = ((float) d20.getWorld().getGameTime() % ROTATION_SPEED + partialTicks) / ROTATION_SPEED;
