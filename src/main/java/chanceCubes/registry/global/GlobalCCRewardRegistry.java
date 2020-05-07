@@ -67,8 +67,9 @@ public class GlobalCCRewardRegistry
 				if(!this.nameToReward.get(rewardName).enabled)
 				{
 					this.nameToReward.get(rewardName).enabled = true;
-					for(PlayerCCRewardRegistry registry : this.playerToRewards.values())
-						registry.enableReward(reward);
+					for(Map.Entry<String, PlayerCCRewardRegistry> registry : this.playerToRewards.entrySet())
+						if(!(reward instanceof CustomUserReward) || ((CustomUserReward) reward).getUuid().toString().equals(registry.getKey()))
+							registry.getValue().enableReward(reward);
 					return true;
 				}
 			}
@@ -132,7 +133,8 @@ public class GlobalCCRewardRegistry
 			PlayerCCRewardRegistry playerRewardRegistry = new PlayerCCRewardRegistry();
 			for(GlobalRewardInfo reward : this.nameToReward.values())
 				if(reward.enabled)
-					playerRewardRegistry.enableReward(reward.reward);
+					if(!(reward.reward instanceof CustomUserReward) || ((CustomUserReward) reward.reward).getUuid().toString().equals(playerUUID))
+						playerRewardRegistry.enableReward(reward.reward);
 
 			return playerRewardRegistry;
 		});

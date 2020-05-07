@@ -162,4 +162,9 @@ public class CustomUserReward extends BaseCustomReward
 			}
 		});
 	}
+
+	public UUID getUuid()
+	{
+		return uuid;
+	}
 }

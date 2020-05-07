@@ -51,7 +51,8 @@ public class BlockChanceD20 extends BaseChanceBlock
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
+	@Override
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
 	}
@@ -75,26 +76,12 @@ public class BlockChanceD20 extends BaseChanceBlock
 			spawnAsEntity(world, pos, stack);
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			world.removeTileEntity(pos);
-			return true;
+			return false;
 		}
 
 		RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
 		te.startBreaking(player);
 		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketTriggerD20(pos));
-		return true;
-	}
-
-	@Override
-	public BlockState getExtendedState(BlockState state, IBlockReader world, BlockPos pos)
-	{
-		/*TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileChanceD20)
-		{
-			TileChanceD20 d20 = (TileChanceD20) tile;
-			if(d20.transform != TRSRTransformation.identity())
-				return ((IExtendedBlockState) state).withProperty(Properties.AnimationProperty, d20.transform);
-		}*/
-
-		return state;
+		return false;
 	}
 }
