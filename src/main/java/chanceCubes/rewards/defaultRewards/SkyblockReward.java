@@ -5,24 +5,25 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.trees.OakTree;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
+import java.util.Random;
 
 public class SkyblockReward extends BaseCustomReward
 {
 	// @formatter:off
+
+	private static final Random TREE_RAND = new Random(System.currentTimeMillis());
 	
 	ItemStack[] chestStuff = { 
 		new ItemStack(Items.STRING, 12), new ItemStack(Items.LAVA_BUCKET), new ItemStack(Items.BONE), new ItemStack(Items.SUGAR_CANE),
@@ -67,9 +68,8 @@ public class SkyblockReward extends BaseCustomReward
 		}
 		RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, skyblockPos.add(0, 1, 0));
 
-		//TODO:
-		//Feature<?> treeGen = ForgeRegistries.FEATURES.getValue(new ResourceLocation("normal_tree"));
-		//treeGen.place(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), RewardsUtil.rand, skyblockPos.add(3, 3, 3), IFeatureConfig.NO_FEATURE_CONFIG);
+		OakTree tree = new OakTree();
+		tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), skyblockPos.add(3, 3, 3), Blocks.OAK_SAPLING.getDefaultState().with(SaplingBlock.STAGE, 1), TREE_RAND);
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, skyblockPos.add(-1, 3, 0));
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(skyblockPos.add(-1, 3, 0));

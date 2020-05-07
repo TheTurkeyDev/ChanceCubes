@@ -22,6 +22,7 @@ import net.minecraft.state.IStateHolder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,35 +44,115 @@ public class SchematicUtil
 
 	public static void createCustomSchematic(World world, BlockPos loc1, BlockPos loc2, String fileName)
 	{
-		List<Integer> blocks = new ArrayList<>();
-		List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<>();
-		List<CustomEntry<String, List<Integer>>> tileEntityData = new ArrayList<>();
-		int largeX = Math.max(loc1.getX(), loc2.getX());
-		int smallX = Math.min(loc1.getX(), loc2.getX());
-		int largeY = Math.max(loc1.getY(), loc2.getY());
-		int smallY = Math.min(loc1.getY(), loc2.getY());
-		int largeZ = Math.max(loc1.getZ(), loc2.getZ());
-		int smallZ = Math.min(loc1.getZ(), loc2.getZ());
-		StringBuilder blockData = new StringBuilder();
-		for(int y = smallY; y < largeY; y++)
+		//I hate myself for this, but we have to move this to the main thread and the task system does......
+		Scheduler.scheduleTask(new Task("Schematic Creation", 1)
 		{
-			for(int x = smallX; x < largeX; x++)
+			@Override
+			public void callback()
 			{
-				for(int z = smallZ; z < largeZ; z++)
+				List<Integer> blocks = new ArrayList<>();
+				List<CustomEntry<Integer, String>> blockDataIds = new ArrayList<>();
+				List<CustomEntry<String, List<Integer>>> tileEntityData = new ArrayList<>();
+
+				int largeX = Math.max(loc1.getX(), loc2.getX());
+				int smallX = Math.min(loc1.getX(), loc2.getX());
+				int largeY = Math.max(loc1.getY(), loc2.getY());
+				int smallY = Math.min(loc1.getY(), loc2.getY());
+				int largeZ = Math.max(loc1.getZ(), loc2.getZ());
+				int smallZ = Math.min(loc1.getZ(), loc2.getZ());
+				Vec3i small = new Vec3i(smallX, smallY, smallZ);
+				Vec3i large = new Vec3i(largeX, largeY, largeZ);
+
+				storeBlocksInfo(small, large, world, blocks, blockDataIds, tileEntityData);
+
+				JsonObject json = new JsonObject();
+				JsonArray blockArray = new JsonArray();
+
+				int row = 0;
+				int last = -1;
+				for(int i : blocks)
 				{
+					if(last == i)
+					{
+						row++;
+					}
+					else
+					{
+						if(row != 0)
+						{
+							String value = "" + last;
+							if(row != 1)
+								value += "x" + row;
+							blockArray.add(new JsonPrimitive(value));
+						}
+						last = i;
+						row = 1;
+					}
+				}
+
+				String value = "" + last;
+				if(row != 1)
+					value += "x" + row;
+				blockArray.add(new JsonPrimitive(value));
+
+				json.add("Blocks", blockArray);
+
+				JsonArray blockDataArray = new JsonArray();
+				for(CustomEntry<Integer, String> i : blockDataIds)
+				{
+					JsonObject index = new JsonObject();
+					index.addProperty(i.getValue(), i.getKey());
+					blockDataArray.add(index);
+				}
+				json.add("Block Data", blockDataArray);
+
+				JsonArray tileEntityDataArray = new JsonArray();
+				for(CustomEntry<String, List<Integer>> i : tileEntityData)
+				{
+					JsonObject index = new JsonObject();
+					JsonArray tileEntityBlockIds = new JsonArray();
+					for(int id : i.getValue())
+						tileEntityBlockIds.add(new JsonPrimitive(id));
+					index.add(i.getKey(), tileEntityBlockIds);
+					tileEntityDataArray.add(index);
+				}
+				json.add("TileEntities", tileEntityDataArray);
+
+				JsonObject info = new JsonObject();
+				info.addProperty("xSize", large.getX() - small.getX());
+				info.addProperty("ySize", large.getY() - small.getY());
+				info.addProperty("zSize", large.getZ() - small.getZ());
+				json.add("Schematic Data", info);
+
+				FileUtil.writeToFile(ConfigLoader.schematicsFolder.getAbsolutePath() + "/" + fileName, gson.toJson(json));
+			}
+		});
+	}
+
+	private static void storeBlocksInfo(Vec3i small, Vec3i large, World world, List<Integer> blocks, List<CustomEntry<Integer, String>> blockDataIds, List<CustomEntry<String, List<Integer>>> tileEntityData)
+	{
+		StringBuilder blockData = new StringBuilder();
+		for(int y = small.getY(); y < large.getY(); y++)
+		{
+			for(int x = small.getX(); x < large.getX(); x++)
+			{
+				for(int z = small.getZ(); z < large.getZ(); z++)
+				{
+					blockData.setLength(0);
 					BlockPos pos = new BlockPos(x, y, z);
 					BlockState blockState = world.getBlockState(pos);
-					blockData.append(blockState.getBlock().getRegistryName().toString()).append(":");
-					blockData.append(encodeBlockState(blockState));
+					blockData.append(blockState.getBlock().getRegistryName().toString());
+					String encoded = encodeBlockState(blockState);
+					if(!encoded.isEmpty())
+						blockData.append(":").append(encoded);
+
 					String blockString = blockData.toString();
+
 					int id = -1;
 					for(CustomEntry<Integer, String> data : blockDataIds)
-					{
 						if(blockString.equalsIgnoreCase(data.getValue()))
-						{
 							id = data.getKey();
-						}
-					}
+
 					if(id == -1)
 					{
 						id = blockDataIds.size();
@@ -99,73 +180,11 @@ public class SchematicUtil
 				}
 			}
 		}
-
-		JsonObject json = new JsonObject();
-
-		JsonArray blockArray = new JsonArray();
-
-		int row = 0;
-		int last = -1;
-		for(int i : blocks)
-		{
-			if(last == i)
-			{
-				row++;
-			}
-			else
-			{
-				if(row != 0)
-				{
-					String value = "" + last;
-					if(row != 1)
-						value += "x" + row;
-					blockArray.add(new JsonPrimitive(value));
-				}
-				last = i;
-				row = 1;
-			}
-		}
-
-		String value = "" + last;
-		if(row != 1)
-			value += "x" + row;
-		blockArray.add(new JsonPrimitive(value));
-
-		json.add("Blocks", blockArray);
-
-		JsonArray blockDataArray = new JsonArray();
-		for(CustomEntry<Integer, String> i : blockDataIds)
-		{
-			JsonObject index = new JsonObject();
-			index.addProperty(i.getValue(), i.getKey());
-			blockDataArray.add(index);
-		}
-		json.add("Block Data", blockDataArray);
-
-		JsonArray tileEntityDataArray = new JsonArray();
-		for(CustomEntry<String, List<Integer>> i : tileEntityData)
-		{
-			JsonObject index = new JsonObject();
-			JsonArray tileEntityBlockIds = new JsonArray();
-			for(int id : i.getValue())
-				tileEntityBlockIds.add(new JsonPrimitive(id));
-			index.add(i.getKey(), tileEntityBlockIds);
-			tileEntityDataArray.add(index);
-		}
-		json.add("TileEntities", tileEntityDataArray);
-
-		JsonObject info = new JsonObject();
-		info.addProperty("xSize", largeX - smallX);
-		info.addProperty("ySize", largeY - smallY);
-		info.addProperty("zSize", largeZ - smallZ);
-		json.add("Schematic Data", info);
-
-		FileUtil.writeToFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + fileName, gson.toJson(json));
 	}
 
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
-		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.folder.getAbsolutePath() + "/CustomRewards/Schematics/" + file);
+		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.schematicsFolder.getAbsolutePath() + "/" + file);
 		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 	}
 
@@ -224,7 +243,7 @@ public class SchematicUtil
 						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1])).getDefaultState();
 
 					if(parts.length == 3)
-						decodeBlockState(state, parts[2]);
+						state = decodeBlockState(state, parts[2]);
 
 					OffsetBlock osb = new OffsetBlock(xOff + xOffSet, yOff + yOffSet, zOff + zOffSet, state.getBlock(), falling, new IntVar(0));
 					osb.setBlockState(state);
@@ -318,11 +337,13 @@ public class SchematicUtil
 		return builder.toString();
 	}
 
-	//[key=value, key2=value2,....] Basically how vanilla does it
-	public static void decodeBlockState(BlockState defaultState, String stateString)
+	//[key=value, key2=value2,....]
+	public static BlockState decodeBlockState(BlockState defaultState, String stateString)
 	{
+		BlockState returnState = defaultState;
 		if(!stateString.matches("\\[.*]"))
-			return;
+			return returnState;
+
 		stateString = stateString.substring(1, stateString.length() - 1);
 		Map<String, String> map = new HashMap<>();
 		Arrays.stream(stateString.split(",")).forEach((s) ->
@@ -333,6 +354,7 @@ public class SchematicUtil
 
 		for(IProperty<?> prop : defaultState.getProperties())
 			if(map.containsKey(prop.getName()))
-				IStateHolder.withString(defaultState, prop, prop.getName(), "", map.get(prop.getName()));
+				returnState = IStateHolder.withString(returnState, prop, prop.getName(), "", map.get(prop.getName()));
+		return returnState;
 	}
 }

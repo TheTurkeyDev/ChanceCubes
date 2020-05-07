@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 public class TileGiantCube extends TileEntity
 {
 	private boolean hasMaster, isMaster;
-	private BlockPos masterPos;
+	private BlockPos masterPos = new BlockPos(0, 0, 0);
 
 	public TileGiantCube()
 	{
@@ -40,8 +40,6 @@ public class TileGiantCube extends TileEntity
 	public CompoundNBT write(CompoundNBT data)
 	{
 		data = super.write(data);
-		if(masterPos == null)
-			masterPos = new BlockPos(0, 0, 0);
 		data.putInt("masterX", masterPos.getX());
 		data.putInt("masterY", masterPos.getY());
 		data.putInt("masterZ", masterPos.getZ());

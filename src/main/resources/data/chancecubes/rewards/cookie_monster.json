@@ -7,7 +7,7 @@
         "range": 32
       },
       {
-        "message": "[Cookie Monster] Hey! Those are mine!",
+        "message": "<Cookie Monster> Hey! Those are mine!",
         "range": 32,
         "delay": 30
       }

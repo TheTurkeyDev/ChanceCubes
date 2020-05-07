@@ -1,6 +1,7 @@
 package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceD20;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -33,7 +34,7 @@ public class PacketTriggerD20
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			PlayerEntity player = ctx.get().getSender();
+			PlayerEntity player = Minecraft.getInstance().player;
 			if(player != null)
 			{
 				TileEntity ico;

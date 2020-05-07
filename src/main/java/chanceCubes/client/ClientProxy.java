@@ -1,5 +1,6 @@
 package chanceCubes.client;
 
+import chanceCubes.blocks.BlockChanceD20;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.CreativePendantGui;
 import chanceCubes.client.gui.ProfileGui;
@@ -47,18 +48,6 @@ public class ClientProxy
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
 	}
-
-//	@SubscribeEvent
-//	public static void onModelBake(ModelBakeEvent event)
-//	{
-//		try
-//		{
-//			OBJLoader.INSTANCE.loadModel(new ModelSettings(new ResourceLocation(CCubesCore.MODID, "models/block.chance_icosahedron.obj"), true, false, true, true, null));
-//		} catch(Exception e)
-//		{
-//			throw new RuntimeException(e);
-//		}
-//	}
 
 	public static void openRewardSelectorGUI(PlayerEntity player, ItemStack stack)
 	{

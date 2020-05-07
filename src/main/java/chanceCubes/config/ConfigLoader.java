@@ -28,7 +28,7 @@ public class ConfigLoader
 
 	public static final String genCat = "General Settings";
 
-	public static File folder;
+	public static File schematicsFolder;
 
 	public static void initParentFolder()
 	{
@@ -118,7 +118,9 @@ public class ConfigLoader
 		customConfigFolder.mkdirs();
 
 		new File(customConfigFolder, "sounds").mkdirs();
-		new File(customConfigFolder, "schematics").mkdirs();
+
+		schematicsFolder = new File(customConfigFolder, "schematics");
+		schematicsFolder.mkdirs();
 
 		new CustomRewardsLoader(customConfigFolder);
 

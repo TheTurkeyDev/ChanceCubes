@@ -641,7 +641,8 @@ public class DefaultRewards
 		// GlobalCCRewardRegistry.DEFAULT.registerReward(new BossSlimeQueenReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossWitchReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossBlazeReward());
-
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
+		
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(math);

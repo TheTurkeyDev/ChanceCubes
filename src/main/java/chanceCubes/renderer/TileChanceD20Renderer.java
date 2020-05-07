@@ -1,21 +1,15 @@
 package chanceCubes.renderer;
 
-import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceD20;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.model.obj.OBJLoader;
 
 import java.awt.*;
 import java.util.Random;
@@ -44,7 +38,7 @@ public class TileChanceD20Renderer extends TileEntityRenderer<TileChanceD20>
 		if(d20.getStage() == 0)
 			wave = MathHelper.sin((((d20.getWorld().getGameTime() % HOVER_SPEED + partialTicks) / HOVER_SPEED) + random.nextFloat()) * 360F) * 0.3f;
 		else
-			wave = ((d20.getStage() + partialTicks) / 10f);
+			wave = ((d20.getStage() + partialTicks) / 40f);
 
 		d20.wave = wave;
 		float rotation = ((float) d20.getWorld().getGameTime() % ROTATION_SPEED + partialTicks) / ROTATION_SPEED;

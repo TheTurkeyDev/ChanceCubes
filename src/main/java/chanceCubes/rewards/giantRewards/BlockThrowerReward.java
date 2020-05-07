@@ -8,6 +8,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -59,14 +60,14 @@ public class BlockThrowerReward extends BaseCustomReward
 				{
 					int x = RewardsUtil.rand.nextInt(41) - 21;
 					int z = RewardsUtil.rand.nextInt(41) - 21;
-					int y = -2;
+					int y;
 					for(y = 12; y > -2; y--)
 						if(!world.isAirBlock(pos.add(x, y, z)))
 							break;
 					BlockPos newPos = pos.add(x, y, z);
 					BlockState state = world.getBlockState(newPos);
 
-					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR))
+					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof FlowingFluidBlock)
 						state = Blocks.DIRT.getDefaultState();
 					else
 						world.setBlockState(newPos, Blocks.AIR.getDefaultState());
