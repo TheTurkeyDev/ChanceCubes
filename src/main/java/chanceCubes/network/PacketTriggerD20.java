@@ -1,12 +1,14 @@
 package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceD20;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class PacketTriggerD20
@@ -33,14 +35,14 @@ public class PacketTriggerD20
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			PlayerEntity player = ctx.get().getSender();
-			if(player != null)
+			Optional<World> world = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
+			if(world.isPresent())
 			{
 				TileEntity ico;
 
-				if((ico = player.world.getTileEntity(msg.pos)) != null)
-					if(ico instanceof TileChanceD20)
-						((TileChanceD20) ico).startBreaking(player);
+				if((ico = world.get().getTileEntity(msg.pos)) != null)
+					if(ico instanceof TileChanceD20 && world.get().getPlayers().size() > 0)
+						((TileChanceD20) ico).startBreaking(world.get().getPlayers().get(0));
 			}
 		});
 		ctx.get().setPacketHandled(true);
