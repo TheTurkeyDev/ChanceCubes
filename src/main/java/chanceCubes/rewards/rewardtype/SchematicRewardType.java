@@ -44,7 +44,9 @@ public class SchematicRewardType implements IRewardType
 			@Override
 			public void callback()
 			{
-
+				double playerX = player.posX;
+				double playerY = player.posY;
+				double playerZ = player.posZ;
 				Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", -1, schematic.getSpacingDelay() < 1 ? 1 : (int) schematic.getSpacingDelay())
 				{
 					@Override
@@ -61,12 +63,10 @@ public class SchematicRewardType implements IRewardType
 							OffsetBlock osb = stack.remove(0);
 							if(schematic.isRelativeToPlayer())
 							{
-								BlockPos pos = new BlockPos((int) Math.floor(player.posX) + osb.xOff.getIntValue(), (int) Math.floor(player.posY) + osb.yOff.getIntValue(), (int) Math.floor(player.posZ) + osb.zOff.getIntValue());
+								BlockPos pos = new BlockPos((int) Math.floor(playerX) + osb.xOff.getIntValue(), (int) Math.floor(playerY) + osb.yOff.getIntValue(), (int) Math.floor(playerZ) + osb.zOff.getIntValue());
 								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
-								{
 									continue;
-								}
-								osb.spawnInWorld(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+								osb.spawnInWorld(world, (int) Math.floor(playerX), (int) Math.floor(playerY), (int) Math.floor(playerZ));
 							}
 							else
 							{

@@ -1,5 +1,6 @@
 actual_invisible_ghast.json
 anti_slab.json
+bad_omen.json
 bedrock.json
 big_stick.json
 book_shelves.json
@@ -19,6 +20,7 @@ explorer.json
 explosion.json
 farmer.json
 fighter.json
+fire_fox.json
 fireworks.json
 gaurdians.json
 giant_chance_cube.json
@@ -32,6 +34,7 @@ hot_tub.json
 ice_cold.json
 icosahedron.json
 invisible_creeper.json
+invisible_vexes.json
 invizible_silverfish.json
 knockback_zombie.json
 marlin.json
@@ -54,6 +57,7 @@ sethbling.json
 silvermite_stacks.json
 skeleton_bats.json
 slime_man.json
+spawn_amanda_panda.json
 spawn_cluckington.json
 spawn_dr_trayaurus.json
 spawn_glenn.json

@@ -32,7 +32,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -642,6 +641,7 @@ public class DefaultRewards
 		// GlobalCCRewardRegistry.DEFAULT.registerReward(new BossSlimeQueenReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossWitchReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossBlazeReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossRavagerReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
 
 		MathReward math = new MathReward();

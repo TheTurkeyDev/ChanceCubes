@@ -43,21 +43,6 @@ public class SchematicPart extends BasePart
 		this.delay = delay;
 	}
 
-	public SchematicPart(String fileName, IntVar xOff, IntVar yOff, IntVar zOff, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
-	{
-		this(fileName, false);
-		this.xOff = xOff;
-		this.yOff = yOff;
-		this.zOff = zOff;
-		this.spacingDelay = spacingDelay;
-
-		this.falling = falling;
-		this.relativeToPlayer = relativeToPlayer;
-		this.placeAirBlocks = includeAirBlocks;
-		this.playSound = playSound;
-		this.delay = delay;
-	}
-
 	public String getFileName()
 	{
 		return this.fileName;

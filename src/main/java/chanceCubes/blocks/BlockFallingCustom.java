@@ -55,7 +55,6 @@ public class BlockFallingCustom extends FallingBlockEntity
 					return;
 				}
 			}
-
 			this.setMotion(0, this.getMotion().y - 0.04, 0);
 			this.move(MoverType.SELF, this.getMotion());
 			if(!this.world.isRemote)
@@ -103,7 +102,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 
 					this.remove();
 				}
-				else if(normY == blockpos1.getY() || this.getMotion().y == 0)
+				else if((normY >= (posY + this.getMotion().y) && this.getMotion().y <= 0) || this.getMotion().y == 0)
 				{
 					this.remove();
 					osb.placeInWorld(world, blockpos1, false, null);

@@ -1,0 +1,16 @@
+{
+  "chancecubes:invisible_vexes": {
+    "chance": -65,
+    "Command": [
+      {
+        "command": "/summon minecraft:vex ~ ~2 ~ {Glowing:1b,ActiveEffects:[{Id:14b,Amplifier:1b,Duration:99999,ShowParticles:0b}]}",
+        "copies": 5
+      }
+    ],
+    "Message": [
+      {
+        "message":"<BrokenWeeble> I ain't afraid of no ghosts!"
+      }
+    ]
+  }
+}

@@ -40,8 +40,6 @@ public class ClientProxy
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		OBJLoader.INSTANCE.addDomain(CCubesCore.MODID);
-
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChanceD20.class, new TileChanceD20Renderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCubeDispenser.class, new TileCubeDispenserRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGiantCube.class, new TileGiantCubeRenderer());
