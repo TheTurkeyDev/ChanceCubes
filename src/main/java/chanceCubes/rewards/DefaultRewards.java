@@ -59,6 +59,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -366,7 +368,7 @@ public class DefaultRewards
 					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 					if(i == 0)
 					{
-						stack.setDisplayName(new StringTextComponent("ButtonBoy"));
+						stack.setDisplayName(new StringTextComponent("Button").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
 						stack.setCount(13);
 					}
 					else if(i == 1)
@@ -641,8 +643,9 @@ public class DefaultRewards
 		// GlobalCCRewardRegistry.DEFAULT.registerReward(new BossSlimeQueenReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossWitchReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossBlazeReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossRavagerReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
-		
+
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(math);

@@ -351,9 +351,10 @@ public class RewardParser
 			BoolVar relativeToPlayer = ParserUtil.getBoolean(element, "relativeToPlayer", false);
 			BoolVar includeAirBlocks = ParserUtil.getBoolean(element, "includeAirBlocks", false);
 			BoolVar playSound = ParserUtil.getBoolean(element, "playSound", true);
+			BoolVar hardcoded = ParserUtil.getBoolean(element, "hardcoded", false);
 			FloatVar spacingDelay = ParserUtil.getFloat(element, "spacingDelay", 0.1f);
 
-			SchematicPart part = new SchematicPart(fileName, xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
+			SchematicPart part = new SchematicPart(fileName, hardcoded.getBoolValue(), xoff, yoff, zoff, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 
 			rewards.add(new SchematicRewardType(part));
 		}

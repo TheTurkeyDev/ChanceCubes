@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.client.ClientProxy;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.profiles.GlobalProfileManager;
@@ -92,6 +93,7 @@ public class CCubesServerCommands
 			GlobalCCRewardRegistry.DEFAULT.ClearRewards();
 			GlobalCCRewardRegistry.GIANT.ClearRewards();
 			GlobalProfileManager.clearProfiles();
+			ConfigLoader.reload();
 			DefaultRewards.loadDefaultRewards();
 			DefaultGiantRewards.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();

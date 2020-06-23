@@ -73,7 +73,6 @@ public class StreamerReward
 
 	public boolean trigger(World world, BlockPos pos, PlayerEntity player)
 	{
-		CCubesCore.logger.log(Level.INFO, "Streamer!");
 		try
 		{
 			if(!connectedToChat)
@@ -241,10 +240,10 @@ public class StreamerReward
 
 		StringTextComponent message = new StringTextComponent(sb.toString());
 		message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
-		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 30, 0);
+		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 40, 0);
 		message = new StringTextComponent("Time Left: " + timeLeft);
 		message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
-		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 30, 0);
+		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 40, 0);
 
 	}
 

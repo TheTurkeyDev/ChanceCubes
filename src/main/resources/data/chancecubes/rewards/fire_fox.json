@@ -1,0 +1,10 @@
+{
+  "chancecubes:fire_fox": {
+    "chance": 10,
+    "Command": [
+      {
+        "command": "/summon minecraft:fox ~ ~ ~ {Fire:9999,CustomNameVisible:1b,CustomName:'{\"text\":\"Fire Fox\",\"color\":\"gold\"}',ActiveEffects:[{Id:12b,Amplifier:10b,Duration:999999,ShowParticles:0b}]}"
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
-newmtl CCIcosahedron
+newmtl chance_icosahedron
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
 d 1.000000
-map_Kd chancecubes:blocks/d20
+map_Kd chancecubes:blocks/chance_icosahedron

@@ -1,0 +1,39 @@
+{
+  "chancecubes:spawn_amanda_panda": {
+    "chance": 25,
+    "Command": [
+      {
+        "command": "/summon minecraft:panda ~ ~ ~ {Age:-9999999,MainGene:\"normal\",HiddenGene:\"normal\", CustomNameVisible:1b,CustomName:'{\"text\":\"Amanda\",\"color\":\"aqua\"}'}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0,1.0,0],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[-0.5,1.0,0],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0,1.0,-0.5],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[-0.5,1.0,-0.5],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0,1.0,0.5],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0.5,1.0,0],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0.5,1.0,0.5],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      },
+      {
+        "command": "/summon minecraft:item ~ ~ ~ {Glowing:1b,Motion:[0.5,1.0,-0.5],Item:{id:\"minecraft:diamond\",Count:1b}}"
+      }
+    ],
+    "Message": [
+      {
+        "message": "Amanda the Panda wishes you good fortune!"
+      }
+    ]
+  }
+}

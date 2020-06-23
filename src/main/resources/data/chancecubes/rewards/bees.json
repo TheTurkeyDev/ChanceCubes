@@ -1,0 +1,16 @@
+{
+  "chancecubes:bees": {
+    "chance": 10,
+    "Command": [
+      {
+        "command": "/summon minecraft:bee",
+        "copies": 10
+      }
+    ],
+    "Message": [
+      {
+        "message": "NOT THE BEES!"
+      }
+    ]
+  }
+}

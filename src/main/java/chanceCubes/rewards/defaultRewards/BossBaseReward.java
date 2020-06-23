@@ -63,9 +63,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				StringBuilder sbSpace = new StringBuilder();
 				sbSpace.append(" VS ");
 				for(int i = 0; i < bossName.length(); i++)
-				{
 					sbSpace.append(" ");
-				}
 				message.appendText(sbSpace.toString());
 
 				message.setStyle((new Style()).setColor(TextFormatting.RED));
@@ -113,7 +111,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedEntities.get(i);
-					if(!ent.isAlive())
+					if(!ent.isAlive() && ent.ticksExisted > 0)
 					{
 						trackedEntities.remove(i);
 						if(trackedEntities.isEmpty())
@@ -130,7 +128,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 					if(ent.getDistanceSq(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < rewardCenterPos.getY() - 1)
 						ent.setPositionAndUpdate(rewardCenterPos.getX(), rewardCenterPos.getY() + 1, rewardCenterPos.getZ());
 
-					if(!ent.isAlive())
+					if(!ent.isAlive() && ent.ticksExisted > 0)
 					{
 						for(Entity entity : trackedEntities)
 							entity.remove();
