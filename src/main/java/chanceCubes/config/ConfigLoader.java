@@ -1,23 +1,36 @@
 
 package chanceCubes.config;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import chanceCubes.CCubesCore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ConfigLoader
 {
 	public static final ForgeConfigSpec configSpec;
 	public static final ConfigLoader CONFIG;
+
+	public static File globalDisableConfig;
+	private static JsonObject globalDisableConfigJson;
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	static
 	{
@@ -83,7 +96,7 @@ public class ConfigLoader
 
 		CCubesSettings.blockedWorlds = builder
 				.comment("Worlds that Chance cubes shold not generate in")
-				.defineList("BlockedWorlds", new ArrayList<String>(), input -> (input != null && !input.equals("")));
+				.defineList("BlockedWorlds", new ArrayList<>(), input -> (input != null && !input.equals("")));
 		CCubesSettings.chestLoot = builder
 				.comment("True if Chance Cubes should generate as chest loot in the world. false if they should not")
 				.define("ChestLoot", true);
@@ -111,7 +124,6 @@ public class ConfigLoader
 	@SubscribeEvent
 	public static void onConfigLoad(ModConfigEvent event)
 	{
-
 		File folder = (new File(event.getConfig().getFullPath().toUri())).getParentFile();
 
 		File customConfigFolder = new File(folder.getAbsolutePath(), "custom_rewards");
@@ -126,5 +138,55 @@ public class ConfigLoader
 		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");
 		customProfileFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
+
+		globalDisableConfig = new File(folder, "global_rewards.json");
+		try
+		{
+			if(globalDisableConfig.createNewFile())
+			{
+				globalDisableConfigJson = new JsonObject();
+				globalDisableConfigJson.addProperty("Comment", "This file is for enabling and disabling rewards globally for all users! This cannot be reversed without a mod reload! Reward Profiles are the suggested method over this. This is basically a do all be all override.");
+				globalDisableConfigJson.addProperty("Comment2", "Note: Even if a reward is marked true here, does not mean its fully enabled. Rewards like clear inventory are disabled via default profiles!");
+				globalDisableConfigJson.add("rewards", new JsonObject());
+				try(Writer writer = new FileWriter(globalDisableConfig))
+				{
+					gson.toJson(globalDisableConfigJson, writer);
+				}
+			}
+			else
+			{
+				reload();
+			}
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes was unable to create the global rewards Config file!");
+		}
+	}
+
+	public static void reload()
+	{
+		try
+		{
+			globalDisableConfigJson = new JsonParser().parse(new FileReader(globalDisableConfig)).getAsJsonObject();
+		} catch(FileNotFoundException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes could not load the global rewards Config file!");
+		}
+	}
+
+	public static boolean getRewardConfigStatus(String reward, boolean defaultVal)
+	{
+		JsonObject rewardsJson = globalDisableConfigJson.getAsJsonObject("rewards");
+		if(rewardsJson.has(reward))
+			return rewardsJson.get(reward).getAsBoolean();
+		rewardsJson.addProperty(reward, defaultVal);
+		try(Writer writer = new FileWriter(globalDisableConfig))
+		{
+			gson.toJson(globalDisableConfigJson, writer);
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to save to the global rewards Config file!");
+		}
+		return defaultVal;
 	}
 }

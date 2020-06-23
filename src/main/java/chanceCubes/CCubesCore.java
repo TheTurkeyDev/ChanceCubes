@@ -19,10 +19,14 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -88,34 +92,16 @@ public class CCubesCore
 	}
 
 	@SubscribeEvent
+	public void lootTableLoad(LootTableLoadEvent event)
+	{
+		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
+			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube"))).build());
+	}
+
+	@SubscribeEvent
 	public void serverStart(FMLServerStartingEvent event)
 	{
 		// ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-
-		if(CCubesSettings.chestLoot.get())
-		{
-			// TODO: The loot again
-			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
-			// 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
-			// 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
-			// 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceCube), 1, 2, 5));
-			// ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new
-			// WeightedRandomChestContent(new ItemStack(CCubesBlocks.chanceIcosahedron), 1,
-			// 2, 5));
-		}
 
 		CCubesSettings.backupNRB.add(Blocks.BEDROCK.getDefaultState());
 		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.getDefaultState());
@@ -136,7 +122,6 @@ public class CCubesCore
 	@SubscribeEvent
 	public void onServerStart(FMLServerStartedEvent event)
 	{
-
 		ServerWorld world = event.getServer().getWorld(DimensionType.OVERWORLD);
 		if(!GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.updateProfilesForWorld(world);

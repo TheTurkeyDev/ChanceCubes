@@ -2,6 +2,7 @@ package chanceCubes.registry.global;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
@@ -33,7 +34,7 @@ public class GlobalCCRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(!this.nameToReward.containsKey(reward.getName()))
+		if(ConfigLoader.getRewardConfigStatus(reward.getName(), true) && !this.nameToReward.containsKey(reward.getName()))
 			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, true));
 	}
 
