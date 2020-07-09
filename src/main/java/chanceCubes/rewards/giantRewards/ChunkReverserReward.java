@@ -51,7 +51,7 @@ public class ChunkReverserReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Initiating Block Inverter"));
+		player.sendMessage(new StringTextComponent("Initiating Block Inverter"), player.getUniqueID());
 		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;
 		for(int yy = 256; yy > 0; yy--)
@@ -91,7 +91,7 @@ public class ChunkReverserReward extends BaseCustomReward
 			}
 		}
 
-		player.sendMessage(new StringTextComponent("Inverting " + blocks.size() + " Blocks... May take a minute..."));
+		player.sendMessage(new StringTextComponent("Inverting " + blocks.size() + " Blocks... May take a minute..."), player.getUniqueID());
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
 	}

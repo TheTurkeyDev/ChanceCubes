@@ -32,7 +32,7 @@ public class ChunkFlipReward extends BaseCustomReward
 		int z = (pos.getZ() >> 4) << 4;
 		int x = (pos.getX() >> 4) << 4;
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
-		player.sendMessage(new StringTextComponent("Inception!!!!"));
+		player.sendMessage(new StringTextComponent("Inception!!!!"), player.getUniqueID());
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
 			private int y = 0;
@@ -45,7 +45,7 @@ public class ChunkFlipReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(y >= world.getActualHeight() / 2)
+				if(y >= world.func_234938_ad_() / 2)
 				{
 					Scheduler.removeTask(this);
 					return;
@@ -56,7 +56,7 @@ public class ChunkFlipReward extends BaseCustomReward
 					for(int xx = 0; xx < 16; xx++)
 					{
 						BlockPos pos1 = new BlockPos(x + xx, y, z + zz);
-						BlockPos pos2 = new BlockPos(x + xx, world.getActualHeight() - y, z + zz);
+						BlockPos pos2 = new BlockPos(x + xx, world.func_234938_ad_() - y, z + zz);
 						BlockState b = world.getBlockState(pos1);
 						BlockState b2 = world.getBlockState(pos2);
 

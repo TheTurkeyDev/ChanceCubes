@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCreativePendant;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.AbstractButton;
@@ -11,6 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -49,43 +51,49 @@ public class CreativePendantGui extends ContainerScreen<CreativePendantContainer
 
 		public CustomGuiButton(int x, int y, int widthIn, int heightIn, String buttonText, int inc)
 		{
-			super(x, y, widthIn, heightIn, buttonText);
+			super(x, y, widthIn, heightIn, new StringTextComponent(buttonText));
 			this.inc = inc;
 		}
 
 		@Override
 		public void onPress()
 		{
-			if(inc == 0)
+			if (inc == 0)
 			{
-				if(container.getChanceCubesInPendant() != null)
+				if (container.getChanceCubesInPendant() != null)
+				{
 					CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(chanceValue));
+				}
 			}
 			else
 			{
 				chanceValue += inc;
 			}
 
-			if(chanceValue > 100)
+			if (chanceValue > 100)
+			{
 				chanceValue = 100;
-			if(chanceValue < -100)
+			}
+			if (chanceValue < -100)
+			{
 				chanceValue = -100;
+			}
 		}
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
+	protected void drawGuiContainerForegroundLayer(MatrixStack stack, int p_146979_1_, int p_146979_2_)
 	{
-		this.font.drawString("Chance Value", 50, 5, 0);
+		this.font.drawString(stack, "Chance Value", 50, 5, 0);
 		String cValue = "" + this.chanceValue;
-		this.font.drawString(cValue, (88 - (cValue.length() * 3)), 27, 0);
+		this.font.drawString(stack, cValue, (88 - (cValue.length() * 3)), 27, 0);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
+	protected void drawGuiContainerBackgroundLayer(MatrixStack stack, float p_146976_1_, int p_146976_2_, int p_146976_3_)
 	{
 		Minecraft.getInstance().getTextureManager().bindTexture(guiTextures);
-		this.blit((this.width - this.xSize) / 2, (this.height - this.ySize) / 2, 0, 0, xSize, ySize);
+		this.blit(stack, (this.width - this.xSize) / 2, (this.height - this.ySize) / 2, 0, 0, xSize, ySize);
 	}
 
 	public CreativePendantContainer getContainer()

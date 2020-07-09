@@ -27,8 +27,8 @@ public class TicTacToeReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Lets play Tic-Tac-Toe!"));
-		player.sendMessage(new StringTextComponent("Beat the Computer to get 500 Diamonds!"));
+		player.sendMessage(new StringTextComponent("Lets play Tic-Tac-Toe!"), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("Beat the Computer to get 500 Diamonds!"), player.getUniqueID());
 		player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Blocks.RED_WOOL, 5)));
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
@@ -89,11 +89,11 @@ public class TicTacToeReward extends BaseCustomReward
 				if(board.isGameOver())
 				{
 					if(board.hasCPUWon())
-						player.sendMessage(new StringTextComponent("The Computer won! Better luck next time!"));
+						player.sendMessage(new StringTextComponent("The Computer won! Better luck next time!"), player.getUniqueID());
 					else if(board.hasPlayerWon())
 						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
 					else
-						player.sendMessage(new StringTextComponent("You tied! Better luck next time!"));
+						player.sendMessage(new StringTextComponent("You tied! Better luck next time!"), player.getUniqueID());
 
 					Task superTask = this;
 					Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)

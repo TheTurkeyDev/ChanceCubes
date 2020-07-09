@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -55,7 +55,7 @@ public class BlockGiantCube extends BaseChanceBlock
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid)
 	{
 		TileEntity te = world.getTileEntity(pos);
 		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
@@ -75,7 +75,7 @@ public class BlockGiantCube extends BaseChanceBlock
 				{
 					world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				}
-				RewardsUtil.executeCommand(world, player, player.getPositionVector(), "/advancement grant @p only chancecubes:giant_chance_cube");
+				RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:giant_chance_cube");
 				GlobalCCRewardRegistry.GIANT.triggerRandomReward(world, gcte.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 			}

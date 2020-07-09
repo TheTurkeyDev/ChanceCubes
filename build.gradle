@@ -26,15 +26,15 @@ version= "${mc_version}-${mod_version}.${buildnumber}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200225-1.15.1'
+    mappings channel: 'snapshot', version: '20200723-1.16.1'
 
-    //accessTransformer = file('my_at.cfg')
+    accessTransformer = file('src/main/resources/META-INF/chancecubes_at.cfg')
 
     // default run configurations.
     // these can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            workingDirectory project.file('run-1.15')
+            workingDirectory project.file('run-1.16')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
@@ -50,7 +50,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run-server-1.15')
+            workingDirectory project.file('run-server-1.16')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
@@ -66,7 +66,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run-1.15')
+            workingDirectory project.file('run-1.16')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''

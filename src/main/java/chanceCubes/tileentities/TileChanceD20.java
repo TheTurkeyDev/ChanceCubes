@@ -68,9 +68,9 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void deserializeNBT(CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.deserializeNBT(nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -121,7 +121,7 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.read(pkt.getNbtCompound());
+		this.deserializeNBT(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

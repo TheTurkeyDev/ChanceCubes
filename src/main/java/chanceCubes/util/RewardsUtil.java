@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -29,14 +30,14 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -109,7 +110,7 @@ public class RewardsUtil
 			PlayerEntity entityplayer = world.getPlayers().get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= distance)
-				entityplayer.sendMessage(new StringTextComponent(message));
+				entityplayer.sendMessage(new StringTextComponent(message), entityplayer.getUniqueID());
 		}
 	}
 
@@ -118,7 +119,7 @@ public class RewardsUtil
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
 			PlayerEntity entityplayer = world.getPlayers().get(i);
-			entityplayer.sendMessage(new StringTextComponent(message));
+			entityplayer.sendMessage(new StringTextComponent(message), entityplayer.getUniqueID());
 		}
 	}
 
@@ -210,7 +211,8 @@ public class RewardsUtil
 
 	public static Enchantment randomEnchantment()
 	{
-		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Registry.ENCHANTMENT.getRandom(rand));
+		Collection<Enchantment> enchantments = ForgeRegistries.ENCHANTMENTS.getValues();
+		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, enchantments.stream().skip(rand.nextInt(enchantments.size())).findFirst().orElse(null));
 	}
 
 	public static CustomEntry<Enchantment, Integer> getRandomEnchantmentAndLevel()
@@ -337,15 +339,16 @@ public class RewardsUtil
 		return false;
 	}
 
-	public static void executeCommand(World world, PlayerEntity player, Vec3i pos, String command)
+	public static void executeCommand(World world, PlayerEntity player, Vector3i pos, String command)
 	{
-		RewardsUtil.executeCommand(world, player, new Vec3d(pos), command);
+		RewardsUtil.executeCommand(world, player, new Vector3d(pos.getX(), pos.getY(), pos.getZ()), command);
 	}
 
-	public static void executeCommand(World world, PlayerEntity player, Vec3d pos, String command)
+	public static void executeCommand(World world, PlayerEntity player, Vector3d pos, String command)
 	{
 		MinecraftServer server = world.getServer();
-		ServerWorld worldServer = server.getWorld(DimensionType.OVERWORLD);
+		// TODO: 1.16: getOverworld
+		ServerWorld worldServer = server.func_241755_D_();
 		boolean rule = worldServer.getGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT);
 		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(false, server);
 		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);

@@ -47,7 +47,7 @@ public class MatchingReward extends BaseCustomReward
 			int z = (i / 3) - 1;
 			cache.cacheBlock(new BlockPos(x, -1, z), blocks[i].getDefaultState());
 		}
-		player.sendMessage(new StringTextComponent("Memerize these blocks!"));
+		player.sendMessage(new StringTextComponent("Memerize these blocks!"), player.getUniqueID());
 
 		int delay = super.getSettingAsInt(settings, "mem_duration", 200, 60, 600);
 
@@ -75,7 +75,7 @@ public class MatchingReward extends BaseCustomReward
 
 	public void match(World world, BlockPos pos, PlayerEntity player, Block[] blocks, RewardBlockCache cache)
 	{
-		player.sendMessage(new StringTextComponent("Now break the matching blocks (in pairs with white last)! You have 45 seconds!"));
+		player.sendMessage(new StringTextComponent("Now break the matching blocks (in pairs with white last)! You have 45 seconds!"), player.getUniqueID());
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)
 		{
 			boolean[] checked = new boolean[9];
@@ -141,7 +141,7 @@ public class MatchingReward extends BaseCustomReward
 
 			private void win()
 			{
-				player.sendMessage(new StringTextComponent("Good job! Have a cool little item!"));
+				player.sendMessage(new StringTextComponent("Good job! Have a cool little item!"), player.getUniqueID());
 				player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				reset();
 			}

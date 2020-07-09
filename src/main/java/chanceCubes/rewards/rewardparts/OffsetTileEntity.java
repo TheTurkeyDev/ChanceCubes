@@ -72,7 +72,7 @@ public class OffsetTileEntity extends OffsetBlock
 	public BlockPos placeInWorld(World world, BlockPos placeLoc, boolean offset, RewardBlockCache blockCache)
 	{
 		BlockPos pos = super.placeInWorld(world, placeLoc, offset, blockCache);
-		TileEntity te = TileEntity.create(teNBT.getNBTValue());
+		TileEntity te = TileEntity.readTileEntity(world.getBlockState(pos), teNBT.getNBTValue());
 		if(!offset)
 			pos = placeLoc;
 

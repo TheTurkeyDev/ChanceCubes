@@ -2,6 +2,7 @@ package chanceCubes.client.gui;
 
 import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.profiles.IProfile;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -24,7 +25,7 @@ public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileList
 		this.mc = mcIn;
 		enabled = GlobalProfileManager.getPlayerProfileManager(Minecraft.getInstance().player.getUniqueID().toString()).isProfileEnabled(profile);
 
-		this.enableToggleBtn = new Button(0, 0, 50, 16, enabled ? "Enabled" : "Disabled", (button) ->
+		this.enableToggleBtn = new Button(0, 0, 50, 16, new StringTextComponent(enabled ? "Enabled" : "Disabled"), (button) ->
 		{
 			enableToggleBtn.playDownSound(mc.getSoundHandler());
 			enabled = !enabled;
@@ -34,10 +35,10 @@ public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileList
 			else
 				GlobalProfileManager.getPlayerProfileManager(playerUUID).disableProfile(profile);
 
-			enableToggleBtn.setMessage(enabled ? "Enabled" : "Disabled");
+			enableToggleBtn.setMessage(new StringTextComponent(enabled ? "Enabled" : "Disabled"));
 		});
 
-		this.editBtn = new Button(0, 0, 40, 16, "Info", (button) ->
+		this.editBtn = new Button(0, 0, 40, 16, new StringTextComponent("Info"), (button) ->
 		{
 			editBtn.playDownSound(mc.getSoundHandler());
 			mc.displayGuiScreen(new ProfileInfoGui(new StringTextComponent(""), profile, parentScreen));
@@ -45,9 +46,9 @@ public class ProfileListEntry extends AbstractList.AbstractListEntry<ProfileList
 	}
 
 	@Override
-	public void render(int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+	public void render(MatrixStack stack, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
 	{
-		mc.fontRenderer.drawString(profile.getName(), left, top + 1, 16777215);
+		mc.fontRenderer.drawString(stack, profile.getName(), left, top + 1, 16777215);
 		this.enableToggleBtn.x = left + this.profilesList.getListWidth() - 50;
 		this.enableToggleBtn.y = top;
 		if(isSelected && mouseX - left < this.profilesList.getListWidth() - 55)

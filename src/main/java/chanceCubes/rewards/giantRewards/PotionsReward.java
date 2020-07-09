@@ -29,7 +29,7 @@ public class PotionsReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new TranslationTextComponent("chancecubes.reward.raining_potions"));
+		player.sendMessage(new TranslationTextComponent("chancecubes.reward.raining_potions"), player.getUniqueID());
 		throwPoitonCircle(world, pos, player);
 	}
 

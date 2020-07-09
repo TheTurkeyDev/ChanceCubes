@@ -42,8 +42,8 @@ public class DigBuildReward extends BaseCustomReward
 		int distance = RewardsUtil.rand.nextInt(max - min) + min;
 		boolean up = (initalY + distance <= 150) && ((initalY - distance < 2) || RewardsUtil.rand.nextBoolean());
 
-		player.sendMessage(new StringTextComponent("Quick! Go " + (up ? "up " : "down ") + distance + " blocks!"));
-		player.sendMessage(new StringTextComponent("You have " + (distance + 3) + " seconds!"));
+		player.sendMessage(new StringTextComponent("Quick! Go " + (up ? "up " : "down ") + distance + " blocks!"), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("You have " + (distance + 3) + " seconds!"), player.getUniqueID());
 
 		Scheduler.scheduleTask(new Task("Dig_Build_Reward_Delay", (distance + 3) * 20, 5)
 		{
@@ -59,15 +59,15 @@ public class DigBuildReward extends BaseCustomReward
 			{
 				if(up && player.getPosition().getY() >= initalY + distance)
 				{
-					player.sendMessage(new StringTextComponent("Good Job!"));
-					player.sendMessage(new StringTextComponent("Here, have a item!"));
+					player.sendMessage(new StringTextComponent("Good Job!"), player.getUniqueID());
+					player.sendMessage(new StringTextComponent("Here, have a item!"), player.getUniqueID());
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 				else if(!up && player.getPosition().getY() <= initalY - distance)
 				{
-					player.sendMessage(new StringTextComponent("Good Job!"));
-					player.sendMessage(new StringTextComponent("Here, have a item!"));
+					player.sendMessage(new StringTextComponent("Good Job!"), player.getUniqueID());
+					player.sendMessage(new StringTextComponent("Here, have a item!"), player.getUniqueID());
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}

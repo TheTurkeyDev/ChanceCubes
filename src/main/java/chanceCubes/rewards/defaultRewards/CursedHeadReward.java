@@ -46,13 +46,13 @@ public class CursedHeadReward extends BaseCustomReward
 		player.dropItem(player.getItemStackFromSlot(EquipmentSlotType.HEAD), true, false);
 		player.setItemStackToSlot(EquipmentSlotType.HEAD, head);
 
-		player.sendMessage(new StringTextComponent(username + " has cursed you till death do you part!"));
+		player.sendMessage(new StringTextComponent(username + " has cursed you till death do you part!"), player.getUniqueID());
 		Scheduler.scheduleTask(new Task("delayed message", 20)
 		{
 			@Override
 			public void callback()
 			{
-				player.sendMessage(new StringTextComponent("<" + username + "> MUWAHAHAHA"));
+				player.sendMessage(new StringTextComponent("<" + username + "> MUWAHAHAHA"), player.getUniqueID());
 			}
 		});
 	}

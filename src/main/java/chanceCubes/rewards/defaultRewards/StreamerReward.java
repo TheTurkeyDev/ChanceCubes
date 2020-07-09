@@ -16,6 +16,7 @@ import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -76,7 +77,7 @@ public class StreamerReward
 				initTwitchChatconnection();
 		} catch(Exception e)
 		{
-			player.sendMessage(new StringTextComponent("An issue has occurred with this reward! Code: 0x545749544348"));
+			player.sendMessage(new StringTextComponent("An issue has occurred with this reward! Code: 0x545749544348"), player.getUniqueID());
 			e.printStackTrace();
 			return false;
 		}
@@ -105,17 +106,17 @@ public class StreamerReward
 				{
 					case 1:
 						message = new StringTextComponent("Hey Twitch Chat!");
-						message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
+						message.setStyle(Style.EMPTY.setColor(Color.func_240743_a_(TextFormatting.DARK_PURPLE.getColor())));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 					case 6:
 						message = new StringTextComponent("Let's Play A Game!");
-						message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
+						message.setStyle(Style.EMPTY.setColor(Color.func_240743_a_(TextFormatting.DARK_PURPLE.getColor())));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 					case 11:
 						message = new StringTextComponent("Decide My Fate!");
-						message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
+						message.setStyle(Style.EMPTY.setColor(Color.func_240743_a_(TextFormatting.DARK_PURPLE.getColor())));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 				}
@@ -135,7 +136,7 @@ public class StreamerReward
 						if(opt.votes > winner.votes)
 							winner = opt;
 
-					player.sendMessage(new StringTextComponent(winner.display + " Has won!"));
+					player.sendMessage(new StringTextComponent(winner.display + " Has won!"), player.getUniqueID());
 					winner.reward.trigger(world, player.getPosition(), player, new HashMap<>());
 					disconnect();
 				}
@@ -237,10 +238,10 @@ public class StreamerReward
 		sb.delete(sb.length() - 2, sb.length());
 
 		StringTextComponent message = new StringTextComponent(sb.toString());
-		message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
+		message.setStyle(Style.EMPTY.setColor(Color.func_240743_a_(TextFormatting.DARK_PURPLE.getColor())));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 40, 0);
 		message = new StringTextComponent("Time Left: " + timeLeft);
-		message.setStyle(new Style().setColor(TextFormatting.DARK_PURPLE));
+		message.setStyle(Style.EMPTY.setColor(Color.func_240743_a_(TextFormatting.DARK_PURPLE.getColor())));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 40, 0);
 
 	}

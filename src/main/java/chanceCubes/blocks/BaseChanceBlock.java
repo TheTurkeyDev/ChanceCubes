@@ -22,18 +22,6 @@ public class BaseChanceBlock extends Block
 	}
 
 	@Override
-	public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion)
-	{
-		return this.blockResistance;
-	}
-
-	@Override
-	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn)
-	{
-
-	}
-
-	@Override
 	public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion)
 	{
 		return false;

@@ -49,9 +49,9 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT data)
+	public void deserializeNBT(CompoundNBT data)
 	{
-		super.read(data);
+		super.deserializeNBT(data);
 		int masterX = data.getInt("masterX");
 		int masterY = data.getInt("masterY");
 		int masterZ = data.getInt("masterZ");
@@ -75,7 +75,7 @@ public class TileGiantCube extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		deserializeNBT(pkt.getNbtCompound());
 	}
 
 	public boolean hasMaster()

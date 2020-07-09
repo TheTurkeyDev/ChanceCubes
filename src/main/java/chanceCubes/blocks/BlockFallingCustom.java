@@ -44,7 +44,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 			Block block = this.fallTile.getBlock();
 			if(this.fallTime++ == 0)
 			{
-				BlockPos blockpos = new BlockPos(this);
+				BlockPos blockpos = new BlockPos(this.getPosition());
 				if(this.world.getBlockState(blockpos).getBlock() == block)
 				{
 					this.world.removeBlock(blockpos, false);
@@ -60,7 +60,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 			this.move(MoverType.SELF, this.getMotion());
 			if(!this.world.isRemote)
 			{
-				BlockPos blockpos1 = new BlockPos(this);
+				BlockPos blockpos1 = new BlockPos(this.getPosition());
 				if(this.onGround)
 				{
 					BlockState iblockstate = this.world.getBlockState(blockpos1);
@@ -89,7 +89,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 										nbttagcompound.put(s, nbtbase.copy());
 								}
 
-								tileentity.read(nbttagcompound);
+								tileentity.deserializeNBT(nbttagcompound);
 								tileentity.markDirty();
 							}
 						}

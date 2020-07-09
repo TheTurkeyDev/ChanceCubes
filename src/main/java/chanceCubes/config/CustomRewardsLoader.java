@@ -124,7 +124,7 @@ public class CustomRewardsLoader
 		}
 
 		for(EnumTexture t : EnumTexture.values())
-			if(t.getName().equalsIgnoreCase(CCubesSettings.holidayTextureName))
+			if(t.getString().equalsIgnoreCase(CCubesSettings.holidayTextureName))
 				BlockChanceCube.textureToSet = t;
 
 		if(!CCubesSettings.holidayRewardTriggered.get())

@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,7 +37,8 @@ public class NetherBiome extends BaseBiome
 			}
 			else
 			{
-				ZombiePigmanEntity pigman = EntityType.ZOMBIE_PIGMAN.create(world);
+				// 1.16: zombie pigman changed to zombified piglin
+				ZombifiedPiglinEntity pigman = EntityType.ZOMBIFIED_PIGLIN.create(world);
 				pigman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
 				world.addEntity(pigman);
 			}

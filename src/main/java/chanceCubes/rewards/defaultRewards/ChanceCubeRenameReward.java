@@ -40,7 +40,7 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 		String newName = name + " " + adj;
 		stack.setDisplayName(new StringTextComponent(newName));
 
-		player.sendMessage(new StringTextComponent("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"));
+		player.sendMessage(new StringTextComponent("Chance Cubes are sooooo 2017. Here have some " + newName + " instead!"), player.getUniqueID());
 
 		world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
 	}

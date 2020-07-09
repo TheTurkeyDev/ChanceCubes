@@ -9,7 +9,7 @@ import chanceCubes.util.Task;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -35,7 +35,7 @@ public class BossRavagerReward extends BossBaseReward
 	{
 		RavagerEntity ravager = EntityType.RAVAGER.create(world);
 		ravager.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		ravager.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings) * 2);
+		ravager.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings) * 2);
 		ravager.setHealth(ravager.getMaxHealth());
 
 		ArmorStandEntity armorStandEntity = EntityType.ARMOR_STAND.create(world);
@@ -75,7 +75,9 @@ public class BossRavagerReward extends BossBaseReward
 				}
 
 				if(RewardsUtil.rand.nextInt(20) == 4)
+				{
 					groundPound(ravager.getPosition(), world);
+				}
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					charge(ravager, player);
 //				if(RewardsUtil.rand.nextInt(5) == 4)
@@ -150,7 +152,7 @@ public class BossRavagerReward extends BossBaseReward
 
 	}
 
-	public boolean withinDistance(Vec3i pos, double rad)
+	public boolean withinDistance(Vector3i pos, double rad)
 	{
 		double dist = pos.distanceSq(0, 0, 0, false);
 		return dist < rad * rad && dist >= (rad - 1) * (rad - 1);

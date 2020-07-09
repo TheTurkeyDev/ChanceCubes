@@ -27,7 +27,7 @@ public class MazeReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Generating maze..... May be some lag..."));
+		player.sendMessage(new StringTextComponent("Generating maze..... May be some lag..."), player.getUniqueID());
 		final MazeGenerator gen = new MazeGenerator(world, pos, player.getPosition());
 		gen.generate(world, 20, 20);
 		BlockPos initialPos = new BlockPos(pos.getX() - 8, pos.getY(), pos.getZ() - 8);
@@ -60,15 +60,15 @@ public class MazeReward extends BaseCustomReward
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.OAK_SIGN))
 				{
 					gen.endMaze(player);
-					player.sendMessage(new StringTextComponent("Hey! You won!"));
-					player.sendMessage(new StringTextComponent("Here, have a item!"));
+					player.sendMessage(new StringTextComponent("Hey! You won!"), player.getUniqueID());
+					player.sendMessage(new StringTextComponent("Here, have a item!"), player.getUniqueID());
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 			}
 		});
 
-		player.sendMessage(new StringTextComponent("Beat the maze and find the sign!"));
-		player.sendMessage(new StringTextComponent("You have 45 seconds!"));
+		player.sendMessage(new StringTextComponent("Beat the maze and find the sign!"), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("You have 45 seconds!"), player.getUniqueID());
 	}
 }

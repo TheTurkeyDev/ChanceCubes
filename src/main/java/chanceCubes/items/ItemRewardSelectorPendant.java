@@ -35,7 +35,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		player.setActiveHand(hand);
-		if(player.isShiftKeyDown() && world.isRemote && player.isCreative())
+		if(player.isCrouching() && world.isRemote && player.isCreative())
 		{
 			DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 			{
@@ -50,7 +50,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		if(context.getWorld().isRemote)
 			return ActionResultType.PASS;
-		if(context.getPlayer() == null || context.getPlayer().isShiftKeyDown())
+		if(context.getPlayer() == null || context.getPlayer().isCrouching())
 			return ActionResultType.FAIL;
 
 		if(context.getItem().getTag() != null && context.getItem().getTag().contains("Reward"))
@@ -62,7 +62,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				if(reward != null)
 					GlobalCCRewardRegistry.DEFAULT.triggerReward(reward, context.getWorld(), context.getPos(), context.getPlayer());
 				else
-					context.getPlayer().sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
+					context.getPlayer().sendMessage(new StringTextComponent("That reward does not exist for this cube!"), context.getPlayer().getUniqueID());
 			}
 			else if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 			{
@@ -74,7 +74,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				if(reward != null)
 					GlobalCCRewardRegistry.GIANT.triggerReward(reward, context.getWorld(), giant.getMasterPostion(), context.getPlayer());
 				else
-					context.getPlayer().sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
+					context.getPlayer().sendMessage(new StringTextComponent("That reward does not exist for this cube!"), context.getPlayer().getUniqueID());
 				GiantCubeUtil.removeStructure(giant.getMasterPostion(), context.getWorld());
 			}
 		}

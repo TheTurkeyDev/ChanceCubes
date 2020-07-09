@@ -1,7 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -26,7 +26,7 @@ public class BossMimicReward extends BossBaseReward
 		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
 		mimic.setCustomName(new StringTextComponent("Mimic"));
 		mimic.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		mimic.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		mimic.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		mimic.setHealth(mimic.getMaxHealth());
 		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
 

@@ -45,7 +45,7 @@ public class MathReward extends BaseCustomReward
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
-		player.sendMessage(new StringTextComponent("Quick, what's " + num1 + "+" + num2 + "?"));
+		player.sendMessage(new StringTextComponent("Quick, what's " + num1 + "+" + num2 + "?"), player.getUniqueID());
 
 		BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
 		RewardBlockCache cache = new RewardBlockCache(world, playerPos, player.getPosition());
@@ -111,8 +111,8 @@ public class MathReward extends BaseCustomReward
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
-			player.sendMessage(new StringTextComponent("Correct!"));
-			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			player.sendMessage(new StringTextComponent("Correct!"), player.getUniqueID());
+			player.sendMessage(new StringTextComponent("Here, have a item!"), player.getUniqueID());
 			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
@@ -143,13 +143,13 @@ public class MathReward extends BaseCustomReward
 				answer = Integer.parseInt(event.getMessage());
 			} catch(NumberFormatException e)
 			{
-				player.sendMessage(new StringTextComponent("Incorrect!"));
+				player.sendMessage(new StringTextComponent("Incorrect!"), player.getUniqueID());
 			}
 
 			if(inQuestion.get(player).answer == answer)
 				this.timeUp(player, true);
 			else
-				player.sendMessage(new StringTextComponent("Incorrect!"));
+				player.sendMessage(new StringTextComponent("Incorrect!"), player.getUniqueID());
 			event.setCanceled(true);
 		}
 	}

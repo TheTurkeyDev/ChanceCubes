@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
@@ -81,7 +82,8 @@ public class GlobalProfileManager
 	public static void updateProfilesForWorld(ServerWorld world)
 	{
 		playerToProfiles.clear();
-		profileSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
+		// TODO: this is using an access transformer which is very terrible
+		profileSaveFile = new File(world.getSavedData().folder, "chancecubes.json");
 		try
 		{
 			if(!profileSaveFile.exists())
@@ -303,7 +305,7 @@ public class GlobalProfileManager
 		profile.addDisabledRewards("chancecubes:rain", "chancecubes:sail_away", "chancecubes:squid_horde",
 				"chancecubes:ice_cold", "chancecubes:hot_tub", "chancecubes:guardians", "chancecubes:nuke",
 				"chancecubes:cats_and_dogs");
-		profile.addTriggers(new DimensionChangeTrigger(profile, -1));
+		profile.addTriggers(new DimensionChangeTrigger(profile, new ResourceLocation("the_nether")));
 		registerProfile(profile);
 
 		profile = new BasicProfile("peaceful", "Peaceful", "For users who play on peaceful diffuculty. Removes rewards that have hostile Mobs (Doesn't remove TNT)");

@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import org.apache.logging.log4j.Level;
 
@@ -162,7 +163,7 @@ public class CustomProfileLoader
 										CCubesCore.logger.log(Level.ERROR, "Unable to parse profile \"" + profileID + "\" Triggers. Missing \"dim_id\" json entry for the dimension trigger type.");
 										return;
 									}
-									profile.addTriggers(new DimensionChangeTrigger(profile, triggerJson.get("dim_id").getAsInt()));
+									profile.addTriggers(new DimensionChangeTrigger(profile, ResourceLocation.tryCreate(triggerJson.get("dim_id").getAsString())));
 									break;
 								case "advancement":
 									if(!triggerJson.has("advancement_res"))

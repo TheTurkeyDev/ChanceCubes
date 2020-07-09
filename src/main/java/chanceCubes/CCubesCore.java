@@ -19,11 +19,11 @@ import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -122,7 +122,8 @@ public class CCubesCore
 	@SubscribeEvent
 	public void onServerStart(FMLServerStartedEvent event)
 	{
-		ServerWorld world = event.getServer().getWorld(DimensionType.OVERWORLD);
+		// TODO: 1.16: this is getOverworld
+		ServerWorld world = event.getServer().func_241755_D_();
 		if(!GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.updateProfilesForWorld(world);
 	}

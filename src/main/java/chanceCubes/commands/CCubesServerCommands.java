@@ -33,7 +33,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -101,8 +100,9 @@ public class CCubesServerCommands
 			NonreplaceableBlockOverride.loadOverrides();
 			GlobalProfileManager.initProfiles();
 			CustomProfileLoader.instance.loadProfiles();
-			GlobalProfileManager.updateProfilesForWorld(ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD));
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
+			// TODO: 1.16: this is getOverworld()
+			GlobalProfileManager.updateProfilesForWorld(ServerLifecycleHooks.getCurrentServer().func_241755_D_());
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"), getPlayer(ctx.getSource()).getUniqueID());
 		}).start();
 		return 0;
 	}
@@ -110,7 +110,7 @@ public class CCubesServerCommands
 	public int executeVersion(CommandContext<CommandSource> ctx)
 	{
 		String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Chance Cubes Version " + ver));
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Chance Cubes Version " + ver), getPlayer(ctx.getSource()).getUniqueID());
 		return 0;
 	}
 
@@ -118,7 +118,7 @@ public class CCubesServerCommands
 	{
 		PlayerEntity player = getPlayer(ctx.getSource());
 		CompoundNBT nbt = player.inventory.getCurrentItem().getOrCreateTag();
-		player.sendMessage(new StringTextComponent(nbt.toString()));
+		player.sendMessage(new StringTextComponent(nbt.toString()), player.getUniqueID());
 		return 0;
 	}
 
@@ -129,8 +129,8 @@ public class CCubesServerCommands
 		if(!stack.isEmpty())
 		{
 			ResourceLocation res = stack.getItem().getRegistryName();
-			player.sendMessage(new StringTextComponent(res.getNamespace() + ":" + res.getPath()));
-			player.sendMessage(new StringTextComponent("meta: " + stack.getDamage()));
+			player.sendMessage(new StringTextComponent(res.getNamespace() + ":" + res.getPath()), player.getUniqueID());
+			player.sendMessage(new StringTextComponent("meta: " + stack.getDamage()), player.getUniqueID());
 		}
 		return 0;
 	}
@@ -145,9 +145,9 @@ public class CCubesServerCommands
 				{
 					//TODO: Giant Cube Rewards
 					if(GlobalCCRewardRegistry.DEFAULT.disableReward(args[1]))
-						sender.sendMessage(new StringTextComponent(args[1] + " Has been temporarily disabled."));
+						sender.sendMessage(new StringTextComponent(args[1] + " Has been temporarily disabled."), sender.getUniqueID());
 					else
-						sender.sendMessage(new StringTextComponent(args[1] + " is either not currently enabled or is not a valid reward name."));
+						sender.sendMessage(new StringTextComponent(args[1] + " is either not currently enabled or is not a valid reward name."), sender.getUniqueID());
 				}
 				else
 				{
@@ -157,7 +157,7 @@ public class CCubesServerCommands
 			}
 			else
 			{
-				sender.sendMessage(new StringTextComponent("Try /chancecubes enableReward <global|playername> <Reward Name>"));
+				sender.sendMessage(new StringTextComponent("Try /chancecubes enableReward <global|playername> <Reward Name>"), sender.getUniqueID());
 			}
 		 */
 		return 0;
@@ -173,9 +173,9 @@ public class CCubesServerCommands
 				{
 					//TODO: Giant Cube Rewards
 					if(GlobalCCRewardRegistry.DEFAULT.enableReward(args[1]))
-						sender.sendMessage(new StringTextComponent(args[1] + " Has been enabled."));
+						sender.sendMessage(new StringTextComponent(args[1] + " Has been enabled."), sender.getUniqueID());
 					else
-						sender.sendMessage(new StringTextComponent(args[1] + " is either not currently disabled or is not a valid reward name."));
+						sender.sendMessage(new StringTextComponent(args[1] + " is either not currently disabled or is not a valid reward name."), sender.getUniqueID());
 				}
 				else
 				{
@@ -184,7 +184,7 @@ public class CCubesServerCommands
 			}
 			else
 			{
-				sender.sendMessage(new StringTextComponent("Try /chancecubes disableReward <Reward Name>"));
+				sender.sendMessage(new StringTextComponent("Try /chancecubes disableReward <Reward Name>"), sender.getUniqueID());
 			}
 		 */
 		return 0;
@@ -204,7 +204,7 @@ public class CCubesServerCommands
 			}
 			else
 			{
-				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Please set both points before moving on!"));
+				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Please set both points before moving on!"), getPlayer(ctx.getSource()).getUniqueID());
 			}
 		}
 		else
@@ -229,59 +229,59 @@ public class CCubesServerCommands
 		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
 		int defaultEnabled = defaultrewards.size();
 		int giantEnabled = giantrewards.size();
-		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
+		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="), player.getUniqueID());
 		for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
-			player.sendMessage(new StringTextComponent(reward));
+			player.sendMessage(new StringTextComponent(reward), player.getUniqueID());
 //		if(args.length > 1 && args[1].equalsIgnoreCase("list"))
 //		{
 //			if(args.length > 2 && args[2].equalsIgnoreCase("default"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
+//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="), //				sender.getUniqueID());
 //				for(PlayerRewardInfo reward : defaultrewards)
-//					sender.sendMessage(new StringTextComponent(reward.reward.getName()));
+//					sender.sendMessage(new StringTextComponent(reward.reward.getName()), //					sender.getUniqueID());
 //			}
 //			else if(args.length > 2 && args[2].equalsIgnoreCase("giant"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS==="));
+//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS==="), //				sender.getUniqueID());
 //				for(PlayerRewardInfo reward : giantrewards)
-//					sender.sendMessage(new StringTextComponent(reward.reward.getName()));
+//					sender.sendMessage(new StringTextComponent(reward.reward.getName()), //					sender.getUniqueID());
 //			}
 //			else if(args.length > 2 && args[2].equalsIgnoreCase("defaultall"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
+//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="), //				sender.getUniqueID());
 //				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
-//					sender.sendMessage(new StringTextComponent(reward));
+//					sender.sendMessage(new StringTextComponent(reward), //					sender.getUniqueID());
 //			}
 //			else if(args.length > 2 && args[2].equalsIgnoreCase("giantall"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS==="));
+//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS==="), //				sender.getUniqueID());
 //				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
-//					sender.sendMessage(new StringTextComponent(reward));
+//					sender.sendMessage(new StringTextComponent(reward), //					sender.getUniqueID());
 //			}
 //			else if(args.length > 2 && args[2].equalsIgnoreCase("defaultdisabled"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS DISABLED==="));
+//				sender.sendMessage(new StringTextComponent("===DEFAULT REWARDS DISABLED==="), //				sender.getUniqueID());
 //				List<String> playerRewards = new ArrayList<>();
 //				for(PlayerRewardInfo reward : defaultrewards)
 //					playerRewards.add(reward.reward.getName());
 //				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 //					if(!playerRewards.contains(reward))
-//						sender.sendMessage(new StringTextComponent(reward));
+//						sender.sendMessage(new StringTextComponent(reward), //						sender.getUniqueID());
 //			}
 //			else if(args.length > 2 && args[2].equalsIgnoreCase("giantdisabled"))
 //			{
-//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS DISABLED==="));
+//				sender.sendMessage(new StringTextComponent("===GIANT REWARDS DISABLED==="), //				sender.getUniqueID());
 //				List<String> playerRewards = new ArrayList<>();
 //				for(PlayerRewardInfo reward : giantrewards)
 //					playerRewards.add(reward.reward.getName());
 //				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 //					if(!playerRewards.contains(reward))
-//						sender.sendMessage(new StringTextComponent(reward));
+//						sender.sendMessage(new StringTextComponent(reward), //						sender.getUniqueID());
 //			}
 //		}
 
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled"));
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled"));
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled"), getPlayer(ctx.getSource()).getUniqueID());
+		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled"), getPlayer(ctx.getSource()).getUniqueID());
 		return 0;
 	}
 
@@ -290,9 +290,9 @@ public class CCubesServerCommands
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testRewards)
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"), getPlayer(ctx.getSource()).getUniqueID());
 		else
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."), getPlayer(ctx.getSource()).getUniqueID());
 		return 0;
 	}
 
@@ -301,9 +301,9 @@ public class CCubesServerCommands
 		CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testCustomRewards)
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for custom rewards!"));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for custom rewards!"), getPlayer(ctx.getSource()).getUniqueID());
 		else
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
+			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."), getPlayer(ctx.getSource()).getUniqueID());
 		return 0;
 	}
 

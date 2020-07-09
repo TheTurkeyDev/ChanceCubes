@@ -38,9 +38,9 @@ public class ClearInventoryReward extends BaseCustomReward
 		}
 		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
 
-		player.sendMessage(new StringTextComponent("I hope you didn't have anything of value with you :)"));
+		player.sendMessage(new StringTextComponent("I hope you didn't have anything of value with you :)"), player.getUniqueID());
 		if(cubes)
-			player.sendMessage(new StringTextComponent("Don't worry, I left the cubes for you!"));
+			player.sendMessage(new StringTextComponent("Don't worry, I left the cubes for you!"), player.getUniqueID());
 
 		if(world.rand.nextInt(5) == 1)
 		{
@@ -50,7 +50,7 @@ public class ClearInventoryReward extends BaseCustomReward
 				public void callback()
 				{
 					player.inventory.copyInventory(inv);
-					player.sendMessage(new StringTextComponent("AHHHHHH JK!! You should have seen your face!"));
+					player.sendMessage(new StringTextComponent("AHHHHHH JK!! You should have seen your face!"), player.getUniqueID());
 				}
 
 			});

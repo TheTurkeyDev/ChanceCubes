@@ -17,12 +17,12 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.state.IProperty;
-import net.minecraft.state.IStateHolder;
+import net.minecraft.state.Property;
+import net.minecraft.state.StateHolder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class SchematicUtil
 {
@@ -60,8 +61,8 @@ public class SchematicUtil
 				int smallY = Math.min(loc1.getY(), loc2.getY());
 				int largeZ = Math.max(loc1.getZ(), loc2.getZ());
 				int smallZ = Math.min(loc1.getZ(), loc2.getZ());
-				Vec3i small = new Vec3i(smallX, smallY, smallZ);
-				Vec3i large = new Vec3i(largeX, largeY, largeZ);
+				Vector3i small = new Vector3i(smallX, smallY, smallZ);
+				Vector3i large = new Vector3i(largeX, largeY, largeZ);
 
 				storeBlocksInfo(small, large, world, blocks, blockDataIds, tileEntityData);
 
@@ -129,7 +130,7 @@ public class SchematicUtil
 		});
 	}
 
-	private static void storeBlocksInfo(Vec3i small, Vec3i large, World world, List<Integer> blocks, List<CustomEntry<Integer, String>> blockDataIds, List<CustomEntry<String, List<Integer>>> tileEntityData)
+	private static void storeBlocksInfo(Vector3i small, Vector3i large, World world, List<Integer> blocks, List<CustomEntry<Integer, String>> blockDataIds, List<CustomEntry<String, List<Integer>>> tileEntityData)
 	{
 		StringBuilder blockData = new StringBuilder();
 		for(int y = small.getY(); y < large.getY(); y++)
@@ -328,9 +329,11 @@ public class SchematicUtil
 	public static String encodeBlockState(BlockState state)
 	{
 		StringBuilder builder = new StringBuilder("[");
-		for(IProperty<?> prop : state.getProperties())
-			if(state.has(prop))
+		for(Property<?> prop : state.getProperties())
+		{
+			if (state.getProperties().contains(prop))
 				builder.append(prop.getName()).append("=").append(state.get(prop).toString()).append(",");
+		}
 
 		builder.deleteCharAt(builder.length() - 1);
 		builder.append("]");
@@ -352,9 +355,13 @@ public class SchematicUtil
 			map.put(entry[0], entry[1]);
 		});
 
-		for(IProperty<?> prop : defaultState.getProperties())
+		for(Property<?> prop : defaultState.getProperties())
 			if(map.containsKey(prop.getName()))
-				returnState = IStateHolder.withString(returnState, prop, prop.getName(), "", map.get(prop.getName()));
+			{
+				// TODO: 1.16 i am unsure if this is correct, original code below
+				returnState = returnState.with((Property<String>) prop, map.get(prop.getName()));
+				//returnState = IStateHolder.withString(returnState, prop, prop.getName(), "", map.get(prop.getName()));
+			}
 		return returnState;
 	}
 }

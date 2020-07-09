@@ -7,7 +7,7 @@ import chanceCubes.util.Task;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.WitchEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +19,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -47,7 +48,7 @@ public class BossWitchReward extends BossBaseReward
 		WitchEntity witch = EntityType.WITCH.create(world);
 		witch.setCustomName(new StringTextComponent("Evil Witch"));
 		witch.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		witch.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		witch.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		witch.setHealth(witch.getMaxHealth());
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);
@@ -89,11 +90,17 @@ public class BossWitchReward extends BossBaseReward
 				}
 
 				if(RewardsUtil.rand.nextInt(15) == 4)
+				{
 					spawnMinoins(witch.getPosition(), world);
+				}
 				if(RewardsUtil.rand.nextInt(10) == 4)
+				{
 					lightningStrike(player.getPosition(), world);
+				}
 				if(RewardsUtil.rand.nextInt(5) == 4)
+				{
 					throwPotion(witch, player.getPosition(), world);
+				}
 			}
 		});
 
@@ -105,7 +112,9 @@ public class BossWitchReward extends BossBaseReward
 
 	private void lightningStrike(BlockPos playerPos, World world)
 	{
-		((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, playerPos.getX(), playerPos.getY(), playerPos.getZ(), false));
+		LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+		lightning.setPosition(playerPos.getX(), playerPos.getY(), playerPos.getZ());
+		world.addEntity(lightning);
 	}
 
 	private void throwPotion(WitchEntity witch, BlockPos playerPos, World world)

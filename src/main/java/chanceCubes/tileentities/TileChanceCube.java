@@ -47,9 +47,9 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void deserializeNBT(CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.deserializeNBT(nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -68,7 +68,7 @@ public class TileChanceCube extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		deserializeNBT(pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

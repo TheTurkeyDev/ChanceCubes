@@ -24,7 +24,7 @@ public class MagicFeetReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		int duration = super.getSettingAsInt(settings, "duration", 300, 0, Integer.MAX_VALUE);
-		player.sendMessage(new StringTextComponent("<Dovah_Jun> You've got magic feet!!!"));
+		player.sendMessage(new StringTextComponent("<Dovah_Jun> You've got magic feet!!!"), player.getUniqueID());
 		Scheduler.scheduleTask(new Task("Megic_Feet_Reward_Delay", duration, 2)
 		{
 			BlockPos last = pos;
@@ -32,7 +32,7 @@ public class MagicFeetReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.sendMessage(new StringTextComponent("<Dovah_Jun> You've used up all the magic in your feet!"));
+				player.sendMessage(new StringTextComponent("<Dovah_Jun> You've used up all the magic in your feet!"), player.getUniqueID());
 			}
 
 			@Override

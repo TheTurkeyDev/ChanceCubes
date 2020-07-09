@@ -31,7 +31,7 @@ public class MontyHallReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Which button do you press?"));
+		player.sendMessage(new StringTextComponent("Which button do you press?"), player.getUniqueID());
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
@@ -78,7 +78,7 @@ public class MontyHallReward extends BaseCustomReward
 				}
 				else if(value == 0)
 				{
-					player.sendMessage(new StringTextComponent("You walk away to live another day..."));
+					player.sendMessage(new StringTextComponent("You walk away to live another day..."), player.getUniqueID());
 				}
 				else if(value == 1)
 				{

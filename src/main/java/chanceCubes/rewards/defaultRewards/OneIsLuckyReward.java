@@ -27,9 +27,9 @@ public class OneIsLuckyReward extends BaseCustomReward
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "A Lucky Block Salute");
 		SignTileEntity sign = new SignTileEntity();
-		sign.signText[0] = new StringTextComponent("One is lucky");
-		sign.signText[1] = new StringTextComponent("One is not");
-		sign.signText[3] = new StringTextComponent("#OGLuckyBlocks");
+		sign.setText(0, new StringTextComponent("One is lucky"));
+		sign.setText(1, new StringTextComponent("One is not"));
+		sign.setText(3, new StringTextComponent("#OGLuckyBlocks"));
 		boolean leftLucky = RewardsUtil.rand.nextBoolean();
 		TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100);
 		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);

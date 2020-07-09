@@ -17,7 +17,7 @@ public class MobTowerReward extends BaseCustomReward
 {
 	//@formatter:off
 	private List<EntityType<? extends Entity>> entities = Arrays.asList(EntityType.CREEPER, EntityType.SKELETON, EntityType.BLAZE,
-			EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ZOMBIE_PIGMAN, EntityType.SILVERFISH, EntityType.SLIME,
+			EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ZOMBIFIED_PIGLIN, EntityType.SILVERFISH, EntityType.SLIME,
 			EntityType.SNOW_GOLEM, EntityType.SPIDER, EntityType.WITCH, EntityType.ZOMBIE, EntityType.BAT, EntityType.CHICKEN,
 			EntityType.COW, EntityType.OCELOT, EntityType.PARROT, EntityType.PIG, EntityType.RABBIT, EntityType.SHEEP,
 			EntityType.VILLAGER, EntityType.WOLF);
@@ -31,7 +31,7 @@ public class MobTowerReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("How did they end up like that? O.o"));
+		player.sendMessage(new StringTextComponent("How did they end up like that? O.o"), player.getUniqueID());
 		int minHeight = super.getSettingAsInt(settings, "min_height", 7, 0, 20);
 		int maxHeight = minHeight - super.getSettingAsInt(settings, "max_height", 13, 1, 50);
 		if(maxHeight < 1)
@@ -45,7 +45,7 @@ public class MobTowerReward extends BaseCustomReward
 			world.addEntity(last);
 		} catch(Exception e)
 		{
-			player.sendMessage(new StringTextComponent("Uh oh! Something went wrong and the reward could not be spawned! Please repot this to the mod dev!"));
+			player.sendMessage(new StringTextComponent("Uh oh! Something went wrong and the reward could not be spawned! Please repot this to the mod dev!"), player.getUniqueID());
 			return;
 		}
 

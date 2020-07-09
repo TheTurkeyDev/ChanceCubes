@@ -54,13 +54,13 @@ public class BlockListener
 				if(point == 1)
 				{
 					SchematicUtil.selectionPoints[0] = pos;
-					player.sendMessage(new StringTextComponent("Point 1 set"));
+					player.sendMessage(new StringTextComponent("Point 1 set"), player.getUniqueID());
 					flag = true;
 				}
 				else if(point == 2)
 				{
 					SchematicUtil.selectionPoints[1] = pos;
-					player.sendMessage(new StringTextComponent("Point 2 set"));
+					player.sendMessage(new StringTextComponent("Point 2 set"), player.getUniqueID());
 					flag = true;
 				}
 

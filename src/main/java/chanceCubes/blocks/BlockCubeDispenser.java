@@ -47,10 +47,10 @@ public class BlockCubeDispenser extends BaseChanceBlock
 			return ActionResultType.PASS;
 
 		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
-		//isCrouching ???? wtf
-		if(player.isShiftKeyDown())
+		if(player.isCrouching())
 		{
-			state = state.cycle(DISPENSING);
+			// TODO: 1.16: this is cycle ... whatever that was
+			state = state.func_235896_a_(DISPENSING);
 			world.setBlockState(pos, state, 3);
 		}
 		else
@@ -75,7 +75,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 
 		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
 		entitem.setLocationAndAngles(player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0);
-		if(player.isShiftKeyDown())
+		if(player.isCrouching())
 		{
 			entitem.getItem().setCount(1);
 			world.addEntity(entitem);
@@ -104,7 +104,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return this.type;
 		}

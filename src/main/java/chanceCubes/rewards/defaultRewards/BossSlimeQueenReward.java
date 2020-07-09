@@ -4,7 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -33,7 +33,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 		queen.setCustomName(new StringTextComponent("Slime Queen"));
 		queen.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 
-		queen.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		queen.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		queen.setHealth(queen.getMaxHealth());
 
 		// Lol ok

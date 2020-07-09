@@ -46,7 +46,7 @@ public class TrollTNTReward extends BaseCustomReward
 				@Override
 				public void callback()
 				{
-					player.sendMessage(new StringTextComponent("BOOM"));
+					player.sendMessage(new StringTextComponent("BOOM"), player.getUniqueID());
 					entitytntprimed.remove();
 				}
 

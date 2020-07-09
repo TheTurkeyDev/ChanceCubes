@@ -35,7 +35,7 @@ public class CoinFlipReward extends BaseCustomReward
 		if(inFlip.contains(player))
 			return;
 
-		player.sendMessage(new StringTextComponent("Heads or Tails"));
+		player.sendMessage(new StringTextComponent("Heads or Tails"), player.getUniqueID());
 
 		inFlip.add(player);
 
@@ -57,8 +57,8 @@ public class CoinFlipReward extends BaseCustomReward
 		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
 			return;
 
-		player.sendMessage(new StringTextComponent("Seem's that you didn't pick heads or tails."));
-		player.sendMessage(new StringTextComponent("You must be real fun at parties...."));
+		player.sendMessage(new StringTextComponent("Seem's that you didn't pick heads or tails."), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("You must be real fun at parties...."), player.getUniqueID());
 
 		inFlip.remove(player);
 	}
@@ -80,19 +80,19 @@ public class CoinFlipReward extends BaseCustomReward
 			// Yes I know heads has a 49.9833% chance and Tails has a 50% Chance. Deal with it.
 			if(flip == 1738)
 			{
-				player.sendMessage(new StringTextComponent("The coin landed on it's side....."));
-				player.sendMessage(new StringTextComponent("Well this is awkward"));
+				player.sendMessage(new StringTextComponent("The coin landed on it's side....."), player.getUniqueID());
+				player.sendMessage(new StringTextComponent("Well this is awkward"), player.getUniqueID());
 			}
 			else if(flip < 3000)
 			{
 				if(message.equalsIgnoreCase("Heads"))
 				{
-					player.sendMessage(new StringTextComponent("It was heads! You're correct!"));
+					player.sendMessage(new StringTextComponent("It was heads! You're correct!"), player.getUniqueID());
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
-					player.sendMessage(new StringTextComponent("It was heads! You're incorrect!"));
+					player.sendMessage(new StringTextComponent("It was heads! You're incorrect!"), player.getUniqueID());
 					for(int i = 0; i < 5; i++)
 					{
 						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
@@ -104,12 +104,12 @@ public class CoinFlipReward extends BaseCustomReward
 			{
 				if(message.equalsIgnoreCase("Tails"))
 				{
-					player.sendMessage(new StringTextComponent("It was tails! You're correct!"));
+					player.sendMessage(new StringTextComponent("It was tails! You're correct!"), player.getUniqueID());
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
-					player.sendMessage(new StringTextComponent("It was tails! You're incorrect!"));
+					player.sendMessage(new StringTextComponent("It was tails! You're incorrect!"), player.getUniqueID());
 					for(int i = 0; i < 5; i++)
 					{
 						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));

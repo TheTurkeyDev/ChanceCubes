@@ -28,7 +28,7 @@ public class WaitForItReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Wait for it......."));
+		player.sendMessage(new StringTextComponent("Wait for it......."), player.getUniqueID());
 
 		int minDuration = super.getSettingAsInt(settings, "min_duration", 1000, 0, Integer.MAX_VALUE - 1);
 		int maxDuration = minDuration - super.getSettingAsInt(settings, "max_duration", 5000, 1, Integer.MAX_VALUE);
@@ -41,7 +41,7 @@ public class WaitForItReward extends BaseCustomReward
 			public void callback()
 			{
 				int reward = RewardsUtil.rand.nextInt(3);
-				player.sendMessage(new StringTextComponent("NOW!"));
+				player.sendMessage(new StringTextComponent("NOW!"), player.getUniqueID());
 
 				if(reward == 0)
 				{

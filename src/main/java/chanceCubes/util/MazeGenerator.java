@@ -166,9 +166,9 @@ public class MazeGenerator
 		if(te instanceof SignTileEntity)
 		{
 			SignTileEntity sign = (SignTileEntity) te;
-			sign.signText[0] = new StringTextComponent("Break me");
-			sign.signText[1] = new StringTextComponent("To beat the");
-			sign.signText[2] = new StringTextComponent("Maze");
+			sign.setText(0, new StringTextComponent("Break me"));
+			sign.setText(1, new StringTextComponent("To beat the"));
+			sign.setText(2, new StringTextComponent("Maze"));
 		}
 	}
 

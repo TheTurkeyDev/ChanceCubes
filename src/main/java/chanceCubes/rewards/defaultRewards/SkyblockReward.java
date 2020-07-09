@@ -43,8 +43,8 @@ public class SkyblockReward extends BaseCustomReward
 		if(world.isRemote())
 			return;
 
-		int skyblockHeight = world.getActualHeight() - 16;
-		if(!world.dimension.hasSkyLight())
+		int skyblockHeight = world.func_234938_ad_() - 16;
+		if(!world.func_230315_m_().hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());
@@ -69,7 +69,7 @@ public class SkyblockReward extends BaseCustomReward
 		RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, skyblockPos.add(0, 1, 0));
 
 		OakTree tree = new OakTree();
-		tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), skyblockPos.add(3, 3, 3), Blocks.OAK_SAPLING.getDefaultState().with(SaplingBlock.STAGE, 1), TREE_RAND);
+		tree.attemptGrowTree((ServerWorld) world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), skyblockPos.add(3, 3, 3), Blocks.OAK_SAPLING.getDefaultState().with(SaplingBlock.STAGE, 1), TREE_RAND);
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, skyblockPos.add(-1, 3, 0));
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(skyblockPos.add(-1, 3, 0));

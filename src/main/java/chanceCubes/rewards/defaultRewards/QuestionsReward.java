@@ -56,8 +56,8 @@ public class QuestionsReward extends BaseCustomReward
 
 		int question = world.rand.nextInt(questionsAndAnswers.size());
 
-		player.sendMessage(new StringTextComponent(questionsAndAnswers.get(question).getKey()));
-		player.sendMessage(new StringTextComponent("You have 20 seconds to answer! (Answer is not case sensitive)"));
+		player.sendMessage(new StringTextComponent(questionsAndAnswers.get(question).getKey()), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("You have 20 seconds to answer! (Answer is not case sensitive)"), player.getUniqueID());
 
 		if(!world.isRemote)
 		{
@@ -92,13 +92,13 @@ public class QuestionsReward extends BaseCustomReward
 
 		if(correct)
 		{
-			player.sendMessage(new StringTextComponent("Correct!"));
-			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			player.sendMessage(new StringTextComponent("Correct!"), player.getUniqueID());
+			player.sendMessage(new StringTextComponent("Here, have a item!"), player.getUniqueID());
 			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.sendMessage(new StringTextComponent("Incorrect! The answer was " + this.inQuestion.get(player)));
+			player.sendMessage(new StringTextComponent("Incorrect! The answer was " + this.inQuestion.get(player)), player.getUniqueID());
 			player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}

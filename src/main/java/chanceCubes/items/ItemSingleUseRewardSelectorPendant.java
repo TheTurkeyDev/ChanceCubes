@@ -35,7 +35,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		player.setActiveHand(hand);
 		ItemStack stack = player.getHeldItem(hand);
-		if(player.isShiftKeyDown() && world.isRemote && player.isCreative())
+		if(player.isCrouching() && world.isRemote && player.isCreative())
 		{
 			DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 			{
@@ -48,7 +48,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		if(context.getPlayer() == null || context.getPlayer().isShiftKeyDown())
+		if(context.getPlayer() == null || context.getPlayer().isCrouching())
 			return ActionResultType.FAIL;
 		if(context.getWorld().isRemote)
 			return ActionResultType.PASS;
@@ -68,7 +68,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 					}
 					else
 					{
-						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
+						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"), player.getUniqueID());
 
 					}
 				}
@@ -87,7 +87,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 					}
 					else
 					{
-						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
+						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"), player.getUniqueID());
 					}
 				}
 			}

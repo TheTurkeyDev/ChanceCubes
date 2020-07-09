@@ -1,5 +1,6 @@
 package chanceCubes.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 public class ProfileInfoGui extends Screen
 {
@@ -99,7 +101,7 @@ public class ProfileInfoGui extends Screen
 
 			profileList.addStrings("Triggers", triggerStrings);
 		}
-		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Back", (button) ->
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, new StringTextComponent("Back"), (button) ->
 		{
 			if(minecraft != null)
 				minecraft.displayGuiScreen(parentScreen);
@@ -109,7 +111,7 @@ public class ProfileInfoGui extends Screen
 	public void addTab(String name, List<String> strings)
 	{
 		int pos = tabs.size() + 1;
-		this.addButton(new Button((75 * tabs.size()), 64, 75, 20, name, (button) ->
+		this.addButton(new Button((75 * tabs.size()), 64, 75, 20, new StringTextComponent(name), (button) ->
 		{
 			profileList.setStringsTab(tabs.get(pos - 1));
 		}));
@@ -121,11 +123,11 @@ public class ProfileInfoGui extends Screen
 	 * Draws the screen and all the components in it.
 	 */
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks)
 	{
-		profileList.render(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
-		this.drawCenteredString(this.font, "Profile Info", this.width / 2, 20, 16777215);
-		super.render(mouseX, mouseY, partialTicks);
+		profileList.render(stack, mouseX, mouseY, partialTicks);
+		this.drawCenteredString(stack, this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(stack, this.font, "Profile Info", this.width / 2, 20, 16777215);
+		super.render(stack, mouseX, mouseY, partialTicks);
 	}
 }

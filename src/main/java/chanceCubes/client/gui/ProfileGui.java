@@ -1,11 +1,15 @@
 package chanceCubes.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import java.net.URI;
 
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.event.HoverEvent;
+import static net.minecraft.util.text.event.HoverEvent.Action.*;
 
 public class ProfileGui extends Screen implements IGuiEventListener
 {
@@ -24,7 +28,7 @@ public class ProfileGui extends Screen implements IGuiEventListener
 	public void init()
 	{
 		this.profileList = new ProfilesList(this, super.minecraft, this.width, this.height, 64, this.height - 32, 20);
-		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, "Save", (button) ->
+		this.addButton(new Button(this.width / 2 - 36, this.height - 28, 72, 20, new StringTextComponent("Save"), (button) ->
 		{
 
 		}));
@@ -34,17 +38,17 @@ public class ProfileGui extends Screen implements IGuiEventListener
 	 * Draws the screen and all the components in it.
 	 */
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks)
 	{
 		hoverText = "";
-		this.profileList.render(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
-		this.drawCenteredString(this.font, "Profiles", this.width / 2, 20, 16777215);
-		this.drawCenteredString(this.font, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
-		this.drawCenteredString(this.font, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
-		super.render(mouseX, mouseY, partialTicks);
+		this.profileList.render(stack, mouseX, mouseY, partialTicks);
+		this.drawCenteredString(stack, this.font, "Disclaimer: In developement! Does not work on servers!", this.width / 2, 6, 0xFF0000);
+		this.drawCenteredString(stack, this.font, "Profiles", this.width / 2, 20, 16777215);
+		this.drawCenteredString(stack, this.font, "Hover over the profile name to see a description", this.width / 2, 34, 16777215);
+		this.drawCenteredString(stack, this.font, rewardsInfoUrlText, this.width / 2, 48, 0x00FF00);
+		super.render(stack, mouseX, mouseY, partialTicks);
 		if(!hoverText.isEmpty())
-			this.renderComponentHoverEffect(new StringTextComponent(hoverText), mouseX, mouseY);
+			this.renderComponentHoverEffect(stack, Style.EMPTY.setHoverEvent(new HoverEvent(SHOW_TEXT, new StringTextComponent(hoverText))), mouseX, mouseY);
 	}
 
 	/**
