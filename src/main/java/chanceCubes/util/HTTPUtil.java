@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.google.gson.JsonNull;
 import org.apache.logging.log4j.Level;
 
 import com.google.gson.JsonElement;
@@ -49,14 +50,16 @@ public class HTTPUtil
 			wr.close();
 		}
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
 		int responseCode = con.getResponseCode();
 
-		if(responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_MOVED_PERM)
-			CCubesCore.logger.log(Level.WARN, "Update request returned response code: " + responseCode + " " + con.getResponseMessage());
-		else if(responseCode == HttpURLConnection.HTTP_MOVED_PERM)
-			throw new Exception();
+		if(responseCode != HttpURLConnection.HTTP_OK)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Update request returned response code: " + responseCode + " " + con.getResponseMessage());
+			return JsonNull.INSTANCE;
+		}
 
+		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		StringBuilder buffer = new StringBuilder();
 		String line;
 		while((line = reader.readLine()) != null)

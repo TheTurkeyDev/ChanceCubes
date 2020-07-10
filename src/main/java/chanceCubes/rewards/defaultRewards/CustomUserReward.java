@@ -111,7 +111,7 @@ public class CustomUserReward extends BaseCustomReward
 			Style ccStyle = new Style().setColor(TextFormatting.DARK_AQUA);
 
 			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
-				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.get("T").getAsString(), contentCreatorStuff.getAsJsonArray("Options")));
+				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options")));
 
 			if(contentCreatorStuff.get("Messages").getAsJsonArray().size() > 0)
 			{
