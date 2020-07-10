@@ -222,6 +222,7 @@ public class StreamerReward
 		try
 		{
 			socket.close();
+			writter.close();
 		} catch(IOException e)
 		{
 			e.printStackTrace();
