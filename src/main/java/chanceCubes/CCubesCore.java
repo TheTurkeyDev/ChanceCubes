@@ -95,7 +95,7 @@ public class CCubesCore
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
 		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube"))).build());
+			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube_chest"))).build());
 	}
 
 	@SubscribeEvent
