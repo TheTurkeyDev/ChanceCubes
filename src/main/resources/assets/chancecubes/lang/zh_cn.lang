@@ -12,16 +12,18 @@ item.chance_pendant_tier3.name=三级机会吊坠
 
 item.creative_pendant.name=创造机会吊坠
 item.reward_selector_pendant.name=奖励选择吊坠
-item.single_use_reward_selector_pendant.name=Single Use 奖励选择吊坠
+item.single_use_reward_selector_pendant.name=单次奖励选择吊坠
 
 item.silk_touch_pendant.name=精准采集机会吊坠
 
 item.scanner.name=机会方块扫描器
 
-death.attack.mathdeath=%1$'s 的脑洞被数学的力量炸裂了
-death.attack.mazedeath=%1$ 被永远失去了机会魔方迷宫。
-death.attack.questiondeath=%1$s 遭受到了错误答案的惩罚。
-death.attack.matchingdeath=%1$s met their match.
+death.attack.mathdeath=%s 的脑洞被数学的力量炸裂了
+death.attack.mazedeath=%s 永远地迷失在了机会方块中
+death.attack.questiondeath=%s 承受了错误答案所带来的后果
+death.attack.digbuilddeath=%s 的胳膊显而易见地断掉了
+death.attack.matchingdeath=%s 棋逢对手
+
 
 advancements.chancecubes:chance_icosahedron=迪斯科球！
 advancements.chancecubes:chance_icosahedron.desc=打开一个机会二十面体
@@ -30,9 +32,9 @@ advancements.chancecubes:giant_chance_cube.desc=打破一个巨型机会方块
 advancements.chancecubes:lonely_dirt=孤独的泥土
 advancements.chancecubes:lonely_dirt.desc=获得一块孤独的泥土
 advancements.chancecubes:wither=这是真的么？？
-advancements.chancecubes:wither.desc=生成一个kiwi凋零
+advancements.chancecubes:wither.desc=生成一个 Kiwi 凋零
 advancements.chancecubes:herobrine=他是真的？？
-advancements.chancecubes:herobrine.desc=生成一个Herobrine
+advancements.chancecubes:herobrine.desc=生成一个 Herobrine
 advancements.chancecubes:its_a_lie=这是谎言！
 advancements.chancecubes:its_a_lie.desc=是的，蛋糕是个谎言
 
