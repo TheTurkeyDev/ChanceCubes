@@ -22,8 +22,8 @@
   "death.attack.mathdeath": "%s 的脑洞被数学的力量炸裂了",
   "death.attack.mazedeath": "%s 永远地迷失在了机会方块中",
   "death.attack.questiondeath": "%s 承受了错误答案所带来的后果",
-  "death.attack.matchingdeath": "%s 棋逢对手",
   "death.attack.digbuilddeath": "%s 的胳膊显而易见地断掉了",
+  "death.attack.matchingdeath": "%s 棋逢对手",
   
   "advancements.chancecubes:root.desc": "一个需要技艺与运气的游戏",
   "advancements.chancecubes:chance_icosahedron": "迪斯科球！",
