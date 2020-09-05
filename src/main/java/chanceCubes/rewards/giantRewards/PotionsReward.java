@@ -13,7 +13,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -27,13 +27,13 @@ public class PotionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, new TranslationTextComponent("chancecubes.reward.raining_potions"));
 		throwPoitonCircle(world, pos, player);
 	}
 
-	private void throwPoitonCircle(final World world, final BlockPos pos, final PlayerEntity player)
+	private void throwPoitonCircle(final ServerWorld world, final BlockPos pos, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Potion Circle", 100, 20)
 		{
@@ -62,7 +62,7 @@ public class PotionsReward extends BaseCustomReward
 		});
 	}
 
-	private void throwPoiton(final World world, final BlockPos pos, final PlayerEntity player)
+	private void throwPoiton(final ServerWorld world, final BlockPos pos, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Throw potion", 400, 2)
 		{

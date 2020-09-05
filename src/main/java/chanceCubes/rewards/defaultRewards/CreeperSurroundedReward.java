@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		final int chargedChance = super.getSettingAsInt(settings, "charged_chance", 10, 0, 100);
 		int px = (int) player.getPosX();
@@ -45,7 +45,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
 						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
-							creeper.onStruckByLightning(null);
+							creeper.func_241841_a(world, null);
 						world.addEntity(creeper);
 					}
 				}
@@ -69,7 +69,7 @@ public class CreeperSurroundedReward extends BaseCustomReward
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
 						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
-							creeper.onStruckByLightning(null);
+							creeper.func_241841_a(world, null);
 						world.addEntity(creeper);
 					}
 				}

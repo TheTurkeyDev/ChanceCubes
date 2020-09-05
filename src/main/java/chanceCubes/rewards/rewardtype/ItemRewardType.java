@@ -5,7 +5,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ItemRewardType extends BaseRewardType<ItemPart>
 {
@@ -15,7 +15,7 @@ public class ItemRewardType extends BaseRewardType<ItemPart>
 	}
 
 	@Override
-	public void trigger(final ItemPart part, final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ItemPart part, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("ItemStack Reward Delay", part.getDelay())
 		{

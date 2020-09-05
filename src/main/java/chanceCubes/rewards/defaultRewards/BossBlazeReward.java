@@ -14,6 +14,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		BlazeEntity blaze = EntityType.BLAZE.create(world);
 		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
@@ -95,7 +96,7 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 
 	}

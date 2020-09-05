@@ -6,7 +6,7 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 {
@@ -17,7 +17,7 @@ public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 	}
 
 	@Override
-	public void trigger(final ExpirencePart levels, final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ExpirencePart levels, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Expirence Reward Delay", levels.getDelay())
 		{

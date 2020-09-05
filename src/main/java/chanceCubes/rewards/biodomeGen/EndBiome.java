@@ -7,7 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class EndBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, World world)
+	public void spawnEntities(BlockPos center, ServerWorld world)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{

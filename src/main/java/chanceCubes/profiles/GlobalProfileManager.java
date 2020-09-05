@@ -81,7 +81,7 @@ public class GlobalProfileManager
 	public static void updateProfilesForWorld(ServerWorld world)
 	{
 		playerToProfiles.clear();
-		profileSaveFile = new File(world.getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
+		profileSaveFile = new File(world.getServer().getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
 		try
 		{
 			if(!profileSaveFile.exists())

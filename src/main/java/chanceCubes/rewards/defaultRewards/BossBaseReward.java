@@ -19,7 +19,7 @@ import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		this.rewardCenterPos = pos;
 		domeGen = new BioDomeGen(player);
@@ -97,7 +97,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void startBossFight(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		spawnBoss(world, pos, player, settings);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
@@ -144,7 +144,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void endBossfight(boolean resetPlayer, World world, BlockPos pos, PlayerEntity player)
+	public void endBossfight(boolean resetPlayer, ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		for(Entity ent : trackedSubEntities)
 			if(ent.isAlive())
@@ -169,9 +169,9 @@ public abstract class BossBaseReward extends BaseCustomReward
 		trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings);
+	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings);
 
-	public abstract void onBossFightEnd(World world, BlockPos pos, PlayerEntity player);
+	public abstract void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player);
 
 	public double getBossHealthDynamic(PlayerEntity player, Map<String, Object> settings)
 	{

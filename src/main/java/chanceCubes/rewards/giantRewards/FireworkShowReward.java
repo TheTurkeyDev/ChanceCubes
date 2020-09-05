@@ -8,7 +8,7 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -20,13 +20,13 @@ public class FireworkShowReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.executeCommand(world, player, pos, "/time set 15000");
 		stage1(world, pos, player);
 	}
 
-	public void stage1(World world, BlockPos pos, PlayerEntity player)
+	public void stage1(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_1", 200, 5)
 		{
@@ -49,7 +49,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage2(World world, BlockPos pos, PlayerEntity player)
+	public void stage2(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 5)
 		{
@@ -72,7 +72,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void stage3(World world, BlockPos pos, PlayerEntity player)
+	public void stage3(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 3)
 		{
@@ -92,7 +92,7 @@ public class FireworkShowReward extends BaseCustomReward
 		});
 	}
 
-	public void spawnFirework(World world, double x, double y, double z)
+	public void spawnFirework(ServerWorld world, double x, double y, double z)
 	{
 		world.addEntity(new FireworkRocketEntity(world, x, y, z, RewardsUtil.getRandomFirework()));
 	}

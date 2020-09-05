@@ -11,7 +11,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, position, 36, "It's raining Cats and dogs!");
 

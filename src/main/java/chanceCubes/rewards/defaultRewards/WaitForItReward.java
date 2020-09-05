@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class WaitForItReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Wait for it.......");
 
@@ -50,7 +50,7 @@ public class WaitForItReward extends BaseCustomReward
 				{
 					CreeperEntity ent = EntityType.CREEPER.create(world);
 					ent.setLocationAndAngles(player.getPosX(), player.getPosY() + 1, player.getPosZ(), 0, 0);
-					ent.onStruckByLightning(null);
+					ent.func_241841_a(world, null);
 					world.addEntity(ent);
 				}
 				else if(reward == 2)

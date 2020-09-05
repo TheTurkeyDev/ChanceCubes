@@ -12,7 +12,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Map;
@@ -51,7 +51,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		ArmorStandEntity armorStand = EntityType.ARMOR_STAND.create(world);
 		String[] allNames = ArrayUtils.addAll(names, super.getSettingAsStringList(settings, "names", new String[0]));

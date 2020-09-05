@@ -1,7 +1,5 @@
 package chanceCubes.rewards.giantRewards;
 
-import java.util.Map;
-
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
@@ -13,7 +11,9 @@ import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+
+import java.util.Map;
 
 public class ThrowablesReward extends BaseCustomReward
 {
@@ -23,7 +23,7 @@ public class ThrowablesReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		Scheduler.scheduleTask(new Task("Throw TNT", 250, 5)
 		{

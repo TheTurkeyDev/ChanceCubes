@@ -13,7 +13,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		SlimeEntity queen = EntityType.SLIME.create(world);
 		queen.setCustomName(new StringTextComponent("Slime Queen"));
@@ -50,7 +50,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		CCubesCore.logger.log(Level.INFO, "End Fight!");
 		Scheduler.scheduleTask(new Task("boss_fight_slime_queen_kill_all", 200, 20)

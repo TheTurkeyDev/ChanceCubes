@@ -13,6 +13,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
@@ -83,11 +84,11 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 		if(stage > 200)
 		{
 			breaking = false;
-			if(!this.world.isRemote)
+			if(this.world != null && !this.world.isRemote)
 			{
 				this.world.setBlockState(this.pos, Blocks.AIR.getDefaultState());
 				this.world.removeTileEntity(this.pos);
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(this.world, this.pos, player, this.getChance());
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerWorld) this.world, this.pos, player, this.getChance());
 			}
 		}
 	}

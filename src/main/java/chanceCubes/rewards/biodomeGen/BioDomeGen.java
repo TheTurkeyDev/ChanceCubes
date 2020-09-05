@@ -8,7 +8,7 @@ import chanceCubes.util.Task;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class BioDomeGen
 		this.blackListBiomes = blackListBiomes;
 	}
 
-	public void genRandomDome(final BlockPos pos, final World world, int radius, boolean spawnEntities)
+	public void genRandomDome(final BlockPos pos, final ServerWorld world, int radius, boolean spawnEntities)
 	{
 		IBioDomeBiome biome = biomes[0];
 		List<IBioDomeBiome> biomesFiltered = Arrays.asList(biomes).stream().filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).collect(Collectors.toList());
@@ -51,7 +51,7 @@ public class BioDomeGen
 		this.genDome(biome, pos, world, radius, spawnEntities);
 	}
 
-	public void genDome(IBioDomeBiome spawnedBiome, BlockPos pos, final World world, int radius, boolean spawnEntities)
+	public void genDome(IBioDomeBiome spawnedBiome, BlockPos pos, final ServerWorld world, int radius, boolean spawnEntities)
 	{
 		yinc = 0;
 		xinc = -radius;
@@ -59,7 +59,7 @@ public class BioDomeGen
 		this.genDomePart(spawnedBiome, pos, world, radius, spawnEntities);
 	}
 
-	private void genDomePart(final IBioDomeBiome spawnedBiome, final BlockPos pos, final World world, int radius, boolean spawnEntities)
+	private void genDomePart(final IBioDomeBiome spawnedBiome, final BlockPos pos, final ServerWorld world, int radius, boolean spawnEntities)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 		int delay = 0;

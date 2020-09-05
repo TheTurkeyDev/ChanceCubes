@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		WitchEntity witch = EntityType.WITCH.create(world);
 		witch.setCustomName(new StringTextComponent("Evil Witch"));
@@ -103,7 +103,7 @@ public class BossWitchReward extends BossBaseReward
 		super.trackedPlayers(player);
 	}
 
-	private void lightningStrike(BlockPos playerPos, World world)
+	private void lightningStrike(BlockPos playerPos, ServerWorld world)
 	{
 		LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
 		lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(playerPos));
@@ -111,7 +111,7 @@ public class BossWitchReward extends BossBaseReward
 		world.addEntity(lightningboltentity);
 	}
 
-	private void throwPotion(WitchEntity witch, BlockPos playerPos, World world)
+	private void throwPotion(WitchEntity witch, BlockPos playerPos, ServerWorld world)
 	{
 		PotionEntity pot = new PotionEntity(world, witch);
 		pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
@@ -124,7 +124,7 @@ public class BossWitchReward extends BossBaseReward
 		world.addEntity(pot);
 	}
 
-	private void spawnMinoins(BlockPos pos, World world)
+	private void spawnMinoins(BlockPos pos, ServerWorld world)
 	{
 		for(Direction facing : Direction.values())
 		{
@@ -152,7 +152,7 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 
 	}

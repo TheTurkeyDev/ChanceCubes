@@ -2,7 +2,7 @@ package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.EffectPart;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class EffectRewardType extends BaseRewardType<EffectPart>
 {
@@ -13,7 +13,7 @@ public class EffectRewardType extends BaseRewardType<EffectPart>
 	}
 
 	@Override
-	protected void trigger(EffectPart part, World world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(EffectPart part, ServerWorld world, int x, int y, int z, PlayerEntity player)
 	{
 		int radius = part.getRadius().getIntValue();
 

@@ -346,21 +346,20 @@ public class RewardsUtil
 		return false;
 	}
 
-	public static void executeCommand(World world, PlayerEntity player, Vector3i pos, String command)
+	public static void executeCommand(ServerWorld world, PlayerEntity player, Vector3i pos, String command)
 	{
 		RewardsUtil.executeCommand(world, player, Vector3d.copy(pos), command);
 	}
 
-	public static void executeCommand(World world, PlayerEntity player, Vector3d pos, String command)
+	public static void executeCommand(ServerWorld world, PlayerEntity player, Vector3d pos, String command)
 	{
 		MinecraftServer server = world.getServer();
-		ServerWorld worldServer = server.getWorld(World.OVERWORLD);
-		boolean rule = worldServer.getGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT);
-		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(false, server);
-		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), worldServer, 2, player.getName().getString(), player.getDisplayName(), server, player);
+		boolean rule = world.getGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT);
+		world.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(false, server);
+		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), world, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		cs = cs.withFeedbackDisabled();
 		server.getCommandManager().handleCommand(cs, command);
-		worldServer.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
+		world.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
 	}
 
 	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)

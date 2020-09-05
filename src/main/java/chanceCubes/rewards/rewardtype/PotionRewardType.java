@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 	}
 
 	@Override
-	public void trigger(final PotionPart part, final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final PotionPart part, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Potion Reward Delay", part.getDelay())
 		{

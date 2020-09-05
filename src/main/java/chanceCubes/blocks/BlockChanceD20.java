@@ -20,6 +20,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.PacketDistributor;
 
@@ -77,7 +78,7 @@ public class BlockChanceD20 extends BaseChanceBlock
 			return false;
 		}
 
-		RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
+		RewardsUtil.executeCommand((ServerWorld) world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
 		te.startBreaking(player);
 		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimensionKey())), new PacketTriggerD20(pos));
 		return false;

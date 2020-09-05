@@ -21,6 +21,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockChanceCube extends BaseChanceBlock
@@ -65,7 +66,7 @@ public class BlockChanceCube extends BaseChanceBlock
 			}
 
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
-			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, te.getChance());
+			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerWorld) world, pos, player, te.getChance());
 		}
 		return true;
 	}

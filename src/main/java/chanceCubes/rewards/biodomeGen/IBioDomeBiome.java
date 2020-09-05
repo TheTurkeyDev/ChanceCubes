@@ -7,6 +7,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public interface IBioDomeBiome
 {
@@ -14,7 +15,7 @@ public interface IBioDomeBiome
 
 	void getRandomGenBlock(float dist, Random rand, int x, int y, int z, List<OffsetBlock> blocks, int delay);
 
-	void spawnEntities(BlockPos center, World world);
+	void spawnEntities(BlockPos center, ServerWorld world);
 
 	String getBiomeName();
 }

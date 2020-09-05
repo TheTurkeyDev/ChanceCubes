@@ -18,6 +18,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
@@ -52,18 +53,21 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			return ActionResultType.FAIL;
 		if(context.getWorld().isRemote)
 			return ActionResultType.PASS;
+
+		ServerWorld world = (ServerWorld) context.getWorld();
+
 		if(context.getItem().getTag() != null && context.getItem().getTag().contains("Reward"))
 		{
 			PlayerEntity player = context.getPlayer();
 			if(player != null)
 			{
-				if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+				if(world.getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 				{
-					context.getWorld().setBlockState(context.getPos(), Blocks.AIR.getDefaultState());
+					world.setBlockState(context.getPos(), Blocks.AIR.getDefaultState());
 					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItem().getTag().getString("Reward"));
 					if(reward != null)
 					{
-						GlobalCCRewardRegistry.DEFAULT.triggerReward(reward, context.getWorld(), context.getPos(), context.getPlayer());
+						GlobalCCRewardRegistry.DEFAULT.triggerReward(reward, world, context.getPos(), context.getPlayer());
 						player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
 					}
 					else
@@ -71,17 +75,17 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 						RewardsUtil.sendMessageToPlayer(player, "That reward does not exist for this cube!");
 					}
 				}
-				else if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+				else if(world.getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 				{
-					TileEntity ent = context.getWorld().getTileEntity(context.getPos());
+					TileEntity ent = world.getTileEntity(context.getPos());
 					if(!(ent instanceof TileGiantCube))
 						return ActionResultType.FAIL;
 					TileGiantCube giant = (TileGiantCube) ent;
 					IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(context.getItem().getTag().getString("Reward"));
 					if(reward != null)
 					{
-						GlobalCCRewardRegistry.GIANT.triggerReward(reward, context.getWorld(), giant.getMasterPostion(), context.getPlayer());
-						GiantCubeUtil.removeStructure(giant.getMasterPostion(), context.getWorld());
+						GlobalCCRewardRegistry.GIANT.triggerReward(reward, world, giant.getMasterPostion(), context.getPlayer());
+						GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
 						player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
 					}
 					else

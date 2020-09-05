@@ -8,7 +8,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 {
@@ -22,7 +22,7 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 	}
 
 	@Override
-	public void trigger(final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Chest Reward Delay", delay)
 		{
@@ -40,7 +40,7 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 	}
 
 	@Override
-	protected void trigger(ChestChanceItem item, World world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(ChestChanceItem item, ServerWorld world, int x, int y, int z, PlayerEntity player)
 	{
 		boolean addToChest = world.rand.nextInt(100) < item.getChance();
 		if(addToChest)

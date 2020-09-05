@@ -12,7 +12,7 @@ import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		final List<Entity> wolves = new ArrayList<>();
 		for(int i = 0; i < 10; i++)

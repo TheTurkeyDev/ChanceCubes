@@ -18,7 +18,7 @@ import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -70,7 +70,7 @@ public class StreamerReward
 		}
 	}
 
-	public boolean trigger(World world, BlockPos pos, PlayerEntity player)
+	public boolean trigger(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		try
 		{
@@ -286,7 +286,7 @@ public class StreamerReward
 		}
 
 		@Override
-		public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+		public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 		{
 			try
 			{

@@ -6,7 +6,7 @@ import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class TitleRewardType extends BaseRewardType<TitlePart>
 {
@@ -16,7 +16,7 @@ public class TitleRewardType extends BaseRewardType<TitlePart>
 	}
 
 	@Override
-	public void trigger(TitlePart part, World world, int x, int y, int z, PlayerEntity player)
+	public void trigger(TitlePart part, ServerWorld world, int x, int y, int z, PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Title Delay", part.getDelay())
 		{
@@ -26,10 +26,7 @@ public class TitleRewardType extends BaseRewardType<TitlePart>
 				STitlePacket spackettitle = new STitlePacket(part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
 				for(int i = 0; i < world.getPlayers().size(); ++i)
 				{
-					if(!(world.getPlayers().get(i) instanceof ServerPlayerEntity))
-						continue;
-
-					ServerPlayerEntity entityplayer = (ServerPlayerEntity) world.getPlayers().get(i);
+					ServerPlayerEntity entityplayer = world.getPlayers().get(i);
 
 					if(entityplayer.equals(player))
 					{

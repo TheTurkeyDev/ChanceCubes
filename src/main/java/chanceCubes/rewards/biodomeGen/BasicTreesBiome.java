@@ -11,7 +11,7 @@ import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class BasicTreesBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, World world)
+	public void spawnEntities(BlockPos center, ServerWorld world)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{

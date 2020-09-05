@@ -22,11 +22,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -69,7 +70,7 @@ public class CCubesCore
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			new ClientProxy();
 			//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ProfileGui::openGui);
@@ -113,17 +114,21 @@ public class CCubesCore
 		NonreplaceableBlockOverride.loadOverrides();
 		// ConfigLoader.config.save();
 
-		// See ForgeCommand
-		new CCubesServerCommands(event.getCommandDispatcher());
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
 
 	@SubscribeEvent
+	public void onCommandsRegister(RegisterCommandsEvent event)
+	{
+		new CCubesServerCommands(event.getDispatcher());
+	}
+
+	@SubscribeEvent
 	public void onServerStart(FMLServerStartedEvent event)
 	{
-		ServerWorld world = event.getServer().getWorld(DimensionType.OVERWORLD);
-		if(!GlobalProfileManager.isWorldProfilesLoaded())
+		ServerWorld world = event.getServer().getWorld(World.OVERWORLD);
+		if(world != null && !GlobalProfileManager.isWorldProfilesLoaded())
 			GlobalProfileManager.updateProfilesForWorld(world);
 	}
 

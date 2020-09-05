@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ public class MobTowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "How did they end up like that? O.o");
 		int minHeight = super.getSettingAsInt(settings, "min_height", 7, 0, 20);
@@ -57,7 +57,6 @@ public class MobTowerReward extends BaseCustomReward
 				world.addEntity(ent);
 				ent.startRiding(last, true);
 				last = ent;
-				System.out.println(ent);
 			} catch(Exception ignored)
 			{
 			}

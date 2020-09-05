@@ -5,7 +5,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class MessageRewardType extends BaseRewardType<MessagePart>
 {
@@ -28,7 +28,7 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 	}
 
 	@Override
-	public void trigger(final MessagePart message, final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final MessagePart message, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Message Reward Delay", message.getDelay())
 		{

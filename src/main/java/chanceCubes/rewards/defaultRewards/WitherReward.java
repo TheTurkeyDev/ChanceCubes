@@ -10,7 +10,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class WitherReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		int realOutOf = super.getSettingAsInt(settings, "real_out_of", 10, 1, Integer.MAX_VALUE);
 		final WitherEntity wither = EntityType.WITHER.create(world);

@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class MatchingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int i = 0; i < 500; i++)
@@ -72,7 +72,7 @@ public class MatchingReward extends BaseCustomReward
 		});
 	}
 
-	public void match(World world, BlockPos pos, PlayerEntity player, Block[] blocks, RewardBlockCache cache)
+	public void match(ServerWorld world, BlockPos pos, PlayerEntity player, Block[] blocks, RewardBlockCache cache)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Now break the matching blocks (in pairs with white last)! You have 45 seconds!");
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)

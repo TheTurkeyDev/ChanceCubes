@@ -8,7 +8,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
 		mimic.setCustomName(new StringTextComponent("Mimic"));
@@ -48,7 +48,7 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 
 	}

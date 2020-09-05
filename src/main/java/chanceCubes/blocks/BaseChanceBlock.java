@@ -4,14 +4,10 @@ import chanceCubes.CCubesCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class BaseChanceBlock extends Block
 {
@@ -19,12 +15,6 @@ public class BaseChanceBlock extends Block
 	{
 		super(builder);
 		this.setRegistryName(CCubesCore.MODID, name);
-	}
-
-	@Override
-	public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion)
-	{
-		return this.blockResistance;
 	}
 
 	@Override

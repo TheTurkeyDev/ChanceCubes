@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -45,7 +45,7 @@ public class QuestionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -58,10 +58,7 @@ public class QuestionsReward extends BaseCustomReward
 		RewardsUtil.sendMessageToPlayer(player, questionsAndAnswers.get(question).getKey());
 		RewardsUtil.sendMessageToPlayer(player, "You have 20 seconds to answer! (Answer is not case sensitive)");
 
-		if(!world.isRemote)
-		{
-			inQuestion.put(player, questionsAndAnswers.get(question).getValue());
-		}
+		inQuestion.put(player, questionsAndAnswers.get(question).getValue());
 
 		Scheduler.scheduleTask(new Task("Question", 400, 20)
 		{

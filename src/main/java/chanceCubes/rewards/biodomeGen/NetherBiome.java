@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 import java.util.Random;
@@ -22,7 +22,7 @@ public class NetherBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, World world)
+	public void spawnEntities(BlockPos center, ServerWorld world)
 	{
 		Random rand = RewardsUtil.rand;
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)

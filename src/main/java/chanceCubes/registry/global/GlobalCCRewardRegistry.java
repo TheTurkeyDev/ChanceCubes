@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.util.HashMap;
@@ -141,7 +141,7 @@ public class GlobalCCRewardRegistry
 		});
 	}
 
-	public void triggerRandomReward(World world, BlockPos pos, PlayerEntity player, int chance)
+	public void triggerRandomReward(ServerWorld world, BlockPos pos, PlayerEntity player, int chance)
 	{
 		if(CCubesSettings.testRewards)
 		{
@@ -167,7 +167,7 @@ public class GlobalCCRewardRegistry
 			this.getPlayerRewardRegistry(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
 	}
 
-	public void triggerReward(IChanceCubeReward reward, World world, BlockPos pos, PlayerEntity player)
+	public void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
 		reward.trigger(world, pos, player, settings);

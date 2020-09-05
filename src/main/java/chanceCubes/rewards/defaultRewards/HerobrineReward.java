@@ -8,7 +8,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class HerobrineReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		int realChance = super.getSettingAsInt(settings, "is_real", 20, 0, 100);
 		boolean real = RewardsUtil.rand.nextInt(100) < realChance;
@@ -79,7 +79,7 @@ public class HerobrineReward extends BaseCustomReward
 		});
 	}
 
-	public void spawnHerobrine(World world, BlockPos pos, PlayerEntity player)
+	public void spawnHerobrine(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 		RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, 1, 0));
 		RewardsUtil.executeCommand(world, player, pos, "/summon minecraft:zombie ~ ~ ~ {Glowing:1b,CustomNameVisible:1b,Health:500f,IsBaby:0b,CanBreakDoors:1b,CustomName:'{\"text\":\"Herobrine\",\"color\":\"white\",\"bold\":true}',HandItems:[{id:\"minecraft:diamond_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Wrath of Herobrine\",\"color\":\"white\"}'},Unbreakable:1b,Enchantments:[{id:\"minecraft:sharpness\",lvl:5s}]}},{}],HandDropChances:[1.000F,0.085F],ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b,tag:{Enchantments:[{id:\"minecraft:protection\",lvl:5s}]}},{id:\"minecraft:diamond_leggings\",Count:1b,tag:{Enchantments:[{id:\"minecraft:protection\",lvl:5s}]}},{id:\"minecraft:diamond_chestplate\",Count:1b,tag:{Enchantments:[{id:\"minecraft:protection\",lvl:5s}]}},{id:\"minecraft:diamond_helmet\",Count:1b,tag:{Enchantments:[{id:\"minecraft:protection\",lvl:5s}]}}],ArmorDropChances:[0.000F,0.000F,0.000F,0.000F],Attributes:[{Name:generic.maxHealth,Base:500}]}");

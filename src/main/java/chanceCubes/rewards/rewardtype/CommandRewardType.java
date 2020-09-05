@@ -6,7 +6,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class CommandRewardType extends BaseRewardType<CommandPart>
 {
@@ -30,7 +30,7 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 	}
 
 	@Override
-	public void trigger(final CommandPart command, final World world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final CommandPart command, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Command Reward Delay", command.getDelay())
 		{

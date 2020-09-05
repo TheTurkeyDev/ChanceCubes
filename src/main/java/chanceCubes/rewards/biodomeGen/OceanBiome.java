@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 import java.util.Random;
@@ -21,7 +21,7 @@ public class OceanBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos pos, World world)
+	public void spawnEntities(BlockPos pos, ServerWorld world)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{

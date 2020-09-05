@@ -10,7 +10,7 @@ import net.minecraft.block.AirBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class SchematicRewardType implements IRewardType
 	}
 
 	@Override
-	public void trigger(World world, int x, int y, int z, PlayerEntity player)
+	public void trigger(ServerWorld world, int x, int y, int z, PlayerEntity player)
 	{
 		CustomSchematic schematic = part.getSchematic();
 		if(schematic == null)

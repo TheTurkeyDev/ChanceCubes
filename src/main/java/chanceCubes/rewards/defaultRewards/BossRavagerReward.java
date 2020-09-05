@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		RavagerEntity ravager = EntityType.RAVAGER.create(world);
 		ravager.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
@@ -89,7 +89,7 @@ public class BossRavagerReward extends BossBaseReward
 		super.trackedPlayers(player);
 	}
 
-	private void groundPound(BlockPos ravagerPos, World world)
+	private void groundPound(BlockPos ravagerPos, ServerWorld world)
 	{
 		Scheduler.scheduleTask(new Task("ground_pound_ability", -1, 5)
 		{
@@ -144,7 +144,7 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(World world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
 
 	}

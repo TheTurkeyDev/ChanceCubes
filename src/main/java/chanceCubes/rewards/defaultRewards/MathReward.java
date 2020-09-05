@@ -17,7 +17,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -36,7 +36,7 @@ public class MathReward extends BaseCustomReward
 	private Map<PlayerEntity, RewardInfo> inQuestion = new HashMap<>();
 
 	@Override
-	public void trigger(World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -63,21 +63,17 @@ public class MathReward extends BaseCustomReward
 		}
 
 		player.setPositionAndUpdate((int) player.getPosX(), ((int) player.getPosY()) + 2, (int) player.getPosZ());
-
-		if(!world.isRemote)
+		List<Entity> tnt = new ArrayList<>();
+		for(int i = 0; i < 5; i++)
 		{
-			List<Entity> tnt = new ArrayList<>();
-			for(int i = 0; i < 5; i++)
-			{
-				TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
-				world.addEntity(entitytntprimed);
-				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				entitytntprimed.setFuse(140);
-				tnt.add(entitytntprimed);
-			}
-
-			inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
+			TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
+			world.addEntity(entitytntprimed);
+			world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			entitytntprimed.setFuse(140);
+			tnt.add(entitytntprimed);
 		}
+
+		inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
 
 		int duration = super.getSettingAsInt(settings, "ans_duration", 100, 20, 2400);
 

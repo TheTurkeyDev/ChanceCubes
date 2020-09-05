@@ -18,6 +18,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockGiantCube extends BaseChanceBlock
@@ -72,11 +73,11 @@ public class BlockGiantCube extends BaseChanceBlock
 				}
 
 				if(!gcte.hasMaster() || !gcte.checkForMaster())
-				{
 					world.setBlockState(pos, Blocks.AIR.getDefaultState());
-				}
-				RewardsUtil.executeCommand(world, player, player.getPosition(), "/advancement grant @p only chancecubes:giant_chance_cube");
-				GlobalCCRewardRegistry.GIANT.triggerRandomReward(world, gcte.getMasterPostion(), player, 0);
+
+				ServerWorld serverWorld = (ServerWorld) world;
+				RewardsUtil.executeCommand(serverWorld, player, player.getPosition(), "/advancement grant @p only chancecubes:giant_chance_cube");
+				GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
 			}
 		}
