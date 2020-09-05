@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardBlockCache;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Blocks;
@@ -10,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class TicTacToeReward extends BaseCustomReward
 	@Override
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Lets play Tic-Tac-Toe!"));
-		player.sendMessage(new StringTextComponent("Beat the Computer to get 500 Diamonds!"));
+		RewardsUtil.sendMessageToPlayer(player, "Lets play Tic-Tac-Toe!");
+		RewardsUtil.sendMessageToPlayer(player, "Beat the Computer to get 500 Diamonds!");
 		player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Blocks.RED_WOOL, 5)));
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
@@ -89,11 +89,11 @@ public class TicTacToeReward extends BaseCustomReward
 				if(board.isGameOver())
 				{
 					if(board.hasCPUWon())
-						player.sendMessage(new StringTextComponent("The Computer won! Better luck next time!"));
+						RewardsUtil.sendMessageToPlayer(player, "The Computer won! Better luck next time!");
 					else if(board.hasPlayerWon())
 						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
 					else
-						player.sendMessage(new StringTextComponent("You tied! Better luck next time!"));
+						RewardsUtil.sendMessageToPlayer(player, "You tied! Better luck next time!");
 
 					Task superTask = this;
 					Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)

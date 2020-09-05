@@ -16,7 +16,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -31,7 +30,7 @@ public class MontyHallReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Which button do you press?"));
+		RewardsUtil.sendMessageToPlayer(player, "Which button do you press?");
 
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
@@ -78,7 +77,7 @@ public class MontyHallReward extends BaseCustomReward
 				}
 				else if(value == 0)
 				{
-					player.sendMessage(new StringTextComponent("You walk away to live another day..."));
+					RewardsUtil.sendMessageToPlayer(player, "You walk away to live another day...");
 				}
 				else if(value == 1)
 				{

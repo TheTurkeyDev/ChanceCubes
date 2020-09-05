@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -46,10 +45,9 @@ public class TrollTNTReward extends BaseCustomReward
 				@Override
 				public void callback()
 				{
-					player.sendMessage(new StringTextComponent("BOOM"));
+					RewardsUtil.sendMessageToPlayer(player, "BOOM");
 					entitytntprimed.remove();
 				}
-
 			});
 		}
 	}

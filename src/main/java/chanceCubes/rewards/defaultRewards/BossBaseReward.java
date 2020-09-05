@@ -7,13 +7,15 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -49,7 +51,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		domeGen = new BioDomeGen(player);
 		domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
 		StringTextComponent message = new StringTextComponent("BOSS FIGHT!");
-		message.setStyle((new Style()).setColor(TextFormatting.RED));
+		message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
 		RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
@@ -58,15 +60,15 @@ public abstract class BossBaseReward extends BaseCustomReward
 			public void callback()
 			{
 				StringTextComponent message = new StringTextComponent("");
-				message.appendSibling(player.getDisplayName());
+				message.append(player.getDisplayName());
 
 				StringBuilder sbSpace = new StringBuilder();
 				sbSpace.append(" VS ");
 				for(int i = 0; i < bossName.length(); i++)
 					sbSpace.append(" ");
-				message.appendText(sbSpace.toString());
+				message.appendString(sbSpace.toString());
 
-				message.setStyle((new Style()).setColor(TextFormatting.RED));
+				message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
 			}
 		});
@@ -77,10 +79,10 @@ public abstract class BossBaseReward extends BaseCustomReward
 			public void callback()
 			{
 				StringTextComponent message = new StringTextComponent("");
-				message.appendSibling(player.getDisplayName());
-				message.appendText(" VS ");
-				message.appendText(bossName);
-				message.setStyle((new Style()).setColor(TextFormatting.RED));
+				message.append(player.getDisplayName());
+				message.appendString(" VS ");
+				message.appendString(bossName);
+				message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
 			}
 		});
@@ -176,10 +178,10 @@ public abstract class BossBaseReward extends BaseCustomReward
 		double maxDamage = 3;
 		for(ItemStack stack : player.inventory.mainInventory)
 		{
-			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
-			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
+			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
 			{
-				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
 				for(AttributeModifier damage : damageList)
 					if(maxDamage < damage.getAmount())
 						maxDamage = damage.getAmount();
@@ -199,10 +201,10 @@ public abstract class BossBaseReward extends BaseCustomReward
 		ItemStack maxItem = ItemStack.EMPTY;
 		for(ItemStack stack : player.inventory.mainInventory)
 		{
-			Multimap<String, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
-			if(atributes.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
+			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
 			{
-				Collection<AttributeModifier> damageList = atributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
 				for(AttributeModifier damage : damageList)
 				{
 					if(maxDamage < damage.getAmount())

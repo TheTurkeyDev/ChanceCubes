@@ -16,7 +16,6 @@ import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
@@ -45,7 +44,7 @@ public class MathReward extends BaseCustomReward
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
-		player.sendMessage(new StringTextComponent("Quick, what's " + num1 + "+" + num2 + "?"));
+		RewardsUtil.sendMessageToPlayer(player, "Quick, what's " + num1 + "+" + num2 + "?");
 
 		BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
 		RewardBlockCache cache = new RewardBlockCache(world, playerPos, player.getPosition());
@@ -111,8 +110,8 @@ public class MathReward extends BaseCustomReward
 		RewardInfo info = inQuestion.get(player);
 		if(correct)
 		{
-			player.sendMessage(new StringTextComponent("Correct!"));
-			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			RewardsUtil.sendMessageToPlayer(player, "Correct!");
+			RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
 			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
@@ -143,13 +142,13 @@ public class MathReward extends BaseCustomReward
 				answer = Integer.parseInt(event.getMessage());
 			} catch(NumberFormatException e)
 			{
-				player.sendMessage(new StringTextComponent("Incorrect!"));
+				RewardsUtil.sendMessageToPlayer(player, "Incorrect!");
 			}
 
 			if(inQuestion.get(player).answer == answer)
 				this.timeUp(player, true);
 			else
-				player.sendMessage(new StringTextComponent("Incorrect!"));
+				RewardsUtil.sendMessageToPlayer(player, "Incorrect!");
 			event.setCanceled(true);
 		}
 	}

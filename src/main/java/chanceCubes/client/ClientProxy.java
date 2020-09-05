@@ -1,9 +1,6 @@
 package chanceCubes.client;
 
-import chanceCubes.blocks.BlockChanceD20;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.gui.CreativePendantGui;
-import chanceCubes.client.gui.ProfileGui;
 import chanceCubes.client.gui.RewardSelectorPendantGui;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
@@ -43,8 +40,6 @@ public class ClientProxy
 		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER, TileCubeDispenserRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT, TileGiantCubeRenderer::new);
 
-		ScreenManager.registerFactory(CCubesItems.CREATIVE_PENDANT_CONTAINER, CreativePendantGui::new);
-
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
 	}
@@ -57,10 +52,5 @@ public class ClientProxy
 	public static void openSchematicCreatorGUI(PlayerEntity player)
 	{
 		Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
-	}
-
-	public static void openProfilesGUI()
-	{
-		Minecraft.getInstance().displayGuiScreen(new ProfileGui());
 	}
 }

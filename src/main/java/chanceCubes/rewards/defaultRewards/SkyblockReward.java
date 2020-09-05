@@ -13,8 +13,10 @@ import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.Random;
@@ -43,8 +45,8 @@ public class SkyblockReward extends BaseCustomReward
 		if(world.isRemote())
 			return;
 
-		int skyblockHeight = world.getActualHeight() - 16;
-		if(!world.dimension.hasSkyLight())
+		int skyblockHeight = world.getHeight() - 16;
+		if(!world.getDimensionKey().hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());

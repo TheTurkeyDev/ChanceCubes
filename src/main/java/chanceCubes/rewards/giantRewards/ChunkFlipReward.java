@@ -14,7 +14,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -32,7 +31,7 @@ public class ChunkFlipReward extends BaseCustomReward
 		int z = (pos.getZ() >> 4) << 4;
 		int x = (pos.getX() >> 4) << 4;
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
-		player.sendMessage(new StringTextComponent("Inception!!!!"));
+		RewardsUtil.sendMessageToPlayer(player, "Inception!!!!");
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
 			private int y = 0;
@@ -45,7 +44,7 @@ public class ChunkFlipReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(y >= world.getActualHeight() / 2)
+				if(y >= world.getHeight() / 2)
 				{
 					Scheduler.removeTask(this);
 					return;
@@ -56,7 +55,7 @@ public class ChunkFlipReward extends BaseCustomReward
 					for(int xx = 0; xx < 16; xx++)
 					{
 						BlockPos pos1 = new BlockPos(x + xx, y, z + zz);
-						BlockPos pos2 = new BlockPos(x + xx, world.getActualHeight() - y, z + zz);
+						BlockPos pos2 = new BlockPos(x + xx, world.getHeight() - y, z + zz);
 						BlockState b = world.getBlockState(pos1);
 						BlockState b2 = world.getBlockState(pos2);
 

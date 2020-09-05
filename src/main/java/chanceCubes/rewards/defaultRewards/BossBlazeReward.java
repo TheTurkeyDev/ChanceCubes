@@ -5,7 +5,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
@@ -30,7 +30,7 @@ public class BossBlazeReward extends BossBaseReward
 		BlazeEntity blaze = EntityType.BLAZE.create(world);
 		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
 		blaze.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		blaze.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		blaze.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		blaze.setHealth(blaze.getMaxHealth());
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)

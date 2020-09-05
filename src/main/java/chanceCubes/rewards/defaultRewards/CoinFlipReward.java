@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,7 +34,7 @@ public class CoinFlipReward extends BaseCustomReward
 		if(inFlip.contains(player))
 			return;
 
-		player.sendMessage(new StringTextComponent("Heads or Tails"));
+		RewardsUtil.sendMessageToPlayer(player, "Heads or Tails?");
 
 		inFlip.add(player);
 
@@ -57,8 +56,8 @@ public class CoinFlipReward extends BaseCustomReward
 		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
 			return;
 
-		player.sendMessage(new StringTextComponent("Seem's that you didn't pick heads or tails."));
-		player.sendMessage(new StringTextComponent("You must be real fun at parties...."));
+		RewardsUtil.sendMessageToPlayer(player, "Seem's that you didn't pick heads or tails.");
+		RewardsUtil.sendMessageToPlayer(player, "You must be real fun at parties....");
 
 		inFlip.remove(player);
 	}
@@ -80,19 +79,19 @@ public class CoinFlipReward extends BaseCustomReward
 			// Yes I know heads has a 49.9833% chance and Tails has a 50% Chance. Deal with it.
 			if(flip == 1738)
 			{
-				player.sendMessage(new StringTextComponent("The coin landed on it's side....."));
-				player.sendMessage(new StringTextComponent("Well this is awkward"));
+				RewardsUtil.sendMessageToPlayer(player, "The coin landed on it's side.....");
+				RewardsUtil.sendMessageToPlayer(player, "Well this is awkward");
 			}
 			else if(flip < 3000)
 			{
 				if(message.equalsIgnoreCase("Heads"))
 				{
-					player.sendMessage(new StringTextComponent("It was heads! You're correct!"));
+					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're correct!");
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
-					player.sendMessage(new StringTextComponent("It was heads! You're incorrect!"));
+					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
 						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
@@ -104,12 +103,12 @@ public class CoinFlipReward extends BaseCustomReward
 			{
 				if(message.equalsIgnoreCase("Tails"))
 				{
-					player.sendMessage(new StringTextComponent("It was tails! You're correct!"));
+					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're correct!");
 					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
-					player.sendMessage(new StringTextComponent("It was tails! You're incorrect!"));
+					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
 						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));

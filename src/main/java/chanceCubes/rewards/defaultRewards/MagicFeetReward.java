@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -24,7 +23,7 @@ public class MagicFeetReward extends BaseCustomReward
 	public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
 		int duration = super.getSettingAsInt(settings, "duration", 300, 0, Integer.MAX_VALUE);
-		player.sendMessage(new StringTextComponent("<Dovah_Jun> You've got magic feet!!!"));
+		RewardsUtil.sendMessageToPlayer(player, "<Dovah_Jun> You've got magic feet!!!");
 		Scheduler.scheduleTask(new Task("Megic_Feet_Reward_Delay", duration, 2)
 		{
 			BlockPos last = pos;
@@ -32,7 +31,7 @@ public class MagicFeetReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.sendMessage(new StringTextComponent("<Dovah_Jun> You've used up all the magic in your feet!"));
+				RewardsUtil.sendMessageToPlayer(player, "<Dovah_Jun> You've used up all the magic in your feet!");
 			}
 
 			@Override

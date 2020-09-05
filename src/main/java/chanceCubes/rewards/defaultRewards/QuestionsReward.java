@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
@@ -31,7 +30,7 @@ public class QuestionsReward extends BaseCustomReward
 	public QuestionsReward()
 	{
 		super(CCubesCore.MODID + ":question", -30);
-		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349");
+		this.addQuestionAnswer("What is the username of the creator of Chance Cubes?", "Turkey -or- Turkey2349 -or- TurkeyDev");
 		this.addQuestionAnswer("How many sides does the sparkly, shiny, colorful, spinny Chance Cube have?", "20");
 		this.addQuestionAnswer("What is 9 + 10", "19 -or- 21");
 		this.addQuestionAnswer("What year was minecraft officially released", "2011");
@@ -56,8 +55,8 @@ public class QuestionsReward extends BaseCustomReward
 
 		int question = world.rand.nextInt(questionsAndAnswers.size());
 
-		player.sendMessage(new StringTextComponent(questionsAndAnswers.get(question).getKey()));
-		player.sendMessage(new StringTextComponent("You have 20 seconds to answer! (Answer is not case sensitive)"));
+		RewardsUtil.sendMessageToPlayer(player, questionsAndAnswers.get(question).getKey());
+		RewardsUtil.sendMessageToPlayer(player, "You have 20 seconds to answer! (Answer is not case sensitive)");
 
 		if(!world.isRemote)
 		{
@@ -92,13 +91,13 @@ public class QuestionsReward extends BaseCustomReward
 
 		if(correct)
 		{
-			player.sendMessage(new StringTextComponent("Correct!"));
-			player.sendMessage(new StringTextComponent("Here, have a item!"));
+			RewardsUtil.sendMessageToPlayer(player, "Correct!");
+			RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
 			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.sendMessage(new StringTextComponent("Incorrect! The answer was " + this.inQuestion.get(player)));
+			RewardsUtil.sendMessageToPlayer(player, "Incorrect! The answer was " + this.inQuestion.get(player));
 			player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}

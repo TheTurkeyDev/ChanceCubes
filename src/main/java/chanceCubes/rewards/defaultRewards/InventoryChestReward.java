@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class InventoryChestReward extends BaseCustomReward
 		for(int i = 0; i < armor.size(); i++)
 			player.inventory.armorInventory.set(i, armor.get(i));
 
-		player.sendMessage(new StringTextComponent("At least i didnt delete your items..."));
+		RewardsUtil.sendMessageToPlayer(player, "At least i didnt delete your items...");
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, pos);
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, pos.add(1, 0, 0));

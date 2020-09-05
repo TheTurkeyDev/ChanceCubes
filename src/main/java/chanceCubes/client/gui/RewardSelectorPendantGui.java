@@ -3,11 +3,11 @@ package chanceCubes.client.gui;
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -46,14 +46,14 @@ public class RewardSelectorPendantGui extends Screen
 		Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.rewardField = new TextFieldWidget(this.font, i + 17, j + 10, 143, 12, "Test");
+		this.rewardField = new TextFieldWidget(this.font, i + 17, j + 10, 143, 12, new StringTextComponent("Test"));
 		this.rewardField.setTextColor(-1);
 		this.rewardField.setDisabledTextColour(-1);
 		this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxStringLength(100);
 		this.rewardField.setText(this.rewardName);
 		this.children.add(this.rewardField);
-		this.addButton(new Button(i + 57, j + 27, 70, 20, I18n.format("Set Reward"), p_onPress_1_ ->
+		this.addButton(new Button(i + 57, j + 27, 70, 20, new StringTextComponent("Set Reward"), p_onPress_1_ ->
 		{
 			CompoundNBT nbt = stack.getTag();
 			if(nbt == null)
@@ -75,13 +75,13 @@ public class RewardSelectorPendantGui extends Screen
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
 		this.minecraft.getTextureManager().bindTexture(guiTextures);
-		this.blit((this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
+		this.blit(matrixStack, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
-		super.render(mouseX, mouseY, partialTicks);
-		this.rewardField.render(mouseX, mouseY, partialTicks);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.rewardField.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 }

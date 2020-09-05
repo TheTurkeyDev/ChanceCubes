@@ -58,12 +58,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 
@@ -122,8 +123,8 @@ public class DefaultRewards
 		CompoundNBT nbt;
 
 		SignTileEntity sign = new SignTileEntity();
-		sign.signText[0] = new StringTextComponent("The broken path");
-		sign.signText[1] = new StringTextComponent("to succeed");
+		sign.setText(0, new StringTextComponent("The broken path"));
+		sign.setText(1, new StringTextComponent("to succeed"));
 		nbt = new CompoundNBT();
 		((TileEntity) sign).write(nbt);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":path_to_succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.OAK_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
@@ -164,7 +165,7 @@ public class DefaultRewards
 				player.experienceLevel = 0;
 				player.experienceTotal = 0;
 				player.experience = 0;
-				player.sendMessage(new StringTextComponent("Rip EXP"));
+				RewardsUtil.sendMessageToPlayer(player, "Rip EXP");
 			}
 		});
 
@@ -175,8 +176,11 @@ public class DefaultRewards
 			{
 				if(world.isRemote)
 					return;
-				((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, player.getPosX(), player.getPosY(), player.getPosZ(), false));
-				player.sendMessage(new StringTextComponent("Thou has been smitten!"));
+				LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
+				lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(player.getPosition()));
+				lightningboltentity.setEffectOnly(false);
+				world.addEntity(lightningboltentity);
+				RewardsUtil.sendMessageToPlayer(player, "Thou has been smitten!");
 			}
 		});
 
@@ -203,7 +207,7 @@ public class DefaultRewards
 			@Override
 			public void trigger(World world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 			{
-				player.sendMessage(new StringTextComponent("Selecting random potion effect to apply..."));
+				RewardsUtil.sendMessageToPlayer(player, "Selecting random potion effect to apply...");
 
 				Scheduler.scheduleTask(new Task("Cookie Monster", 30)
 				{
@@ -211,9 +215,9 @@ public class DefaultRewards
 					public void callback()
 					{
 						EffectInstance effect = RewardsUtil.getRandomPotionEffectInstance();
-						player.sendMessage(new StringTextComponent("You have been given: "));
-						player.sendMessage(new TranslationTextComponent(effect.getEffectName()));
-						player.sendMessage(new StringTextComponent("for " + (effect.getDuration() / 20) + " seconds!"));
+						RewardsUtil.sendMessageToPlayer(player, "You have been given: ");
+						RewardsUtil.sendMessageToPlayer(player, new TranslationTextComponent(effect.getEffectName()));
+						RewardsUtil.sendMessageToPlayer(player, "for " + (effect.getDuration() / 20) + " seconds!");
 						player.addPotionEffect(effect);
 					}
 				});
@@ -276,7 +280,10 @@ public class DefaultRewards
 					@Override
 					public void callback()
 					{
-						((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, pos.getX(), pos.getY(), pos.getZ(), false));
+						LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
+						lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(pos));
+						lightningboltentity.setEffectOnly(false);
+						world.addEntity(lightningboltentity);
 						world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.HOSTILE, 1f, 1f);
 						ent.setFire(0);
 					}
@@ -368,7 +375,7 @@ public class DefaultRewards
 					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 					if(i == 0)
 					{
-						stack.setDisplayName(new StringTextComponent("Button").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
+						stack.setDisplayName(new StringTextComponent("Button").setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE))));
 						stack.setCount(13);
 					}
 					else if(i == 1)
@@ -379,7 +386,7 @@ public class DefaultRewards
 					player.inventory.armorInventory.set(i, stack);
 				}
 
-				player.sendMessage(new StringTextComponent("Inventory Bomb!!!!"));
+				RewardsUtil.sendMessageToPlayer(player, "Inventory Bomb!!!!");
 			}
 		});
 
@@ -418,7 +425,7 @@ public class DefaultRewards
 
 				int yChange = -1;
 
-				for(int yy = 0; yy <= world.getActualHeight(); yy++)
+				for(int yy = 0; yy <= world.getHeight(); yy++)
 				{
 					if(world.isAirBlock(new BlockPos(xChange, yy, zChange)) && world.isAirBlock(new BlockPos(xChange, yy + 1, zChange)))
 					{
@@ -445,7 +452,7 @@ public class DefaultRewards
 						player.inventory.mainInventory.set(i, new ItemStack(Items.ROTTEN_FLESH, stack.getCount()));
 				}
 
-				player.sendMessage(new StringTextComponent("Ewwww it's all rotten"));
+				RewardsUtil.sendMessageToPlayer(player, "Ewwww it's all rotten");
 			}
 		});
 
@@ -498,7 +505,7 @@ public class DefaultRewards
 						}
 					}
 				}
-				player.sendMessage(new StringTextComponent("Those lights seem a little weird.... O.o"));
+				RewardsUtil.sendMessageToPlayer(player, "Those lights seem a little weird.... O.o");
 			}
 		});
 
@@ -561,7 +568,7 @@ public class DefaultRewards
 					public void callback()
 					{
 						itemEnt.remove();
-						player.sendMessage(new StringTextComponent("You didn't see anything......"));
+						RewardsUtil.sendMessageToPlayer(player, "You didn't see anything......");
 					}
 				});
 			}

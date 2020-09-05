@@ -1,10 +1,10 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.MessagePart;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class MessageRewardType extends BaseRewardType<MessagePart>
@@ -41,13 +41,13 @@ public class MessageRewardType extends BaseRewardType<MessagePart>
 
 					if(entityplayer.equals(player))
 					{
-						entityplayer.sendMessage(new StringTextComponent(message.getMessage()));
+						RewardsUtil.sendMessageToPlayer(entityplayer, message.getMessage());
 					}
 					else
 					{
 						double dist = Math.sqrt(Math.pow(x - entityplayer.getPosX(), 2) + Math.pow(y - entityplayer.getPosY(), 2) + Math.pow(z - entityplayer.getPosZ(), 2));
 						if(dist <= message.getRange() || message.isServerWide())
-							entityplayer.sendMessage(new StringTextComponent(message.getMessage()));
+							RewardsUtil.sendMessageToPlayer(entityplayer, message.getMessage());
 					}
 				}
 			}

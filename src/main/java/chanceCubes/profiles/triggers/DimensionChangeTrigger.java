@@ -1,8 +1,9 @@
 package chanceCubes.profiles.triggers;
 
 import chanceCubes.profiles.IProfile;
+import net.minecraft.util.ResourceLocation;
 
-public class DimensionChangeTrigger implements ITrigger<Integer>
+public class DimensionChangeTrigger implements ITrigger<ResourceLocation>
 {
 	private IProfile prof;
 	private Integer dimID;
@@ -14,7 +15,7 @@ public class DimensionChangeTrigger implements ITrigger<Integer>
 	}
 
 	@Override
-	public void onTrigger(String playerUUID, Integer[] args)
+	public void onTrigger(String playerUUID, ResourceLocation[] args)
 	{
 		if(args.length == 2)
 		{

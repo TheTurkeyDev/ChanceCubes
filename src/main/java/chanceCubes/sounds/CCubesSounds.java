@@ -1,17 +1,15 @@
 package chanceCubes.sounds;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.Level;
-
 import chanceCubes.CCubesCore;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.Level;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesSounds

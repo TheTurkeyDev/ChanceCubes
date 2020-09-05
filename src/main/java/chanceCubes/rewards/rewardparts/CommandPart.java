@@ -40,7 +40,7 @@ public class CommandPart extends BasePart
 	{
 		String parsedCommand = command.getValue();
 		//TODO:?
-		parsedCommand = parsedCommand.replace("%player", player.getName().getFormattedText());
+		parsedCommand = parsedCommand.replace("%player", player.getName().getUnformattedComponentText());
 		parsedCommand = parsedCommand.replace("%x", "" + x);
 		parsedCommand = parsedCommand.replace("%y", "" + y);
 		parsedCommand = parsedCommand.replace("%z", "" + z);

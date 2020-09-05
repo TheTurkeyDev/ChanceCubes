@@ -7,6 +7,7 @@ import chanceCubes.profiles.triggers.DifficultyTrigger;
 import chanceCubes.profiles.triggers.DimensionChangeTrigger;
 import chanceCubes.profiles.triggers.ITrigger;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.event.DifficultyChangeEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
@@ -56,7 +57,7 @@ public class VanillaTriggerHooks
 				if(module instanceof DimensionChangeTrigger)
 				{
 					DimensionChangeTrigger trigger = (DimensionChangeTrigger) module;
-					trigger.onTrigger(player.getUniqueID().toString(), new Integer[]{event.getTo().getId(), event.getFrom().getId()});
+					trigger.onTrigger(player.getUniqueID().toString(), new ResourceLocation[]{event.getTo().getRegistryName(), event.getFrom().getRegistryName()});
 				}
 			}
 		}

@@ -72,7 +72,7 @@ public class ItemChanceCube extends BlockItem
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
 	{
 		Item item = stack.getItem();
-		if(!item.equals(Item.getItemFromBlock(CCubesBlocks.CUBE_DISPENSER)))
+		if(!item.equals(CCubesItems.CUBE_DISPENSER))
 		{
 			String chance = this.getChanceAsStringValue(stack);
 			list.add(new StringTextComponent("Chance Value: " + chance));
@@ -110,13 +110,9 @@ public class ItemChanceCube extends BlockItem
 			if(chance != -101)
 			{
 				if(te instanceof TileChanceCube)
-				{
 					((TileChanceCube) te).setChance(chance);
-				}
 				else if(te instanceof TileChanceD20)
-				{
 					((TileChanceD20) te).setChance(chance);
-				}
 			}
 		}
 

@@ -6,7 +6,6 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotionPart extends BasePart
 {

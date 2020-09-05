@@ -67,7 +67,6 @@ public class ItemRenamer extends BaseCustomReward
 			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setDisplayName(new StringTextComponent(newName));
 		}
 
-		player.sendMessage(new StringTextComponent("Those items of yours need a little personality!"));
-
+		RewardsUtil.sendMessageToPlayer(player, "Those items of yours need a little personality!");
 	}
 }

@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -46,13 +45,13 @@ public class CursedHeadReward extends BaseCustomReward
 		player.dropItem(player.getItemStackFromSlot(EquipmentSlotType.HEAD), true, false);
 		player.setItemStackToSlot(EquipmentSlotType.HEAD, head);
 
-		player.sendMessage(new StringTextComponent(username + " has cursed you till death do you part!"));
+		RewardsUtil.sendMessageToPlayer(player, username + " has cursed you till death do you part!");
 		Scheduler.scheduleTask(new Task("delayed message", 20)
 		{
 			@Override
 			public void callback()
 			{
-				player.sendMessage(new StringTextComponent("<" + username + "> MUWAHAHAHA"));
+				RewardsUtil.sendMessageToPlayer(player, "<" + username + "> MUWAHAHAHA");
 			}
 		});
 	}

@@ -7,6 +7,7 @@ import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.util.HTTPUtil;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonElement;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -108,7 +110,7 @@ public class CustomUserReward extends BaseCustomReward
 			if(player == null)
 				return;
 
-			Style ccStyle = new Style().setColor(TextFormatting.DARK_AQUA);
+			Style ccStyle = Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_AQUA));
 
 			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
 				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.get("T").getAsString(), contentCreatorStuff.getAsJsonArray("Options")));
@@ -119,13 +121,13 @@ public class CustomUserReward extends BaseCustomReward
 				{
 					String message = messageElem.getAsJsonObject().get("message").getAsString();
 					message = message.replace("%username%", userNameFinal);
-					player.sendMessage(new StringTextComponent(message).setStyle(ccStyle));
+					RewardsUtil.sendMessageToPlayer(player, new StringTextComponent(message).setStyle(ccStyle));
 				}
 			}
 			else
 			{
-				player.sendMessage(new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
-				player.sendMessage(new StringTextComponent("Let the fun begin! >:)").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, new StringTextComponent("Let the fun begin! >:)").setStyle(ccStyle));
 			}
 		});
 	}
@@ -143,15 +145,14 @@ public class CustomUserReward extends BaseCustomReward
 	public void trigger(final World world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
 
-		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getFormattedText()))
+		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getUnformattedComponentText()))
 		{
-			player.sendMessage(new StringTextComponent("Hey you aren't " + this.userName + "! You can't have their reward! Try again!"));
+			RewardsUtil.sendMessageToPlayer(player, "Hey you aren't " + this.userName + "! You can't have their reward! Try again!");
 			Entity itemEnt = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 			world.addEntity(itemEnt);
 			return;
 		}
-
-		player.sendMessage(new StringTextComponent("Selecting best (possibly deadly) reward for " + this.type + " " + this.userName));
+		RewardsUtil.sendMessageToPlayer(player, "Selecting best (possibly deadly) reward for " + this.type + " " + this.userName);
 
 		Scheduler.scheduleTask(new Task("Custom Reward", 100)
 		{

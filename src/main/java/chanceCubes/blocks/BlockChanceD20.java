@@ -29,7 +29,7 @@ public class BlockChanceD20 extends BaseChanceBlock
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).lightValue(7), "chance_icosahedron");
+		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).setLightLevel(state -> 7), "chance_icosahedron");
 	}
 
 	@Override
@@ -50,11 +50,6 @@ public class BlockChanceD20 extends BaseChanceBlock
 	}
 
 	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
-	{
-		return false;
-	}
-
 	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
@@ -84,7 +79,7 @@ public class BlockChanceD20 extends BaseChanceBlock
 
 		RewardsUtil.executeCommand(world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
 		te.startBreaking(player);
-		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimension().getType())), new PacketTriggerD20(pos));
+		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimensionKey())), new PacketTriggerD20(pos));
 		return false;
 	}
 }

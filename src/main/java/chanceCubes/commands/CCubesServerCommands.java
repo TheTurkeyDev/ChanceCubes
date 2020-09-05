@@ -31,9 +31,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -101,8 +99,8 @@ public class CCubesServerCommands
 			NonreplaceableBlockOverride.loadOverrides();
 			GlobalProfileManager.initProfiles();
 			CustomProfileLoader.instance.loadProfiles();
-			GlobalProfileManager.updateProfilesForWorld(ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD));
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Rewards Reloaded"));
+			GlobalProfileManager.updateProfilesForWorld(ServerLifecycleHooks.getCurrentServer().getWorld(World.OVERWORLD));
+			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Rewards Reloaded");
 		}).start();
 		return 0;
 	}
@@ -110,7 +108,7 @@ public class CCubesServerCommands
 	public int executeVersion(CommandContext<CommandSource> ctx)
 	{
 		String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Chance Cubes Version " + ver));
+		RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Chance Cubes Version " + ver);
 		return 0;
 	}
 
@@ -118,7 +116,7 @@ public class CCubesServerCommands
 	{
 		PlayerEntity player = getPlayer(ctx.getSource());
 		CompoundNBT nbt = player.inventory.getCurrentItem().getOrCreateTag();
-		player.sendMessage(new StringTextComponent(nbt.toString()));
+		RewardsUtil.sendMessageToPlayer(player, nbt.toString());
 		return 0;
 	}
 
@@ -129,8 +127,8 @@ public class CCubesServerCommands
 		if(!stack.isEmpty())
 		{
 			ResourceLocation res = stack.getItem().getRegistryName();
-			player.sendMessage(new StringTextComponent(res.getNamespace() + ":" + res.getPath()));
-			player.sendMessage(new StringTextComponent("meta: " + stack.getDamage()));
+			RewardsUtil.sendMessageToPlayer(player, res.getNamespace() + ":" + res.getPath());
+			RewardsUtil.sendMessageToPlayer(player, "meta: " + stack.getDamage());
 		}
 		return 0;
 	}
@@ -197,14 +195,14 @@ public class CCubesServerCommands
 			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 			{
-				DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+				DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 				{
 					ClientProxy.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
 				});
 			}
 			else
 			{
-				getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Please set both points before moving on!"));
+				RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Please set both points before moving on!");
 			}
 		}
 		else
@@ -229,9 +227,9 @@ public class CCubesServerCommands
 		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
 		int defaultEnabled = defaultrewards.size();
 		int giantEnabled = giantrewards.size();
-		player.sendMessage(new StringTextComponent("===DEFAULT REWARDS==="));
+		RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 		for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
-			player.sendMessage(new StringTextComponent(reward));
+			RewardsUtil.sendMessageToPlayer(player, reward);
 //		if(args.length > 1 && args[1].equalsIgnoreCase("list"))
 //		{
 //			if(args.length > 2 && args[2].equalsIgnoreCase("default"))
@@ -280,8 +278,8 @@ public class CCubesServerCommands
 //			}
 //		}
 
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled"));
-		getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled"));
+		RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled");
+		RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "There are currently " + GlobalCCRewardRegistry.GIANT.getNumberOfLoadedRewards() + " giant rewards loaded and you have " + giantEnabled + " rewards enabled");
 		return 0;
 	}
 
@@ -290,9 +288,9 @@ public class CCubesServerCommands
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testRewards)
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for all rewards!"));
+			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Reward testing is now enabled for all rewards!");
 		else
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
+			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Reward testing is now disabled and normal randomness is back.");
 		return 0;
 	}
 
@@ -301,9 +299,9 @@ public class CCubesServerCommands
 		CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
 		CCubesSettings.testingRewardIndex = 0;
 		if(CCubesSettings.testCustomRewards)
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now enabled for custom rewards!"));
+			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Reward testing is now enabled for custom rewards!");
 		else
-			getPlayer(ctx.getSource()).sendMessage(new StringTextComponent("Reward testing is now disabled and normal randomness is back."));
+			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Reward testing is now disabled and normal randomness is back.");
 		return 0;
 	}
 
@@ -328,9 +326,9 @@ public class CCubesServerCommands
 
 	public int executeProfilesView(CommandContext<CommandSource> ctx)
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
-			ClientProxy.openProfilesGUI();
+			//ClientProxy.openProfilesGUI();
 		});
 		return 0;
 	}

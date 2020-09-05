@@ -11,7 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
@@ -31,7 +31,7 @@ public class BlockChanceCube extends BaseChanceBlock
 
 	public BlockChanceCube()
 	{
-		super(getBuilder().lightValue(2), "chance_cube");
+		super(getBuilder().setLightLevel(state -> state.get(TEXTURE).equals(EnumTexture.HALLOWEEN) ? 2 : 0), "chance_cube");
 		this.setDefaultState(this.stateContainer.getBaseState().with(TEXTURE, EnumTexture.DEFAULT));
 	}
 
@@ -48,7 +48,7 @@ public class BlockChanceCube extends BaseChanceBlock
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
+	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid)
 	{
 		if(!world.isRemote && !(player instanceof FakePlayer) && world.getTileEntity(pos) instanceof TileChanceCube)
 		{
@@ -110,6 +110,12 @@ public class BlockChanceCube extends BaseChanceBlock
 		}
 
 		public String getName()
+		{
+			return this.name;
+		}
+
+		@Override
+		public String getString()
 		{
 			return this.name;
 		}

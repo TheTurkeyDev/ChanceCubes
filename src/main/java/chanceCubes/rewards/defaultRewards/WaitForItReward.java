@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -28,7 +27,7 @@ public class WaitForItReward extends BaseCustomReward
 	@Override
 	public void trigger(final World world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
 	{
-		player.sendMessage(new StringTextComponent("Wait for it......."));
+		RewardsUtil.sendMessageToPlayer(player, "Wait for it.......");
 
 		int minDuration = super.getSettingAsInt(settings, "min_duration", 1000, 0, Integer.MAX_VALUE - 1);
 		int maxDuration = minDuration - super.getSettingAsInt(settings, "max_duration", 5000, 1, Integer.MAX_VALUE);
@@ -41,7 +40,7 @@ public class WaitForItReward extends BaseCustomReward
 			public void callback()
 			{
 				int reward = RewardsUtil.rand.nextInt(3);
-				player.sendMessage(new StringTextComponent("NOW!"));
+				RewardsUtil.sendMessageToPlayer(player, "NOW!");
 
 				if(reward == 0)
 				{

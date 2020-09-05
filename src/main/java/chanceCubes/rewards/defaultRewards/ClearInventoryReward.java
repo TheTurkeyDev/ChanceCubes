@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -38,9 +38,9 @@ public class ClearInventoryReward extends BaseCustomReward
 		}
 		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
 
-		player.sendMessage(new StringTextComponent("I hope you didn't have anything of value with you :)"));
+		RewardsUtil.sendMessageToPlayer(player, "I hope you didn't have anything of value with you :)");
 		if(cubes)
-			player.sendMessage(new StringTextComponent("Don't worry, I left the cubes for you!"));
+			RewardsUtil.sendMessageToPlayer(player, "Don't worry, I left the cubes for you!");
 
 		if(world.rand.nextInt(5) == 1)
 		{
@@ -50,9 +50,8 @@ public class ClearInventoryReward extends BaseCustomReward
 				public void callback()
 				{
 					player.inventory.copyInventory(inv);
-					player.sendMessage(new StringTextComponent("AHHHHHH JK!! You should have seen your face!"));
+					RewardsUtil.sendMessageToPlayer(player, "AHHHHHH JK!! You should have seen your face!");
 				}
-
 			});
 		}
 	}

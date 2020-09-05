@@ -4,6 +4,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.sounds.CCubesSounds;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -68,9 +69,9 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void read(BlockState state, CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.read(state, nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -121,7 +122,7 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.read(pkt.getNbtCompound());
+		read(this.getBlockState(), pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

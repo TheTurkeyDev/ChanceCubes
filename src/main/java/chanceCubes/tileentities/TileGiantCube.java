@@ -1,6 +1,7 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -49,9 +50,9 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT data)
+	public void read(BlockState state, CompoundNBT data)
 	{
-		super.read(data);
+		super.read(state, data);
 		int masterX = data.getInt("masterX");
 		int masterY = data.getInt("masterY");
 		int masterZ = data.getInt("masterZ");
@@ -75,7 +76,7 @@ public class TileGiantCube extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(this.getBlockState(), pkt.getNbtCompound());
 	}
 
 	public boolean hasMaster()

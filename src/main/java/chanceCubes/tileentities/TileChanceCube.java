@@ -1,6 +1,7 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -47,9 +48,9 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void read(BlockState state, CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.read(state, nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -68,7 +69,7 @@ public class TileChanceCube extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(this.getBlockState(), pkt.getNbtCompound());
 	}
 
 	public boolean isScanned()

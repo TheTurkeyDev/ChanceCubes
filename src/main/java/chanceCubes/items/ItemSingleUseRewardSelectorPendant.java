@@ -6,6 +6,7 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
+import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -16,7 +17,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -35,9 +35,9 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		player.setActiveHand(hand);
 		ItemStack stack = player.getHeldItem(hand);
-		if(player.isShiftKeyDown() && world.isRemote && player.isCreative())
+		if(player.isSneaking() && world.isRemote && player.isCreative())
 		{
-			DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 			{
 				ClientProxy.openRewardSelectorGUI(player, stack);
 			});
@@ -48,7 +48,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		if(context.getPlayer() == null || context.getPlayer().isShiftKeyDown())
+		if(context.getPlayer() == null || context.getPlayer().isSneaking())
 			return ActionResultType.FAIL;
 		if(context.getWorld().isRemote)
 			return ActionResultType.PASS;
@@ -68,8 +68,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 					}
 					else
 					{
-						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
-
+						RewardsUtil.sendMessageToPlayer(player, "That reward does not exist for this cube!");
 					}
 				}
 				else if(context.getWorld().getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
@@ -87,7 +86,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 					}
 					else
 					{
-						player.sendMessage(new StringTextComponent("That reward does not exist for this cube!"));
+						RewardsUtil.sendMessageToPlayer(player, "That reward does not exist for this cube!");
 					}
 				}
 			}
