@@ -24,10 +24,12 @@ import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -63,7 +65,10 @@ public class CCubesCore
 	{
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientHelper::clientStart);
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+		{
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientHelper::clientStart);
+		});
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
