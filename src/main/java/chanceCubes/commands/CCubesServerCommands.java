@@ -1,7 +1,7 @@
 package chanceCubes.commands;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.client.ClientProxy;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -195,9 +195,9 @@ public class CCubesServerCommands
 			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 			{
-				DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 				{
-					ClientProxy.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
+					ClientHelper.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
 				});
 			}
 			else
@@ -326,7 +326,7 @@ public class CCubesServerCommands
 
 	public int executeProfilesView(CommandContext<CommandSource> ctx)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			//ClientProxy.openProfilesGUI();
 		});

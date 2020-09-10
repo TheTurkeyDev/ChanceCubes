@@ -17,6 +17,7 @@ displayURL="https://minecraft.curseforge.com/projects/chance-cubes" #optional
 credits="Funwayguy for the Icosahderon model and awesome rendering effects! https://twitter.com/Funwayguy" #optional
 # A text field displayed in the mod UI
 authors="TurkeyDev" #optional
+license="GPLv3"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod

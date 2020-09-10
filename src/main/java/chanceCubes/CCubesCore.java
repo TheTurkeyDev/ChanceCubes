@@ -1,7 +1,7 @@
 package chanceCubes;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.ClientProxy;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -24,12 +24,10 @@ import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -64,20 +62,13 @@ public class CCubesCore
 	public CCubesCore()
 	{
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientHelper::clientStart);
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
-
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
-		{
-			new ClientProxy();
-			//ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ProfileGui::openGui);
-		});
 	}
 
-	@SubscribeEvent
 	public void commonStart(FMLCommonSetupEvent event)
 	{
 		CCubesPacketHandler.init();
@@ -139,7 +130,6 @@ public class CCubesCore
 			GlobalProfileManager.unloadProfilesForWorld();
 	}
 
-	@SubscribeEvent
 	public void onIMCMessage(InterModProcessEvent e)
 	{
 		e.getIMCStream().forEach((message) ->

@@ -110,6 +110,8 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
+				//System.out.println(trackedEntities.size());
+				//System.out.println(trackedPlayers.size());
 				for(int i = trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = trackedEntities.get(i);

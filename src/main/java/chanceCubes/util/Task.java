@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class Task
@@ -50,7 +51,7 @@ public abstract class Task
 	{
 		int time = this.delayLeft / 20;
 		StringTextComponent message = new StringTextComponent(String.valueOf(time));
-		message.getStyle().setBold(true).setColor(Color.func_240744_a_(TextFormatting.RED));
+		message.setStyle(Style.EMPTY.setBold(true).setColor(Color.func_240744_a_(TextFormatting.RED)));
 		RewardsUtil.setPlayerTitle(player, location, message, 0, 20, 0);
 	}
 }

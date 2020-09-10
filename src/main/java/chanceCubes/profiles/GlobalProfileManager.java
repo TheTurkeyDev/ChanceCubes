@@ -11,6 +11,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.FolderName;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -81,7 +82,7 @@ public class GlobalProfileManager
 	public static void updateProfilesForWorld(ServerWorld world)
 	{
 		playerToProfiles.clear();
-		profileSaveFile = new File(world.getServer().getSaveHandler().getWorldDirectory(), "data/chancecubes.json");
+		profileSaveFile = new File(new File(world.getServer().func_240776_a_(new FolderName("data")).toUri()), "chancecubes.json");
 		try
 		{
 			if(!profileSaveFile.exists())

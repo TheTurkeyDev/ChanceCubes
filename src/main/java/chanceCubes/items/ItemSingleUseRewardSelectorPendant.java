@@ -1,7 +1,7 @@
 package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.client.ClientProxy;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
@@ -38,9 +38,9 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 		ItemStack stack = player.getHeldItem(hand);
 		if(player.isSneaking() && world.isRemote && player.isCreative())
 		{
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 			{
-				ClientProxy.openRewardSelectorGUI(player, stack);
+				ClientHelper.openRewardSelectorGUI(player, stack);
 			});
 		}
 		return new ActionResult<>(ActionResultType.SUCCESS, stack);

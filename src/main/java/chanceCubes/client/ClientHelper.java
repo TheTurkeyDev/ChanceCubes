@@ -16,21 +16,20 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-public class ClientProxy
+public class ClientHelper
 {
-	public ClientProxy()
-	{
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientStart);
-	}
 
 	@SubscribeEvent
-	public void clientStart(FMLClientSetupEvent event)
+	public static void clientStart(FMLClientSetupEvent event)
 	{
 		MinecraftForge.EVENT_BUS.register(new RenderEvent());
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
@@ -53,4 +52,6 @@ public class ClientProxy
 	{
 		Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
 	}
+
+
 }
