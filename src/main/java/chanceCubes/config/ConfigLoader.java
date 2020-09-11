@@ -1,15 +1,30 @@
 package chanceCubes.config;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.Level;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Handles Configuration file management
  */
 public class ConfigLoader
 {
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static File globalDisableConfig;
+	private static JsonObject globalDisableConfigJson;
+
 	public static Configuration config;
 	public static final String genCat = "General Settings";
 
@@ -81,5 +96,56 @@ public class ConfigLoader
 		customConfigFolder = new File(file.getParentFile().getAbsolutePath() + "/ChanceCubes/Profiles");
 		customConfigFolder.mkdirs();
 		new CustomProfileLoader(customConfigFolder);
+
+		globalDisableConfig = new File(folder, "global_rewards.json");
+		try
+		{
+			if(globalDisableConfig.createNewFile())
+			{
+				globalDisableConfigJson = new JsonObject();
+				globalDisableConfigJson.addProperty("Comment", "This file is for enabling and disabling rewards globally for all users! This cannot be reversed without a mod reload! Reward Profiles are the suggested method over this. This is basically a do all be all override.");
+				globalDisableConfigJson.addProperty("Comment2", "Note: Even if a reward is marked true here, does not mean its fully enabled. Rewards like clear inventory are disabled via default profiles!");
+				globalDisableConfigJson.add("rewards", new JsonObject());
+				try(Writer writer = new FileWriter(globalDisableConfig))
+				{
+					gson.toJson(globalDisableConfigJson, writer);
+				}
+			}
+			else
+			{
+				reload();
+			}
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes was unable to create the global rewards Config file!");
+		}
+	}
+
+	public static void reload()
+	{
+		try
+		{
+			globalDisableConfigJson = new JsonParser().parse(new FileReader(globalDisableConfig)).getAsJsonObject();
+		} catch(FileNotFoundException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes could not load the global rewards Config file!");
+		}
+	}
+
+	public static boolean getRewardConfigStatus(String reward, boolean defaultVal)
+	{
+		System.out.println(reward);
+		JsonObject rewardsJson = globalDisableConfigJson.getAsJsonObject("rewards");
+		if(rewardsJson.has(reward))
+			return rewardsJson.get(reward).getAsBoolean();
+		rewardsJson.addProperty(reward, defaultVal);
+		try(Writer writer = new FileWriter(globalDisableConfig))
+		{
+			gson.toJson(globalDisableConfigJson, writer);
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to save to the global rewards Config file!");
+		}
+		return defaultVal;
 	}
 }
