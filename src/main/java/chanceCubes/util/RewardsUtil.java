@@ -29,6 +29,7 @@ import net.minecraft.potion.Potions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
@@ -108,7 +109,7 @@ public class RewardsUtil
 			PlayerEntity entityplayer = world.getPlayers().get(i);
 			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= distance)
-				entityplayer.sendMessage(new StringTextComponent(message), null);
+				sendMessageToPlayer(entityplayer, message);
 		}
 	}
 
@@ -117,7 +118,7 @@ public class RewardsUtil
 		for(int i = 0; i < world.getPlayers().size(); ++i)
 		{
 			PlayerEntity entityplayer = world.getPlayers().get(i);
-			entityplayer.sendMessage(new StringTextComponent(message), null);
+			sendMessageToPlayer(entityplayer, message);
 		}
 	}
 
@@ -128,7 +129,7 @@ public class RewardsUtil
 
 	public static void sendMessageToPlayer(PlayerEntity player, ITextComponent message)
 	{
-		player.sendMessage(message, null);
+		player.sendMessage(message, Util.DUMMY_UUID);
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)

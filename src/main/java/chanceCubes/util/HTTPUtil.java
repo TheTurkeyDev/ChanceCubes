@@ -1,7 +1,10 @@
 package chanceCubes.util;
 
+import chanceCubes.CCubesCore;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParser;
+import org.apache.logging.log4j.Level;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -45,8 +48,15 @@ public class HTTPUtil
 			wr.close();
 		}
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		int responseCode = con.getResponseCode();
 
+		if(responseCode != HttpURLConnection.HTTP_OK)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Update request returned response code: " + responseCode + " " + con.getResponseMessage());
+			return JsonNull.INSTANCE;
+		}
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		StringBuilder buffer = new StringBuilder();
 		String line;
 		while((line = reader.readLine()) != null)

@@ -1,7 +1,9 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.util.CustomEntry;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -19,6 +21,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
+import org.apache.logging.log4j.Level;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,9 +37,6 @@ import java.util.Map;
 
 public class StreamerReward
 {
-	private static final String NICK_NAME = "chance_cubes";
-	private static String PASS;
-
 	private Socket socket;
 	private BufferedWriter writter;
 	private String channel;
@@ -47,10 +47,9 @@ public class StreamerReward
 	private List<Option> options = new ArrayList<>();
 	private int timeLeft;
 
-	public StreamerReward(String channel, String pass, JsonArray jsonOptions)
+	public StreamerReward(String channel, JsonArray jsonOptions)
 	{
 		this.channel = "#" + channel;
-		PASS = pass;
 		for(JsonElement option : jsonOptions)
 		{
 			String display = option.getAsJsonObject().get("display").getAsString();
@@ -109,25 +108,16 @@ public class StreamerReward
 						message = new StringTextComponent("Hey Twitch Chat!");
 						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						sendString("PRIVMSG " + channel + " :Hello Chat!");
 						break;
 					case 6:
 						message = new StringTextComponent("Let's Play A Game!");
 						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						sendString("PRIVMSG " + channel + " :Let's Play A Game!");
 						break;
 					case 11:
 						message = new StringTextComponent("Decide My Fate!");
 						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						StringBuilder sb = new StringBuilder();
-						sb.append(" :What do you want to happen?");
-						for(int i = 0; i < options.size(); i++)
-							sb.append(" ").append(i + 1).append(") ").append(options.get(i).display);
-						sendString("PRIVMSG " + channel + sb.toString());
-						sendString("PRIVMSG " + channel + " :Enter the number you want into chat to vote!");
-
 						break;
 				}
 
@@ -184,7 +174,7 @@ public class StreamerReward
 							case "PRIVMSG":
 								if(voted.contains(from))
 									break;
-								voted.add(from);
+
 								String message = rest.substring(rest.indexOf(" ") + 2);
 								if(IntVar.isInteger(message))
 								{
@@ -192,6 +182,7 @@ public class StreamerReward
 									if(choice >= 0 && choice < 5)
 									{
 										options.get(choice).votes++;
+										voted.add(from);
 									}
 								}
 								break;
@@ -210,11 +201,20 @@ public class StreamerReward
 			disconnect();
 		});
 
+		sendString("PASS PASSWORD");
+		sendString("NICK justinfan2349");
+		sendString("JOIN " + channel);
+
 		thread.start();
 
-		sendString("PASS " + PASS);
-		sendString("NICK " + NICK_NAME);
-		sendString("JOIN " + channel);
+		try
+		{
+			HTTPUtil.getWebFile("POST", "http://api.theprogrammingturkey.com/chance_cubes/triggerStreamerReward.php", new CustomEntry<>("channel", channel));
+		} catch(Exception e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "FAILED TO TRIGGER THE CHAT BOT!");
+			e.printStackTrace();
+		}
 	}
 
 	private void disconnect()
@@ -223,7 +223,6 @@ public class StreamerReward
 		try
 		{
 			socket.close();
-			writter.close();
 		} catch(IOException e)
 		{
 			e.printStackTrace();
