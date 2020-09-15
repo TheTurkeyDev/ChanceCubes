@@ -21,7 +21,7 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
 		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
 		mimic.setCustomName(new StringTextComponent("Mimic"));
@@ -43,8 +43,8 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setItemStackToSlot(EquipmentSlotType.OFFHAND, player.inventory.offHandInventory.get(0).copy());
 
 		world.addEntity(mimic);
-		super.trackEntities(mimic);
-		super.trackedPlayers(player);
+		super.trackEntities(battleWrapper, mimic);
+		super.trackedPlayers(battleWrapper, player);
 	}
 
 	@Override

@@ -5,16 +5,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RewardBlockCache
 {
-	protected Map<BlockPos, BlockState> storedBlocks = new HashMap<>();
+	protected List<Tuple<BlockPos, BlockState>> storedBlocks = new ArrayList<>();
 	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
+
 
 	private BlockPos origin;
 	private BlockPos playerloc;
@@ -54,9 +58,9 @@ public class RewardBlockCache
 
 		if(RewardsUtil.placeBlock(newState, world, adjPos, update, force))
 		{
-			if(!storedBlocks.containsKey(offset))
+			if(storedBlocks.stream().noneMatch(t -> t.getA().equals(offset)))
 			{
-				storedBlocks.put(offset, oldState);
+				storedBlocks.add(new Tuple<>(offset, oldState));
 				if(oldNBT != null)
 					storedTE.put(offset, oldNBT);
 			}
@@ -65,13 +69,13 @@ public class RewardBlockCache
 
 	public void restoreBlocks(Entity player)
 	{
-		for(BlockPos loc : storedBlocks.keySet())
+		for(Tuple<BlockPos, BlockState> tuple : storedBlocks)
 		{
-			BlockPos worldPos = origin.add(loc);
-			RewardsUtil.placeBlock(storedBlocks.get(loc), world, worldPos, true);
+			BlockPos worldPos = origin.add(tuple.getA());
+			RewardsUtil.placeBlock(tuple.getB(), world, worldPos, true);
 			TileEntity tile = world.getTileEntity(worldPos);
-			if(storedTE.containsKey(loc) && tile != null)
-				tile.deserializeNBT(storedTE.get(loc));
+			if(storedTE.containsKey(tuple.getA()) && tile != null)
+				tile.deserializeNBT(storedTE.get(tuple.getA()));
 		}
 
 		if(player != null)

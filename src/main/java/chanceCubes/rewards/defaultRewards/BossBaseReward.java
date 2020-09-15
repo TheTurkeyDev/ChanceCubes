@@ -31,13 +31,6 @@ public abstract class BossBaseReward extends BaseCustomReward
 {
 	private String bossName;
 
-	private List<Entity> trackedEntities = new ArrayList<>();
-	private List<Entity> trackedSubEntities = new ArrayList<>();
-	private List<PlayerEntity> trackedPlayers = new ArrayList<>();
-	private BioDomeGen domeGen;
-
-	private BlockPos rewardCenterPos;
-
 	public BossBaseReward(String bossName)
 	{
 		super(CCubesCore.MODID + ":boss_" + bossName, -35);
@@ -47,9 +40,11 @@ public abstract class BossBaseReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
-		this.rewardCenterPos = pos;
-		domeGen = new BioDomeGen(player);
-		domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
+		BattleWrapper battleWrapper = new BattleWrapper();
+
+		battleWrapper.rewardCenterPos = pos;
+		battleWrapper.domeGen = new BioDomeGen(player);
+		battleWrapper.domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
 		StringTextComponent message = new StringTextComponent("BOSS FIGHT!");
 		message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
 		RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
@@ -92,14 +87,14 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				startBossFight(world, pos, player, settings);
+				startBossFight(world, pos, player, settings, battleWrapper);
 			}
 		});
 	}
 
-	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
-		spawnBoss(world, pos, player, settings);
+		spawnBoss(world, pos, player, settings, battleWrapper);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
 		{
 			@Override
@@ -112,32 +107,32 @@ public abstract class BossBaseReward extends BaseCustomReward
 			{
 				//System.out.println(trackedEntities.size());
 				//System.out.println(trackedPlayers.size());
-				for(int i = trackedEntities.size() - 1; i >= 0; i--)
+				for(int i = battleWrapper.trackedEntities.size() - 1; i >= 0; i--)
 				{
-					Entity ent = trackedEntities.get(i);
+					Entity ent = battleWrapper.trackedEntities.get(i);
 					if(!ent.isAlive() && ent.ticksExisted > 0)
 					{
-						trackedEntities.remove(i);
-						if(trackedEntities.isEmpty())
+						battleWrapper.trackedEntities.remove(i);
+						if(battleWrapper.trackedEntities.isEmpty())
 						{
-							endBossfight(true, world, pos, player);
+							endBossfight(true, world, pos, player, battleWrapper);
 							Scheduler.removeTask(this);
 						}
 					}
 				}
 
-				for(int i = trackedPlayers.size() - 1; i >= 0; i--)
+				for(int i = battleWrapper.trackedPlayers.size() - 1; i >= 0; i--)
 				{
-					Entity ent = trackedPlayers.get(i);
-					if(ent.getDistanceSq(rewardCenterPos.getX(), rewardCenterPos.getY(), rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < rewardCenterPos.getY() - 1)
-						ent.setPositionAndUpdate(rewardCenterPos.getX(), rewardCenterPos.getY() + 1, rewardCenterPos.getZ());
+					Entity ent = battleWrapper.trackedPlayers.get(i);
+					if(ent.getDistanceSq(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < battleWrapper.rewardCenterPos.getY() - 1)
+						ent.setPositionAndUpdate(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY() + 1, battleWrapper.rewardCenterPos.getZ());
 
 					if(!ent.isAlive() && ent.ticksExisted > 0)
 					{
-						for(Entity entity : trackedEntities)
+						for(Entity entity : battleWrapper.trackedEntities)
 							entity.remove();
-						trackedEntities.clear();
-						endBossfight(false, world, pos, player);
+						battleWrapper.trackedEntities.clear();
+						endBossfight(false, world, pos, player, battleWrapper);
 						Scheduler.removeTask(this);
 						return;
 					}
@@ -146,32 +141,32 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void endBossfight(boolean resetPlayer, ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void endBossfight(boolean resetPlayer, ServerWorld world, BlockPos pos, PlayerEntity player, BattleWrapper battleWrapper)
 	{
-		for(Entity ent : trackedSubEntities)
+		for(Entity ent : battleWrapper.trackedSubEntities)
 			if(ent.isAlive())
 				ent.remove();
-		trackedSubEntities.clear();
+		battleWrapper.trackedSubEntities.clear();
 		onBossFightEnd(world, pos, player);
-		domeGen.removeDome(resetPlayer);
+		battleWrapper.domeGen.removeDome(resetPlayer);
 	}
 
-	protected void trackEntities(Entity... ents)
+	protected void trackEntities(BattleWrapper battleWrapper, Entity... ents)
 	{
-		trackedEntities.addAll(Arrays.asList(ents));
+		battleWrapper.trackedEntities.addAll(Arrays.asList(ents));
 	}
 
-	protected void trackSubEntities(Entity... ents)
+	protected void trackSubEntities(BattleWrapper battleWrapper, Entity... ents)
 	{
-		trackedSubEntities.addAll(Arrays.asList(ents));
+		battleWrapper.trackedSubEntities.addAll(Arrays.asList(ents));
 	}
 
-	protected void trackedPlayers(PlayerEntity... player)
+	protected void trackedPlayers(BattleWrapper battleWrapper, PlayerEntity... player)
 	{
-		trackedPlayers.addAll(Arrays.asList(player));
+		battleWrapper.trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings);
+	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper);
 
 	public abstract void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player);
 
@@ -217,7 +212,16 @@ public abstract class BossBaseReward extends BaseCustomReward
 				}
 			}
 		}
-
 		return maxItem;
+	}
+
+	protected static class BattleWrapper
+	{
+		public List<Entity> trackedEntities = new ArrayList<>();
+		public List<Entity> trackedSubEntities = new ArrayList<>();
+		public List<PlayerEntity> trackedPlayers = new ArrayList<>();
+
+		public BlockPos rewardCenterPos;
+		public BioDomeGen domeGen;
 	}
 }

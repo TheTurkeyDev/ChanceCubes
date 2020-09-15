@@ -42,7 +42,7 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
 		WitchEntity witch = EntityType.WITCH.create(world);
 		witch.setCustomName(new StringTextComponent("Evil Witch"));
@@ -70,7 +70,7 @@ public class BossWitchReward extends BossBaseReward
 		witch.setItemStackToSlot(EquipmentSlotType.FEET, stack);
 		witch.setDropChance(EquipmentSlotType.FEET, 0);
 
-		spawnMinoins(pos, world);
+		spawnMinoins(pos, world, battleWrapper);
 
 		Scheduler.scheduleTask(new Task("witch_abilities", -1, 20)
 		{
@@ -89,7 +89,7 @@ public class BossWitchReward extends BossBaseReward
 				}
 
 				if(RewardsUtil.rand.nextInt(15) == 4)
-					spawnMinoins(witch.getPosition(), world);
+					spawnMinoins(witch.getPosition(), world, battleWrapper);
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					lightningStrike(player.getPosition(), world);
 				if(RewardsUtil.rand.nextInt(5) == 4)
@@ -99,8 +99,8 @@ public class BossWitchReward extends BossBaseReward
 
 
 		world.addEntity(witch);
-		super.trackEntities(witch);
-		super.trackedPlayers(player);
+		super.trackEntities(battleWrapper, witch);
+		super.trackedPlayers(battleWrapper, player);
 	}
 
 	private void lightningStrike(BlockPos playerPos, ServerWorld world)
@@ -124,7 +124,7 @@ public class BossWitchReward extends BossBaseReward
 		world.addEntity(pot);
 	}
 
-	private void spawnMinoins(BlockPos pos, ServerWorld world)
+	private void spawnMinoins(BlockPos pos, ServerWorld world, BattleWrapper battleWrapper)
 	{
 		for(Direction facing : Direction.values())
 		{
@@ -142,7 +142,7 @@ public class BossWitchReward extends BossBaseReward
 				BlockPos adjPos = pos.offset(facing);
 				ent.setPosition(adjPos.getX(), adjPos.getY(), adjPos.getZ());
 				world.addEntity(ent);
-				trackSubEntities(ent);
+				trackSubEntities(battleWrapper, ent);
 			} catch(Exception e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Uh oh! Something went wrong and the minions could not be spawned! Please report this to the mod dev!");

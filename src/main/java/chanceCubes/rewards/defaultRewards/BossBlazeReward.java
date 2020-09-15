@@ -26,7 +26,7 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
 		BlazeEntity blaze = EntityType.BLAZE.create(world);
 		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
@@ -61,8 +61,8 @@ public class BossBlazeReward extends BossBaseReward
 
 
 		world.addEntity(blaze);
-		super.trackEntities(blaze);
-		super.trackedPlayers(player);
+		super.trackEntities(battleWrapper, blaze);
+		super.trackedPlayers(battleWrapper, player);
 	}
 
 	private void goInvisible(BlazeEntity blaze)

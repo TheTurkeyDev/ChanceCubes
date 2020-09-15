@@ -30,7 +30,7 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
 		RavagerEntity ravager = EntityType.RAVAGER.create(world);
 		ravager.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
@@ -85,8 +85,8 @@ public class BossRavagerReward extends BossBaseReward
 
 		world.addEntity(ravager);
 		//world.addEntity(armorStandEntity);
-		super.trackEntities(ravager);
-		super.trackedPlayers(player);
+		super.trackEntities(battleWrapper, ravager);
+		super.trackedPlayers(battleWrapper, player);
 	}
 
 	private void groundPound(BlockPos ravagerPos, ServerWorld world)

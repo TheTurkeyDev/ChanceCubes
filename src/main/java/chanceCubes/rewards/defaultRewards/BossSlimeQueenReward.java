@@ -27,7 +27,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
 	{
 		SlimeEntity queen = EntityType.SLIME.create(world);
 		queen.setCustomName(new StringTextComponent("Slime Queen"));
@@ -46,7 +46,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 
 		world.addEntity(queen);
 
-		super.trackEntities(queen);
+		super.trackEntities(battleWrapper, queen);
 	}
 
 	@Override
