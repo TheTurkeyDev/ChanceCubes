@@ -63,7 +63,8 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		return ActionResultType.SUCCESS;
 	}
 
-	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
+	@Override
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		if(world.isRemote)
 			return;
@@ -74,7 +75,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 		if(te == null)
 			return;
 
-		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(world.getBlockState(pos)));
+		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(state));
 		entitem.setLocationAndAngles(player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0);
 		if(player.isSneaking())
 		{
