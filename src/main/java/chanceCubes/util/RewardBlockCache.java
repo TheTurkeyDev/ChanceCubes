@@ -1,11 +1,11 @@
 package chanceCubes.util;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class RewardBlockCache
 {
-	protected List<Tuple<BlockPos, BlockState>> storedBlocks = new ArrayList<>();
+	protected List<StoredBlockData> storedBlocks = new ArrayList<>();
 	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
 
 
@@ -58,9 +58,9 @@ public class RewardBlockCache
 
 		if(RewardsUtil.placeBlock(newState, world, adjPos, update, force))
 		{
-			if(storedBlocks.stream().noneMatch(t -> t.getA().equals(offset)))
+			if(storedBlocks.stream().noneMatch(t -> t.pos.equals(offset)))
 			{
-				storedBlocks.add(new Tuple<>(offset, oldState));
+				storedBlocks.add(new StoredBlockData(offset, oldState, newState));
 				if(oldNBT != null)
 					storedTE.put(offset, oldNBT);
 			}
@@ -69,16 +69,33 @@ public class RewardBlockCache
 
 	public void restoreBlocks(Entity player)
 	{
-		for(Tuple<BlockPos, BlockState> tuple : storedBlocks)
+		for(StoredBlockData storedBlock : storedBlocks)
 		{
-			BlockPos worldPos = origin.add(tuple.getA());
-			RewardsUtil.placeBlock(tuple.getB(), world, worldPos, true);
-			TileEntity tile = world.getTileEntity(worldPos);
-			if(storedTE.containsKey(tuple.getA()) && tile != null)
-				tile.deserializeNBT(storedTE.get(tuple.getA()));
+			BlockPos worldPos = origin.add(storedBlock.pos);
+			if(world.getBlockState(worldPos).getBlock().equals(storedBlock.placedState.getBlock()) || world.getBlockState(worldPos).getBlock().equals(Blocks.AIR))
+			{
+				RewardsUtil.placeBlock(storedBlock.oldState, world, worldPos, true);
+				TileEntity tile = world.getTileEntity(worldPos);
+				if(storedTE.containsKey(storedBlock.pos) && tile != null)
+					tile.deserializeNBT(storedTE.get(storedBlock.pos));
+			}
 		}
 
 		if(player != null)
 			player.setPositionAndUpdate(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
+	}
+
+	private static class StoredBlockData
+	{
+		public BlockPos pos;
+		public BlockState oldState;
+		public BlockState placedState;
+
+		public StoredBlockData(BlockPos pos, BlockState oldState, BlockState placedState)
+		{
+			this.pos = pos;
+			this.oldState = oldState;
+			this.placedState = placedState;
+		}
 	}
 }
