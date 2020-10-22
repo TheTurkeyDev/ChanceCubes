@@ -40,7 +40,11 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 				int copies = command.getCopies().getIntValue() + 1;
 				String commandStr = command.getParsedCommand(world, x, y, z, player);
 				for(int i = 0; i < copies; i++)
+				{
+					if(command.areCopiesSoft().getBoolValue())
+						commandStr = command.getParsedCommand(world, x, y, z, player);
 					RewardsUtil.executeCommand(world, player, new BlockPos(x, y, z), commandStr);
+				}
 			}
 		});
 	}

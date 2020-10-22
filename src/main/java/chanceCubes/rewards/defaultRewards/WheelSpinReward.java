@@ -245,10 +245,17 @@ public class WheelSpinReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(world.getBlockState(leverPos).get(LeverBlock.POWERED))
+				if(!world.getBlockState(leverPos).getBlock().equals(Blocks.LEVER))
 				{
-					spinWheel(world, pos, armorStand, cache, player);
-					Scheduler.removeTask(this);
+					world.setBlockState(leverPos, Blocks.LEVER.getDefaultState());
+				}
+				else
+				{
+					if(world.getBlockState(leverPos).get(LeverBlock.POWERED))
+					{
+						spinWheel(world, pos, armorStand, cache, player);
+						Scheduler.removeTask(this);
+					}
 				}
 			}
 		});

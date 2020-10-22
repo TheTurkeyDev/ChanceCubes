@@ -110,7 +110,7 @@ public class CustomUserReward extends BaseCustomReward
 			if(player == null)
 				return;
 
-			Style ccStyle = Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_AQUA));
+			Style ccStyle = Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_AQUA));
 
 			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
 				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options")));

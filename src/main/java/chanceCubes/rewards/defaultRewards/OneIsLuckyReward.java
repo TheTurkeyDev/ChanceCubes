@@ -59,6 +59,19 @@ public class OneIsLuckyReward extends BaseCustomReward
 					this.callback();
 					Scheduler.removeTask(this);
 				}
+				else if(world.isAirBlock(pos.add(0, 0, 0)))
+				{
+					SignTileEntity sign3 = new SignTileEntity();
+					sign3.setText(0, new StringTextComponent("Middle? Really?"));
+					sign3.setText(1, new StringTextComponent("Fine you don't"));
+					sign3.setText(2, new StringTextComponent("get a cube then!"));
+					sign3.setText(3, new StringTextComponent("(¬_¬)"));
+					world.setBlockState(pos.add(0, 0, 0), Blocks.OAK_SIGN.getDefaultState());
+					world.setTileEntity(pos.add(0, 0, 0), sign3);
+					world.setBlockState(pos.add(-1, 0, 0), Blocks.AIR.getDefaultState());
+					world.setBlockState(pos.add(1, 0, 0), Blocks.AIR.getDefaultState());
+					Scheduler.removeTask(this);
+				}
 			}
 		});
 	}

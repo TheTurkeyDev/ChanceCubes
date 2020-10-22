@@ -373,7 +373,7 @@ public class DefaultRewards
 					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 					if(i == 0)
 					{
-						stack.setDisplayName(new StringTextComponent("Button").setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE))));
+						stack.setDisplayName(new StringTextComponent("Button").setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE))));
 						stack.setCount(13);
 					}
 					else if(i == 1)
@@ -663,5 +663,9 @@ public class DefaultRewards
 		CoinFlipReward coinFlip = new CoinFlipReward();
 		MinecraftForge.EVENT_BUS.register(coinFlip);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(coinFlip);
+
+		JarGuessReward jarGuess = new JarGuessReward();
+		MinecraftForge.EVENT_BUS.register(jarGuess);
+		GlobalCCRewardRegistry.DEFAULT.registerReward(jarGuess);
 	}
 }

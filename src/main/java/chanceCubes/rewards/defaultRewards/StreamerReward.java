@@ -106,17 +106,17 @@ public class StreamerReward
 				{
 					case 1:
 						message = new StringTextComponent("Hey Twitch Chat!");
-						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
+						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 					case 6:
 						message = new StringTextComponent("Let's Play A Game!");
-						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
+						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 					case 11:
 						message = new StringTextComponent("Decide My Fate!");
-						message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
+						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
 						break;
 				}
@@ -237,10 +237,10 @@ public class StreamerReward
 		sb.delete(sb.length() - 2, sb.length());
 
 		StringTextComponent message = new StringTextComponent(sb.toString());
-		message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
+		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 40, 0);
 		message = new StringTextComponent("Time Left: " + timeLeft);
-		message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.DARK_PURPLE)));
+		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 40, 0);
 
 	}

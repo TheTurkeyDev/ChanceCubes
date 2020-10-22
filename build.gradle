@@ -26,7 +26,7 @@ version= "${mc_version}-${mod_version}.${buildnumber}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200820-1.16.1'
+    mappings channel: 'snapshot', version: '20200916-1.16.2'
 
     //accessTransformer = file('my_at.cfg')
 

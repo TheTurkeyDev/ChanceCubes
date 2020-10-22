@@ -41,7 +41,7 @@ public class SkyblockReward extends BaseCustomReward
 			return;
 
 		int skyblockHeight = world.getHeight() - 16;
-		if(!world.func_230315_m_().hasSkyLight())
+		if(!world.getDimensionType().hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());

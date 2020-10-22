@@ -16,6 +16,7 @@ import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -92,14 +93,12 @@ public class CCubesCore
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
 		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube_chest"))).build());
+			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube_chest")).weight(1)).name("chance_cubes_cubes").build());
 	}
 
 	@SubscribeEvent
 	public void serverStart(FMLServerStartingEvent event)
 	{
-		// ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile());
-
 		CCubesSettings.backupNRB.add(Blocks.BEDROCK.getDefaultState());
 		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.getDefaultState());
 		DefaultRewards.loadDefaultRewards();
@@ -108,8 +107,6 @@ public class CCubesCore
 		GlobalProfileManager.initProfiles();
 		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
-		// ConfigLoader.config.save();
-
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
 	}
@@ -139,18 +136,17 @@ public class CCubesCore
 	{
 		e.getIMCStream().forEach((message) ->
 		{
-			/*Logger logger = LogManager.getLogger(MODID);
-			for(IMCMessage message : e.getMessages())
+			Logger logger = LogManager.getLogger(MODID);
+			if(message.getMethod().equalsIgnoreCase("add-nonreplaceable"))
 			{
-				if(message.key.equalsIgnoreCase("add-nonreplaceable") && message.isItemStackMessage())
+				Object obj = message.getMessageSupplier().get();
+				if(obj instanceof BlockState)
 				{
-					ItemStack stack = message.getItemStackValue();
-					Block block = Block.getBlockFromItem(stack.getItem());
-					IBlockState state = RewardsUtil.getBlockStateFromBlockMeta(block, stack.getItemDamage());
+					BlockState state = (BlockState) obj;
 					CCubesSettings.nonReplaceableBlocksIMC.add(state);
-					logger.info(message.getSender() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
+					logger.info(message.getSenderModId() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
 				}
-			}*/
+			}
 		});
 	}
 }

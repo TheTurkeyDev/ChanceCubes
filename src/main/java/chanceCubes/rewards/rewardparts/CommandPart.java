@@ -1,5 +1,6 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +10,7 @@ public class CommandPart extends BasePart
 {
 	private StringVar command;
 	private IntVar copies = new IntVar(0);
+	private BoolVar copiesSoft = new BoolVar(false);
 
 	public CommandPart(String command)
 	{
@@ -63,5 +65,15 @@ public class CommandPart extends BasePart
 	public void setCopies(IntVar copies)
 	{
 		this.copies = copies;
+	}
+
+	public BoolVar areCopiesSoft()
+	{
+		return copiesSoft;
+	}
+
+	public void setCopiesSoft(BoolVar copiesSoft)
+	{
+		this.copiesSoft = copiesSoft;
 	}
 }

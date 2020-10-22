@@ -51,7 +51,7 @@ public abstract class Task
 	{
 		int time = this.delayLeft / 20;
 		StringTextComponent message = new StringTextComponent(String.valueOf(time));
-		message.setStyle(Style.EMPTY.setBold(true).setColor(Color.func_240744_a_(TextFormatting.RED)));
+		message.setStyle(Style.EMPTY.setBold(true).setColor(Color.fromTextFormatting(TextFormatting.RED)));
 		RewardsUtil.setPlayerTitle(player, location, message, 0, 20, 0);
 	}
 }

@@ -1,0 +1,12 @@
+{
+  "chancecubes:potion-works": {
+    "chance": -15,
+    "Command": [
+      {
+        "command": "/summon firework_rocket ~%%RND(-10,10)%% ~ ~%%RND(-10,10)%% {LifeTime:40,Passengers:[{id:\"minecraft:potion\",Item:{id:\"minecraft:splash_potion\",Count:1b,tag:{Potion:\"minecraft:empty\",CustomPotionEffects:[{Id:%%[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]%%b,Amplifier:2b,Duration:1200}]}}}]}",
+        "copies": 20,
+        "copies_soft": true
+      }
+    ]
+  }
+}

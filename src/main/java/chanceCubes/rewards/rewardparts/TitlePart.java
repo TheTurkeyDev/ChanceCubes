@@ -30,17 +30,17 @@ public class TitlePart extends BasePart
 
 	public TitlePart(StringVar type, JsonObject message)
 	{
-		this(type, ITextComponent.Serializer.func_240641_a_(message), new IntVar(0));
+		this(type, ITextComponent.Serializer.getComponentFromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(StringVar type, String message)
 	{
-		this(type, ITextComponent.Serializer.func_240643_a_(message), new IntVar(0));
+		this(type, ITextComponent.Serializer.getComponentFromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(String type, String message, int delay)
 	{
-		this(new StringVar(type), ITextComponent.Serializer.func_240643_a_(message), new IntVar(delay));
+		this(new StringVar(type), ITextComponent.Serializer.getComponentFromJson(message), new IntVar(delay));
 	}
 
 	public TitlePart(StringVar type, ITextComponent message, IntVar delay)

@@ -48,6 +48,7 @@ one_shot.json
 ores_galore.json
 pig_of_destiny.json
 poison.json
+potion-works.json
 pssst.json
 quidditch.json
 rancher.json

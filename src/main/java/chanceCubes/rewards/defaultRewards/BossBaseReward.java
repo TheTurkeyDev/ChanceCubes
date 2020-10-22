@@ -46,7 +46,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.domeGen = new BioDomeGen(player);
 		battleWrapper.domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
 		StringTextComponent message = new StringTextComponent("BOSS FIGHT!");
-		message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
+		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
 		RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
@@ -63,7 +63,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 					sbSpace.append(" ");
 				message.appendString(sbSpace.toString());
 
-				message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
+				message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
 			}
 		});
@@ -77,7 +77,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				message.append(player.getDisplayName());
 				message.appendString(" VS ");
 				message.appendString(bossName);
-				message.setStyle(Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.RED)));
+				message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
 			}
 		});
