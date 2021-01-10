@@ -7,6 +7,7 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.network.CCubesPacketHandler;
@@ -20,6 +21,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
@@ -93,7 +95,7 @@ public class CCubesCore
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
 		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(CCubesCore.MODID, "blocks/chance_cube_chest")).weight(1)).name("chance_cubes_cubes").build());
+			event.getTable().addPool(LootPool.builder().name("chance_cubes_cubes").addEntry(ItemLootEntry.builder(CCubesItems.CHANCE_CUBE)).build());
 	}
 
 	@SubscribeEvent
