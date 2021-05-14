@@ -3,8 +3,6 @@ package chanceCubes.items;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
-import chanceCubes.profiles.GlobalProfileManager;
-import chanceCubes.profiles.PlayerProfileManager;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.block.Block;
@@ -84,19 +82,6 @@ public class ItemChanceCube extends BlockItem
 			list.add(new StringTextComponent(TextFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
 		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
 			list.add(new StringTextComponent(TextFormatting.RED + "WORK IN PROGRESS"));
-
-
-		if(item.equals(CCubesItems.CHANCE_CUBE) || item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
-		{
-			list.add(new StringTextComponent("==== Enabled Profiles ===="));
-			if(Minecraft.getInstance().player != null)
-			{
-				PlayerProfileManager ppm = GlobalProfileManager.getPlayerProfileManager(Minecraft.getInstance().player.getUniqueID().toString());
-				if(ppm != null)
-					for(String rewardName : ppm.getEnabledProfileNames())
-						list.add(new StringTextComponent(rewardName));
-			}
-		}
 	}
 
 	protected boolean placeBlock(BlockItemUseContext context, BlockState state)

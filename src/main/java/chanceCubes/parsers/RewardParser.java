@@ -88,6 +88,7 @@ public class RewardParser
 			else if(rewardElement.getKey().equalsIgnoreCase("isGiantCubeReward"))
 			{
 				isGiantCubeReward = rewardElement.getValue().getAsBoolean();
+				continue;
 			}
 
 			String currentParsingPart = rewardElement.getKey();

@@ -3,7 +3,6 @@ package chanceCubes.registry.player;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.items.ItemChancePendant;
-import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.StreamerReward;
@@ -202,16 +201,10 @@ public class PlayerCCRewardRegistry
 		}
 
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + pickedReward.getName());
-		triggerReward(pickedReward, world, pos, player);
+		GlobalCCRewardRegistry.triggerReward(pickedReward, world, pos, player);
 		cooldownList.add(pickedReward);
 		if(cooldownList.size() > 15)
 			cooldownList.remove(0);
-	}
-
-	public void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
-	{
-		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
-		reward.trigger(world, pos, player, settings);
 	}
 
 	public List<PlayerRewardInfo> getPlayersRewards()

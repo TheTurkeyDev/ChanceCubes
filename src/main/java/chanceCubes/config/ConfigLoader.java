@@ -141,10 +141,6 @@ public class ConfigLoader
 
 		new CustomRewardsLoader(customConfigFolder);
 
-		File customProfileFolder = new File(folder.getAbsolutePath(), "profiles");
-		customProfileFolder.mkdirs();
-		new CustomProfileLoader(customProfileFolder);
-
 		globalDisableConfig = new File(folder, "global_rewards.json");
 		try
 		{

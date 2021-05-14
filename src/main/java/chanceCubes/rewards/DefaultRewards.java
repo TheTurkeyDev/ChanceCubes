@@ -97,10 +97,11 @@ public class DefaultRewards
 					continue;
 				}
 
+				boolean defaultEnable = !basicReward.getName().equalsIgnoreCase("chancecubes:giant_chance_cube");
 				if(parsedReward.getValue())
 					GlobalCCRewardRegistry.GIANT.registerReward(basicReward);
 				else
-					GlobalCCRewardRegistry.DEFAULT.registerReward(basicReward);
+					GlobalCCRewardRegistry.DEFAULT.registerReward(basicReward, defaultEnable);
 			}
 		}
 
@@ -617,7 +618,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new WitherReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new TrollTNTReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new WaitForItReward());
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new ClearInventoryReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new ClearInventoryReward(), false);
 		// GlobalCCRewardRegistry.DEFAULT.registerReward(new ZombieCopyCatReward());
 		// GlobalCCRewardRegistry.DEFAULT.registerReward(new InventoryChestReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new ItemOfDestinyReward());

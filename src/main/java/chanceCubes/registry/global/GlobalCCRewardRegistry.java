@@ -3,7 +3,6 @@ package chanceCubes.registry.global;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
-import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
@@ -34,7 +33,12 @@ public class GlobalCCRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward)
 	{
-		if(ConfigLoader.getRewardConfigStatus(reward.getName(), true) && !this.nameToReward.containsKey(reward.getName()))
+		registerReward(reward, true);
+	}
+
+	public void registerReward(IChanceCubeReward reward, boolean defaultVal)
+	{
+		if(ConfigLoader.getRewardConfigStatus(reward.getName(), defaultVal) && !this.nameToReward.containsKey(reward.getName()))
 			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, true));
 	}
 
@@ -167,9 +171,10 @@ public class GlobalCCRewardRegistry
 			this.getPlayerRewardRegistry(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
 	}
 
-	public void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
+	public static void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
-		Map<String, Object> settings = GlobalProfileManager.getPlayerProfileManager(player).getRewardSpawnSettings(reward);
+		//TODO: Find another way to implement this
+		Map<String, Object> settings =  new HashMap<>();
 		reward.trigger(world, pos, player, settings);
 	}
 

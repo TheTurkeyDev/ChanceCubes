@@ -1,7 +1,6 @@
 package chanceCubes.listeners;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.profiles.GlobalProfileManager;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -16,7 +15,6 @@ public class PlayerConnectListener
 		if(event.getPlayer().world.isRemote)
 			return;
 
-		GlobalProfileManager.loadPlayerProfile(event.getPlayer().getUniqueID().toString());
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID())).start();
 	}
 
@@ -33,6 +31,5 @@ public class PlayerConnectListener
 		String playerUUID = event.getPlayer().getUniqueID().toString();
 		GlobalCCRewardRegistry.DEFAULT.removePlayerRewards(playerUUID);
 		GlobalCCRewardRegistry.GIANT.removePlayerRewards(playerUUID);
-		GlobalProfileManager.removePlayerProfile(playerUUID);
 	}
 }

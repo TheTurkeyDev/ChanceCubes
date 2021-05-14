@@ -86,26 +86,26 @@ public class TicTacToeReward extends BaseCustomReward
 					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
 
-					if(board.isGameOver())
+				if(board.isGameOver())
+				{
+					if(board.hasCPUWon())
+						RewardsUtil.sendMessageToPlayer(player, "The Computer won! Better luck next time!");
+					else if(board.hasPlayerWon())
+						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
+					else
+						RewardsUtil.sendMessageToPlayer(player, "You tied! Better luck next time!");
+
+					Task superTask = this;
+					Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)
 					{
-						if(board.hasCPUWon())
-							RewardsUtil.sendMessageToPlayer(player, "The Computer won! Better luck next time!");
-						else if(board.hasPlayerWon())
-							player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
-						else
-							RewardsUtil.sendMessageToPlayer(player, "You tied! Better luck next time!");
-
-						Task superTask = this;
-						Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)
+						@Override
+						public void callback()
 						{
-							@Override
-							public void callback()
-							{
-								superTask.delayLeft = 0;
-							}
-						});
+							superTask.delayLeft = 0;
+						}
+					});
 
-					}
+				}
 			}
 		});
 	}

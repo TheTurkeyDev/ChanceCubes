@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
@@ -69,7 +70,10 @@ public class SkyblockReward extends BaseCustomReward
 		//tree.func_225545_a_(world, world.getChunkProvider().getChunkGenerator(), skyblockPos.add(3, 3, 3), Blocks.OAK_SAPLING.getDefaultState().with(SaplingBlock.STAGE, 1), TREE_RAND);
 
 		RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.WEST), world, skyblockPos.add(-1, 3, 0));
-		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(skyblockPos.add(-1, 3, 0));
+		TileEntity te = world.getTileEntity(skyblockPos.add(-1, 3, 0));;
+		if(!(te instanceof ChestTileEntity))
+			return;
+		ChestTileEntity chest = (ChestTileEntity) te;
 		for(int i = 0; i < chestStuff.length; i++)
 		{
 			int slot = ((i < 4 ? 0 : i < 8 ? 1 : 2) * 9) + i % 4;

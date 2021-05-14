@@ -5,15 +5,11 @@ import chanceCubes.client.ClientHelper;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
-import chanceCubes.config.CustomProfileLoader;
 import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.network.CCubesPacketHandler;
-import chanceCubes.profiles.GlobalProfileManager;
-import chanceCubes.profiles.triggerHooks.GameStageTriggerHooks;
-import chanceCubes.profiles.triggerHooks.VanillaTriggerHooks;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.util.NonreplaceableBlockOverride;
@@ -23,15 +19,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootPool;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -81,12 +74,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		//MinecraftForge.EVENT_BUS.register(new WorldGen());
-		MinecraftForge.EVENT_BUS.register(new VanillaTriggerHooks());
-		if(ModList.get().isLoaded("gamestages"))
-		{
-			MinecraftForge.EVENT_BUS.register(new GameStageTriggerHooks());
-			CCubesCore.logger.log(Level.INFO, "Loaded GameStages support!");
-		}
 	}
 
 	@SubscribeEvent
@@ -104,8 +91,6 @@ public class CCubesCore
 		DefaultRewards.loadDefaultRewards();
 		DefaultGiantRewards.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();
-		GlobalProfileManager.initProfiles();
-		CustomProfileLoader.instance.loadProfiles();
 		NonreplaceableBlockOverride.loadOverrides();
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
@@ -120,16 +105,11 @@ public class CCubesCore
 	@SubscribeEvent
 	public void onServerStart(FMLServerStartedEvent event)
 	{
-		ServerWorld world = event.getServer().getWorld(World.OVERWORLD);
-		if(world != null && !GlobalProfileManager.isWorldProfilesLoaded())
-			GlobalProfileManager.updateProfilesForWorld(world);
 	}
 
 	@SubscribeEvent
 	public void onServerStop(FMLServerStoppedEvent event)
 	{
-		if(GlobalProfileManager.isWorldProfilesLoaded())
-			GlobalProfileManager.unloadProfilesForWorld();
 	}
 
 	public void onIMCMessage(InterModProcessEvent e)
