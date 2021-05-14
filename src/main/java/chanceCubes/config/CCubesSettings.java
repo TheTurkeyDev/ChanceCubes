@@ -19,6 +19,7 @@ public class CCubesSettings
 	public static IntValue rangeMin;
 	public static IntValue rangeMax;
 	public static BooleanValue d20UseNormalChances;
+	public static BooleanValue rewardsEqualChance;
 
 	public static BooleanValue oreGeneration;
 	public static IntValue oreGenAmount;

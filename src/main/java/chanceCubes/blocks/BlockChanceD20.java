@@ -7,6 +7,7 @@ import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,6 +55,12 @@ public class BlockChanceD20 extends BaseChanceBlock
 	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		this.startd20(world, pos, player);
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state)
+	{
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override

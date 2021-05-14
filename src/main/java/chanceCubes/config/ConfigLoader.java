@@ -73,6 +73,10 @@ public class ConfigLoader
 				.comment("Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100")
 				.define("D20UseNormalChanceValues", false);
 
+		CCubesSettings.rewardsEqualChance = builder
+				.comment("Set to true if the mod should ignore chance values and give each reward and equal chance to be picked")
+				.define("rewardsEqualChance", false);
+
 		CCubesSettings.enableHardCodedRewards = builder
 				.comment("Set to true if the default rewards should be loaded, false if they shouldn't")
 				.define("EnableDefaultRewards", true);

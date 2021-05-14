@@ -23,8 +23,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootPool;
-import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;

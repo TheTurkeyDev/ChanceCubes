@@ -147,42 +147,60 @@ public class PlayerCCRewardRegistry
 			}
 		}
 
-		int lowerIndex = 0;
-		int upperIndex = sortedRewards.size() - 1;
-		int lowerRange = Math.max(chance - CCubesSettings.rangeMin.get(), -100);
-		int upperRange = Math.min(chance + CCubesSettings.rangeMax.get(), 100);
+		IChanceCubeReward pickedReward;
+		if(CCubesSettings.rewardsEqualChance.get())
+		{
+			pickedReward = sortedRewards.get(RewardsUtil.rand.nextInt(sortedRewards.size())).reward;
+			if(cooldownList.contains(pickedReward))
+			{
+				byte atempts = 0;
+				while(atempts < 5 && cooldownList.contains(pickedReward))
+				{
+					pickedReward = sortedRewards.get(RewardsUtil.rand.nextInt(sortedRewards.size())).reward;
+					atempts++;
+				}
+			}
+		}
+		else
+		{
+			int lowerIndex = 0;
+			int upperIndex = sortedRewards.size() - 1;
+			int lowerRange = Math.max(chance - CCubesSettings.rangeMin.get(), -100);
+			int upperRange = Math.min(chance + CCubesSettings.rangeMax.get(), 100);
 
-		while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
-		{
-			lowerIndex++;
-			if(lowerIndex >= sortedRewards.size())
+			while(sortedRewards.get(lowerIndex).getChanceValue() < lowerRange)
 			{
-				lowerIndex--;
-				break;
+				lowerIndex++;
+				if(lowerIndex >= sortedRewards.size())
+				{
+					lowerIndex--;
+					break;
+				}
+			}
+			while(sortedRewards.get(upperIndex).getChanceValue() > upperRange)
+			{
+				upperIndex--;
+				if(upperIndex < 0)
+				{
+					upperIndex++;
+					break;
+				}
+			}
+			int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
+			int pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
+			pickedReward = sortedRewards.get(pick).reward;
+			if(cooldownList.contains(pickedReward))
+			{
+				byte atempts = 0;
+				while(atempts < 5 && cooldownList.contains(pickedReward))
+				{
+					pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
+					pickedReward = sortedRewards.get(pick).reward;
+					atempts++;
+				}
 			}
 		}
-		while(sortedRewards.get(upperIndex).getChanceValue() > upperRange)
-		{
-			upperIndex--;
-			if(upperIndex < 0)
-			{
-				upperIndex++;
-				break;
-			}
-		}
-		int range = upperIndex - lowerIndex > 0 ? upperIndex - lowerIndex : 1;
-		int pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
-		IChanceCubeReward pickedReward = sortedRewards.get(pick).reward;
-		if(cooldownList.contains(pickedReward))
-		{
-			byte atempts = 0;
-			while(atempts < 5 && cooldownList.contains(pickedReward))
-			{
-				pick = RewardsUtil.rand.nextInt(range) + lowerIndex;
-				pickedReward = sortedRewards.get(pick).reward;
-				atempts++;
-			}
-		}
+
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + pickedReward.getName());
 		triggerReward(pickedReward, world, pos, player);
 		cooldownList.add(pickedReward);
