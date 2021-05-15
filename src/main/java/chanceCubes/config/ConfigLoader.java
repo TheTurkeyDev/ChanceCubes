@@ -77,6 +77,10 @@ public class ConfigLoader
 				.comment("Set to true if the mod should ignore chance values and give each reward and equal chance to be picked")
 				.define("rewardsEqualChance", false);
 
+		CCubesSettings.disableGiantCC = builder
+				.comment("Set to true Giant Chance Cubes should be disabled")
+				.define("disableGiantCC", false);
+
 		CCubesSettings.enableHardCodedRewards = builder
 				.comment("Set to true if the default rewards should be loaded, false if they shouldn't")
 				.define("EnableDefaultRewards", true);

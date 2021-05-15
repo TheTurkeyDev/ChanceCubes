@@ -27,6 +27,7 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setCustomName(new StringTextComponent("Mimic"));
 		mimic.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 		mimic.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 2);
 		mimic.setHealth(mimic.getMaxHealth());
 		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
 
@@ -40,7 +41,9 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setDropChance(EquipmentSlotType.FEET, 0);
 
 		mimic.setItemStackToSlot(EquipmentSlotType.MAINHAND, getHighestDamageItem(player));
+		mimic.setDropChance(EquipmentSlotType.MAINHAND, 0);
 		mimic.setItemStackToSlot(EquipmentSlotType.OFFHAND, player.inventory.offHandInventory.get(0).copy());
+		mimic.setDropChance(EquipmentSlotType.OFFHAND, 0);
 
 		world.addEntity(mimic);
 		super.trackEntities(battleWrapper, mimic);

@@ -15,6 +15,7 @@ public class CCubesSettings
 	public static IntValue pendantUses;
 
 	public static BooleanValue enableHardCodedRewards;
+	public static BooleanValue disableGiantCC;
 
 	public static IntValue rangeMin;
 	public static IntValue rangeMax;

@@ -1,6 +1,7 @@
 package chanceCubes.util;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.config.CCubesSettings;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.block.Blocks;
@@ -21,6 +22,8 @@ public class GiantCubeUtil
 	 */
 	public static boolean checkMultiBlockForm(BlockPos pos, World world, boolean build)
 	{
+		if(CCubesSettings.disableGiantCC.get())
+			return false;
 		BlockPos bottomLeft = findBottomCorner(pos, world);
 		int cx = bottomLeft.getX();
 		int cy = bottomLeft.getY();
@@ -53,6 +56,8 @@ public class GiantCubeUtil
 	 */
 	public static void setupStructure(BlockPos pos, World world, boolean areCoordsCorrect)
 	{
+		if(CCubesSettings.disableGiantCC.get())
+			return;
 		int cx = pos.getX();
 		int cy = pos.getY();
 		int cz = pos.getZ();

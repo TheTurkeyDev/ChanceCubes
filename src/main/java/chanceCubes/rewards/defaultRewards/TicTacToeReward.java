@@ -27,6 +27,7 @@ public class TicTacToeReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
 	{
+		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 3, 0, 100);
 		RewardsUtil.sendMessageToPlayer(player, "Lets play Tic-Tac-Toe!");
 		RewardsUtil.sendMessageToPlayer(player, "Beat the Computer to get 500 Diamonds!");
 		player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Blocks.RED_WOOL, 5)));
@@ -61,7 +62,7 @@ public class TicTacToeReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				cache.restoreBlocks(player);
+				cache.restoreBlocks(player, true);
 			}
 
 			@Override
@@ -81,7 +82,7 @@ public class TicTacToeReward extends BaseCustomReward
 				if(!board.isGameOver())
 				{
 					//Make CPU Move
-					board.minimax(0, 1);
+					board.minimax(0, 1, mistakeChance);
 					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
 					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
@@ -89,11 +90,18 @@ public class TicTacToeReward extends BaseCustomReward
 				if(board.isGameOver())
 				{
 					if(board.hasCPUWon())
+					{
 						RewardsUtil.sendMessageToPlayer(player, "The Computer won! Better luck next time!");
+					}
 					else if(board.hasPlayerWon())
-						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 500)));
+					{
+						RewardsUtil.sendMessageToPlayer(player, "You Won? You must have cheated... You only get 5 diamonds!");
+						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 5)));
+					}
 					else
+					{
 						RewardsUtil.sendMessageToPlayer(player, "You tied! Better luck next time!");
+					}
 
 					Task superTask = this;
 					Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game_End_Delay", 40)
@@ -166,7 +174,7 @@ public class TicTacToeReward extends BaseCustomReward
 			board[x][y] = player;
 		}
 
-		public int minimax(int depth, int turn)
+		public int minimax(int depth, int turn, int mistakeChance)
 		{
 			//Game status...
 			if(hasCPUWon())
@@ -177,6 +185,13 @@ public class TicTacToeReward extends BaseCustomReward
 			List<Point> pointsAvailable = getAvailableStates();
 			if(pointsAvailable.isEmpty())
 				return 0;
+
+			if(depth == 0 && RewardsUtil.rand.nextInt(100) < mistakeChance)
+			{
+				this.computersMove = pointsAvailable.get(RewardsUtil.rand.nextInt(pointsAvailable.size()));
+				return 0;
+			}
+
 			int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 			for(int i = 0; i < pointsAvailable.size(); ++i)
 			{
@@ -184,7 +199,7 @@ public class TicTacToeReward extends BaseCustomReward
 				if(turn == 1)
 				{
 					placeMove(point.x, point.y, 1);
-					int currentScore = minimax(depth + 1, 2);
+					int currentScore = minimax(depth + 1, 2, mistakeChance);
 					max = Math.max(currentScore, max);
 
 					if(currentScore >= 0 && depth == 0)
@@ -202,7 +217,7 @@ public class TicTacToeReward extends BaseCustomReward
 				else if(turn == 2)
 				{
 					placeMove(point.x, point.y, 2);
-					int currentScore = minimax(depth + 1, 1);
+					int currentScore = minimax(depth + 1, 1, mistakeChance);
 					min = Math.min(currentScore, min);
 					if(min == -1)
 					{

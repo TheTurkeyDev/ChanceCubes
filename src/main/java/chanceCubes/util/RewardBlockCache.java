@@ -69,10 +69,15 @@ public class RewardBlockCache
 
 	public void restoreBlocks(Entity player)
 	{
+		this.restoreBlocks(player, false);
+	}
+
+	public void restoreBlocks(Entity player, boolean replaceChanged)
+	{
 		for(StoredBlockData storedBlock : storedBlocks)
 		{
 			BlockPos worldPos = origin.add(storedBlock.pos);
-			if(world.getBlockState(worldPos).getBlock().equals(storedBlock.placedState.getBlock()) || world.getBlockState(worldPos).getBlock().equals(Blocks.AIR))
+			if(world.getBlockState(worldPos).getBlock().equals(storedBlock.placedState.getBlock()) || world.getBlockState(worldPos).getBlock().equals(Blocks.AIR) || replaceChanged)
 			{
 				RewardsUtil.placeBlock(storedBlock.oldState, world, worldPos, true);
 				TileEntity tile = world.getTileEntity(worldPos);
