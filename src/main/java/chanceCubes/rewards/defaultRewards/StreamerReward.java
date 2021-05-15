@@ -209,7 +209,7 @@ public class StreamerReward
 
 		try
 		{
-			HTTPUtil.getWebFile("POST", "http://api.theprogrammingturkey.com/chance_cubes/triggerStreamerReward.php", new CustomEntry<>("channel", channel));
+			HTTPUtil.makeAPIReq("POST", "chancecubes/triggerstreamerreward", new CustomEntry<>("channel", channel));
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "FAILED TO TRIGGER THE CHAT BOT!");

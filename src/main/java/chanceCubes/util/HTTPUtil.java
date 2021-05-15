@@ -14,7 +14,15 @@ import java.net.URL;
 
 public class HTTPUtil
 {
+	public static final String API_URL = "https://api.theturkey.dev/";
+	//public static final String API_URL = "https://api.test.local/";
 	private static JsonParser json = new JsonParser();
+
+	@SafeVarargs
+	public static JsonElement makeAPIReq(String type, String url, CustomEntry<String, String>... extras) throws Exception
+	{
+		return getWebFile(type, API_URL + url, extras);
+	}
 
 	@SafeVarargs
 	public static JsonElement getWebFile(String type, String link, CustomEntry<String, String>... extras) throws Exception

@@ -96,7 +96,7 @@ public class CustomRewardsLoader
 		{
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
 			String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
-			JsonObject json = HTTPUtil.getWebFile("POST", "https://api.theprogrammingturkey.com/chance_cubes/ChanceCubesAPI.php", new CustomEntry<>("version", ver), new CustomEntry<>("date", today)).getAsJsonObject();
+			JsonObject json = HTTPUtil.makeAPIReq("GET", "chancecubes/rewards?version=" + ver + "&date=" + today).getAsJsonObject();
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
 		} catch(Exception e)

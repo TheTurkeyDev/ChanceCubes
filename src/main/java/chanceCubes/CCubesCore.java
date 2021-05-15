@@ -38,7 +38,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.File;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -57,6 +63,34 @@ public class CCubesCore
 
 	public CCubesCore()
 	{
+		try
+		{
+			SSLContext context = SSLContext.getInstance("TLSv1.2");
+			TrustManager[] trustManager = new TrustManager[]{
+					new X509TrustManager()
+					{
+						public X509Certificate[] getAcceptedIssuers()
+						{
+							return new X509Certificate[0];
+						}
+
+						public void checkClientTrusted(X509Certificate[] certificate, String str)
+						{
+						}
+
+						public void checkServerTrusted(X509Certificate[] certificate, String str)
+						{
+						}
+					}
+			};
+			context.init(null, trustManager, new SecureRandom());
+
+			HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
