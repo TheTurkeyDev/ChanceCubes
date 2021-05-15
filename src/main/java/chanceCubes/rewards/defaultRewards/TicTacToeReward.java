@@ -82,7 +82,7 @@ public class TicTacToeReward extends BaseCustomReward
 				if(!board.isGameOver())
 				{
 					//Make CPU Move
-					board.minimax(0, 1, mistakeChance);
+					board.minimax(0, Turn.CPU, mistakeChance);
 					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
 					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
@@ -174,7 +174,7 @@ public class TicTacToeReward extends BaseCustomReward
 			board[x][y] = player;
 		}
 
-		public int minimax(int depth, int turn, int mistakeChance)
+		public int minimax(int depth, Turn turn, int mistakeChance)
 		{
 			//Game status...
 			if(hasCPUWon())
@@ -196,10 +196,10 @@ public class TicTacToeReward extends BaseCustomReward
 			for(int i = 0; i < pointsAvailable.size(); ++i)
 			{
 				Point point = pointsAvailable.get(i);
-				if(turn == 1)
+				if(turn == Turn.CPU)
 				{
 					placeMove(point.x, point.y, 1);
-					int currentScore = minimax(depth + 1, 2, mistakeChance);
+					int currentScore = minimax(depth + 1, Turn.PLAYER, mistakeChance);
 					max = Math.max(currentScore, max);
 
 					if(currentScore >= 0 && depth == 0)
@@ -214,10 +214,10 @@ public class TicTacToeReward extends BaseCustomReward
 					if(i == pointsAvailable.size() - 1 && max < 0 && depth == 0)
 						computersMove = point;
 				}
-				else if(turn == 2)
+				else if(turn == Turn.PLAYER)
 				{
 					placeMove(point.x, point.y, 2);
-					int currentScore = minimax(depth + 1, 1, mistakeChance);
+					int currentScore = minimax(depth + 1, Turn.CPU, mistakeChance);
 					min = Math.min(currentScore, min);
 					if(min == -1)
 					{
@@ -227,7 +227,12 @@ public class TicTacToeReward extends BaseCustomReward
 				}
 				board[point.x][point.y] = 0;
 			}
-			return turn == 1 ? max : min;
+			return turn == Turn.CPU ? max : min;
 		}
+	}
+
+	public enum Turn
+	{
+		CPU, PLAYER;
 	}
 }

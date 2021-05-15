@@ -27,7 +27,7 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setCustomName(new StringTextComponent("Mimic"));
 		mimic.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 		mimic.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
-		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 2);
+		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 1.5);
 		mimic.setHealth(mimic.getMaxHealth());
 		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
 
