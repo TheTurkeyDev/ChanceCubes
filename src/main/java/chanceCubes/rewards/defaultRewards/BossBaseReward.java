@@ -19,6 +19,7 @@ import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = battleWrapper.trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = battleWrapper.trackedEntities.get(i);
-					if(!ent.isAlive() && ent.ticksExisted > 0)
+					if(!ent.isAlive() && (ent.ticksExisted > 0 || world.getDifficulty().equals(Difficulty.PEACEFUL)))
 					{
 						battleWrapper.trackedEntities.remove(i);
 						if(battleWrapper.trackedEntities.isEmpty())
@@ -127,7 +128,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 					if(ent.getDistanceSq(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < battleWrapper.rewardCenterPos.getY() - 1)
 						ent.setPositionAndUpdate(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY() + 1, battleWrapper.rewardCenterPos.getZ());
 
-					if(!ent.isAlive() && ent.ticksExisted > 0)
+					if(!ent.isAlive() && (ent.ticksExisted > 0 || world.getDifficulty().equals(Difficulty.PEACEFUL)))
 					{
 						for(Entity entity : battleWrapper.trackedEntities)
 							entity.remove();
