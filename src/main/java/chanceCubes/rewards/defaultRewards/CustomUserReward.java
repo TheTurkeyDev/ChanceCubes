@@ -49,7 +49,8 @@ public class CustomUserReward extends BaseCustomReward
 		JsonElement users;
 		try
 		{
-			users = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/UserList.json");
+			users = HTTPUtil.makeAPIReq("GET", "chancecubes/userlist");
+			System.out.println(users.toString());
 		} catch(Exception e)
 		{
 			e.printStackTrace();
@@ -83,8 +84,8 @@ public class CustomUserReward extends BaseCustomReward
 
 		try
 		{
-			userRewards = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/users/" + userName + ".json");
-			contentCreatorStuff = HTTPUtil.getWebFile("GET", "https://api.theprogrammingturkey.com/chance_cubes/custom_rewards/ContentCreators.json").getAsJsonObject();
+			userRewards = HTTPUtil.makeAPIReq("GET", "chancecubes/user/" + userName);
+			contentCreatorStuff = HTTPUtil.makeAPIReq("GET", "chancecubes/contentcreatorinfo").getAsJsonObject();
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to get the custom list for " + userName + "!");

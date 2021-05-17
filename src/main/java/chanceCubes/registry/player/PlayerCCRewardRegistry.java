@@ -95,7 +95,7 @@ public class PlayerCCRewardRegistry
 
 	public void triggerRandomReward(ServerWorld world, BlockPos pos, @Nonnull PlayerEntity player, int chance)
 	{
-		if(streamerReward.containsKey(player.getUniqueID()) && RewardsUtil.rand.nextInt(100) == 42)
+		if(streamerReward.containsKey(player.getUniqueID()) && RewardsUtil.rand.nextInt(1) == 0)
 		{
 			streamerReward.get(player.getUniqueID()).trigger(world, pos, player);
 			return;
