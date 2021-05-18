@@ -2,6 +2,8 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.IChanceCubeReward;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -9,7 +11,6 @@ import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class BaseCustomReward implements IChanceCubeReward
 {
@@ -34,110 +35,110 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 		return this.name;
 	}
 
-	public boolean getSettingAsBoolean(Map<String, Object> settings, String key, boolean defaultVal)
+	public boolean getSettingAsBoolean(JsonObject settings, String key, boolean defaultVal)
 	{
-		if(settings.containsKey(key))
+		if(settings.has(key))
 		{
 			try
 			{
-				return (boolean) settings.get(key);
+				return settings.get(key).getAsBoolean();
 			} catch(Exception e)
 			{
-				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a boolean!");
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key).toString() + " to a boolean!");
 				return defaultVal;
 			}
 		}
 		return defaultVal;
 	}
 
-	public int getSettingAsInt(Map<String, Object> settings, String key, int defaultVal, int min, int max)
+	public int getSettingAsInt(JsonObject settings, String key, int defaultVal, int min, int max)
 	{
 		return Math.max(Math.min(getSettingAsInt(settings, key, defaultVal), max), min);
 	}
 
-	public int getSettingAsInt(Map<String, Object> settings, String key, int defaultVal)
+	public int getSettingAsInt(JsonObject settings, String key, int defaultVal)
 	{
-		if(settings.containsKey(key))
-			return getSettingAsNumber(settings, key, defaultVal).intValue();
-		return defaultVal;
+		return getSettingAsNumber(settings, key, defaultVal).intValue();
 	}
 
-	public double getSettingAsDouble(Map<String, Object> settings, String key, double defaultVal, double min, double max)
+	public double getSettingAsDouble(JsonObject settings, String key, double defaultVal, double min, double max)
 	{
 		return Math.max(Math.min(getSettingAsDouble(settings, key, defaultVal), max), min);
 	}
 
-	public double getSettingAsDouble(Map<String, Object> settings, String key, double defaultVal)
+	public double getSettingAsDouble(JsonObject settings, String key, double defaultVal)
 	{
-		if(settings.containsKey(key))
-			return getSettingAsNumber(settings, key, defaultVal).intValue();
-		return defaultVal;
+		return getSettingAsNumber(settings, key, defaultVal).intValue();
 	}
 
-	public Number getSettingAsNumber(Map<String, Object> settings, String key, Number defaultVal)
+	public Number getSettingAsNumber(JsonObject settings, String key, Number defaultVal)
 	{
-		if(settings.containsKey(key))
+		if(settings.has(key))
 		{
 			try
 			{
-				return (Number) settings.get(key);
+				return settings.get(key).getAsNumber();
 			} catch(Exception e)
 			{
-				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a number!");
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key).toString() + " to a number!");
 				return defaultVal;
 			}
 		}
 		return defaultVal;
 	}
 
-	public String getSettingAsString(Map<String, Object> settings, String key, String defaultVal)
+	public String getSettingAsString(JsonObject settings, String key, String defaultVal)
 	{
-		if(settings.containsKey(key))
+		if(settings.has(key))
 		{
 			try
 			{
-				return (String) settings.get(key);
+				return settings.get(key).getAsString();
 			} catch(Exception e)
 			{
-				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a string!");
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key).toString() + " to a string!");
 				return defaultVal;
 			}
 		}
 		return defaultVal;
 	}
 
-	public String[] getSettingAsStringList(Map<String, Object> settings, String key, String[] defaultVal)
+	public String[] getSettingAsStringList(JsonObject settings, String key, String[] defaultVal)
 	{
-		if(settings.containsKey(key))
+		if(settings.has(key))
 		{
 			try
 			{
-				return (String[]) settings.get(key);
+				JsonArray arr = settings.get(key).getAsJsonArray();
+				String[] toReturn = new String[arr.size()];
+				for(int i = 0; i < arr.size(); i++)
+					toReturn[i] = arr.get(i).getAsString();
+				return toReturn;
 			} catch(Exception e)
 			{
-				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a string list!");
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key).toString() + " to a string list!");
 				return defaultVal;
 			}
 		}
 		return defaultVal;
 	}
 
-	public ItemStack[] getSettingAsItemStackList(Map<String, Object> settings, String key, ItemStack[] defaultVal)
+	public ItemStack[] getSettingAsItemStackList(JsonObject settings, String key, ItemStack[] defaultVal)
 	{
-		if(settings.containsKey(key))
+		if(settings.has(key))
 		{
-			JsonObject[] stackObjects;
+			JsonArray stackObjects;
 			try
 			{
-				stackObjects = (JsonObject[]) settings.get(key);
+				stackObjects = settings.get(key).getAsJsonArray();
 			} catch(Exception e)
 			{
-				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key) + " to a JSON list!");
+				CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + settings.get(key).toString() + " to a Json array!");
 				return defaultVal;
 			}
 
 			List<ItemStack> stacks = new ArrayList<>();
-			for(JsonObject obj : stackObjects)
+			for(JsonElement obj : stackObjects)
 			{
 				ItemStack stack;
 				try

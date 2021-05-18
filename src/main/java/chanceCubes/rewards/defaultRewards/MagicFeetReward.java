@@ -4,13 +4,12 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class MagicFeetReward extends BaseCustomReward
 {
@@ -20,7 +19,7 @@ public class MagicFeetReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		int duration = super.getSettingAsInt(settings, "duration", 300, 0, Integer.MAX_VALUE);
 		RewardsUtil.sendMessageToPlayer(player, "<Dovah_Jun> You've got magic feet!!!");

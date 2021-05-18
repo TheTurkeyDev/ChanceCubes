@@ -31,7 +31,6 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,7 +136,7 @@ public class StreamerReward
 							winner = opt;
 
 					RewardsUtil.sendMessageToPlayer(player, winner.display + " Has won!");
-					winner.reward.trigger(world, player.getPosition(), player, new HashMap<>());
+					winner.reward.trigger(world, player.getPosition(), player, new JsonObject());
 					disconnect();
 				}
 			}
@@ -285,7 +284,7 @@ public class StreamerReward
 		}
 
 		@Override
-		public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+		public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 		{
 			try
 			{

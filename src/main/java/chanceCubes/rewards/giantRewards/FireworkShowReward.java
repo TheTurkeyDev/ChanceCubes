@@ -5,12 +5,11 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class FireworkShowReward extends BaseCustomReward
 {
@@ -20,7 +19,7 @@ public class FireworkShowReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.executeCommand(world, player, pos, "/time set 15000");
 		stage1(world, pos, player);

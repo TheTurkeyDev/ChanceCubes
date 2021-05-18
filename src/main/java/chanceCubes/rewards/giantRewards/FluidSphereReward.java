@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
@@ -12,7 +13,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FluidSphereReward extends BaseCustomReward
 {
@@ -22,7 +22,7 @@ public class FluidSphereReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 

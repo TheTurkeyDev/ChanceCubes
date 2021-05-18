@@ -5,6 +5,7 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.item.ItemStack;
@@ -14,8 +15,6 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class PotionsReward extends BaseCustomReward
 {
@@ -27,7 +26,7 @@ public class PotionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, new TranslationTextComponent("chancecubes.reward.raining_potions"));
 		throwPoitonCircle(world, pos, player);

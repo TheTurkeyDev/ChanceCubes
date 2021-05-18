@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ItemRenamer extends BaseCustomReward
 {
@@ -34,7 +34,7 @@ public class ItemRenamer extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		List<ItemStack> stacks = new ArrayList<>();
 		for(ItemStack stack : player.inventory.mainInventory)

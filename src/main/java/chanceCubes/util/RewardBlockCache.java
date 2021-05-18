@@ -1,11 +1,12 @@
 package chanceCubes.util;
 
+import chanceCubes.config.CCubesSettings;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -18,7 +19,6 @@ public class RewardBlockCache
 {
 	protected List<StoredBlockData> storedBlocks = new ArrayList<>();
 	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
-
 
 	private BlockPos origin;
 	private BlockPos playerloc;
@@ -69,15 +69,12 @@ public class RewardBlockCache
 
 	public void restoreBlocks(Entity player)
 	{
-		this.restoreBlocks(player, false);
-	}
-
-	public void restoreBlocks(Entity player, boolean replaceChanged)
-	{
+		List<? extends String> blockedRestoreBlocks = CCubesSettings.blockRestoreBlacklist.get();
 		for(StoredBlockData storedBlock : storedBlocks)
 		{
 			BlockPos worldPos = origin.add(storedBlock.pos);
-			if(world.getBlockState(worldPos).getBlock().equals(storedBlock.placedState.getBlock()) || world.getBlockState(worldPos).getBlock().equals(Blocks.AIR) || replaceChanged)
+			ResourceLocation res = world.getBlockState(worldPos).getBlock().getRegistryName();
+			if(res == null || !blockedRestoreBlocks.contains(res.toString()))
 			{
 				RewardsUtil.placeBlock(storedBlock.oldState, world, worldPos, true);
 				TileEntity tile = world.getTileEntity(worldPos);

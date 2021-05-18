@@ -1,7 +1,9 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.config.ConfigLoader;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardtype.BlockRewardType;
@@ -12,6 +14,7 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
@@ -36,9 +39,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WheelSpinReward extends BaseCustomReward
 {
@@ -51,7 +52,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("tnt", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int i = 0; i < 5; i++)
 				{
@@ -66,7 +67,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_neutral", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, 0);
 			}
@@ -74,7 +75,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_bad", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, -50);
 			}
@@ -82,7 +83,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_good", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, 50);
 			}
@@ -97,7 +98,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("vacation", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				int xChange = ((world.rand.nextInt(50) + 20) + pos.getX()) - 35;
 				int zChange = ((world.rand.nextInt(50) + 20) + pos.getZ()) - 35;
@@ -129,7 +130,7 @@ public class WheelSpinReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		ArmorStandEntity armorStand = EntityType.ARMOR_STAND.create(world);
 		armorStand.setPositionAndRotation(pos.getX() + 0.8, pos.getY() + 1.15, pos.getZ() + 1.5, 0, 0);
@@ -299,7 +300,9 @@ public class WheelSpinReward extends BaseCustomReward
 			{
 				armorStand.remove();
 				cache.restoreBlocks(player);
-				rewardsChosen[rewardPicked].reward.trigger(world, pos, player, new HashMap<>());
+				IChanceCubeReward reward = rewardsChosen[rewardPicked].reward;
+				JsonObject settingsJson = ConfigLoader.getRewardSettings(reward.getName());
+				reward.trigger(world, pos, player, settingsJson);
 			}
 		});
 	}

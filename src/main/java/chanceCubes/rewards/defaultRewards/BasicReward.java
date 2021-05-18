@@ -1,11 +1,10 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.rewards.rewardtype.IRewardType;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class BasicReward extends BaseCustomReward
 {
@@ -18,7 +17,7 @@ public class BasicReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos position, PlayerEntity player, JsonObject settings)
 	{
 		if(rewards != null)
 			for(IRewardType reward : rewards)

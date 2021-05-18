@@ -3,13 +3,12 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class DoubleRainbow extends BaseCustomReward
 {
@@ -22,7 +21,7 @@ public class DoubleRainbow extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "Double Rainbow!");
 		OffsetBlock b;

@@ -6,6 +6,7 @@ import chanceCubes.util.MazeGenerator;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class MazeReward extends BaseCustomReward
 {
@@ -24,7 +23,7 @@ public class MazeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Generating maze..... May be some lag...");
 		final MazeGenerator gen = new MazeGenerator(world, pos, player.getPosition());

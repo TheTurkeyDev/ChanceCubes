@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.entity.EntityType;
@@ -24,7 +25,7 @@ public class CakeIsALieReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
 

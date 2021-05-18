@@ -1,11 +1,9 @@
 package chanceCubes.rewards;
 
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public interface IChanceCubeReward
 {
@@ -15,7 +13,7 @@ public interface IChanceCubeReward
 	 *
 	 * @param player Player who triggered the block
 	 */
-	void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings);
+	void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings);
 
 	/**
 	 * @return How "lucky" this block is (can be negative). 0 would indicate an "average" reward. Range -100 to 100.

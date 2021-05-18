@@ -1,6 +1,19 @@
 
 package chanceCubes.config;
 
+import chanceCubes.CCubesCore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
+import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,29 +22,18 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.lang3.tuple.Pair;
-
-import chanceCubes.CCubesCore;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
-import net.minecraftforge.fml.loading.FMLPaths;
-import org.apache.logging.log4j.Level;
-
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ConfigLoader
 {
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 	public static final ForgeConfigSpec configSpec;
 	public static final ConfigLoader CONFIG;
 
 	public static File globalDisableConfig;
 	private static JsonObject globalDisableConfigJson;
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	public static File rewardSettingsConfig;
+	private static JsonObject rewardSettingsJson;
 
 	static
 	{
@@ -64,10 +66,10 @@ public class ConfigLoader
 		// @formatter:off
 		CCubesSettings.rangeMin = builder
 				.comment("The minimum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.")
-				.defineInRange("chanceRangeMin", 10, 0, 100);
+				.defineInRange("ChanceRangeMin", 10, 0, 100);
 		CCubesSettings.rangeMax = builder
 				.comment("The maximum chance range value. Changes the range of chance that the chance block can pick from. i.e. If you have your rangemin set to 10 and range max set to 15. A chance cube with a chance value of 0 can get rewards of -10 to 15 in chance value.")
-				.defineInRange("chanceRangeMax", 10, 0, 100);
+				.defineInRange("ChanceRangeMax", 10, 0, 100);
 
 		CCubesSettings.d20UseNormalChances = builder
 				.comment("Set to true if the D20's should have any chance value from -100 to 100. Set to false to have the D20's only have a chance value of either -100 or 100")
@@ -75,11 +77,11 @@ public class ConfigLoader
 
 		CCubesSettings.rewardsEqualChance = builder
 				.comment("Set to true if the mod should ignore chance values and give each reward and equal chance to be picked")
-				.define("rewardsEqualChance", false);
+				.define("RewardsEqualChance", false);
 
 		CCubesSettings.disableGiantCC = builder
 				.comment("Set to true Giant Chance Cubes should be disabled")
-				.define("disableGiantCC", false);
+				.define("DisableGiantCC", false);
 
 		CCubesSettings.enableHardCodedRewards = builder
 				.comment("Set to true if the default rewards should be loaded, false if they shouldn't")
@@ -87,20 +89,20 @@ public class ConfigLoader
 
 		CCubesSettings.pendantUses = builder
 				.comment("Number of uses for a pendant")
-				.defineInRange("pendantUses", 32, 0, 1000);
+				.defineInRange("PendantUses", 32, 0, 1000);
 
 		CCubesSettings.oreGeneration = builder
 				.comment("True if Chance Cubes should generate like ores with in the world. false if they should not")
 				.define("GenerateAsOre", true);
 		CCubesSettings.oreGenAmount = builder
 				.comment("Amount of chance cubes to try and spawn, per chunk, as an ore")
-				.defineInRange("oreGenAmount", 4, 1, 100);
+				.defineInRange("OreGenAmount", 4, 1, 100);
 		CCubesSettings.surfaceGeneration = builder
 				.comment("true if Chance Cubes should generate on the surface of the world. false if they should not")
 				.define("GenerateOnSurface", true);
 		CCubesSettings.surfaceGenAmount = builder
 				.comment("Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.")
-				.defineInRange("surfaceGenerationAmount", 100, 0, Integer.MAX_VALUE);
+				.defineInRange("SurfaceGenerationAmount", 100, 0, Integer.MAX_VALUE);
 
 
 		CCubesSettings.blockedWorlds = builder
@@ -109,6 +111,10 @@ public class ConfigLoader
 		CCubesSettings.chestLoot = builder
 				.comment("True if Chance Cubes should generate as chest loot in the world. false if they should not")
 				.define("ChestLoot", true);
+
+		CCubesSettings.blockRestoreBlacklist = builder
+				.comment("Blocks that should not be replaced when rewards are \"restored\" after a reward is over, i.e don't remove graves when the boss dome get's cleared")
+				.defineList("BlockRestoreBlacklist", new ArrayList<>(), input -> (input != null && !input.equals("")));
 
 		CCubesSettings.dropHeight = builder
 				.comment("How many blocks above the Chance Cube that a block that will fall should be dropped from")
@@ -159,14 +165,28 @@ public class ConfigLoader
 					gson.toJson(globalDisableConfigJson, writer);
 				}
 			}
-			else
+		} catch(IOException e)
+		{
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes was unable to create the global rewards config file!");
+		}
+
+		rewardSettingsConfig = new File(folder, "reward_settings.json");
+		try
+		{
+			if(rewardSettingsConfig.createNewFile())
 			{
-				reload();
+				rewardSettingsJson = new JsonObject();
+				try(Writer writer = new FileWriter(rewardSettingsConfig))
+				{
+					gson.toJson(rewardSettingsJson, writer);
+				}
 			}
 		} catch(IOException e)
 		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes was unable to create the global rewards Config file!");
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes was unable to create the reward settings config file!");
 		}
+
+		reload();
 	}
 
 	public static void reload()
@@ -174,9 +194,11 @@ public class ConfigLoader
 		try
 		{
 			globalDisableConfigJson = new JsonParser().parse(new FileReader(globalDisableConfig)).getAsJsonObject();
+			rewardSettingsJson = new JsonParser().parse(new FileReader(rewardSettingsConfig)).getAsJsonObject();
 		} catch(FileNotFoundException e)
 		{
-			CCubesCore.logger.log(Level.ERROR, "Chance Cubes could not load the global rewards Config file!");
+			CCubesCore.logger.log(Level.ERROR, "Chance Cubes could not load the global rewards and/or the reward settings config file!");
+			e.printStackTrace();
 		}
 	}
 
@@ -194,5 +216,10 @@ public class ConfigLoader
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes failed to save to the global rewards Config file!");
 		}
 		return defaultVal;
+	}
+
+	public static JsonObject getRewardSettings(String reward)
+	{
+		return rewardSettingsJson.has(reward) ? rewardSettingsJson.getAsJsonObject(reward) : new JsonObject();
 	}
 }

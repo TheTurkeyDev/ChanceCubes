@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.CreeperEntity;
@@ -11,8 +12,6 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class CreeperSurroundedReward extends BaseCustomReward
 {
 	public CreeperSurroundedReward()
@@ -21,9 +20,9 @@ public class CreeperSurroundedReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
-		final int chargedChance = super.getSettingAsInt(settings, "charged_chance", 10, 0, 100);
+		final int chargedChance = super.getSettingAsInt(settings, "chargedChance", 10, 0, 100);
 		int px = (int) player.getPosX();
 		int pz = (int) player.getPosZ();
 		player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 100, 1, true, false));

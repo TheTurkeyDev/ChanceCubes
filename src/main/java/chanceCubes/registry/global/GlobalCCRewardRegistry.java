@@ -6,6 +6,7 @@ import chanceCubes.config.ConfigLoader;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -173,8 +174,7 @@ public class GlobalCCRewardRegistry
 
 	public static void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
 	{
-		//TODO: Find another way to implement this
-		Map<String, Object> settings =  new HashMap<>();
+		JsonObject settings = ConfigLoader.getRewardSettings(reward.getName());
 		reward.trigger(world, pos, player, settings);
 	}
 

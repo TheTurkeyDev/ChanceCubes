@@ -2,13 +2,13 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DidYouKnowReward extends BaseCustomReward
 {
@@ -26,7 +26,7 @@ public class DidYouKnowReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		String fact = "Did you know?\n" + dyk.get(RewardsUtil.rand.nextInt(dyk.size()));
 		String command = "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:written_book\",Count:1b,tag:{title:\"Did You know?\",author:\"Chance Cubes\",generation:2,pages:['{\"text\":\"" + fact + "\",\"color\":\"black\"}']}}}";

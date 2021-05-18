@@ -5,6 +5,7 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -12,8 +13,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class ClearInventoryReward extends BaseCustomReward
 {
@@ -24,7 +23,7 @@ public class ClearInventoryReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		boolean cubes = false;
 		final PlayerInventory inv = new PlayerInventory(player);

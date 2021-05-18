@@ -15,7 +15,6 @@ import java.net.URL;
 public class HTTPUtil
 {
 	public static final String API_URL = "https://api.theturkey.dev/";
-	//public static final String API_URL = "https://api.test.local/";
 	private static JsonParser json = new JsonParser();
 
 	@SafeVarargs

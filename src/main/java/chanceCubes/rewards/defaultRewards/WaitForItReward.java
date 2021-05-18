@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.TNTEntity;
@@ -15,8 +16,6 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class WaitForItReward extends BaseCustomReward
 {
 	public WaitForItReward()
@@ -25,12 +24,12 @@ public class WaitForItReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Wait for it.......");
 
-		int minDuration = super.getSettingAsInt(settings, "min_duration", 1000, 0, Integer.MAX_VALUE - 1);
-		int maxDuration = minDuration - super.getSettingAsInt(settings, "max_duration", 5000, 1, Integer.MAX_VALUE);
+		int minDuration = super.getSettingAsInt(settings, "minDuration", 1000, 0, Integer.MAX_VALUE - 1);
+		int maxDuration = minDuration - super.getSettingAsInt(settings, "maxDuration", 5000, 1, Integer.MAX_VALUE);
 		if(maxDuration < 1)
 			maxDuration = 1;
 

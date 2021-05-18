@@ -3,6 +3,7 @@ package chanceCubes.config;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
@@ -45,6 +46,8 @@ public class CCubesSettings
 	public static List<BlockState> nonReplaceableBlocks = new ArrayList<>();
 	public static List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
 	public static List<BlockState> backupNRB = new ArrayList<>();
+
+	public static ConfigValue<List<? extends String>> blockRestoreBlacklist;
 
 	public static boolean testRewards;
 	public static boolean testCustomRewards;

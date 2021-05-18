@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -16,8 +17,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class BossBlazeReward extends BossBaseReward
 {
 	public BossBlazeReward()
@@ -26,7 +25,7 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		BlazeEntity blaze = EntityType.BLAZE.create(world);
 		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));

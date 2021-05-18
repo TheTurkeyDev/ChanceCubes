@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,8 +12,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class TrollTNTReward extends BaseCustomReward
 {
@@ -22,7 +21,7 @@ public class TrollTNTReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		for(int x = -1; x < 2; x++)
 		{
@@ -36,7 +35,7 @@ public class TrollTNTReward extends BaseCustomReward
 		world.addEntity(entitytntprimed);
 		world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-		int outOf = super.getSettingAsInt(settings, "real_out_of", 5, 1, 1000);
+		int outOf = super.getSettingAsInt(settings, "realOutOf", 5, 1, 1000);
 
 		if(RewardsUtil.rand.nextInt(outOf) != 1)
 		{

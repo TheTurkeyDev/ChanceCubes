@@ -6,6 +6,7 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
@@ -36,7 +37,7 @@ public class MathReward extends BaseCustomReward
 	private Map<PlayerEntity, RewardInfo> inQuestion = new HashMap<>();
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -75,7 +76,7 @@ public class MathReward extends BaseCustomReward
 
 		inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
 
-		int duration = super.getSettingAsInt(settings, "ans_duration", 100, 20, 2400);
+		int duration = super.getSettingAsInt(settings, "answerDuration", 100, 20, 2400);
 
 		Scheduler.scheduleTask(new Task("Math", duration, 20)
 		{

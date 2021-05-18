@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -15,7 +16,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class CursedHeadReward extends BaseCustomReward
 {
@@ -27,7 +27,7 @@ public class CursedHeadReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		String username = HEAD_NAMES.get(RewardsUtil.rand.nextInt(HEAD_NAMES.size()));
 		ItemStack head = new ItemStack(Items.PLAYER_HEAD);

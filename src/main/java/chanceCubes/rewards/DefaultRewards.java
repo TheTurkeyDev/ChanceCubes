@@ -152,7 +152,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":half_heart", -30)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				player.setHealth(1f);
 			}
@@ -161,7 +161,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":no_exp", -40)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				player.experienceLevel = 0;
 				player.experienceTotal = 0;
@@ -173,7 +173,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":smite", -10)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
 				lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(player.getPosition()));
@@ -186,7 +186,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":cookie-splosion", 35)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				ItemEntity cookie;
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -204,7 +204,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":random_status_effect", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				RewardsUtil.sendMessageToPlayer(player, "Selecting random potion effect to apply...");
 
@@ -226,7 +226,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":arrow_spray", -15)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				ArrowEntity arrow;
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -245,7 +245,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":lingering_potions_ring", -10)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				PotionEntity pot;
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
@@ -262,7 +262,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":charged_creeper", -40)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				if(world.isRemote)
 					return;
@@ -293,7 +293,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":disco", 40)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int xx = -4; xx < 5; xx++)
 					for(int zz = -4; zz < 5; zz++)
@@ -316,7 +316,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":ender_crystal_timer", -90)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int i = 30; i > 0; i--)
 					RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos.add(0, i, 0));
@@ -334,7 +334,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":5_prongs", -10)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int xx = pos.getX() - 3; xx <= pos.getX() + 3; xx++)
 					for(int zz = pos.getZ() - 3; zz <= pos.getZ() + 3; zz++)
@@ -362,7 +362,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":inventory_bomb", -55)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				player.inventory.dropAllItems();
 
@@ -392,7 +392,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":nuke", -75)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "May death rain upon them");
 				world.addEntity(new TNTEntity(world, pos.getX() - 6, pos.getY() + 65, pos.getZ() - 6, player));
@@ -417,7 +417,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":random_teleport", -15)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				int xChange = ((world.rand.nextInt(50) + 20) + pos.getX()) - 35;
 				int zChange = ((world.rand.nextInt(50) + 20) + pos.getZ()) - 35;
@@ -442,7 +442,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":rotten_food", -30)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int i = 0; i < player.inventory.mainInventory.size(); i++)
 				{
@@ -458,7 +458,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":thrown_in_air", -35)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				int px = (int) Math.floor(player.getPosX());
 				int py = (int) Math.floor(player.getPosY()) + 1;
@@ -485,7 +485,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":torches_to_creepers", -40)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				for(int yy = -32; yy <= 32; yy++)
 				{
@@ -511,7 +511,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":traveller", 15)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				int x = RewardsUtil.rand.nextInt(1000) + 200;
 				int z = RewardsUtil.rand.nextInt(1000) + 200;
@@ -529,7 +529,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":troll_hole", -20)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				final BlockPos worldPos = new BlockPos(Math.floor(player.getPosX()), Math.floor(player.getPosY()) - 1, Math.floor(player.getPosZ()));
 				final RewardBlockCache cache = new RewardBlockCache(world, worldPos, new BlockPos(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
@@ -555,7 +555,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":saw_nothing_diamond", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				ItemEntity itemEnt = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.DIAMOND, 1));
 				itemEnt.setInfinitePickupDelay();
@@ -576,7 +576,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BaseCustomReward(CCubesCore.MODID + ":hand_enchant", 20)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 			{
 				ItemStack toEnchant;
 				if(!player.getHeldItemMainhand().isEmpty())
@@ -652,6 +652,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossRavagerReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new WheelSpinReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new Connect4Reward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);

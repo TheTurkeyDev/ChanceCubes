@@ -5,6 +5,7 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +14,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 public class ChunkReverserReward extends BaseCustomReward
@@ -49,7 +49,7 @@ public class ChunkReverserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Initiating Block Inverter");
 		List<OffsetBlock> blocks = new ArrayList<>();

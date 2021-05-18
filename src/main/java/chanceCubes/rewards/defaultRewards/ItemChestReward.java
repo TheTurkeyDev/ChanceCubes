@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,8 +13,6 @@ import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class ItemChestReward extends BaseCustomReward
 {
@@ -35,7 +34,7 @@ public class ItemChestReward extends BaseCustomReward
 	//@formatter:on
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		world.setBlockState(pos, Blocks.CHEST.getDefaultState());
 		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(pos);

@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
@@ -9,7 +10,6 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class BookOfMemesReward extends BaseCustomReward
 {
@@ -31,7 +31,7 @@ public class BookOfMemesReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		List<String> allMemes = new ArrayList<>(memes);
 		allMemes.addAll(Arrays.asList(super.getSettingAsStringList(settings, "memes", new String[0])));

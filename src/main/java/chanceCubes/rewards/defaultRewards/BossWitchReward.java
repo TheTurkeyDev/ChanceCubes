@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -42,7 +43,7 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		WitchEntity witch = EntityType.WITCH.create(world);
 		witch.setCustomName(new StringTextComponent("Evil Witch"));

@@ -6,6 +6,7 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -27,7 +28,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BlockThrowerReward extends BaseCustomReward
 {
@@ -37,7 +37,7 @@ public class BlockThrowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		for(int x = -20; x < 21; x++)
 		{

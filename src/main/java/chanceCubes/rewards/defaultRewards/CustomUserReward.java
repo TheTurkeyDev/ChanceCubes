@@ -30,7 +30,6 @@ import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -50,7 +49,6 @@ public class CustomUserReward extends BaseCustomReward
 		try
 		{
 			users = HTTPUtil.makeAPIReq("GET", "chancecubes/userlist");
-			System.out.println(users.toString());
 		} catch(Exception e)
 		{
 			e.printStackTrace();
@@ -143,7 +141,7 @@ public class CustomUserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
 
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getUnformattedComponentText()))

@@ -3,12 +3,12 @@ package chanceCubes.rewards.giantRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BioDomeGen;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.Arrays;
-import java.util.Map;
 
 public class BioDomeReward extends BaseCustomReward
 {
@@ -18,10 +18,10 @@ public class BioDomeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
-		String[] blacklist = super.getSettingAsStringList(settings, "biomes_blacklist", new String[0]);
-		boolean spawnEntities = super.getSettingAsBoolean(settings, "spawn_entities", true);
+		String[] blacklist = super.getSettingAsStringList(settings, "biomesBlacklist", new String[0]);
+		boolean spawnEntities = super.getSettingAsBoolean(settings, "spawnEntities", true);
 		(new BioDomeGen(player, Arrays.asList(blacklist))).genRandomDome(pos, world, 25, spawnEntities);
 	}
 }

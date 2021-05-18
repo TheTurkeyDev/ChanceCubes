@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -10,8 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Map;
 
 public class ChanceCubeRenameReward extends BaseCustomReward
 {
@@ -29,12 +28,12 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 2);
-		String[] allChanceSyn = ArrayUtils.addAll(chanceSyn, super.getSettingAsStringList(settings, "chance_syn", new String[0]));
+		String[] allChanceSyn = ArrayUtils.addAll(chanceSyn, super.getSettingAsStringList(settings, "chanceSynonym", new String[0]));
 		String name = allChanceSyn[RewardsUtil.rand.nextInt(allChanceSyn.length)];
-		String[] allCubeSyn = ArrayUtils.addAll(cubeSyn, super.getSettingAsStringList(settings, "cube_syn", new String[0]));
+		String[] allCubeSyn = ArrayUtils.addAll(cubeSyn, super.getSettingAsStringList(settings, "cubeSynonym", new String[0]));
 		String adj = allCubeSyn[RewardsUtil.rand.nextInt(allCubeSyn.length)];
 
 		String newName = name + " " + adj;

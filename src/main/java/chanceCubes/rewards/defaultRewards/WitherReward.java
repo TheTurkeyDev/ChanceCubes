@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
@@ -11,8 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class WitherReward extends BaseCustomReward
 {
@@ -22,9 +21,9 @@ public class WitherReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
 	{
-		int realOutOf = super.getSettingAsInt(settings, "real_out_of", 10, 1, Integer.MAX_VALUE);
+		int realOutOf = super.getSettingAsInt(settings, "realOutOf", 10, 1, Integer.MAX_VALUE);
 		final WitherEntity wither = EntityType.WITHER.create(world);
 		wither.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
 		wither.renderYawOffset = 90.0F;

@@ -5,6 +5,7 @@ import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -12,8 +13,6 @@ import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class DigBuildReward extends BaseCustomReward
 {
@@ -24,7 +23,7 @@ public class DigBuildReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		int min = super.getSettingAsInt(settings, "min", 5, 0, 100);
 		int max = super.getSettingAsInt(settings, "max", 25, 0, 100);

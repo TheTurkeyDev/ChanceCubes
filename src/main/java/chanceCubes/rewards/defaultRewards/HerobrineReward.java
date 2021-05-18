@@ -4,13 +4,12 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class HerobrineReward extends BaseCustomReward
 {
@@ -23,9 +22,9 @@ public class HerobrineReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
-		int realChance = super.getSettingAsInt(settings, "is_real", 20, 0, 100);
+		int realChance = super.getSettingAsInt(settings, "isReal", 20, 0, 100);
 		boolean real = RewardsUtil.rand.nextInt(100) < realChance;
 		Scheduler.scheduleTask(new Task("Herobrine Reward", 280, 40)
 		{

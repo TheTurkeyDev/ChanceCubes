@@ -1,10 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.GameTurn;
+import chanceCubes.util.Point;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +18,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TicTacToeReward extends BaseCustomReward
 {
@@ -25,7 +27,7 @@ public class TicTacToeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 3, 0, 100);
 		RewardsUtil.sendMessageToPlayer(player, "Lets play Tic-Tac-Toe!");
@@ -62,7 +64,7 @@ public class TicTacToeReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				cache.restoreBlocks(player, true);
+				cache.restoreBlocks(player);
 			}
 
 			@Override
@@ -77,13 +79,13 @@ public class TicTacToeReward extends BaseCustomReward
 
 			private void makeMove(int x, int y)
 			{
-				board.placeMove(x, y, 2);
+				board.placeMove(x, y, GameTurn.PLAYER);
 
 				if(!board.isGameOver())
 				{
 					//Make CPU Move
-					board.minimax(0, Turn.CPU, mistakeChance);
-					board.placeMove(board.computersMove.x, board.computersMove.y, 1);
+					board.minimax(0, GameTurn.CPU, mistakeChance);
+					board.placeMove(board.computersMove.x, board.computersMove.y, GameTurn.CPU);
 					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
 				}
 
@@ -116,17 +118,6 @@ public class TicTacToeReward extends BaseCustomReward
 				}
 			}
 		});
-	}
-
-	private static class Point
-	{
-		int x, y;
-
-		public Point(int x, int y)
-		{
-			this.x = x;
-			this.y = y;
-		}
 	}
 
 	private static class Board
@@ -169,12 +160,12 @@ public class TicTacToeReward extends BaseCustomReward
 			return availablePoints;
 		}
 
-		public void placeMove(int x, int y, int player)
+		public void placeMove(int x, int y, GameTurn turn)
 		{
-			board[x][y] = player;
+			board[x][y] = turn == GameTurn.PLAYER ? 2 : 1;
 		}
 
-		public int minimax(int depth, Turn turn, int mistakeChance)
+		public int minimax(int depth, GameTurn turn, int mistakeChance)
 		{
 			//Game status...
 			if(hasCPUWon())
@@ -196,10 +187,10 @@ public class TicTacToeReward extends BaseCustomReward
 			for(int i = 0; i < pointsAvailable.size(); ++i)
 			{
 				Point point = pointsAvailable.get(i);
-				if(turn == Turn.CPU)
+				placeMove(point.x, point.y, turn);
+				if(turn == GameTurn.CPU)
 				{
-					placeMove(point.x, point.y, 1);
-					int currentScore = minimax(depth + 1, Turn.PLAYER, mistakeChance);
+					int currentScore = minimax(depth + 1, GameTurn.PLAYER, mistakeChance);
 					max = Math.max(currentScore, max);
 
 					if(currentScore >= 0 && depth == 0)
@@ -214,10 +205,9 @@ public class TicTacToeReward extends BaseCustomReward
 					if(i == pointsAvailable.size() - 1 && max < 0 && depth == 0)
 						computersMove = point;
 				}
-				else if(turn == Turn.PLAYER)
+				else if(turn == GameTurn.PLAYER)
 				{
-					placeMove(point.x, point.y, 2);
-					int currentScore = minimax(depth + 1, Turn.CPU, mistakeChance);
+					int currentScore = minimax(depth + 1, GameTurn.CPU, mistakeChance);
 					min = Math.min(currentScore, min);
 					if(min == -1)
 					{
@@ -227,12 +217,7 @@ public class TicTacToeReward extends BaseCustomReward
 				}
 				board[point.x][point.y] = 0;
 			}
-			return turn == Turn.CPU ? max : min;
+			return turn == GameTurn.CPU ? max : min;
 		}
-	}
-
-	public enum Turn
-	{
-		CPU, PLAYER;
 	}
 }

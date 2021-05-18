@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,8 +11,6 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class ZombieCopyCatReward extends BaseCustomReward
 {
 	public ZombieCopyCatReward()
@@ -20,7 +19,7 @@ public class ZombieCopyCatReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		ZombieEntity zombie = EntityType.ZOMBIE.create(world);
 		zombie.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);

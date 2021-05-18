@@ -5,6 +5,7 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.StoneButtonBlock;
@@ -18,8 +19,6 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class MontyHallReward extends BaseCustomReward
 {
 	public MontyHallReward()
@@ -28,7 +27,7 @@ public class MontyHallReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Which button do you press?");
 

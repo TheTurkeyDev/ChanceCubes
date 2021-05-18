@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +11,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class MobTowerReward extends BaseCustomReward
 {
@@ -28,11 +28,11 @@ public class MobTowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "How did they end up like that? O.o");
-		int minHeight = super.getSettingAsInt(settings, "min_height", 7, 0, 20);
-		int maxHeight = minHeight - super.getSettingAsInt(settings, "max_height", 13, 1, 50);
+		int minHeight = super.getSettingAsInt(settings, "minHeight", 7, 0, 20);
+		int maxHeight = minHeight - super.getSettingAsInt(settings, "maxHeight", 13, 1, 50);
 		if(maxHeight < 1)
 			maxHeight = 1;
 		int height = RewardsUtil.rand.nextInt(maxHeight) + minHeight;

@@ -1,14 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class SurroundedReward extends BaseCustomReward
 {
@@ -18,7 +17,7 @@ public class SurroundedReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		int px = (int) player.getPosX();
 		int pz = (int) player.getPosZ();

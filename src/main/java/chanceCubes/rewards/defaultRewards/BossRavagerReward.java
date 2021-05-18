@@ -6,6 +6,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -20,8 +21,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
-
 public class BossRavagerReward extends BossBaseReward
 {
 	public BossRavagerReward()
@@ -30,7 +29,7 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		RavagerEntity ravager = EntityType.RAVAGER.create(world);
 		ravager.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());

@@ -6,14 +6,13 @@ import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class OneIsLuckyReward extends BaseCustomReward
 {
@@ -23,7 +22,7 @@ public class OneIsLuckyReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "A Lucky Block Salute");
 		SignTileEntity sign = new SignTileEntity();

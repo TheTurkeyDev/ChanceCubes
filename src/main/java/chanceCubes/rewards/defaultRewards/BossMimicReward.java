@@ -1,5 +1,6 @@
 package chanceCubes.rewards.defaultRewards;
 
+import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -11,7 +12,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
-import java.util.Map;
 
 public class BossMimicReward extends BossBaseReward
 {
@@ -21,7 +21,7 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
+	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
 		mimic.setCustomName(new StringTextComponent("Mimic"));

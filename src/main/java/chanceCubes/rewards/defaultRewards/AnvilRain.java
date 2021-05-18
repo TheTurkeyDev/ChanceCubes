@@ -5,12 +5,11 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class AnvilRain extends BaseCustomReward
 {
@@ -21,10 +20,11 @@ public class AnvilRain extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos position, PlayerEntity player, JsonObject settings)
 	{
 		final RewardBlockCache cache = new RewardBlockCache(world, position, player.getPosition());
-		for(int i = 0; i < super.getSettingAsInt(settings, "num_anvils", 5, 0, 100); i++)
+		int numAnvils = super.getSettingAsInt(settings, "numAnvils", 5, 0, 100);
+		for(int i = 0; i < numAnvils; i++)
 		{
 			int xx = RewardsUtil.rand.nextInt(9) - 4;
 			int zz = RewardsUtil.rand.nextInt(9) - 4;

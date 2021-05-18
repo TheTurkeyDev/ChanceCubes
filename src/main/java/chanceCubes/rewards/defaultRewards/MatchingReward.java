@@ -6,6 +6,7 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
@@ -15,8 +16,6 @@ import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class MatchingReward extends BaseCustomReward
 {
@@ -28,7 +27,7 @@ public class MatchingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
 		for(int i = 0; i < 500; i++)
@@ -46,11 +45,11 @@ public class MatchingReward extends BaseCustomReward
 			int z = (i / 3) - 1;
 			cache.cacheBlock(new BlockPos(x, -1, z), blocks[i].getDefaultState());
 		}
-		RewardsUtil.sendMessageToPlayer(player, "Memerize these blocks!");
+		RewardsUtil.sendMessageToPlayer(player, "Memorize these blocks!");
 
-		int delay = super.getSettingAsInt(settings, "mem_duration", 200, 60, 600);
+		int delay = super.getSettingAsInt(settings, "memDuration", 200, 60, 600);
 
-		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", delay, 20)
+		Scheduler.scheduleTask(new Task("Matching_Reward_Memorize_Delay", delay, 20)
 		{
 			@Override
 			public void callback()
@@ -107,14 +106,13 @@ public class MatchingReward extends BaseCustomReward
 							{
 								matches++;
 								lastBroken = -1;
-								break;
 							}
 							else
 							{
 								lose();
 								Scheduler.removeTask(this);
-								break;
 							}
+							break;
 						}
 						else
 						{

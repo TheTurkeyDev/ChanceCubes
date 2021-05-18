@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,7 +26,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, BlockPos position, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos position, PlayerEntity player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(world, position, 36, "It's raining Cats and dogs!");
 

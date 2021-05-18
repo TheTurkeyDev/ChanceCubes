@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ArmorStandEntity;
@@ -14,8 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Map;
 
 public class ArmorStandArmorReward extends BaseCustomReward
 {
@@ -51,7 +50,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		ArmorStandEntity armorStand = EntityType.ARMOR_STAND.create(world);
 		String[] allNames = ArrayUtils.addAll(names, super.getSettingAsStringList(settings, "names", new String[0]));
@@ -60,7 +59,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		armorStand.setCustomNameVisible(true);
 		armorStand.setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 
-		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(settings, "head_item_stacks", new ItemStack[0]));
+		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(settings, "headItemStacks", new ItemStack[0]));
 		ItemStack headStack = allHeadItems[RewardsUtil.rand.nextInt(allHeadItems.length)].copy();
 		if(headStack.getItem().equals(Items.PLAYER_HEAD))
 		{
@@ -74,13 +73,13 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		}
 
 		armorStand.setItemStackToSlot(EquipmentSlotType.HEAD, headStack);
-		ItemStack[] allChestItems = ArrayUtils.addAll(chestItems, super.getSettingAsItemStackList(settings, "chest_item_stacks", new ItemStack[0]));
+		ItemStack[] allChestItems = ArrayUtils.addAll(chestItems, super.getSettingAsItemStackList(settings, "chestItemStacks", new ItemStack[0]));
 		armorStand.setItemStackToSlot(EquipmentSlotType.CHEST, allChestItems[RewardsUtil.rand.nextInt(allChestItems.length)].copy());
-		ItemStack[] allLegsItems = ArrayUtils.addAll(legsItems, super.getSettingAsItemStackList(settings, "leg_item_stacks", new ItemStack[0]));
+		ItemStack[] allLegsItems = ArrayUtils.addAll(legsItems, super.getSettingAsItemStackList(settings, "legItemStacks", new ItemStack[0]));
 		armorStand.setItemStackToSlot(EquipmentSlotType.LEGS, allLegsItems[RewardsUtil.rand.nextInt(allLegsItems.length)].copy());
-		ItemStack[] allBootItems = ArrayUtils.addAll(bootsItems, super.getSettingAsItemStackList(settings, "boot_item_stacks", new ItemStack[0]));
+		ItemStack[] allBootItems = ArrayUtils.addAll(bootsItems, super.getSettingAsItemStackList(settings, "bootItemStacks", new ItemStack[0]));
 		armorStand.setItemStackToSlot(EquipmentSlotType.FEET, allBootItems[RewardsUtil.rand.nextInt(allBootItems.length)].copy());
-		ItemStack[] allHandItems = ArrayUtils.addAll(handItems, super.getSettingAsItemStackList(settings, "hand_item_stacks", new ItemStack[0]));
+		ItemStack[] allHandItems = ArrayUtils.addAll(handItems, super.getSettingAsItemStackList(settings, "handItemStacks", new ItemStack[0]));
 		armorStand.setItemStackToSlot(EquipmentSlotType.MAINHAND, allHandItems[RewardsUtil.rand.nextInt(allHandItems.length)].copy());
 		armorStand.setItemStackToSlot(EquipmentSlotType.OFFHAND, allHandItems[RewardsUtil.rand.nextInt(allHandItems.length)].copy());
 		world.addEntity(armorStand);

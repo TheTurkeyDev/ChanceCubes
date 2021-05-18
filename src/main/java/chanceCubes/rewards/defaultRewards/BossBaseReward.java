@@ -6,6 +6,7 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.common.collect.Multimap;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public abstract class BossBaseReward extends BaseCustomReward
 {
@@ -39,7 +39,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		BattleWrapper battleWrapper = new BattleWrapper();
 
@@ -93,7 +93,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper)
+	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		spawnBoss(world, pos, player, settings, battleWrapper);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
@@ -167,11 +167,11 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings, BattleWrapper battleWrapper);
+	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper);
 
 	public abstract void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player);
 
-	public double getBossHealthDynamic(PlayerEntity player, Map<String, Object> settings)
+	public double getBossHealthDynamic(PlayerEntity player, JsonObject settings)
 	{
 		double maxDamage = 3;
 		for(ItemStack stack : player.inventory.mainInventory)
@@ -188,7 +188,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 		double prePofileHealth = maxDamage * 15.0;
 
-		double profileMult = super.getSettingAsDouble(settings, "boss_health_multiplier", 1.0, 0.0, 10.0);
+		double profileMult = super.getSettingAsDouble(settings, "bossHealthMultiplier", 1.0, 0.0, 10.0);
 
 		return prePofileHealth * profileMult;
 	}

@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -16,7 +17,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class WolvesToCreepersReward extends BaseCustomReward
 {
@@ -26,7 +26,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, BlockPos pos, PlayerEntity player, Map<String, Object> settings)
+	public void trigger(final ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
 	{
 		final List<Entity> wolves = new ArrayList<>();
 		for(int i = 0; i < 10; i++)
