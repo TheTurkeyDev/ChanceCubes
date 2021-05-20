@@ -30,6 +30,13 @@ public class CommandRewardType extends BaseRewardType<CommandPart>
 	}
 
 	@Override
+	public void trigger(ServerWorld world, int x, int y, int z, PlayerEntity player)
+	{
+		CommandPart.randUUIDs.clear();
+		super.trigger(world, x, y, z, player);
+	}
+
+	@Override
 	public void trigger(final CommandPart command, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
 	{
 		Scheduler.scheduleTask(new Task("Command Reward Delay", command.getDelay())

@@ -4,10 +4,16 @@ import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.UUIDCodec;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class CommandPart extends BasePart
 {
+	public static Map<Integer, UUID> randUUIDs = new HashMap<>();
 	private StringVar command;
 	private IntVar copies = new IntVar(0);
 	private BoolVar copiesSoft = new BoolVar(false);
@@ -46,13 +52,40 @@ public class CommandPart extends BasePart
 		parsedCommand = parsedCommand.replace("%x", "" + x);
 		parsedCommand = parsedCommand.replace("%y", "" + y);
 		parsedCommand = parsedCommand.replace("%z", "" + z);
+		parsedCommand = parsedCommand.replace("%pyaw", "" + player.rotationYaw);
+		parsedCommand = parsedCommand.replace("%ppitch", "" + player.rotationPitch);
 		parsedCommand = parsedCommand.replace("%px", "" + player.getPosX());
 		parsedCommand = parsedCommand.replace("%py", "" + player.getPosY());
 		parsedCommand = parsedCommand.replace("%pz", "" + player.getPosZ());
-		parsedCommand = parsedCommand.replace("%puuid", "" + player.getUniqueID().toString());
-		parsedCommand = parsedCommand.replace("%pdir", "" + player.getHorizontalFacing().toString());
-		parsedCommand = parsedCommand.replace("%pyaw", "" + player.rotationYaw);
-		parsedCommand = parsedCommand.replace("%ppitch", "" + player.rotationPitch);
+		parsedCommand = parsedCommand.replace("%puuid", player.getUniqueID().toString());
+		int[] enc = UUIDCodec.encodeUUID(player.getUniqueID());
+		parsedCommand = parsedCommand.replace("%pencuuid", String.format("[I;%d,%d,%d,%d]", enc[0], enc[1], enc[2], enc[3]));
+		parsedCommand = parsedCommand.replace("%pdir", player.getHorizontalFacing().toString());
+
+		// Random UUID's
+		int index;
+		while((index = parsedCommand.indexOf("%randuuid")) != -1)
+		{
+			String randIDStr = parsedCommand.substring(index + 9, index + 10);
+			int randId = 0;
+			if(randIDStr.matches("[0-9]"))
+				randId = Integer.parseInt(randIDStr);
+
+			UUID uuid = randUUIDs.computeIfAbsent(randId, (id) -> UUID.randomUUID());
+			parsedCommand.replace("%randuuid" + randIDStr, uuid.toString());
+		}
+
+		while((index = parsedCommand.indexOf("%randencuuid")) != -1)
+		{
+			String randIDStr = parsedCommand.substring(index + 12, index + 13);
+			int randId = 0;
+			if(randIDStr.matches("[0-9]"))
+				randId = Integer.parseInt(randIDStr);
+
+			UUID uuid = randUUIDs.computeIfAbsent(randId, (id) -> UUID.randomUUID());
+			enc = UUIDCodec.encodeUUID(uuid);
+			parsedCommand = parsedCommand.replace("%randencuuid", String.format("[I;%d,%d,%d,%d]", enc[0], enc[1], enc[2], enc[3]));
+		}
 
 		return parsedCommand;
 	}
