@@ -35,6 +35,15 @@ public class MobTowerReward extends BaseCustomReward
 		int maxHeight = minHeight - super.getSettingAsInt(settings, "maxHeight", 13, 1, 50);
 		if(maxHeight < 1)
 			maxHeight = 1;
+
+		//Because someone will do it...
+		if(minHeight > maxHeight)
+		{
+			int swap = minHeight;
+			minHeight = maxHeight;
+			maxHeight = swap;
+		}
+
 		int height = RewardsUtil.rand.nextInt(maxHeight) + minHeight;
 		Entity last;
 		try

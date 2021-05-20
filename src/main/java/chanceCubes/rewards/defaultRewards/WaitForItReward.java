@@ -32,6 +32,13 @@ public class WaitForItReward extends BaseCustomReward
 		int maxDuration = minDuration - super.getSettingAsInt(settings, "maxDuration", 5000, 1, Integer.MAX_VALUE);
 		if(maxDuration < 1)
 			maxDuration = 1;
+		//Because someone will do it...
+		if(minDuration > maxDuration)
+		{
+			int swap = minDuration;
+			minDuration = maxDuration;
+			maxDuration = swap;
+		}
 
 		Scheduler.scheduleTask(new Task("Wait For It", RewardsUtil.rand.nextInt(maxDuration) + minDuration)
 		{

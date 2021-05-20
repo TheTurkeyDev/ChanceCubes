@@ -31,7 +31,7 @@ public class CakeIsALieReward extends BaseCustomReward
 
 		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world, pos);
 
-		final int lieChance = super.getSettingAsInt(settings, "lie_chance", 10, 0, 100);
+		final int lieChance = super.getSettingAsInt(settings, "lieChance", 10, 0, 100);
 
 		if(RewardsUtil.rand.nextInt(3) == 1)
 		{
