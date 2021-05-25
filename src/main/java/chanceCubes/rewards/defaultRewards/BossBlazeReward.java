@@ -6,7 +6,7 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
@@ -25,13 +25,10 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		BlazeEntity blaze = EntityType.BLAZE.create(world);
 		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
-		blaze.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		blaze.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
-		blaze.setHealth(blaze.getMaxHealth());
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)
 		{
@@ -57,11 +54,7 @@ public class BossBlazeReward extends BossBaseReward
 					shootFireballs(world, blaze, player);
 			}
 		});
-
-
-		world.addEntity(blaze);
-		super.trackEntities(battleWrapper, blaze);
-		super.trackedPlayers(battleWrapper, player);
+		return blaze;
 	}
 
 	private void goInvisible(BlazeEntity blaze)

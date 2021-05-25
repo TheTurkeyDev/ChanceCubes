@@ -5,7 +5,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,14 +27,10 @@ public class BossSlimeQueenReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		SlimeEntity queen = EntityType.SLIME.create(world);
 		queen.setCustomName(new StringTextComponent("Slime Queen"));
-		queen.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-
-		queen.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
-		queen.setHealth(queen.getMaxHealth());
 
 		// Lol ok
 		CompoundNBT nbt = new CompoundNBT();
@@ -44,9 +40,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 
 		queen.addPotionEffect(new EffectInstance(Effects.GLOWING, Integer.MAX_VALUE, 0, true, false));
 
-		world.addEntity(queen);
-
-		super.trackEntities(battleWrapper, queen);
+		return queen;
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.WitchEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,6 @@ import org.apache.logging.log4j.Level;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class BossWitchReward extends BossBaseReward
@@ -43,13 +42,10 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		WitchEntity witch = EntityType.WITCH.create(world);
 		witch.setCustomName(new StringTextComponent("Evil Witch"));
-		witch.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		witch.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
-		witch.setHealth(witch.getMaxHealth());
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);
 		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
@@ -98,10 +94,7 @@ public class BossWitchReward extends BossBaseReward
 			}
 		});
 
-
-		world.addEntity(witch);
-		super.trackEntities(battleWrapper, witch);
-		super.trackedPlayers(battleWrapper, player);
+		return witch;
 	}
 
 	private void lightningStrike(BlockPos playerPos, ServerWorld world)

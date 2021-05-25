@@ -79,7 +79,7 @@ public class RewardBlockCache
 				RewardsUtil.placeBlock(storedBlock.oldState, world, worldPos, true);
 				TileEntity tile = world.getTileEntity(worldPos);
 				if(storedTE.containsKey(storedBlock.pos) && tile != null)
-					tile.deserializeNBT(storedTE.get(storedBlock.pos));
+					tile.deserializeNBT(storedBlock.oldState, storedTE.get(storedBlock.pos));
 			}
 		}
 

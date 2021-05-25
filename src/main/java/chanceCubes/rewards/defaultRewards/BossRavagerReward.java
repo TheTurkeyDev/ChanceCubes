@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,12 +29,9 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		RavagerEntity ravager = EntityType.RAVAGER.create(world);
-		ravager.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		ravager.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings) * 2);
-		ravager.setHealth(ravager.getMaxHealth());
 
 		ArmorStandEntity armorStandEntity = EntityType.ARMOR_STAND.create(world);
 		armorStandEntity.setInvulnerable(true);
@@ -82,10 +79,8 @@ public class BossRavagerReward extends BossBaseReward
 		});
 
 
-		world.addEntity(ravager);
 		//world.addEntity(armorStandEntity);
-		super.trackEntities(battleWrapper, ravager);
-		super.trackedPlayers(battleWrapper, player);
+		return ravager;
 	}
 
 	private void groundPound(BlockPos ravagerPos, ServerWorld world)

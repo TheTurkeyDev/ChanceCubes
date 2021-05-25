@@ -212,7 +212,8 @@ public class RewardParser
 
 			command.setDelay(ParserUtil.getInt(element, "delay", command.getDelay()));
 			command.setCopies(ParserUtil.getInt(element, "copies", 0));
-			command.setCopiesSoft(ParserUtil.getBoolean(element, "copies_soft", false));
+			command.setCopiesSoft(ParserUtil.getBoolean(element, "copiesSoft", false));
+			command.setRelativeToPlayer(ParserUtil.getBoolean(element, "relativeToPlayer", false));
 
 			commands.add(command);
 		}

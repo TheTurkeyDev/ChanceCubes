@@ -97,6 +97,11 @@ public class CustomRewardsLoader
 			String today = new SimpleDateFormat("MM/dd").format(new Date());
 			String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
 			JsonObject json = HTTPUtil.makeAPIReq("GET", "chancecubes/rewards?version=" + ver + "&date=" + today).getAsJsonObject();
+			if(json.isJsonNull())
+			{
+				CCubesCore.logger.log(Level.ERROR, "Failed to fetch remote information for the mod!");
+				return;
+			}
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
 			this.loadHolidayRewards(json.get("Holiday Rewards"));
 		} catch(Exception e)

@@ -8,6 +8,7 @@ import chanceCubes.util.Task;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -95,7 +96,17 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		spawnBoss(world, pos, player, settings, battleWrapper);
+		LivingEntity ent = initBoss(world, pos, player, settings, battleWrapper);
+		ent.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+		ent.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
+		ent.setHealth(ent.getMaxHealth());
+//		CustomServerBossInfoManager customserverbossinfomanager = world.getServer().getCustomBossEvents();
+//		customserverbossinfomanager.add(new ResourceLocation(CCubesCore.MODID, this.getName()), ent.getCustomName());
+//		BossBarCommand
+
+		world.addEntity(ent);
+		trackEntities(battleWrapper, ent);
+		trackPlayers(battleWrapper, player);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
 		{
 			@Override
@@ -162,12 +173,12 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.trackedSubEntities.addAll(Arrays.asList(ents));
 	}
 
-	protected void trackedPlayers(BattleWrapper battleWrapper, PlayerEntity... player)
+	protected void trackPlayers(BattleWrapper battleWrapper, PlayerEntity... player)
 	{
 		battleWrapper.trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper);
+	public abstract LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper);
 
 	public abstract void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player);
 

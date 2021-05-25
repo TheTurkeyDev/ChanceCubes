@@ -7,6 +7,8 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
@@ -45,7 +47,7 @@ public class BioDomeGen
 	public void genRandomDome(final BlockPos pos, final ServerWorld world, int radius, boolean spawnEntities)
 	{
 		IBioDomeBiome biome = biomes[0];
-		List<IBioDomeBiome> biomesFiltered = Arrays.asList(biomes).stream().filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).collect(Collectors.toList());
+		List<IBioDomeBiome> biomesFiltered = Arrays.stream(biomes).filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).collect(Collectors.toList());
 		if(biomesFiltered.size() != 0)
 			biome = biomesFiltered.get(RewardsUtil.rand.nextInt(biomesFiltered.size()));
 		this.genDome(biome, pos, world, radius, spawnEntities);
@@ -84,13 +86,13 @@ public class BioDomeGen
 		}
 
 		xinc = xinc + 1 > radius ? (-radius) : xinc + 1;
-		int Yinctemp = yinc;
+		int yIncTemp = yinc;
 		if(xinc == -radius)
 		{
-			Yinctemp = Yinctemp + 1 > radius ? -1 : Yinctemp + 1;
+			yIncTemp = yIncTemp + 1 > radius ? -1 : yIncTemp + 1;
 		}
 
-		if(Yinctemp == -1)
+		if(yIncTemp == -1)
 		{
 			if(spawnEntities)
 			{
@@ -103,10 +105,12 @@ public class BioDomeGen
 					}
 				});
 			}
+			if(spawnedBiome instanceof OceanBiome)
+				player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 1200));
 			return;
 		}
 
-		yinc = Yinctemp;
+		yinc = yIncTemp;
 
 		for(OffsetBlock b : blocks)
 			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ(), blockCache);

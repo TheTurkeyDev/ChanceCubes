@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,14 +22,11 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public void spawnBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
 		mimic.setCustomName(new StringTextComponent("Mimic"));
-		mimic.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		mimic.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 1.25);
-		mimic.setHealth(mimic.getMaxHealth());
 		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
 
 		mimic.setItemStackToSlot(EquipmentSlotType.HEAD, playerArmorInv.get(3).copy());
@@ -45,9 +43,7 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setItemStackToSlot(EquipmentSlotType.OFFHAND, player.inventory.offHandInventory.get(0).copy());
 		mimic.setDropChance(EquipmentSlotType.OFFHAND, 0);
 
-		world.addEntity(mimic);
-		super.trackEntities(battleWrapper, mimic);
-		super.trackedPlayers(battleWrapper, player);
+		return mimic;
 	}
 
 	@Override

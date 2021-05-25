@@ -97,7 +97,7 @@ public class Connect4Reward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				cache.restoreBlocks(player);
+
 			}
 
 			@Override
@@ -151,13 +151,13 @@ public class Connect4Reward extends BaseCustomReward
 
 				if(gameOver)
 				{
-					Task superTask = this;
+					this.delayLeft = 0;
 					Scheduler.scheduleTask(new Task("Connect_4_Game_End_Delay", 40)
 					{
 						@Override
 						public void callback()
 						{
-							superTask.delayLeft = 0;
+							cache.restoreBlocks(player);
 						}
 					});
 				}

@@ -17,6 +17,7 @@ public class CommandPart extends BasePart
 	private StringVar command;
 	private IntVar copies = new IntVar(0);
 	private BoolVar copiesSoft = new BoolVar(false);
+	private BoolVar relativeToPlayer = new BoolVar(false);
 
 	public CommandPart(String command)
 	{
@@ -108,5 +109,15 @@ public class CommandPart extends BasePart
 	public void setCopiesSoft(BoolVar copiesSoft)
 	{
 		this.copiesSoft = copiesSoft;
+	}
+
+	public void setRelativeToPlayer(BoolVar boolVar)
+	{
+		this.relativeToPlayer = boolVar;
+	}
+
+	public BoolVar isRelativeToPlayer()
+	{
+		return this.relativeToPlayer;
 	}
 }
