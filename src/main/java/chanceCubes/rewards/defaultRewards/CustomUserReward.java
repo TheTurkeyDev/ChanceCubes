@@ -91,6 +91,9 @@ public class CustomUserReward extends BaseCustomReward
 			return;
 		}
 
+		if(userRewards.isJsonNull() || contentCreatorStuff.isJsonNull())
+			return;
+
 		List<BasicReward> customRewards = new ArrayList<>();
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
