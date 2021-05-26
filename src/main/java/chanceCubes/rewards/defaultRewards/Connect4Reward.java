@@ -297,7 +297,6 @@ public class Connect4Reward extends BaseCustomReward
 					if(min == -1)
 					{
 						board[(point.y * WIDTH) + point.x] = 0;
-						computersMove = point;
 						break;
 					}
 				}
