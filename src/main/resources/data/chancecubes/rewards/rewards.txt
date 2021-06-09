@@ -11,6 +11,7 @@ chance_cube_cube.json
 chat_message.json
 cookie_monster.json
 cuteness.json
+dark_o_the_wise.json
 d_rude_sandstorm.json
 divine_rewards.json
 diy_pie.json

@@ -1,0 +1,10 @@
+{
+  "chancecubes:dark_o_the_wise": {
+    "chance": 60,
+    "Command": [
+      {
+        "command": "/summon zombie_villager ~ ~ ~ {CustomName:'{\"text\":\"Dark-O-The-Wise\"}',VillagerData:{profession:\"minecraft:nitwit\"},Offers:{Recipes:[{rewardExp:1b,maxUses:2147483647,priceMultiplier:1f,buy:{id:\"minecraft:dirt\",Count:1b,tag:{display:{Name:'{\"text\":\"A lonely piece of dirt\",\"color\":\"#ff1111\"}'}}},sell:{id:\"minecraft:netherite_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"BF Sword\",\"color\":\"dark_aqua\",\"bold\":true}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:10s}]}}},{rewardExp:1b,maxUses:2147483647,priceMultiplier:1f,buy:{id:\"minecraft:diamond_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Wrath of Herobrine\",\"color\":\"white\"}'},Unbreakable:1b,Enchantments:[{id:\"minecraft:sharpness\",lvl:5s}]}},sell:{id:\"minecraft:diamond_pickaxe\",Count:1b,tag:{display:{Name:'{\"text\":\"Herobrine\\'s Repurposed Wrath\",\"color\":\"white\"}'},Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:5s}]}}}]}}"
+      }
+    ]
+  }
+}

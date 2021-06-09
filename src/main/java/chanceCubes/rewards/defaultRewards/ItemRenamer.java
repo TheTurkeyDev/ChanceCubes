@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 
@@ -48,7 +49,9 @@ public class ItemRenamer extends BaseCustomReward
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			dirt.setDisplayName(new StringTextComponent("A lonley piece of dirt"));
+			StringTextComponent name = new StringTextComponent("A lonely piece of dirt");
+			name.setStyle(name.getStyle().setColor(Color.fromHex("#ff1111")));
+			dirt.setDisplayName(name);
 			player.inventory.addItemStackToInventory(dirt);
 			RewardsUtil.executeCommand(world, player, player.getPosition(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;

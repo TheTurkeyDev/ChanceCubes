@@ -18,7 +18,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.state.Property;
-import net.minecraft.state.StateHolder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 
 public class SchematicUtil
 {
@@ -353,7 +351,6 @@ public class SchematicUtil
 			map.put(entry[0], entry[1]);
 		});
 
-		//TODO: Implement this back in
 		for(Property<?> prop : defaultState.getProperties())
 			if(map.containsKey(prop.getName()))
 				returnState = withString(returnState, prop, map.get(prop.getName()));

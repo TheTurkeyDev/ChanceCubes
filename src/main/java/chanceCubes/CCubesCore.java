@@ -9,6 +9,7 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
+import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
@@ -100,6 +101,8 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
+
+		WorldGen.initWorldGen();
 	}
 
 	public void commonStart(FMLCommonSetupEvent event)
@@ -107,7 +110,7 @@ public class CCubesCore
 		CCubesPacketHandler.init();
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
-		//MinecraftForge.EVENT_BUS.register(new WorldGen());
+		MinecraftForge.EVENT_BUS.register(new WorldGen());
 	}
 
 	@SubscribeEvent

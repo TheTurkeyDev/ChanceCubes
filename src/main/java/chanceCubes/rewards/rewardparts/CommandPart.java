@@ -48,7 +48,6 @@ public class CommandPart extends BasePart
 	public String getParsedCommand(World world, int x, int y, int z, PlayerEntity player)
 	{
 		String parsedCommand = command.getValue();
-		//TODO:?
 		parsedCommand = parsedCommand.replace("%player", player.getName().getUnformattedComponentText());
 		parsedCommand = parsedCommand.replace("%x", "" + x);
 		parsedCommand = parsedCommand.replace("%y", "" + y);
