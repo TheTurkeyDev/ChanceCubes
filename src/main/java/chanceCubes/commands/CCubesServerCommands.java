@@ -10,11 +10,13 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerRewardInfo;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
+import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -22,6 +24,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
+import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -43,7 +46,7 @@ public class CCubesServerCommands
 {
 	public CCubesServerCommands(CommandDispatcher<CommandSource> dispatcher)
 	{
-		// @formatter:off
+		// @formatter:of
 		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("chancecubes").requires(cs -> {
 			return cs.getEntity() instanceof ServerPlayerEntity;
 		})
@@ -64,7 +67,11 @@ public class CCubesServerCommands
 				.then(Commands.literal("testRewards").executes(this::executeTestRewards))
 				.then(Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards))
 				.then(Commands.literal("spawnGiantCube").then(Commands.argument("pos", BlockPosArgument.blockPos())
-						.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos"))))));
+						.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos")))))
+				.then(Commands.literal("spawnReward").then(Commands.argument("rewardName", new RewardArgument())
+						.then(Commands.argument("target", EntityArgument.player())
+								.executes(ctx -> executeSpawnReward(ctx, RewardArgument.func_212592_a(ctx, "rewardName"), EntityArgument.getPlayer(ctx, "target")))
+					.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos")))))));
 		// @formatter:on
 	}
 
@@ -266,8 +273,7 @@ public class CCubesServerCommands
 
 	public int executeSpawnGiantCube(CommandContext<CommandSource> ctx, BlockPos pos)
 	{
-		ServerPlayerEntity player = getPlayer(ctx.getSource());
-		World world = player.getEntityWorld();
+		World world = ctx.getSource().getWorld();
 
 		if(RewardsUtil.isBlockUnbreakable(world, pos.add(0, 0, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 0, 0))))
 			return 0;
@@ -275,6 +281,21 @@ public class CCubesServerCommands
 		GiantCubeUtil.setupStructure(pos.add(-1, -1, -1), world, true);
 
 		world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		return 0;
+	}
+
+	public int executeSpawnReward(CommandContext<CommandSource> ctx, String rewardName, PlayerEntity target)
+	{
+		if(ctx.getSource().getEntity() != null)
+			return 0;
+
+		IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(rewardName);
+		if(reward == null)
+			reward = GlobalCCRewardRegistry.GIANT.getRewardByName(rewardName);
+		if(reward == null)
+			return 0;
+
+		reward.trigger(ctx.getSource().getWorld(), target.getPosition(), target, new JsonObject());
 		return 0;
 	}
 }
