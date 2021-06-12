@@ -4,6 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
+import net.minecraft.util.ResourceLocation;
 
 public class RewardArgument implements ArgumentType<String>
 {
@@ -11,11 +12,16 @@ public class RewardArgument implements ArgumentType<String>
 	@Override
 	public String parse(StringReader reader)
 	{
-		return reader.getString();
+		int i = reader.getCursor();
+
+		while(reader.canRead() && reader.peek() != ' ') {
+			reader.skip();
+		}
+
+		return reader.getString().substring(i, reader.getCursor());
 	}
 
-	public static String func_212592_a(CommandContext<CommandSource> p_212592_0_, String p_212592_1_)
-	{
-		return p_212592_0_.getArgument(p_212592_1_, String.class);
+	public static String getReward(CommandContext<CommandSource> context, String name) {
+		return context.getArgument(name, String.class);
 	}
 }

@@ -19,23 +19,22 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class WorldGen
 {
 	//I have no idea what I'm doing. Please help me...
-
-	public static final ConfiguredFeature<BlockClusterFeatureConfig, ?> CHANCE_CUBE_SURFACE_FEATURE = Feature.RANDOM_PATCH.withConfiguration(
-			(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(CCubesBlocks.CHANCE_CUBE.getDefaultState()), new SimpleBlockPlacer()))
-					.tries(64)
-					.xSpread(1)
-					.ySpread(128)
-					.zSpread(1)
-					.build()
-	);
-
-	public static final ConfiguredFeature<OreFeatureConfig, ?> CHANCE_CUBE_ORE_FEATURE = Feature.ORE.withConfiguration(
-			new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, CCubesBlocks.CHANCE_CUBE.getDefaultState(), 1)
-	);
+	private static ConfiguredFeature<BlockClusterFeatureConfig, ?> CHANCE_CUBE_SURFACE_FEATURE;
+	public static ConfiguredFeature<OreFeatureConfig, ?> CHANCE_CUBE_ORE_FEATURE;
 
 	public static void initWorldGen()
 	{
 		Registry<ConfiguredFeature<?, ?>> r = WorldGenRegistries.CONFIGURED_FEATURE;
+		CHANCE_CUBE_SURFACE_FEATURE = Feature.RANDOM_PATCH.withConfiguration(
+				(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(CCubesBlocks.CHANCE_CUBE.getDefaultState()), new SimpleBlockPlacer()))
+						.tries(64)
+						.xSpread(1)
+						.ySpread(128)
+						.zSpread(1)
+						.build());
+		CHANCE_CUBE_ORE_FEATURE = Feature.ORE.withConfiguration(
+				new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, CCubesBlocks.CHANCE_CUBE.getDefaultState(), 1)
+		);
 		Registry.register(r, new ResourceLocation(CCubesCore.MODID, "chance_cube_surface"), CHANCE_CUBE_SURFACE_FEATURE);
 		Registry.register(r, new ResourceLocation(CCubesCore.MODID, "chance_cube_ore"), CHANCE_CUBE_ORE_FEATURE);
 	}

@@ -124,12 +124,14 @@ public class RewardsUtil
 
 	public static void sendMessageToPlayer(PlayerEntity player, String message)
 	{
-		sendMessageToPlayer(player, new StringTextComponent(message));
+		if(player != null)
+			sendMessageToPlayer(player, new StringTextComponent(message));
 	}
 
 	public static void sendMessageToPlayer(PlayerEntity player, ITextComponent message)
 	{
-		player.sendMessage(message, Util.DUMMY_UUID);
+		if(player != null)
+			player.sendMessage(message, Util.DUMMY_UUID);
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)

@@ -101,8 +101,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
-
-		WorldGen.initWorldGen();
 	}
 
 	public void commonStart(FMLCommonSetupEvent event)
@@ -111,6 +109,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		MinecraftForge.EVENT_BUS.register(new WorldGen());
+		WorldGen.initWorldGen();
 	}
 
 	@SubscribeEvent
