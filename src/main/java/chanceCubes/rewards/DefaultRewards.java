@@ -653,6 +653,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new WheelSpinReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new Connect4Reward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new LootBoxReward());
 
 		MathReward math = new MathReward();
 		MinecraftForge.EVENT_BUS.register(math);

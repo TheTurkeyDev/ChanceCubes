@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -22,8 +22,6 @@ else
 group= "com.theprogrammingturkey.chancecubes"
 archivesBaseName= "ChanceCubes"
 version= "${mc_version}-${mod_version}.${buildnumber}"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
     mappings channel: 'snapshot', version: '20200916-1.16.2'
@@ -92,7 +90,6 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
-    //compileOnly "net.darkhax.gamestages:GameStages-1.14.4:4.2.11"
 }
 
 jar {

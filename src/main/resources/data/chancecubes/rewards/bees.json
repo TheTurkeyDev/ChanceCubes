@@ -3,7 +3,7 @@
     "chance": 10,
     "Command": [
       {
-        "command": "/summon minecraft:bee",
+        "command": "/summon bee ~ ~ ~ {AngerTime:19980,AngryAt:%pencuuid}",
         "copies": 10
       }
     ],
