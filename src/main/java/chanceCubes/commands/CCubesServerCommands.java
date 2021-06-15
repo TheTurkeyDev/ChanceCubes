@@ -339,9 +339,10 @@ public class CCubesServerCommands
 			return 0;
 		}
 
+		CCubesCore.logger.log(Level.INFO, "spawnReward command is spawning " + rewardName);
+
 		for(ServerPlayerEntity target : targets)
 		{
-			CCubesCore.logger.log(Level.INFO, "spawnReward command is spawning " + rewardName);
 			reward.trigger(ctx.getSource().getWorld(), target.getPosition(), target, new JsonObject());
 		}
 		return 0;
