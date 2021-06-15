@@ -40,6 +40,7 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CCubesServerCommands
@@ -103,8 +104,8 @@ public class CCubesServerCommands
 				.then(
 						Commands.literal("spawnReward").then(
 								Commands.argument("rewardName", new RewardArgument()).then(
-										Commands.argument("target", EntityArgument.player())
-												.executes(ctx -> executeSpawnReward(ctx, RewardArgument.getReward(ctx, "rewardName"), EntityArgument.getPlayer(ctx, "target")))
+										Commands.argument("target", EntityArgument.players())
+												.executes(ctx -> executeSpawnReward(ctx, RewardArgument.getReward(ctx, "rewardName"), EntityArgument.getPlayers(ctx, "target")))
 								)
 						)
 				)
@@ -321,7 +322,7 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeSpawnReward(CommandContext<CommandSource> ctx, String rewardName, PlayerEntity target)
+	public int executeSpawnReward(CommandContext<CommandSource> ctx, String rewardName, Collection<ServerPlayerEntity> targets)
 	{
 		if(ctx.getSource().getEntity() != null)
 		{
@@ -338,8 +339,11 @@ public class CCubesServerCommands
 			return 0;
 		}
 
-		CCubesCore.logger.log(Level.INFO, "spawnReward command is spawning " + rewardName);
-		reward.trigger(ctx.getSource().getWorld(), target.getPosition(), target, new JsonObject());
+		for(ServerPlayerEntity target : targets)
+		{
+			CCubesCore.logger.log(Level.INFO, "spawnReward command is spawning " + rewardName);
+			reward.trigger(ctx.getSource().getWorld(), target.getPosition(), target, new JsonObject());
+		}
 		return 0;
 	}
 }
