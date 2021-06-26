@@ -108,8 +108,8 @@ public class CCubesCore
 		CCubesPacketHandler.init();
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
-		MinecraftForge.EVENT_BUS.register(new WorldGen());
-		WorldGen.initWorldGen();
+		//MinecraftForge.EVENT_BUS.register(new WorldGen());
+		//WorldGen.initWorldGen();
 	}
 
 	@SubscribeEvent
