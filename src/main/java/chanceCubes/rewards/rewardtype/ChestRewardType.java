@@ -4,15 +4,15 @@ import chanceCubes.rewards.rewardparts.ChestChanceItem;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 {
-	private ChestTileEntity chest;
+	private ChestBlockEntity chest;
 
 	private int delay = 0;
 
@@ -22,31 +22,31 @@ public class ChestRewardType extends BaseRewardType<ChestChanceItem>
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Chest Reward Delay", delay)
 		{
 			@Override
 			public void callback()
 			{
-				RewardsUtil.placeBlock(Blocks.CHEST.getDefaultState(), world, new BlockPos(x, y, z));
-				chest = (ChestTileEntity) world.getTileEntity(new BlockPos(x, y, z));
+				RewardsUtil.placeBlock(Blocks.CHEST.defaultBlockState(), level, new BlockPos(x, y, z));
+				chest = (ChestBlockEntity) level.getBlockEntity(new BlockPos(x, y, z));
 
 				for(ChestChanceItem item : rewards)
-					trigger(item, world, x, y, z, player);
+					trigger(item, level, x, y, z, player);
 			}
 		});
 
 	}
 
 	@Override
-	protected void trigger(ChestChanceItem item, ServerWorld world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(ChestChanceItem item, ServerLevel level, int x, int y, int z, Player player)
 	{
-		boolean addToChest = world.rand.nextInt(100) < item.getChance();
+		boolean addToChest = RewardsUtil.rand.nextInt(100) < item.getChance();
 		if(addToChest)
 		{
-			int slot = world.rand.nextInt(chest.getSizeInventory());
-			chest.setInventorySlotContents(slot, item.getRandomItemStack());
+			int slot = RewardsUtil.rand.nextInt(chest.getContainerSize());
+			chest.setItem(slot, item.getRandomItemStack());
 		}
 	}
 

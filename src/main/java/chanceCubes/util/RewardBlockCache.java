@@ -1,14 +1,13 @@
 package chanceCubes.util;
 
 import chanceCubes.config.CCubesSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,16 +17,16 @@ import java.util.Map;
 public class RewardBlockCache
 {
 	protected List<StoredBlockData> storedBlocks = new ArrayList<>();
-	protected Map<BlockPos, CompoundNBT> storedTE = new HashMap<>();
+	protected Map<BlockPos, CompoundTag> storedTE = new HashMap<>();
 
-	private BlockPos origin;
-	private BlockPos playerloc;
-	private World world;
+	private final BlockPos origin;
+	private final BlockPos playerloc;
+	private final Level level;
 	private boolean force = true;
 
-	public RewardBlockCache(World world, BlockPos pos, BlockPos playerloc)
+	public RewardBlockCache(Level level, BlockPos pos, BlockPos playerloc)
 	{
-		this.world = world;
+		this.level = level;
 		this.origin = pos;
 		this.playerloc = playerloc;
 	}
@@ -44,10 +43,10 @@ public class RewardBlockCache
 
 	public void cacheBlock(BlockPos offset, BlockState newState, int update)
 	{
-		BlockPos adjPos = origin.add(offset);
-		BlockState oldState = world.getBlockState(adjPos);
-		CompoundNBT oldNBT = null;
-		TileEntity te = world.getTileEntity(adjPos);
+		BlockPos adjPos = origin.offset(offset);
+		BlockState oldState = level.getBlockState(adjPos);
+		CompoundTag oldNBT = null;
+		BlockEntity te = level.getBlockEntity(adjPos);
 		if(te != null)
 		{
 			oldNBT = te.serializeNBT();
@@ -56,7 +55,7 @@ public class RewardBlockCache
 
 		}
 
-		if(RewardsUtil.placeBlock(newState, world, adjPos, update, force))
+		if(RewardsUtil.placeBlock(newState, level, adjPos, update, force))
 		{
 			if(storedBlocks.stream().noneMatch(t -> t.pos.equals(offset)))
 			{
@@ -72,19 +71,19 @@ public class RewardBlockCache
 		List<? extends String> blockedRestoreBlocks = CCubesSettings.blockRestoreBlacklist.get();
 		for(StoredBlockData storedBlock : storedBlocks)
 		{
-			BlockPos worldPos = origin.add(storedBlock.pos);
-			ResourceLocation res = world.getBlockState(worldPos).getBlock().getRegistryName();
+			BlockPos worldPos = origin.offset(storedBlock.pos);
+			ResourceLocation res = level.getBlockState(worldPos).getBlock().getRegistryName();
 			if(res == null || !blockedRestoreBlocks.contains(res.toString()))
 			{
-				RewardsUtil.placeBlock(storedBlock.oldState, world, worldPos, true);
-				TileEntity tile = world.getTileEntity(worldPos);
+				RewardsUtil.placeBlock(storedBlock.oldState, level, worldPos, true);
+				BlockEntity tile = level.getBlockEntity(worldPos);
 				if(storedTE.containsKey(storedBlock.pos) && tile != null)
-					tile.deserializeNBT(storedBlock.oldState, storedTE.get(storedBlock.pos));
+					tile.deserializeNBT(storedTE.get(storedBlock.pos));
 			}
 		}
 
 		if(player != null)
-			player.setPositionAndUpdate(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
+			player.moveTo(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
 	}
 
 	private static class StoredBlockData

@@ -5,14 +5,14 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 public class ItemChestReward extends BaseCustomReward
 {
@@ -34,38 +34,38 @@ public class ItemChestReward extends BaseCustomReward
 	//@formatter:on
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
-		world.setBlockState(pos, Blocks.CHEST.getDefaultState());
-		ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(pos);
+		world.setBlockAndUpdate(pos, Blocks.CHEST.defaultBlockState());
+		ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(pos);
 		Scheduler.scheduleTask(new Task("Item_Chest_Init_Delay", 60)
 		{
 			@Override
 			public void callback()
 			{
 				spawnItems(world, pos, chest);
-				chest.openInventory(player);
+				chest.startOpen(player);
 			}
 		});
 	}
 
-	public void spawnItems(ServerWorld world, BlockPos pos, ChestTileEntity chest)
+	public void spawnItems(ServerLevel world, BlockPos pos, ChestBlockEntity chest)
 	{
 		Scheduler.scheduleTask(new Task("Item_Chest_Squids", 250, 5)
 		{
 			@Override
 			public void callback()
 			{
-				world.setBlockState(pos, Blocks.AIR.getDefaultState());
+				world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
 
 			@Override
 			public void update()
 			{
 				ItemEntity item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ(), stacks[RewardsUtil.rand.nextInt(stacks.length)].copy());
-				world.addEntity(item);
-				item.setMotion(0, 1.5, (RewardsUtil.rand.nextDouble() * -2) - 1);
-				item.setPickupDelay(60);
+				world.addFreshEntity(item);
+				item.setDeltaMovement(0, 1.5, (RewardsUtil.rand.nextDouble() * -2) - 1);
+				item.setPickUpDelay(60);
 			}
 		});
 	}

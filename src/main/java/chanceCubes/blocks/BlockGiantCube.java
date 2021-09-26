@@ -5,23 +5,23 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockGiantCube extends BaseChanceBlock
+public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 {
 	public BlockGiantCube()
 	{
@@ -29,56 +29,49 @@ public class BlockGiantCube extends BaseChanceBlock
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
+		return new TileGiantCube(pos, state);
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
-		return new TileGiantCube();
-	}
+		BlockEntity te = level.getBlockEntity(pos);
+		if(!(te instanceof TileGiantCube gc))
+			return Shapes.block();
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context)
-	{
-		TileEntity te = world.getTileEntity(pos);
-		if(!(te instanceof TileGiantCube))
-			return VoxelShapes.fullCube();
-
-		TileGiantCube gc = (TileGiantCube) te;
 		BlockPos diff = pos.subtract(gc.getMasterPostion());
 		int xDiff = (diff.getX() * 16);
 		int yDiff = (diff.getY() * 16);
 		int zDiff = (diff.getZ() * 16);
-		return Block.makeCuboidShape(-16 - xDiff, -16 - yDiff, -16 - zDiff, 32 - xDiff, 32 - yDiff, 32 - zDiff);
+		return Shapes.box(-16 - xDiff, -16 - yDiff, -16 - zDiff, 32 - xDiff, 32 - yDiff, 32 - zDiff);
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid)
+	public boolean removedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
-		TileEntity te = world.getTileEntity(pos);
-		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
-		if(!world.isRemote && !(player instanceof FakePlayer))
+		BlockEntity te = level.getBlockEntity(pos);
+		boolean removed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
+		if(!level.isClientSide() && !(player instanceof FakePlayer))
 		{
 			if(te != null)
 			{
 				TileGiantCube gcte = (TileGiantCube) te;
-				if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+				if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 				{
-					spawnAsEntity(world, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
-					GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
+					spawnAsEntity(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
+					GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 					return true;
 				}
 
 				if(!gcte.hasMaster() || !gcte.checkForMaster())
-					world.setBlockState(pos, Blocks.AIR.getDefaultState());
+					level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 
-				ServerWorld serverWorld = (ServerWorld) world;
-				RewardsUtil.executeCommand(serverWorld, player, player.getPosition(), "/advancement grant @p only chancecubes:giant_chance_cube");
+				ServerLevel serverWorld = (ServerLevel) level;
+				RewardsUtil.executeCommand(serverWorld, player, player.getOnPos(), "/advancement grant @p only chancecubes:giant_chance_cube");
 				GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
-				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), world);
+				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 			}
 		}
 		return removed;

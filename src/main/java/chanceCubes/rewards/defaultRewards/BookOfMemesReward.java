@@ -3,9 +3,9 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BookOfMemesReward extends BaseCustomReward
 {
-	private List<String> memes = new ArrayList<>();
+	private final List<String> memes = new ArrayList<>();
 
 	public BookOfMemesReward()
 	{
@@ -31,12 +31,12 @@ public class BookOfMemesReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		List<String> allMemes = new ArrayList<>(memes);
 		allMemes.addAll(Arrays.asList(super.getSettingAsStringList(settings, "memes", new String[0])));
 		String meme = allMemes.get(RewardsUtil.rand.nextInt(allMemes.size()));
 		String command = "/summon minecraft:item ~ ~ ~ {Item:{id:\"minecraft:written_book\",Count:1b,tag:{title:\"Book of Memes\",author:\"Chance Cubes\",generation:2,pages:['{\"text\":\"" + meme + "\",\"color\":\"black\"}']}}}";
-		RewardsUtil.executeCommand(world, player, pos, command);
+		RewardsUtil.executeCommand(level, player, pos, command);
 	}
 }

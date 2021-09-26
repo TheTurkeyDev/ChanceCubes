@@ -3,17 +3,17 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 public class PotionPart extends BasePart
 {
-	private StringVar id;
-	private IntVar duration;
-	private IntVar amplifier;
+	private final StringVar id;
+	private final IntVar duration;
+	private final IntVar amplifier;
 
-	public PotionPart(Effect effect, int duration, int amplifier)
+	public PotionPart(MobEffect effect, int duration, int amplifier)
 	{
 		this(new StringVar(effect.getRegistryName().toString()), new IntVar(duration), new IntVar(amplifier));
 	}
@@ -30,8 +30,8 @@ public class PotionPart extends BasePart
 		this.amplifier = amplifier;
 	}
 
-	public EffectInstance getEffect()
+	public MobEffectInstance getEffect()
 	{
-		return new EffectInstance(RewardsUtil.getPotionSafe(new ResourceLocation(id.getValue())), duration.getIntValue() * 20, amplifier.getIntValue());
+		return new MobEffectInstance(RewardsUtil.getPotionSafe(new ResourceLocation(id.getValue())), duration.getIntValue() * 20, amplifier.getIntValue());
 	}
 }

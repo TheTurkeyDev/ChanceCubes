@@ -1,41 +1,42 @@
 package chanceCubes.network;
 
-import java.util.function.Supplier;
-
 import chanceCubes.items.CCubesItems;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class PacketRewardSelector
 {
-	private String reward;
+	private final String reward;
 
 	public PacketRewardSelector(String reward)
 	{
 		this.reward = reward;
 	}
 
-	public static void encode(PacketRewardSelector msg, PacketBuffer buf)
+	public static void encode(PacketRewardSelector msg, FriendlyByteBuf buf)
 	{
-		buf.writeString(msg.reward);
+		buf.writeUtf(msg.reward);
 	}
 
-	public static PacketRewardSelector decode(PacketBuffer buf)
+	public static PacketRewardSelector decode(FriendlyByteBuf buf)
 	{
-		return new PacketRewardSelector(buf.readString(32767));
+		return new PacketRewardSelector(buf.readUtf());
 	}
 
 	public static void handle(PacketRewardSelector msg, Supplier<NetworkEvent.Context> ctx)
 	{
-		ctx.get().enqueueWork(() -> {
-			ItemStack stack = ctx.get().getSender().inventory.getCurrentItem();
+		ctx.get().enqueueWork(() ->
+		{
+			ItemStack stack = ctx.get().getSender().getInventory().getSelected();
 			if(!stack.isEmpty() && (stack.getItem().equals(CCubesItems.rewardSelectorPendant) || stack.getItem().equals(CCubesItems.singleUseRewardSelectorPendant)))
 			{
-				CompoundNBT nbt = stack.getTag();
+				CompoundTag nbt = stack.getTag();
 				if(nbt == null)
-					nbt = new CompoundNBT();
+					nbt = new CompoundTag();
 				nbt.putString("Reward", msg.reward);
 				stack.setTag(nbt);
 			}

@@ -7,18 +7,18 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
@@ -27,66 +27,65 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemSingleUseRewardSelectorPendant()
 	{
-		super((new Item.Properties()).maxStackSize(1), "single_use_reward_selector_pendant");
+		super((new Item.Properties()).stacksTo(1), "single_use_reward_selector_pendant");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
 	{
-		player.setActiveHand(hand);
-		ItemStack stack = player.getHeldItem(hand);
-		if(player.isSneaking() && world.isRemote && player.isCreative())
+		ItemStack stack = player.getItemInHand(hand);
+		if(player.isCrouching() && level.isClientSide() && player.isCreative())
 		{
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 			{
 				ClientHelper.openRewardSelectorGUI(player, stack);
 			});
 		}
-		return new ActionResult<>(ActionResultType.SUCCESS, stack);
+		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context)
+	public InteractionResult useOn(UseOnContext context)
 	{
-		if(context.getPlayer() == null || context.getPlayer().isSneaking())
-			return ActionResultType.FAIL;
-		if(context.getWorld().isRemote)
-			return ActionResultType.PASS;
+		if(context.getPlayer() == null || context.getPlayer().isCrouching())
+			return InteractionResult.FAIL;
+		if(context.getLevel().isClientSide())
+			return InteractionResult.PASS;
 
-		ServerWorld world = (ServerWorld) context.getWorld();
+		ServerLevel level = (ServerLevel) context.getLevel();
 
-		if(context.getItem().getTag() != null && context.getItem().getTag().contains("Reward"))
+		if(context.getItemInHand().getTag() != null && context.getItemInHand().getTag().contains("Reward"))
 		{
-			PlayerEntity player = context.getPlayer();
+			Player player = context.getPlayer();
 			if(player != null)
 			{
-				if(world.getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+				if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
 				{
-					world.setBlockState(context.getPos(), Blocks.AIR.getDefaultState());
-					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItem().getTag().getString("Reward"));
+					level.setBlockAndUpdate(context.getClickedPos(), Blocks.AIR.defaultBlockState());
+					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
 					if(reward != null)
 					{
-						GlobalCCRewardRegistry.DEFAULT.triggerReward(reward, world, context.getPos(), context.getPlayer());
-						player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+						GlobalCCRewardRegistry.triggerReward(reward, level, context.getClickedPos(), context.getPlayer());
+						player.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 					}
 					else
 					{
 						RewardsUtil.sendMessageToPlayer(player, "That reward does not exist for this cube!");
 					}
 				}
-				else if(world.getBlockState(context.getPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+				else if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
 				{
-					TileEntity ent = world.getTileEntity(context.getPos());
-					if(!(ent instanceof TileGiantCube))
-						return ActionResultType.FAIL;
-					TileGiantCube giant = (TileGiantCube) ent;
-					IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(context.getItem().getTag().getString("Reward"));
+					BlockEntity ent = level.getBlockEntity(context.getClickedPos());
+					if(!(ent instanceof TileGiantCube giant))
+						return InteractionResult.FAIL;
+
+					IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
 					if(reward != null)
 					{
-						GlobalCCRewardRegistry.GIANT.triggerReward(reward, world, giant.getMasterPostion(), context.getPlayer());
-						GiantCubeUtil.removeStructure(giant.getMasterPostion(), world);
-						player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+						GlobalCCRewardRegistry.triggerReward(reward, level, giant.getMasterPostion(), context.getPlayer());
+						GiantCubeUtil.removeStructure(giant.getMasterPostion(), level);
+						player.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 					}
 					else
 					{
@@ -95,6 +94,6 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				}
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 }

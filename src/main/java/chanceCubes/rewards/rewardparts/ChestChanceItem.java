@@ -3,14 +3,14 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class ChestChanceItem extends BasePart
 {
-	private String mod;
-	private String item;
-	private IntVar amount;
-	private IntVar chance;
+	private final String mod;
+	private final String item;
+	private final IntVar amount;
+	private final IntVar chance;
 
 	public ChestChanceItem(String item, int chance, int amount)
 	{

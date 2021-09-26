@@ -9,7 +9,7 @@ public class PlayerRewardInfo
 {
 	public IChanceCubeReward reward;
 	private int chanceValue;
-	private List<Integer> chanceChangesCache;
+	private final List<Integer> chanceChangesCache;
 
 	public PlayerRewardInfo(IChanceCubeReward reward)
 	{

@@ -8,13 +8,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,39 +27,39 @@ public class TicTacToeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 3, 0, 100);
 		RewardsUtil.sendMessageToPlayer(player, "Lets play Tic-Tac-Toe!");
 		RewardsUtil.sendMessageToPlayer(player, "Beat the Computer to get 500 Diamonds!");
-		player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Blocks.RED_WOOL, 5)));
+		player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Blocks.RED_WOOL, 5)));
 
-		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
+		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
 		for(int x = -2; x < 3; x++)
 			for(int z = -1; z < 2; z++)
 				for(int y = 0; y < 5; y++)
-					cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+					cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState());
 
-		world.setBlockState(pos.add(-1, 0, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-1, 1, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-1, 2, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-1, 3, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-1, 4, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(1, 0, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(1, 1, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(1, 2, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(1, 3, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(1, 4, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-2, 1, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(0, 1, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(2, 1, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-2, 3, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(0, 3, 0), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(2, 3, 0), Blocks.BEDROCK.getDefaultState());
+		level.setBlockAndUpdate(pos.offset(-1, 0, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-1, 1, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-1, 2, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-1, 3, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-1, 4, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(1, 0, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(1, 1, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(1, 2, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(1, 3, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(1, 4, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-2, 1, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(0, 1, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(2, 1, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-2, 3, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(0, 3, 0), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(2, 3, 0), Blocks.BEDROCK.defaultBlockState());
 
 		Scheduler.scheduleTask(new Task("Tic_Tac_Toe_Game", 6000, 5)
 		{
-			Board board = new Board();
+			final Board board = new Board();
 
 			@Override
 			public void callback()
@@ -73,7 +73,7 @@ public class TicTacToeReward extends BaseCustomReward
 				for(int x = -1; x < 2; x++)
 					for(int y = -1; y < 2; y++)
 						if(board.board[x + 1][y + 1] == 0)
-							if(!world.isAirBlock(pos.add(x * 2, y * 2 + 2, 0)))
+							if(!level.isAirBlock(pos.offset(x * 2, y * 2 + 2, 0)))
 								makeMove(x + 1, y + 1);
 			}
 
@@ -86,7 +86,7 @@ public class TicTacToeReward extends BaseCustomReward
 					//Make CPU Move
 					board.minimax(0, GameTurn.CPU, mistakeChance);
 					board.placeMove(board.computersMove.x, board.computersMove.y, GameTurn.CPU);
-					world.setBlockState(pos.add(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.getDefaultState());
+					level.setBlockAndUpdate(pos.offset(board.computersMove.x * 2 - 2, board.computersMove.y * 2, 0), Blocks.BLUE_WOOL.defaultBlockState());
 				}
 
 				if(board.isGameOver())
@@ -98,7 +98,7 @@ public class TicTacToeReward extends BaseCustomReward
 					else if(board.hasPlayerWon())
 					{
 						RewardsUtil.sendMessageToPlayer(player, "You Won? You must have cheated... You only get 5 diamonds!");
-						player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 5)));
+						player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
 					}
 					else
 					{

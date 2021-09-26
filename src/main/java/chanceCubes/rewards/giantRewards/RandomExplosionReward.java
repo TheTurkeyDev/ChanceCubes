@@ -6,20 +6,18 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 public class RandomExplosionReward extends BaseCustomReward
 {
@@ -29,9 +27,9 @@ public class RandomExplosionReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 1f, 1f);
+		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE, SoundSource.BLOCKS, 1f, 1f);
 		Scheduler.scheduleTask(new Task("Random Explosion", 300, 2)
 		{
 			int delay = 12;
@@ -40,7 +38,7 @@ public class RandomExplosionReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, pos);
+				RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, pos);
 				Entity ent;
 				int rand = RewardsUtil.rand.nextInt(6);
 				for(double xx = 1; xx > -1; xx -= 0.25)
@@ -49,39 +47,39 @@ public class RandomExplosionReward extends BaseCustomReward
 					{
 						if(rand == 0)
 						{
-							ent = EntityType.CREEPER.create(world);
+							ent = EntityType.CREEPER.create(level);
 						}
 						else if(rand == 1)
 						{
-							ent = EntityType.TNT.create(world);
+							ent = EntityType.TNT.create(level);
 						}
 						else if(rand == 2)
 						{
-							ent = EntityType.ITEM.create(world);
+							ent = EntityType.ITEM.create(level);
 							((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 						}
 						else if(rand == 3)
 						{
-							ent = EntityType.ITEM.create(world);
+							ent = EntityType.ITEM.create(level);
 							((ItemEntity) ent).setItem(new ItemStack(Items.MELON_SLICE));
 						}
 						else if(rand == 4)
 						{
-							ent = EntityType.BAT.create(world);
+							ent = EntityType.BAT.create(level);
 						}
 						else if(rand == 5)
 						{
-							ent = EntityType.ZOMBIE.create(world);
+							ent = EntityType.ZOMBIE.create(level);
 						}
 						else
 						{
-							ent = EntityType.ITEM.create(world);
+							ent = EntityType.ITEM.create(level);
 							((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 						}
 
-						ent.setPosition(pos.getX(), pos.getY() + 1D, pos.getZ());
-						world.addEntity(ent);
-						ent.setMotion(xx, Math.random(), zz);
+						ent.moveTo(pos.getX(), pos.getY() + 1D, pos.getZ());
+						level.addFreshEntity(ent);
+						ent.setDeltaMovement(xx, Math.random(), zz);
 					}
 				}
 			}
@@ -103,16 +101,16 @@ public class RandomExplosionReward extends BaseCustomReward
 					int zInc = RewardsUtil.rand.nextInt(2) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 					if(delay < 3)
 					{
-						world.spawnParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0, 0, 1);
-						world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
+						level.addParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0, 0, 1);
+						level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
 					}
 					else
 					{
 						if(RewardsUtil.rand.nextBoolean())
-							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f, 1f);
+							level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1f, 1f);
 						else
-							world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_BLAZE_HURT, SoundCategory.BLOCKS, 1f, 1f);
-						world.spawnParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0, 0, 1);
+							level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLAZE_HURT, SoundSource.BLOCKS, 1f, 1f);
+						level.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0, 0, 1);
 					}
 
 				}

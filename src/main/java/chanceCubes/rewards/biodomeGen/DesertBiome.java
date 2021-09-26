@@ -1,10 +1,10 @@
 package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Random;
@@ -62,7 +62,7 @@ public class DesertBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, ServerWorld world)
+	public void spawnEntities(BlockPos center, ServerLevel level)
 	{
 
 	}

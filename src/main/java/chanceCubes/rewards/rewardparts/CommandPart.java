@@ -3,9 +3,8 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.UUIDCodec;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class CommandPart extends BasePart
 {
 	public static Map<Integer, UUID> randUUIDs = new HashMap<>();
-	private StringVar command;
+	private final StringVar command;
 	private IntVar copies = new IntVar(0);
 	private BoolVar copiesSoft = new BoolVar(false);
 	private BoolVar relativeToPlayer = new BoolVar(false);
@@ -45,22 +44,22 @@ public class CommandPart extends BasePart
 		return command.getValue();
 	}
 
-	public String getParsedCommand(World world, int x, int y, int z, PlayerEntity player)
+	public String getParsedCommand(Level level, int x, int y, int z, Player player)
 	{
 		String parsedCommand = command.getValue();
-		parsedCommand = parsedCommand.replace("%player", player.getName().getUnformattedComponentText());
+		parsedCommand = parsedCommand.replace("%player", player.getName().getString());
 		parsedCommand = parsedCommand.replace("%x", "" + x);
 		parsedCommand = parsedCommand.replace("%y", "" + y);
 		parsedCommand = parsedCommand.replace("%z", "" + z);
-		parsedCommand = parsedCommand.replace("%pyaw", "" + player.rotationYaw);
-		parsedCommand = parsedCommand.replace("%ppitch", "" + player.rotationPitch);
-		parsedCommand = parsedCommand.replace("%px", "" + player.getPosX());
-		parsedCommand = parsedCommand.replace("%py", "" + player.getPosY());
-		parsedCommand = parsedCommand.replace("%pz", "" + player.getPosZ());
-		parsedCommand = parsedCommand.replace("%puuid", player.getUniqueID().toString());
-		int[] enc = UUIDCodec.encodeUUID(player.getUniqueID());
+		parsedCommand = parsedCommand.replace("%pyaw", "" + player.getYRot());
+		parsedCommand = parsedCommand.replace("%ppitch", "" + player.getXRot());
+		parsedCommand = parsedCommand.replace("%px", "" + player.getX());
+		parsedCommand = parsedCommand.replace("%py", "" + player.getY());
+		parsedCommand = parsedCommand.replace("%pz", "" + player.getZ());
+		parsedCommand = parsedCommand.replace("%puuid", player.getStringUUID());
+		int[] enc = UUIDCodec.encodeUUID(player.getUUID());
 		parsedCommand = parsedCommand.replace("%pencuuid", String.format("[I;%d,%d,%d,%d]", enc[0], enc[1], enc[2], enc[3]));
-		parsedCommand = parsedCommand.replace("%pdir", player.getHorizontalFacing().toString());
+		parsedCommand = parsedCommand.replace("%pdir", player.getDirection().toString());
 
 		// Random UUID's
 		int index;

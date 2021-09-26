@@ -9,13 +9,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ChunkFlipReward extends BaseCustomReward
 {
@@ -25,11 +25,11 @@ public class ChunkFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
 		int z = (pos.getZ() >> 4) << 4;
 		int x = (pos.getX() >> 4) << 4;
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 		RewardsUtil.sendMessageToPlayer(player, "Inception!!!!");
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
@@ -58,15 +58,15 @@ public class ChunkFlipReward extends BaseCustomReward
 						BlockState b = world.getBlockState(pos1);
 						BlockState b2 = world.getBlockState(pos2);
 
-						TileEntity te1 = world.getTileEntity(pos1);
-						TileEntity te2 = world.getTileEntity(pos2);
+						BlockEntity te1 = world.getBlockEntity(pos1);
+						BlockEntity te2 = world.getBlockEntity(pos2);
 
 						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE) && !RewardsUtil.isBlockUnbreakable(world, pos) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
 						{
-							world.setBlockState(pos1, b2, 2);
-							world.setBlockState(pos2, b, 2);
-							world.setTileEntity(pos2, te1);
-							world.setTileEntity(pos1, te2);
+							world.setBlock(pos1, b2, 2);
+							world.setBlock(pos2, b, 2);
+							world.setBlockEntity(te1);
+							world.setBlockEntity(te2);
 						}
 					}
 				}

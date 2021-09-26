@@ -6,13 +6,12 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 
 public class DigBuildReward extends BaseCustomReward
 {
@@ -23,7 +22,7 @@ public class DigBuildReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
 		int min = super.getSettingAsInt(settings, "min", 5, 0, 100);
 		int max = super.getSettingAsInt(settings, "max", 25, 0, 100);
@@ -36,7 +35,7 @@ public class DigBuildReward extends BaseCustomReward
 			max = swap;
 		}
 
-		int initalY = player.getPosition().getY();
+		int initalY = player.getOnPos().getY();
 		int distance = RewardsUtil.rand.nextInt(max - min) + min;
 		boolean up = (initalY + distance <= 150) && ((initalY - distance < 2) || RewardsUtil.rand.nextBoolean());
 
@@ -48,25 +47,25 @@ public class DigBuildReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
+				player.level.createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.Mode.NONE);
 				player.attackEntityFrom(CCubesDamageSource.DIG_BUILD_FAIL, Float.MAX_VALUE);
 			}
 
 			@Override
 			public void update()
 			{
-				if(up && player.getPosition().getY() >= initalY + distance)
+				if(up && player.getOnPos().getY() >= initalY + distance)
 				{
 					RewardsUtil.sendMessageToPlayer(player, "Good Job!");
 					RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
-				else if(!up && player.getPosition().getY() <= initalY - distance)
+				else if(!up && player.getOnPos().getY() <= initalY - distance)
 				{
 					RewardsUtil.sendMessageToPlayer(player, "Good Job!");
 					RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 

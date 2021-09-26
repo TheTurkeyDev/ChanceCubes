@@ -6,14 +6,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Level;
 
 import java.util.Optional;
@@ -39,7 +38,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	}
 
 	@Override
-	public void trigger(final EntityPart part, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final EntityPart part, final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Entity Reward Delay", part.getDelay())
 		{
@@ -50,29 +49,29 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 					for(int yy = 0; yy < 4; yy++)
 						for(int xx = -1; xx < 2; xx++)
 							for(int zz = -1; zz < 2; zz++)
-								RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, new BlockPos(x + xx, y + yy, z + zz));
+								RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, new BlockPos(x + xx, y + yy, z + zz));
 
 				int copies = part.getCopies().getIntValue() + 1;
 				for(int i = 0; i < copies; i++)
 				{
-					Optional<Entity> opt = EntityType.loadEntityUnchecked(part.getNBT(), world);
+					Optional<Entity> opt = EntityType.loadEntityUnchecked(part.getNBT(), level);
 					if(!opt.isPresent())
 					{
 						CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
 						return;
 					}
 					Entity newEnt = opt.get();
-					newEnt.setPosition(x + 0.5, y, z + 0.5);
-					world.addEntity(newEnt);
+					newEnt.moveTo(x + 0.5, y, z + 0.5);
+					level.addFreshEntity(newEnt);
 				}
 			}
 		});
 	}
 
-	public static CompoundNBT getBasicNBTForEntity(String entity)
+	public static CompoundTag getBasicNBTForEntity(String entity)
 	{
 		String json = "{id:" + entity + "}";
-		CompoundNBT nbt;
+		CompoundTag nbt;
 		try
 		{
 			nbt = JsonToNBT.getTagFromJson(json);

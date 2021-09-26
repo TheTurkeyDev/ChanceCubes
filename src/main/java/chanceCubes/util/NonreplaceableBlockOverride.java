@@ -3,10 +3,10 @@ package chanceCubes.util;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ public class NonreplaceableBlockOverride
 
 	public NonreplaceableBlockOverride()
 	{
-		overriddenBlock = Blocks.AIR.getDefaultState();
+		overriddenBlock = Blocks.AIR.defaultBlockState();
 		overrideType = OverrideType.ADD;
 	}
 
@@ -94,7 +94,7 @@ public class NonreplaceableBlockOverride
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
 		output.overrideType = OverrideType.REMOVE;
-		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).getDefaultState();
+		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).defaultBlockState();
 		return output;
 	}
 
@@ -108,7 +108,7 @@ public class NonreplaceableBlockOverride
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
 		output.overrideType = OverrideType.ADD;
-		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).getDefaultState();
+		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).defaultBlockState();
 		return output;
 	}
 
@@ -145,11 +145,11 @@ public class NonreplaceableBlockOverride
 		{
 			case ADD:
 			{
-				return "+" + override.overriddenBlock.getBlock().getRegistryName() + Block.getStateId(override.overriddenBlock);
+				return "+" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
 			}
 			case REMOVE:
 			{
-				return "-" + override.overriddenBlock.getBlock().getRegistryName() + Block.getStateId(override.overriddenBlock);
+				return "-" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
 			}
 			default:
 			{
@@ -211,9 +211,9 @@ public class NonreplaceableBlockOverride
 			CCubesSettings.nonReplaceableBlocks.addAll(CCubesSettings.backupNRB);
 		}
 
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.getDefaultState());
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.getDefaultState());
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.getDefaultState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.defaultBlockState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState());
 	}
 
 	/**
@@ -234,9 +234,9 @@ public class NonreplaceableBlockOverride
 	}
 
 	/**
-	 * Determines if a {@link net.minecraft.block.BlockState} is still present in the {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
+	 * Determines if a {@link net.minecraft.world.level.block.state.BlockState} is still present in the {@link CCubesSettings#nonReplaceableBlocksOverrides} list.
 	 *
-	 * @param toDetect The {@link net.minecraft.block.BlockState} to check for.
+	 * @param toDetect The {@link net.minecraft.world.level.block.state.BlockState} to check for.
 	 * @return Should be self explanatory...
 	 */
 	private static boolean noLongerExists(BlockState toDetect)

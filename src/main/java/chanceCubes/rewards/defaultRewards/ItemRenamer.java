@@ -3,13 +3,13 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,12 @@ public class ItemRenamer extends BaseCustomReward
 	}
 
 	// @formatter:off
-	private String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster", 
+	private final String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster",
 			"Vash", "Cazador", "KiwiFails", "Matrixis", "FlameGoat", "iChun", "tibbzeh", "Reninsane", 
 			"Pulpy", "Zeek", "Sevadus", "Bob Ross", "T-loves", "Headwound", "JonBams", "Sketch",
 			"Lewdicolo", "Sinful", "Drakma", "1chick", "Deadpine", "Amatt_", "Jacky", "Brae"};
 	
-	private String[] adjectives = {"Destroyer", "Terror", "Wrath", "Smasher", "P90", "Wisdom", "Savior", 
+	private final String[] adjectives = {"Destroyer", "Terror", "Wrath", "Smasher", "P90", "Wisdom", "Savior",
 			"Lightning Bringer", "Rage", "Happiness", "Shocker", " Slayer", "Sunshine", "Giant Crayon", "Blade",
 			"Tamer", "Order", "Sharp Edge", "Noodle", "Diamond", "Rod", "Big Giant Sharp Pokey Thing", "Majestic Item",
 			"Wonder", "Awesomeness"};
@@ -35,25 +35,25 @@ public class ItemRenamer extends BaseCustomReward
 	// @formatter:on
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
 		List<ItemStack> stacks = new ArrayList<>();
-		for(ItemStack stack : player.inventory.mainInventory)
+		for(ItemStack stack : player.getInventory().items)
 			if(!stack.isEmpty())
 				stacks.add(stack);
 
-		for(ItemStack stack : player.inventory.armorInventory)
+		for(ItemStack stack : player.getInventory().armor)
 			if(!stack.isEmpty())
 				stacks.add(stack);
 
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			StringTextComponent name = new StringTextComponent("A lonely piece of dirt");
-			name.setStyle(name.getStyle().setColor(Color.fromHex("#ff1111")));
-			dirt.setDisplayName(name);
-			player.inventory.addItemStackToInventory(dirt);
-			RewardsUtil.executeCommand(world, player, player.getPosition(), "/advancement grant @p only chancecubes:lonely_dirt");
+			TextComponent name = new TextComponent("A lonely piece of dirt");
+			name.setStyle(name.getStyle().withColor(TextColor.parseColor("#ff1111")));
+			dirt.setHoverName(name);
+			player.getInventory().add(dirt);
+			RewardsUtil.executeCommand(world, player, player.getOnPos(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
 		}
 
@@ -67,7 +67,7 @@ public class ItemRenamer extends BaseCustomReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setDisplayName(new StringTextComponent(newName));
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setHoverName(new TextComponent(newName));
 		}
 
 		RewardsUtil.sendMessageToPlayer(player, "Those items of yours need a little personality!");

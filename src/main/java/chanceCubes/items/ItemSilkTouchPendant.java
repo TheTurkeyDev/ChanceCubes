@@ -1,21 +1,19 @@
 package chanceCubes.items;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemSilkTouchPendant extends BaseChanceCubesItem
 {
 	public ItemSilkTouchPendant()
 	{
-		super((new Item.Properties()).maxStackSize(1), "silk_touch_pendant");
+		super((new Item.Properties()).stacksTo(1), "silk_touch_pendant");
 		super.addLore("Use this pendant to retrieve Chance Cubes");
 		super.addLore("Player must hold this in hand to get the cube!");
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public boolean hasEffect(ItemStack stack)
+	@Override
+	public boolean isFoil(ItemStack stack)
 	{
 		return true;
 	}

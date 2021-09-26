@@ -4,44 +4,43 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.command.CommandSource;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
+import com.mojang.math.Vector3d;
+import net.minecraft.Util;
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.apache.logging.log4j.Level;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -55,8 +54,8 @@ import java.util.stream.Collectors;
 
 public class RewardsUtil
 {
-	private static List<String> oredicts = new ArrayList<>();
-	private static String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/quartz", "ores/ruby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
+	private static final List<String> oredicts = new ArrayList<>();
+	private static final String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/quartz", "ores/ruby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
 
 	public static final Random rand = new Random();
 
@@ -78,7 +77,7 @@ public class RewardsUtil
 		oredicts.add("ores/coal");
 
 		for(String oreDict : possibleModOres)
-			if(BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)) != null)
+			if(BlockTags.getAllTags().getTag(new ResourceLocation("forge", oreDict)) != null)
 				oredicts.add(oreDict);
 	}
 
@@ -102,36 +101,36 @@ public class RewardsUtil
 		return toReturn;
 	}
 
-	public static void sendMessageToNearPlayers(World world, BlockPos pos, int distance, String message)
+	public static void sendMessageToNearPlayers(Level level, BlockPos pos, int distance, String message)
 	{
-		for(int i = 0; i < world.getPlayers().size(); ++i)
+		for(int i = 0; i < level.players().size(); ++i)
 		{
-			PlayerEntity entityplayer = world.getPlayers().get(i);
-			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
+			Player entityplayer = level.players().get(i);
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getX(), 2) + Math.pow(pos.getY() - entityplayer.getY(), 2) + Math.pow(pos.getZ() - entityplayer.getZ(), 2));
 			if(dist <= distance)
 				sendMessageToPlayer(entityplayer, message);
 		}
 	}
 
-	public static void sendMessageToAllPlayers(World world, String message)
+	public static void sendMessageToAllPlayers(Level level, String message)
 	{
-		for(int i = 0; i < world.getPlayers().size(); ++i)
+		for(int i = 0; i < level.players().size(); ++i)
 		{
-			PlayerEntity entityplayer = world.getPlayers().get(i);
+			Player entityplayer = level.players().get(i);
 			sendMessageToPlayer(entityplayer, message);
 		}
 	}
 
-	public static void sendMessageToPlayer(PlayerEntity player, String message)
+	public static void sendMessageToPlayer(Player player, String message)
 	{
 		if(player != null)
-			sendMessageToPlayer(player, new StringTextComponent(message));
+			sendMessageToPlayer(player, new TextComponent(message));
 	}
 
-	public static void sendMessageToPlayer(PlayerEntity player, ITextComponent message)
+	public static void sendMessageToPlayer(Player player, Component message)
 	{
 		if(player != null)
-			player.sendMessage(message, Util.DUMMY_UUID);
+			player.sendMessage(message, Util.NIL_UUID);
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)
@@ -145,29 +144,29 @@ public class RewardsUtil
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(mod, blockName));
 	}
 
-	public static boolean placeBlock(BlockState b, World world, BlockPos pos)
+	public static boolean placeBlock(BlockState b, Level level, BlockPos pos)
 	{
-		return RewardsUtil.placeBlock(b, world, pos, 3, false);
+		return RewardsUtil.placeBlock(b, level, pos, 3, false);
 	}
 
-	public static boolean placeBlock(BlockState b, World world, BlockPos pos, boolean ignoreUnbreakable)
+	public static boolean placeBlock(BlockState b, Level level, BlockPos pos, boolean ignoreUnbreakable)
 	{
-		return RewardsUtil.placeBlock(b, world, pos, 3, ignoreUnbreakable);
+		return RewardsUtil.placeBlock(b, level, pos, 3, ignoreUnbreakable);
 	}
 
-	public static boolean placeBlock(BlockState b, World world, BlockPos pos, int update, boolean ignoreUnbreakable)
+	public static boolean placeBlock(BlockState b, Level level, BlockPos pos, int update, boolean ignoreUnbreakable)
 	{
-		if(!RewardsUtil.isBlockUnbreakable(world, pos) || ignoreUnbreakable)
+		if(!RewardsUtil.isBlockUnbreakable(level, pos) || ignoreUnbreakable)
 		{
-			world.setBlockState(pos, b, update);
+			level.setBlock(pos, b, update);
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean isBlockUnbreakable(World world, BlockPos pos)
+	public static boolean isBlockUnbreakable(Level level, BlockPos pos)
 	{
-		return world.getBlockState(pos).getBlockHardness(world, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
+		return level.getBlockState(pos).getBlockHardness(level, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
 	}
 
 	public static Enchantment getEnchantSafe(ResourceLocation res)
@@ -175,9 +174,9 @@ public class RewardsUtil
 		return getRegistryEntrySafe(ForgeRegistries.ENCHANTMENTS, res, ForgeRegistries.ENCHANTMENTS.getDefaultKey());
 	}
 
-	public static Effect getPotionSafe(ResourceLocation res)
+	public static MobEffect getPotionSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.POTIONS, res, ForgeRegistries.POTIONS.getDefaultKey());
+		return getRegistryEntrySafe(ForgeRegistries.MOB_EFFECTS, res, ForgeRegistries.MOB_EFFECTS.getDefaultKey());
 	}
 
 	public static ParticleType<?> getParticleSafe(ResourceLocation res)
@@ -198,12 +197,12 @@ public class RewardsUtil
 
 	public static Block getRandomOre(List<String> blacklist)
 	{
-		return BlockTags.getCollection().get(new ResourceLocation("forge", RewardsUtil.getRandomOreDict(blacklist))).getRandomElement(RewardsUtil.rand);
+		return BlockTags.getAllTags().getTag(new ResourceLocation("forge", RewardsUtil.getRandomOreDict(blacklist))).getRandomElement(RewardsUtil.rand);
 	}
 
 	public static Block getRandomOreFromOreDict(String oreDict)
 	{
-		return BlockTags.getCollection().get(new ResourceLocation("forge", oreDict)).getRandomElement(RewardsUtil.rand);
+		return BlockTags.getAllTags().getTag(new ResourceLocation("forge", oreDict)).getRandomElement(RewardsUtil.rand);
 	}
 
 	public static Block getRandomBlock()
@@ -232,23 +231,23 @@ public class RewardsUtil
 		return new CustomEntry<>(ench, level);
 	}
 
-	public static Effect getRandomPotionEffect()
+	public static MobEffect getRandomPotionEffect()
 	{
-		return randomRegistryEntry(ForgeRegistries.POTIONS, Effects.GLOWING);
+		return randomRegistryEntry(ForgeRegistries.MOB_EFFECTS, MobEffects.GLOWING);
 	}
 
-	public static EffectInstance getRandomPotionEffectInstance()
+	public static MobEffectInstance getRandomPotionEffectInstance()
 	{
-		Effect effect = RewardsUtil.getRandomPotionEffect();
+		MobEffect effect = RewardsUtil.getRandomPotionEffect();
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
 		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
 
-		return new EffectInstance(effect, duration, amplifier);
+		return new MobEffectInstance(effect, duration, amplifier);
 	}
 
 	public static Potion getRandomPotionType()
 	{
-		return randomRegistryEntry(ForgeRegistries.POTION_TYPES, Potions.EMPTY);
+		return randomRegistryEntry(ForgeRegistries.POTIONS, Potions.EMPTY);
 	}
 
 	public static <T extends IForgeRegistryEntry<T>> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
@@ -269,14 +268,14 @@ public class RewardsUtil
 	public static ItemStack getRandomFirework()
 	{
 		ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
-		CompoundNBT data = new CompoundNBT();
+		CompoundTag data = new CompoundTag();
 		data.putInt("Flight", rand.nextInt(3) + 1);
 
-		ListNBT explosionList = new ListNBT();
+		ListTag explosionList = new ListTag();
 
 		for(int i = 0; i <= rand.nextInt(2); i++)
 		{
-			CompoundNBT explosionData = new CompoundNBT();
+			CompoundTag explosionData = new CompoundTag();
 			explosionData.putInt("Type", rand.nextInt(5));
 			explosionData.putBoolean("Flicker", rand.nextBoolean());
 			explosionData.putBoolean("Trail", rand.nextBoolean());
@@ -295,7 +294,7 @@ public class RewardsUtil
 			explosionList.add(explosionData);
 		}
 		data.put("Explosions", explosionList);
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		nbt.put("Fireworks", data);
 
 		stack.setTag(nbt);
@@ -319,7 +318,7 @@ public class RewardsUtil
 		Fluid fluid;
 		do
 			fluid = randomRegistryEntry(ForgeRegistries.FLUIDS, Fluids.WATER);
-		while(onlySources && !fluid.isSource(fluid.getDefaultState()));
+		while(onlySources && !fluid.isSource(fluid.defaultFluidState()));
 
 		return fluid;
 	}
@@ -333,64 +332,64 @@ public class RewardsUtil
 
 	public static BlockState getRandomWool()
 	{
-		return wools[rand.nextInt(wools.length)].getDefaultState();
+		return wools[rand.nextInt(wools.length)].defaultBlockState();
 	}
 
 
-	public static boolean isPlayerOnline(PlayerEntity player)
+	public static boolean isPlayerOnline(Player player)
 	{
 		if(player == null)
 			return false;
 
-		for(ServerPlayerEntity playerMP : player.world.getServer().getPlayerList().getPlayers())
-			if(playerMP.getUniqueID().equals(player.getUniqueID()))
+		for(ServerPlayer playerMP : player.level.getServer().getPlayerList().getPlayers())
+			if(playerMP.getUUID().equals(player.getUUID()))
 				return true;
 
 		return false;
 	}
 
-	public static void executeCommand(ServerWorld world, PlayerEntity player, Vector3i pos, String command)
+	public static void executeCommand(ServerLevel level, Player player, Vec3i pos, String command)
 	{
-		RewardsUtil.executeCommand(world, player, Vector3d.copy(pos), command);
+		RewardsUtil.executeCommand(level, player, new Vector3d(pos), command);
 	}
 
-	public static void executeCommand(ServerWorld world, PlayerEntity player, Vector3d pos, String command)
+	public static void executeCommand(ServerLevel level, Player player, Vector3d pos, String command)
 	{
-		MinecraftServer server = world.getServer();
-		boolean rule = world.getGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT);
-		world.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(false, server);
-		CommandSource cs = new CommandSource(player, pos, player.getPitchYaw(), world, 2, player.getName().getString(), player.getDisplayName(), server, player);
+		MinecraftServer server = level.getServer();
+		boolean rule = level.getGameRules().getBoolean(GameRules.RULE_COMMANDBLOCKOUTPUT);
+		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(false, server);
+		CommandSource cs = new CommandSource(player, pos, player.getRotationVector(), level, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		cs = cs.withFeedbackDisabled();
 		server.getCommandManager().handleCommand(cs, command);
-		world.getGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(rule, server);
+		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(World world, BlockPos pos, int range, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setNearPlayersTitle(Level level, BlockPos pos, int range, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
-		for(int i = 0; i < world.getPlayers().size(); ++i)
+		for(int i = 0; i < level.players().size(); ++i)
 		{
-			PlayerEntity entityplayer = world.getPlayers().get(i);
+			Player entityplayer = level.players().get(i);
 
-			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getPosX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
 			if(dist <= range)
 				setPlayerTitle(entityplayer, type, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
-	public static void setAllPlayersTitle(World world, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setAllPlayersTitle(Level level, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
-		for(int i = 0; i < world.getPlayers().size(); ++i)
-			setPlayerTitle(world.getPlayers().get(i), type, message, fadeInTime, displayTime, fadeOutTime);
+		for(int i = 0; i < level.players().size(); ++i)
+			setPlayerTitle(level.players().get(i), type, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(PlayerEntity player, STitlePacket.Type type, ITextComponent message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setPlayerTitle(Player player, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
-		if(player instanceof ServerPlayerEntity)
+		if(player instanceof ServerPlayer)
 		{
 			STitlePacket titlePacket = new STitlePacket(type, message, fadeInTime, displayTime, fadeOutTime);
-			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new StringTextComponent(""), fadeInTime, displayTime, fadeOutTime);
-			((ServerPlayerEntity) player).connection.sendPacket(timesPacket);
-			((ServerPlayerEntity) player).connection.sendPacket(titlePacket);
+			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new TextComponent(""), fadeInTime, displayTime, fadeOutTime);
+			((ServerPlayer) player).connection.send(timesPacket);
+			((ServerPlayer) player).connection.send(titlePacket);
 		}
 	}
 
@@ -407,8 +406,8 @@ public class RewardsUtil
 			return files.toArray(new String[0]);
 		} catch(Exception e)
 		{
-			CCubesCore.logger.log(Level.ERROR, "CHANCE CUBES WAS UNABLE TO LOAD IN ITS DEFAULT REWARDS!!!!");
-			CCubesCore.logger.log(Level.ERROR, "REPORT TO MOD AUTHOR ASAP!!!");
+			CCubesCore.logger.error("CHANCE CUBES WAS UNABLE TO LOAD IN ITS DEFAULT REWARDS!!!!");
+			CCubesCore.logger.error("REPORT TO MOD AUTHOR ASAP!!!");
 			e.printStackTrace();
 		}
 		return new String[0];

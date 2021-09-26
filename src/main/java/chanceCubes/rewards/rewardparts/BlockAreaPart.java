@@ -4,17 +4,17 @@ import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 public class BlockAreaPart extends BasePart
 {
-	private StringVar block;
-	private IntVar xSize;
-	private IntVar ySize;
-	private IntVar zSize;
+	private final StringVar block;
+	private final IntVar xSize;
+	private final IntVar ySize;
+	private final IntVar zSize;
 	private IntVar xOff = new IntVar(0);
 	private IntVar yOff = new IntVar(0);
 	private IntVar zOff = new IntVar(0);
@@ -47,7 +47,7 @@ public class BlockAreaPart extends BasePart
 		this(new IntVar(xSize), new IntVar(ySize), new IntVar(zSize), block, new IntVar(xOff), new IntVar(yOff), new IntVar(zOff), new BoolVar(falling), new IntVar(delay), new BoolVar(causesUpdate), new BoolVar(relativeToPlayer));
 	}
 
-	public void placeBlocks(World world, PlayerEntity player, int worldX, int worldY, int worldZ)
+	public void placeBlocks(Level level, Player player, int worldX, int worldY, int worldZ)
 	{
 		String[] blockDataParts = block.getValue().split(":");
 		Block osbBlock;
@@ -75,10 +75,10 @@ public class BlockAreaPart extends BasePart
 				{
 					OffsetBlock osb = new OffsetBlock(x + xOffCalc, y + yOffCalc, z + zOffCalc, osbBlock, falling, delay).setCausesBlockUpdate(causesUpdate).setRelativeToPlayer(relativeToPlayer);
 
-					if(osb.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()))))
-						osb.spawnInWorld(world, (int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()));
-					else if(!RewardsUtil.isBlockUnbreakable(world, new BlockPos(worldX, worldY + 3, worldZ)))
-						osb.spawnInWorld(world, worldX, worldY, worldZ);
+					if(osb.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(level, new BlockPos((int) Math.floor(player.getX()), (int) Math.floor(player.getY()), (int) Math.floor(player.getZ()))))
+						osb.spawnInWorld(level, (int) Math.floor(player.getX()), (int) Math.floor(player.getY()), (int) Math.floor(player.getZ()));
+					else if(!RewardsUtil.isBlockUnbreakable(level, new BlockPos(worldX, worldY + 3, worldZ)))
+						osb.spawnInWorld(level, worldX, worldY, worldZ);
 				}
 			}
 		}

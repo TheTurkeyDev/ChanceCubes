@@ -6,13 +6,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Fireball;
 
 public class ThrowablesReward extends BaseCustomReward
 {
@@ -22,7 +22,7 @@ public class ThrowablesReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		Scheduler.scheduleTask(new Task("Throw TNT", 250, 5)
 		{
@@ -40,27 +40,27 @@ public class ThrowablesReward extends BaseCustomReward
 				Entity throwEnt;
 				if(entChoice == 0)
 				{
-					throwEnt = EntityType.ARROW.create(world);
+					throwEnt = EntityType.ARROW.create(level);
 				}
 				else if(entChoice == 1)
 				{
-					throwEnt = EntityType.FIREBALL.create(world);
-					((FireballEntity) throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
-					((FireballEntity) throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
-					((FireballEntity) throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
+					throwEnt = EntityType.FIREBALL.create(level);
+					((Fireball) throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
+					((Fireball) throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
+					((Fireball) throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
 				}
 				else if(entChoice == 2)
 				{
-					throwEnt = EntityType.EGG.create(world);
+					throwEnt = EntityType.EGG.create(level);
 				}
 				else
 				{
-					throwEnt = EntityType.TNT.create(world);
-					((TNTEntity) throwEnt).setFuse(20);
+					throwEnt = EntityType.TNT.create(level);
+					((PrimedTnt) throwEnt).setFuse(20);
 				}
-				throwEnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-				throwEnt.setMotion(-1 + (Math.random() * 2), -1 + (Math.random() * 2), -1 + (Math.random() * 2));
-				world.addEntity(throwEnt);
+				throwEnt.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+				throwEnt.setDeltaMovement(-1 + (Math.random() * 2), -1 + (Math.random() * 2), -1 + (Math.random() * 2));
+				level.addFreshEntity(throwEnt);
 			}
 		});
 	}

@@ -3,8 +3,7 @@ package chanceCubes.commands;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.commands.CommandSourceStack;
 
 public class RewardArgument implements ArgumentType<String>
 {
@@ -21,7 +20,7 @@ public class RewardArgument implements ArgumentType<String>
 		return reader.getString().substring(i, reader.getCursor());
 	}
 
-	public static String getReward(CommandContext<CommandSource> context, String name) {
+	public static String getReward(CommandContext<CommandSourceStack> context, String name) {
 		return context.getArgument(name, String.class);
 	}
 }

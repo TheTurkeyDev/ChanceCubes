@@ -7,15 +7,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class MatchingReward extends BaseCustomReward
 {
@@ -27,9 +25,9 @@ public class MatchingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
+		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
 		for(int i = 0; i < 500; i++)
 		{
 			int index1 = RewardsUtil.rand.nextInt(9);
@@ -43,7 +41,7 @@ public class MatchingReward extends BaseCustomReward
 		{
 			int x = (i % 3) - 1;
 			int z = (i / 3) - 1;
-			cache.cacheBlock(new BlockPos(x, -1, z), blocks[i].getDefaultState());
+			cache.cacheBlock(new BlockPos(x, -1, z), blocks[i].defaultBlockState());
 		}
 		RewardsUtil.sendMessageToPlayer(player, "Memorize these blocks!");
 
@@ -58,9 +56,9 @@ public class MatchingReward extends BaseCustomReward
 				{
 					int x = (i % 3) - 1;
 					int z = (i / 3) - 1;
-					world.setBlockState(pos.add(x, -1, z), Blocks.GLASS.getDefaultState());
+					level.setBlockAndUpdate(pos.offset(x, -1, z), Blocks.GLASS.defaultBlockState());
 				}
-				match(world, pos, player, blocks, cache);
+				match(level, pos, player, blocks, cache);
 			}
 
 			@Override
@@ -71,12 +69,12 @@ public class MatchingReward extends BaseCustomReward
 		});
 	}
 
-	public void match(ServerWorld world, BlockPos pos, PlayerEntity player, Block[] blocks, RewardBlockCache cache)
+	public void match(ServerLevel level, BlockPos pos, Player player, Block[] blocks, RewardBlockCache cache)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Now break the matching blocks (in pairs with white last)! You have 45 seconds!");
 		Scheduler.scheduleTask(new Task("Matching_Reward_Memerize_Delay", 900, 2)
 		{
-			boolean[] checked = new boolean[9];
+			final boolean[] checked = new boolean[9];
 			int lastBroken = -1;
 			int matches = 0;
 
@@ -96,10 +94,10 @@ public class MatchingReward extends BaseCustomReward
 				{
 					int x = (i % 3) - 1;
 					int z = (i / 3) - 1;
-					if(world.isAirBlock(pos.add(x, -1, z)) && !checked[i])
+					if(level.isAirBlock(pos.offset(x, -1, z)) && !checked[i])
 					{
 						checked[i] = true;
-						world.setBlockState(pos.add(x, -1, z), blocks[i].getDefaultState());
+						level.setBlockAndUpdate(pos.offset(x, -1, z), blocks[i].defaultBlockState());
 						if(lastBroken != -1)
 						{
 							if(blocks[i] == blocks[lastBroken])
@@ -131,7 +129,7 @@ public class MatchingReward extends BaseCustomReward
 
 			private void lose()
 			{
-				player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
+				player.level.createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.Mode.NONE);
 				player.attackEntityFrom(CCubesDamageSource.MATCHING_FAIL, Float.MAX_VALUE);
 				reset();
 			}
@@ -139,7 +137,7 @@ public class MatchingReward extends BaseCustomReward
 			private void win()
 			{
 				RewardsUtil.sendMessageToPlayer(player, "Good job! Have a cool little item!");
-				player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+				player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				reset();
 			}
 

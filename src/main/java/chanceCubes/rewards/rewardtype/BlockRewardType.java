@@ -2,9 +2,9 @@ package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class BlockRewardType extends BaseRewardType<OffsetBlock>
 {
@@ -15,13 +15,13 @@ public class BlockRewardType extends BaseRewardType<OffsetBlock>
 	}
 
 	@Override
-	protected void trigger(OffsetBlock block, ServerWorld world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(OffsetBlock block, ServerLevel level, int x, int y, int z, Player player)
 	{
 		if(block == null)
 			return;
-		if(block.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(world, new BlockPos((int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()))))
-			block.spawnInWorld(world, (int) Math.floor(player.getPosX()), (int) Math.floor(player.getPosY()), (int) Math.floor(player.getPosZ()));
-		else if(!RewardsUtil.isBlockUnbreakable(world, new BlockPos(x, y + 3, z)))
-			block.spawnInWorld(world, x, y, z);
+		if(block.isRelativeToPlayer() && !RewardsUtil.isBlockUnbreakable(level, new BlockPos((int) Math.floor(player.getX()), (int) Math.floor(player.getY()), (int) Math.floor(player.getZ()))))
+			block.spawnInWorld(level, (int) Math.floor(player.getX()), (int) Math.floor(player.getY()), (int) Math.floor(player.getZ()));
+		else if(!RewardsUtil.isBlockUnbreakable(level, new BlockPos(x, y + 3, z)))
+			block.spawnInWorld(level, x, y, z);
 	}
 }

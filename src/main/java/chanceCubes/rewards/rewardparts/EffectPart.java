@@ -1,32 +1,32 @@
 package chanceCubes.rewards.rewardparts;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class EffectPart extends BasePart
 {
 	private IntVar radius = new IntVar(1);
 
-	private StringVar id;
-	private IntVar duration;
-	private IntVar amplifier;
+	private final StringVar id;
+	private final IntVar duration;
+	private final IntVar amplifier;
 
-	public EffectPart(Effect effect, int duration, int amplifier)
+	public EffectPart(MobEffect effect, int duration, int amplifier)
 	{
 		this(effect, new IntVar(duration), new IntVar(amplifier));
 	}
 
-	public EffectPart(Effect effect, IntVar duration, IntVar amplifier)
+	public EffectPart(MobEffect effect, IntVar duration, IntVar amplifier)
 	{
-		this(new StringVar(String.valueOf(ForgeRegistries.POTIONS.getKey(effect))), duration, amplifier);
+		this(new StringVar(String.valueOf(ForgeRegistries.MOB_EFFECTS.getKey(effect))), duration, amplifier);
 	}
 
 	public EffectPart(String id, int duration, int amplifier)
@@ -57,22 +57,22 @@ public class EffectPart extends BasePart
 		return this;
 	}
 
-	public EffectInstance getEffect()
+	public MobEffectInstance getEffect()
 	{
-		Effect pot;
+		MobEffect pot;
 
 		String val = id.getValue();
 		if(IntVar.isInteger(val))
-			pot = Effect.get(Integer.parseInt(val));
+			pot = MobEffect.byId(Integer.parseInt(val));
 		else
-			pot = ForgeRegistries.POTIONS.getValue(new ResourceLocation(val));
+			pot = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(val));
 
 		if(pot == null)
 		{
-			pot = Effects.BLINDNESS;
+			pot = MobEffects.BLINDNESS;
 			CCubesCore.logger.log(Level.ERROR, "The Potion Effect with the id of " + val + " does not exist! Falling back to default to avoid crash!");
 		}
 
-		return new EffectInstance(pot, duration.getIntValue() * 20, amplifier.getIntValue());
+		return new MobEffectInstance(pot, duration.getIntValue() * 20, amplifier.getIntValue());
 	}
 }

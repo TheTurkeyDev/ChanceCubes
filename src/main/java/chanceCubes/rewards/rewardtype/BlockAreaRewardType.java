@@ -1,8 +1,8 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.BlockAreaPart;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class BlockAreaRewardType extends BaseRewardType<BlockAreaPart>
 {
@@ -12,8 +12,8 @@ public class BlockAreaRewardType extends BaseRewardType<BlockAreaPart>
 	}
 
 	@Override
-	protected void trigger(BlockAreaPart blockPart, ServerWorld world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(BlockAreaPart blockPart, ServerLevel level, int x, int y, int z, Player player)
 	{
-		blockPart.placeBlocks(world, player, x, y, z);
+		blockPart.placeBlocks(level, player, x, y, z);
 	}
 }

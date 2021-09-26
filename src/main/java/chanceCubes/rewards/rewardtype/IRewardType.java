@@ -1,13 +1,13 @@
 package chanceCubes.rewards.rewardtype;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public interface IRewardType
 {
 
 	/**
-	 * What occurs when the this Reward type is triggered
+	 * What occurs when this Reward type is triggered
 	 */
-	void trigger(ServerWorld world, int x, int y, int z, PlayerEntity player);
+	void trigger(ServerLevel level, int x, int y, int z, Player player);
 }

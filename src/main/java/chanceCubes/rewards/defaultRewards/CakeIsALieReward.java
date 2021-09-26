@@ -5,17 +5,15 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CakeBlock;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CakeBlock;
 
 public class CakeIsALieReward extends BaseCustomReward
 {
@@ -25,11 +23,11 @@ public class CakeIsALieReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, final BlockPos pos, final Player player, JsonObject settings)
 	{
-		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "But is it a lie?");
+		RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "But is it a lie?");
 
-		RewardsUtil.placeBlock(Blocks.CAKE.getDefaultState(), world, pos);
+		RewardsUtil.placeBlock(Blocks.CAKE.defaultBlockState(), level, pos);
 
 		final int lieChance = super.getSettingAsInt(settings, "lieChance", 10, 0, 100);
 
@@ -40,28 +38,28 @@ public class CakeIsALieReward extends BaseCustomReward
 				@Override
 				public void callback()
 				{
-					world.setBlockState(pos, Blocks.AIR.getDefaultState());
+					level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				}
 
 				@Override
 				public void update()
 				{
-					if(!world.getBlockState(pos).getBlock().equals(Blocks.CAKE))
+					if(!level.getBlockState(pos).getBlock().equals(Blocks.CAKE))
 					{
 						Scheduler.removeTask(this);
 					}
-					else if(world.getBlockState(pos).get(CakeBlock.BITES) > 0)
+					else if(level.getBlockState(pos).getValue(CakeBlock.BITES) > 0)
 					{
-						world.setBlockState(pos, Blocks.AIR.getDefaultState());
-						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
-						CreeperEntity creeper = EntityType.CREEPER.create(world);
-						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
+						level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+						RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "It's a lie!!!");
+						Creeper creeper = EntityType.CREEPER.create(level);
+						creeper.moveTo(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
 						if(RewardsUtil.rand.nextInt(100) < lieChance)
-							creeper.func_241841_a(world, null);
-						creeper.addPotionEffect(new EffectInstance(Effects.SPEED, 9999, 2));
-						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 999));
-						world.addEntity(creeper);
-						RewardsUtil.executeCommand(world, player, player.getPosition(), "/advancement grant @p only chancecubes:its_a_lie");
+							creeper.thunderHit(level, null);
+						creeper.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 9999, 2));
+						creeper.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 999));
+						level.addFreshEntity(creeper);
+						RewardsUtil.executeCommand(level, player, player.getOnPos(), "/advancement grant @p only chancecubes:its_a_lie");
 						Scheduler.removeTask(this);
 					}
 				}

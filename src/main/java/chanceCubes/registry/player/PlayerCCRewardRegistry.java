@@ -8,10 +8,10 @@ import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.StreamerReward;
 import chanceCubes.util.RewardsUtil;
 import com.google.common.collect.Lists;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
@@ -23,8 +23,8 @@ import java.util.UUID;
 
 public class PlayerCCRewardRegistry
 {
-	private List<PlayerRewardInfo> sortedRewards = Lists.newArrayList();
-	private List<IChanceCubeReward> cooldownList = new ArrayList<>();
+	private final List<PlayerRewardInfo> sortedRewards = Lists.newArrayList();
+	private final List<IChanceCubeReward> cooldownList = new ArrayList<>();
 
 	public static Map<UUID, StreamerReward> streamerReward = new HashMap<>();
 
@@ -93,11 +93,11 @@ public class PlayerCCRewardRegistry
 		return null;
 	}
 
-	public void triggerRandomReward(ServerWorld world, BlockPos pos, @Nonnull PlayerEntity player, int chance)
+	public void triggerRandomReward(ServerLevel level, BlockPos pos, @Nonnull Player player, int chance)
 	{
-		if(streamerReward.containsKey(player.getUniqueID()) && RewardsUtil.rand.nextInt(100) == 42)
+		if(streamerReward.containsKey(player.getUUID()) && RewardsUtil.rand.nextInt(100) == 42)
 		{
-			streamerReward.get(player.getUniqueID()).trigger(world, pos, player);
+			streamerReward.get(player.getUUID()).trigger(level, pos, player);
 			return;
 		}
 
@@ -130,15 +130,14 @@ public class PlayerCCRewardRegistry
 //			return;
 //		}
 
-		for(int i = 0; i < player.inventory.mainInventory.size(); i++)
+		for(int i = 0; i < player.getInventory().items.size(); i++)
 		{
-			ItemStack stack = player.inventory.mainInventory.get(i);
-			if(!stack.isEmpty() && stack.getItem() instanceof ItemChancePendant)
+			ItemStack stack = player.getInventory().items.get(i);
+			if(!stack.isEmpty() && stack.getItem() instanceof ItemChancePendant pendant)
 			{
-				ItemChancePendant pendant = (ItemChancePendant) stack.getItem();
 				pendant.damage(stack);
-				if(stack.getDamage() >= CCubesSettings.pendantUses.get())
-					player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+				if(stack.getDamageValue() >= CCubesSettings.pendantUses.get())
+					player.getInventory().setItem(i, ItemStack.EMPTY);
 				chance += pendant.getChanceIncrease();
 				if(chance > 100)
 					chance = 100;
@@ -201,7 +200,7 @@ public class PlayerCCRewardRegistry
 		}
 
 		CCubesCore.logger.log(Level.INFO, "Triggered the reward with the name of: " + pickedReward.getName());
-		GlobalCCRewardRegistry.triggerReward(pickedReward, world, pos, player);
+		GlobalCCRewardRegistry.triggerReward(pickedReward, level, pos, player);
 		cooldownList.add(pickedReward);
 		if(cooldownList.size() > 15)
 			cooldownList.remove(0);

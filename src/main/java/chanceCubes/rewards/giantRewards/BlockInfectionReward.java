@@ -5,13 +5,13 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,13 @@ import java.util.List;
 public class BlockInfectionReward extends BaseCustomReward
 {
 	// @formatter:off
-	private BlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(),
-			Blocks.STONE.getDefaultState(),Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(),
-			Blocks.CLAY.getDefaultState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.getDefaultState(),
-			Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
+	private final BlockState[] whitelist = { Blocks.OBSIDIAN.defaultBlockState(), Blocks.DIRT.defaultBlockState(),
+			Blocks.STONE.defaultBlockState(),Blocks.MELON.defaultBlockState(), Blocks.BOOKSHELF.defaultBlockState(),
+			Blocks.CLAY.defaultBlockState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.defaultBlockState(),
+			Blocks.COBWEB.defaultBlockState(), Blocks.GLOWSTONE.defaultBlockState(), Blocks.NETHERRACK.defaultBlockState()};
 	// @formatter:on
 
-	private BlockPos[] touchingPos = {new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
+	private final BlockPos[] touchingPos = {new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 1, 0), new BlockPos(-1, 0, 0), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
 
 	public BlockInfectionReward()
 	{
@@ -33,7 +33,7 @@ public class BlockInfectionReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int delay = 0;
 		int delayShorten = 20;
@@ -43,7 +43,7 @@ public class BlockInfectionReward extends BaseCustomReward
 		List<BlockPos> changedBlocks = new ArrayList<>();
 		changedBlocks.add(new BlockPos(0, 0, 0));
 		List<OffsetBlock> blocks = new ArrayList<>();
-		addSurroundingBlocks(world, pos, new BlockPos(0, 0, 0), changedBlocks, possibleBlocks);
+		addSurroundingBlocks(level, pos, new BlockPos(0, 0, 0), changedBlocks, possibleBlocks);
 
 		for(int i = 0; i < 5000; i++)
 		{
@@ -56,11 +56,11 @@ public class BlockInfectionReward extends BaseCustomReward
 			}
 			else
 			{
-				nextPos = lastPos.add(touchingPos[RewardsUtil.rand.nextInt(touchingPos.length)]);
+				nextPos = lastPos.offset(touchingPos[RewardsUtil.rand.nextInt(touchingPos.length)]);
 			}
 
 			changedBlocks.add(nextPos);
-			addSurroundingBlocks(world, pos, nextPos, changedBlocks, possibleBlocks);
+			addSurroundingBlocks(level, pos, nextPos, changedBlocks, possibleBlocks);
 			BlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 			blocks.add(new OffsetBlock(nextPos.getX(), nextPos.getY(), nextPos.getZ(), state, false, (delay / delayShorten)));
 			delay++;
@@ -68,18 +68,18 @@ public class BlockInfectionReward extends BaseCustomReward
 		}
 
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
+			b.spawnInWorld(level, pos.getX(), pos.getY(), pos.getZ());
 
 	}
 
-	private void addSurroundingBlocks(World world, BlockPos worldCord, BlockPos offsetCord, List<BlockPos> changedBlocks, List<BlockPos> possibleBlocks)
+	private void addSurroundingBlocks(Level level, BlockPos worldCord, BlockPos offsetCord, List<BlockPos> changedBlocks, List<BlockPos> possibleBlocks)
 	{
 		for(BlockPos pos : touchingPos)
 		{
-			BlockPos checkPos = offsetCord.add(pos);
+			BlockPos checkPos = offsetCord.offset(pos);
 			if(!changedBlocks.contains(checkPos) && !possibleBlocks.contains(checkPos))
 			{
-				if(!(world.getBlockState(worldCord.add(checkPos)).getBlock() instanceof AirBlock))
+				if(!(level.getBlockState(worldCord.offset(checkPos)).getBlock() instanceof AirBlock))
 				{
 					possibleBlocks.add(checkPos);
 				}

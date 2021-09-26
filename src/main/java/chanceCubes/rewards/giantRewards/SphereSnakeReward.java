@@ -6,20 +6,20 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class SphereSnakeReward extends BaseCustomReward
 {
 
 	// @formatter:off
-	private BlockState[] whitelist = { Blocks.OBSIDIAN.getDefaultState(), Blocks.DIRT.getDefaultState(),
-			Blocks.STONE.getDefaultState(),Blocks.MELON.getDefaultState(), Blocks.BOOKSHELF.getDefaultState(),
-			Blocks.CLAY.getDefaultState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.getDefaultState(),
-			Blocks.COBWEB.getDefaultState(), Blocks.GLOWSTONE.getDefaultState(), Blocks.NETHERRACK.getDefaultState()};
+	private final BlockState[] whitelist = { Blocks.OBSIDIAN.defaultBlockState(), Blocks.DIRT.defaultBlockState(),
+			Blocks.STONE.defaultBlockState(),Blocks.MELON.defaultBlockState(), Blocks.BOOKSHELF.defaultBlockState(),
+			Blocks.CLAY.defaultBlockState(), RewardsUtil.getRandomWool(),Blocks.BRICKS.defaultBlockState(),
+			Blocks.COBWEB.defaultBlockState(), Blocks.GLOWSTONE.defaultBlockState(), Blocks.NETHERRACK.defaultBlockState()};
 	// @formatter:on
 
 	public SphereSnakeReward()
@@ -28,7 +28,7 @@ public class SphereSnakeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
 		BlockState state = whitelist[RewardsUtil.rand.nextInt(whitelist.length)];
 		int[] posChange = {0, 0, 0};
@@ -69,7 +69,7 @@ public class SphereSnakeReward extends BaseCustomReward
 				posChange[1] += yChange;
 				posChange[2] += zChange;
 				BlockPos currentpos = new BlockPos(pos);
-				currentpos = currentpos.add(posChange[0], posChange[1], posChange[2]);
+				currentpos = currentpos.offset(posChange[0], posChange[1], posChange[2]);
 
 				for(int yy = -3; yy < 4; yy++)
 				{
@@ -78,10 +78,10 @@ public class SphereSnakeReward extends BaseCustomReward
 						for(int xx = -3; xx < 4; xx++)
 						{
 							BlockPos loc = new BlockPos(xx, yy, zz);
-							double dist = Math.abs(Math.sqrt(loc.distanceSq(0, 0, 0, false)));
+							double dist = Math.abs(Math.sqrt(loc.distSqr(0, 0, 0, false)));
 							if(dist <= 3 && dist > 3 - 1)
 							{
-								world.setBlockState(currentpos.add(loc), state);
+								world.setBlockAndUpdate(currentpos.offset(loc), state);
 							}
 						}
 					}

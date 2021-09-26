@@ -2,10 +2,10 @@ package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -18,12 +18,12 @@ public class PacketCubeScan
 		this.pos = pos;
 	}
 
-	public static void encode(PacketCubeScan msg, PacketBuffer buf)
+	public static void encode(PacketCubeScan msg, FriendlyByteBuf buf)
 	{
 		buf.writeBlockPos(msg.pos);
 	}
 
-	public static PacketCubeScan decode(PacketBuffer buf)
+	public static PacketCubeScan decode(FriendlyByteBuf buf)
 	{
 		return new PacketCubeScan(buf.readBlockPos());
 	}
@@ -32,7 +32,7 @@ public class PacketCubeScan
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			TileEntity te = ctx.get().getSender().world.getTileEntity(msg.pos);
+			BlockEntity te = ctx.get().getSender().level.getBlockEntity(msg.pos);
 			if(te instanceof TileChanceCube)
 				((TileChanceCube) te).setScanned(true);
 			else if(te instanceof TileChanceD20)

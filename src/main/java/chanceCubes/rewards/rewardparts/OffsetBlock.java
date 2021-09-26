@@ -8,13 +8,13 @@ import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class OffsetBlock extends BasePart
 {
@@ -32,7 +32,7 @@ public class OffsetBlock extends BasePart
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling)
 	{
-		this(x, y, z, b.getDefaultState(), falling);
+		this(x, y, z, b.defaultBlockState(), falling);
 	}
 
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling)
@@ -42,12 +42,12 @@ public class OffsetBlock extends BasePart
 
 	public OffsetBlock(int x, int y, int z, Block b, BoolVar falling, IntVar delay)
 	{
-		this(new IntVar(x), new IntVar(y), new IntVar(z), b.getDefaultState(), falling, delay);
+		this(new IntVar(x), new IntVar(y), new IntVar(z), b.defaultBlockState(), falling, delay);
 	}
 
 	public OffsetBlock(int x, int y, int z, Block b, boolean falling, int delay)
 	{
-		this(x, y, z, b.getDefaultState(), falling, delay);
+		this(x, y, z, b.defaultBlockState(), falling, delay);
 	}
 
 	public OffsetBlock(int x, int y, int z, BlockState state, boolean falling)
@@ -62,7 +62,7 @@ public class OffsetBlock extends BasePart
 
 	public OffsetBlock(IntVar x, IntVar y, IntVar z, Block b, BoolVar falling)
 	{
-		this(x, y, z, b.getDefaultState(), falling, new IntVar(0));
+		this(x, y, z, b.defaultBlockState(), falling, new IntVar(0));
 	}
 
 	public OffsetBlock(IntVar x, IntVar y, IntVar z, BlockState state, BoolVar falling, IntVar delay)
@@ -75,12 +75,12 @@ public class OffsetBlock extends BasePart
 		this.state = state;
 	}
 
-	public void spawnInWorld(final World world, final int x, final int y, final int z)
+	public void spawnInWorld(final Level level, final int x, final int y, final int z)
 	{
-		this.spawnInWorld(world, x, y, z, null);
+		this.spawnInWorld(level, x, y, z, null);
 	}
 
-	public void spawnInWorld(final World world, final int x, final int y, final int z, RewardBlockCache blockCache)
+	public void spawnInWorld(final Level level, final int x, final int y, final int z, RewardBlockCache blockCache)
 	{
 		if(!falling.getBoolValue())
 		{
@@ -89,7 +89,7 @@ public class OffsetBlock extends BasePart
 				@Override
 				public void callback()
 				{
-					placeInWorld(world, new BlockPos(x, y, z), true, blockCache);
+					placeInWorld(level, new BlockPos(x, y, z), true, blockCache);
 				}
 			});
 		}
@@ -100,13 +100,13 @@ public class OffsetBlock extends BasePart
 				@Override
 				public void callback()
 				{
-					spawnFallingBlock(world, x, y, z, blockCache);
+					spawnFallingBlock(level, x, y, z, blockCache);
 				}
 			});
 		}
 	}
 
-	protected void spawnFallingBlock(World world, int x, int y, int z, RewardBlockCache blockCache)
+	protected void spawnFallingBlock(Level level, int x, int y, int z, RewardBlockCache blockCache)
 	{
 		int xOffVal = xOff.getIntValue();
 		int yOffVal = yOff.getIntValue();
@@ -116,12 +116,12 @@ public class OffsetBlock extends BasePart
 		{
 			BlockPos offsetPos = new BlockPos((x + xOffVal), yyy, (z + zOffVal));
 			if(blockCache != null)
-				blockCache.cacheBlock(offsetPos, Blocks.AIR.getDefaultState());
+				blockCache.cacheBlock(offsetPos, Blocks.AIR.defaultBlockState());
 			else
-				RewardsUtil.placeBlock(Blocks.AIR.getDefaultState(), world, offsetPos, removeUnbreakableBlocks.getBoolValue());
+				RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, offsetPos, removeUnbreakableBlocks.getBoolValue());
 		}
-		BlockFallingCustom entityfallingblock = new BlockFallingCustom(world, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
-		world.addEntity(entityfallingblock);
+		BlockFallingCustom entityfallingblock = new BlockFallingCustom(level, ((double) (x + xOffVal)) + 0.5, yy, ((double) (z + zOffVal)) + 0.5, this.state, y + yOffVal, this);
+		level.addFreshEntity(entityfallingblock);
 	}
 
 	public OffsetBlock setBlockState(BlockState state)
@@ -212,24 +212,24 @@ public class OffsetBlock extends BasePart
 		return this.playSound.getBoolValue();
 	}
 
-	public BlockPos placeInWorld(World world, BlockPos position, boolean offset, RewardBlockCache blockCache)
+	public BlockPos placeInWorld(Level level, BlockPos position, boolean offset, RewardBlockCache blockCache)
 	{
 		BlockPos offsetPos = new BlockPos(0, 0, 0);
 		if(offset)
-			offsetPos = offsetPos.add(xOff.getIntValue(), yOff.getIntValue(), zOff.getIntValue());
-		BlockPos placePos = position.add(offsetPos);
+			offsetPos = offsetPos.offset(xOff.getIntValue(), yOff.getIntValue(), zOff.getIntValue());
+		BlockPos placePos = position.offset(offsetPos);
 
 		if(blockCache != null)
 			blockCache.cacheBlock(offsetPos, state, causeUpdate.getBoolValue() ? 3 : 2);
 		else
-			RewardsUtil.placeBlock(state, world, placePos, causeUpdate.getBoolValue() ? 3 : 2, this.removeUnbreakableBlocks.getBoolValue());
+			RewardsUtil.placeBlock(state, level, placePos, causeUpdate.getBoolValue() ? 3 : 2, this.removeUnbreakableBlocks.getBoolValue());
 
 		if(this.playSound.getBoolValue())
 		{
-			BlockPos surfacefPos = placePos.add(0, -1, 0);
-			Block bSurface = world.getBlockState(surfacefPos).getBlock();
-			SoundType sound = bSurface.getSoundType(world.getBlockState(surfacefPos), world, surfacefPos, null);
-			world.playSound(null, ((float) placePos.getX() + 0.5F), ((float) placePos.getY() + 0.5F), ((float) placePos.getZ() + 0.5F), sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
+			BlockPos surfacefPos = placePos.offset(0, -1, 0);
+			Block bSurface = level.getBlockState(surfacefPos).getBlock();
+			SoundType sound = bSurface.getSoundType(level.getBlockState(surfacefPos), level, surfacefPos, null);
+			level.playSound(null, ((float) placePos.getX() + 0.5F), ((float) placePos.getY() + 0.5F), ((float) placePos.getZ() + 0.5F), sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getVolume() * 0.5F);
 		}
 
 		return placePos;

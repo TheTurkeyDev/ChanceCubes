@@ -5,22 +5,18 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PotionEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 public class CountDownReward extends BaseCustomReward
 {
 	public CountDownReward()
@@ -29,7 +25,7 @@ public class CountDownReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		Scheduler.scheduleTask(new Task("Countdown_Reward_Delay", 80, 20)
 		{
@@ -40,57 +36,57 @@ public class CountDownReward extends BaseCustomReward
 
 				if(thing == 0)
 				{
-					RewardsUtil.placeBlock(Blocks.DIAMOND_BLOCK.getDefaultState(), world, pos);
+					RewardsUtil.placeBlock(Blocks.DIAMOND_BLOCK.defaultBlockState(), level, pos);
 				}
 				else if(thing == 1)
 				{
-					RewardsUtil.placeBlock(Blocks.GLASS.getDefaultState(), world, pos);
+					RewardsUtil.placeBlock(Blocks.GLASS.defaultBlockState(), level, pos);
 				}
 				else if(thing == 2)
 				{
-					RewardsUtil.placeBlock(Blocks.COBBLESTONE.getDefaultState(), world, pos);
+					RewardsUtil.placeBlock(Blocks.COBBLESTONE.defaultBlockState(), level, pos);
 				}
 				else if(thing == 3)
 				{
-					CreeperEntity creeper = EntityType.CREEPER.create(world);
-					creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.addEntity(creeper);
+					Creeper creeper = EntityType.CREEPER.create(level);
+					creeper.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+					level.addFreshEntity(creeper);
 				}
 				else if(thing == 4)
 				{
-					CowEntity cow = EntityType.COW.create(world);
-					cow.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.addEntity(cow);
+					Cow cow = EntityType.COW.create(level);
+					cow.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+					level.addFreshEntity(cow);
 				}
 				else if(thing == 5)
 				{
-					VillagerEntity villager = EntityType.VILLAGER.create(world);
-					villager.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.addEntity(villager);
+					Villager villager = EntityType.VILLAGER.create(level);
+					villager.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+					level.addFreshEntity(villager);
 				}
 				else if(thing == 6)
 				{
-					TNTEntity tnt = EntityType.TNT.create(world);
+					PrimedTnt tnt = EntityType.TNT.create(level);
 					tnt.setFuse(20);
-					tnt.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-					world.addEntity(tnt);
+					tnt.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+					level.addFreshEntity(tnt);
 				}
 				else if(thing == 7)
 				{
-					ItemEntity item = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
-					world.addEntity(item);
+					ItemEntity item = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
+					level.addFreshEntity(item);
 				}
 				else if(thing == 8)
 				{
-					PotionEntity pot = new PotionEntity(world, player);
+					PotionEntity pot = new PotionEntity(level, player);
 					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setMotion(0, -1, 0);
-					world.addEntity(pot);
+					level.addFreshEntity(pot);
 				}
 				else if(thing == 9)
 				{
-					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid(true).getDefaultState().getBlockState(), world, pos);
+					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid(true).defaultFluidState().createLegacyBlock(), level, pos);
 				}
 			}
 

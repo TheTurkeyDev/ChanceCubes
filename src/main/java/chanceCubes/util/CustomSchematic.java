@@ -7,16 +7,17 @@ import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 
+//TODO: Record?
 public class CustomSchematic
 {
-	private List<OffsetBlock> blocks;
-	private int xSize;
-	private int ySize;
-	private int zSize;
-	private BoolVar relativeToPlayer;
-	private BoolVar includeAirBlocks;
-	private FloatVar spacingDelay;
-	private IntVar delay;
+	private final List<OffsetBlock> blocks;
+	private final int xSize;
+	private final int ySize;
+	private final int zSize;
+	private final BoolVar relativeToPlayer;
+	private final BoolVar includeAirBlocks;
+	private final FloatVar spacingDelay;
+	private final IntVar delay;
 
 	public CustomSchematic(List<OffsetBlock> blocks, int xSize, int ySize, int zSize, boolean relativeToPlayer, boolean includeAirBlocks, float spacingDelay, int delay)
 	{

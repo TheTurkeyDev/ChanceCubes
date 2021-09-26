@@ -11,16 +11,15 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.Level;
 
 import java.io.BufferedReader;
@@ -38,12 +37,12 @@ public class StreamerReward
 {
 	private Socket socket;
 	private BufferedWriter writter;
-	private String channel;
+	private final String channel;
 
 	private boolean connectedToChat = false;
 
-	private List<String> voted = new ArrayList<>();
-	private List<Option> options = new ArrayList<>();
+	private final List<String> voted = new ArrayList<>();
+	private final List<Option> options = new ArrayList<>();
 	private int timeLeft;
 
 	public StreamerReward(String channel, JsonArray jsonOptions)
@@ -68,7 +67,7 @@ public class StreamerReward
 		}
 	}
 
-	public boolean trigger(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public boolean trigger(ServerLevel world, BlockPos pos, Player player)
 	{
 		try
 		{
@@ -99,25 +98,25 @@ public class StreamerReward
 			public void update()
 			{
 				step++;
-				StringTextComponent message;
+				TextComponent message;
 
 				switch(step)
 				{
-					case 1:
-						message = new StringTextComponent("Hey Twitch Chat!");
-						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+					case 1 -> {
+						message = new TextComponent("Hey Twitch Chat!");
+						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						break;
-					case 6:
-						message = new StringTextComponent("Let's Play A Game!");
-						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+					}
+					case 6 -> {
+						message = new TextComponent("Let's Play A Game!");
+						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						break;
-					case 11:
-						message = new StringTextComponent("Decide My Fate!");
-						message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+					}
+					case 11 -> {
+						message = new TextComponent("Decide My Fate!");
+						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
-						break;
+					}
 				}
 
 				if(step > 15)
@@ -136,7 +135,7 @@ public class StreamerReward
 							winner = opt;
 
 					RewardsUtil.sendMessageToPlayer(player, winner.display + " Has won!");
-					winner.reward.trigger(world, player.getPosition(), player, new JsonObject());
+					winner.reward.trigger(world, player.getOnPos(), player, new JsonObject());
 					disconnect();
 				}
 			}
@@ -168,26 +167,22 @@ public class StreamerReward
 						String code = line.substring(firstSpace + 1, secondSpace);
 						String rest = line.substring(secondSpace + 1);
 
-						switch(code)
+						//System.out.println(">>> " + line);
+						if("PRIVMSG".equals(code))
 						{
-							case "PRIVMSG":
-								if(voted.contains(from))
-									break;
+							if(voted.contains(from))
+								continue;
 
-								String message = rest.substring(rest.indexOf(" ") + 2);
-								if(IntVar.isInteger(message))
+							String message = rest.substring(rest.indexOf(" ") + 2);
+							if(IntVar.isInteger(message))
+							{
+								int choice = Integer.parseInt(message) - 1;
+								if(choice >= 0 && choice < 5)
 								{
-									int choice = Integer.parseInt(message) - 1;
-									if(choice >= 0 && choice < 5)
-									{
-										options.get(choice).votes++;
-										voted.add(from);
-									}
+									options.get(choice).votes++;
+									voted.add(from);
 								}
-								break;
-							default:
-								//System.out.println(">>> " + line);
-								break;
+							}
 						}
 					}
 				}
@@ -228,18 +223,18 @@ public class StreamerReward
 		}
 	}
 
-	private void updateTitle(PlayerEntity player)
+	private void updateTitle(Player player)
 	{
 		StringBuilder sb = new StringBuilder();
 		for(Option option : options)
 			sb.append(option.votes).append(" - ");
 		sb.delete(sb.length() - 2, sb.length());
 
-		StringTextComponent message = new StringTextComponent(sb.toString());
-		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+		TextComponent message = new TextComponent(sb.toString());
+		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 40, 0);
-		message = new StringTextComponent("Time Left: " + timeLeft);
-		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+		message = new TextComponent("Time Left: " + timeLeft);
+		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 40, 0);
 
 	}
@@ -275,7 +270,7 @@ public class StreamerReward
 
 	private static class ChatInvadeReward extends BaseCustomReward
 	{
-		private String channel;
+		private final String channel;
 
 		public ChatInvadeReward(String channel)
 		{
@@ -284,7 +279,7 @@ public class StreamerReward
 		}
 
 		@Override
-		public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+		public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 		{
 			try
 			{
@@ -297,13 +292,13 @@ public class StreamerReward
 						{
 							if(user.isJsonPrimitive())
 							{
-								ZombieEntity zombie = EntityType.ZOMBIE.create(world);
+								Zombie zombie = EntityType.ZOMBIE.create(level);
 								if(zombie != null)
 								{
-									zombie.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
-									zombie.setCustomName(new StringTextComponent(user.getAsString()));
+									zombie.moveTo(player.getX(), player.getY(), player.getZ());
+									zombie.setCustomName(new TextComponent(user.getAsString()));
 									zombie.setCustomNameVisible(true);
-									world.addEntity(zombie);
+									level.addFreshEntity(zombie);
 								}
 							}
 						}

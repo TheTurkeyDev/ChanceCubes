@@ -15,28 +15,29 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.LeverBlock;
-import net.minecraft.block.WallSignBlock;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.SignTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Rotations;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Rotations;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeverBlock;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +53,13 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("tnt", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
 				for(int i = 0; i < 5; i++)
 				{
-					TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
-					world.addEntity(entitytntprimed);
-					world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					PrimedTnt entitytntprimed = new PrimedTnt(level, player.getX(), player.getY() + 1D, player.getZ(), player);
+					level.addFreshEntity(entitytntprimed);
+					level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					entitytntprimed.setFuse(140);
 				}
 			}
@@ -67,47 +68,47 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_neutral", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, 0);
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(level, pos, player, 0);
 			}
 		}, "Random", "chance Cube", "Reward", "Value: 0"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_bad", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, -50);
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(level, pos, player, -50);
 			}
 		}, "Random", "chance Cube", "Reward", "Value: -50"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_good", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(world, pos, player, 50);
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(level, pos, player, 50);
 			}
 		}, "Random", "chance Cube", "Reward", "Value: 50"));
 		rewards.add(new RewardTrigger(new BasicReward("emerald", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.EMERALD, 1)))), "", "1 Emerald"));
 		rewards.add(new RewardTrigger(new BasicReward("nothing", 0, new MessageRewardType("Congrats! You won absolutely nothing!")), "", "Nothing"));
 		ItemStack car = new ItemStack(Items.MINECART);
-		car.setDisplayName(new StringTextComponent("New Car!"));
-		car.addEnchantment(Enchantments.UNBREAKING, 0);
+		car.setHoverName(new TextComponent("New Car!"));
+		car.enchant(Enchantments.UNBREAKING, 0);
 		rewards.add(new RewardTrigger(new BasicReward("new_car", 0, new ItemRewardType(new ItemPart(car))), "", "A Brand", "New Car"));
 		rewards.add(new RewardTrigger(new BasicReward("lava", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.LAVA, false))), "", "Hot Stuff"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("vacation", 0)
 		{
 			@Override
-			public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				int xChange = ((world.rand.nextInt(50) + 20) + pos.getX()) - 35;
-				int zChange = ((world.rand.nextInt(50) + 20) + pos.getZ()) - 35;
+				int xChange = ((RewardsUtil.rand.nextInt(50) + 20) + pos.getX()) - 35;
+				int zChange = ((RewardsUtil.rand.nextInt(50) + 20) + pos.getZ()) - 35;
 
 				int yChange = -1;
 
-				for(int yy = 0; yy <= world.getHeight(); yy++)
+				for(int yy = 0; yy <= level.getHeight(); yy++)
 				{
-					if(world.isAirBlock(new BlockPos(xChange, yy, zChange)) && world.isAirBlock(new BlockPos(xChange, yy + 1, zChange)))
+					if(level.getBlockState(new BlockPos(xChange, yy, zChange)).isAir() && level.getBlockState(new BlockPos(xChange, yy + 1, zChange)).isAir())
 					{
 						yChange = yy;
 						break;
@@ -116,13 +117,13 @@ public class WheelSpinReward extends BaseCustomReward
 				if(yChange == -1)
 					return;
 
-				player.setPositionAndUpdate(xChange, yChange, zChange);
+				player.moveTo(xChange, yChange, zChange);
 			}
 		}, "All", "Expenses", "Paid", "Vacation"));
 		rewards.add(new RewardTrigger(new BasicReward("free_groceries", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.BREAD, 64)), new ItemPart(new ItemStack(Items.COOKIE, 64)), new ItemPart(new ItemStack(Items.MILK_BUCKET, 10))), new MessageRewardType("There, that should last you a year!")), "", "Free Groceries", "For a YEAR!"));
 	}
 
-	private RewardTrigger[] rewardsChosen = new RewardTrigger[4];
+	private final RewardTrigger[] rewardsChosen = new RewardTrigger[4];
 
 	public WheelSpinReward()
 	{
@@ -130,83 +131,78 @@ public class WheelSpinReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
-		ArmorStandEntity armorStand = EntityType.ARMOR_STAND.create(world);
-		armorStand.setPositionAndRotation(pos.getX() + 0.8, pos.getY() + 1.15, pos.getZ() + 1.5, 0, 0);
-		armorStand.setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.ORANGE_BANNER));
-		armorStand.setRightArmRotation(new Rotations(90, 0, 0));
+		ArmorStand armorStand = EntityType.ARMOR_STAND.create(level);
+		armorStand.moveTo(pos.getX() + 0.8, pos.getY() + 1.15, pos.getZ() + 1.5, 0, 0);
+		armorStand.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.ORANGE_BANNER));
+		armorStand.setRightArmPose(new Rotations(90, 0, 0));
 		armorStand.setInvisible(true);
 		armorStand.setNoGravity(true);
-		world.addEntity(armorStand);
+		level.addFreshEntity(armorStand);
 
 		rewardsChosen[0] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));
 		rewardsChosen[1] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));
 		rewardsChosen[2] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));
 		rewardsChosen[3] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));
 
-		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
-		BlockState bc = Blocks.BLACK_CONCRETE.getDefaultState();
-		BlockState wc = Blocks.WHITE_CONCRETE.getDefaultState();
-		BlockState lbc = Blocks.LIGHT_BLUE_CONCRETE.getDefaultState();
+		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
+		BlockState bc = Blocks.BLACK_CONCRETE.defaultBlockState();
+		BlockState wc = Blocks.WHITE_CONCRETE.defaultBlockState();
+		BlockState lbc = Blocks.LIGHT_BLUE_CONCRETE.defaultBlockState();
 
-		BlockState ss = Blocks.OAK_WALL_SIGN.getDefaultState().with(WallSignBlock.FACING, Direction.SOUTH);
+		BlockState ss = Blocks.OAK_WALL_SIGN.defaultBlockState().setValue(WallSignBlock.FACING, Direction.SOUTH);
 		BlockPos offset = new BlockPos(0, 0, 1);
 		cache.cacheBlock(offset, ss);
-		TileEntity tileEntity = world.getTileEntity(pos.add(offset));
-		if(tileEntity instanceof SignTileEntity)
+		BlockEntity tileEntity = level.getBlockEntity(pos.offset(offset));
+		if(tileEntity instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) tileEntity;
 			String[] textToSet = rewardsChosen[0].signText;
 			for(int i = 0; i < textToSet.length; i++)
-				sign.setText(i, new StringTextComponent(textToSet[i]));
+				sign.setMessage(i, new TextComponent(textToSet[i]));
 		}
 
 		offset = new BlockPos(-2, 2, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = world.getTileEntity(pos.add(offset));
-		if(tileEntity instanceof SignTileEntity)
+		tileEntity = level.getBlockEntity(pos.offset(offset));
+		if(tileEntity instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) tileEntity;
 			String[] textToSet = rewardsChosen[1].signText;
 			for(int i = 0; i < textToSet.length; i++)
-				sign.setText(i, new StringTextComponent(textToSet[i]));
+				sign.setMessage(i, new TextComponent(textToSet[i]));
 		}
 
 		offset = new BlockPos(2, 2, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = world.getTileEntity(pos.add(offset));
-		if(tileEntity instanceof SignTileEntity)
+		tileEntity = level.getBlockEntity(pos.offset(offset));
+		if(tileEntity instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) tileEntity;
 			String[] textToSet = rewardsChosen[3].signText;
 			for(int i = 0; i < textToSet.length; i++)
-				sign.setText(i, new StringTextComponent(textToSet[i]));
+				sign.setMessage(i, new TextComponent(textToSet[i]));
 		}
 
 		offset = new BlockPos(0, 4, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = world.getTileEntity(pos.add(offset));
-		if(tileEntity instanceof SignTileEntity)
+		tileEntity = level.getBlockEntity(pos.offset(offset));
+		if(tileEntity instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) tileEntity;
 			String[] textToSet = rewardsChosen[2].signText;
 			for(int i = 0; i < textToSet.length; i++)
-				sign.setText(i, new StringTextComponent(textToSet[i]));
+				sign.setMessage(i, new TextComponent(textToSet[i]));
 		}
 
 		offset = new BlockPos(4, 1, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = world.getTileEntity(pos.add(offset));
-		if(tileEntity instanceof SignTileEntity)
+		tileEntity = level.getBlockEntity(pos.offset(offset));
+		if(tileEntity instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) tileEntity;
-			sign.setText(0, new StringTextComponent("Pull"));
-			sign.setText(1, new StringTextComponent("To Spin"));
-			sign.setText(2, new StringTextComponent("The Wheel!"));
+			sign.setMessage(0, new TextComponent("Pull"));
+			sign.setMessage(1, new TextComponent("To Spin"));
+			sign.setMessage(2, new TextComponent("The Wheel!"));
 		}
 		BlockPos leverOffset = new BlockPos(4, 0, 1);
-		cache.cacheBlock(leverOffset, Blocks.LEVER.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.SOUTH));
+		cache.cacheBlock(leverOffset, Blocks.LEVER.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
 		cache.cacheBlock(new BlockPos(4, 1, 0), wc);
 		cache.cacheBlock(new BlockPos(4, 0, 0), wc);
 
@@ -234,28 +230,28 @@ public class WheelSpinReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("wheel_spin_lever_task", 600, 1)
 		{
-			BlockPos leverPos = pos.add(leverOffset);
+			final BlockPos leverPos = pos.offset(leverOffset);
 
 			@Override
 			public void callback()
 			{
 				cache.restoreBlocks(null);
-				armorStand.remove();
+				armorStand.remove(Entity.RemovalReason.DISCARDED);
 			}
 
 			@Override
 			public void update()
 			{
-				BlockState state = world.getBlockState(leverPos);
+				BlockState state = level.getBlockState(leverPos);
 				if(!state.getBlock().equals(Blocks.LEVER))
 				{
-					world.setBlockState(leverPos, Blocks.LEVER.getDefaultState());
+					level.setBlockAndUpdate(leverPos, Blocks.LEVER.defaultBlockState());
 				}
 				else
 				{
-					if(state.get(LeverBlock.POWERED))
+					if(state.getValue(LeverBlock.POWERED))
 					{
-						spinWheel(world, pos, armorStand, cache, player);
+						spinWheel(level, pos, armorStand, cache, player);
 						Scheduler.removeTask(this);
 					}
 				}
@@ -263,7 +259,7 @@ public class WheelSpinReward extends BaseCustomReward
 		});
 	}
 
-	public void spinWheel(ServerWorld world, BlockPos pos, ArmorStandEntity armorStand, RewardBlockCache cache, PlayerEntity player)
+	public void spinWheel(ServerLevel level, BlockPos pos, ArmorStand armorStand, RewardBlockCache cache, Player player)
 	{
 		int rewardPicked = RewardsUtil.rand.nextInt(4);
 		int delayBase = 194 + (rewardPicked * 6) - 1;
@@ -274,35 +270,35 @@ public class WheelSpinReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				endDelay(world, pos, armorStand, cache, player, rewardPicked);
+				endDelay(level, pos, armorStand, cache, player, rewardPicked);
 			}
 
 			@Override
 			public void update()
 			{
 				rotIndex += 15;
-				armorStand.setRightArmRotation(new Rotations(90, 0, rotIndex));
+				armorStand.setRightArmPose(new Rotations(90, 0, rotIndex));
 
 				if(rotIndex % 30 == 0)
 				{
-					world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 1f, 1f);
+					level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.STONE_BUTTON_CLICK_ON, SoundSource.BLOCKS, 1f, 1f);
 				}
 			}
 		});
 	}
 
-	public void endDelay(ServerWorld world, BlockPos pos, ArmorStandEntity armorStand, RewardBlockCache cache, PlayerEntity player, int rewardPicked)
+	public void endDelay(ServerLevel level, BlockPos pos, ArmorStand armorStand, RewardBlockCache cache, Player player, int rewardPicked)
 	{
 		Scheduler.scheduleTask(new Task("wheel_spin_end_task", 60)
 		{
 			@Override
 			public void callback()
 			{
-				armorStand.remove();
+				armorStand.remove(Entity.RemovalReason.DISCARDED);
 				cache.restoreBlocks(player);
 				IChanceCubeReward reward = rewardsChosen[rewardPicked].reward;
 				JsonObject settingsJson = ConfigLoader.getRewardSettings(reward.getName());
-				reward.trigger(world, pos, player, settingsJson);
+				reward.trigger(level, pos, player, settingsJson);
 			}
 		});
 	}

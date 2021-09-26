@@ -3,11 +3,11 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class MobTowerReward extends BaseCustomReward
 {
 	//@formatter:off
-	private List<EntityType<? extends Entity>> entities = Arrays.asList(EntityType.CREEPER, EntityType.SKELETON, EntityType.BLAZE,
+	private final List<EntityType<? extends Entity>> entities = Arrays.asList(EntityType.CREEPER, EntityType.SKELETON, EntityType.BLAZE,
 			EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ZOMBIFIED_PIGLIN, EntityType.SILVERFISH, EntityType.SLIME,
 			EntityType.SNOW_GOLEM, EntityType.SPIDER, EntityType.WITCH, EntityType.ZOMBIE, EntityType.BAT, EntityType.CHICKEN,
 			EntityType.COW, EntityType.OCELOT, EntityType.PARROT, EntityType.PIG, EntityType.RABBIT, EntityType.SHEEP,
@@ -28,7 +28,7 @@ public class MobTowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "How did they end up like that? O.o");
 		int minHeight = super.getSettingAsInt(settings, "minHeight", 7, 0, 20);
@@ -48,9 +48,9 @@ public class MobTowerReward extends BaseCustomReward
 		Entity last;
 		try
 		{
-			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(world);
-			last.setPosition(pos.getX(), pos.getY(), pos.getZ());
-			world.addEntity(last);
+			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(level);
+			last.moveTo(pos.getX(), pos.getY(), pos.getZ());
+			level.addFreshEntity(last);
 		} catch(Exception e)
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Uh oh! Something went wrong and the reward could not be spawned! Please report this to the mod dev!");
@@ -61,9 +61,9 @@ public class MobTowerReward extends BaseCustomReward
 		{
 			try
 			{
-				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(world);
-				ent.setPosition(pos.getX(), pos.getY(), pos.getZ());
-				world.addEntity(ent);
+				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(level);
+				ent.moveTo(pos.getX(), pos.getY(), pos.getZ());
+				level.addFreshEntity(ent);
 				ent.startRiding(last, true);
 				last = ent;
 			} catch(Exception ignored)

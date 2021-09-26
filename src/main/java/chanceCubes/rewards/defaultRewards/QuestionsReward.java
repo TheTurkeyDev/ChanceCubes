@@ -7,13 +7,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -24,9 +24,9 @@ import java.util.Map;
 
 public class QuestionsReward extends BaseCustomReward
 {
-	private Map<PlayerEntity, String> inQuestion = new HashMap<>();
+	private final Map<Player, String> inQuestion = new HashMap<>();
 
-	private List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<>();
+	private final List<CustomEntry<String, String>> questionsAndAnswers = new ArrayList<>();
 
 	public QuestionsReward()
 	{
@@ -46,7 +46,7 @@ public class QuestionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		if(inQuestion.containsKey(player))
 			return;
@@ -54,7 +54,7 @@ public class QuestionsReward extends BaseCustomReward
 		if(!RewardsUtil.isPlayerOnline(player))
 			return;
 
-		int question = world.rand.nextInt(questionsAndAnswers.size());
+		int question = RewardsUtil.rand.nextInt(questionsAndAnswers.size());
 
 		RewardsUtil.sendMessageToPlayer(player, questionsAndAnswers.get(question).getKey());
 		RewardsUtil.sendMessageToPlayer(player, "You have 20 seconds to answer! (Answer is not case sensitive)");
@@ -82,7 +82,7 @@ public class QuestionsReward extends BaseCustomReward
 		});
 	}
 
-	private void timeUp(PlayerEntity player, boolean correct)
+	private void timeUp(Player player, boolean correct)
 	{
 		if(!inQuestion.containsKey(player))
 			return;
@@ -91,12 +91,12 @@ public class QuestionsReward extends BaseCustomReward
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Correct!");
 			RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-			player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Incorrect! The answer was " + this.inQuestion.get(player));
-			player.world.createExplosion(player, player.getPosX(), player.getPosY(), player.getPosZ(), 1.0F, Explosion.Mode.NONE);
+			player.level.createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.Mode.NONE);
 			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}
 
@@ -107,7 +107,7 @@ public class QuestionsReward extends BaseCustomReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		PlayerEntity player = event.getPlayer();
+		Player player = event.getPlayer();
 
 		if(inQuestion.containsKey(player))
 		{

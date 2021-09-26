@@ -1,104 +1,84 @@
 package chanceCubes.blocks;
 
 import chanceCubes.tileentities.TileCubeDispenser;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class BlockCubeDispenser extends BaseChanceBlock
+public class BlockCubeDispenser extends BaseChanceBlock implements EntityBlock
 {
 	public static final EnumProperty<DispenseType> DISPENSING = EnumProperty.create("dispensing", BlockCubeDispenser.DispenseType.class);
 
 	public BlockCubeDispenser()
 	{
-		super(getBuilder().hardnessAndResistance(2f, Integer.MAX_VALUE), "cube_dispenser");
-		this.setDefaultState(this.stateContainer.getBaseState().with(DISPENSING, DispenseType.CHANCE_CUBE));
+		super(getBuilder().strength(2f, Integer.MAX_VALUE), "cube_dispenser");
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DISPENSING, DispenseType.CHANCE_CUBE));
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
+		return new TileCubeDispenser(pos, state);
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand p_60507_, BlockHitResult p_60508_)
 	{
-		return new TileCubeDispenser();
-	}
+		if(level.isClientSide())
+			return InteractionResult.PASS;
+		if(!(level.getBlockEntity(pos) instanceof TileCubeDispenser te))
+			return InteractionResult.PASS;
 
-	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_)
-	{
-		if(world.isRemote)
-			return ActionResultType.PASS;
-		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
-			return ActionResultType.PASS;
-
-		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
-		//isCrouching ???? wtf
-		if(player.isSneaking())
+		if(player.isCrouching())
 		{
-			//TODO is this cycle?
-			state = state.func_235896_a_(DISPENSING);
-			world.setBlockState(pos, state, 3);
+			state = state.cycle(DISPENSING);
+			level.setBlockAndUpdate(pos, state);
 		}
 		else
 		{
-			Block block = Block.getBlockFromItem(player.inventory.getCurrentItem().getItem());
+			Block block = Block.byItem(player.getInventory().getSelected().getItem());
 			if(block.equals(te.getCurrentBlock(BlockCubeDispenser.getCurrentState(state))))
-				player.inventory.decrStackSize(player.inventory.currentItem, 1);
+				player.getInventory().getSelected().shrink(1);
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
+	public void attack(BlockState state, Level level, BlockPos pos, Player player)
 	{
-		if(world.isRemote)
+		if(level.isClientSide())
 			return;
-		if(!(world.getTileEntity(pos) instanceof TileCubeDispenser))
-			return;
-		TileCubeDispenser te = (TileCubeDispenser) world.getTileEntity(pos);
-
-		if(te == null)
+		if(!(level.getBlockEntity(pos) instanceof TileCubeDispenser te))
 			return;
 
-		ItemEntity entitem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(state));
-		entitem.setLocationAndAngles(player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0);
-		if(player.isSneaking())
-		{
-			entitem.getItem().setCount(1);
-			world.addEntity(entitem);
-		}
-		else
-		{
-			entitem.getItem().setCount(64);
-			world.addEntity(entitem);
-		}
+		ItemEntity entItem = te.getNewEntityItem(BlockCubeDispenser.getCurrentState(state));
+		entItem.moveTo(player.getX(), player.getY(), player.getZ(), 0, 0);
+		entItem.getItem().setCount(player.isCrouching() ? 1 : 64);
+		level.addFreshEntity(entItem);
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(DISPENSING);
 	}
 
-	public enum DispenseType implements IStringSerializable
+	public enum DispenseType implements StringRepresentable
 	{
 		CHANCE_CUBE("chance_cube"), CHANCE_ICOSAHEDRON("chance_icosahedron"), COMPACT_GIANTCUBE("compact_giant_cube");
 
-		private String type;
+		private final String type;
 
 		DispenseType(String name)
 		{
@@ -107,7 +87,7 @@ public class BlockCubeDispenser extends BaseChanceBlock
 
 
 		@Override
-		public String getString()
+		public String getSerializedName()
 		{
 			return this.type;
 		}
@@ -115,6 +95,6 @@ public class BlockCubeDispenser extends BaseChanceBlock
 
 	public static DispenseType getCurrentState(BlockState state)
 	{
-		return state.get(DISPENSING);
+		return state.getValue(DISPENSING);
 	}
 }

@@ -6,88 +6,84 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
 
-public class BlockChanceD20 extends BaseChanceBlock
+public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 {
-	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.1, 0.1, 0.1, 15.9, 15.9, 15.9);
+	private static final VoxelShape SHAPE = Block.box(0.1, 0.1, 0.1, 15.9, 15.9, 15.9);
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().hardnessAndResistance(-1f, Integer.MAX_VALUE).setLightLevel(state -> 7), "chance_icosahedron");
+		super(getBuilder().strength(-1f, Integer.MAX_VALUE).lightLevel(state -> 7), "chance_icosahedron");
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
-	}
-
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
-	{
-		return new TileChanceD20();
+		return new TileChanceD20(pos, state);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_)
 	{
 		return SHAPE;
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
+	public void attack(BlockState state, Level level, BlockPos pos, Player player)
 	{
-		this.startd20(world, pos, player);
+		this.startd20(level, pos, player);
 	}
+
+//	@Override
+//	public BlockRenderType getRenderType(BlockState state)
+//	{
+//		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+//	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state)
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand
+			p_60507_, BlockHitResult p_60508_)
 	{
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+		return this.startd20(level, pos, player) ? InteractionResult.PASS : InteractionResult.FAIL;
 	}
 
-	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_)
+	public boolean startd20(Level level, BlockPos pos, Player player)
 	{
-		return this.startd20(world, pos, player) ? ActionResultType.PASS : ActionResultType.FAIL;
-	}
-
-	public boolean startd20(World world, BlockPos pos, PlayerEntity player)
-	{
-		if(world.isRemote || player == null || player instanceof FakePlayer)
+		if(level.isClientSide() || player == null || player instanceof FakePlayer)
 			return true;
 
-		TileChanceD20 te = (TileChanceD20) world.getTileEntity(pos);
-		if(!player.inventory.getCurrentItem().isEmpty() && player.inventory.getCurrentItem().getItem().equals(CCubesItems.silkPendant))
+		TileChanceD20 te = (TileChanceD20) level.getBlockEntity(pos);
+		if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 		{
 			ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			spawnAsEntity(world, pos, stack);
-			world.setBlockState(pos, Blocks.AIR.getDefaultState());
-			world.removeTileEntity(pos);
+			spawnAsEntity(level, pos, stack);
+			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+			level.removeBlockEntity(pos);
 			return false;
 		}
 
-		RewardsUtil.executeCommand((ServerWorld) world, player, player.getPositionVec(), "/advancement grant @p only chancecubes:chance_icosahedron");
+		RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
 		te.startBreaking(player);
-		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, world.getDimensionKey())), new PacketTriggerD20(pos));
+		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())), new PacketTriggerD20(pos));
 		return false;
 	}
 }

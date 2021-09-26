@@ -6,11 +6,10 @@ import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.util.CustomSchematic;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class SchematicRewardType implements IRewardType
 {
-	private SchematicPart part;
+	private final SchematicPart part;
 
 	public SchematicRewardType(SchematicPart part)
 	{
@@ -26,7 +25,7 @@ public class SchematicRewardType implements IRewardType
 	}
 
 	@Override
-	public void trigger(ServerWorld world, int x, int y, int z, PlayerEntity player)
+	public void trigger(ServerLevel level, int x, int y, int z, Player player)
 	{
 		CustomSchematic schematic = part.getSchematic();
 		if(schematic == null)
@@ -45,9 +44,9 @@ public class SchematicRewardType implements IRewardType
 			public void callback()
 			{
 
-				double playerX = player.getPosX();
-				double playerY = player.getPosY();
-				double playerZ = player.getPosZ();
+				double playerX = player.getX();
+				double playerY = player.getY();
+				double playerZ = player.getZ();
 				Scheduler.scheduleTask(new Task("Schematic_Reward_Block_Spawn", -1, schematic.getSpacingDelay() < 1 ? 1 : (int) schematic.getSpacingDelay())
 				{
 					@Override
@@ -65,18 +64,18 @@ public class SchematicRewardType implements IRewardType
 							if(schematic.isRelativeToPlayer())
 							{
 								BlockPos pos = new BlockPos((int) Math.floor(playerX) + osb.xOff.getIntValue(), (int) Math.floor(playerY) + osb.yOff.getIntValue(), (int) Math.floor(playerZ) + osb.zOff.getIntValue());
-								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
+								if(level.getBlockState(pos).getBlock().isAir(level.getBlockState(pos), level, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
 									continue;
-								osb.spawnInWorld(world, (int) Math.floor(playerX), (int) Math.floor(playerY), (int) Math.floor(playerZ));
+								osb.spawnInWorld(level, (int) Math.floor(playerX), (int) Math.floor(playerY), (int) Math.floor(playerZ));
 							}
 							else
 							{
 								BlockPos pos = new BlockPos(x + osb.xOff.getIntValue(), y + osb.yOff.getIntValue(), z + osb.zOff.getIntValue());
-								if(world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
+								if(level.getBlockState(pos).getBlock().isAir(level.getBlockState(pos), level, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
 								{
 									continue;
 								}
-								osb.spawnInWorld(world, x, y, z);
+								osb.spawnInWorld(level, x, y, z);
 							}
 
 							lessThan1 += schematic.getSpacingDelay();

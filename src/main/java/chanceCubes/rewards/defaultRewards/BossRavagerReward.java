@@ -7,19 +7,19 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.monster.RavagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.monster.Ravager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BossRavagerReward extends BossBaseReward
 {
@@ -29,29 +29,29 @@ public class BossRavagerReward extends BossBaseReward
 	}
 
 	@Override
-	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		RavagerEntity ravager = EntityType.RAVAGER.create(world);
+		Ravager ravager = EntityType.RAVAGER.create(level);
 
-		ArmorStandEntity armorStandEntity = EntityType.ARMOR_STAND.create(world);
+		ArmorStand armorStandEntity = EntityType.ARMOR_STAND.create(level);
 		armorStandEntity.setInvulnerable(true);
 		armorStandEntity.startRiding(ravager, true);
 
 
 		ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
-		CompoundNBT nbt = headStack.getTag();
+		CompoundTag nbt = headStack.getTag();
 		if(nbt == null)
 		{
-			nbt = new CompoundNBT();
+			nbt = new CompoundTag();
 			headStack.setTag(nbt);
 		}
 		nbt.putString("SkullOwner", player.getName().getString());
 
-		armorStandEntity.setItemStackToSlot(EquipmentSlotType.HEAD, headStack);
-		armorStandEntity.setItemStackToSlot(EquipmentSlotType.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
-		armorStandEntity.setItemStackToSlot(EquipmentSlotType.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
-		armorStandEntity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.DIAMOND_HOE));
-		armorStandEntity.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(Items.SHIELD));
+		armorStandEntity.setItemSlot(EquipmentSlot.HEAD, headStack);
+		armorStandEntity.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+		armorStandEntity.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
+		armorStandEntity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_HOE));
+		armorStandEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
 
 		Scheduler.scheduleTask(new Task("witch_abilities", -1, 20)
 		{
@@ -70,7 +70,7 @@ public class BossRavagerReward extends BossBaseReward
 				}
 
 				if(RewardsUtil.rand.nextInt(20) == 4)
-					groundPound(ravager.getPosition(), world);
+					groundPound(ravager.getOnPos(), level);
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					charge(ravager, player);
 //				if(RewardsUtil.rand.nextInt(5) == 4)
@@ -83,7 +83,7 @@ public class BossRavagerReward extends BossBaseReward
 		return ravager;
 	}
 
-	private void groundPound(BlockPos ravagerPos, ServerWorld world)
+	private void groundPound(BlockPos ravagerPos, ServerLevel level)
 	{
 		Scheduler.scheduleTask(new Task("ground_pound_ability", -1, 5)
 		{
@@ -97,27 +97,27 @@ public class BossRavagerReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				BlockPos.Mutable pos = new BlockPos.Mutable(0, -1, 0);
+				BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, -1, 0);
 				for(int x = -radius; x <= radius; x++)
 				{
 					for(int z = -radius; z <= radius; z++)
 					{
-						pos.setPos(x, -1, z);
+						pos.set(x, -1, z);
 						if(withinDistance(pos, radius))
 						{
-							BlockPos newPos = ravagerPos.add(pos);
-							BlockState state = world.getBlockState(newPos);
+							BlockPos newPos = ravagerPos.offset(pos);
+							BlockState state = level.getBlockState(newPos);
 
 							if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR))
-								state = Blocks.DIRT.getDefaultState();
+								state = Blocks.DIRT.defaultBlockState();
 							else
-								world.setBlockState(newPos, Blocks.AIR.getDefaultState());
+								level.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
 
-							BlockFallingCustom block = new BlockFallingCustom(world, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state, newPos.getY(), new OffsetBlock(newPos.getX(), newPos.getY(), newPos.getZ(), state, false));
-							block.fallTime = 1;
-							block.setMotion(0, 0.33f, 0);
+							BlockFallingCustom block = new BlockFallingCustom(level, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state, newPos.getY(), new OffsetBlock(newPos.getX(), newPos.getY(), newPos.getZ(), state, false));
+							block.fallDistance = 0;
+							block.setDeltaMovement(0, 0.33f, 0);
 
-							world.addEntity(block);
+							level.addFreshEntity(block);
 						}
 					}
 				}
@@ -129,23 +129,23 @@ public class BossRavagerReward extends BossBaseReward
 		});
 	}
 
-	private void charge(RavagerEntity ravager, PlayerEntity player)
+	private void charge(Ravager ravager, Player player)
 	{
-		BlockPos dist = player.getPosition().subtract(ravager.getPosition());
-		double unit = Math.sqrt(dist.distanceSq(BlockPos.ZERO));
+		BlockPos dist = player.getOnPos().subtract(ravager.getOnPos());
+		double unit = Math.sqrt(dist.distSqr(BlockPos.ZERO));
 		BlockPos move = new BlockPos((dist.getX() / unit) * 3, 0, (dist.getZ() / unit) * 3);
-		ravager.setMotion(move.getX(), 0, move.getZ());
+		ravager.setDeltaMovement(move.getX(), 0, move.getZ());
 	}
 
 	@Override
-	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerLevel level, BlockPos pos, Player player)
 	{
 
 	}
 
 	public boolean withinDistance(BlockPos pos, double rad)
 	{
-		double dist = pos.distanceSq(0, 0, 0, false);
+		double dist = pos.distSqr(0, 0, 0, false);
 		return dist < rad * rad && dist >= (rad - 1) * (rad - 1);
 	}
 

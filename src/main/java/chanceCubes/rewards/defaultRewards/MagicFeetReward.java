@@ -5,11 +5,10 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
 
 public class MagicFeetReward extends BaseCustomReward
 {
@@ -19,7 +18,7 @@ public class MagicFeetReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int duration = super.getSettingAsInt(settings, "duration", 300, 0, Integer.MAX_VALUE);
 		RewardsUtil.sendMessageToPlayer(player, "<Dovah_Jun> You've got magic feet!!!");
@@ -36,11 +35,11 @@ public class MagicFeetReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				BlockPos beneth = player.getPosition().add(0, -1, 0);
-				if(!world.isAirBlock(beneth) && world.getTileEntity(beneth) == null && !last.equals(beneth))
+				BlockPos beneth = player.getOnPos().offset(0, -1, 0);
+				if(!level.isAirBlock(beneth) && level.getBlockEntity(beneth) == null && !last.equals(beneth))
 				{
 					Block block = RewardsUtil.getRandomOre();
-					RewardsUtil.placeBlock(block.getDefaultState(), world, beneth);
+					RewardsUtil.placeBlock(block.defaultBlockState(), level, beneth);
 					last = beneth;
 				}
 

@@ -5,8 +5,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.List;
 
 public abstract class BaseCustomReward implements IChanceCubeReward
 {
-	private String name;
-	private int chance;
+	private final String name;
+	private final int chance;
 
 	public BaseCustomReward(String name, int chance)
 	{
@@ -143,7 +142,7 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 				ItemStack stack;
 				try
 				{
-					stack = ItemStack.read(JsonToNBT.getTagFromJson(obj.toString()));
+					stack = ItemStack.of(JsonToNBT.getTagFromJson(obj.toString()));
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + obj.toString() + " to an item stack!");

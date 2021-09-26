@@ -5,10 +5,10 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class OrePillarReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		List<String> whiteList = Arrays.asList(super.getSettingAsStringList(settings, "whiteList", new String[0]));
 		List<String> blackList = Arrays.asList(super.getSettingAsStringList(settings, "blackList", new String[0]));
@@ -48,6 +48,6 @@ public class OrePillarReward extends BaseCustomReward
 		}
 
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
+			b.spawnInWorld(level, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

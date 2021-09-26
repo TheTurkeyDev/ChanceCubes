@@ -2,7 +2,7 @@ package chanceCubes.rewards.biodomeGen;
 
 public abstract class BaseBiome implements IBioDomeBiome
 {
-	private String biomeName;
+	private final String biomeName;
 
 	public BaseBiome(String name)
 	{

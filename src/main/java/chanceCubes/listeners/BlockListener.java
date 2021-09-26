@@ -6,8 +6,8 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.SchematicUtil;
 import chanceCubes.util.Task;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickEmpty;
@@ -44,11 +44,11 @@ public class BlockListener
 		this.setSchematicPoint(1, event.getPlayer(), event.getPos());
 	}
 
-	public boolean setSchematicPoint(int point, PlayerEntity player, BlockPos pos)
+	public boolean setSchematicPoint(int point, Player player, BlockPos pos)
 	{
-		if(Minecraft.getInstance().isSingleplayer() && RenderEvent.isCreatingSchematic() && !setdelay)
+		if(Minecraft.getInstance().isLocalServer() && RenderEvent.isCreatingSchematic() && !setdelay)
 		{
-			if(player.abilities.isCreativeMode)
+			if(player.getAbilities().isCreativeMode)
 			{
 				boolean flag = false;
 				if(point == 1)

@@ -6,13 +6,12 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class ClearInventoryReward extends BaseCustomReward
 {
@@ -23,32 +22,32 @@ public class ClearInventoryReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		boolean cubes = false;
 		final PlayerInventory inv = new PlayerInventory(player);
-		inv.copyInventory(player.inventory);
-		for(int slotNum = 0; slotNum < player.inventory.getSizeInventory(); slotNum++)
+		inv.copyInventory(player.getInventory());
+		for(int slotNum = 0; slotNum < player.getInventory().getContainerSize(); slotNum++)
 		{
-			if(!player.inventory.getStackInSlot(slotNum).isEmpty() && player.inventory.getStackInSlot(slotNum).getItem() instanceof ItemChanceCube)
+			if(!player.getInventory().getItem(slotNum).isEmpty() && player.getInventory().getItem(slotNum).getItem() instanceof ItemChanceCube)
 				cubes = true;
 			else
-				player.inventory.setInventorySlotContents(slotNum, ItemStack.EMPTY);
+				player.getInventory().setItem(slotNum, ItemStack.EMPTY);
 		}
-		world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1f, 1f);
+		level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 1f, 1f);
 
 		RewardsUtil.sendMessageToPlayer(player, "I hope you didn't have anything of value with you :)");
 		if(cubes)
 			RewardsUtil.sendMessageToPlayer(player, "Don't worry, I left the cubes for you!");
 
-		if(world.rand.nextInt(5) == 1)
+		if(RewardsUtil.rand.nextInt(5) == 1)
 		{
 			Scheduler.scheduleTask(new Task("Replace_Inventory", 200)
 			{
 				@Override
 				public void callback()
 				{
-					player.inventory.copyInventory(inv);
+					player.getInventory().copy(inv);
 					RewardsUtil.sendMessageToPlayer(player, "AHHHHHH JK!! You should have seen your face!");
 				}
 			});

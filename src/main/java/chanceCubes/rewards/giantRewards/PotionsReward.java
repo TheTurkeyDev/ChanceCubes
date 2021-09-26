@@ -6,15 +6,15 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class PotionsReward extends BaseCustomReward
 {
@@ -26,13 +26,13 @@ public class PotionsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, final BlockPos pos, final Player player, JsonObject settings)
 	{
-		RewardsUtil.sendMessageToPlayer(player, new TranslationTextComponent("chancecubes.reward.raining_potions"));
-		throwPoitonCircle(world, pos, player);
+		RewardsUtil.sendMessageToPlayer(player, new TranslatableComponent("chancecubes.reward.raining_potions"));
+		throwPoitonCircle(level, pos, player);
 	}
 
-	private void throwPoitonCircle(final ServerWorld world, final BlockPos pos, final PlayerEntity player)
+	private void throwPoitonCircle(final ServerLevel level, final BlockPos pos, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Potion Circle", 100, 20)
 		{
@@ -41,7 +41,7 @@ public class PotionsReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				throwPoiton(world, pos, player);
+				throwPoiton(level, pos, player);
 			}
 
 			@Override
@@ -51,17 +51,17 @@ public class PotionsReward extends BaseCustomReward
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 				{
 					Potion potionType = RewardsUtil.getRandomPotionType();
-					pot = new PotionEntity(world, player);
+					pot = new PotionEntity(level, player);
 					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setMotion(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
-					world.addEntity(pot);
+					level.addEntity(pot);
 				}
 			}
 		});
 	}
 
-	private void throwPoiton(final ServerWorld world, final BlockPos pos, final PlayerEntity player)
+	private void throwPoiton(final ServerLevel level, final BlockPos pos, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Throw potion", 400, 2)
 		{
@@ -77,11 +77,11 @@ public class PotionsReward extends BaseCustomReward
 				for(double yy = -0.2; yy <= 1; yy += 0.1)
 				{
 					Potion potionType = RewardsUtil.getRandomPotionType();
-					pot = new PotionEntity(world, player);
+					pot = new PotionEntity(level, player);
 					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
 					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setMotion(Math.cos((this.delayLeft / 2f) * (Math.PI / 30)), yy, Math.sin((this.delayLeft / 2f) * (Math.PI / 30)));
-					world.addEntity(pot);
+					level.addEntity(pot);
 				}
 			}
 		});

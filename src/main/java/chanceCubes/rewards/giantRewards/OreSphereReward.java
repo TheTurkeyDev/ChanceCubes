@@ -5,10 +5,10 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class OreSphereReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		List<OffsetBlock> blocks = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class OreSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.sqrt(Math.abs(loc.distanceSq(0, 0, 0, false)));
+						double dist = Math.sqrt(Math.abs(loc.distSqr(0, 0, 0, false)));
 						if(dist <= i && dist > i - 1)
 						{
 							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);
@@ -63,6 +63,6 @@ public class OreSphereReward extends BaseCustomReward
 		}
 
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
+			b.spawnInWorld(level, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

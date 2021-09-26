@@ -20,22 +20,20 @@ import java.util.List;
 
 public class CustomSoundsLoader
 {
-	private File folder;
-	private File dir;
-	private File zip;
-	private String name;
-	private String mcmeta;
-	private List<CustomFile> customsSounds = new ArrayList<>();
+	private final File folder;
+	private final File dir;
+	private final File zip;
+	private final String mcmeta;
+	private final List<CustomFile> customsSounds = new ArrayList<>();
 
-	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public CustomSoundsLoader(File folder, File directory, String packName)
 	{
 		this.folder = folder;
 		this.dir = directory;
 		this.zip = new File(dir.getAbsolutePath() + ".zip");
-		this.name = packName;
-		this.mcmeta = String.format("{\"pack\":{\"pack_format\":1,\"description\":\"%s\"}}", this.name);
+		this.mcmeta = String.format("{\"pack\":{\"pack_format\":1,\"description\":\"%s\"}}", packName);
 	}
 
 	public void addCustomSounds()
@@ -115,8 +113,8 @@ public class CustomSoundsLoader
 
 	private static class CustomFile
 	{
-		private String ext;
-		private File file;
+		private final String ext;
+		private final File file;
 
 		private CustomFile(String ext, File file)
 		{

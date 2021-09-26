@@ -1,11 +1,11 @@
 package chanceCubes.client.listeners;
 
 import chanceCubes.util.SchematicUtil;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -18,17 +18,17 @@ public class WorldRenderListener
 	@OnlyIn(Dist.CLIENT)
 	public void onGuiRender(RenderWorldLastEvent event)
 	{
-		MatrixStack matrixStack = event.getMatrixStack();
+		PoseStack poseStack = event.getMatrixStack();
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 		{
-			matrixStack.push();
+			poseStack.pushPose();
 
 			Entity entity = Minecraft.getInstance().player;
-			double interpPosX = entity.lastTickPosX + (entity.getPosX() - entity.lastTickPosX) * event.getPartialTicks();
-			double interpPosY = entity.lastTickPosY + (entity.getPosY() - entity.lastTickPosY) * event.getPartialTicks();
-			double interpPosZ = entity.lastTickPosZ + (entity.getPosZ() - entity.lastTickPosZ) * event.getPartialTicks();
+			double interpPosX = entity.lastTickPosX + (entity.getX() - entity.lastTickPosX) * event.getPartialTicks();
+			double interpPosY = entity.lastTickPosY + (entity.getY() - entity.lastTickPosY) * event.getPartialTicks();
+			double interpPosZ = entity.lastTickPosZ + (entity.getZ() - entity.lastTickPosZ) * event.getPartialTicks();
 
-			matrixStack.translate(-interpPosX, -interpPosY, -interpPosZ);
+			poseStack.translate(-interpPosX, -interpPosY, -interpPosZ);
 			GlStateManager.disableTexture();
 			GlStateManager.enableBlend();
 			GlStateManager.enableAlphaTest();

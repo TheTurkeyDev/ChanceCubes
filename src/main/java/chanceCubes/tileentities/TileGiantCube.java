@@ -1,21 +1,21 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class TileGiantCube extends TileEntity
+public class TileGiantCube extends BlockEntity
 {
 	private boolean hasMaster, isMaster;
 	private BlockPos masterPos = new BlockPos(0, 0, 0);
 
-	public TileGiantCube()
+	public TileGiantCube(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_GIANT);
+		super(CCubesBlocks.TILE_CHANCE_GIANT, pos, state);
 	}
 
 	/**
@@ -33,14 +33,14 @@ public class TileGiantCube extends TileEntity
 	 */
 	public boolean checkForMaster()
 	{
-		TileEntity tile = world.getTileEntity(this.pos.add(masterPos));
+		BlockEntity tile = level.getBlockEntity(this.worldPosition.offset(masterPos));
 		return (tile instanceof TileGiantCube);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT data)
+	public CompoundTag save(CompoundTag data)
 	{
-		data = super.write(data);
+		data = super.save(data);
 		data.putInt("masterX", masterPos.getX());
 		data.putInt("masterY", masterPos.getY());
 		data.putInt("masterZ", masterPos.getZ());
@@ -50,9 +50,9 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT data)
+	public void load(CompoundTag data)
 	{
-		super.read(state, data);
+		super.load(data);
 		int masterX = data.getInt("masterX");
 		int masterY = data.getInt("masterY");
 		int masterZ = data.getInt("masterZ");
@@ -62,21 +62,21 @@ public class TileGiantCube extends TileEntity
 	}
 
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		return new SUpdateTileEntityPacket(this.pos, 0, getUpdateTag());
+		return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, getUpdateTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag()
+	public CompoundTag getUpdateTag()
 	{
-		return this.write(new CompoundNBT());
+		return this.save(new CompoundTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)
 	{
-		read(this.getBlockState(), pkt.getNbtCompound());
+		load(pkt.getTag());
 	}
 
 	public boolean hasMaster()
@@ -91,7 +91,7 @@ public class TileGiantCube extends TileEntity
 
 	public BlockPos getMasterPostion()
 	{
-		return this.pos.add(masterPos);
+		return this.worldPosition.offset(masterPos);
 	}
 
 	public void setHasMaster(boolean bool)
@@ -111,6 +111,6 @@ public class TileGiantCube extends TileEntity
 
 	public void setMasterCoords(BlockPos pos)
 	{
-		this.masterPos = pos.subtract(this.pos);
+		this.masterPos = pos.subtract(this.worldPosition);
 	}
 }

@@ -1,7 +1,7 @@
 package chanceCubes.rewards.rewardtype;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public abstract class BaseRewardType<T> implements IRewardType
 {
@@ -14,13 +14,13 @@ public abstract class BaseRewardType<T> implements IRewardType
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		for(T t : rewards)
-			trigger(t, world, x, y, z, player);
+			trigger(t, level, x, y, z, player);
 	}
 
-	protected abstract void trigger(T obj, ServerWorld world, int x, int y, int z, PlayerEntity player);
+	protected abstract void trigger(T obj, ServerLevel world, int x, int y, int z, Player player);
 
 	public T[] getRewardParts()
 	{

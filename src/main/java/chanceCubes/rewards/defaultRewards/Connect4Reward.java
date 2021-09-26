@@ -8,25 +8,25 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LadderBlock;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Connect4Reward extends BaseCustomReward
 {
-	private static int WIDTH = 7;
-	private static int HEIGHT = 6;
+	private static final int WIDTH = 7;
+	private static final int HEIGHT = 6;
 
 	public Connect4Reward()
 	{
@@ -34,61 +34,61 @@ public class Connect4Reward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 3, 0, 100);
 		RewardsUtil.sendMessageToPlayer(player, "Lets play Connect 4!");
 		RewardsUtil.sendMessageToPlayer(player, "Beat the Computer to get 5 Diamonds!");
 
-		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
+		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
 
-		BlockPos playerPos = pos.add(3, 0, 0);
-		player.setLocationAndAngles(playerPos.getX(), playerPos.getY(), playerPos.getZ(), 0, 0);
-		player.world.addEntity(new ItemEntity(player.world, playerPos.getX(), playerPos.getY(), playerPos.getZ(), new ItemStack(Blocks.RED_CONCRETE_POWDER, 21)));
+		BlockPos playerPos = pos.offset(3, 0, 0);
+		player.moveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ(), 0, 0);
+		player.level.addFreshEntity(new ItemEntity(player.level, playerPos.getX(), playerPos.getY(), playerPos.getZ(), new ItemStack(Blocks.RED_CONCRETE_POWDER, 21)));
 
 		for(int x = -5; x < 6; x++)
 			for(int z = -6; z < 7; z++)
 				for(int y = 0; y < 9; y++)
-					cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+					cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState());
 
 		for(int x = -3; x < 4; x++)
 			for(int z = -4; z < 5; z++)
 				if(z == -4 || z == 4 || x == 0)
-					world.setBlockState(pos.add(x, 0, z), Blocks.BEDROCK.getDefaultState());
+					level.setBlockAndUpdate(pos.offset(x, 0, z), Blocks.BEDROCK.defaultBlockState());
 
 		for(int y = 0; y < 8; y++)
 		{
 			for(int x = -1; x < 2; x++)
 			{
-				world.setBlockState(pos.add(x, y, -4), Blocks.BEDROCK.getDefaultState());
-				world.setBlockState(pos.add(x, y, 4), Blocks.BEDROCK.getDefaultState());
+				level.setBlockAndUpdate(pos.offset(x, y, -4), Blocks.BEDROCK.defaultBlockState());
+				level.setBlockAndUpdate(pos.offset(x, y, 4), Blocks.BEDROCK.defaultBlockState());
 			}
 		}
 
 		for(int x = -1; x < 2; x++)
 			for(int z = -4; z < 5; z++)
 				if(z == -4 || z == 4 || x == -1 || x == 1)
-					world.setBlockState(pos.add(x, 7, z), Blocks.BEDROCK.getDefaultState());
+					level.setBlockAndUpdate(pos.offset(x, 7, z), Blocks.BEDROCK.defaultBlockState());
 
 		for(int y = 1; y < 7; y++)
 		{
 			for(int z = -3; z < 4; z++)
 			{
-				world.setBlockState(pos.add(-1, y, z), Blocks.GLASS.getDefaultState());
-				world.setBlockState(pos.add(1, y, z), Blocks.GLASS.getDefaultState());
+				level.setBlockAndUpdate(pos.offset(-1, y, z), Blocks.GLASS.defaultBlockState());
+				level.setBlockAndUpdate(pos.offset(1, y, z), Blocks.GLASS.defaultBlockState());
 			}
 		}
 
 		for(int y = 0; y < 8; y++)
 		{
-			world.setBlockState(pos.add(0, y, -5), Blocks.LADDER.getDefaultState());
-			world.setBlockState(pos.add(0, y, 5), Blocks.LADDER.getDefaultState().with(LadderBlock.FACING, Direction.SOUTH));
+			level.setBlockAndUpdate(pos.offset(0, y, -5), Blocks.LADDER.defaultBlockState());
+			level.setBlockAndUpdate(pos.offset(0, y, 5), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
 		}
 
-		world.setBlockState(pos.add(-2, 1, -4), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(2, 1, -4), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(-2, 1, 4), Blocks.BEDROCK.getDefaultState());
-		world.setBlockState(pos.add(2, 1, 4), Blocks.BEDROCK.getDefaultState());
+		level.setBlockAndUpdate(pos.offset(-2, 1, -4), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(2, 1, -4), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(-2, 1, 4), Blocks.BEDROCK.defaultBlockState());
+		level.setBlockAndUpdate(pos.offset(2, 1, 4), Blocks.BEDROCK.defaultBlockState());
 
 		Scheduler.scheduleTask(new Task("Connect_4_Game", 10000, 5)
 		{
@@ -109,8 +109,8 @@ public class Connect4Reward extends BaseCustomReward
 					{
 						if(board.board[((y - 1) * WIDTH) + (z + 3)] != 0 || (y - 2 >= 0 && board.board[((y - 2) * WIDTH) + (z + 3)] == 0))
 							continue;
-						BlockPos pos2 = pos.add(0, y, z);
-						if(!world.isAirBlock(pos2) && world.getBlockState(pos2).getBlock().equals(Blocks.RED_CONCRETE_POWDER))
+						BlockPos pos2 = pos.offset(0, y, z);
+						if(!level.isAirBlock(pos2) && level.getBlockState(pos2).getBlock().equals(Blocks.RED_CONCRETE_POWDER))
 							makeMove(z + 3, y - 1);
 					}
 				}
@@ -119,7 +119,7 @@ public class Connect4Reward extends BaseCustomReward
 			private void makeMove(int x, int y)
 			{
 				board.placeMove(x, y, GameTurn.PLAYER);
-				board.updateWorldView(world, pos);
+				board.updateWorldView(level, pos);
 
 				boolean playerWon = board.hasWon(x, y, GameTurn.PLAYER);
 
@@ -128,14 +128,14 @@ public class Connect4Reward extends BaseCustomReward
 					//Make CPU Move
 					board.minimax(0, GameTurn.CPU, null, mistakeChance);
 					board.placeMove(board.computersMove.x, board.computersMove.y, GameTurn.CPU);
-					world.setBlockState(pos.add(0, 8, board.computersMove.x - 3), Blocks.YELLOW_CONCRETE_POWDER.getDefaultState());
+					level.setBlockAndUpdate(pos.offset(0, 8, board.computersMove.x - 3), Blocks.YELLOW_CONCRETE_POWDER.defaultBlockState());
 				}
 
 				boolean gameOver = false;
 				if(playerWon)
 				{
 					RewardsUtil.sendMessageToPlayer(player, "You Won!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(Items.DIAMOND, 5)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
 					gameOver = true;
 				}
 				else if(board.hasWon(board.computersMove.x, board.computersMove.y, GameTurn.CPU))
@@ -305,11 +305,11 @@ public class Connect4Reward extends BaseCustomReward
 			return turn == GameTurn.CPU ? max : min;
 		}
 
-		public void updateWorldView(World world, BlockPos pos)
+		public void updateWorldView(Level level, BlockPos pos)
 		{
 			for(int z = -3; z < 4; z++)
 				for(int y = 1; y < 7; y++)
-					world.setBlockState(pos.add(0, y, z), getStateForBoardVal(board[((y - 1) * WIDTH) + (z + 3)]));
+					level.setBlockAndUpdate(pos.offset(0, y, z), getStateForBoardVal(board[((y - 1) * WIDTH) + (z + 3)]));
 		}
 
 		public BlockState getStateForBoardVal(int val)
@@ -317,11 +317,11 @@ public class Connect4Reward extends BaseCustomReward
 			switch(val)
 			{
 				case 1:
-					return Blocks.YELLOW_CONCRETE_POWDER.getDefaultState();
+					return Blocks.YELLOW_CONCRETE_POWDER.defaultBlockState();
 				case 2:
-					return Blocks.RED_CONCRETE_POWDER.getDefaultState();
+					return Blocks.RED_CONCRETE_POWDER.defaultBlockState();
 				default:
-					return Blocks.AIR.getDefaultState();
+					return Blocks.AIR.defaultBlockState();
 			}
 		}
 	}

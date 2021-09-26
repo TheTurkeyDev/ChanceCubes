@@ -6,18 +6,18 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StoneButtonBlock;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StoneButtonBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class MontyHallReward extends BaseCustomReward
 {
@@ -27,21 +27,21 @@ public class MontyHallReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, final BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Which button do you press?");
 
-		RewardBlockCache cache = new RewardBlockCache(world, pos, player.getPosition());
-		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.getDefaultState());
-		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
-		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
-		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.getDefaultState().with(StoneButtonBlock.HORIZONTAL_FACING, Direction.SOUTH));
+		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
+		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
+		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
+		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
-			int[] chance = {RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1};
+			final int[] chance = {RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1, RewardsUtil.rand.nextInt(3) - 1};
 
 			@Override
 			public void callback()
@@ -52,16 +52,16 @@ public class MontyHallReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				BlockState state = world.getBlockState(pos.add(-1, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
+				BlockState state = level.getBlockState(pos.offset(-1, 0, 1));
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
 					giveReward(chance[0]);
 
-				state = world.getBlockState(pos.add(0, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
+				state = level.getBlockState(pos.offset(0, 0, 1));
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
 					giveReward(chance[1]);
 
-				state = world.getBlockState(pos.add(1, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.get(StoneButtonBlock.POWERED))
+				state = level.getBlockState(pos.offset(1, 0, 1));
+				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
 					giveReward(chance[2]);
 			}
 
@@ -69,9 +69,9 @@ public class MontyHallReward extends BaseCustomReward
 			{
 				if(value == -1)
 				{
-					TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
-					world.addEntity(entitytntprimed);
-					world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					PrimedTnt entitytntprimed = new PrimedTnt(level, player.getX(), player.getY() + 1D, player.getZ(), player);
+					level.addFreshEntity(entitytntprimed);
+					level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					entitytntprimed.setFuse(40);
 				}
 				else if(value == 0)
@@ -80,7 +80,7 @@ public class MontyHallReward extends BaseCustomReward
 				}
 				else if(value == 1)
 				{
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 
 				this.callback();

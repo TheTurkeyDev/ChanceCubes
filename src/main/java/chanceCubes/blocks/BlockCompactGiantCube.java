@@ -4,12 +4,11 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockCompactGiantCube extends BaseChanceBlock
 {
@@ -18,14 +17,14 @@ public class BlockCompactGiantCube extends BaseChanceBlock
 		super(getBuilder(), "compact_giant_chance_cube");
 	}
 
-	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack)
+	public void onBlockPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack)
 	{
-		super.onBlockPlacedBy(world, pos, state, placer, stack);
-		if(world.isRemote || (RewardsUtil.isBlockUnbreakable(world, pos.add(0, 1, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 1, 0)))))
+		super.onBlockPlacedBy(level, pos, state, placer, stack);
+		if(level.isClientSide() || (RewardsUtil.isBlockUnbreakable(level, pos.offset(0, 1, 0)) && CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos.add(0, 1, 0)))))
 			return;
 
-		GiantCubeUtil.setupStructure(pos.add(-1, 0, -1), world, true);
+		GiantCubeUtil.setupStructure(pos.offset(-1, 0, -1), level, true);
 
-		world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		level.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 }

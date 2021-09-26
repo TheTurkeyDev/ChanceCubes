@@ -2,13 +2,13 @@ package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.monster.ZombifiedPiglinEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Ghast;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Random;
@@ -22,7 +22,7 @@ public class NetherBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, ServerWorld world)
+	public void spawnEntities(BlockPos center, ServerLevel world)
 	{
 		Random rand = RewardsUtil.rand;
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
@@ -31,15 +31,15 @@ public class NetherBiome extends BaseBiome
 
 			if(ri == 0)
 			{
-				GhastEntity ghast = EntityType.GHAST.create(world);
-				ghast.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 5, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(ghast);
+				Ghast ghast = EntityType.GHAST.create(world);
+				ghast.moveTo(center.getX() + (rand.nextInt(31) - 15), center.getY() + 5, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				world.addFreshEntity(ghast);
 			}
 			else
 			{
-				ZombifiedPiglinEntity pigman = EntityType.ZOMBIFIED_PIGLIN.create(world);
-				pigman.setLocationAndAngles(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(pigman);
+				ZombifiedPiglin pigman = EntityType.ZOMBIFIED_PIGLIN.create(world);
+				pigman.moveTo(center.getX() + (rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				world.addFreshEntity(pigman);
 			}
 		}
 	}

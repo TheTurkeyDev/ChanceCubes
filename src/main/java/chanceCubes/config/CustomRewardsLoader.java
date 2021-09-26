@@ -29,7 +29,7 @@ public class CustomRewardsLoader
 
 	private static JsonParser json;
 
-	private File folder;
+	private final File folder;
 
 	public CustomRewardsLoader(File folder)
 	{

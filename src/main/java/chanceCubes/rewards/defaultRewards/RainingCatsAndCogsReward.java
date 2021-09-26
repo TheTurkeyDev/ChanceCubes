@@ -5,20 +5,19 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.player.Player;
 
 public class RainingCatsAndCogsReward extends BaseCustomReward
 {
-	private String[] names = {"Radiant_Sora", "Turkey", "MrComputerGhost", "Valsis", "Silver", "Amatt", "Musician", "ReNinjaKitteh", "QuirkyGeek17"};
+	private final String[] names = {"Radiant_Sora", "Turkey", "MrComputerGhost", "Valsis", "Silver", "Amatt", "Musician", "ReNinjaKitteh", "QuirkyGeek17"};
 
 	public RainingCatsAndCogsReward()
 	{
@@ -26,9 +25,9 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, BlockPos position, PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, BlockPos position, Player player, JsonObject settings)
 	{
-		RewardsUtil.sendMessageToNearPlayers(world, position, 36, "It's raining Cats and dogs!");
+		RewardsUtil.sendMessageToNearPlayers(level, position, 36, "It's raining Cats and dogs!");
 
 		Scheduler.scheduleTask(new Task("Raining Cats and Dogs", 500, 5)
 		{
@@ -40,28 +39,28 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				TameableEntity ent;
+				TamableAnimal ent;
 
 				if(RewardsUtil.rand.nextBoolean())
-					ent = EntityType.WOLF.create(world);
+					ent = EntityType.WOLF.create(level);
 				else
-					ent = EntityType.CAT.create(world);
+					ent = EntityType.CAT.create(level);
 
 				int xInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
-				ent.setPositionAndRotation(player.getPosition().getX() + xInc, 256, player.getPosition().getZ() + zInc, 0, 0);
-				ent.setTamed(true);
-				ent.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 500, 1000));
-				ent.setCustomName(new StringTextComponent(names[RewardsUtil.rand.nextInt(names.length)]));
+				ent.moveTo(player.getX() + xInc, 256, player.getZ() + zInc, 0, 0);
+				ent.setTame(true);
+				ent.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 500, 1000));
+				ent.setCustomName(new TextComponent(names[RewardsUtil.rand.nextInt(names.length)]));
 				ent.setCustomNameVisible(true);
 
-				world.addEntity(ent);
+				level.addFreshEntity(ent);
 				Scheduler.scheduleTask(new Task("Despawn Delay", 200)
 				{
 					@Override
 					public void callback()
 					{
-						ent.remove();
+						ent.remove(Entity.RemovalReason.DISCARDED);
 					}
 				});
 			}

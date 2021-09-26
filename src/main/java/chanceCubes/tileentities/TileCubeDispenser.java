@@ -3,30 +3,31 @@ package chanceCubes.tileentities;
 import chanceCubes.blocks.BlockCubeDispenser;
 import chanceCubes.blocks.BlockCubeDispenser.DispenseType;
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class TileCubeDispenser extends TileEntity
+public class TileCubeDispenser extends BlockEntity
 {
 	private ItemEntity entityItem;
 
 	public float rot = 0;
 	public float wave = 0;
 
-	public TileCubeDispenser()
+	public TileCubeDispenser(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CUBE_DISPENSER);
+		super(CCubesBlocks.TILE_CUBE_DISPENSER, pos, state);
 	}
 
 	public ItemEntity getRenderEntityItem(DispenseType type)
 	{
 		if(entityItem == null)
-			this.entityItem = new ItemEntity(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-		if(!entityItem.getItem().getItem().equals(Item.getItemFromBlock(getCurrentBlock(type))))
+			this.entityItem = new ItemEntity(this.level, super.getBlockPos().getX(), super.getBlockPos().getY(), super.getBlockPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
+		if(!entityItem.getItem().getItem().equals(getCurrentBlock(type).asItem()))
 		{
 			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				this.entityItem.setItem(new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
@@ -54,11 +55,11 @@ public class TileCubeDispenser extends TileEntity
 		ItemEntity ent;
 
 		if(type == DispenseType.CHANCE_ICOSAHEDRON)
-			ent = new ItemEntity(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
+			ent = new ItemEntity(this.level, super.getBlockPos().getX(), super.getBlockPos().getY(), super.getBlockPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_ICOSAHEDRON, 1));
 		else if(type == DispenseType.COMPACT_GIANTCUBE)
-			ent = new ItemEntity(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
+			ent = new ItemEntity(this.level, super.getBlockPos().getX(), super.getBlockPos().getY(), super.getBlockPos().getZ(), new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE, 1));
 		else
-			ent = new ItemEntity(this.world, super.getPos().getX(), super.getPos().getY(), super.getPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
+			ent = new ItemEntity(this.level, super.getBlockPos().getX(), super.getBlockPos().getY(), super.getBlockPos().getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
 
 		return ent;
 	}
@@ -66,7 +67,7 @@ public class TileCubeDispenser extends TileEntity
 	public Block getCurrentBlock(DispenseType type)
 	{
 		Block b = Blocks.AIR;
-		if(entityItem == null || BlockCubeDispenser.getCurrentState(this.world.getBlockState(this.pos)) != type)
+		if(entityItem == null || BlockCubeDispenser.getCurrentState(this.level.getBlockState(this.getBlockPos())) != type)
 		{
 			if(type == DispenseType.CHANCE_ICOSAHEDRON)
 				b = CCubesBlocks.CHANCE_ICOSAHEDRON;

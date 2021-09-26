@@ -5,22 +5,19 @@ import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -37,7 +34,7 @@ public class ItemChanceCube extends BlockItem
 	{
 		Properties props = new Properties();
 		if(!b.equals(CCubesBlocks.GIANT_CUBE))
-			props.group(CCubesCore.modTab);
+			props.tab(CCubesCore.modTab);
 		return props;
 	}
 
@@ -45,9 +42,9 @@ public class ItemChanceCube extends BlockItem
 	{
 		if(chance > 100 || chance < -101)
 			chance = -101;
-		CompoundNBT nbt = stack.getTag();
+		CompoundTag nbt = stack.getTag();
 		if(nbt == null)
-			nbt = new CompoundNBT();
+			nbt = new CompoundTag();
 		nbt.putInt("Chance", chance);
 		stack.setTag(nbt);
 	}
@@ -66,32 +63,33 @@ public class ItemChanceCube extends BlockItem
 		return stack.getTag().contains("Chance") ? stack.getTag().getInt("Chance") == -101 ? "Random" : "" + stack.getTag().getInt("Chance") : "Random";
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn)
+	@Override
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag)
 	{
 		Item item = stack.getItem();
 		if(!item.equals(CCubesItems.CUBE_DISPENSER))
 		{
 			String chance = this.getChanceAsStringValue(stack);
-			list.add(new StringTextComponent("Chance Value: " + chance));
+			list.add(new TextComponent("Chance Value: " + chance));
 		}
 
 		if(item.equals(CCubesItems.COMPACT_GIANT_CUBE))
-			list.add(new StringTextComponent(TextFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
+			list.add(new TextComponent(ChatFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
 		else if(item.equals(CCubesItems.CHANCE_CUBE))
-			list.add(new StringTextComponent(TextFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
+			list.add(new TextComponent(ChatFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
 		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
-			list.add(new StringTextComponent(TextFormatting.RED + "WORK IN PROGRESS"));
+			list.add(new TextComponent(ChatFormatting.RED + "WORK IN PROGRESS"));
 	}
 
-	protected boolean placeBlock(BlockItemUseContext context, BlockState state)
+	@Override
+	protected boolean placeBlock(BlockPlaceContext context, BlockState state)
 	{
 		boolean placed = super.placeBlock(context, state);
 
-		TileEntity te = context.getWorld().getTileEntity(context.getPos());
+		BlockEntity te = context.getLevel().getBlockEntity(context.getClickedPos());
 		if(te != null)
 		{
-			int chance = this.getChance(context.getItem());
+			int chance = this.getChance(context.getItemInHand());
 			if(chance != -101)
 			{
 				if(te instanceof TileChanceCube)

@@ -2,16 +2,16 @@ package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.passive.horse.HorseEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class BasicTreesBiome extends BaseBiome
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
 			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.GRASS, false, (delay / BioDomeGen.delayShorten));
-			osb.setBlockState(Blocks.GRASS.getDefaultState());
+			osb.setBlockState(Blocks.GRASS.defaultBlockState());
 			blocks.add(osb);
 		}
 		else if(dist < -5 && rand.nextInt(100) == 0)
@@ -88,7 +88,7 @@ public class BasicTreesBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, ServerWorld world)
+	public void spawnEntities(BlockPos center, ServerLevel level)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
@@ -96,33 +96,33 @@ public class BasicTreesBiome extends BaseBiome
 
 			if(ri == 0)
 			{
-				ChickenEntity chicken = EntityType.CHICKEN.create(world);
-				chicken.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(chicken);
+				Chicken chicken = EntityType.CHICKEN.create(level);
+				chicken.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(chicken);
 			}
 			else if(ri == 1)
 			{
-				CowEntity cow = EntityType.COW.create(world);
-				cow.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(cow);
+				Cow cow = EntityType.COW.create(level);
+				cow.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(cow);
 			}
 			else if(ri == 2)
 			{
-				HorseEntity horse = EntityType.HORSE.create(world);
-				horse.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(horse);
+				Horse horse = EntityType.HORSE.create(level);
+				horse.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(horse);
 			}
 			else if(ri == 3)
 			{
-				PigEntity pig = EntityType.PIG.create(world);
-				pig.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(pig);
+				Pig pig = EntityType.PIG.create(level);
+				pig.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(pig);
 			}
 			else if(ri == 4)
 			{
-				SheepEntity sheep = EntityType.SHEEP.create(world);
-				sheep.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(sheep);
+				Sheep sheep = EntityType.SHEEP.create(level);
+				sheep.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(sheep);
 			}
 		}
 	}

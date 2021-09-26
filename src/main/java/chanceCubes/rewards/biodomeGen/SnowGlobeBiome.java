@@ -4,14 +4,14 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.PolarBearEntity;
-import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.projectile.SnowballEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.PolarBear;
+import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.projectile.Snowball;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Random;
@@ -24,7 +24,7 @@ public class SnowGlobeBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(final BlockPos pos, final ServerWorld world)
+	public void spawnEntities(final BlockPos pos, final ServerLevel level)
 	{
 		Random rand = RewardsUtil.rand;
 		for(int i = 0; i < rand.nextInt(10) + 5; i++)
@@ -33,15 +33,15 @@ public class SnowGlobeBiome extends BaseBiome
 
 			if(ri == 0)
 			{
-				SnowGolemEntity snowman = EntityType.SNOW_GOLEM.create(world);
-				snowman.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(snowman);
+				SnowGolem snowman = EntityType.SNOW_GOLEM.create(level);
+				snowman.moveTo(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(snowman);
 			}
 			else if(ri == 1)
 			{
-				PolarBearEntity polarBear = EntityType.POLAR_BEAR.create(world);
-				polarBear.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-				world.addEntity(polarBear);
+				PolarBear polarBear = EntityType.POLAR_BEAR.create(level);
+				polarBear.moveTo(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+				level.addFreshEntity(polarBear);
 			}
 		}
 
@@ -52,10 +52,10 @@ public class SnowGlobeBiome extends BaseBiome
 			{
 				for(int i = 0; i < 100; i++)
 				{
-					SnowballEntity snowball = EntityType.SNOWBALL.create(world);
-					snowball.setMotion(-1 + (Math.random() * 2), 0.8, -1 + (Math.random() * 2));
-					snowball.setLocationAndAngles(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
-					world.addEntity(snowball);
+					Snowball snowball = EntityType.SNOWBALL.create(level);
+					snowball.setDeltaMovement(-1 + (Math.random() * 2), 0.8, -1 + (Math.random() * 2));
+					snowball.moveTo(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
+					level.addFreshEntity(snowball);
 				}
 			}
 		});

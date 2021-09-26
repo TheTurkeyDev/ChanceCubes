@@ -2,12 +2,12 @@ package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +59,13 @@ public class EndBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos center, ServerWorld world)
+	public void spawnEntities(BlockPos center, ServerLevel level)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
-			EndermanEntity enderman = EntityType.ENDERMAN.create(world);
-			enderman.setLocationAndAngles(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-			world.addEntity(enderman);
+			EnderMan enderman = EntityType.ENDERMAN.create(level);
+			enderman.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+			level.addFreshEntity(enderman);
 		}
 	}
 }

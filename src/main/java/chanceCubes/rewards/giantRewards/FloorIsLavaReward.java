@@ -6,11 +6,11 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Quick! The Floor is lava!");
 		List<OffsetBlock> blocks = new ArrayList<>();
@@ -38,7 +38,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 			{
 				if((-16 / 2 <= xx) && (xx <= 16 / 2) && (-16 / 2 <= zz) && (zz <= 16 / 2))
 				{
-					Block blockAt = world.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getZ() + zz)).getBlock();
+					Block blockAt = level.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getZ() + zz)).getBlock();
 					if(!blockAt.equals(Blocks.AIR) && !blockAt.equals(CCubesBlocks.GIANT_CUBE))
 					{
 						blocks.add(new OffsetBlock(xx, yy - pos.getY(), zz, Blocks.LAVA, false, delay));
@@ -58,6 +58,6 @@ public class FloorIsLavaReward extends BaseCustomReward
 		}
 
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
+			b.spawnInWorld(level, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

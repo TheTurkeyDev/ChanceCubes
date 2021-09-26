@@ -6,10 +6,10 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 
 public class FireworkShowReward extends BaseCustomReward
 {
@@ -19,13 +19,13 @@ public class FireworkShowReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		RewardsUtil.executeCommand(world, player, pos, "/time set 15000");
-		stage1(world, pos, player);
+		RewardsUtil.executeCommand(level, player, pos, "/time set 15000");
+		stage1(level, pos, player);
 	}
 
-	public void stage1(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void stage1(ServerLevel level, BlockPos pos, Player player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_1", 200, 5)
 		{
@@ -34,21 +34,21 @@ public class FireworkShowReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				stage2(world, pos, player);
+				stage2(level, pos, player);
 			}
 
 			@Override
 			public void update()
 			{
 				angle += 0.5;
-				spawnFirework(world, pos.getX() + ((angle / 3f) * Math.cos(angle)), pos.getY(), pos.getZ() + ((angle / 3f) * Math.sin(angle)));
-				spawnFirework(world, pos.getX() + ((angle / 3f) * Math.cos(angle + Math.PI)), pos.getY(), pos.getZ() + ((angle / 3f) * Math.sin(angle + Math.PI)));
+				spawnFirework(level, pos.getX() + ((angle / 3f) * Math.cos(angle)), pos.getY(), pos.getZ() + ((angle / 3f) * Math.sin(angle)));
+				spawnFirework(level, pos.getX() + ((angle / 3f) * Math.cos(angle + Math.PI)), pos.getY(), pos.getZ() + ((angle / 3f) * Math.sin(angle + Math.PI)));
 			}
 
 		});
 	}
 
-	public void stage2(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void stage2(ServerLevel level, BlockPos pos, Player player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 5)
 		{
@@ -57,21 +57,21 @@ public class FireworkShowReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				stage3(world, pos, player);
+				stage3(level, pos, player);
 			}
 
 			@Override
 			public void update()
 			{
 				tick += 0.5;
-				spawnFirework(world, pos.getX() + (tick - 20), pos.getY(), pos.getZ() + 1);
-				spawnFirework(world, pos.getX() + (20 - tick), pos.getY(), pos.getZ() - 1);
+				spawnFirework(level, pos.getX() + (tick - 20), pos.getY(), pos.getZ() + 1);
+				spawnFirework(level, pos.getX() + (20 - tick), pos.getY(), pos.getZ() - 1);
 			}
 
 		});
 	}
 
-	public void stage3(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void stage3(ServerLevel level, BlockPos pos, Player player)
 	{
 		Scheduler.scheduleTask(new Task("Firework_Show_Task_Stage_2", 200, 3)
 		{
@@ -85,14 +85,14 @@ public class FireworkShowReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				spawnFirework(world, pos.getX() + (RewardsUtil.rand.nextInt(10) - 5), pos.getY(), pos.getZ() + (RewardsUtil.rand.nextInt(10) - 5));
+				spawnFirework(level, pos.getX() + (RewardsUtil.rand.nextInt(10) - 5), pos.getY(), pos.getZ() + (RewardsUtil.rand.nextInt(10) - 5));
 			}
 
 		});
 	}
 
-	public void spawnFirework(ServerWorld world, double x, double y, double z)
+	public void spawnFirework(ServerLevel level, double x, double y, double z)
 	{
-		world.addEntity(new FireworkRocketEntity(world, x, y, z, RewardsUtil.getRandomFirework()));
+		level.addFreshEntity(new FireworkRocketEntity(level, x, y, z, RewardsUtil.getRandomFirework()));
 	}
 }

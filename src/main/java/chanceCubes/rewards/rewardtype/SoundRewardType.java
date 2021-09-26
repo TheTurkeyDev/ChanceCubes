@@ -3,10 +3,10 @@ package chanceCubes.rewards.rewardtype;
 import chanceCubes.rewards.rewardparts.SoundPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 
 public class SoundRewardType extends BaseRewardType<SoundPart>
 {
@@ -29,7 +29,7 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 	}
 
 	@Override
-	public void trigger(final SoundPart sound, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final SoundPart sound, final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Sound Reward Delay", sound.getDelay())
 		{
@@ -37,9 +37,9 @@ public class SoundRewardType extends BaseRewardType<SoundPart>
 			public void callback()
 			{
 				if(sound.playAtPlayersLocation())
-					world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
+					level.playSound(null, player.getX(), player.getY(), player.getZ(), sound.getSound(), SoundSource.BLOCKS, sound.getVolume(), sound.getPitch());
 				else
-					world.playSound(null, x, y, z, sound.getSound(), SoundCategory.BLOCKS, sound.getVolume(), sound.getPitch());
+					level.playSound(null, x, y, z, sound.getSound(), SoundSource.BLOCKS, sound.getVolume(), sound.getPitch());
 			}
 		});
 	}

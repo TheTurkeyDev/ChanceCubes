@@ -1,19 +1,18 @@
 package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceD20;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class PacketTriggerD20
 {
-
 	public BlockPos pos;
 
 	public PacketTriggerD20(BlockPos pos)
@@ -21,12 +20,12 @@ public class PacketTriggerD20
 		this.pos = pos;
 	}
 
-	public static void encode(PacketTriggerD20 msg, PacketBuffer buf)
+	public static void encode(PacketTriggerD20 msg, FriendlyByteBuf buf)
 	{
 		buf.writeBlockPos(msg.pos);
 	}
 
-	public static PacketTriggerD20 decode(PacketBuffer buf)
+	public static PacketTriggerD20 decode(FriendlyByteBuf buf)
 	{
 		return new PacketTriggerD20(buf.readBlockPos());
 	}
@@ -35,14 +34,15 @@ public class PacketTriggerD20
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			Optional<World> world = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
-			if(world.isPresent())
+			Optional<Level> levelOpt = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
+			if(levelOpt.isPresent())
 			{
-				TileEntity ico;
+				BlockEntity ico;
 
-				if((ico = world.get().getTileEntity(msg.pos)) != null)
-					if(ico instanceof TileChanceD20 && world.get().getPlayers().size() > 0)
-						((TileChanceD20) ico).startBreaking(world.get().getPlayers().get(0));
+				Level level = levelOpt.get();
+				if((ico = level.getBlockEntity(msg.pos)) != null)
+					if(ico instanceof TileChanceD20 && level.players().size() > 0)
+						((TileChanceD20) ico).startBreaking(level.players().get(0));
 			}
 		});
 		ctx.get().setPacketHandled(true);

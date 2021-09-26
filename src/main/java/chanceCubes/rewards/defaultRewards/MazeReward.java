@@ -7,13 +7,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 public class MazeReward extends BaseCustomReward
 {
@@ -23,13 +23,13 @@ public class MazeReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel world, final BlockPos pos, final Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Generating maze..... May be some lag...");
-		final MazeGenerator gen = new MazeGenerator(world, pos, player.getPosition());
+		final MazeGenerator gen = new MazeGenerator(world, pos, player.getOnPos());
 		gen.generate(world, 20, 20);
 		BlockPos initialPos = new BlockPos(pos.getX() - 8, pos.getY(), pos.getZ() - 8);
-		player.setPositionAndUpdate(initialPos.getX() - 0.5, initialPos.getY(), initialPos.getZ() - 0.5);
+		player.moveTo(initialPos.getX() - 0.5, initialPos.getY(), initialPos.getZ() - 0.5);
 
 		int duration = super.getSettingAsInt(settings, "time", 900, 600, 4800);
 
@@ -46,7 +46,7 @@ public class MazeReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(initialPos.distanceSq(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(), false) < 4)
+				if(initialPos.distSqr(player.getX(), player.getY(), player.getZ(), false) < 4)
 				{
 					this.delayLeft++;
 					return;
@@ -60,7 +60,7 @@ public class MazeReward extends BaseCustomReward
 					gen.endMaze(player);
 					RewardsUtil.sendMessageToPlayer(player, "Hey! You won!");
 					RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 			}

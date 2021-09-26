@@ -5,16 +5,16 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 
 public class WaitForItReward extends BaseCustomReward
 {
@@ -24,7 +24,7 @@ public class WaitForItReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Wait for it.......");
 
@@ -50,30 +50,30 @@ public class WaitForItReward extends BaseCustomReward
 
 				if(reward == 0)
 				{
-					world.addEntity(new TNTEntity(world, player.getPosX(), player.getPosY() + 1, player.getPosZ(), null));
+					level.addFreshEntity(new PrimedTnt(level, player.getX(), player.getY() + 1, player.getZ(), null));
 				}
 				else if(reward == 1)
 				{
-					CreeperEntity ent = EntityType.CREEPER.create(world);
-					ent.setLocationAndAngles(player.getPosX(), player.getPosY() + 1, player.getPosZ(), 0, 0);
-					ent.func_241841_a(world, null);
-					world.addEntity(ent);
+					Creeper ent = EntityType.CREEPER.create(level);
+					ent.moveTo(player.getX(), player.getY() + 1, player.getZ(), 0, 0);
+					ent.thunderHit(level, null);
+					level.addFreshEntity(ent);
 				}
 				else if(reward == 2)
 				{
-					RewardsUtil.placeBlock(Blocks.BEDROCK.getDefaultState(), world, new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ()));
+					RewardsUtil.placeBlock(Blocks.BEDROCK.defaultBlockState(), level, new BlockPos(player.getX(), player.getY(), player.getZ()));
 				}
 				else if(reward == 3)
 				{
-					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.getDefaultState(), world, new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ()));
+					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.defaultBlockState(), level, new BlockPos(player.getX(), player.getY(), player.getZ()));
 				}
 				else if(reward == 4)
 				{
-					ZombieEntity zomb = EntityType.ZOMBIE.create(world);
-					zomb.setChild(true);
-					zomb.addPotionEffect(new EffectInstance(Effects.SPEED, 100000, 0));
-					zomb.addPotionEffect(new EffectInstance(Effects.STRENGTH, 100000, 0));
-					world.addEntity(zomb);
+					Zombie zomb = EntityType.ZOMBIE.create(level);
+					zomb.setBaby(true);
+					zomb.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 0));
+					zomb.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 0));
+					level.addFreshEntity(zomb);
 				}
 			}
 		});

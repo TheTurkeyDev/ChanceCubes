@@ -4,13 +4,13 @@ import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import com.google.gson.JsonObject;
-import net.minecraft.network.play.server.STitlePacket.Type;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 public class TitlePart extends BasePart
 {
 	private StringVar type;
-	private ITextComponent message;
+	private Component message;
 	private IntVar fadeInTime = new IntVar(-1);
 	private IntVar displayTime = new IntVar(-1);
 	private IntVar fadeOutTime = new IntVar(-1);
@@ -23,27 +23,27 @@ public class TitlePart extends BasePart
 		this(type, message, 0);
 	}
 
-	public TitlePart(String type, ITextComponent message)
+	public TitlePart(String type, TextComponent message)
 	{
 		this(new StringVar(type), message, new IntVar(0));
 	}
 
 	public TitlePart(StringVar type, JsonObject message)
 	{
-		this(type, ITextComponent.Serializer.getComponentFromJson(message), new IntVar(0));
+		this(type, Component.Serializer.fromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(StringVar type, String message)
 	{
-		this(type, ITextComponent.Serializer.getComponentFromJson(message), new IntVar(0));
+		this(type, Component.Serializer.fromJson(message), new IntVar(0));
 	}
 
 	public TitlePart(String type, String message, int delay)
 	{
-		this(new StringVar(type), ITextComponent.Serializer.getComponentFromJson(message), new IntVar(delay));
+		this(new StringVar(type), Component.Serializer.fromJson(message), new IntVar(delay));
 	}
 
-	public TitlePart(StringVar type, ITextComponent message, IntVar delay)
+	public TitlePart(StringVar type, Component message, IntVar delay)
 	{
 		this.type = type;
 		this.message = message;
@@ -66,12 +66,12 @@ public class TitlePart extends BasePart
 		return this;
 	}
 
-	public ITextComponent getMessage()
+	public Component getMessage()
 	{
 		return message;
 	}
 
-	public void setMessage(ITextComponent message)
+	public void setMessage(Component message)
 	{
 		this.message = message;
 	}

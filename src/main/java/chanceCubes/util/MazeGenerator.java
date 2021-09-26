@@ -1,39 +1,37 @@
 package chanceCubes.util;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StandingSignBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.SignTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MazeGenerator
 {
 	private int width;
 	private int height;
 	private int[][] map;
-	private ArrayList<Location2I> walls = new ArrayList<>();
-	private RewardBlockCache cache;
-	private Random r = new Random();
+	private final ArrayList<Location2I> walls = new ArrayList<>();
+	private final RewardBlockCache cache;
 
 	private final int nonWall = 0;
 
-	private BlockPos startPos;
+	private final BlockPos startPos;
 	private Location2I endBlock;
 	public BlockPos endBlockWorldCords;
 
-	public MazeGenerator(World world, BlockPos pos, BlockPos playerPos)
+	public MazeGenerator(Level level, BlockPos pos, BlockPos playerPos)
 	{
-		cache = new RewardBlockCache(world, pos, playerPos);
+		cache = new RewardBlockCache(level, pos, playerPos);
 		startPos = pos;
 	}
 
-	public void generate(World world, int width, int height)
+	public void generate(Level level, int width, int height)
 	{
 		this.width = width;
 		this.height = height;
@@ -54,7 +52,7 @@ public class MazeGenerator
 
 		do
 		{
-			int randomLoc = r.nextInt(walls.size());
+			int randomLoc = RewardsUtil.rand.nextInt(walls.size());
 			int currentX = walls.get(randomLoc).getX();
 			int currentY = walls.get(randomLoc).getY();
 			current.setXY(currentX, currentY);
@@ -112,7 +110,7 @@ public class MazeGenerator
 			i++;
 		}
 
-		placeBlocks(world);
+		placeBlocks(level);
 	}
 
 	private boolean checkwalls(Location2I loc)
@@ -134,7 +132,7 @@ public class MazeGenerator
 		return yes > 1;
 	}
 
-	private void placeBlocks(World world)
+	private void placeBlocks(Level level)
 	{
 		int xoff = -(this.width / 2);
 		int zoff = -(this.height / 2);
@@ -145,34 +143,33 @@ public class MazeGenerator
 			{
 				if(this.map[xx][zz] == 0)
 				{
-					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.AIR.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.BEDROCK.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.BEDROCK.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.TORCH.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.AIR.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.BEDROCK.defaultBlockState());
 				}
 				else
 				{
-					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.AIR.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.BEDROCK.getDefaultState());
-					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.AIR.getDefaultState());
+					cache.cacheBlock(new BlockPos(xoff + xx, -1, zoff + zz), Blocks.AIR.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 0, zoff + zz), Blocks.BEDROCK.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 1, zoff + zz), Blocks.BEDROCK.defaultBlockState());
+					cache.cacheBlock(new BlockPos(xoff + xx, 2, zoff + zz), Blocks.AIR.defaultBlockState());
 				}
 			}
 		}
 
 		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
-		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.getDefaultState().with(StandingSignBlock.ROTATION, 7));
-		TileEntity te = world.getTileEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
-		if(te instanceof SignTileEntity)
+		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.defaultBlockState().setValue(StandingSignBlock.ROTATION, 7));
+		BlockEntity te = level.getBlockEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
+		if(te instanceof SignBlockEntity sign)
 		{
-			SignTileEntity sign = (SignTileEntity) te;
-			sign.setText(0, new StringTextComponent("Break me"));
-			sign.setText(1, new StringTextComponent("To beat the"));
-			sign.setText(2, new StringTextComponent("Maze"));
+			sign.setMessage(0, new TextComponent("Break me"));
+			sign.setMessage(1, new TextComponent("To beat the"));
+			sign.setMessage(2, new TextComponent("Maze"));
 		}
 	}
 
-	public void endMaze(PlayerEntity player)
+	public void endMaze(Player player)
 	{
 		cache.restoreBlocks(player);
 	}

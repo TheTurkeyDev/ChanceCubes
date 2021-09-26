@@ -14,12 +14,11 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.util.NonreplaceableBlockOverride;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootPool;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -31,10 +30,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,10 +51,10 @@ public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 
-	public static ItemGroup modTab = new ItemGroup(MODID)
+	public static CreativeModeTab modTab = new CreativeModeTab(MODID)
 	{
 		@Override
-		public ItemStack createIcon()
+		public ItemStack makeIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
@@ -116,14 +115,14 @@ public class CCubesCore
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
 		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-			event.getTable().addPool(LootPool.builder().name("chance_cubes_cubes").addEntry(ItemLootEntry.builder(CCubesItems.CHANCE_CUBE)).build());
+			event.getTable().addPool(LootPool.build().name("chance_cubes_cubes").addEntry(ItemLootEntry.builder(CCubesItems.CHANCE_CUBE)).build());
 	}
 
 	@SubscribeEvent
 	public void serverStart(FMLServerStartingEvent event)
 	{
-		CCubesSettings.backupNRB.add(Blocks.BEDROCK.getDefaultState());
-		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.getDefaultState());
+		CCubesSettings.backupNRB.add(Blocks.BEDROCK.defaultBlockState());
+		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.defaultBlockState());
 		DefaultRewards.loadDefaultRewards();
 		DefaultGiantRewards.loadDefaultRewards();
 		CustomRewardsLoader.instance.loadCustomRewards();

@@ -6,7 +6,7 @@ import chanceCubes.rewards.variableTypes.StringVar;
 
 public class MessagePart extends BasePart
 {
-	private StringVar message;
+	private final StringVar message;
 
 	private BoolVar serverWide = new BoolVar(false);
 	private IntVar range = new IntVar(32);

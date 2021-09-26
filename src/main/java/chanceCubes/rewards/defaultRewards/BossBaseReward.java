@@ -7,22 +7,22 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import java.util.List;
 
 public abstract class BossBaseReward extends BaseCustomReward
 {
-	private String bossName;
+	private final String bossName;
 
 	public BossBaseReward(String bossName)
 	{
@@ -40,33 +40,33 @@ public abstract class BossBaseReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		BattleWrapper battleWrapper = new BattleWrapper();
 
 		battleWrapper.rewardCenterPos = pos;
 		battleWrapper.domeGen = new BioDomeGen(player);
-		battleWrapper.domeGen.genRandomDome(pos.add(0, -1, 0), world, 15, false);
-		StringTextComponent message = new StringTextComponent("BOSS FIGHT!");
-		message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
-		RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
+		battleWrapper.domeGen.genRandomDome(pos.offset(0, -1, 0), level, 15, false);
+		TextComponent message = new TextComponent("BOSS FIGHT!");
+		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
+		RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
 		{
 			@Override
 			public void callback()
 			{
-				StringTextComponent message = new StringTextComponent("");
+				TextComponent message = new TextComponent("");
 				message.append(player.getDisplayName());
 
 				StringBuilder sbSpace = new StringBuilder();
 				sbSpace.append(" VS ");
 				for(int i = 0; i < bossName.length(); i++)
 					sbSpace.append(" ");
-				message.appendString(sbSpace.toString());
+				message.append(sbSpace.toString());
 
-				message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
-				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
+				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
+				RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
 			}
 		});
 
@@ -75,12 +75,12 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				StringTextComponent message = new StringTextComponent("");
+				TextComponent message = new TextComponent("");
 				message.append(player.getDisplayName());
-				message.appendString(" VS ");
-				message.appendString(bossName);
-				message.setStyle(Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.RED)));
-				RewardsUtil.setNearPlayersTitle(world, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
+				message.append(" VS ");
+				message.append(bossName);
+				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
+				RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
 			}
 		});
 
@@ -89,22 +89,22 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				startBossFight(world, pos, player, settings, battleWrapper);
+				startBossFight(level, pos, player, settings, battleWrapper);
 			}
 		});
 	}
 
-	public void startBossFight(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public void startBossFight(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		LivingEntity ent = initBoss(world, pos, player, settings, battleWrapper);
-		ent.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+		LivingEntity ent = initBoss(level, pos, player, settings, battleWrapper);
+		ent.moveTo(pos.getX(), pos.getY(), pos.getZ());
 		ent.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		ent.setHealth(ent.getMaxHealth());
-//		CustomServerBossInfoManager customserverbossinfomanager = world.getServer().getCustomBossEvents();
+//		CustomServerBossInfoManager customserverbossinfomanager = level.getServer().getCustomBossEvents();
 //		customserverbossinfomanager.add(new ResourceLocation(CCubesCore.MODID, this.getName()), ent.getCustomName());
 //		BossBarCommand
 
-		world.addEntity(ent);
+		level.addFreshEntity(ent);
 		trackEntities(battleWrapper, ent);
 		trackPlayers(battleWrapper, player);
 		Scheduler.scheduleTask(new Task("boss_fight_tracker", -1, 5)
@@ -122,12 +122,12 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = battleWrapper.trackedEntities.size() - 1; i >= 0; i--)
 				{
 					Entity ent = battleWrapper.trackedEntities.get(i);
-					if(!ent.isAlive() && (ent.ticksExisted > 0 || world.getDifficulty().equals(Difficulty.PEACEFUL)))
+					if(!ent.isAlive() && (ent.tickCount > 0 || level.getDifficulty().equals(Difficulty.PEACEFUL)))
 					{
 						battleWrapper.trackedEntities.remove(i);
 						if(battleWrapper.trackedEntities.isEmpty())
 						{
-							endBossfight(true, world, pos, player, battleWrapper);
+							endBossfight(true, level, pos, player, battleWrapper);
 							Scheduler.removeTask(this);
 						}
 					}
@@ -136,15 +136,15 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = battleWrapper.trackedPlayers.size() - 1; i >= 0; i--)
 				{
 					Entity ent = battleWrapper.trackedPlayers.get(i);
-					if(ent.getDistanceSq(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ()) > 15 * 15 || ent.getPosY() < battleWrapper.rewardCenterPos.getY() - 1)
-						ent.setPositionAndUpdate(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY() + 1, battleWrapper.rewardCenterPos.getZ());
+					if(ent.getOnPos().distSqr(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ(), true) > 15 * 15 || ent.getY() < battleWrapper.rewardCenterPos.getY() - 1)
+						ent.moveTo(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY() + 1, battleWrapper.rewardCenterPos.getZ());
 
-					if(!ent.isAlive() && (ent.ticksExisted > 0 || world.getDifficulty().equals(Difficulty.PEACEFUL)))
+					if(!ent.isAlive() && (ent.tickCount > 0 || level.getDifficulty().equals(Difficulty.PEACEFUL)))
 					{
 						for(Entity entity : battleWrapper.trackedEntities)
-							entity.remove();
+							entity.remove(Entity.RemovalReason.DISCARDED);
 						battleWrapper.trackedEntities.clear();
-						endBossfight(false, world, pos, player, battleWrapper);
+						endBossfight(false, level, pos, player, battleWrapper);
 						Scheduler.removeTask(this);
 						return;
 					}
@@ -153,13 +153,13 @@ public abstract class BossBaseReward extends BaseCustomReward
 		});
 	}
 
-	public void endBossfight(boolean resetPlayer, ServerWorld world, BlockPos pos, PlayerEntity player, BattleWrapper battleWrapper)
+	public void endBossfight(boolean resetPlayer, ServerLevel level, BlockPos pos, Player player, BattleWrapper battleWrapper)
 	{
 		for(Entity ent : battleWrapper.trackedSubEntities)
 			if(ent.isAlive())
-				ent.remove();
+				ent.remove(Entity.RemovalReason.DISCARDED);
 		battleWrapper.trackedSubEntities.clear();
-		onBossFightEnd(world, pos, player);
+		onBossFightEnd(level, pos, player);
 		battleWrapper.domeGen.removeDome(resetPlayer);
 	}
 
@@ -173,21 +173,21 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.trackedSubEntities.addAll(Arrays.asList(ents));
 	}
 
-	protected void trackPlayers(BattleWrapper battleWrapper, PlayerEntity... player)
+	protected void trackPlayers(BattleWrapper battleWrapper, Player... player)
 	{
 		battleWrapper.trackedPlayers.addAll(Arrays.asList(player));
 	}
 
-	public abstract LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper);
+	public abstract LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper);
 
-	public abstract void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player);
+	public abstract void onBossFightEnd(ServerLevel level, BlockPos pos, Player player);
 
-	public double getBossHealthDynamic(PlayerEntity player, JsonObject settings)
+	public double getBossHealthDynamic(Player player, JsonObject settings)
 	{
 		double maxDamage = 3;
-		for(ItemStack stack : player.inventory.mainInventory)
+		for(ItemStack stack : player.getInventory().items)
 		{
-			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
+			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlot.MAINHAND, stack);
 			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
 			{
 				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
@@ -204,13 +204,13 @@ public abstract class BossBaseReward extends BaseCustomReward
 		return prePofileHealth * profileMult;
 	}
 
-	public ItemStack getHighestDamageItem(PlayerEntity player)
+	public ItemStack getHighestDamageItem(Player player)
 	{
 		double maxDamage = -1;
 		ItemStack maxItem = ItemStack.EMPTY;
-		for(ItemStack stack : player.inventory.mainInventory)
+		for(ItemStack stack : player.getInventory().items)
 		{
-			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlotType.MAINHAND, stack);
+			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlot.MAINHAND, stack);
 			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
 			{
 				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
@@ -231,7 +231,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 	{
 		public List<Entity> trackedEntities = new ArrayList<>();
 		public List<Entity> trackedSubEntities = new ArrayList<>();
-		public List<PlayerEntity> trackedPlayers = new ArrayList<>();
+		public List<Player> trackedPlayers = new ArrayList<>();
 
 		public BlockPos rewardCenterPos;
 		public BioDomeGen domeGen;

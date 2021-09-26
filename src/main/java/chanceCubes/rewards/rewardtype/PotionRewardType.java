@@ -3,13 +3,12 @@ package chanceCubes.rewards.rewardtype;
 import chanceCubes.rewards.rewardparts.PotionPart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PotionEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.PotionUtils;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 	}
 
 	@Override
-	public void trigger(final PotionPart part, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final PotionPart part, final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Potion Reward Delay", part.getDelay())
 		{
@@ -31,16 +30,16 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 			{
 				ItemStack potion = new ItemStack(Items.SPLASH_POTION);
 
-				List<EffectInstance> effects = new ArrayList<>();
+				List<MobEffectInstance> effects = new ArrayList<>();
 				effects.add(part.getEffect());
-				PotionUtils.appendEffects(potion, effects);
+				PotionUtils.setCustomEffects(potion, effects);
 
-				PotionEntity entity = new PotionEntity(world, player);
-				entity.setItem(PotionUtils.appendEffects(new ItemStack(Items.SPLASH_POTION), effects));
-				entity.setPosition(player.getPosX(), player.getPosY() + 2, player.getPosZ());
+				PotionEntity entity = new PotionEntity(level, player);
+				entity.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), effects));
+				entity.setPosition(player.getX(), player.getY() + 2, player.getZ());
 				entity.setMotion(0, 0.1, 0);
 
-				world.addEntity(entity);
+				level.addFreshEntity(entity);
 			}
 		});
 	}

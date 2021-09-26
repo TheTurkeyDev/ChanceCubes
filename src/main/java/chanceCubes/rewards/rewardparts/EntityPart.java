@@ -3,21 +3,21 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class EntityPart extends BasePart
 {
-	private NBTVar nbtData;
+	private final NBTVar nbtData;
 
 	private BoolVar removedBlocks = new BoolVar(true);
 	private IntVar copies = new IntVar(0);
 
-	public EntityPart(CompoundNBT nbtData)
+	public EntityPart(CompoundTag nbtData)
 	{
 		this(nbtData, 0);
 	}
 
-	public EntityPart(CompoundNBT nbtData, int delay)
+	public EntityPart(CompoundTag nbtData, int delay)
 	{
 		this(new NBTVar(nbtData), new IntVar(delay));
 	}
@@ -33,7 +33,7 @@ public class EntityPart extends BasePart
 		this.setDelay(delay);
 	}
 
-	public CompoundNBT getNBT()
+	public CompoundTag getNBT()
 	{
 		return nbtData.getNBTValue();
 	}

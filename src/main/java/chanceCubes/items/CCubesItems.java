@@ -3,8 +3,7 @@ package chanceCubes.items;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.containers.CreativePendantContainer;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,7 +57,7 @@ public class CCubesItems
 	public static void onContainerRegistry(RegistryEvent.Register<ContainerType<?>> event)
 	{
 		CREATIVE_PENDANT_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
-		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
+		CREATIVE_PENDANT_CONTAINER.se(CCubesCore.MODID, "creative_pendant_container");
 		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
 	}
 

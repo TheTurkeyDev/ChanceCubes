@@ -6,11 +6,11 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 
 public class ChunkReverserReward extends BaseCustomReward
 {
-	private List<Entry<Block, Block>> swappedMap = new ArrayList<>();
+	private final List<Entry<Block, Block>> swappedMap = new ArrayList<>();
 
 	public ChunkReverserReward()
 	{
@@ -49,7 +49,7 @@ public class ChunkReverserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToPlayer(player, "Initiating Block Inverter");
 		List<OffsetBlock> blocks = new ArrayList<>();
@@ -64,7 +64,7 @@ public class ChunkReverserReward extends BaseCustomReward
 			{
 				if((-16 / 2 <= xx) && (xx <= 16 / 2) && (-16 / 2 <= zz) && (zz <= 16 / 2))
 				{
-					Block blockAt = world.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getZ() + zz)).getBlock();
+					Block blockAt = level.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getZ() + zz)).getBlock();
 					Block toSwapTo = null;
 					for(Entry<Block, Block> blockSwap : swappedMap)
 					{
@@ -93,6 +93,6 @@ public class ChunkReverserReward extends BaseCustomReward
 
 		RewardsUtil.sendMessageToPlayer(player, "Inverting " + blocks.size() + " Blocks... May take a minute...");
 		for(OffsetBlock b : blocks)
-			b.spawnInWorld(world, pos.getX(), pos.getY(), pos.getZ());
+			b.spawnInWorld(level, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

@@ -11,13 +11,12 @@ import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 public class ClientHelper
 {
@@ -37,12 +36,12 @@ public class ClientHelper
 		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
 	}
 
-	public static void openRewardSelectorGUI(PlayerEntity player, ItemStack stack)
+	public static void openRewardSelectorGUI(Player player, ItemStack stack)
 	{
 		Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
 	}
 
-	public static void openSchematicCreatorGUI(PlayerEntity player)
+	public static void openSchematicCreatorGUI(Player player)
 	{
 		Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
 	}

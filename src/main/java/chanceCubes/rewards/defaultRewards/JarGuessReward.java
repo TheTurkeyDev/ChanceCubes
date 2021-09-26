@@ -6,15 +6,15 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.play.server.STitlePacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ambient.Bat;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class JarGuessReward extends BaseCustomReward
 {
-	private Map<PlayerEntity, PlayerGuessing> inGuess = new HashMap<>();
+	private final Map<Player, PlayerGuessing> inGuess = new HashMap<>();
 
 	public JarGuessReward()
 	{
@@ -33,7 +33,7 @@ public class JarGuessReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		if(inGuess.containsKey(player))
 			return;
@@ -41,9 +41,9 @@ public class JarGuessReward extends BaseCustomReward
 		if(!RewardsUtil.isPlayerOnline(player))
 			return;
 
-		int amount = world.rand.nextInt(50) + 60;
+		int amount = RewardsUtil.rand.nextInt(50) + 60;
 
-		RewardBlockCache blockCache = new RewardBlockCache(world, pos, player.getPosition());
+		RewardBlockCache blockCache = new RewardBlockCache(level, pos, player.getOnPos());
 		for(int x = -3; x < 4; x++)
 		{
 			for(int z = -3; z < 4; z++)
@@ -51,9 +51,9 @@ public class JarGuessReward extends BaseCustomReward
 				for(int y = 0; y < 7; y++)
 				{
 					if(x == -3 || x == 3 || z == -3 || z == 3 || y == 0 || y == 6)
-						blockCache.cacheBlock(new BlockPos(x, y, z), Blocks.GLASS.getDefaultState());
+						blockCache.cacheBlock(new BlockPos(x, y, z), Blocks.GLASS.defaultBlockState());
 					else
-						blockCache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+						blockCache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState());
 				}
 			}
 		}
@@ -71,10 +71,10 @@ public class JarGuessReward extends BaseCustomReward
 					{
 						if(batsSpawned < amount)
 						{
-							BlockPos pos2 = pos.add(x + 0.5, y + 0.5, z + 0.5);
-							BatEntity bat = EntityType.BAT.create(world);
-							bat.setLocationAndAngles(pos2.getX(), pos2.getY(), pos2.getZ(), 0, 0);
-							world.addEntity(bat);
+							BlockPos pos2 = pos.offset(x + 0.5, y + 0.5, z + 0.5);
+							Bat bat = EntityType.BAT.create(level);
+							bat.moveTo(pos2.getX(), pos2.getY(), pos2.getZ(), 0, 0);
+							level.addFreshEntity(bat);
 							guessing.bats.add(bat);
 							batsSpawned++;
 						}
@@ -111,7 +111,7 @@ public class JarGuessReward extends BaseCustomReward
 		});
 	}
 
-	private void timeUp(PlayerEntity player, int guessed)
+	private void timeUp(Player player, int guessed)
 	{
 		if(!inGuess.containsKey(player))
 			return;
@@ -123,15 +123,15 @@ public class JarGuessReward extends BaseCustomReward
 			RewardsUtil.sendMessageToPlayer(player, "You were off by " + Math.abs(answer - guessed));
 			int winAmount = Math.max(0, 20 - Math.abs(answer - guessed));
 			RewardsUtil.sendMessageToPlayer(player, "You won " + winAmount + " Emeralds!");
-			player.inventory.addItemStackToInventory(new ItemStack(Items.EMERALD, winAmount));
+			player.getInventory().add(new ItemStack(Items.EMERALD, winAmount));
 		}
 		else
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Times up! The answer was " + answer);
 		}
 
-		for(BatEntity batEntity : this.inGuess.get(player).bats)
-			batEntity.remove();
+		for(Bat bat : this.inGuess.get(player).bats)
+			bat.remove(Entity.RemovalReason.DISCARDED);
 		this.inGuess.get(player).blockCache.restoreBlocks(player);
 		inGuess.remove(player);
 	}
@@ -139,7 +139,7 @@ public class JarGuessReward extends BaseCustomReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		PlayerEntity player = event.getPlayer();
+		Player player = event.getPlayer();
 
 		if(inGuess.containsKey(player))
 		{
@@ -160,7 +160,7 @@ public class JarGuessReward extends BaseCustomReward
 	{
 		public int answer;
 		public RewardBlockCache blockCache;
-		public List<BatEntity> bats = new ArrayList<>();
+		public List<Bat> bats = new ArrayList<>();
 
 		public PlayerGuessing(int answer, RewardBlockCache blockCache)
 		{

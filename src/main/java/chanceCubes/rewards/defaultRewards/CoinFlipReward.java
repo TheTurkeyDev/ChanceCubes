@@ -5,14 +5,14 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CoinFlipReward extends BaseCustomReward
 {
-	private List<PlayerEntity> inFlip = new ArrayList<>();
+	private final List<Player> inFlip = new ArrayList<>();
 
 	public CoinFlipReward()
 	{
@@ -29,7 +29,7 @@ public class CoinFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		if(inFlip.contains(player))
 			return;
@@ -51,7 +51,7 @@ public class CoinFlipReward extends BaseCustomReward
 		Scheduler.scheduleTask(task);
 	}
 
-	private void timeUp(PlayerEntity player)
+	private void timeUp(Player player)
 	{
 		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
 			return;
@@ -65,7 +65,7 @@ public class CoinFlipReward extends BaseCustomReward
 	@SubscribeEvent
 	public void onMessage(ServerChatEvent event)
 	{
-		PlayerEntity player = event.getPlayer();
+		Player player = event.getPlayer();
 
 		String message = event.getMessage();
 
@@ -87,15 +87,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Heads"))
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're correct!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
-						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
-						player.world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						player.level.addFreshEntity(new PrimedTnt(player.level, player.getX(), player.getY() + 1D, player.getZ(), player));
+						player.level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}
@@ -104,15 +104,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Tails"))
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're correct!");
-					player.world.addEntity(new ItemEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
-						player.world.addEntity(new TNTEntity(player.world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player));
-						player.world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						player.level.addFreshEntity(new PrimedTnt(player.level, player.getX(), player.getY() + 1D, player.getZ(), player));
+						player.level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}

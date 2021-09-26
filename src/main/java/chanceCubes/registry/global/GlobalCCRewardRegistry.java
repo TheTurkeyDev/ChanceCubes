@@ -7,11 +7,11 @@ import chanceCubes.registry.player.PlayerCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.defaultRewards.CustomUserReward;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.Level;
 
 import java.util.HashMap;
@@ -23,13 +23,13 @@ public class GlobalCCRewardRegistry
 	public static GlobalCCRewardRegistry DEFAULT = new GlobalCCRewardRegistry();
 	public static GlobalCCRewardRegistry GIANT = new GlobalCCRewardRegistry();
 
-	private Map<String, GlobalRewardInfo> nameToReward = new HashMap<>();
-	private Map<String, PlayerCCRewardRegistry> playerToRewards = new HashMap<>();
+	private final Map<String, GlobalRewardInfo> nameToReward = new HashMap<>();
+	private final Map<String, PlayerCCRewardRegistry> playerToRewards = new HashMap<>();
 
 	public static void loadCustomUserRewards(MinecraftServer server)
 	{
-		for(ServerPlayerEntity player : server.getPlayerList().getPlayers())
-			CustomUserReward.getCustomUserReward(player.getUniqueID());
+		for(ServerPlayer player : server.getPlayerList().getPlayers())
+			CustomUserReward.getCustomUserReward(player.getUUID());
 	}
 
 	public void registerReward(IChanceCubeReward reward)
@@ -146,7 +146,7 @@ public class GlobalCCRewardRegistry
 		});
 	}
 
-	public void triggerRandomReward(ServerWorld world, BlockPos pos, PlayerEntity player, int chance)
+	public void triggerRandomReward(ServerLevel world, BlockPos pos, Player player, int chance)
 	{
 		if(CCubesSettings.testRewards)
 		{
@@ -169,10 +169,10 @@ public class GlobalCCRewardRegistry
 		}
 
 		if(player != null)
-			this.getPlayerRewardRegistry(player.getUniqueID().toString()).triggerRandomReward(world, pos, player, chance);
+			this.getPlayerRewardRegistry(player.getStringUUID()).triggerRandomReward(world, pos, player, chance);
 	}
 
-	public static void triggerReward(IChanceCubeReward reward, ServerWorld world, BlockPos pos, PlayerEntity player)
+	public static void triggerReward(IChanceCubeReward reward, ServerLevel world, BlockPos pos, Player player)
 	{
 		JsonObject settings = ConfigLoader.getRewardSettings(reward.getName());
 		reward.trigger(world, pos, player, settings);

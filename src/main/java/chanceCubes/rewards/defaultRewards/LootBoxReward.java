@@ -5,20 +5,19 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +69,9 @@ public class LootBoxReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		world.setBlockState(pos, Blocks.BEDROCK.getDefaultState());
+		level.setBlockAndUpdate(pos, Blocks.BEDROCK.defaultBlockState());
 		Scheduler.scheduleTask(new Task("CC_Loot_Box_Animation", -1, 1)
 		{
 			int tick = 0;
@@ -82,14 +81,14 @@ public class LootBoxReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				RewardsUtil.sendMessageToNearPlayers(world, pos, 25, "Open the Chance Cubes Loot Box to get some collectibles!");
-				world.setBlockState(pos, Blocks.CHEST.getDefaultState());
-				TileEntity te = world.getTileEntity(pos);
-				if(!(te instanceof ChestTileEntity))
+				RewardsUtil.sendMessageToNearPlayers(level, pos, 25, "Open the Chance Cubes Loot Box to get some collectibles!");
+				level.setBlockAndUpdate(pos, Blocks.CHEST.defaultBlockState());
+				BlockEntity te = level.getBlockEntity(pos);
+				if(!(te instanceof ChestBlockEntity chest))
 					return;
-				ChestTileEntity chest = (ChestTileEntity) te;
+
 				for(int i = 0; i < 10; i++)
-					chest.setInventorySlotContents(i, getCollectible());
+					chest.setItem(i, getCollectible());
 			}
 
 			@Override
@@ -104,14 +103,14 @@ public class LootBoxReward extends BaseCustomReward
 
 					double xOff = Math.cos(tick / 3f);
 					double yOff = Math.sin(tick / 3f);
-					world.spawnParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() + xOff + 0.5, pos.getY() + y, pos.getZ() + yOff + 0.5, 3, 0, 0, 0, 1);
-					world.spawnParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() - xOff + 0.5, pos.getY() + y, pos.getZ() - yOff + 0.5, 3, 0, 0, 0, 1);
+					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() + xOff + 0.5, pos.getY() + y, pos.getZ() + yOff + 0.5, 3, 0, 0, 0, 1);
+					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() - xOff + 0.5, pos.getY() + y, pos.getZ() - yOff + 0.5, 3, 0, 0, 0, 1);
 				}
 				if(tick == 250)
 				{
 					for(int i = 0; i < 100; i++)
 					{
-						world.spawnParticle(ParticleTypes.DRAGON_BREATH, pos.getX() + 0.5, pos.getY() + 0.95, pos.getZ() + 0.5, 3, 0, 0, 0, 1);
+						level.addParticle(ParticleTypes.DRAGON_BREATH, pos.getX() + 0.5, pos.getY() + 0.95, pos.getZ() + 0.5, 3, 0, 0, 0, 1);
 					}
 				}
 				if(tick > 250)
@@ -141,29 +140,29 @@ public class LootBoxReward extends BaseCustomReward
 
 		if(RewardsUtil.rand.nextInt(100) == 42)
 		{
-			CompoundNBT nbt = stack.getTag();
+			CompoundTag nbt = stack.getTag();
 			if(nbt == null)
 			{
-				nbt = new CompoundNBT();
+				nbt = new CompoundTag();
 				stack.setTag(nbt);
 			}
-			ListNBT enchantList = new ListNBT();
+			ListTag enchantList = new ListTag();
 			nbt.put("Enchantments", enchantList);
-			enchantList.add(new CompoundNBT());
-			CompoundNBT display = (CompoundNBT)nbt.get("display");
+			enchantList.add(new CompoundTag());
+			CompoundTag display = (CompoundTag) nbt.get("display");
 			if(display == null)
 			{
-				display = new CompoundNBT();
+				display = new CompoundTag();
 				nbt.put("display", display);
 			}
-			ListNBT loreList = (ListNBT) display.get("Lore");
+			ListTag loreList = (ListTag) display.get("Lore");
 			if(loreList == null)
 			{
-				loreList = new ListNBT();
+				loreList = new ListTag();
 				display.put("Lore", loreList);
 			}
 
-			loreList.add(StringNBT.valueOf(SHINY_LORE));
+			loreList.add(StringTag.valueOf(SHINY_LORE));
 		}
 
 		return stack;
@@ -178,18 +177,18 @@ public class LootBoxReward extends BaseCustomReward
 		return stack;
 	}
 
-	public static CompoundNBT getLoreNBT(String... lore)
+	public static CompoundTag getLoreNBT(String... lore)
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 
-		CompoundNBT display = new CompoundNBT();
+		CompoundTag display = new CompoundTag();
 		nbt.put("display", display);
 
-		ListNBT loreList = new ListNBT();
+		ListTag loreList = new ListTag();
 		display.put("Lore", loreList);
 
 		for(String l : lore)
-			loreList.add(StringNBT.valueOf(l));
+			loreList.add(StringTag.valueOf(l));
 
 		return nbt;
 	}

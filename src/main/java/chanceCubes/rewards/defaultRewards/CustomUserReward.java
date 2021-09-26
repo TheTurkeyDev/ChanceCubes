@@ -12,20 +12,20 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -35,10 +35,10 @@ import java.util.UUID;
 
 public class CustomUserReward extends BaseCustomReward
 {
-	private String userName;
-	private UUID uuid;
-	private String type;
-	private List<BasicReward> customRewards;
+	private final String userName;
+	private final UUID uuid;
+	private final String type;
+	private final List<BasicReward> customRewards;
 
 	public static void getCustomUserReward(UUID uuid)
 	{
@@ -108,11 +108,11 @@ public class CustomUserReward extends BaseCustomReward
 		{
 			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(uuid.toString()).enableReward(CCubesCore.MODID + ":cr_" + userNameFinal);
-			PlayerEntity player = server.getPlayerList().getPlayerByUUID(uuid);
+			Player player = server.getPlayerList().getPlayer(uuid);
 			if(player == null)
 				return;
 
-			Style ccStyle = Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.DARK_AQUA));
+			Style ccStyle = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_AQUA));
 
 			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
 				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options")));
@@ -123,13 +123,13 @@ public class CustomUserReward extends BaseCustomReward
 				{
 					String message = messageElem.getAsJsonObject().get("message").getAsString();
 					message = message.replace("%username%", userNameFinal);
-					RewardsUtil.sendMessageToPlayer(player, new StringTextComponent(message).setStyle(ccStyle));
+					RewardsUtil.sendMessageToPlayer(player, new TextComponent(message).setStyle(ccStyle));
 				}
 			}
 			else
 			{
-				RewardsUtil.sendMessageToPlayer(player, new StringTextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
-				RewardsUtil.sendMessageToPlayer(player, new StringTextComponent("Let the fun begin! >:)").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, new TextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, new TextComponent("Let the fun begin! >:)").setStyle(ccStyle));
 			}
 		});
 	}
@@ -144,14 +144,14 @@ public class CustomUserReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(final ServerWorld world, final BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(final ServerLevel level, final BlockPos pos, final Player player, JsonObject settings)
 	{
 
-		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getUnformattedComponentText()))
+		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getString()))
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Hey you aren't " + this.userName + "! You can't have their reward! Try again!");
-			Entity itemEnt = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
-			world.addEntity(itemEnt);
+			Entity itemEnt = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
+			level.addFreshEntity(itemEnt);
 			return;
 		}
 		RewardsUtil.sendMessageToPlayer(player, "Selecting best (possibly deadly) reward for " + this.type + " " + this.userName);
@@ -161,7 +161,7 @@ public class CustomUserReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				customRewards.get(world.rand.nextInt(customRewards.size())).trigger(world, pos, player, settings);
+				customRewards.get(RewardsUtil.rand.nextInt(customRewards.size())).trigger(level, pos, player, settings);
 			}
 		});
 	}

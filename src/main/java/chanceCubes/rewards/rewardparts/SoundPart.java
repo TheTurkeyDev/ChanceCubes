@@ -3,11 +3,11 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 
 public class SoundPart extends BasePart
 {
-	private SoundEvent sound;
+	private final SoundEvent sound;
 
 	private BoolVar serverWide = new BoolVar(false);
 	private IntVar range = new IntVar(16);

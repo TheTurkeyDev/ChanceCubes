@@ -21,23 +21,23 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.BlockPosArgument;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import org.apache.logging.log4j.Level;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,7 +74,7 @@ public class CCubesServerCommands
 						)
 				)
 				.then(
-						Commands.literal("schematic").requires(cs -> cs.hasPermissionLevel(2)).requires(cs -> cs.getWorld().isRemote).then(
+						Commands.literal("schematic").requires(cs -> cs.hasPermission(2)).requires(cs -> cs.getLevel().isClientSide()).then(
 								Commands.literal("create").executes(this::executeSchematicCreate)
 						).then(
 								Commands.literal("cancel").executes(this::executeSchematicCancel)
@@ -113,21 +113,21 @@ public class CCubesServerCommands
 		// @formatter:on
 	}
 
-	public ServerPlayerEntity getPlayer(CommandSource source)
+	public ServerPlayer getPlayer(CommandSourceStack source)
 	{
 		try
 		{
-			return source.asPlayer();
+			return source.getPlayerOrException();
 		} catch(CommandSyntaxException e)
 		{
-			CCubesCore.logger.log(Level.ERROR, "You should never see this. If you do you broke everything. Report to Turkey");
+			CCubesCore.logger.error("You should never see this. If you do you broke everything. Report to Turkey");
 		}
 		//Should never get here.
 		return null;
 	}
 
 
-	public int executeReload(CommandContext<CommandSource> ctx)
+	public int executeReload(CommandContext<CommandSourceStack> ctx)
 	{
 		new Thread(() ->
 		{
@@ -144,37 +144,37 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeVersion(CommandContext<CommandSource> ctx)
+	public int executeVersion(CommandContext<CommandSourceStack> ctx)
 	{
 		String ver = ModList.get().getModContainerById(CCubesCore.MODID).get().getModInfo().getVersion().toString();
 		RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Chance Cubes Version " + ver);
 		return 0;
 	}
 
-	public int executeHandNBT(CommandContext<CommandSource> ctx)
+	public int executeHandNBT(CommandContext<CommandSourceStack> ctx)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
-		CompoundNBT nbt = player.inventory.getCurrentItem().getOrCreateTag();
+		Player player = getPlayer(ctx.getSource());
+		CompoundTag nbt = player.getInventory().getSelected().getOrCreateTag();
 		RewardsUtil.sendMessageToPlayer(player, nbt.toString());
 		return 0;
 	}
 
-	public int executeHandID(CommandContext<CommandSource> ctx)
+	public int executeHandID(CommandContext<CommandSourceStack> ctx)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
-		ItemStack stack = player.inventory.getCurrentItem();
+		Player player = getPlayer(ctx.getSource());
+		ItemStack stack = player.getInventory().getSelected();
 		if(!stack.isEmpty())
 		{
 			ResourceLocation res = stack.getItem().getRegistryName();
 			RewardsUtil.sendMessageToPlayer(player, res.getNamespace() + ":" + res.getPath());
-			RewardsUtil.sendMessageToPlayer(player, "meta: " + stack.getDamage());
+			RewardsUtil.sendMessageToPlayer(player, "meta: " + stack.getDamageValue());
 		}
 		return 0;
 	}
 
-	public int executeDisableReward(CommandContext<CommandSource> ctx, String reward)
+	public int executeDisableReward(CommandContext<CommandSourceStack> ctx, String reward)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
+		Player player = getPlayer(ctx.getSource());
 		if(GlobalCCRewardRegistry.DEFAULT.disableReward(reward))
 			RewardsUtil.sendMessageToPlayer(player, reward + " Has been disabled.");
 		else if(GlobalCCRewardRegistry.GIANT.disableReward(reward))
@@ -184,9 +184,9 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeEnableReward(CommandContext<CommandSource> ctx, String reward)
+	public int executeEnableReward(CommandContext<CommandSourceStack> ctx, String reward)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
+		Player player = getPlayer(ctx.getSource());
 		if(GlobalCCRewardRegistry.DEFAULT.enableReward(reward))
 			RewardsUtil.sendMessageToPlayer(player, reward + " Has been enabled.");
 		else if(GlobalCCRewardRegistry.GIANT.enableReward(reward))
@@ -196,7 +196,7 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeSchematicCreate(CommandContext<CommandSource> ctx)
+	public int executeSchematicCreate(CommandContext<CommandSourceStack> ctx)
 	{
 		if(RenderEvent.isCreatingSchematic())
 		{
@@ -220,7 +220,7 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeSchematicCancel(CommandContext<CommandSource> ctx)
+	public int executeSchematicCancel(CommandContext<CommandSourceStack> ctx)
 	{
 		RenderEvent.setCreatingSchematic(false);
 		SchematicUtil.selectionPoints[0] = null;
@@ -228,11 +228,11 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeRewardInfo(CommandContext<CommandSource> ctx, InfoAction action)
+	public int executeRewardInfo(CommandContext<CommandSourceStack> ctx, InfoAction action)
 	{
-		PlayerEntity player = getPlayer(ctx.getSource());
-		List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
-		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getUniqueID().toString()).getPlayersRewards();
+		Player player = getPlayer(ctx.getSource());
+		List<PlayerRewardInfo> defaultrewards = GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(player.getStringUUID()).getPlayersRewards();
+		List<PlayerRewardInfo> giantrewards = GlobalCCRewardRegistry.GIANT.getPlayerRewardRegistry(player.getStringUUID()).getPlayersRewards();
 		int defaultEnabled = defaultrewards.size();
 		int giantEnabled = giantrewards.size();
 
@@ -282,7 +282,7 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeTestRewards(CommandContext<CommandSource> ctx)
+	public int executeTestRewards(CommandContext<CommandSourceStack> ctx)
 	{
 		CCubesSettings.testRewards = !CCubesSettings.testRewards;
 		CCubesSettings.testingRewardIndex = 0;
@@ -293,7 +293,7 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeTestCustomRewards(CommandContext<CommandSource> ctx)
+	public int executeTestCustomRewards(CommandContext<CommandSourceStack> ctx)
 	{
 		CCubesSettings.testCustomRewards = !CCubesSettings.testCustomRewards;
 		CCubesSettings.testingRewardIndex = 0;
@@ -304,29 +304,29 @@ public class CCubesServerCommands
 		return 0;
 	}
 
-	public int executeTest(CommandContext<CommandSource> ctx)
+	public int executeTest(CommandContext<CommandSourceStack> ctx)
 	{
 		return 0;
 	}
 
-	public int executeSpawnGiantCube(CommandContext<CommandSource> ctx, BlockPos pos)
+	public int executeSpawnGiantCube(CommandContext<CommandSourceStack> ctx, BlockPos pos)
 	{
-		World world = ctx.getSource().getWorld();
+		Level level = ctx.getSource().getLevel();
 
-		if(RewardsUtil.isBlockUnbreakable(world, pos.add(0, 0, 0)) && CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos.add(0, 0, 0))))
+		if(RewardsUtil.isBlockUnbreakable(level, pos.offset(0, 0, 0)) && CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos.offset(0, 0, 0))))
 			return 0;
 
-		GiantCubeUtil.setupStructure(pos.add(-1, -1, -1), world, true);
+		GiantCubeUtil.setupStructure(pos.offset(-1, -1, -1), level, true);
 
-		world.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		level.playSound(null, pos, CCubesSounds.GIANT_CUBE_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 		return 0;
 	}
 
-	public int executeSpawnReward(CommandContext<CommandSource> ctx, String rewardName, Collection<ServerPlayerEntity> targets)
+	public int executeSpawnReward(CommandContext<CommandSourceStack> ctx, String rewardName, Collection<ServerPlayer> targets)
 	{
 		if(ctx.getSource().getEntity() != null)
 		{
-			CCubesCore.logger.log(Level.ERROR, "Sorry, player's and entities cannot run this command!");
+			CCubesCore.logger.error("Sorry, player's and entities cannot run this command!");
 			return 0;
 		}
 
@@ -335,16 +335,14 @@ public class CCubesServerCommands
 			reward = GlobalCCRewardRegistry.GIANT.getRewardByName(rewardName);
 		if(reward == null)
 		{
-			CCubesCore.logger.log(Level.ERROR, rewardName + " is not a valid reward in the spawnReward command!");
+			CCubesCore.logger.error(rewardName + " is not a valid reward in the spawnReward command!");
 			return 0;
 		}
 
-		CCubesCore.logger.log(Level.INFO, "spawnReward command is spawning " + rewardName);
+		CCubesCore.logger.info("spawnReward command is spawning " + rewardName);
 
-		for(ServerPlayerEntity target : targets)
-		{
-			reward.trigger(ctx.getSource().getWorld(), target.getPosition(), target, new JsonObject());
-		}
+		for(ServerPlayer target : targets)
+			reward.trigger(ctx.getSource().getLevel(), target.getOnPos(), target, new JsonObject());
 		return 0;
 	}
 }

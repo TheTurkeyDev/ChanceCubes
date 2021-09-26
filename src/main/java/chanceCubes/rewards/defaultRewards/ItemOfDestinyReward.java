@@ -6,16 +6,13 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.LanguageMap;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public class ItemOfDestinyReward extends BaseCustomReward
 {
@@ -25,11 +22,11 @@ public class ItemOfDestinyReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, final PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, final Player player, JsonObject settings)
 	{
 		final ItemEntity item = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1));
-		item.setPickupDelay(100000);
-		world.addEntity(item);
+		item.setPickUpDelay(100000);
+		world.addFreshEntity(item);
 		RewardsUtil.sendMessageToPlayer(player, "Selecting random item");
 		Scheduler.scheduleTask(new Task("Item_Of_Destiny_Reward", -1, 5)
 		{
@@ -66,13 +63,13 @@ public class ItemOfDestinyReward extends BaseCustomReward
 					if((iteration / 10) - 3 < enchants)
 					{
 						CustomEntry<Enchantment, Integer> ench = RewardsUtil.getRandomEnchantmentAndLevel();
-						item.getItem().addEnchantment(ench.getKey(), ench.getValue());
-						RewardsUtil.sendMessageToPlayer(player, new StringTextComponent(LanguageMap.getInstance().func_230503_a_(ench.getKey().getName()) + " Has been added to the item!"));
+						item.getItem().enchant(ench.getKey(), ench.getValue());
+						RewardsUtil.sendMessageToPlayer(player, new TextComponent(LanguageMap.getInstance().func_230503_a_(ench.getKey().getName()) + " Has been added to the item!"));
 					}
 					else
 					{
 						RewardsUtil.sendMessageToPlayer(player, enchants + "Your item of destiny is complete! Enjoy!");
-						item.setPickupDelay(0);
+						item.setPickUpDelay(0);
 						Scheduler.removeTask(this);
 					}
 				}

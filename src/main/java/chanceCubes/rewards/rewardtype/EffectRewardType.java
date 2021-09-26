@@ -1,8 +1,9 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.EffectPart;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class EffectRewardType extends BaseRewardType<EffectPart>
 {
@@ -13,17 +14,18 @@ public class EffectRewardType extends BaseRewardType<EffectPart>
 	}
 
 	@Override
-	protected void trigger(EffectPart part, ServerWorld world, int x, int y, int z, PlayerEntity player)
+	protected void trigger(EffectPart part, ServerLevel level, int x, int y, int z, Player player)
 	{
 		int radius = part.getRadius().getIntValue();
 
-		for(int j2 = 0; j2 < world.getPlayers().size(); ++j2)
+		BlockPos pos = new BlockPos(x, y, z);
+		for(int j2 = 0; j2 < level.players().size(); ++j2)
 		{
-			PlayerEntity tempPlayer = world.getPlayers().get(j2);
-			double distTo = tempPlayer.getDistanceSq(x, y, z);
+			Player tempPlayer = level.players().get(j2);
+			double distTo = tempPlayer.getOnPos().distSqr(pos);
 
 			if(distTo < radius)
-				tempPlayer.addPotionEffect(part.getEffect());
+				tempPlayer.addEffect(part.getEffect());
 		}
 	}
 

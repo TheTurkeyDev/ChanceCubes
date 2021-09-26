@@ -3,7 +3,7 @@ package chanceCubes.commands;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.command.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 
 public class RewardInfoActionArgument implements ArgumentType<InfoAction>
 {
@@ -28,7 +28,7 @@ public class RewardInfoActionArgument implements ArgumentType<InfoAction>
 		return InfoAction.NONE;
 	}
 
-	public static InfoAction func_212592_a(CommandContext<CommandSource> p_212592_0_, String p_212592_1_)
+	public static InfoAction func_212592_a(CommandContext<CommandSourceStack> p_212592_0_, String p_212592_1_)
 	{
 		return p_212592_0_.getArgument(p_212592_1_, InfoAction.class);
 	}

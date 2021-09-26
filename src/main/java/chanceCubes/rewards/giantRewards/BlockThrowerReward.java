@@ -7,24 +7,24 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.FallingBlockEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +37,15 @@ public class BlockThrowerReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		for(int x = -20; x < 21; x++)
 		{
 			for(int z = -20; z < 21; z++)
 			{
-				if(!world.isAirBlock(pos.add(x, 11, z)))
+				if(!level.isAirBlock(pos.offset(x, 11, z)))
 					for(int y = -1; y < 12; y++)
-						world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState());
+						level.setBlockAndUpdate(pos.offset(x, y, z), Blocks.AIR.defaultBlockState());
 			}
 		}
 
@@ -62,31 +62,31 @@ public class BlockThrowerReward extends BaseCustomReward
 					int z = RewardsUtil.rand.nextInt(41) - 21;
 					int y;
 					for(y = 12; y > -2; y--)
-						if(!world.isAirBlock(pos.add(x, y, z)))
+						if(!level.isAirBlock(pos.offset(x, y, z)))
 							break;
-					BlockPos newPos = pos.add(x, y, z);
-					BlockState state = world.getBlockState(newPos);
+					BlockPos newPos = pos.offset(x, y, z);
+					BlockState state = level.getBlockState(newPos);
 
 					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof FlowingFluidBlock)
-						state = Blocks.DIRT.getDefaultState();
+						state = Blocks.DIRT.defaultBlockState();
 					else
-						world.setBlockState(newPos, Blocks.AIR.getDefaultState());
+						level.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
 
-					FallingBlockEntity block = new FallingBlockEntity(world, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state);
+					FallingBlockEntity block = new FallingBlockEntity(level, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state);
 					block.fallTime = 1;
 					block.setNoGravity(true);
-					block.setMotion(0, 0.25f, 0);
+					block.setDeltaMovement(0, 0.25f, 0);
 
-					world.addEntity(block);
+					level.addFreshEntity(block);
 					blocks.add(block);
 				}
 
 				for(FallingBlockEntity b : blocks)
 				{
-					if(b.getPosY() > pos.getY() + 8)
+					if(b.getY() > pos.getY() + 8)
 					{
-						b.setPosition(b.getPosX(), pos.getY() + 8, b.getPosZ());
-						b.setMotion(0, 0, 0);
+						b.moveTo(b.getX(), pos.getY() + 8, b.getZ());
+						b.setDeltaMovement(0, 0, 0);
 					}
 				}
 			}
@@ -98,48 +98,48 @@ public class BlockThrowerReward extends BaseCustomReward
 				int rand = RewardsUtil.rand.nextInt(6);
 				for(FallingBlockEntity b : blocks)
 				{
-					world.addParticle(ParticleTypes.EXPLOSION, b.getPosX(), b.getPosY(), b.getPosZ(), 0, 0, 0);
+					level.addParticle(ParticleTypes.EXPLOSION, b.getX(), b.getY(), b.getZ(), 0, 0, 0);
 
-					b.remove();
+					b.remove(Entity.RemovalReason.DISCARDED);
 
 					if(rand == 0)
 					{
-						ent = EntityType.CREEPER.create(world);
-						((LivingEntity) ent).addPotionEffect(new EffectInstance(Effects.RESISTANCE, 20, 3));
+						ent = EntityType.CREEPER.create(level);
+						((LivingEntity) ent).addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20, 3));
 					}
 					else if(rand == 1)
 					{
-						ent = EntityType.TNT.create(world);
+						ent = EntityType.TNT.create(level);
 					}
 					else if(rand == 2)
 					{
-						ent = EntityType.ITEM.create(world);
+						ent = EntityType.ITEM.create(level);
 						((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 					}
 					else if(rand == 3)
 					{
-						ent = EntityType.ITEM.create(world);
+						ent = EntityType.ITEM.create(level);
 						((ItemEntity) ent).setItem(new ItemStack(Items.MELON_SLICE));
 					}
 					else if(rand == 4)
 					{
-						ent = EntityType.BAT.create(world);
+						ent = EntityType.BAT.create(level);
 					}
 					else if(rand == 5)
 					{
-						ent = EntityType.ZOMBIE.create(world);
-						((LivingEntity) ent).addPotionEffect(new EffectInstance(Effects.RESISTANCE, 20, 3));
+						ent = EntityType.ZOMBIE.create(level);
+						((LivingEntity) ent).addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20, 3));
 					}
 					else
 					{
-						ent = EntityType.ITEM.create(world);
+						ent = EntityType.ITEM.create(level);
 						((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 					}
 
-					ent.setPosition(b.getPosX(), b.getPosY(), b.getPosZ());
-					world.addEntity(ent);
+					ent.moveTo(b.getX(), b.getY(), b.getZ());
+					level.addFreshEntity(ent);
 				}
-				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
+				level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
 			}
 		});
 

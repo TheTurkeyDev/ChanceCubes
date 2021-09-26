@@ -14,15 +14,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.state.Property;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedReader;
@@ -37,11 +36,11 @@ import java.util.Map.Entry;
 
 public class SchematicUtil
 {
-	private static Gson gson = new GsonBuilder().create();
+	private static final Gson gson = new GsonBuilder().create();
 
 	public static BlockPos[] selectionPoints = new BlockPos[2];
 
-	public static void createCustomSchematic(World world, BlockPos loc1, BlockPos loc2, String fileName)
+	public static void createCustomSchematic(Level level, BlockPos loc1, BlockPos loc2, String fileName)
 	{
 		//I hate myself for this, but we have to move this to the main thread and the task system does......
 		Scheduler.scheduleTask(new Task("Schematic Creation", 1)
@@ -59,10 +58,10 @@ public class SchematicUtil
 				int smallY = Math.min(loc1.getY(), loc2.getY());
 				int largeZ = Math.max(loc1.getZ(), loc2.getZ());
 				int smallZ = Math.min(loc1.getZ(), loc2.getZ());
-				Vector3i small = new Vector3i(smallX, smallY, smallZ);
-				Vector3i large = new Vector3i(largeX, largeY, largeZ);
+				Vec3i small = new Vec3i(smallX, smallY, smallZ);
+				Vec3i large = new Vec3i(largeX, largeY, largeZ);
 
-				storeBlocksInfo(small, large, world, blocks, blockDataIds, tileEntityData);
+				storeBlocksInfo(small, large, level, blocks, blockDataIds, tileEntityData);
 
 				JsonObject json = new JsonObject();
 				JsonArray blockArray = new JsonArray();
@@ -128,7 +127,7 @@ public class SchematicUtil
 		});
 	}
 
-	private static void storeBlocksInfo(Vector3i small, Vector3i large, World world, List<Integer> blocks, List<CustomEntry<Integer, String>> blockDataIds, List<CustomEntry<String, List<Integer>>> tileEntityData)
+	private static void storeBlocksInfo(Vec3i small, Vec3i large, Level level, List<Integer> blocks, List<CustomEntry<Integer, String>> blockDataIds, List<CustomEntry<String, List<Integer>>> tileEntityData)
 	{
 		StringBuilder blockData = new StringBuilder();
 		for(int y = small.getY(); y < large.getY(); y++)
@@ -139,7 +138,7 @@ public class SchematicUtil
 				{
 					blockData.setLength(0);
 					BlockPos pos = new BlockPos(x, y, z);
-					BlockState blockState = world.getBlockState(pos);
+					BlockState blockState = level.getBlockState(pos);
 					blockData.append(blockState.getBlock().getRegistryName().toString());
 					String encoded = encodeBlockState(blockState);
 					if(!encoded.isEmpty())
@@ -159,11 +158,11 @@ public class SchematicUtil
 					}
 					blocks.add(id);
 
-					if(world.getTileEntity(pos) != null)
+					if(level.getBlockEntity(pos) != null)
 					{
-						TileEntity te = world.getTileEntity(pos);
-						CompoundNBT nbt = new CompoundNBT();
-						nbt = te.write(nbt);
+						BlockEntity te = level.getBlockEntity(pos);
+						CompoundTag nbt = new CompoundTag();
+						nbt = te.save(nbt);
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))
@@ -237,9 +236,9 @@ public class SchematicUtil
 					BlockState state;
 					String[] parts = blockData.split(":");
 					if(parts.length == 1)
-						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0])).getDefaultState();
+						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0])).defaultBlockState();
 					else
-						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1])).getDefaultState();
+						state = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1])).defaultBlockState();
 
 					if(parts.length == 3)
 						state = decodeBlockState(state, parts[2]);
@@ -296,7 +295,7 @@ public class SchematicUtil
 		return oste;
 	}
 
-	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, CompoundNBT nbt)
+	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, CompoundTag nbt)
 	{
 		OffsetTileEntity oste = new OffsetTileEntity(osb.xOff, osb.yOff, osb.zOff, osb.getBlockState(), new NBTVar(nbt), osb.isFallingVar(), osb.getDelayVar());
 		oste.setBlockState(osb.getBlockState());
@@ -329,7 +328,7 @@ public class SchematicUtil
 		StringBuilder builder = new StringBuilder("[");
 		for(Property<?> prop : state.getProperties())
 			if(state.hasProperty(prop))
-				builder.append(prop.getName()).append("=").append(state.get(prop).toString()).append(",");
+				builder.append(prop.getName()).append("=").append(state.getValue(prop).toString()).append(",");
 
 		builder.deleteCharAt(builder.length() - 1);
 		builder.append("]");
@@ -359,6 +358,6 @@ public class SchematicUtil
 
 	public static <T extends Comparable<T>> BlockState withString(BlockState state, Property<T> prop, String propVal)
 	{
-		return prop.parseValue(propVal).map(t -> state.with(prop, t)).orElse(state);
+		return prop.parseValue(propVal).map(t -> state.setValue(prop, t)).orElse(state);
 	}
 }

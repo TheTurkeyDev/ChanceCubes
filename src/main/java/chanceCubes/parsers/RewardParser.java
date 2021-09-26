@@ -17,14 +17,14 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -67,9 +67,9 @@ public class RewardParser
 
 							String currentMCV;
 							if(EffectiveSide.get() == LogicalSide.CLIENT)
-								currentMCV = Minecraft.getInstance().getVersion();
+								currentMCV = Minecraft.getInstance().getLaunchedVersion();
 							else
-								currentMCV = ServerLifecycleHooks.getCurrentServer().getMinecraftVersion();
+								currentMCV = ServerLifecycleHooks.getCurrentServer().getServerVersion();
 
 							if(toCheckV.contains("*"))
 							{
@@ -174,7 +174,7 @@ public class RewardParser
 
 			if(blockDataParts.length > 2)
 			{
-				BlockState state = block.getDefaultState();
+				BlockState state = block.defaultBlockState();
 				SchematicUtil.decodeBlockState(state, blockDataParts[2]);
 				offBlock.setBlockState(state);
 			}

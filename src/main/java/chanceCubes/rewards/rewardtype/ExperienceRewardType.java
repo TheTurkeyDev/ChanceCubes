@@ -3,10 +3,10 @@ package chanceCubes.rewards.rewardtype;
 import chanceCubes.rewards.rewardparts.ExpirencePart;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 
 public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 {
@@ -17,7 +17,7 @@ public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 	}
 
 	@Override
-	public void trigger(final ExpirencePart levels, final ServerWorld world, final int x, final int y, final int z, final PlayerEntity player)
+	public void trigger(final ExpirencePart levels, final ServerLevel level, final int x, final int y, final int z, final Player player)
 	{
 		Scheduler.scheduleTask(new Task("Expirence Reward Delay", levels.getDelay())
 		{
@@ -26,8 +26,8 @@ public class ExperienceRewardType extends BaseRewardType<ExpirencePart>
 			{
 				for(int i = 0; i < levels.getNumberofOrbs(); i++)
 				{
-					Entity newEnt = new ExperienceOrbEntity(world, x, y + 1, z, (levels.getAmount() / levels.getNumberofOrbs()));
-					world.addEntity(newEnt);
+					Entity newEnt = new ExperienceOrb(level, x, y + 1, z, (levels.getAmount() / levels.getNumberofOrbs()));
+					level.addFreshEntity(newEnt);
 				}
 			}
 		});

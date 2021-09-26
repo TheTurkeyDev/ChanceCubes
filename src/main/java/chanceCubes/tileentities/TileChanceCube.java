@@ -1,29 +1,30 @@
 package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
-public class TileChanceCube extends TileEntity
+public class TileChanceCube extends BlockEntity
 {
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	private int chance;
 	private boolean isScanned = false;
 
-	public TileChanceCube()
+	public TileChanceCube(BlockPos pos, BlockState state)
 	{
-		this(Math.round((float) (random.nextGaussian() * 40)));
+		this(Math.round((float) (random.nextGaussian() * 40)), pos, state);
 	}
 
-	public TileChanceCube(int initialChance)
+	public TileChanceCube(int initialChance, BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_CUBE);
+		super(CCubesBlocks.TILE_CHANCE_CUBE, pos, state);
 		while(initialChance > 100 || initialChance < -100)
 			initialChance = Math.round((float) (random.nextGaussian() * 40));
 		this.setChance(initialChance);
@@ -40,36 +41,36 @@ public class TileChanceCube extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt)
+	public CompoundTag save(CompoundTag nbt)
 	{
-		super.write(nbt);
+		super.save(nbt);
 		nbt.putInt("chance", this.getChance());
 		return nbt;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt)
+	public void load(CompoundTag nbt)
 	{
-		super.read(state, nbt);
+		super.load(nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
+		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, this.getUpdateTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag()
+	public CompoundTag getUpdateTag()
 	{
-		return this.write(new CompoundNBT());
+		return this.save(new CompoundTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)
 	{
-		read(this.getBlockState(), pkt.getNbtCompound());
+		load(pkt.getTag());
 	}
 
 	public boolean isScanned()

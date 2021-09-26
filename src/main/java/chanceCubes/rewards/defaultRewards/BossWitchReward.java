@@ -5,24 +5,22 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.WitchEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PotionEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import com.mojang.math.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Witch;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.apache.logging.log4j.Level;
 
 import java.util.Arrays;
@@ -33,7 +31,7 @@ public class BossWitchReward extends BossBaseReward
 {
 
 	//@formatter:off
-	private List<String> entities = Arrays.asList("creeper", "skeleton", "blaze",  "enderman", "endermite",
+	private final List<String> entities = Arrays.asList("creeper", "skeleton", "blaze",  "enderman", "endermite",
 			"zombie_pigman",  "silverfish", "slime",  "spider", "zombie");
 	//@formatter:on
 	public BossWitchReward()
@@ -42,32 +40,32 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		WitchEntity witch = EntityType.WITCH.create(world);
-		witch.setCustomName(new StringTextComponent("Evil Witch"));
+		Witch witch = EntityType.WITCH.create(level);
+		witch.setCustomName(new TextComponent("Evil Witch"));
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);
-		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
-		witch.setItemStackToSlot(EquipmentSlotType.HEAD, stack);
-		witch.setDropChance(EquipmentSlotType.HEAD, 0);
+		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		witch.setItemSlot(EquipmentSlot.HEAD, stack);
+		witch.setDropChance(EquipmentSlot.HEAD, 0);
 
 		stack = new ItemStack(Items.LEATHER_CHESTPLATE);
-		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
-		witch.setItemStackToSlot(EquipmentSlotType.CHEST, stack);
-		witch.setDropChance(EquipmentSlotType.CHEST, 0);
+		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		witch.setItemSlot(EquipmentSlot.CHEST, stack);
+		witch.setDropChance(EquipmentSlot.CHEST, 0);
 
 		stack = new ItemStack(Items.LEATHER_LEGGINGS);
-		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
-		witch.setItemStackToSlot(EquipmentSlotType.LEGS, stack);
-		witch.setDropChance(EquipmentSlotType.LEGS, 0);
+		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		witch.setItemSlot(EquipmentSlot.LEGS, stack);
+		witch.setDropChance(EquipmentSlot.LEGS, 0);
 
 		stack = new ItemStack(Items.LEATHER_BOOTS);
-		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
-		witch.setItemStackToSlot(EquipmentSlotType.FEET, stack);
-		witch.setDropChance(EquipmentSlotType.FEET, 0);
+		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		witch.setItemSlot(EquipmentSlot.FEET, stack);
+		witch.setDropChance(EquipmentSlot.FEET, 0);
 
-		spawnMinoins(pos, world, battleWrapper);
+		spawnMinoins(pos, level, battleWrapper);
 
 		Scheduler.scheduleTask(new Task("witch_abilities", -1, 20)
 		{
@@ -86,39 +84,39 @@ public class BossWitchReward extends BossBaseReward
 				}
 
 				if(RewardsUtil.rand.nextInt(15) == 4)
-					spawnMinoins(witch.getPosition(), world, battleWrapper);
+					spawnMinoins(witch.getOnPos(), level, battleWrapper);
 				if(RewardsUtil.rand.nextInt(10) == 4)
-					lightningStrike(player.getPosition(), world);
+					lightningStrike(player.getOnPos(), level);
 				if(RewardsUtil.rand.nextInt(5) == 4)
-					throwPotion(witch, player.getPosition(), world);
+					throwPotion(witch, player.getOnPos(), level);
 			}
 		});
 
 		return witch;
 	}
 
-	private void lightningStrike(BlockPos playerPos, ServerWorld world)
+	private void lightningStrike(BlockPos playerPos, ServerLevel level)
 	{
-		LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
+		LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level);
 		lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(playerPos));
 		lightningboltentity.setEffectOnly(false);
-		world.addEntity(lightningboltentity);
+		level.addFreshEntity(lightningboltentity);
 	}
 
-	private void throwPotion(WitchEntity witch, BlockPos playerPos, ServerWorld world)
+	private void throwPotion(Witch witch, BlockPos playerPos, ServerLevel level)
 	{
-		PotionEntity pot = new PotionEntity(world, witch);
-		pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
+		PotionEntity pot = new PotionEntity(level, witch);
+		pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
 		double d0 = playerPos.getY() + 0.5;
-		double d1 = playerPos.getX() - witch.getPosX();
-		double d2 = d0 - pot.getPosY();
-		double d3 = playerPos.getZ() - witch.getPosZ();
+		double d1 = playerPos.getX() - witch.getX();
+		double d2 = d0 - pot.getY();
+		double d3 = playerPos.getZ() - witch.getZ();
 		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 		pot.shoot(d1, d2 + (double) f, d3, 1.6F, 12.0F);
-		world.addEntity(pot);
+		level.addFreshEntity(pot);
 	}
 
-	private void spawnMinoins(BlockPos pos, ServerWorld world, BattleWrapper battleWrapper)
+	private void spawnMinoins(BlockPos pos, ServerLevel level, BattleWrapper battleWrapper)
 	{
 		for(Direction facing : Direction.values())
 		{
@@ -127,15 +125,15 @@ public class BossWitchReward extends BossBaseReward
 
 			try
 			{
-				Optional<EntityType<?>> entType = EntityType.byKey(entities.get(RewardsUtil.rand.nextInt(entities.size())));
+				Optional<EntityType<?>> entType = EntityType.byString(entities.get(RewardsUtil.rand.nextInt(entities.size())));
 				Entity ent;
 				if(entType.isPresent())
-					ent = entType.get().create(world);
+					ent = entType.get().create(level);
 				else
-					ent = EntityType.CREEPER.create(world);
-				BlockPos adjPos = pos.offset(facing);
-				ent.setPosition(adjPos.getX(), adjPos.getY(), adjPos.getZ());
-				world.addEntity(ent);
+					ent = EntityType.CREEPER.create(level);
+				BlockPos adjPos = pos.relative(facing);
+				ent.moveTo(adjPos.getX(), adjPos.getY(), adjPos.getZ());
+				level.addFreshEntity(ent);
 				trackSubEntities(battleWrapper, ent);
 			} catch(Exception e)
 			{
@@ -146,7 +144,7 @@ public class BossWitchReward extends BossBaseReward
 	}
 
 	@Override
-	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerLevel world, BlockPos pos, Player player)
 	{
 
 	}

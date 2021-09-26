@@ -1,28 +1,28 @@
 package chanceCubes.items;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class ItemCreativePendant extends BaseChanceCubesItem
 {
 	public ItemCreativePendant()
 	{
-		super((new Item.Properties()).maxStackSize(1), "creative_pendant");
+		super((new Item.Properties()).stacksTo(1), "creative_pendant");
 		super.addLore("Right click to change the chance");
 		super.addLore("of the inserted cubes.");
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
 	{
-		ItemStack stack = player.getHeldItem(hand);
-		if(world.isRemote)
-			return new ActionResult<>(ActionResultType.PASS, stack);
+		ItemStack stack = player.getItemInHand(hand);
+		if(level.isClientSide())
+			return new InteractionResultHolder<>(InteractionResult.PASS, stack);
 
 		//TODO Reimplement
 //		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider()
@@ -39,6 +39,6 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 //				return new CreativePendantContainer(0, inv);
 //			}
 //		});
-		return new ActionResult<>(ActionResultType.SUCCESS, stack);
+		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 	}
 }

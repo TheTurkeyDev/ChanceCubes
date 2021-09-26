@@ -12,23 +12,23 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event)
 	{
-		if(event.getPlayer().world.isRemote)
+		if(event.getPlayer().level.isClientSide())
 			return;
 
-		new Thread(() -> CustomUserReward.getCustomUserReward(event.getPlayer().getUniqueID())).start();
+		new Thread(() -> CustomUserReward.getCustomUserReward(event.getPlayer().getUUID())).start();
 	}
 
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.getPlayer().world.isRemote)
+		if(event.getPlayer().level.isClientSide())
 			return;
 
 		String rewardName = CCubesCore.MODID + ":CR_" + event.getPlayer().getName();
 		if(GlobalCCRewardRegistry.DEFAULT.isRewardEnabled(rewardName))
 			GlobalCCRewardRegistry.DEFAULT.unregisterReward(rewardName);
 
-		String playerUUID = event.getPlayer().getUniqueID().toString();
+		String playerUUID = event.getPlayer().getStringUUID();
 		GlobalCCRewardRegistry.DEFAULT.removePlayerRewards(playerUUID);
 		GlobalCCRewardRegistry.GIANT.removePlayerRewards(playerUUID);
 	}

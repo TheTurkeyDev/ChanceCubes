@@ -2,13 +2,13 @@ package chanceCubes.rewards.biodomeGen;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.SquidEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Random;
@@ -21,14 +21,14 @@ public class OceanBiome extends BaseBiome
 	}
 
 	@Override
-	public void spawnEntities(BlockPos pos, ServerWorld world)
+	public void spawnEntities(BlockPos pos, ServerLevel level)
 	{
 		for(int i = 0; i < RewardsUtil.rand.nextInt(10) + 5; i++)
 		{
-			SquidEntity squid = EntityType.SQUID.create(world);
-			squid.setLocationAndAngles(pos.getX() + (RewardsUtil.rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-			squid.setCustomName(new StringTextComponent("Mango"));
-			world.addEntity(squid);
+			Squid squid = EntityType.SQUID.create(level);
+			squid.moveTo(pos.getX() + (RewardsUtil.rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
+			squid.setCustomName(new TextComponent("Mango"));
+			level.addFreshEntity(squid);
 		}
 	}
 

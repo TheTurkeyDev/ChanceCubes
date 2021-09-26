@@ -4,7 +4,7 @@ import chanceCubes.util.RewardsUtil;
 
 public class ListPart<T> implements IPart
 {
-	private T[] list;
+	private final T[] list;
 	
 	public ListPart(T[] list)
 	{

@@ -4,18 +4,18 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.BlazeEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Blaze;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 public class BossBlazeReward extends BossBaseReward
 {
@@ -25,10 +25,10 @@ public class BossBlazeReward extends BossBaseReward
 	}
 
 	@Override
-	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		BlazeEntity blaze = EntityType.BLAZE.create(world);
-		blaze.setCustomName(new StringTextComponent("Demonic Blaze"));
+		Blaze blaze = EntityType.BLAZE.create(level);
+		blaze.setCustomName(new TextComponent("Demonic Blaze"));
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)
 		{
@@ -49,46 +49,46 @@ public class BossBlazeReward extends BossBaseReward
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					goInvisible(blaze);
 				if(RewardsUtil.rand.nextInt(10) == 4)
-					setGroundOnFire(world, player.getPosition());
+					setGroundOnFire(level, player.getOnPos());
 				if(RewardsUtil.rand.nextInt(3) == 4)
-					shootFireballs(world, blaze, player);
+					shootFireballs(level, blaze, player);
 			}
 		});
 		return blaze;
 	}
 
-	private void goInvisible(BlazeEntity blaze)
+	private void goInvisible(Blaze blaze)
 	{
-		blaze.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 5));
+		blaze.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 5));
 	}
 
-	private void setGroundOnFire(World world, BlockPos playerPos)
+	private void setGroundOnFire(Level level, BlockPos playerPos)
 	{
 		for(int xOff = -1; xOff <= 1; xOff++)
 		{
 			for(int zOff = -1; zOff <= 1; zOff++)
 			{
-				BlockPos offPos = playerPos.add(xOff, 0, zOff);
-				RewardsUtil.placeBlock(Blocks.FIRE.getDefaultState(), world, offPos);
+				BlockPos offPos = playerPos.offset(xOff, 0, zOff);
+				RewardsUtil.placeBlock(Blocks.FIRE.defaultBlockState(), level, offPos);
 			}
 		}
 	}
 
-	private void shootFireballs(World world, BlazeEntity blaze, PlayerEntity player)
+	private void shootFireballs(Level level, Blaze blaze, Player player)
 	{
-		double d1 = player.getPosX() - blaze.getPosX();
-		double d2 = player.getBoundingBox().minY + (double) (player.getHeight() / 2.0F) - (blaze.getPosY() + (double) (blaze.getHeight() / 2.0F));
-		double d3 = player.getPosZ() - blaze.getPosZ();
+		double d1 = player.getX() - blaze.getX();
+		double d2 = player.getBoundingBox().minY + (double) (player.getEyeHeight() / 2.0F) - (blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F));
+		double d3 = player.getZ() - blaze.getZ();
 		for(int i = 0; i < 5; i++)
 		{
-			SmallFireballEntity entitysmallfireball = new SmallFireballEntity(world, blaze, d1 + blaze.getRNG().nextGaussian(), d2, d3 + blaze.getRNG().nextGaussian());
-			entitysmallfireball.getPosition().add(0, blaze.getPosY() + (double) (blaze.getHeight() / 2.0F) + 0.5D, 0);
-			world.addEntity(entitysmallfireball);
+			SmallFireball entitysmallfireball = new SmallFireball(level, blaze, d1 + RewardsUtil.rand.nextGaussian(), d2, d3 + RewardsUtil.rand.nextGaussian());
+			entitysmallfireball.getOnPos().offset(0, blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F) + 0.5D, 0);
+			level.addFreshEntity(entitysmallfireball);
 		}
 	}
 
 	@Override
-	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerLevel world, BlockPos pos, Player player)
 	{
 
 	}

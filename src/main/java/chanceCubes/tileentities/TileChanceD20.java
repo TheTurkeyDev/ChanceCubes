@@ -4,25 +4,24 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.sounds.CCubesSounds;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.server.ServerWorld;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TileChanceD20 extends TileEntity implements ITickableTileEntity
+public class TileChanceD20 extends BlockEntity
 {
 	public static final ModelProperty<D20AnimationWrapper> D20AnimationProperty = new ModelProperty<>();
 
@@ -31,16 +30,16 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	private boolean breaking = false;
 	private int stage = 0;
 	public float rotation = 0, wave = 0;
-	private PlayerEntity player;
+	private Player player;
 
 	private int chance;
 	private boolean isScanned = false;
 
-	private D20AnimationWrapper animationWrapper = new D20AnimationWrapper();
+	private final D20AnimationWrapper animationWrapper = new D20AnimationWrapper();
 
-	public TileChanceD20()
+	public TileChanceD20(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, pos, state);
 		if(!CCubesSettings.d20UseNormalChances.get())
 		{
 			this.chance = random.nextBoolean() ? -100 : 100;
@@ -53,9 +52,9 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 		}
 	}
 
-	public TileChanceD20(int initialChance)
+	public TileChanceD20(int initialChance, BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON);
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, pos, state);
 		this.chance = initialChance;
 	}
 
@@ -72,17 +71,17 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt)
+	public CompoundTag save(CompoundTag nbt)
 	{
 		nbt.putInt("chance", this.getChance());
-		nbt = super.write(nbt);
+		nbt = super.save(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt)
+	public void load(CompoundTag nbt)
 	{
-		super.read(state, nbt);
+		super.load(nbt);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -94,16 +93,16 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 		if(stage > 200)
 		{
 			breaking = false;
-			if(this.world != null && !this.world.isRemote)
+			if(this.level != null && !this.level.isClientSide())
 			{
-				this.world.setBlockState(this.pos, Blocks.AIR.getDefaultState());
-				this.world.removeTileEntity(this.pos);
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerWorld) this.world, this.pos, player, this.getChance());
+				this.level.setBlockAndUpdate(this.getBlockPos(), Blocks.AIR.defaultBlockState());
+				this.level.removeBlockEntity(this.getBlockPos());
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) this.level, this.getBlockPos(), player, this.getChance());
 			}
 		}
-		else if(world != null && world.isRemote)
+		else if(level != null && level.isClientSide())
 		{
-			Quaternion yaw = new Quaternion(0, 1, 0, (float) (Math.toRadians((world.getGameTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1))));
+			Quaternion yaw = new Quaternion(0, 1, 0, (float) (Math.toRadians((level.getGameTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1))));
 			Quaternion pitch = new Quaternion(1, 0, 0, 0F);
 
 			animationWrapper.transform = new Vector3f(0.5F, 0.5F + wave * 0.15f, 0.5F);
@@ -117,17 +116,17 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 //				rotationMat = new TransformationMatrix(new Matrix4f(rot));
 			//}
 
-			this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());
+			this.level.markBlockRangeForRenderUpdate(this.getBlockPos(), this.getBlockState(), this.getBlockState());
 		}
 	}
 
-	public void startBreaking(PlayerEntity player)
+	public void startBreaking(Player player)
 	{
 		if(!breaking)
 		{
-			if(!player.world.isRemote)
+			if(!player.level.isClientSide())
 			{
-				player.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), CCubesSounds.D20_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				player.level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), CCubesSounds.D20_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;
@@ -141,17 +140,17 @@ public class TileChanceD20 extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT syncData = new CompoundNBT();
-		syncData = this.write(syncData);
-		return new SUpdateTileEntityPacket(this.pos, 1, syncData);
+		CompoundTag syncData = new CompoundTag();
+		syncData = this.save(syncData);
+		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, syncData);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)
 	{
-		read(this.getBlockState(), pkt.getNbtCompound());
+		load(pkt.getTag());
 	}
 
 	public boolean isScanned()

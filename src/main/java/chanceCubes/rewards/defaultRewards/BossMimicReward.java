@@ -1,16 +1,16 @@
 package chanceCubes.rewards.defaultRewards;
 
 import com.google.gson.JsonObject;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -22,32 +22,32 @@ public class BossMimicReward extends BossBaseReward
 	}
 
 	@Override
-	public LivingEntity initBoss(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings, BattleWrapper battleWrapper)
+	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
-		ZombieEntity mimic = EntityType.ZOMBIE.create(world);
-		mimic.setCustomName(new StringTextComponent("Mimic"));
+		Zombie mimic = EntityType.ZOMBIE.create(level);
+		mimic.setCustomName(new TextComponent("Mimic"));
 		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 1.25);
-		List<ItemStack> playerArmorInv = player.inventory.armorInventory;
+		List<ItemStack> playerArmorInv = player.getInventory().armor;
 
-		mimic.setItemStackToSlot(EquipmentSlotType.HEAD, playerArmorInv.get(3).copy());
-		mimic.setDropChance(EquipmentSlotType.HEAD, 0);
-		mimic.setItemStackToSlot(EquipmentSlotType.CHEST, playerArmorInv.get(2).copy());
-		mimic.setDropChance(EquipmentSlotType.CHEST, 0);
-		mimic.setItemStackToSlot(EquipmentSlotType.LEGS, playerArmorInv.get(1).copy());
-		mimic.setDropChance(EquipmentSlotType.LEGS, 0);
-		mimic.setItemStackToSlot(EquipmentSlotType.FEET, playerArmorInv.get(0).copy());
-		mimic.setDropChance(EquipmentSlotType.FEET, 0);
+		mimic.setItemSlot(EquipmentSlot.HEAD, playerArmorInv.get(3).copy());
+		mimic.setDropChance(EquipmentSlot.HEAD, 0);
+		mimic.setItemSlot(EquipmentSlot.CHEST, playerArmorInv.get(2).copy());
+		mimic.setDropChance(EquipmentSlot.CHEST, 0);
+		mimic.setItemSlot(EquipmentSlot.LEGS, playerArmorInv.get(1).copy());
+		mimic.setDropChance(EquipmentSlot.LEGS, 0);
+		mimic.setItemSlot(EquipmentSlot.FEET, playerArmorInv.get(0).copy());
+		mimic.setDropChance(EquipmentSlot.FEET, 0);
 
-		mimic.setItemStackToSlot(EquipmentSlotType.MAINHAND, getHighestDamageItem(player));
-		mimic.setDropChance(EquipmentSlotType.MAINHAND, 0);
-		mimic.setItemStackToSlot(EquipmentSlotType.OFFHAND, player.inventory.offHandInventory.get(0).copy());
-		mimic.setDropChance(EquipmentSlotType.OFFHAND, 0);
+		mimic.setItemSlot(EquipmentSlot.MAINHAND, getHighestDamageItem(player));
+		mimic.setDropChance(EquipmentSlot.MAINHAND, 0);
+		mimic.setItemSlot(EquipmentSlot.OFFHAND, player.getInventory().offhand.get(0).copy());
+		mimic.setDropChance(EquipmentSlot.OFFHAND, 0);
 
 		return mimic;
 	}
 
 	@Override
-	public void onBossFightEnd(ServerWorld world, BlockPos pos, PlayerEntity player)
+	public void onBossFightEnd(ServerLevel level, BlockPos pos, Player player)
 	{
 
 	}

@@ -1,19 +1,10 @@
 package chanceCubes.blocks;
 
 import chanceCubes.rewards.rewardparts.OffsetBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FallingBlock;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.item.FallingBlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockFallingCustom extends FallingBlockEntity
 {
@@ -21,9 +12,9 @@ public class BlockFallingCustom extends FallingBlockEntity
 	private OffsetBlock osb;
 	private BlockState fallTile;
 
-	public BlockFallingCustom(World world, double x, double y, double z, BlockState state, int normY, OffsetBlock osb)
+	public BlockFallingCustom(Level level, double x, double y, double z, BlockState state, int normY, OffsetBlock osb)
 	{
-		super(world, x, y, z, state);
+		super(level, x, y, z, state);
 		fallTile = state;
 		this.normY = normY;
 		this.osb = osb;
@@ -32,15 +23,15 @@ public class BlockFallingCustom extends FallingBlockEntity
 	@Override
 	public void tick()
 	{
-		if(this.fallTile.getBlockState().isAir(world, this.getPosition()))
+		if(this.fallTile.getBlockState().isAir(level, this.getPosition()))
 		{
 			this.remove();
 		}
 		else
 		{
-			this.prevPosX = this.getPosX();
-			this.prevPosY = this.getPosY();
-			this.prevPosZ = this.getPosZ();
+			this.prevPosX = this.getX();
+			this.prevPosY = this.getY();
+			this.prevPosZ = this.getZ();
 			Block block = this.fallTile.getBlock();
 			if(this.fallTime++ == 0)
 			{

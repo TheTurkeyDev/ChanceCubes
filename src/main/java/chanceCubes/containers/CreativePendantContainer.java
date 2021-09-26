@@ -3,20 +3,18 @@ package chanceCubes.containers;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class CreativePendantContainer extends Container
 {
 	static final ImmutableList<Item> field_217084_c = ImmutableList.of(CCubesItems.CHANCE_CUBE, CCubesItems.CHANCE_ICOSAHEDRON);
 
-	private IInventory pendantSlot = new Inventory(1)
+	private Container pendantSlot = new Inventory(1)
 	{
 		public boolean isItemValidForSlot(int slot, ItemStack stack)
 		{
@@ -51,13 +49,13 @@ public class CreativePendantContainer extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity p_75145_1_)
+	public boolean canInteractWith(Player p_75145_1_)
 	{
 		return true;
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity player, int index)
+	public ItemStack transferStackInSlot(Player player, int index)
 	{
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
@@ -114,7 +112,7 @@ public class CreativePendantContainer extends Container
 	 * Called when the container is closed.
 	 */
 	@Override
-	public void onContainerClosed(PlayerEntity player)
+	public void onContainerClosed(Player player)
 	{
 		super.onContainerClosed(player);
 

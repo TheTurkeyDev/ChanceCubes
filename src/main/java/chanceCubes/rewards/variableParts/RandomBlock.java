@@ -1,9 +1,6 @@
 package chanceCubes.rewards.variableParts;
 
 import chanceCubes.util.RewardsUtil;
-import net.minecraft.item.Item;
-
-import java.util.ArrayList;
 
 public class RandomBlock implements IPart
 {

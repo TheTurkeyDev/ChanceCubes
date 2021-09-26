@@ -1,32 +1,32 @@
 package chanceCubes.network;
 
-import java.util.function.Supplier;
-
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.ItemChanceCube;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class PacketCreativePendant
 {
-	private int chancevalue;
+	private final int chanceValue;
 
 	public PacketCreativePendant(int chance)
 	{
-		this.chancevalue = chance;
+		this.chanceValue = chance;
 	}
 
-	public static void encode(PacketCreativePendant msg, PacketBuffer buf)
+	public static void encode(PacketCreativePendant msg, FriendlyByteBuf buf)
 	{
-		buf.writeInt(msg.chancevalue);
+		buf.writeInt(msg.chanceValue);
 	}
 
-	public static PacketCreativePendant decode(PacketBuffer buf)
+	public static PacketCreativePendant decode(FriendlyByteBuf buf)
 	{
 		return new PacketCreativePendant(buf.readInt());
 	}
@@ -45,12 +45,11 @@ public class PacketCreativePendant
 				return;
 			}
 
-			if(c instanceof CreativePendantContainer)
+			if(c instanceof CreativePendantContainer container)
 			{
-				CreativePendantContainer container = (CreativePendantContainer) c;
-				ItemStack ccubes = container.getChanceCubesInPendant();
-				if(!ccubes.isEmpty() && ccubes.getItem() instanceof ItemChanceCube)
-					((ItemChanceCube) ccubes.getItem()).setChance(ccubes, msg.chancevalue);
+				ItemStack cCubes = container.getChanceCubesInPendant();
+				if(!cCubes.isEmpty() && cCubes.getItem() instanceof ItemChanceCube)
+					((ItemChanceCube) cCubes.getItem()).setChance(cCubes, msg.chanceValue);
 			}
 		});
 		ctx.get().setPacketHandled(true);

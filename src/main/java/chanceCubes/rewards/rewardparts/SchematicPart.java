@@ -9,9 +9,8 @@ import chanceCubes.util.SchematicUtil;
 
 public class SchematicPart extends BasePart
 {
-
-	private String fileName;
-	private boolean hardcoded;
+	private final String fileName;
+	private final boolean hardcoded;
 	private IntVar xOff = new IntVar(0);
 	private IntVar yOff = new IntVar(-1);
 	private IntVar zOff = new IntVar(0);

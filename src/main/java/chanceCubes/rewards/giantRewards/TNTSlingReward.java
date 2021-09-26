@@ -5,10 +5,10 @@ import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.player.Player;
 
 public class TNTSlingReward extends BaseCustomReward
 {
@@ -18,11 +18,11 @@ public class TNTSlingReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerWorld world, BlockPos pos, PlayerEntity player, JsonObject settings)
+	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
 	{
 		Scheduler.scheduleTask(new Task("Throw TNT", 250, 10)
 		{
-			private TNTEntity tnt;
+			private PrimedTnt tnt;
 
 			@Override
 			public void callback()
@@ -31,10 +31,10 @@ public class TNTSlingReward extends BaseCustomReward
 				{
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
-						tnt = new TNTEntity(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
-						world.addEntity(tnt);
+						tnt = new PrimedTnt(world, pos.getX(), pos.getY() + 1D, pos.getZ(), null);
+						world.addFreshEntity(tnt);
 						tnt.setFuse(60);
-						tnt.setMotion(xx, Math.random(), zz);
+						tnt.setDeltaMovement(xx, Math.random(), zz);
 					}
 				}
 			}
@@ -42,10 +42,10 @@ public class TNTSlingReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				tnt = new TNTEntity(world, pos.getX(), pos.getY() + 1D, pos.getZ(), player);
-				world.addEntity(tnt);
+				tnt = new PrimedTnt(world, pos.getX(), pos.getY() + 1D, pos.getZ(), player);
+				world.addFreshEntity(tnt);
 				tnt.setFuse(60);
-				tnt.setMotion(-1 + (Math.random() * 2), Math.random(), -1 + (Math.random() * 2));
+				tnt.setDeltaMovement(-1 + (Math.random() * 2), Math.random(), -1 + (Math.random() * 2));
 			}
 		});
 	}
