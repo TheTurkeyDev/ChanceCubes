@@ -48,11 +48,10 @@ public class WitherReward extends BaseCustomReward
 			private boolean removeEnts(Entity ent)
 			{
 				if(RewardsUtil.rand.nextInt(100) < isReal)
-				{
-					ent.remove();
-					return true;
-				}
-				return false;
+					return false;
+
+				ent.remove();
+				return true;
 			}
 		});
 	}
