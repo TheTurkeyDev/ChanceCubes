@@ -29,11 +29,11 @@ public class WorldRenderListener
 			double interpPosZ = entity.lastTickPosZ + (entity.getZ() - entity.lastTickPosZ) * event.getPartialTicks();
 
 			poseStack.translate(-interpPosX, -interpPosY, -interpPosZ);
-			GlStateManager.disableTexture();
-			GlStateManager.enableBlend();
-			GlStateManager.enableAlphaTest();
-			GlStateManager.disableLighting();
-			GlStateManager.lineWidth(2f);
+			GlStateManager._disableTexture();
+			GlStateManager._enableBlend();
+			GlStateManager._enableAlphaTest();
+			GlStateManager._disableLighting();
+			GlStateManager._lineWidth(2f);
 			//TODO
 			//GlStateManager.begin(GL11.GL_LINES);
 
@@ -78,9 +78,9 @@ public class WorldRenderListener
 
 			//GlStateManager.end();
 			GlStateManager.enableLighting();
-			GlStateManager.enableTexture();
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
+			GlStateManager._enableTexture();
+			GlStateManager._disableBlend();
+			poseStack.popPose();
 		}
 	}
 }

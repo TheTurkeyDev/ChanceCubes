@@ -9,7 +9,6 @@ import chanceCubes.config.CustomRewardsLoader;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
-import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
@@ -19,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -114,8 +115,8 @@ public class CCubesCore
 	@SubscribeEvent
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
-		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-			event.getTable().addPool(LootPool.build().name("chance_cubes_cubes").addEntry(ItemLootEntry.builder(CCubesItems.CHANCE_CUBE)).build());
+//		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
+//			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootPoolSingletonContainer.simpleBuilder(new LootItem(CCubesItems.CHANCE_CUBE))).build());
 	}
 
 	@SubscribeEvent
@@ -152,14 +153,13 @@ public class CCubesCore
 		e.getIMCStream().forEach((message) ->
 		{
 			Logger logger = LogManager.getLogger(MODID);
-			if(message.getMethod().equalsIgnoreCase("add-nonreplaceable"))
+			if(message.method().equalsIgnoreCase("add-nonreplaceable"))
 			{
-				Object obj = message.getMessageSupplier().get();
-				if(obj instanceof BlockState)
+				Object obj = message.messageSupplier().get();
+				if(obj instanceof BlockState state)
 				{
-					BlockState state = (BlockState) obj;
 					CCubesSettings.nonReplaceableBlocksIMC.add(state);
-					logger.info(message.getSenderModId() + " has added the blockstate of \"" + state.toString() + "\" that Chance Cubes rewards will no longer replace.");
+					logger.info(message.senderModId() + " has added the blockstate of \"" + state + "\" that Chance Cubes rewards will no longer replace.");
 				}
 			}
 		});

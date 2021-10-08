@@ -7,18 +7,20 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.entity.projectile.PotionEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtils;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+
+import java.util.List;
 
 public class PotionsReward extends BaseCustomReward
 {
-	private PotionEntity pot;
+	private ThrownPotion pot;
 
 	public PotionsReward()
 	{
@@ -50,12 +52,12 @@ public class PotionsReward extends BaseCustomReward
 				tick++;
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 20))
 				{
-					Potion potionType = RewardsUtil.getRandomPotionType();
-					pot = new PotionEntity(level, player);
-					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
-					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.setMotion(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
-					level.addEntity(pot);
+					MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
+					pot = new ThrownPotion(level, player);
+					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
+					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.setDeltaMovement(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
+					level.addFreshEntity(pot);
 				}
 			}
 		});
@@ -76,12 +78,12 @@ public class PotionsReward extends BaseCustomReward
 			{
 				for(double yy = -0.2; yy <= 1; yy += 0.1)
 				{
-					Potion potionType = RewardsUtil.getRandomPotionType();
-					pot = new PotionEntity(level, player);
-					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
-					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.setMotion(Math.cos((this.delayLeft / 2f) * (Math.PI / 30)), yy, Math.sin((this.delayLeft / 2f) * (Math.PI / 30)));
-					level.addEntity(pot);
+					MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
+					pot = new ThrownPotion(level, player);
+					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
+					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.setDeltaMovement(Math.cos((this.delayLeft / 2f) * (Math.PI / 30)), yy, Math.sin((this.delayLeft / 2f) * (Math.PI / 30)));
+					level.addFreshEntity(pot);
 				}
 			}
 		});

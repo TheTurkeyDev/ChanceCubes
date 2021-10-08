@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -105,7 +106,7 @@ public class JarGuessReward extends BaseCustomReward
 					Scheduler.removeTask(this);
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
+					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
 			}
 
 		});

@@ -45,7 +45,7 @@ import java.util.List;
 
 public class CCubesServerCommands
 {
-	public CCubesServerCommands(CommandDispatcher<CommandSource> dispatcher)
+	public CCubesServerCommands(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		// @formatter:off
 		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("chancecubes")

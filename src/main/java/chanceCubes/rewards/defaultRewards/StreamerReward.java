@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.CustomEntry;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.HTTPUtil;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -105,17 +106,17 @@ public class StreamerReward
 					case 1 -> {
 						message = new TextComponent("Hey Twitch Chat!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
-						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
+						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
 					case 6 -> {
 						message = new TextComponent("Let's Play A Game!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
-						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
+						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
 					case 11 -> {
 						message = new TextComponent("Decide My Fate!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
-						RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 10, 60, 10);
+						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
 				}
 
@@ -232,10 +233,10 @@ public class StreamerReward
 
 		TextComponent message = new TextComponent(sb.toString());
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
-		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.TITLE, message, 0, 40, 0);
+		RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 0, 40, 0);
 		message = new TextComponent("Time Left: " + timeLeft);
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
-		RewardsUtil.setPlayerTitle(player, STitlePacket.Type.SUBTITLE, message, 0, 40, 0);
+		RewardsUtil.setPlayerTitle(player, GuiTextLocation.SUBTITLE, message, 0, 40, 0);
 
 	}
 

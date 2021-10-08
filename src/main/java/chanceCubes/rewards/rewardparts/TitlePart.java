@@ -3,6 +3,7 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
+import chanceCubes.util.GuiTextLocation;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -50,9 +51,9 @@ public class TitlePart extends BasePart
 		super.setDelay(delay);
 	}
 
-	public Type getType()
+	public GuiTextLocation getType()
 	{
-		return Type.valueOf(type.getValue());
+		return GuiTextLocation.valueOf(type.getValue());
 	}
 
 	public TitlePart setType(String type)

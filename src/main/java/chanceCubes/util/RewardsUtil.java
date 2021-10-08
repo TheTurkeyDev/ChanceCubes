@@ -4,10 +4,8 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
-import com.mojang.math.Vector3d;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.EffectInstance;
-import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleType;
@@ -15,6 +13,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -38,6 +41,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -166,7 +170,7 @@ public class RewardsUtil
 
 	public static boolean isBlockUnbreakable(Level level, BlockPos pos)
 	{
-		return level.getBlockState(pos).getBlockHardness(level, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos));
+		return level.getBlockState(pos).getDestroySpeed(level, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos));
 	}
 
 	public static Enchantment getEnchantSafe(ResourceLocation res)
@@ -350,48 +354,55 @@ public class RewardsUtil
 
 	public static void executeCommand(ServerLevel level, Player player, Vec3i pos, String command)
 	{
-		RewardsUtil.executeCommand(level, player, new Vector3d(pos), command);
+		RewardsUtil.executeCommand(level, player, new Vec3(pos.getX(), pos.getY(), pos.getZ()), command);
 	}
 
-	public static void executeCommand(ServerLevel level, Player player, Vector3d pos, String command)
+	public static void executeCommand(ServerLevel level, Player player, Vec3 pos, String command)
 	{
 		MinecraftServer server = level.getServer();
 		boolean rule = level.getGameRules().getBoolean(GameRules.RULE_COMMANDBLOCKOUTPUT);
 		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(false, server);
-		CommandSource cs = new CommandSource(player, pos, player.getRotationVector(), level, 2, player.getName().getString(), player.getDisplayName(), server, player);
-		cs = cs.withFeedbackDisabled();
-		server.getCommandManager().handleCommand(cs, command);
+		CommandSourceStack cs = new CommandSourceStack(player, pos, player.getRotationVector(), level, 2, player.getName().getString(), player.getDisplayName(), server, player);
+		cs = cs.withSuppressedOutput();
+		server.getCommands().performCommand(cs, command);
 		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(rule, server);
 	}
 
-	public static void setNearPlayersTitle(Level level, BlockPos pos, int range, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setNearPlayersTitle(Level level, BlockPos pos, int range, GuiTextLocation type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < level.players().size(); ++i)
 		{
 			Player entityplayer = level.players().get(i);
 
-			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getX(), 2) + Math.pow(pos.getY() - entityplayer.getPosY(), 2) + Math.pow(pos.getZ() - entityplayer.getPosZ(), 2));
+			double dist = Math.sqrt(Math.pow(pos.getX() - entityplayer.getX(), 2) + Math.pow(pos.getY() - entityplayer.getY(), 2) + Math.pow(pos.getZ() - entityplayer.getZ(), 2));
 			if(dist <= range)
 				setPlayerTitle(entityplayer, type, message, fadeInTime, displayTime, fadeOutTime);
 		}
 	}
 
-	public static void setAllPlayersTitle(Level level, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setAllPlayersTitle(Level level, GuiTextLocation type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		for(int i = 0; i < level.players().size(); ++i)
 			setPlayerTitle(level.players().get(i), type, message, fadeInTime, displayTime, fadeOutTime);
 	}
 
-	public static void setPlayerTitle(Player player, STitlePacket.Type type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
+	public static void setPlayerTitle(Player player, GuiTextLocation type, Component message, int fadeInTime, int displayTime, int fadeOutTime)
 	{
 		if(player instanceof ServerPlayer)
 		{
-			STitlePacket titlePacket = new STitlePacket(type, message, fadeInTime, displayTime, fadeOutTime);
-			STitlePacket timesPacket = new STitlePacket(STitlePacket.Type.TIMES, new TextComponent(""), fadeInTime, displayTime, fadeOutTime);
+			Packet<?> titlePacket;
+			switch(type)
+			{
+				case TITLE -> titlePacket = new ClientboundSetTitleTextPacket(message);
+				case SUBTITLE -> titlePacket = new ClientboundSetSubtitleTextPacket(message);
+				default -> titlePacket = new ClientboundSetActionBarTextPacket(message);
+			}
+			ClientboundSetTitlesAnimationPacket timesPacket = new ClientboundSetTitlesAnimationPacket(fadeInTime, displayTime, fadeOutTime);
 			((ServerPlayer) player).connection.send(timesPacket);
 			((ServerPlayer) player).connection.send(titlePacket);
 		}
 	}
+
 
 	public static String[] getHardcodedRewards()
 	{

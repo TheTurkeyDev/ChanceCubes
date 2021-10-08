@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -14,9 +15,14 @@ import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.List;
+
 public class CountDownReward extends BaseCustomReward
 {
 	public CountDownReward()
@@ -78,10 +84,10 @@ public class CountDownReward extends BaseCustomReward
 				}
 				else if(thing == 8)
 				{
-					PotionEntity pot = new PotionEntity(level, player);
-					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
-					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.setMotion(0, -1, 0);
+					ThrownPotion pot = new ThrownPotion(level, player);
+					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(RewardsUtil.getRandomPotionEffectInstance())));
+					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.setDeltaMovement(0, -1, 0);
 					level.addFreshEntity(pot);
 				}
 				else if(thing == 9)
@@ -93,7 +99,7 @@ public class CountDownReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				this.showTimeLeft(player, STitlePacket.Type.TITLE);
+				this.showTimeLeft(player, GuiTextLocation.TITLE);
 			}
 		});
 	}

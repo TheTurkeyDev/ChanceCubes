@@ -3,17 +3,17 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
 import chanceCubes.util.CustomEntry;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -76,7 +76,7 @@ public class QuestionsReward extends BaseCustomReward
 					Scheduler.removeTask(this);
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
+					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
 			}
 
 		});
@@ -96,8 +96,8 @@ public class QuestionsReward extends BaseCustomReward
 		else
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Incorrect! The answer was " + this.inQuestion.get(player));
-			player.level.createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.Mode.NONE);
-			player.attackEntityFrom(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
+			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
+			player.die(CCubesDamageSource.QUESTION_FAIL);
 		}
 
 		inQuestion.remove(player);

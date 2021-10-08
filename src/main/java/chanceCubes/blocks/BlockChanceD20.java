@@ -75,7 +75,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 		{
 			ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
 			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			spawnAsEntity(level, pos, stack);
+			popResource(level, pos, stack);
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			level.removeBlockEntity(pos);
 			return false;

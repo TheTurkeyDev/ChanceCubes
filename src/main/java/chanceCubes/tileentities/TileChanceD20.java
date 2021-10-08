@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -116,7 +117,7 @@ public class TileChanceD20 extends BlockEntity
 //				rotationMat = new TransformationMatrix(new Matrix4f(rot));
 			//}
 
-			this.level.markBlockRangeForRenderUpdate(this.getBlockPos(), this.getBlockState(), this.getBlockState());
+			this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState());
 		}
 	}
 
@@ -126,7 +127,7 @@ public class TileChanceD20 extends BlockEntity
 		{
 			if(!player.level.isClientSide())
 			{
-				player.level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), CCubesSounds.D20_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				player.level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), CCubesSounds.D20_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;

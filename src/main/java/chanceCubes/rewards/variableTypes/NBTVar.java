@@ -3,7 +3,6 @@ package chanceCubes.rewards.variableTypes;
 import chanceCubes.rewards.variableParts.StringPart;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.JsonToNBT;
 
 public class NBTVar extends CustomVar
 {

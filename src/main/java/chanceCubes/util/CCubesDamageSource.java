@@ -13,8 +13,8 @@ public class CCubesDamageSource extends DamageSource
 	public CCubesDamageSource(String id)
 	{
 		super(id);
-		super.setDamageBypassesArmor();
-		super.setDamageIsAbsolute();
+		super.bypassArmor();
+		super.bypassMagic();
 	}
 
 }

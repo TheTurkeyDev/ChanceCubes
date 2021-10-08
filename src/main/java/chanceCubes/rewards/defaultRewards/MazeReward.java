@@ -2,13 +2,13 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.MazeGenerator;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +40,7 @@ public class MazeReward extends BaseCustomReward
 			{
 				gen.endMaze(player);
 				if(RewardsUtil.isPlayerOnline(player))
-					player.attackEntityFrom(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
+					player.die(CCubesDamageSource.MAZE_FAIL);
 			}
 
 			@Override
@@ -53,7 +53,7 @@ public class MazeReward extends BaseCustomReward
 				}
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
+					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
 
 				if(!world.getBlockState(new BlockPos(gen.endBlockWorldCords.getX(), gen.endBlockWorldCords.getY(), gen.endBlockWorldCords.getZ())).getBlock().equals(Blocks.OAK_SIGN))
 				{

@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class CreativePendantContainer extends Container
+public class CreativePendantContainer implements Container
 {
 	static final ImmutableList<Item> field_217084_c = ImmutableList.of(CCubesItems.CHANCE_CUBE, CCubesItems.CHANCE_ICOSAHEDRON);
 
@@ -22,7 +22,7 @@ public class CreativePendantContainer extends Container
 		}
 	};
 
-	public CreativePendantContainer(int id, PlayerInventory player)
+	public CreativePendantContainer(int id, Inventory player)
 	{
 		super(CCubesItems.CREATIVE_PENDANT_CONTAINER, id);
 

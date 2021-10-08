@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -36,7 +37,7 @@ public class MagicFeetReward extends BaseCustomReward
 			public void update()
 			{
 				BlockPos beneth = player.getOnPos().offset(0, -1, 0);
-				if(!level.isAirBlock(beneth) && level.getBlockEntity(beneth) == null && !last.equals(beneth))
+				if(!level.getBlockState(beneth).isAir() && level.getBlockEntity(beneth) == null && !last.equals(beneth))
 				{
 					Block block = RewardsUtil.getRandomOre();
 					RewardsUtil.placeBlock(block.defaultBlockState(), level, beneth);
@@ -44,7 +45,7 @@ public class MagicFeetReward extends BaseCustomReward
 				}
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
+					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
 			}
 		});
 	}

@@ -63,7 +63,7 @@ public class RewardSelectorPendantGui extends Screen
 			stack.setTag(nbt);
 			CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getValue()));
 			rewardName = rewardField.getValue();
-			player.closeScreen();
+			player.closeContainer();
 		}));
 	}
 

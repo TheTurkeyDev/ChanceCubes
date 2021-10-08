@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.rewards.biodomeGen.BioDomeGen;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -22,7 +23,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.domeGen.genRandomDome(pos.offset(0, -1, 0), level, 15, false);
 		TextComponent message = new TextComponent("BOSS FIGHT!");
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-		RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.TITLE, message, 10, 500, 0);
+		RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.TITLE, message, 10, 500, 0);
 
 		Scheduler.scheduleTask(new Task("boss_fight_subtitle_1", 120)
 		{
@@ -58,15 +58,9 @@ public abstract class BossBaseReward extends BaseCustomReward
 			{
 				TextComponent message = new TextComponent("");
 				message.append(player.getDisplayName());
-
-				StringBuilder sbSpace = new StringBuilder();
-				sbSpace.append(" VS ");
-				for(int i = 0; i < bossName.length(); i++)
-					sbSpace.append(" ");
-				message.append(sbSpace.toString());
-
+				message.append(" VS " + " ".repeat(bossName.length()));
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-				RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 500, 0);
+				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 500, 0);
 			}
 		});
 
@@ -80,7 +74,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				message.append(" VS ");
 				message.append(bossName);
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-				RewardsUtil.setNearPlayersTitle(level, pos, 50, STitlePacket.Type.SUBTITLE, message, 0, 100, 10);
+				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 100, 10);
 			}
 		});
 

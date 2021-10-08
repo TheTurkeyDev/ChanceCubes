@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -47,8 +48,8 @@ public class DigBuildReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.level.createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.Mode.NONE);
-				player.attackEntityFrom(CCubesDamageSource.DIG_BUILD_FAIL, Float.MAX_VALUE);
+				player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
+				player.die(CCubesDamageSource.DIG_BUILD_FAIL);
 			}
 
 			@Override
@@ -70,7 +71,7 @@ public class DigBuildReward extends BaseCustomReward
 				}
 
 				if(this.delayLeft % 20 == 0)
-					this.showTimeLeft(player, STitlePacket.Type.ACTIONBAR);
+					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
 			}
 		});
 	}

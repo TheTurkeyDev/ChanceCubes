@@ -4,6 +4,7 @@ import chanceCubes.config.CCubesSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -50,8 +51,8 @@ public class RewardBlockCache
 		if(te != null)
 		{
 			oldNBT = te.serializeNBT();
-			if(te instanceof IInventory)
-				((IInventory) te).clear();
+			if(te instanceof Container)
+				((Container) te).clearContent();
 
 		}
 

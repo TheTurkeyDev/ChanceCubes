@@ -7,7 +7,6 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -43,7 +42,7 @@ public class BlockThrowerReward extends BaseCustomReward
 		{
 			for(int z = -20; z < 21; z++)
 			{
-				if(!level.isAirBlock(pos.offset(x, 11, z)))
+				if(!level.getBlockState(pos.offset(x, 11, z)).isAir())
 					for(int y = -1; y < 12; y++)
 						level.setBlockAndUpdate(pos.offset(x, y, z), Blocks.AIR.defaultBlockState());
 			}
@@ -62,18 +61,18 @@ public class BlockThrowerReward extends BaseCustomReward
 					int z = RewardsUtil.rand.nextInt(41) - 21;
 					int y;
 					for(y = 12; y > -2; y--)
-						if(!level.isAirBlock(pos.offset(x, y, z)))
+						if(!level.getBlockState(pos.offset(x, y, z)).isAir())
 							break;
 					BlockPos newPos = pos.offset(x, y, z);
 					BlockState state = level.getBlockState(newPos);
 
-					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) || state.getBlock() instanceof FlowingFluidBlock)
+					if(CCubesSettings.nonReplaceableBlocks.contains(state) || state.getBlock().equals(Blocks.AIR) /*|| state.getBlock() instanceof FluidBlock*/)
 						state = Blocks.DIRT.defaultBlockState();
 					else
 						level.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
 
 					FallingBlockEntity block = new FallingBlockEntity(level, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state);
-					block.fallTime = 1;
+					block.fallDistance = 0;
 					block.setNoGravity(true);
 					block.setDeltaMovement(0, 0.25f, 0);
 
