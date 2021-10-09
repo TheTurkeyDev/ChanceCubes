@@ -42,6 +42,8 @@ public class MathReward extends BaseCustomReward
 		if(inQuestion.containsKey(player))
 			return;
 
+		int duration = super.getSettingAsInt(settings, "answerDuration", 100, 20, 2400);
+
 		int num1 = world.rand.nextInt(100);
 		int num2 = world.rand.nextInt(100);
 
@@ -70,13 +72,11 @@ public class MathReward extends BaseCustomReward
 			TNTEntity entitytntprimed = new TNTEntity(world, player.getPosX(), player.getPosY() + 1D, player.getPosZ(), player);
 			world.addEntity(entitytntprimed);
 			world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			entitytntprimed.setFuse(140);
+			entitytntprimed.setFuse(duration + 40);
 			tnt.add(entitytntprimed);
 		}
 
 		inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
-
-		int duration = super.getSettingAsInt(settings, "answerDuration", 100, 20, 2400);
 
 		Scheduler.scheduleTask(new Task("Math", duration, 20)
 		{
