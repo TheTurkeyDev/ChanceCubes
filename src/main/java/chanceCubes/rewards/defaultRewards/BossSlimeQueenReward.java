@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
@@ -35,9 +36,9 @@ public class BossSlimeQueenReward extends BossBaseReward
 
 		// Lol ok
 		CompoundTag nbt = new CompoundTag();
-		queen.writeAdditional(nbt);
+		queen.save(nbt);
 		nbt.putInt("Size", 10);
-		queen.readAdditional(nbt);
+		queen.load(nbt);
 
 		queen.addEffect(new MobEffectInstance(MobEffects.GLOWING, Integer.MAX_VALUE, 0, true, false));
 
@@ -59,7 +60,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				List<Slime> slimes = level.getEntities(Slime.class, new AABB(pos.offset(-25, -25, -25), pos.offset(25, 25, 25)));
+				List<Slime> slimes = level.getEntities(EntityType.SLIME, new AABB(pos.offset(-25, -25, -25), pos.offset(25, 25, 25)), EntitySelector.NO_SPECTATORS);
 				CCubesCore.logger.log(Level.INFO, slimes.size());
 				for(Slime slime : slimes)
 					slime.remove(Entity.RemovalReason.DISCARDED);

@@ -48,7 +48,7 @@ public class BlockListener
 	{
 		if(Minecraft.getInstance().isLocalServer() && RenderEvent.isCreatingSchematic() && !setdelay)
 		{
-			if(player.getAbilities().isCreativeMode)
+			if(player.isCreative())
 			{
 				boolean flag = false;
 				if(point == 1)

@@ -103,14 +103,14 @@ public class LootBoxReward extends BaseCustomReward
 
 					double xOff = Math.cos(tick / 3f);
 					double yOff = Math.sin(tick / 3f);
-					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() + xOff + 0.5, pos.getY() + y, pos.getZ() + yOff + 0.5, 3, 0, 0, 0, 1);
-					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() - xOff + 0.5, pos.getY() + y, pos.getZ() - yOff + 0.5, 3, 0, 0, 0, 1);
+					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() + xOff + 0.5, pos.getY() + y, pos.getZ() + yOff + 0.5, 3, 0, 0);
+					level.addParticle(ParticleTypes.DRIPPING_LAVA, pos.getX() - xOff + 0.5, pos.getY() + y, pos.getZ() - yOff + 0.5, 3, 0, 0);
 				}
 				if(tick == 250)
 				{
 					for(int i = 0; i < 100; i++)
 					{
-						level.addParticle(ParticleTypes.DRAGON_BREATH, pos.getX() + 0.5, pos.getY() + 0.95, pos.getZ() + 0.5, 3, 0, 0, 0, 1);
+						level.addParticle(ParticleTypes.DRAGON_BREATH, pos.getX() + 0.5, pos.getY() + 0.95, pos.getZ() + 0.5, 3, 0, 0);
 					}
 				}
 				if(tick > 250)

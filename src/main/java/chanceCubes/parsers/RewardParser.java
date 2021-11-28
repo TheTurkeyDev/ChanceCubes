@@ -1,6 +1,7 @@
 package chanceCubes.parsers;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.rewardparts.*;
 import chanceCubes.rewards.rewardtype.*;
@@ -231,7 +232,7 @@ public class RewardParser
 			try
 			{
 				String jsonEdited = ParserUtil.removedKeyQuotes(element.get("entity").getAsJsonObject().toString());
-				ent = new EntityPart(JsonToNBT.getTagFromJson(jsonEdited));
+				ent = new EntityPart(JsonWrapper.getNBTFromJson(jsonEdited));
 			} catch(Exception e1)
 			{
 				CCubesCore.logger.log(Level.ERROR, "The Entity loading failed for this custom reward!");

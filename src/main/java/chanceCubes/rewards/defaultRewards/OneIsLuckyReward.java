@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.mcwrapper.BlockWrapper;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -25,20 +26,24 @@ public class OneIsLuckyReward extends BaseCustomReward
 	public void trigger(final ServerLevel level, final BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "A Lucky Block Salute");
-		SignBlockEntity sign = new SignBlockEntity();
-		sign.setMessage(0, new TextComponent("One is lucky"));
-		sign.setMessage(1, new TextComponent("One is not"));
-		sign.setMessage(3, new TextComponent("#OGLuckyBlocks"));
+
 		boolean leftLucky = RewardsUtil.rand.nextBoolean();
-		TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100);
-		TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100);
 
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(-1, 0, 0)))
-			level.setBlockEntity(pos.offset(-1, 0, 0), leftCube);
+		{
+			TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100, pos.offset(-1, 0, 0), CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+			level.setBlockEntity(leftCube);
+		}
 		if(RewardsUtil.placeBlock(Blocks.OAK_SIGN.defaultBlockState(), level, pos))
-			level.setBlockEntity(pos, sign);
+		{
+			SignBlockEntity sign = BlockWrapper.createSign(pos, new String[]{"One is lucky", "One is not", "#OGLuckyBlocks"});
+			level.setBlockEntity(sign);
+		}
 		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(1, 0, 0)))
-			level.setBlockEntity(pos.offset(1, 0, 0), rightCube);
+		{
+			TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100, pos.offset(1, 0, 0), CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+			level.setBlockEntity(rightCube);
+		}
 
 		Scheduler.scheduleTask(new Task("One_Is_Lucky_Reward", 6000, 10)
 		{
@@ -53,20 +58,16 @@ public class OneIsLuckyReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(level.isAirBlock(pos.offset(-1, 0, 0)) || level.isAirBlock(pos.offset(1, 0, 0)))
+				if(level.getBlockState(pos.offset(-1, 0, 0)).isAir() || level.getBlockState(pos.offset(1, 0, 0)).isAir())
 				{
 					this.callback();
 					Scheduler.removeTask(this);
 				}
-				else if(level.isAirBlock(pos.offset(0, 0, 0)))
+				else if(level.getBlockState(pos).isAir())
 				{
-					SignBlockEntity sign3 = new SignBlockEntity();
-					sign3.setMessage(0, new TextComponent("Middle? Really?"));
-					sign3.setMessage(1, new TextComponent("Fine you don't"));
-					sign3.setMessage(2, new TextComponent("get a cube then!"));
-					sign3.setMessage(3, new TextComponent("(¬_¬)"));
+					SignBlockEntity sign3 = BlockWrapper.createSign(pos, new String[]{"Middle? Really?", "Fine you don't", "get a cube then!", "(¬_¬)"});
 					level.setBlockAndUpdate(pos.offset(0, 0, 0), Blocks.OAK_SIGN.defaultBlockState());
-					level.setBlockEntity(pos.offset(0, 0, 0), sign3);
+					level.setBlockEntity(sign3);
 					level.setBlockAndUpdate(pos.offset(-1, 0, 0), Blocks.AIR.defaultBlockState());
 					level.setBlockAndUpdate(pos.offset(1, 0, 0), Blocks.AIR.defaultBlockState());
 					Scheduler.removeTask(this);

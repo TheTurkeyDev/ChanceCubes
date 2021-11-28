@@ -6,6 +6,7 @@ import chanceCubes.util.Task;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -34,10 +35,10 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 				effects.add(part.getEffect());
 				PotionUtils.setCustomEffects(potion, effects);
 
-				PotionEntity entity = new PotionEntity(level, player);
+				ThrownPotion entity = new ThrownPotion(level, player);
 				entity.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), effects));
-				entity.setPosition(player.getX(), player.getY() + 2, player.getZ());
-				entity.setMotion(0, 0.1, 0);
+				entity.moveTo(player.getX(), player.getY() + 2, player.getZ());
+				entity.setDeltaMovement(0, 0.1, 0);
 
 				level.addFreshEntity(entity);
 			}

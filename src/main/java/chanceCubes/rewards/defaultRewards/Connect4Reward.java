@@ -92,7 +92,7 @@ public class Connect4Reward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Connect_4_Game", 10000, 5)
 		{
-			Board board = new Board();
+			final Board board = new Board();
 
 			@Override
 			public void callback()
@@ -110,7 +110,7 @@ public class Connect4Reward extends BaseCustomReward
 						if(board.board[((y - 1) * WIDTH) + (z + 3)] != 0 || (y - 2 >= 0 && board.board[((y - 2) * WIDTH) + (z + 3)] == 0))
 							continue;
 						BlockPos pos2 = pos.offset(0, y, z);
-						if(!level.isAirBlock(pos2) && level.getBlockState(pos2).getBlock().equals(Blocks.RED_CONCRETE_POWDER))
+						if(!level.getBlockState(pos2).isAir() && level.getBlockState(pos2).getBlock().equals(Blocks.RED_CONCRETE_POWDER))
 							makeMove(z + 3, y - 1);
 					}
 				}
@@ -314,15 +314,12 @@ public class Connect4Reward extends BaseCustomReward
 
 		public BlockState getStateForBoardVal(int val)
 		{
-			switch(val)
-			{
-				case 1:
-					return Blocks.YELLOW_CONCRETE_POWDER.defaultBlockState();
-				case 2:
-					return Blocks.RED_CONCRETE_POWDER.defaultBlockState();
-				default:
-					return Blocks.AIR.defaultBlockState();
-			}
+			return switch(val)
+					{
+						case 1 -> Blocks.YELLOW_CONCRETE_POWDER.defaultBlockState();
+						case 2 -> Blocks.RED_CONCRETE_POWDER.defaultBlockState();
+						default -> Blocks.AIR.defaultBlockState();
+					};
 		}
 	}
 }

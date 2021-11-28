@@ -24,17 +24,18 @@ public class WorldRenderListener
 			poseStack.pushPose();
 
 			Entity entity = Minecraft.getInstance().player;
-			double interpPosX = entity.lastTickPosX + (entity.getX() - entity.lastTickPosX) * event.getPartialTicks();
-			double interpPosY = entity.lastTickPosY + (entity.getY() - entity.lastTickPosY) * event.getPartialTicks();
-			double interpPosZ = entity.lastTickPosZ + (entity.getZ() - entity.lastTickPosZ) * event.getPartialTicks();
+			//TODO
+			//double interpPosX = entity.lastTickPosX + (entity.getX() - entity.lastTickPosX) * event.getPartialTicks();
+			//double interpPosY = entity.lastTickPosY + (entity.getY() - entity.lastTickPosY) * event.getPartialTicks();
+			//double interpPosZ = entity.lastTickPosZ + (entity.getZ() - entity.lastTickPosZ) * event.getPartialTicks();
 
-			poseStack.translate(-interpPosX, -interpPosY, -interpPosZ);
+			//poseStack.translate(-interpPosX, -interpPosY, -interpPosZ);
 			GlStateManager._disableTexture();
 			GlStateManager._enableBlend();
-			GlStateManager._enableAlphaTest();
-			GlStateManager._disableLighting();
-			GlStateManager._lineWidth(2f);
 			//TODO
+			//GlStateManager._enableAlphaTest();
+			//GlStateManager._disableLighting();
+			//GlStateManager._lineWidth(2f);
 			//GlStateManager.begin(GL11.GL_LINES);
 
 			BlockPos pos1 = SchematicUtil.selectionPoints[0];
@@ -46,8 +47,8 @@ public class WorldRenderListener
 			int lowZ = Math.min(pos1.getZ(), pos2.getZ());
 			int highZ = Math.max(pos1.getZ(), pos2.getZ());
 
-			GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
-
+			//TODO
+			//GlStateManager.color4f(0.9f, 0.0f, 0.5f, 1f);
 
 			GL11.glVertex3d(lowX, lowY, lowZ);
 			GL11.glVertex3d(highX, lowY, lowZ);
@@ -76,8 +77,9 @@ public class WorldRenderListener
 			GL11.glVertex3d(highX, lowY, highZ);
 			GL11.glVertex3d(highX, highY, highZ);
 
+			//TODO
 			//GlStateManager.end();
-			GlStateManager.enableLighting();
+			//GlStateManager.enableLighting();
 			GlStateManager._enableTexture();
 			GlStateManager._disableBlend();
 			poseStack.popPose();

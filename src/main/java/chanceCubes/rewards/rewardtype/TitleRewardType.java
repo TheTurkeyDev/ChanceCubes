@@ -1,6 +1,7 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.rewards.rewardparts.TitlePart;
+import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import net.minecraft.server.level.ServerLevel;
@@ -22,20 +23,19 @@ public class TitleRewardType extends BaseRewardType<TitlePart>
 			@Override
 			public void callback()
 			{
-				STitlePacket spackettitle = new STitlePacket(part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
 				for(int i = 0; i < level.players().size(); ++i)
 				{
-					ServerPlayer entityplayer = level.players().get(i);
+					ServerPlayer entityPlayer = level.players().get(i);
 
-					if(entityplayer.equals(player))
+					if(entityPlayer.equals(player))
 					{
-						entityplayer.connection.send(spackettitle);
+						RewardsUtil.setPlayerTitle(player, part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
 					}
 					else
 					{
-						double dist = Math.sqrt(Math.pow(x - entityplayer.getX(), 2) + Math.pow(y - entityplayer.getY(), 2) + Math.pow(z - entityplayer.getZ(), 2));
+						double dist = Math.sqrt(Math.pow(x - entityPlayer.getX(), 2) + Math.pow(y - entityPlayer.getY(), 2) + Math.pow(z - entityPlayer.getZ(), 2));
 						if(dist <= part.getRange() || part.isServerWide())
-							entityplayer.connection.send(spackettitle);
+							RewardsUtil.setPlayerTitle(player, part.getType(), part.getMessage(), part.getFadeInTime(), part.getDisplayTime(), part.getFadeOutTime());
 					}
 				}
 

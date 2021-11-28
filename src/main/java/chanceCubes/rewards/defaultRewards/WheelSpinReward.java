@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.mcwrapper.BlockWrapper;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
@@ -35,7 +36,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -154,53 +154,29 @@ public class WheelSpinReward extends BaseCustomReward
 		BlockState ss = Blocks.OAK_WALL_SIGN.defaultBlockState().setValue(WallSignBlock.FACING, Direction.SOUTH);
 		BlockPos offset = new BlockPos(0, 0, 1);
 		cache.cacheBlock(offset, ss);
-		BlockEntity tileEntity = level.getBlockEntity(pos.offset(offset));
-		if(tileEntity instanceof SignBlockEntity sign)
-		{
-			String[] textToSet = rewardsChosen[0].signText;
-			for(int i = 0; i < textToSet.length; i++)
-				sign.setMessage(i, new TextComponent(textToSet[i]));
-		}
+		BlockEntity be = level.getBlockEntity(pos.offset(offset));
+		BlockWrapper.setSignText(be, rewardsChosen[0].signText);
 
 		offset = new BlockPos(-2, 2, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = level.getBlockEntity(pos.offset(offset));
-		if(tileEntity instanceof SignBlockEntity sign)
-		{
-			String[] textToSet = rewardsChosen[1].signText;
-			for(int i = 0; i < textToSet.length; i++)
-				sign.setMessage(i, new TextComponent(textToSet[i]));
-		}
+		be = level.getBlockEntity(pos.offset(offset));
+		BlockWrapper.setSignText(be, rewardsChosen[1].signText);
 
 		offset = new BlockPos(2, 2, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = level.getBlockEntity(pos.offset(offset));
-		if(tileEntity instanceof SignBlockEntity sign)
-		{
-			String[] textToSet = rewardsChosen[3].signText;
-			for(int i = 0; i < textToSet.length; i++)
-				sign.setMessage(i, new TextComponent(textToSet[i]));
-		}
+		be = level.getBlockEntity(pos.offset(offset));
+		BlockWrapper.setSignText(be, rewardsChosen[3].signText);
 
 		offset = new BlockPos(0, 4, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = level.getBlockEntity(pos.offset(offset));
-		if(tileEntity instanceof SignBlockEntity sign)
-		{
-			String[] textToSet = rewardsChosen[2].signText;
-			for(int i = 0; i < textToSet.length; i++)
-				sign.setMessage(i, new TextComponent(textToSet[i]));
-		}
+		be = level.getBlockEntity(pos.offset(offset));
+		BlockWrapper.setSignText(be, rewardsChosen[2].signText);
 
 		offset = new BlockPos(4, 1, 1);
 		cache.cacheBlock(offset, ss);
-		tileEntity = level.getBlockEntity(pos.offset(offset));
-		if(tileEntity instanceof SignBlockEntity sign)
-		{
-			sign.setMessage(0, new TextComponent("Pull"));
-			sign.setMessage(1, new TextComponent("To Spin"));
-			sign.setMessage(2, new TextComponent("The Wheel!"));
-		}
+		be = level.getBlockEntity(pos.offset(offset));
+		BlockWrapper.setSignText(be, new String[]{"Pull", "To Spin", "The Wheel!"});
+
 		BlockPos leverOffset = new BlockPos(4, 0, 1);
 		cache.cacheBlock(leverOffset, Blocks.LEVER.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
 		cache.cacheBlock(new BlockPos(4, 1, 0), wc);

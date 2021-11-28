@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -45,7 +46,7 @@ public class WaitForItReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				int reward = RewardsUtil.rand.nextInt(3);
+				int reward = RewardsUtil.rand.nextInt(5);
 				RewardsUtil.sendMessageToPlayer(player, "NOW!");
 
 				if(reward == 0)
@@ -56,7 +57,7 @@ public class WaitForItReward extends BaseCustomReward
 				{
 					Creeper ent = EntityType.CREEPER.create(level);
 					ent.moveTo(player.getX(), player.getY() + 1, player.getZ(), 0, 0);
-					ent.thunderHit(level, null);
+					EntityWrapper.setCreeperPowered(ent);
 					level.addFreshEntity(ent);
 				}
 				else if(reward == 2)
@@ -67,7 +68,7 @@ public class WaitForItReward extends BaseCustomReward
 				{
 					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.defaultBlockState(), level, new BlockPos(player.getX(), player.getY(), player.getZ()));
 				}
-				else if(reward == 4)
+				else
 				{
 					Zombie zomb = EntityType.ZOMBIE.create(level);
 					zomb.setBaby(true);

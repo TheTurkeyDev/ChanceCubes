@@ -2,6 +2,7 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.items.ItemChanceCube;
+import chanceCubes.mcwrapper.InventoryWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -10,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -25,8 +27,8 @@ public class ClearInventoryReward extends BaseCustomReward
 	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		boolean cubes = false;
-		final PlayerInventory inv = new PlayerInventory(player);
-		inv.copyInventory(player.getInventory());
+		final Inventory inv = new Inventory(player);
+		InventoryWrapper.copyInvAToB(player.getInventory(), inv);
 		for(int slotNum = 0; slotNum < player.getInventory().getContainerSize(); slotNum++)
 		{
 			if(!player.getInventory().getItem(slotNum).isEmpty() && player.getInventory().getItem(slotNum).getItem() instanceof ItemChanceCube)
@@ -47,7 +49,7 @@ public class ClearInventoryReward extends BaseCustomReward
 				@Override
 				public void callback()
 				{
-					player.getInventory().copy(inv);
+					InventoryWrapper.copyInvAToB(inv, player.getInventory());
 					RewardsUtil.sendMessageToPlayer(player, "AHHHHHH JK!! You should have seen your face!");
 				}
 			});

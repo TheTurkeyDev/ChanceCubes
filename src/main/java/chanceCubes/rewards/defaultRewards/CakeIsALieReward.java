@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
@@ -55,7 +56,7 @@ public class CakeIsALieReward extends BaseCustomReward
 						Creeper creeper = EntityType.CREEPER.create(level);
 						creeper.moveTo(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
 						if(RewardsUtil.rand.nextInt(100) < lieChance)
-							creeper.thunderHit(level, null);
+							EntityWrapper.setCreeperPowered(creeper);
 						creeper.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 9999, 2));
 						creeper.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 999));
 						level.addFreshEntity(creeper);

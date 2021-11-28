@@ -36,8 +36,9 @@ public class RenderEvent
 		if(islookingAt)
 		{
 			matrixStack.pushPose();
-			GlStateManager.disableLighting();
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
+			//TODO
+			//GlStateManager.disableLighting();
+			//GlStateManager.color4f(1F, 1F, 1F, 1F);
 			if(chance == -201)
 			{
 				fontRenderer.draw(matrixStack, "The chance of this cube is: Destruction... Probably", (k / 2f) - 80, (l / 2f) - 30, 16777215);
@@ -51,14 +52,16 @@ public class RenderEvent
 					fontRenderer.draw(matrixStack, "Chance with pendants is: " + Math.min(100, Math.max(c, -100)), (k / 2f) - 80, (l / 2f) - 15, 16777215);
 				}
 			}
-			GlStateManager.enableLighting();
+			//TODO
+			//GlStateManager.enableLighting();
 			matrixStack.popPose();
 		}
 		if(creatingSchematic)
 		{
 			matrixStack.pushPose();
-			GlStateManager.disableLighting();
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
+			//TODO
+			//GlStateManager.disableLighting();
+			//GlStateManager.color4f(1F, 1F, 1F, 1F);
 
 			String text1 = "--- Creating A Chance Cube Schematic ---";
 			String text2 = "Right or left click a block or air to set positions.";
@@ -74,7 +77,8 @@ public class RenderEvent
 			fontRenderer.draw(matrixStack, text5, (k / 2f) - (fontRenderer.width(text5) / 2f), 60, SchematicUtil.selectionPoints[0] == null ? 0xFF0000 : 0x00FF00);
 			fontRenderer.draw(matrixStack, text6, (k / 2f) - (fontRenderer.width(text6) / 2f), 70, SchematicUtil.selectionPoints[1] == null ? 0xFF0000 : 0x00FF00);
 
-			GlStateManager.enableLighting();
+			//TODO
+			//GlStateManager.enableLighting();
 			matrixStack.popPose();
 		}
 	}

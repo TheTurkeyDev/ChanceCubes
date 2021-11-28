@@ -39,7 +39,7 @@ public class SkyblockReward extends BaseCustomReward
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int skyblockHeight = level.getHeight() - 16;
-		if(!level.getDimensionType().hasSkyLight())
+		if(!level.dimensionType().hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
 		BlockPos skyblockPos = new BlockPos(pos.getX(), skyblockHeight, pos.getZ());

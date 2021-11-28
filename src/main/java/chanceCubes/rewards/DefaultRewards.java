@@ -3,6 +3,8 @@ package chanceCubes.rewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.mcwrapper.BlockWrapper;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.defaultRewards.*;
@@ -29,7 +31,6 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.math.Vector3d;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,12 +42,10 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -54,6 +53,7 @@ import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -63,7 +63,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
@@ -121,9 +120,7 @@ public class DefaultRewards
 
 		CompoundTag nbt;
 
-		SignBlockEntity sign = new SignBlockEntity();
-		sign.setMessage(0, new TextComponent("The broken path"));
-		sign.setMessage(1, new TextComponent("to succeed"));
+		SignBlockEntity sign = BlockWrapper.createSign(new BlockPos(0, 0, 0), new String[]{"The broken path", "to succeed"});
 		nbt = new CompoundTag();
 		sign.save(nbt);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":path_to_succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.OAK_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
@@ -173,10 +170,7 @@ public class DefaultRewards
 			@Override
 			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level);
-				lightningboltentity.moveTo(Vector3d.copyCenteredHorizontally(player.getPosition()));
-				lightningboltentity.setEffectOnly(false);
-				level.addFreshEntity(lightningboltentity);
+				EntityWrapper.spawnLightning(level, player.getOnPos());
 				RewardsUtil.sendMessageToPlayer(player, "Thou has been smitten!");
 			}
 		});
@@ -213,7 +207,7 @@ public class DefaultRewards
 					{
 						MobEffectInstance effect = RewardsUtil.getRandomPotionEffectInstance();
 						RewardsUtil.sendMessageToPlayer(player, "You have been given: ");
-						RewardsUtil.sendMessageToPlayer(player, new TranslatableComponent(effect.getName()));
+						RewardsUtil.sendMessageToPlayer(player, new TranslatableComponent(effect.getDescriptionId()));
 						RewardsUtil.sendMessageToPlayer(player, "for " + (effect.getDuration() / 20) + " seconds!");
 						player.addEffect(effect);
 					}
@@ -245,13 +239,13 @@ public class DefaultRewards
 			@Override
 			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				PotionEntity pot;
+				ThrownPotion pot;
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
 				{
-					pot = new PotionEntity(level, player);
-					pot.setItem(PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), RewardsUtil.getRandomPotionType()));
-					pot.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-					pot.setMotion(Math.cos(rad) * (0.1 + (0.05 * 3)), 1, Math.sin(rad) * (0.1 + (0.05 * 3)));
+					pot = new ThrownPotion(level, player);
+					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.LINGERING_POTION), List.of(RewardsUtil.getRandomPotionEffectInstance())));
+					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+					pot.setDeltaMovement(Math.cos(rad) * (0.1 + (0.05 * 3)), 1, Math.sin(rad) * (0.1 + (0.05 * 3)));
 					level.addFreshEntity(pot);
 				}
 			}
@@ -277,11 +271,7 @@ public class DefaultRewards
 					@Override
 					public void callback()
 					{
-						LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level);
-						lightningboltentity.moveTo(Vector3d.copyCenteredHorizontally(pos));
-						lightningboltentity.setEffectOnly(false);
-						level.addFreshEntity(lightningboltentity);
-						level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.HOSTILE, 1f, 1f);
+						EntityWrapper.spawnLightning(level, player.getOnPos());
 						ent.clearFire();
 					}
 				});
@@ -424,7 +414,7 @@ public class DefaultRewards
 
 				for(int yy = 0; yy <= level.getHeight(); yy++)
 				{
-					if(level.isAirBlock(new BlockPos(xChange, yy, zChange)) && level.isAirBlock(new BlockPos(xChange, yy + 1, zChange)))
+					if(level.getBlockState(new BlockPos(xChange, yy, zChange)).isAir() && level.getBlockState(new BlockPos(xChange, yy + 1, zChange)).isAir())
 					{
 						yChange = yy;
 						break;
@@ -472,9 +462,11 @@ public class DefaultRewards
 					@Override
 					public void callback()
 					{
-						player.isAirBorne = true;
+						//TODO
+						//player.isAirBorne = true;
 						player.setDeltaMovement(0, 20, 0);
-						((ServerPlayer) player).connection.send(new SEntityVelocityPacket(player));
+						//TODO
+						//((ServerPlayer) player).connection.send(new SEntityVelocityPacket(player));
 					}
 				});
 			}
@@ -492,7 +484,7 @@ public class DefaultRewards
 						for(int zz = -32; zz <= 32; zz++)
 						{
 							BlockState b = level.getBlockState(pos.offset(xx, yy, zz));
-							if(b.getLightEmission(level, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.getBlock().hasTileEntity(b))
+							if(b.getLightEmission(level, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.hasBlockEntity())
 							{
 								RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, pos.offset(xx, yy, zz));
 								Creeper creeper = EntityType.CREEPER.create(level);

@@ -1,7 +1,7 @@
 package chanceCubes.rewards.variableTypes;
 
+import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.variableParts.StringPart;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.CompoundTag;
 
 public class NBTVar extends CustomVar
@@ -25,17 +25,10 @@ public class NBTVar extends CustomVar
 
 	public CompoundTag getNBTValue()
 	{
-		CompoundTag nbt = new CompoundTag();
 		String val = super.getValue();
 		if(val.isEmpty())
-			return nbt;
-		try
-		{
-			nbt = JsonToNBT.getTagFromJson(val);
-		} catch(CommandSyntaxException e)
-		{
-			e.printStackTrace();
-		}
-		return nbt;
+			return new CompoundTag();
+
+		return JsonWrapper.getNBTFromJson(val);
 	}
 }

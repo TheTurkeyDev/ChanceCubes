@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.IChanceCubeReward;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -142,7 +143,7 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 				ItemStack stack;
 				try
 				{
-					stack = ItemStack.of(JsonToNBT.getTagFromJson(obj.toString()));
+					stack = ItemStack.of(JsonWrapper.getNBTFromJson(obj));
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + obj.toString() + " to an item stack!");

@@ -73,7 +73,7 @@ public class TicTacToeReward extends BaseCustomReward
 				for(int x = -1; x < 2; x++)
 					for(int y = -1; y < 2; y++)
 						if(board.board[x + 1][y + 1] == 0)
-							if(!level.isAirBlock(pos.offset(x * 2, y * 2 + 2, 0)))
+							if(!level.getBlockState(pos.offset(x * 2, y * 2 + 2, 0)).isAir())
 								makeMove(x + 1, y + 1);
 			}
 

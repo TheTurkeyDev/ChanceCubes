@@ -1,11 +1,11 @@
 package chanceCubes.rewards.rewardtype;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.rewardparts.EntityPart;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -54,7 +54,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 				int copies = part.getCopies().getIntValue() + 1;
 				for(int i = 0; i < copies; i++)
 				{
-					Optional<Entity> opt = EntityType.loadEntityUnchecked(part.getNBT(), level);
+					Optional<Entity> opt = EntityType.create(part.getNBT(), level);
 					if(!opt.isPresent())
 					{
 						CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
@@ -71,11 +71,8 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 	public static CompoundTag getBasicNBTForEntity(String entity)
 	{
 		String json = "{id:" + entity + "}";
-		CompoundTag nbt;
-		try
-		{
-			nbt = JsonToNBT.getTagFromJson(json);
-		} catch(CommandSyntaxException e)
+		CompoundTag nbt = JsonWrapper.getNBTFromJson(json);
+		if(nbt == null)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to create a simple NBTTagCompound from " + entity);
 			return null;

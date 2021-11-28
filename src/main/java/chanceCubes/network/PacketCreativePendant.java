@@ -7,7 +7,6 @@ import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import org.apache.logging.log4j.Level;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.ItemChanceCube;
 
 import java.util.function.Supplier;
@@ -38,19 +37,21 @@ public class PacketCreativePendant
 			Container c;
 			try
 			{
-				c = ctx.get().getSender().openContainer;
+				//TODO
+				//c = ctx.get().getSender().openContainer;
 			} catch(Exception NullPointerException)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
 				return;
 			}
 
-			if(c instanceof CreativePendantContainer container)
-			{
-				ItemStack cCubes = container.getChanceCubesInPendant();
-				if(!cCubes.isEmpty() && cCubes.getItem() instanceof ItemChanceCube)
-					((ItemChanceCube) cCubes.getItem()).setChance(cCubes, msg.chanceValue);
-			}
+			//TODO
+//			if(c instanceof CreativePendantContainer container)
+//			{
+//				ItemStack cCubes = container.getChanceCubesInPendant();
+//				if(!cCubes.isEmpty() && cCubes.getItem() instanceof ItemChanceCube)
+//					((ItemChanceCube) cCubes.getItem()).setChance(cCubes, msg.chanceValue);
+//			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

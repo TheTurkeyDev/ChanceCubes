@@ -29,6 +29,6 @@ public class JukeBoxReward extends BaseCustomReward
 		BlockState iblockstate = level.getBlockState(pos);
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
 		((JukeboxBlock) Blocks.JUKEBOX).setRecord(level, pos, iblockstate, disc);
-		level.playEvent(null, 1010, pos, Item.getId(disc.getItem()));
+		level.levelEvent(null, 1010, pos, Item.getId(disc.getItem()));
 	}
 }

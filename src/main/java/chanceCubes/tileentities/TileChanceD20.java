@@ -86,7 +86,7 @@ public class TileChanceD20 extends BlockEntity
 		this.chance = nbt.getInt("chance");
 	}
 
-	@Override
+	//TODO
 	public void tick()
 	{
 		if(breaking)

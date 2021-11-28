@@ -18,10 +18,8 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -48,19 +46,11 @@ public class CCubesServerCommands
 	public CCubesServerCommands(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		// @formatter:off
-		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("chancecubes")
-				.then(
-						Commands.literal("reload").executes(this::executeReload)
-				)
-				.then(
-						Commands.literal("version").executes(this::executeVersion)
-				)
-				.then(
-						Commands.literal("handNBT").executes(this::executeHandNBT)
-				)
-				.then(
-						Commands.literal("handID").executes(this::executeHandID)
-				)
+		dispatcher.register(Commands.literal("chancecubes")
+				.then(Commands.literal("reload").executes(this::executeReload))
+				.then(Commands.literal("version").executes(this::executeVersion))
+				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
+				.then(Commands.literal("handID").executes(this::executeHandID))
 				.then(
 						Commands.literal("disableReward").then(
 								Commands.argument("rewardName", new RewardArgument())
@@ -86,19 +76,13 @@ public class CCubesServerCommands
 										.executes(ctx -> executeRewardInfo(ctx, RewardInfoActionArgument.func_212592_a(ctx, "action")))
 						)
 				)
-				.then(
-						Commands.literal("test").executes(this::executeTest)
-				)
-				.then(
-						Commands.literal("testRewards").executes(this::executeTestRewards)
-				)
-				.then(
-						Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards)
-				)
+				.then(Commands.literal("test").executes(this::executeTest))
+				.then(Commands.literal("testRewards").executes(this::executeTestRewards))
+				.then(Commands.literal("testCustomRewards").executes(this::executeTestCustomRewards))
 				.then(
 						Commands.literal("spawnGiantCube").then(
 								Commands.argument("pos", BlockPosArgument.blockPos())
-										.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getBlockPos(ctx, "pos")))
+										.executes(ctx -> executeSpawnGiantCube(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos")))
 						)
 				)
 				.then(
@@ -239,42 +223,42 @@ public class CCubesServerCommands
 		List<String> playerRewards = new ArrayList<>();
 		switch(action)
 		{
-			case DEFAULT:
+			case DEFAULT -> {
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
-				break;
-			case GIANT:
+			}
+			case GIANT -> {
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(PlayerRewardInfo reward : giantrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
-				break;
-			case DEFAULT_ALL:
+			}
+			case DEFAULT_ALL -> {
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
-				break;
-			case GIANT_ALL:
+			}
+			case GIANT_ALL -> {
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
-				break;
-			case DEFAULT_DISABLED:
+			}
+			case DEFAULT_DISABLED -> {
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					playerRewards.add(reward.reward.getName());
 				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 					if(!playerRewards.contains(reward))
 						RewardsUtil.sendMessageToPlayer(player, reward);
-				break;
-			case GIANT_DISABLED:
+			}
+			case GIANT_DISABLED -> {
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : giantrewards)
 					playerRewards.add(reward.reward.getName());
 				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 					if(!playerRewards.contains(reward))
 						RewardsUtil.sendMessageToPlayer(player, reward);
-				break;
+			}
 		}
 
 		RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "There are currently " + GlobalCCRewardRegistry.DEFAULT.getNumberOfLoadedRewards() + " regular rewards loaded and you have " + defaultEnabled + " rewards enabled");

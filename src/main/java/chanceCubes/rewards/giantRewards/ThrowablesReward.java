@@ -45,9 +45,9 @@ public class ThrowablesReward extends BaseCustomReward
 				else if(entChoice == 1)
 				{
 					throwEnt = EntityType.FIREBALL.create(level);
-					((Fireball) throwEnt).accelerationX = 0.1f * (-1 + (Math.random() * 2));
-					((Fireball) throwEnt).accelerationY = 0.1f * (-1 + (Math.random() * 2));
-					((Fireball) throwEnt).accelerationZ = 0.1f * (-1 + (Math.random() * 2));
+					((Fireball) throwEnt).xPower = 0.1f * (-1 + (Math.random() * 2));
+					((Fireball) throwEnt).yPower = 0.1f * (-1 + (Math.random() * 2));
+					((Fireball) throwEnt).zPower = 0.1f * (-1 + (Math.random() * 2));
 				}
 				else if(entChoice == 2)
 				{

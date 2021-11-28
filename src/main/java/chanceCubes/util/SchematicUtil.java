@@ -1,6 +1,7 @@
 package chanceCubes.util;
 
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
 import chanceCubes.rewards.variableTypes.BoolVar;
@@ -13,7 +14,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
@@ -139,7 +139,7 @@ public class SchematicUtil
 					blockData.setLength(0);
 					BlockPos pos = new BlockPos(x, y, z);
 					BlockState blockState = level.getBlockState(pos);
-					blockData.append(blockState.getBlock().getRegistryName().toString());
+					blockData.append(blockState.getBlock().getRegistryName());
 					String encoded = encodeBlockState(blockState);
 					if(!encoded.isEmpty())
 						blockData.append(":").append(encoded);
@@ -264,8 +264,7 @@ public class SchematicUtil
 					int id = ids.getAsInt();
 					OffsetBlock osb = offsetBlocks.get(id);
 					OffsetTileEntity oste = OffsetBlockToTileEntity(osb, teData);
-					if(oste != null)
-						offsetBlocks.set(id, oste);
+					offsetBlocks.set(id, oste);
 				}
 			}
 		}
@@ -275,14 +274,7 @@ public class SchematicUtil
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, String nbt)
 	{
-		try
-		{
-			return OffsetBlockToTileEntity(osb, JsonToNBT.getTagFromJson(nbt));
-		} catch(CommandSyntaxException e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		return OffsetBlockToTileEntity(osb, JsonWrapper.getNBTFromJson(nbt));
 	}
 
 	public static OffsetTileEntity OffsetBlockToTileEntity(OffsetBlock osb, NBTVar nbt)
@@ -328,7 +320,7 @@ public class SchematicUtil
 		StringBuilder builder = new StringBuilder("[");
 		for(Property<?> prop : state.getProperties())
 			if(state.hasProperty(prop))
-				builder.append(prop.getName()).append("=").append(state.getValue(prop).toString()).append(",");
+				builder.append(prop.getName()).append("=").append(state.getValue(prop)).append(",");
 
 		builder.deleteCharAt(builder.length() - 1);
 		builder.append("]");
@@ -358,6 +350,6 @@ public class SchematicUtil
 
 	public static <T extends Comparable<T>> BlockState withString(BlockState state, Property<T> prop, String propVal)
 	{
-		return prop.parseValue(propVal).map(t -> state.setValue(prop, t)).orElse(state);
+		return prop.getValue(propVal).map(t -> state.setValue(prop, t)).orElse(state);
 	}
 }

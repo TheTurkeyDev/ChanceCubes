@@ -1,13 +1,12 @@
 package chanceCubes.util;
 
+import chanceCubes.mcwrapper.BlockWrapper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 
 import java.util.ArrayList;
 
@@ -160,13 +159,8 @@ public class MazeGenerator
 
 		endBlockWorldCords = new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY());
 		cache.cacheBlock(new BlockPos(xoff + this.endBlock.getX(), 0, zoff + this.endBlock.getY()), Blocks.OAK_SIGN.defaultBlockState().setValue(StandingSignBlock.ROTATION, 7));
-		BlockEntity te = level.getBlockEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
-		if(te instanceof SignBlockEntity sign)
-		{
-			sign.setMessage(0, new TextComponent("Break me"));
-			sign.setMessage(1, new TextComponent("To beat the"));
-			sign.setMessage(2, new TextComponent("Maze"));
-		}
+		BlockEntity be = level.getBlockEntity(new BlockPos(startPos.getX() + xoff + this.endBlock.getX(), startPos.getY(), startPos.getZ() + zoff + this.endBlock.getY()));
+		BlockWrapper.setSignText(be, new String[]{"Break me", "To beat the", "Maze"});
 	}
 
 	public void endMaze(Player player)

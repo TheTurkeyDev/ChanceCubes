@@ -9,6 +9,7 @@ import chanceCubes.util.Task;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Level;
 
@@ -64,14 +65,14 @@ public class SchematicRewardType implements IRewardType
 							if(schematic.isRelativeToPlayer())
 							{
 								BlockPos pos = new BlockPos((int) Math.floor(playerX) + osb.xOff.getIntValue(), (int) Math.floor(playerY) + osb.yOff.getIntValue(), (int) Math.floor(playerZ) + osb.zOff.getIntValue());
-								if(level.getBlockState(pos).getBlock().isAir(level.getBlockState(pos), level, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
+								if(level.getBlockState(pos).isAir() && osb.getBlockState().getBlock() instanceof AirBlock)
 									continue;
 								osb.spawnInWorld(level, (int) Math.floor(playerX), (int) Math.floor(playerY), (int) Math.floor(playerZ));
 							}
 							else
 							{
 								BlockPos pos = new BlockPos(x + osb.xOff.getIntValue(), y + osb.yOff.getIntValue(), z + osb.zOff.getIntValue());
-								if(level.getBlockState(pos).getBlock().isAir(level.getBlockState(pos), level, pos) && osb.getBlockState().getBlock() instanceof AirBlock)
+								if(level.getBlockState(pos).isAir() && osb.getBlockState().getBlock() instanceof AirBlock)
 								{
 									continue;
 								}

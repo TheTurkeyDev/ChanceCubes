@@ -26,9 +26,11 @@ public class WitherReward extends BaseCustomReward
 		int isReal = super.getSettingAsInt(settings, "isReal", 10, 0, 100);
 		final WitherBoss wither = EntityType.WITHER.create(world);
 		wither.moveTo(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
-		wither.renderYawOffset = 90.0F;
+		//TODO
+		//wither.renderYawOffset = 90.0F;
 		world.addFreshEntity(wither);
-		wither.ignite();
+		//TODO
+		//wither.ignite();
 		if(RewardsUtil.rand.nextBoolean())
 			wither.setCustomName(new TextComponent("Kiwi"));
 		else

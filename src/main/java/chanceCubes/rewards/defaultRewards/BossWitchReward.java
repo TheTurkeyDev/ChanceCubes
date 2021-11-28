@@ -1,22 +1,23 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
-import com.mojang.math.Vector3d;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -86,7 +87,7 @@ public class BossWitchReward extends BossBaseReward
 				if(RewardsUtil.rand.nextInt(15) == 4)
 					spawnMinoins(witch.getOnPos(), level, battleWrapper);
 				if(RewardsUtil.rand.nextInt(10) == 4)
-					lightningStrike(player.getOnPos(), level);
+					EntityWrapper.spawnLightning(level, player.getOnPos());
 				if(RewardsUtil.rand.nextInt(5) == 4)
 					throwPotion(witch, player.getOnPos(), level);
 			}
@@ -95,23 +96,16 @@ public class BossWitchReward extends BossBaseReward
 		return witch;
 	}
 
-	private void lightningStrike(BlockPos playerPos, ServerLevel level)
-	{
-		LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level);
-		lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(playerPos));
-		lightningboltentity.setEffectOnly(false);
-		level.addFreshEntity(lightningboltentity);
-	}
-
 	private void throwPotion(Witch witch, BlockPos playerPos, ServerLevel level)
 	{
-		PotionEntity pot = new PotionEntity(level, witch);
-		pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), RewardsUtil.getRandomPotionType()));
+		ThrownPotion pot = new ThrownPotion(level, witch);
+		MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
+		pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
 		double d0 = playerPos.getY() + 0.5;
 		double d1 = playerPos.getX() - witch.getX();
 		double d2 = d0 - pot.getY();
 		double d3 = playerPos.getZ() - witch.getZ();
-		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+		float f = (float) (Math.sqrt(d1 * d1 + d3 * d3) * 0.2F);
 		pot.shoot(d1, d2 + (double) f, d3, 1.6F, 12.0F);
 		level.addFreshEntity(pot);
 	}

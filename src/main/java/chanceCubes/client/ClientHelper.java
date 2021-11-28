@@ -11,12 +11,12 @@ import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 public class ClientHelper
 {
@@ -28,22 +28,25 @@ public class ClientHelper
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, TileChanceD20Renderer::new);
-		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER, TileCubeDispenserRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT, TileGiantCubeRenderer::new);
+		BlockEntityRenderers.register(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, p_173571_ -> new TileChanceD20Renderer());
+		BlockEntityRenderers.register(CCubesBlocks.TILE_CUBE_DISPENSER, p_173571_ -> new TileCubeDispenserRenderer());
+		BlockEntityRenderers.register(CCubesBlocks.TILE_CHANCE_GIANT, p_173571_ -> new TileGiantCubeRenderer());
 
-		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
+		//TODO
+		//RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
+		//RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
 	}
 
 	public static void openRewardSelectorGUI(Player player, ItemStack stack)
 	{
-		Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
+		//TODO
+		//Minecraft.getInstance().displayGuiScreen(new RewardSelectorPendantGui(player, stack));
 	}
 
 	public static void openSchematicCreatorGUI(Player player)
 	{
-		Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
+		//TODO
+		//Minecraft.getInstance().displayGuiScreen(new SchematicCreationGui(player));
 	}
 
 
