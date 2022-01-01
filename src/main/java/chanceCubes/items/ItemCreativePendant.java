@@ -1,7 +1,7 @@
 package chanceCubes.items;
 
+import chanceCubes.client.ClientHelper;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,23 +22,9 @@ public class ItemCreativePendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getItemInHand(hand);
 		if(level.isClientSide())
-			return new InteractionResultHolder<>(InteractionResult.PASS, stack);
+			return InteractionResultHolder.pass(stack);
 
-		//TODO Reimplement
-//		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider()
-//		{
-//			@Override
-//			public ITextComponent getDisplayName()
-//			{
-//				return new StringTextComponent("Creative Pendant");
-//			}
-//
-//			@Override
-//			public Container createMenu(int p_createMenu_1_, PlayerInventory inv, PlayerEntity player)
-//			{
-//				return new CreativePendantContainer(0, inv);
-//			}
-//		});
-		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+		ClientHelper.openCreativePendantGUI(player, stack);
+		return InteractionResultHolder.success(stack);
 	}
 }

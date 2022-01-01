@@ -1,13 +1,14 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.containers.CreativePendantContainer;
+import chanceCubes.items.ItemChanceCube;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.items.ItemChanceCube;
 
 import java.util.function.Supplier;
 
@@ -34,24 +35,23 @@ public class PacketCreativePendant
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			Container c;
+			Player player = ctx.get().getSender();
+			if(player == null)
+				return;
+
 			try
 			{
-				//TODO
-				//c = ctx.get().getSender().openContainer;
-			} catch(Exception NullPointerException)
+				AbstractContainerMenu c = player.containerMenu;
+				if(c instanceof CreativePendantContainer container)
+				{
+					ItemStack cCubes = container.getChanceCubesInPendant();
+					if(!cCubes.isEmpty() && cCubes.getItem() instanceof ItemChanceCube)
+						((ItemChanceCube) cCubes.getItem()).setChance(cCubes, msg.chanceValue);
+				}
+			} catch(Exception e)
 			{
 				CCubesCore.logger.log(Level.ERROR, "Chance Cubes has failed to set the chance of a cube due to a packet failure! Please Inform Turkey of this!");
-				return;
 			}
-
-			//TODO
-//			if(c instanceof CreativePendantContainer container)
-//			{
-//				ItemStack cCubes = container.getChanceCubesInPendant();
-//				if(!cCubes.isEmpty() && cCubes.getItem() instanceof ItemChanceCube)
-//					((ItemChanceCube) cCubes.getItem()).setChance(cCubes, msg.chanceValue);
-//			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

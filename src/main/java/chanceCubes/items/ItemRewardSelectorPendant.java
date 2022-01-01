@@ -36,12 +36,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getItemInHand(hand);
 		if(player.isCrouching() && level.isClientSide() && player.isCreative())
-		{
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-			{
-				ClientHelper.openRewardSelectorGUI(player, stack);
-			});
-		}
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHelper.openRewardSelectorGUI(player, stack));
 		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 	}
 

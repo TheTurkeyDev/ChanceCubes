@@ -42,10 +42,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 			return Shapes.block();
 
 		BlockPos diff = pos.subtract(gc.getMasterPostion());
-		int xDiff = (diff.getX() * 16);
-		int yDiff = (diff.getY() * 16);
-		int zDiff = (diff.getZ() * 16);
-		return Shapes.box(-16 - xDiff, -16 - yDiff, -16 - zDiff, 32 - xDiff, 32 - yDiff, 32 - zDiff);
+		return Shapes.box(-1 - diff.getX(), -1 - diff.getY(), -1 - diff.getZ(), 2 - diff.getX(), 2 - diff.getY(), 2 - diff.getZ());
 	}
 
 	@Override

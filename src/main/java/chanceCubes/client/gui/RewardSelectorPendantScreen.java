@@ -3,11 +3,13 @@ package chanceCubes.client.gui;
 import chanceCubes.CCubesCore;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -15,12 +17,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
-public class RewardSelectorPendantGui extends Screen
+public class RewardSelectorPendantScreen extends Screen
 {
-	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID + ":textures/gui/container/gui_reward_selector_pendant.png");
+	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID, "textures/gui/container/gui_reward_selector_pendant.png");
 	private EditBox rewardField;
 	private String rewardName = "";
 	private final Player player;
@@ -28,7 +29,7 @@ public class RewardSelectorPendantGui extends Screen
 	private final int imageHeight = 54;
 	private final ItemStack stack;
 
-	public RewardSelectorPendantGui(Player player, ItemStack stack)
+	public RewardSelectorPendantScreen(Player player, ItemStack stack)
 	{
 		super(new TextComponent(""));
 		this.stack = stack;
@@ -52,8 +53,8 @@ public class RewardSelectorPendantGui extends Screen
 		//this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxLength(100);
 		this.rewardField.setValue(this.rewardName);
-		this.addWidget(this.rewardField);
-		this.addWidget(new Button(i + 57, j + 27, 70, 20, new TextComponent("Set Reward"), p_onPress_1_ ->
+		this.addRenderableWidget(this.rewardField);
+		this.addRenderableWidget(new Button(i + 57, j + 27, 70, 20, new TextComponent("Set Reward"), p_onPress_1_ ->
 		{
 			CompoundTag nbt = stack.getTag();
 			if(nbt == null)
@@ -76,10 +77,10 @@ public class RewardSelectorPendantGui extends Screen
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
-		this.minecraft.getTextureManager().bindForSetup(guiTextures);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, guiTextures);
 		this.blit(matrixStack, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_BLEND);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.rewardField.render(matrixStack, mouseX, mouseY, partialTicks);
 	}

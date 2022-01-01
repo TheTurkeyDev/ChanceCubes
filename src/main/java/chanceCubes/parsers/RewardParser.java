@@ -94,6 +94,11 @@ public class RewardParser
 			String currentParsingPart = rewardElement.getKey();
 			try
 			{
+				if(!rewardElement.getValue().isJsonArray())
+				{
+					CCubesCore.logger.log(Level.ERROR, "Not a JSON Array! Failed to load reward: " + currentParsingPart);
+					continue;
+				}
 				JsonArray rewardTypes = rewardElement.getValue().getAsJsonArray();
 				if(rewardElement.getKey().equalsIgnoreCase("Item"))
 					loadItemReward(rewardTypes, rewards);

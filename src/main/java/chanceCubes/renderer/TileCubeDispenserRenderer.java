@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.Level;
 
@@ -29,7 +30,7 @@ public class TileCubeDispenserRenderer implements BlockEntityRenderer<TileCubeDi
 	{
 		Level level = te.getLevel();
 
-		if(!level.getBlockState(te.getBlockPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER))
+		if(level == null || !level.getBlockState(te.getBlockPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER))
 			return;
 
 		DispenseType type = BlockCubeDispenser.getCurrentState(level.getBlockState(te.getBlockPos()));
@@ -41,14 +42,13 @@ public class TileCubeDispenserRenderer implements BlockEntityRenderer<TileCubeDi
 		poseStack.translate(0.5F, yy + 1.25f, 0.5F);
 		te.rot += ROTATE_SPEED;
 		te.rot %= 360;
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(te.rot * 360.0F));
-		//poseStack.rotate(new Quaternion(new Vector3f(0.0F, 1.0F, 0.0F), te.rot, true));
+		poseStack.mulPose(Vector3f.YP.rotationDegrees(te.rot));
 		poseStack.scale(0.35f, 0.35f, 0.35f);
 
 		Minecraft mc = Minecraft.getInstance();
 		ItemRenderer renderer = mc.getItemRenderer();
 		BakedModel model = renderer.getModel(te.getCurrentStack(type), te.getLevel(), null, 0);
-		renderer.render(te.getCurrentStack(type), ItemTransforms.TransformType.NONE, true, poseStack, bufferIn, level.getLightEmission(te.getBlockPos().offset(0, 1, 0)) * 100, combinedOverlayIn, model);
+		renderer.render(te.getCurrentStack(type), ItemTransforms.TransformType.NONE, true, poseStack, bufferIn, level.getLightEmission(te.getBlockPos().offset(0, 1, 0)), OverlayTexture.NO_OVERLAY, model);
 		poseStack.popPose();
 	}
 }
