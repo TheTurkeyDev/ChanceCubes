@@ -5,10 +5,10 @@ public class Location2I
 	private int x;
 	private int y;
 
-	public Location2I(int xloc, int yloc)
+	public Location2I(int xLoc, int yLoc)
 	{
-		x = xloc;
-		y = yloc;
+		x = xLoc;
+		y = yLoc;
 	}
 
 	public int getX()

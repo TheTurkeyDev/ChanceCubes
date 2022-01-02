@@ -37,7 +37,7 @@ public class SnowGlobeBiome extends BaseBiome
 				snowman.moveTo(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);
 				level.addFreshEntity(snowman);
 			}
-			else if(ri == 1)
+			else
 			{
 				PolarBear polarBear = EntityType.POLAR_BEAR.create(level);
 				polarBear.moveTo(pos.getX() + (rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (rand.nextInt(31) - 15), 0, 0);

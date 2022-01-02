@@ -15,11 +15,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
+
+import javax.annotation.Nullable;
 
 public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 {
@@ -46,31 +47,26 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
 	{
-		BlockEntity te = level.getBlockEntity(pos);
-		boolean removed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
-		if(!level.isClientSide() && !(player instanceof FakePlayer))
+		super.playerWillDestroy(level, pos, state, player);
+		BlockEntity be = level.getBlockEntity(pos);
+		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
 		{
-			if(te != null)
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 			{
-				TileGiantCube gcte = (TileGiantCube) te;
-				if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
-				{
-					popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
-					GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
-					return true;
-				}
-
-				if(!gcte.hasMaster() || !gcte.checkForMaster())
-					level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-
-				ServerLevel serverWorld = (ServerLevel) level;
-				RewardsUtil.executeCommand(serverWorld, player, player.getOnPos(), "/advancement grant @p only chancecubes:giant_chance_cube");
-				GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
+				popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
+				return;
 			}
+
+			if(!gcte.hasMaster() || !gcte.checkForMaster())
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+
+			ServerLevel serverWorld = (ServerLevel) level;
+			RewardsUtil.executeCommand(serverWorld, player, player.getOnPos(), "/advancement grant @p only chancecubes:giant_chance_cube");
+			GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
+			GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 		}
-		return removed;
 	}
 }

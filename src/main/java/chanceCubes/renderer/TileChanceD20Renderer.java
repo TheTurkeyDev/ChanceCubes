@@ -8,6 +8,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.level.Level;
 
 import java.awt.*;
 import java.util.Random;
@@ -32,17 +33,24 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 		VertexConsumer vertexconsumer2 = bufferIn.getBuffer(RenderType.lightning());
 		poseStack.pushPose();
 
+		Level level = d20.getLevel();
+
+		long gameTime = 0;
+
+		if(level != null)
+			gameTime = level.getGameTime();
+
 		float wave;
 		if(d20.getStage() == 0)
-			wave = (float) (Math.sin((((d20.getLevel().getGameTime() % HOVER_SPEED + partialTicks) / HOVER_SPEED) + random.nextFloat()) * 360F) * 0.3f);
+			wave = (float) (Math.sin((((gameTime % HOVER_SPEED + partialTicks) / HOVER_SPEED) + random.nextFloat()) * 360F) * 0.3f);
 		else
 			wave = ((d20.getStage() + partialTicks) / 70f);
 
 		d20.wave = wave;
-		float rotation = ((float) d20.getLevel().getGameTime() % ROTATION_SPEED + partialTicks) / ROTATION_SPEED;
+		float rotation = ((float) gameTime % ROTATION_SPEED + partialTicks) / ROTATION_SPEED;
 		int f7 = 0;
 
-		float color = (d20.getLevel().getGameTime() % 75) / 75F;
+		float color = (gameTime % 75) / 75F;
 		Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
 		int r = tmpClr.getRed();
 		int g = tmpClr.getGreen();

@@ -33,15 +33,14 @@ import chanceCubes.CCubesCore;
 
 public class FileUtil
 {
-	public static final JsonParser JSON_PARSER = new JsonParser();
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-	public static JsonElement readJsonfromFile(String filepath)
+	public static JsonElement readJsonFromFile(String filepath)
 	{
 		StringBuilder builder = new StringBuilder();
 		try
 		{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filepath))));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
 			String line;
 			while((line = reader.readLine()) != null)
 				builder.append(line);
@@ -52,7 +51,7 @@ public class FileUtil
 			e.printStackTrace();
 			return null;
 		}
-		return JSON_PARSER.parse(builder.toString());
+		return JsonParser.parseString(builder.toString());
 	}
 
 	@Nonnull
@@ -129,12 +128,12 @@ public class FileUtil
 	}
 
 	@SuppressWarnings("resource")
-	public static void zipFolderContents(File directory, File zipfile) throws IOException
+	public static void zipFolderContents(File directory, File zipFile) throws IOException
 	{
 		URI base = directory.toURI();
 		Deque<File> queue = new LinkedList<>();
 		queue.push(directory);
-		OutputStream out = new FileOutputStream(zipfile);
+		OutputStream out = new FileOutputStream(zipFile);
 		Closeable res = out;
 		try
 		{

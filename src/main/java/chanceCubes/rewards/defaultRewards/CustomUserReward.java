@@ -17,15 +17,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -103,12 +103,11 @@ public class CustomUserReward extends BaseCustomReward
 		String userNameFinal = userName;
 		String typeFinal = type;
 		String twitchFinal = twitch;
-		MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-		server.execute(() ->
+		LogicalSidedProvider.WORKQUEUE.get(LogicalSide.SERVER).execute(() ->
 		{
 			GlobalCCRewardRegistry.DEFAULT.registerReward(new CustomUserReward(userNameFinal, uuid, typeFinal, customRewards));
 			GlobalCCRewardRegistry.DEFAULT.getPlayerRewardRegistry(uuid.toString()).enableReward(CCubesCore.MODID + ":cr_" + userNameFinal);
-			Player player = server.getPlayerList().getPlayer(uuid);
+			Player player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(uuid);
 			if(player == null)
 				return;
 

@@ -21,15 +21,15 @@ public class RewardBlockCache
 	protected Map<BlockPos, CompoundTag> storedTE = new HashMap<>();
 
 	private final BlockPos origin;
-	private final BlockPos playerloc;
+	private final BlockPos playerLoc;
 	private final Level level;
 	private boolean force = true;
 
-	public RewardBlockCache(Level level, BlockPos pos, BlockPos playerloc)
+	public RewardBlockCache(Level level, BlockPos pos, BlockPos playerLoc)
 	{
 		this.level = level;
 		this.origin = pos;
-		this.playerloc = playerloc;
+		this.playerLoc = playerLoc;
 	}
 
 	public void setForce(boolean force)
@@ -84,7 +84,7 @@ public class RewardBlockCache
 		}
 
 		if(player != null)
-			player.moveTo(playerloc.getX() + 0.5, playerloc.getY() + 1, playerloc.getZ() + 0.5);
+			player.moveTo(playerLoc.getX() + 0.5, playerLoc.getY() + 1, playerLoc.getZ() + 0.5);
 	}
 
 	private static class StoredBlockData

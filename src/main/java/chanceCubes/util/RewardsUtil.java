@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.math.Vector3d;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
@@ -319,7 +320,7 @@ public class RewardsUtil
 
 	public static String getRandomOreDict(List<String> blacklist)
 	{
-		List<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line)).collect(Collectors.toList());
+		List<String> oredicts = RewardsUtil.getOreDicts().stream().filter(line -> !blacklist.contains(line)).toList();
 		return oredicts.size() > 0 ? oredicts.get(rand.nextInt(oredicts.size())) : "ores/coal";
 	}
 
@@ -445,6 +446,6 @@ public class RewardsUtil
 		{
 			e.printStackTrace();
 		}
-		return FileUtil.JSON_PARSER.parse(builder.toString()).getAsJsonObject();
+		return JsonParser.parseString(builder.toString()).getAsJsonObject();
 	}
 }

@@ -193,8 +193,8 @@ public class ConfigLoader
 	{
 		try
 		{
-			globalDisableConfigJson = new JsonParser().parse(new FileReader(globalDisableConfig)).getAsJsonObject();
-			rewardSettingsJson = new JsonParser().parse(new FileReader(rewardSettingsConfig)).getAsJsonObject();
+			globalDisableConfigJson = JsonParser.parseReader(new FileReader(globalDisableConfig)).getAsJsonObject();
+			rewardSettingsJson = JsonParser.parseReader(new FileReader(rewardSettingsConfig)).getAsJsonObject();
 		} catch(FileNotFoundException e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Chance Cubes could not load the global rewards and/or the reward settings config file!");

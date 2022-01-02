@@ -50,7 +50,7 @@ public class BlockThrowerReward extends BaseCustomReward
 
 		Scheduler.scheduleTask(new Task("Throw_Block", 450, 2)
 		{
-			private List<FallingBlockEntity> blocks = new ArrayList<>();
+			private final List<FallingBlockEntity> blocks = new ArrayList<>();
 
 			@Override
 			public void update()
@@ -124,15 +124,10 @@ public class BlockThrowerReward extends BaseCustomReward
 					{
 						ent = EntityType.BAT.create(level);
 					}
-					else if(rand == 5)
+					else
 					{
 						ent = EntityType.ZOMBIE.create(level);
 						((LivingEntity) ent).addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20, 3));
-					}
-					else
-					{
-						ent = EntityType.ITEM.create(level);
-						((ItemEntity) ent).setItem(new ItemStack(Items.DIAMOND));
 					}
 
 					ent.moveTo(b.getX(), b.getY(), b.getZ());

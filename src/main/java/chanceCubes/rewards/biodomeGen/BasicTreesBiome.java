@@ -118,7 +118,7 @@ public class BasicTreesBiome extends BaseBiome
 				pig.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
 				level.addFreshEntity(pig);
 			}
-			else if(ri == 4)
+			else
 			{
 				Sheep sheep = EntityType.SHEEP.create(level);
 				sheep.moveTo(center.getX() + (RewardsUtil.rand.nextInt(31) - 15), center.getY() + 1, center.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);

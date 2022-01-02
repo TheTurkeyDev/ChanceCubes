@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
@@ -16,9 +16,9 @@ public class WorldRenderListener
 {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onGuiRender(RenderWorldLastEvent event)
+	public void onGuiRender(RenderLevelLastEvent event)
 	{
-		PoseStack poseStack = event.getMatrixStack();
+		PoseStack poseStack = event.getPoseStack();
 		if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 		{
 			poseStack.pushPose();

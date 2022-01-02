@@ -38,15 +38,14 @@ public class TileGiantCube extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag data)
+	public void saveAdditional(CompoundTag data)
 	{
-		data = super.save(data);
+		super.saveAdditional(data);
 		data.putInt("masterX", masterPos.getX());
 		data.putInt("masterY", masterPos.getY());
 		data.putInt("masterZ", masterPos.getZ());
 		data.putBoolean("hasMaster", hasMaster);
 		data.putBoolean("isMaster", isMaster);
-		return data;
 	}
 
 	@Override
@@ -64,14 +63,21 @@ public class TileGiantCube extends BlockEntity
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, getUpdateTag());
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag()
 	{
-		return this.save(new CompoundTag());
+		CompoundTag data = new CompoundTag();
+		data.putInt("masterX", masterPos.getX());
+		data.putInt("masterY", masterPos.getY());
+		data.putInt("masterZ", masterPos.getZ());
+		data.putBoolean("hasMaster", hasMaster);
+		data.putBoolean("isMaster", isMaster);
+		return data;
 	}
+
 
 	@Override
 	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)

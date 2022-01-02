@@ -27,15 +27,12 @@ public class CustomRewardsLoader
 {
 	public static CustomRewardsLoader instance;
 
-	private static JsonParser json;
-
 	private final File folder;
 
 	public CustomRewardsLoader(File folder)
 	{
 		instance = this;
 		this.folder = folder;
-		json = new JsonParser();
 
 		CustomSoundsLoader customSounds = new CustomSoundsLoader(folder, new File(folder.getAbsolutePath() + "/CustomSounds-Resourcepack"), "Chance Cubes Resource Pack");
 		customSounds.addCustomSounds();
@@ -61,7 +58,7 @@ public class CustomRewardsLoader
 				try
 				{
 					CCubesCore.logger.log(Level.INFO, "Loading custom rewards file " + f.getName());
-					fileJson = json.parse(new FileReader(f));
+					fileJson = JsonParser.parseReader(new FileReader(f));
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Skipping file loading.");

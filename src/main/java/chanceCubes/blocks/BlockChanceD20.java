@@ -23,7 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.network.PacketDistributor;
 
 public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 {
@@ -59,8 +59,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 //	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand
-			p_60507_, BlockHitResult p_60508_)
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result)
 	{
 		return this.startd20(level, pos, player) ? InteractionResult.PASS : InteractionResult.FAIL;
 	}
@@ -70,20 +69,22 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 		if(level.isClientSide() || player == null || player instanceof FakePlayer)
 			return true;
 
-		TileChanceD20 te = (TileChanceD20) level.getBlockEntity(pos);
-		if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
+		if(level.getBlockEntity(pos) instanceof TileChanceD20 te)
 		{
-			ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
-			((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
-			popResource(level, pos, stack);
-			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-			level.removeBlockEntity(pos);
-			return false;
-		}
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
+			{
+				ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
+				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
+				popResource(level, pos, stack);
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+				level.removeBlockEntity(pos);
+				return false;
+			}
 
-		RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
-		te.startBreaking(player);
-		CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())), new PacketTriggerD20(pos));
+			RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
+			te.startBreaking(player);
+			CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())), new PacketTriggerD20(pos));
+		}
 		return false;
 	}
 }

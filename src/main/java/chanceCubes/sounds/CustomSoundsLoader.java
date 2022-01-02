@@ -111,15 +111,7 @@ public class CustomSoundsLoader
 //		}
 	}
 
-	private static class CustomFile
+	private record CustomFile(String ext, File file)
 	{
-		private final String ext;
-		private final File file;
-
-		private CustomFile(String ext, File file)
-		{
-			this.ext = ext;
-			this.file = file;
-		}
 	}
 }

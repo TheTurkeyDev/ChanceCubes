@@ -90,7 +90,7 @@ public class CountDownReward extends BaseCustomReward
 					pot.setDeltaMovement(0, -1, 0);
 					level.addFreshEntity(pot);
 				}
-				else if(thing == 9)
+				else
 				{
 					RewardsUtil.placeBlock(RewardsUtil.getRandomFluid(true).defaultFluidState().createLegacyBlock(), level, pos);
 				}

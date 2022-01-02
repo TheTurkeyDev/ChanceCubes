@@ -15,7 +15,6 @@ import java.net.URL;
 public class HTTPUtil
 {
 	public static final String API_URL = "https://api.theturkey.dev/";
-	private static final JsonParser json = new JsonParser();
 
 	@SafeVarargs
 	public static JsonElement makeAPIReq(String type, String url, CustomEntry<String, String>... extras) throws Exception
@@ -70,9 +69,6 @@ public class HTTPUtil
 			buffer.append(line);
 
 		con.disconnect();
-
-		String page = buffer.toString();
-
-		return json.parse(page);
+		return JsonParser.parseString(buffer.toString());
 	}
 }

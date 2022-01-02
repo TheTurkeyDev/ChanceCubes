@@ -21,7 +21,7 @@ public class IntVar extends CustomVar
 
 	public IntVar(Integer[] val)
 	{
-		this.addPart(new ListPart<Integer>(val));
+		this.addPart(new ListPart<>(val));
 	}
 
 	public int getIntValue()

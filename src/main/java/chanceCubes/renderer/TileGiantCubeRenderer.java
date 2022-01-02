@@ -48,7 +48,7 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 	@SubscribeEvent
 	public static void onTextureStitch(TextureStitchEvent.Pre event)
 	{
-		if(event.getMap().location().equals(Sheets.CHEST_SHEET))
+		if(event.getAtlas().location().equals(Sheets.CHEST_SHEET))
 			for(ResourceLocation res : GCC_TEXTURES.values())
 				event.addSprite(res);
 	}

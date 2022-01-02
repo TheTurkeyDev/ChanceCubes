@@ -125,11 +125,9 @@ public class NonreplaceableBlockOverride
 		{
 			String toAdd = parseOverride(override);
 			if(toAdd != null)
-			{
 				strings.add(toAdd);
-			}
 		}
-		return (String[]) strings.toArray();
+		return strings.toArray(new String[0]);
 	}
 
 	/**
@@ -143,16 +141,13 @@ public class NonreplaceableBlockOverride
 	{
 		switch(override.overrideType)
 		{
-			case ADD:
-			{
+			case ADD -> {
 				return "+" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
 			}
-			case REMOVE:
-			{
+			case REMOVE -> {
 				return "-" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
 			}
-			default:
-			{
+			default -> {
 				CCubesCore.logger.error("I have no idea how this managed to fall through to the default...");
 				return null;
 			}
@@ -172,8 +167,7 @@ public class NonreplaceableBlockOverride
 			{
 				switch(override.overrideType)
 				{
-					case ADD:
-					{
+					case ADD -> {
 						if(!CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
@@ -183,10 +177,8 @@ public class NonreplaceableBlockOverride
 						{
 							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " already exists in the NRB array, skipping.");
 						}
-						break;
 					}
-					case REMOVE:
-					{
+					case REMOVE -> {
 						if(CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.remove(override.overriddenBlock);
@@ -196,12 +188,8 @@ public class NonreplaceableBlockOverride
 						{
 							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " has already been removed from the NRB array, skipping.");
 						}
-						break;
 					}
-					default:
-					{
-						CCubesCore.logger.error("Something has gone horribly awry, #BlameDaemonumbra!");
-					}
+					default -> CCubesCore.logger.error("Something has gone horribly awry, #BlameDaemonumbra!");
 				}
 			}
 		} catch(Exception ex)

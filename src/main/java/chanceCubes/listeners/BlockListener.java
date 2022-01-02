@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BlockListener
 {
-	private boolean setdelay = false;
+	private boolean setDelay = false;
 
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event)
@@ -46,7 +46,7 @@ public class BlockListener
 
 	public boolean setSchematicPoint(int point, Player player, BlockPos pos)
 	{
-		if(Minecraft.getInstance().isLocalServer() && RenderEvent.isCreatingSchematic() && !setdelay)
+		if(Minecraft.getInstance().isLocalServer() && RenderEvent.isCreatingSchematic() && !setDelay)
 		{
 			if(player.isCreative())
 			{
@@ -66,14 +66,14 @@ public class BlockListener
 
 				if(flag)
 				{
-					setdelay = true;
+					setDelay = true;
 					Scheduler.scheduleTask(new Task("Schematic_Point_Set_Delay", 10)
 					{
 
 						@Override
 						public void callback()
 						{
-							setdelay = false;
+							setDelay = false;
 						}
 
 					});

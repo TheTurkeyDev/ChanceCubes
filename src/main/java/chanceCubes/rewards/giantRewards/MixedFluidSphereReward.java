@@ -44,15 +44,14 @@ public class MixedFluidSphereReward extends BaseCustomReward
 								OffsetBlock osb = new OffsetBlock(xx, yy, zz, Blocks.GLASS, false, delay);
 								osb.setBlockState(Blocks.GLASS.defaultBlockState());
 								blocks.add(osb);
-								delay++;
 							}
 							else
 							{
 								Fluid fluid = RewardsUtil.getRandomFluid(true);
 								OffsetBlock osb = new OffsetBlock(xx, yy, zz, fluid.defaultFluidState().createLegacyBlock(), false, delay);
 								blocks.add(osb);
-								delay++;
 							}
+							delay++;
 
 						}
 					}

@@ -7,7 +7,7 @@ import chanceCubes.containers.CreativePendantContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,7 +60,7 @@ public class CCubesItems
 	@SubscribeEvent
 	public static void onContainerRegistry(RegistryEvent.Register<MenuType<?>> event)
 	{
-		CREATIVE_PENDANT_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
+		CREATIVE_PENDANT_CONTAINER = IForgeMenuType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
 		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
 		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
 

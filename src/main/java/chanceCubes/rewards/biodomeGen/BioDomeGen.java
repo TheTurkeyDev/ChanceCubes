@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BioDomeGen
 {
@@ -47,7 +46,7 @@ public class BioDomeGen
 	public void genRandomDome(final BlockPos pos, final ServerLevel level, int radius, boolean spawnEntities)
 	{
 		IBioDomeBiome biome = biomes[0];
-		List<IBioDomeBiome> biomesFiltered = Arrays.stream(biomes).filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).collect(Collectors.toList());
+		List<IBioDomeBiome> biomesFiltered = Arrays.stream(biomes).filter(line -> !this.blackListBiomes.contains(line.getBiomeName())).toList();
 		if(biomesFiltered.size() != 0)
 			biome = biomesFiltered.get(RewardsUtil.rand.nextInt(biomesFiltered.size()));
 		this.genDome(biome, pos, level, radius, spawnEntities);

@@ -55,7 +55,7 @@ public class EntityRewardType extends BaseRewardType<EntityPart>
 				for(int i = 0; i < copies; i++)
 				{
 					Optional<Entity> opt = EntityType.create(part.getNBT(), level);
-					if(!opt.isPresent())
+					if(opt.isEmpty())
 					{
 						CCubesCore.logger.log(Level.ERROR, "Invalid entity NBT! " + part.getNBT().toString());
 						return;

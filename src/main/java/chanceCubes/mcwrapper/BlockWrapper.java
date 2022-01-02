@@ -6,7 +6,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockWrapper
 {
@@ -29,7 +28,6 @@ public class BlockWrapper
 
 	public static boolean isBlockSolid(Level level, BlockPos pos)
 	{
-		BlockState state = level.getBlockState(pos);
-		return state.isSolidRender(level, pos);
+		return level.getBlockState(pos).isSolidRender(level, pos);
 	}
 }

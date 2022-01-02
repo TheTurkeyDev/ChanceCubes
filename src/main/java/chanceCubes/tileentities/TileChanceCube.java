@@ -41,11 +41,10 @@ public class TileChanceCube extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag nbt)
+	public void saveAdditional(CompoundTag nbt)
 	{
-		super.save(nbt);
+		super.saveAdditional(nbt);
 		nbt.putInt("chance", this.getChance());
-		return nbt;
 	}
 
 	@Override
@@ -58,13 +57,15 @@ public class TileChanceCube extends BlockEntity
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, this.getUpdateTag());
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag()
 	{
-		return this.save(new CompoundTag());
+		CompoundTag tag = new CompoundTag();
+		tag.putInt("chance", this.getChance());
+		return tag;
 	}
 
 	@Override

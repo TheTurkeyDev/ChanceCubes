@@ -72,12 +72,20 @@ public class TileChanceD20 extends BlockEntity
 
 
 	@Override
-	public CompoundTag save(CompoundTag nbt)
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
+		nbt.putInt("chance", this.getChance());
+	}
+
+	@Override
+	public CompoundTag getUpdateTag()
 	{
+		CompoundTag nbt = new CompoundTag();
 		nbt.putInt("chance", this.getChance());
 		nbt = super.save(nbt);
 		return nbt;
 	}
+
 
 	@Override
 	public void load(CompoundTag nbt)
@@ -143,9 +151,7 @@ public class TileChanceD20 extends BlockEntity
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag syncData = new CompoundTag();
-		syncData = this.save(syncData);
-		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, syncData);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override

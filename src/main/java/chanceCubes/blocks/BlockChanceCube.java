@@ -20,8 +20,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.FakePlayer;
+
+import javax.annotation.Nullable;
 
 public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 {
@@ -43,9 +44,11 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
 	{
-		if(!level.isClientSide() && !(player instanceof FakePlayer) && level.getBlockEntity(pos) instanceof TileChanceCube te)
+		super.playerWillDestroy(level, pos, state, player);
+		BlockEntity be = level.getBlockEntity(pos);
+		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
 		{
 			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 			{
@@ -55,13 +58,12 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				level.removeBlockEntity(pos);
 				level.addFreshEntity(blockStack);
-				return true;
+				return;
 			}
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
 		}
-		return true;
 	}
 
 	@Override

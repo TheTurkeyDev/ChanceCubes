@@ -41,19 +41,18 @@ public class FluidSphereReward extends BaseCustomReward
 						double dist = Math.sqrt(Math.abs(loc.distSqr(0, 0, 0, false)));
 						if(dist <= 5 - i && dist > 5 - (i + 1))
 						{
+							OffsetBlock osb;
 							if(i == 0)
 							{
-								OffsetBlock osb = new OffsetBlock(xx, yy, zz, Blocks.GLASS, false, delay);
+								osb = new OffsetBlock(xx, yy, zz, Blocks.GLASS, false, delay);
 								osb.setBlockState(Blocks.GLASS.defaultBlockState());
-								blocks.add(osb);
-								delay++;
 							}
 							else
 							{
-								OffsetBlock osb = new OffsetBlock(xx, yy, zz, fluid.defaultFluidState().createLegacyBlock(), false, delay);
-								blocks.add(osb);
-								delay++;
+								osb = new OffsetBlock(xx, yy, zz, fluid.defaultFluidState().createLegacyBlock(), false, delay);
 							}
+							blocks.add(osb);
+							delay++;
 
 						}
 					}

@@ -10,22 +10,16 @@ public class RewardInfoActionArgument implements ArgumentType<InfoAction>
 	@Override
 	public InfoAction parse(StringReader reader)
 	{
-		switch(reader.getString().toLowerCase())
-		{
-			case "default":
-				return InfoAction.DEFAULT;
-			case "default_all":
-				return InfoAction.DEFAULT_ALL;
-			case "default_disabled":
-				return InfoAction.DEFAULT_DISABLED;
-			case "giant":
-				return InfoAction.GIANT;
-			case "giant_all":
-				return InfoAction.GIANT_ALL;
-			case "giant_disabled":
-				return InfoAction.GIANT_DISABLED;
-		}
-		return InfoAction.NONE;
+		return switch(reader.getString().toLowerCase())
+				{
+					case "default" -> InfoAction.DEFAULT;
+					case "default_all" -> InfoAction.DEFAULT_ALL;
+					case "default_disabled" -> InfoAction.DEFAULT_DISABLED;
+					case "giant" -> InfoAction.GIANT;
+					case "giant_all" -> InfoAction.GIANT_ALL;
+					case "giant_disabled" -> InfoAction.GIANT_DISABLED;
+					default -> InfoAction.NONE;
+				};
 	}
 
 	public static InfoAction func_212592_a(CommandContext<CommandSourceStack> p_212592_0_, String p_212592_1_)

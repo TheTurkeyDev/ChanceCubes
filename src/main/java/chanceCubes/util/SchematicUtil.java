@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -182,7 +183,7 @@ public class SchematicUtil
 
 	public static CustomSchematic loadCustomSchematic(String file, int xOffSet, int yOffSet, int zOffSet, FloatVar spacingDelay, BoolVar falling, BoolVar relativeToPlayer, BoolVar includeAirBlocks, BoolVar playSound, IntVar delay)
 	{
-		JsonElement elem = FileUtil.readJsonfromFile(ConfigLoader.schematicsFolder.getAbsolutePath() + "/" + file);
+		JsonElement elem = FileUtil.readJsonFromFile(ConfigLoader.schematicsFolder.getAbsolutePath() + "/" + file);
 		return SchematicUtil.loadCustomSchematic(elem, xOffSet, yOffSet, zOffSet, spacingDelay, falling, relativeToPlayer, includeAirBlocks, playSound, delay);
 	}
 
@@ -312,7 +313,7 @@ public class SchematicUtil
 		{
 			e.printStackTrace();
 		}
-		return FileUtil.JSON_PARSER.parse(builder.toString());
+		return JsonParser.parseString(builder.toString());
 	}
 
 	public static String encodeBlockState(BlockState state)

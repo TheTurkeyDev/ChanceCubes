@@ -75,9 +75,10 @@ public class OffsetTileEntity extends OffsetBlock
 		if(!offset)
 			pos = placeLoc;
 
-		BlockEntity te = BlockEntity.loadStatic(pos, state, teNBT.getNBTValue());
+		BlockEntity be = BlockEntity.loadStatic(pos, state, teNBT.getNBTValue());
 
-		level.setBlockEntity(te);
+		if(be != null)
+			level.setBlockEntity(be);
 
 		return pos;
 	}

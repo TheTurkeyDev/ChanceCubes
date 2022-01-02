@@ -50,7 +50,7 @@ public class BossBlazeReward extends BossBaseReward
 					goInvisible(blaze);
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					setGroundOnFire(level, player.getOnPos());
-				if(RewardsUtil.rand.nextInt(3) == 4)
+				if(RewardsUtil.rand.nextInt(3) == 1)
 					shootFireballs(level, blaze, player);
 			}
 		});
