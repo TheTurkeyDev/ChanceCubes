@@ -84,7 +84,7 @@ public class RewardBlockCache
 		}
 
 		if(player != null)
-			player.moveTo(playerloc.getX() + 0.5, playerloc.getY(), playerloc.getZ() + 0.5);
+			player.moveTo(playerloc.getX() + 0.5, playerloc.getY() + 1, playerloc.getZ() + 0.5);
 	}
 
 	private static class StoredBlockData

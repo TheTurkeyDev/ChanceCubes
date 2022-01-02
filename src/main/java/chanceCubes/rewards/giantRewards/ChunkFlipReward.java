@@ -25,11 +25,11 @@ public class ChunkFlipReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerLevel world, BlockPos pos, Player player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		int z = (pos.getZ() >> 4) << 4;
 		int x = (pos.getX() >> 4) << 4;
-		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 		RewardsUtil.sendMessageToPlayer(player, "Inception!!!!");
 		Scheduler.scheduleTask(new Task("Chunk_Flip_Delay", -1, 10)
 		{
@@ -43,7 +43,7 @@ public class ChunkFlipReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(y >= world.getHeight() / 2)
+				if(y >= level.getHeight() / 2)
 				{
 					Scheduler.removeTask(this);
 					return;
@@ -54,19 +54,21 @@ public class ChunkFlipReward extends BaseCustomReward
 					for(int xx = 0; xx < 16; xx++)
 					{
 						BlockPos pos1 = new BlockPos(x + xx, y, z + zz);
-						BlockPos pos2 = new BlockPos(x + xx, world.getHeight() - y, z + zz);
-						BlockState b = world.getBlockState(pos1);
-						BlockState b2 = world.getBlockState(pos2);
+						BlockPos pos2 = new BlockPos(x + xx, level.getHeight() - y, z + zz);
+						BlockState b = level.getBlockState(pos1);
+						BlockState b2 = level.getBlockState(pos2);
 
-						BlockEntity te1 = world.getBlockEntity(pos1);
-						BlockEntity te2 = world.getBlockEntity(pos2);
+						BlockEntity te1 = level.getBlockEntity(pos1);
+						BlockEntity te2 = level.getBlockEntity(pos2);
 
-						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE) && !RewardsUtil.isBlockUnbreakable(world, pos) && !CCubesSettings.nonReplaceableBlocks.contains(world.getBlockState(pos)))
+						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE) && !RewardsUtil.isBlockUnbreakable(level, pos) && !CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos)))
 						{
-							world.setBlock(pos1, b2, 2);
-							world.setBlock(pos2, b, 2);
-							world.setBlockEntity(te1);
-							world.setBlockEntity(te2);
+							level.setBlock(pos1, b2, 2);
+							level.setBlock(pos2, b, 2);
+							if(te1 != null)
+								level.setBlockEntity(te1);
+							if(te2 != null)
+								level.setBlockEntity(te2);
 						}
 					}
 				}

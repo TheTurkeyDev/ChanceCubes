@@ -16,12 +16,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoinFlipReward extends BaseCustomReward
 {
-	private final List<Player> inFlip = new ArrayList<>();
+	private final Map<Player, Task> inFlip = new HashMap<>();
 
 	public CoinFlipReward()
 	{
@@ -31,12 +31,11 @@ public class CoinFlipReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
-		if(inFlip.contains(player))
+		if(inFlip.containsKey(player))
 			return;
 
 		RewardsUtil.sendMessageToPlayer(player, "Heads or Tails?");
 
-		inFlip.add(player);
 
 		Task task = new Task("Heads_Or_Tails", 600)
 		{
@@ -45,15 +44,15 @@ public class CoinFlipReward extends BaseCustomReward
 			{
 				timeUp(player);
 			}
-
 		};
+		inFlip.put(player, task);
 
 		Scheduler.scheduleTask(task);
 	}
 
 	private void timeUp(Player player)
 	{
-		if(!inFlip.contains(player) || !RewardsUtil.isPlayerOnline(player))
+		if(!inFlip.containsKey(player) || !RewardsUtil.isPlayerOnline(player))
 			return;
 
 		RewardsUtil.sendMessageToPlayer(player, "Seem's that you didn't pick heads or tails.");
@@ -72,7 +71,7 @@ public class CoinFlipReward extends BaseCustomReward
 		if(!message.equalsIgnoreCase("Heads") && !message.equalsIgnoreCase("Tails"))
 			return;
 
-		if(inFlip.contains(player))
+		if(inFlip.containsKey(player))
 		{
 			int flip = RewardsUtil.rand.nextInt(6000);
 
@@ -117,7 +116,7 @@ public class CoinFlipReward extends BaseCustomReward
 				}
 			}
 
-			inFlip.remove(player);
+			Scheduler.removeTask(inFlip.remove(player));
 			event.setCanceled(true);
 		}
 	}
