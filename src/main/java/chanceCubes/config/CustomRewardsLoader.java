@@ -66,6 +66,11 @@ public class CustomRewardsLoader
 					continue;
 				}
 
+				if(!fileJson.isJsonObject())
+				{
+					CCubesCore.logger.log(Level.ERROR, "Unable to parse the file " + f.getName() + ". Contents are not a valid json object!");
+					continue;
+				}
 				int addedRewards = 0;
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{

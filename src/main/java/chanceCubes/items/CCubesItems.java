@@ -7,9 +7,11 @@ import chanceCubes.containers.CreativePendantContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -64,7 +66,10 @@ public class CCubesItems
 		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
 		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
 
-		MenuScreens.register(CREATIVE_PENDANT_CONTAINER, CreativePendantScreen::new);
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+		{
+			MenuScreens.register(CREATIVE_PENDANT_CONTAINER, CreativePendantScreen::new);
+		});
 	}
 
 }
