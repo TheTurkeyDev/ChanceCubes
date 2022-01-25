@@ -82,7 +82,6 @@ public class TileChanceD20 extends BlockEntity
 	{
 		CompoundTag nbt = new CompoundTag();
 		nbt.putInt("chance", this.getChance());
-		nbt = super.save(nbt);
 		return nbt;
 	}
 

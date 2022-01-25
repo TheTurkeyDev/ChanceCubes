@@ -120,8 +120,7 @@ public class DefaultRewards
 		CompoundTag nbt;
 
 		SignBlockEntity sign = BlockWrapper.createSign(new BlockPos(0, 0, 0), new String[]{"The broken path", "to succeed"});
-		nbt = new CompoundTag();
-		sign.save(nbt);
+		nbt = sign.saveWithFullMetadata();
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":path_to_succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.OAK_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
 
 

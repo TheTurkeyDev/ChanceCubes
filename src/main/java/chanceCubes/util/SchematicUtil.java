@@ -162,8 +162,9 @@ public class SchematicUtil
 					if(level.getBlockEntity(pos) != null)
 					{
 						BlockEntity te = level.getBlockEntity(pos);
-						CompoundTag nbt = new CompoundTag();
-						nbt = te.save(nbt);
+						if(te == null)
+							continue;
+						CompoundTag nbt = te.saveWithFullMetadata();
 						for(CustomEntry<String, List<Integer>> data : tileEntityData)
 						{
 							if(nbt.toString().equalsIgnoreCase(data.getKey()))

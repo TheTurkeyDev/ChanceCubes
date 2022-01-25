@@ -73,15 +73,13 @@ public class BlockFallingCustom extends FallingBlockEntity
 							BlockEntity blockentity = this.level.getBlockEntity(blockpos1);
 							if(blockentity != null)
 							{
-								CompoundTag compoundtag = blockentity.save(new CompoundTag());
+								CompoundTag compoundtag = blockentity.saveWithFullMetadata();
 
 								for(String s : this.blockData.getAllKeys())
 								{
 									Tag tag = this.blockData.get(s);
 									if(!"x".equals(s) && !"y".equals(s) && !"z".equals(s))
-									{
 										compoundtag.put(s, tag.copy());
-									}
 								}
 
 								try
