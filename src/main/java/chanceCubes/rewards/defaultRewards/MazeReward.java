@@ -46,7 +46,7 @@ public class MazeReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				if(initialPos.distSqr(player.getX(), player.getY(), player.getZ(), false) < 4)
+				if(initialPos.distToLowCornerSqr(player.getX(), player.getY(), player.getZ()) < 4)
 				{
 					this.delayLeft++;
 					return;

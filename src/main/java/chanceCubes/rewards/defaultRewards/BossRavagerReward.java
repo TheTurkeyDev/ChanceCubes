@@ -145,7 +145,7 @@ public class BossRavagerReward extends BossBaseReward
 
 	public boolean withinDistance(BlockPos pos, double rad)
 	{
-		double dist = pos.distSqr(0, 0, 0, false);
+		double dist = pos.distToLowCornerSqr(0, 0, 0);
 		return dist < rad * rad && dist >= (rad - 1) * (rad - 1);
 	}
 

@@ -19,14 +19,15 @@ if (System.getenv('BUILD_NUMBER') != null)
 else
     logger.lifecycle "No build number detected, setting to DEV"
 
-group= "com.theprogrammingturkey.chancecubes"
-archivesBaseName= "ChanceCubes"
-version= "${mc_version}-${mod_version}.${buildnumber}"
+group = "com.theprogrammingturkey.chancecubes"
+archivesBaseName = "ChanceCubes"
+version = "${mc_version}-${mod_version}.${buildnumber}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'official', version: '1.18.2'
 
     //accessTransformer = file('my_at.cfg')
 
@@ -98,12 +99,12 @@ dependencies {
 
 jar {
     manifest {
-        attributes(["Specification-Title": "chance_cubes",
-                    "Specification-Vendor": "turkey2349",
-                    "Specification-Version": "1", // We are version 1 of ourselves
-                    "Implementation-Title": project.name,
-                    "Implementation-Version": "${version}",
-                    "Implementation-Vendor" :"turkey2349",
+        attributes(["Specification-Title"     : "chance_cubes",
+                    "Specification-Vendor"    : "turkeydev",
+                    "Specification-Version"   : "1", // We are version 1 of ourselves
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : "${version}",
+                    "Implementation-Vendor"   : "turkeydev",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }

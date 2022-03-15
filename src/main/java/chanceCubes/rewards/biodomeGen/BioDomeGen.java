@@ -67,7 +67,7 @@ public class BioDomeGen
 		for(int z = -radius; z <= radius; z++)
 		{
 			BlockPos loc = new BlockPos(xinc, yinc, z);
-			float dist = (float) (Math.sqrt(Math.abs(loc.distSqr(0, 0, 0, false))) - radius);
+			float dist = (float) (Math.sqrt(Math.abs(loc.distToLowCornerSqr(0, 0, 0))) - radius);
 			if(dist < 1)
 			{
 				if(dist >= 0)

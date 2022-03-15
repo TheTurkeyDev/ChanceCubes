@@ -22,10 +22,8 @@ public class ItemRenamer extends BaseCustomReward
 	}
 
 	// @formatter:off
-	private final String[] names = {"Turkey", "qnxb", "Darkosto", "Wyld", "Funwayguy", "ButtonBoy", "SlothMonster",
-			"Vash", "Cazador", "KiwiFails", "Matrixis", "FlameGoat", "iChun", "tibbzeh", "Reninsane", 
-			"Pulpy", "Zeek", "Sevadus", "Bob Ross", "T-loves", "Headwound", "JonBams", "Sketch",
-			"Lewdicolo", "Sinful", "Drakma", "1chick", "Deadpine", "Amatt_", "Jacky", "Brae"};
+	//TODO re-add
+	//private final String[] names = {"Turkey"};
 	
 	private final String[] adjectives = {"Destroyer", "Terror", "Wrath", "Smasher", "P90", "Wisdom", "Savior",
 			"Lightning Bringer", "Rage", "Happiness", "Shocker", " Slayer", "Sunshine", "Giant Crayon", "Blade",
@@ -59,7 +57,8 @@ public class ItemRenamer extends BaseCustomReward
 
 		for(int i = 0; i < 3; i++)
 		{
-			String name = names[RewardsUtil.rand.nextInt(names.length)];
+			//String name = names[RewardsUtil.rand.nextInt(names.length)];
+			String name = player.getName().getString();
 			String adj = adjectives[RewardsUtil.rand.nextInt(adjectives.length)];
 
 			if(name.substring(name.length() - 1).equalsIgnoreCase("s"))

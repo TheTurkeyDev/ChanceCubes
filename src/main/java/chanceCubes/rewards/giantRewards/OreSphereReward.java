@@ -49,7 +49,7 @@ public class OreSphereReward extends BaseCustomReward
 					for(int xx = -5; xx < 6; xx++)
 					{
 						BlockPos loc = new BlockPos(xx, yy, zz);
-						double dist = Math.sqrt(Math.abs(loc.distSqr(0, 0, 0, false)));
+						double dist = Math.sqrt(Math.abs(loc.distToLowCornerSqr(0, 0, 0)));
 						if(dist <= i && dist > i - 1)
 						{
 							OffsetBlock osb = new OffsetBlock(xx, yy, zz, ore, false, delay);

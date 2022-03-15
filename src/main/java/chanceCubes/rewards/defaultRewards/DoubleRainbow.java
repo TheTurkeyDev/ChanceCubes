@@ -29,7 +29,7 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 8; y++)
 			{
-				float dist = (float) Math.sqrt(Math.abs(pos.distSqr(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				float dist = (float) Math.sqrt(Math.abs(pos.distToLowCornerSqr(pos.getX() + x, pos.getY() + y, pos.getZ())));
 				if(dist > 1 && dist <= 8)
 				{
 					int distIndex = (int) (dist - 2);
@@ -45,7 +45,7 @@ public class DoubleRainbow extends BaseCustomReward
 		{
 			for(int y = 0; y < 18; y++)
 			{
-				float dist = (float) Math.sqrt(Math.abs(pos.distSqr(pos.getX() + x, pos.getY() + y, pos.getZ(), false)));
+				float dist = (float) Math.sqrt(Math.abs(pos.distToLowCornerSqr(pos.getX() + x, pos.getY() + y, pos.getZ())));
 				if(dist >= 12 && dist <= 18)
 				{
 					int distIndex = (int) (dist - 12);

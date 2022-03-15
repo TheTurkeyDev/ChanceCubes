@@ -130,7 +130,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 				for(int i = battleWrapper.trackedPlayers.size() - 1; i >= 0; i--)
 				{
 					Entity ent = battleWrapper.trackedPlayers.get(i);
-					if(ent.getOnPos().distSqr(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ(), true) > 15 * 15 || ent.getY() < battleWrapper.rewardCenterPos.getY() - 1)
+					if(ent.getOnPos().distToCenterSqr(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY(), battleWrapper.rewardCenterPos.getZ()) > 15 * 15 || ent.getY() < battleWrapper.rewardCenterPos.getY() - 1)
 						ent.moveTo(battleWrapper.rewardCenterPos.getX(), battleWrapper.rewardCenterPos.getY() + 1, battleWrapper.rewardCenterPos.getZ());
 
 					if(!ent.isAlive() && (ent.tickCount > 0 || level.getDifficulty().equals(Difficulty.PEACEFUL)))

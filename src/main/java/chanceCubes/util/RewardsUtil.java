@@ -5,12 +5,12 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mojang.math.Vector3d;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,14 +25,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,7 +57,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class RewardsUtil
 {
@@ -88,7 +84,7 @@ public class RewardsUtil
 		oredicts.add("ores/coal");
 
 		for(String oreDict : possibleModOres)
-			if(BlockTags.getAllTags().getTag(new ResourceLocation("forge", oreDict)) != null)
+			if(Registry.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))).iterator().hasNext())
 				oredicts.add(oreDict);
 	}
 
@@ -208,12 +204,23 @@ public class RewardsUtil
 
 	public static Block getRandomOre(List<String> blacklist)
 	{
-		return BlockTags.getAllTags().getTag(new ResourceLocation("forge", RewardsUtil.getRandomOreDict(blacklist))).getRandomElement(RewardsUtil.rand);
+		return getRandomOreFromOreDict(RewardsUtil.getRandomOreDict(blacklist));
 	}
 
 	public static Block getRandomOreFromOreDict(String oreDict)
 	{
-		return BlockTags.getAllTags().getTag(new ResourceLocation("forge", oreDict)).getRandomElement(RewardsUtil.rand);
+		return getRandomElement(Registry.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))));
+	}
+
+	private static Block getRandomElement(Iterable<Holder<Block>> it)
+	{
+		List<Holder<Block>> result = StreamSupport.stream(it.spliterator(), false).toList();
+		return result.get(rand.nextInt(result.size())).value();
+	}
+
+	private static TagKey<Block> getTagKey(ResourceLocation res)
+	{
+		return TagKey.create(Registry.BLOCK_REGISTRY, res);
 	}
 
 	public static Block getRandomBlock()

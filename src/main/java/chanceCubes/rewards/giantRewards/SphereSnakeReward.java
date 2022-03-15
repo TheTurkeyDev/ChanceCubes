@@ -78,7 +78,7 @@ public class SphereSnakeReward extends BaseCustomReward
 						for(int xx = -3; xx < 4; xx++)
 						{
 							BlockPos loc = new BlockPos(xx, yy, zz);
-							double dist = Math.abs(Math.sqrt(loc.distSqr(0, 0, 0, false)));
+							double dist = Math.abs(Math.sqrt(loc.distToLowCornerSqr(0, 0, 0)));
 							if(dist <= 3 && dist > 3 - 1)
 							{
 								world.setBlockAndUpdate(currentpos.offset(loc), state);

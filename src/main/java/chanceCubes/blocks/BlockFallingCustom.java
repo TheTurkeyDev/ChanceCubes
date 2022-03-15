@@ -1,5 +1,6 @@
 package chanceCubes.blocks;
 
+import chanceCubes.CCubesCore;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +22,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 
 	public BlockFallingCustom(Level level, double x, double y, double z, BlockState state, int normY, OffsetBlock osb)
 	{
-		super(level, x, y, z, state);
+		super(this, state);
 		this.normY = normY;
 		this.osb = osb;
 	}
@@ -78,7 +79,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 								for(String s : this.blockData.getAllKeys())
 								{
 									Tag tag = this.blockData.get(s);
-									if(!"x".equals(s) && !"y".equals(s) && !"z".equals(s))
+									if(tag != null && !"x".equals(s) && !"y".equals(s) && !"z".equals(s))
 										compoundtag.put(s, tag.copy());
 								}
 
@@ -87,7 +88,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 									blockentity.load(compoundtag);
 								} catch(Exception exception)
 								{
-									LOGGER.error("Failed to load block entity from falling block", exception);
+									CCubesCore.logger.error("Failed to load block entity from falling block", exception);
 								}
 
 								blockentity.setChanged();
