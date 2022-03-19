@@ -69,7 +69,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 					}
 					else
 					{
-						RewardsUtil.sendMessageToPlayer(player, enchants + "Your item of destiny is complete! Enjoy!");
+						RewardsUtil.sendMessageToPlayer(player, "Your item of destiny is complete! Enjoy!");
 						item.setPickUpDelay(0);
 						Scheduler.removeTask(this);
 					}
