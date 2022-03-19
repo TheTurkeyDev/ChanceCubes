@@ -5,6 +5,7 @@ import chanceCubes.rewards.rewardparts.OffsetBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.GameRules;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class BlockFallingCustom extends FallingBlockEntity
 {
@@ -22,7 +24,15 @@ public class BlockFallingCustom extends FallingBlockEntity
 
 	public BlockFallingCustom(Level level, double x, double y, double z, BlockState state, int normY, OffsetBlock osb)
 	{
-		super(this, state);
+		super(EntityType.FALLING_BLOCK, level);
+		//this.blockState = p_31957_;
+		this.blocksBuilding = true;
+		this.setPos(x, y, z);
+		this.setDeltaMovement(Vec3.ZERO);
+		this.xo = x;
+		this.yo = y;
+		this.zo = z;
+		this.setStartPos(this.blockPosition());
 		this.normY = normY;
 		this.osb = osb;
 	}

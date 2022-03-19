@@ -71,7 +71,7 @@ public class BlockThrowerReward extends BaseCustomReward
 					else
 						level.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
 
-					FallingBlockEntity block = new FallingBlockEntity(level, newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, state);
+					FallingBlockEntity block = FallingBlockEntity.fall(level, newPos.offset(0.5, 0, 0.5), state);
 					block.fallDistance = 0;
 					block.setNoGravity(true);
 					block.setDeltaMovement(0, 0.25f, 0);
