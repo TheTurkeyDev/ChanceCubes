@@ -1,5 +1,5 @@
 [![Download](http://cf.way2muchnoise.eu/full_233113_downloads.svg)](https://minecraft.curseforge.com/projects/chance-cubes) 
-[![Available](http://cf.way2muchnoise.eu/versions/233113.svg)](https://minecraft.curseforge.com/projects/chance-cubes) 
+[![Available](http://cf.way2muchnoise.eu/versions/233113.svg)](https://minecraft.curseforge.com/projects/chance-cubes)
 
 # ChanceCubes
 This is the Github repository for the ChanceCubes Minecraft Mod.
@@ -13,5 +13,4 @@ If you would like to contribute, simply fork the repository and make sure you ha
 **Note for Contributors:** Support for older versions of Minecraft is not guaranteed and contributions to the corresponding branches will almost certainly be denied for this reason, the sole exception being game-breaking bugs which are usually squashed by the time support ends.
 
 **Currently supported branches:**\
-dev_1.15.x
-dev_1.16.x
+dev_1.18.x

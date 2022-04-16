@@ -269,7 +269,7 @@ public class StreamerReward
 		}
 	}
 
-	private static class ChatInvadeReward extends BaseCustomReward
+	public static class ChatInvadeReward extends BaseCustomReward
 	{
 		private final String channel;
 
@@ -284,7 +284,7 @@ public class StreamerReward
 		{
 			try
 			{
-				JsonObject json = HTTPUtil.getWebFile("GET", "http://tmi.twitch.tv/group/user/" + channel.substring(1) + "/chatters").getAsJsonObject();
+				JsonObject json = HTTPUtil.getWebFile("GET", "http://tmi.twitch.tv/group/user/" + channel + "/chatters").getAsJsonObject();
 				for(Map.Entry<String, JsonElement> entry : json.get("chatters").getAsJsonObject().entrySet())
 				{
 					if(entry.getValue().isJsonArray())

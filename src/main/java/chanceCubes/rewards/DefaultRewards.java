@@ -475,11 +475,14 @@ public class DefaultRewards
 			@Override
 			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				for(int yy = -32; yy <= 32; yy++)
+				int xRadius = super.getSettingAsInt(settings, "xRadius", 64, 0, 100) / 2;
+				int yRadius = super.getSettingAsInt(settings, "yRadius", 64, 0, 100) / 2;
+				int zRadius = super.getSettingAsInt(settings, "zRadius", 64, 0, 100) / 2;
+				for(int yy = -yRadius; yy <= yRadius; yy++)
 				{
-					for(int xx = -32; xx <= 32; xx++)
+					for(int xx = -xRadius; xx <= xRadius; xx++)
 					{
-						for(int zz = -32; zz <= 32; zz++)
+						for(int zz = -zRadius; zz <= zRadius; zz++)
 						{
 							BlockState b = level.getBlockState(pos.offset(xx, yy, zz));
 							if(b.getLightEmission(level, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.hasBlockEntity())

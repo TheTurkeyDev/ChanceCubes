@@ -157,8 +157,7 @@ public class ConfigLoader
 			if(globalDisableConfig.createNewFile())
 			{
 				globalDisableConfigJson = new JsonObject();
-				globalDisableConfigJson.addProperty("Comment", "This file is for enabling and disabling rewards globally for all users! This cannot be reversed without a mod reload! Reward Profiles are the suggested method over this. This is basically a do all be all override.");
-				globalDisableConfigJson.addProperty("Comment2", "Note: Even if a reward is marked true here, does not mean its fully enabled. Rewards like clear inventory are disabled via default profiles!");
+				globalDisableConfigJson.addProperty("Comment", "This file is for enabling and disabling rewards for all users. You can use /chancecubes enableReward and /chancecubes disableReward to enable/ disable in game, though they will not change the value in this config.");
 				globalDisableConfigJson.add("rewards", new JsonObject());
 				try(Writer writer = new FileWriter(globalDisableConfig))
 				{

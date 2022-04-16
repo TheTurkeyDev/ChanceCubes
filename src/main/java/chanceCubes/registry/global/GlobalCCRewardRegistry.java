@@ -39,8 +39,9 @@ public class GlobalCCRewardRegistry
 
 	public void registerReward(IChanceCubeReward reward, boolean defaultVal)
 	{
-		if(ConfigLoader.getRewardConfigStatus(reward.getName(), defaultVal) && !this.nameToReward.containsKey(reward.getName()))
-			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, true));
+		boolean enabled = ConfigLoader.getRewardConfigStatus(reward.getName(), defaultVal);
+		if(!this.nameToReward.containsKey(reward.getName()))
+			nameToReward.put(reward.getName(), new GlobalRewardInfo(reward, enabled));
 	}
 
 	public boolean unregisterReward(String name)
