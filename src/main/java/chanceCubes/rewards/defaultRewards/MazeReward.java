@@ -40,7 +40,7 @@ public class MazeReward extends BaseCustomReward
 			{
 				gen.endMaze(player);
 				if(RewardsUtil.isPlayerOnline(player))
-					player.die(CCubesDamageSource.MAZE_FAIL);
+					player.hurt(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
 			}
 
 			@Override

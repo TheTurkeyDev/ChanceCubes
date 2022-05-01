@@ -97,7 +97,7 @@ public class QuestionsReward extends BaseCustomReward
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Incorrect! The answer was " + this.inQuestion.get(player));
 			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-			player.die(CCubesDamageSource.QUESTION_FAIL);
+			player.hurt(CCubesDamageSource.QUESTION_FAIL, Float.MAX_VALUE);
 		}
 
 		inQuestion.remove(player);

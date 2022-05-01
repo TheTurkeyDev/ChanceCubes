@@ -49,7 +49,7 @@ public class DigBuildReward extends BaseCustomReward
 			public void callback()
 			{
 				player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-				player.die(CCubesDamageSource.DIG_BUILD_FAIL);
+				player.hurt(CCubesDamageSource.DIG_BUILD_FAIL, Float.MAX_VALUE);
 			}
 
 			@Override

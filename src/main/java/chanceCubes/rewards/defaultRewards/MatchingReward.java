@@ -132,7 +132,7 @@ public class MatchingReward extends BaseCustomReward
 			private void lose()
 			{
 				player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-				player.die(CCubesDamageSource.MATCHING_FAIL);
+				player.hurt(CCubesDamageSource.MATCHING_FAIL, Float.MAX_VALUE);
 				reset();
 			}
 

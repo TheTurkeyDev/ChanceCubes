@@ -114,7 +114,7 @@ public class MathReward extends BaseCustomReward
 		else
 		{
 			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-			player.die(CCubesDamageSource.MATH_FAIL);
+			player.hurt(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
 		}
 
 		for(Entity tnt : info.tnt)
