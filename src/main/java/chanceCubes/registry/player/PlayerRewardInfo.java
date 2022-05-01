@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PlayerRewardInfo
 {
-	public IChanceCubeReward reward;
+	public final IChanceCubeReward reward;
 	private int chanceValue;
 	private final List<Integer> chanceChangesCache;
 

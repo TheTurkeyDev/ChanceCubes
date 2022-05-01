@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class RewardBlockCache
 {
-	protected List<StoredBlockData> storedBlocks = new ArrayList<>();
-	protected Map<BlockPos, CompoundTag> storedTE = new HashMap<>();
+	protected final List<StoredBlockData> storedBlocks = new ArrayList<>();
+	protected final Map<BlockPos, CompoundTag> storedTE = new HashMap<>();
 
 	private final BlockPos origin;
 	private final BlockPos playerLoc;
@@ -89,9 +89,9 @@ public class RewardBlockCache
 
 	private static class StoredBlockData
 	{
-		public BlockPos pos;
-		public BlockState oldState;
-		public BlockState placedState;
+		public final BlockPos pos;
+		public final BlockState oldState;
+		public final BlockState placedState;
 
 		public StoredBlockData(BlockPos pos, BlockState oldState, BlockState placedState)
 		{

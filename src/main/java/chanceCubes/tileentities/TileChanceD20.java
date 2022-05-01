@@ -36,7 +36,7 @@ public class TileChanceD20 extends BlockEntity
 	private int chance;
 	private boolean isScanned = false;
 
-	private final D20AnimationWrapper animationWrapper = new D20AnimationWrapper();
+	private D20AnimationWrapper animationWrapper = new D20AnimationWrapper();
 
 	public TileChanceD20(BlockPos pos, BlockState state)
 	{

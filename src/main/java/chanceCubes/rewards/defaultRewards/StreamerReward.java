@@ -257,8 +257,8 @@ public class StreamerReward
 
 	private static class Option
 	{
-		public String display;
-		public BaseCustomReward reward;
+		public final String display;
+		public final BaseCustomReward reward;
 		public int votes;
 
 		public Option(String display, BaseCustomReward reward, int votes)

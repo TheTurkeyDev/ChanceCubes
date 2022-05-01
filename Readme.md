@@ -2,7 +2,7 @@
 [![Available](http://cf.way2muchnoise.eu/versions/233113.svg)](https://minecraft.curseforge.com/projects/chance-cubes)
 
 # ChanceCubes
-This is the Github repository for the ChanceCubes Minecraft Mod.
+This is the GitHub repository for the ChanceCubes Minecraft Mod.
 
 If you are here for documentation to make custom rewards, please refer to the [Wiki](http://github.com/wyldmods/chancecubes/wiki).
 

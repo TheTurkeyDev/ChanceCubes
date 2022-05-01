@@ -39,7 +39,7 @@ public class SchematicUtil
 {
 	private static final Gson gson = new GsonBuilder().create();
 
-	public static BlockPos[] selectionPoints = new BlockPos[2];
+	public static final BlockPos[] selectionPoints = new BlockPos[2];
 
 	public static void createCustomSchematic(Level level, BlockPos loc1, BlockPos loc2, String fileName)
 	{

@@ -19,9 +19,9 @@ import net.minecraft.world.level.block.state.BlockState;
 public class OffsetBlock extends BasePart
 {
 	protected BoolVar relativeToPlayer = new BoolVar(false);
-	public IntVar xOff;
-	public IntVar yOff;
-	public IntVar zOff;
+	public final IntVar xOff;
+	public final IntVar yOff;
+	public final IntVar zOff;
 
 	protected BlockState state;
 

@@ -23,7 +23,7 @@ public class SkyblockReward extends BaseCustomReward
 
 	private static final Random TREE_RAND = new Random(System.currentTimeMillis());
 	
-	ItemStack[] chestStuff = {
+	private static final ItemStack[] chestStuff = {
 		new ItemStack(Items.STRING, 12), new ItemStack(Items.LAVA_BUCKET), new ItemStack(Items.BONE), new ItemStack(Items.SUGAR_CANE),
 		new ItemStack(Blocks.RED_MUSHROOM), new ItemStack(Blocks.ICE, 2), new ItemStack(Items.PUMPKIN_SEEDS), new ItemStack(Blocks.OAK_SAPLING),
 		new ItemStack(Blocks.BROWN_MUSHROOM), new ItemStack(Items.MELON), new ItemStack(Blocks.CACTUS), new ItemStack(Blocks.OAK_LOG, 6)
@@ -38,7 +38,7 @@ public class SkyblockReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		int skyblockHeight = level.getHeight() - 16;
+		int skyblockHeight = (level.getLogicalHeight() + level.dimensionType().minY()) - 16;
 		if(!level.dimensionType().hasSkyLight())
 			skyblockHeight = pos.getY();
 		Block b = Blocks.DIRT;
@@ -56,13 +56,13 @@ public class SkyblockReward extends BaseCustomReward
 					for(int zz = 0; zz < 3; zz++)
 					{
 						level.setBlock(skyblockPos.offset(xOffset + xx, i, zOffset + zz), b.defaultBlockState(), 3);
-						// RewardsUtil.placeBlock(b.getDefaultState(), world, skyblockPos.add(xOffset + xx, i, zOffset + zz));
+						RewardsUtil.placeBlock(b.defaultBlockState(), level, skyblockPos.offset(xOffset + xx, i, zOffset + zz));
 					}
 				}
 			}
 		}
 		RewardsUtil.placeBlock(Blocks.BEDROCK.defaultBlockState(), level, skyblockPos.offset(0, 1, 0));
-
+		player.moveTo(pos.getX(), skyblockHeight + 3, pos.getZ());
 		//OakTree tree = new OakTree();
 		//tree.func_225545_a_(world, world.getChunkProvider().getChunkGenerator(), skyblockPos.add(3, 3, 3), Blocks.OAK_SAPLING.getDefaultState().with(SaplingBlock.STAGE, 1), TREE_RAND);
 
@@ -77,7 +77,5 @@ public class SkyblockReward extends BaseCustomReward
 			int slot = ((i < 4 ? 0 : i < 8 ? 1 : 2) * 9) + i % 4;
 			chest.setItem(slot, chestStuff[i].copy());
 		}
-
-		player.moveTo(pos.getX(), skyblockHeight + 3, pos.getZ());
 	}
 }

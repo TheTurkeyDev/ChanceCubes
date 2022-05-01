@@ -18,6 +18,6 @@ public class ParticleEffectRewardType extends BaseRewardType<ParticlePart>
 	public void trigger(ParticlePart part, ServerLevel level, int x, int y, int z, Player player)
 	{
 		ParticleOptions particle = (ParticleOptions) RewardsUtil.getParticleSafe(new ResourceLocation(part.getParticleName()));
-		level.addParticle(particle, x + Math.random(), y + Math.random(), z + Math.random(), 1, 0d, 1d);
+		level.sendParticles(particle, x + Math.random(), y + Math.random(), z + Math.random(), 1, 0d, 1d, 0.0D, 0.15F);
 	}
 }

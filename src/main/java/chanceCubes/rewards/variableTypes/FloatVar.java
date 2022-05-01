@@ -51,7 +51,7 @@ public class FloatVar extends CustomVar
 
 	public static boolean isFloat(String input)
 	{
-		return input.matches("[-+]?[0-9]*\\.?[0-9]+");
+		return input.matches("[-+]?\\d*\\.?\\d+");
 	}
 
 }

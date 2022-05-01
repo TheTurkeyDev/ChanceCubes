@@ -168,7 +168,7 @@ public class Connect4Reward extends BaseCustomReward
 
 	private static class Board
 	{
-		public int[] board = new int[HEIGHT * WIDTH];
+		public final int[] board = new int[HEIGHT * WIDTH];
 		public Point computersMove;
 
 		public boolean isTie()

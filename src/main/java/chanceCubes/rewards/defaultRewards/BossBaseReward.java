@@ -223,9 +223,9 @@ public abstract class BossBaseReward extends BaseCustomReward
 
 	protected static class BattleWrapper
 	{
-		public List<Entity> trackedEntities = new ArrayList<>();
-		public List<Entity> trackedSubEntities = new ArrayList<>();
-		public List<Player> trackedPlayers = new ArrayList<>();
+		public final List<Entity> trackedEntities = new ArrayList<>();
+		public final List<Entity> trackedSubEntities = new ArrayList<>();
+		public final List<Player> trackedPlayers = new ArrayList<>();
 
 		public BlockPos rewardCenterPos;
 		public BioDomeGen domeGen;

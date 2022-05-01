@@ -4,7 +4,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 
 public class GlobalRewardInfo
 {
-	public IChanceCubeReward reward;
+	public final IChanceCubeReward reward;
 	public boolean enabled;
 
 	public GlobalRewardInfo(IChanceCubeReward reward, boolean enabled)

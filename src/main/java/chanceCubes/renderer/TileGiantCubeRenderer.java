@@ -71,58 +71,69 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 			Material materialInterface = new Material(Sheets.CHEST_SHEET, GCC_TEXTURES.get(side));
 			VertexConsumer buffer = materialInterface.buffer(bufferIn, RenderType::text);
 
-			TextureAtlasSprite sprite = materialInterface.sprite();
-			poseStack.pushPose();
-			poseStack.translate(-1, -1, -1);
-			poseStack.scale(0.1875F, -0.1875F, 0.1875F); // (1 / 16) * 3
-
-			float translateX = side.getStepX();
-			float translateY = side.getStepY() - 1;
-			float translateZ = side.getStepZ();
-			short rotationY = 0;
-			short rotationX = 0;
-			switch(side)
+			try(TextureAtlasSprite sprite = materialInterface.sprite())
 			{
-				case NORTH -> {
-					translateZ += 1F;
-					translateX += 1F;
-					rotationY = 180;
+				poseStack.pushPose();
+				poseStack.translate(-1, -1, -1);
+				poseStack.scale(0.1875F, -0.1875F, 0.1875F); // (1 / 16) * 3
+
+				float translateX = side.getStepX();
+				float translateY = side.getStepY() - 1;
+				float translateZ = side.getStepZ();
+				short rotationY = 0;
+				short rotationX = 0;
+				switch(side)
+				{
+					case NORTH ->
+					{
+						translateZ += 1F;
+						translateX += 1F;
+						rotationY = 180;
+					}
+					case EAST ->
+					{
+						translateZ += 1F;
+						rotationY = 90;
+					}
+					case WEST ->
+					{
+						translateX += 1F;
+						rotationY = -90;
+					}
+					case UP ->
+					{
+						translateZ += 1F;
+						rotationX = -90;
+					}
+					case SOUTH ->
+					{
+					}
+					case DOWN ->
+					{
+						rotationX = 90;
+						translateY += 1F;
+					}
 				}
-				case EAST -> {
-					translateZ += 1F;
-					rotationY = 90;
-				}
-				case WEST -> {
-					translateX += 1F;
-					rotationY = -90;
-				}
-				case UP -> {
-					translateZ += 1F;
-					rotationX = -90;
-				}
-				case SOUTH -> {
-				}
-				case DOWN -> {
-					rotationX = 90;
-					translateY += 1F;
-				}
+
+				poseStack.translate(translateX * 16, translateY * 16, translateZ * 16);
+				poseStack.mulPose(Vector3f.YP.rotationDegrees(rotationY));
+				poseStack.mulPose(Vector3f.XP.rotationDegrees(rotationX));
+
+				int r = 255;
+				int g = 255;
+				int b = 255;
+				int a = 255;
+
+				Matrix4f matrix = poseStack.last().pose();
+				buffer.vertex(matrix, 16F, 16F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV1()).uv2(lightToUse).endVertex();
+				buffer.vertex(matrix, 16F, 0F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV0()).uv2(lightToUse).endVertex();
+				buffer.vertex(matrix, 0F, 0F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV0()).uv2(lightToUse).endVertex();
+				buffer.vertex(matrix, 0F, 16F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV1()).uv2(lightToUse).endVertex();
+				poseStack.popPose();
+			} catch(Exception e)
+			{
+				e.printStackTrace();
 			}
-
-			poseStack.translate(translateX * 16, translateY * 16, translateZ * 16);
-			poseStack.mulPose(Vector3f.YP.rotationDegrees(rotationY));
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(rotationX));
-
-			int r = 255;
-			int g = 255;
-			int b = 255;
-			int a = 255;
-
-			Matrix4f matrix = poseStack.last().pose();
-			buffer.vertex(matrix, 16F, 16F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV1()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 16F, 0F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV0()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 0F, 0F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV0()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 0F, 16F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV1()).uv2(lightToUse).endVertex();
-			poseStack.popPose();
 		}
 		poseStack.popPose();
 

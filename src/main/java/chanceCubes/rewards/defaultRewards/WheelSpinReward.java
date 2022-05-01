@@ -281,8 +281,8 @@ public class WheelSpinReward extends BaseCustomReward
 
 	private static class RewardTrigger
 	{
-		public String[] signText;
-		public BaseCustomReward reward;
+		public final String[] signText;
+		public final BaseCustomReward reward;
 
 		public RewardTrigger(BaseCustomReward reward, String... lines)
 		{

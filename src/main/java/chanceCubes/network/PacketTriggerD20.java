@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class PacketTriggerD20
 {
-	public BlockPos pos;
+	public final BlockPos pos;
 
 	public PacketTriggerD20(BlockPos pos)
 	{

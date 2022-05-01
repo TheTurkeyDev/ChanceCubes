@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -127,7 +128,6 @@ public class FileUtil
 		}
 	}
 
-	@SuppressWarnings("resource")
 	public static void zipFolderContents(File directory, File zipFile) throws IOException
 	{
 		URI base = directory.toURI();
@@ -142,7 +142,7 @@ public class FileUtil
 			while(!queue.isEmpty())
 			{
 				directory = queue.pop();
-				for(File child : directory.listFiles())
+				for(File child : Objects.requireNonNullElse(directory.listFiles(), new File[0]))
 				{
 					String name = base.relativize(child.toURI()).getPath();
 					if(child.isDirectory())

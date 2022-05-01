@@ -2,17 +2,8 @@ package chanceCubes.rewards.variableParts;
 
 import chanceCubes.util.RewardsUtil;
 
-public class RandomPart<T> implements IPart
+public record RandomPart<T>(T lower, T upper) implements IPart
 {
-	T upper;
-	T lower;
-
-	public RandomPart(T lower, T upper)
-	{
-		this.upper = upper;
-		this.lower = lower;
-	}
-
 	@Override
 	public String getValue()
 	{

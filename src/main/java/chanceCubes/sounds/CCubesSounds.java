@@ -17,7 +17,7 @@ public class CCubesSounds
 	public static SoundEvent D20_BREAK;
 	public static SoundEvent GIANT_CUBE_SPAWN;
 
-	public static Map<String, SoundEvent> customSounds = new HashMap<>();
+	public static final Map<String, SoundEvent> customSounds = new HashMap<>();
 
 	private static boolean registered = false;
 

@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 public class CustomRewardsLoader
 {
@@ -48,7 +49,7 @@ public class CustomRewardsLoader
 
 	public void loadCustomRewards()
 	{
-		for(File f : folder.listFiles())
+		for(File f : Objects.requireNonNullElse(folder.listFiles(), new File[0]))
 		{
 			if(!f.isFile() || !f.getName().contains(".json"))
 				continue;

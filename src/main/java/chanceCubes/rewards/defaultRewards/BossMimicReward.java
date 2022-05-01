@@ -38,7 +38,7 @@ public class BossMimicReward extends BossBaseReward
 		mimic.setItemSlot(EquipmentSlot.FEET, playerArmorInv.get(0).copy());
 		mimic.setDropChance(EquipmentSlot.FEET, 0);
 
-		mimic.setItemSlot(EquipmentSlot.MAINHAND, getHighestDamageItem(player));
+		mimic.setItemSlot(EquipmentSlot.MAINHAND, getHighestDamageItem(player).copy());
 		mimic.setDropChance(EquipmentSlot.MAINHAND, 0);
 		mimic.setItemSlot(EquipmentSlot.OFFHAND, player.getInventory().offhand.get(0).copy());
 		mimic.setDropChance(EquipmentSlot.OFFHAND, 0);

@@ -96,7 +96,7 @@ public class RandomExplosionReward extends BaseCustomReward
 					int zInc = RewardsUtil.rand.nextInt(2) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 					if(delay < 3)
 					{
-						level.addParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0);
+						level.sendParticles(ParticleTypes.EXPLOSION, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 3, 0, 0, 0, .125);
 						level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
 					}
 					else
@@ -105,7 +105,7 @@ public class RandomExplosionReward extends BaseCustomReward
 							level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1f, 1f);
 						else
 							level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLAZE_HURT, SoundSource.BLOCKS, 1f, 1f);
-						level.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0);
+						level.sendParticles(ParticleTypes.LAVA, pos.getX() + 0.5 + xInc, pos.getY() + 0.5 + yInc, pos.getZ() + 0.5 + zInc, 5, 0, 0, 0, .125f);
 					}
 
 				}

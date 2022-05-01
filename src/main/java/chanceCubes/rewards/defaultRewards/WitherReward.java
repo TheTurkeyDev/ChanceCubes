@@ -30,7 +30,7 @@ public class WitherReward extends BaseCustomReward
 		//wither.renderYawOffset = 90.0F;
 		world.addFreshEntity(wither);
 		//TODO
-		//wither.ignite();
+		wither.makeInvulnerable();
 		if(RewardsUtil.rand.nextBoolean())
 			wither.setCustomName(new TextComponent("Kiwi"));
 		else

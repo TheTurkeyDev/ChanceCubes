@@ -20,8 +20,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 
-import javax.annotation.Nullable;
-
 public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 {
 	public BlockGiantCube()

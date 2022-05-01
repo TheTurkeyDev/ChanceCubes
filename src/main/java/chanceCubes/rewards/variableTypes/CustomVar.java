@@ -7,7 +7,7 @@ import chanceCubes.rewards.variableParts.IPart;
 
 public abstract class CustomVar
 {
-	protected List<IPart> parts = new ArrayList<>();
+	protected final List<IPart> parts = new ArrayList<>();
 
 	public String getValue() {
 		StringBuilder builder = new StringBuilder();

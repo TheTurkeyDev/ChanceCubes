@@ -20,9 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -48,7 +46,7 @@ public class CCubesCore
 {
 	public static final String MODID = "chancecubes";
 
-	public static CreativeModeTab modTab = new CreativeModeTab(MODID)
+	public static final CreativeModeTab modTab = new CreativeModeTab(MODID)
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -132,16 +130,6 @@ public class CCubesCore
 	public void onCommandsRegister(RegisterCommandsEvent event)
 	{
 		new CCubesServerCommands(event.getDispatcher());
-	}
-
-	@SubscribeEvent
-	public void onServerStart(ServerStartedEvent event)
-	{
-	}
-
-	@SubscribeEvent
-	public void onServerStop(ServerStoppedEvent event)
-	{
 	}
 
 	public void onIMCMessage(InterModProcessEvent e)

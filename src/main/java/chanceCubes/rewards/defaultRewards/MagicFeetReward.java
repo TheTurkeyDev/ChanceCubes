@@ -36,12 +36,12 @@ public class MagicFeetReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				BlockPos beneth = player.getOnPos().offset(0, -1, 0);
-				if(!level.getBlockState(beneth).isAir() && level.getBlockEntity(beneth) == null && !last.equals(beneth))
+				BlockPos onPos = player.getOnPos();
+				if(!level.getBlockState(onPos).isAir() && level.getBlockEntity(onPos) == null && !last.equals(onPos))
 				{
 					Block block = RewardsUtil.getRandomOre();
-					RewardsUtil.placeBlock(block.defaultBlockState(), level, beneth);
-					last = beneth;
+					RewardsUtil.placeBlock(block.defaultBlockState(), level, onPos);
+					last = onPos;
 				}
 
 				if(this.delayLeft % 20 == 0)

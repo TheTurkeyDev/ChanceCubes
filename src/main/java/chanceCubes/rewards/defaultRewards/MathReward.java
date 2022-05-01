@@ -150,17 +150,7 @@ public class MathReward extends BaseCustomReward
 		}
 	}
 
-	private static class RewardInfo
+	private record RewardInfo(int answer, List<Entity> tnt, RewardBlockCache cache)
 	{
-		public int answer;
-		public List<Entity> tnt;
-		public RewardBlockCache cache;
-
-		public RewardInfo(int answer, List<Entity> tnt, RewardBlockCache cache)
-		{
-			this.answer = answer;
-			this.tnt = tnt;
-			this.cache = cache;
-		}
 	}
 }

@@ -22,8 +22,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraftforge.common.util.FakePlayer;
 
-import javax.annotation.Nullable;
-
 public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 {
 	public static final EnumProperty<EnumTexture> TEXTURE = EnumProperty.create("texture", BlockChanceCube.EnumTexture.class);
@@ -76,8 +74,8 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		BlockState iblockstate = super.getStateForPlacement(context);
-		return iblockstate.setValue(TEXTURE, textureToSet);
+		BlockState iBlockState = super.getStateForPlacement(context);
+		return iBlockState.setValue(TEXTURE, textureToSet);
 	}
 
 	@Override

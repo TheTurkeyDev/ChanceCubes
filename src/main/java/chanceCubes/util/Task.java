@@ -8,11 +8,11 @@ import net.minecraft.world.entity.player.Player;
 
 public abstract class Task
 {
-	public String name;
+	public final String name;
 	public int delayLeft;
 	private boolean forever = false;
 
-	public int updateTick;
+	public final int updateTick;
 
 	public Task(String name, int delay)
 	{

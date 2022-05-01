@@ -52,6 +52,6 @@ public class IntVar extends CustomVar
 	public static boolean isInteger(String input)
 	{
 		//TODO: Check that it is within the range of an integer?
-		return input.matches("[-+]?[0-9]*");
+		return input.matches("[-+]?\\d*");
 	}
 }

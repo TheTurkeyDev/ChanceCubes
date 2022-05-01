@@ -145,7 +145,7 @@ public class JarGuessReward extends BaseCustomReward
 		if(inGuess.containsKey(player))
 		{
 			String answer = event.getMessage();
-			if(answer.matches("[0-9]+"))
+			if(answer.matches("\\d+"))
 			{
 				this.timeUp(player, Integer.parseInt(answer));
 				event.setCanceled(true);
@@ -159,9 +159,9 @@ public class JarGuessReward extends BaseCustomReward
 
 	private static class PlayerGuessing
 	{
-		public int answer;
-		public RewardBlockCache blockCache;
-		public List<Bat> bats = new ArrayList<>();
+		public final int answer;
+		public final RewardBlockCache blockCache;
+		public final List<Bat> bats = new ArrayList<>();
 
 		public PlayerGuessing(int answer, RewardBlockCache blockCache)
 		{

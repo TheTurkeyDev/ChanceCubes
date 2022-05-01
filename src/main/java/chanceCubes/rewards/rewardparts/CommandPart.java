@@ -68,7 +68,7 @@ public class CommandPart extends BasePart
 		{
 			String randIDStr = parsedCommand.substring(index + 9, index + 10);
 			int randId = 0;
-			if(randIDStr.matches("[0-9]"))
+			if(randIDStr.matches("\\d"))
 				randId = Integer.parseInt(randIDStr);
 
 			UUID uuid = randUUIDs.computeIfAbsent(randId, (id) -> UUID.randomUUID());
@@ -79,7 +79,7 @@ public class CommandPart extends BasePart
 		{
 			String randIDStr = parsedCommand.substring(index + 12, index + 13);
 			int randId = 0;
-			if(randIDStr.matches("[0-9]"))
+			if(randIDStr.matches("\\d"))
 				randId = Integer.parseInt(randIDStr);
 
 			UUID uuid = randUUIDs.computeIfAbsent(randId, (id) -> UUID.randomUUID());

@@ -122,7 +122,7 @@ public class TicTacToeReward extends BaseCustomReward
 
 	private static class Board
 	{
-		public int[][] board = new int[3][3];
+		public final int[][] board = new int[3][3];
 		public Point computersMove;
 
 		public boolean isGameOver()

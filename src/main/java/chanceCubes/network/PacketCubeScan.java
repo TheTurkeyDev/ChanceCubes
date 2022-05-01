@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class PacketCubeScan
 {
-	public BlockPos pos;
+	public final BlockPos pos;
 
 	public PacketCubeScan(BlockPos pos)
 	{

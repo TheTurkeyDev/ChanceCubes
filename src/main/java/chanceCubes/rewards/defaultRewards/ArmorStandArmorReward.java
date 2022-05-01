@@ -58,7 +58,6 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		armorStand.setCustomName(new TextComponent(name));
 		armorStand.setCustomNameVisible(true);
 		armorStand.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
-
 		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(settings, "headItemStacks", new ItemStack[0]));
 		ItemStack headStack = allHeadItems[RewardsUtil.rand.nextInt(allHeadItems.length)].copy();
 		if(headStack.getItem().equals(Items.PLAYER_HEAD))

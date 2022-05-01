@@ -41,10 +41,10 @@ public class CCubesSettings
 
 	public static IntValue dropHeight;
 
-	public static List<BlockState> nonReplaceableBlocksIMC = new ArrayList<>();
+	public static final List<BlockState> nonReplaceableBlocksIMC = new ArrayList<>();
 	public static List<BlockState> nonReplaceableBlocks = new ArrayList<>();
-	public static List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
-	public static List<BlockState> backupNRB = new ArrayList<>();
+	public static final List<NonreplaceableBlockOverride> nonReplaceableBlocksOverrides = new ArrayList<>();
+	public static final List<BlockState> backupNRB = new ArrayList<>();
 
 	public static ConfigValue<List<? extends String>> blockRestoreBlacklist;
 

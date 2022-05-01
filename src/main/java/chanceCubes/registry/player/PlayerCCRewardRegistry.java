@@ -26,7 +26,7 @@ public class PlayerCCRewardRegistry
 	private final List<PlayerRewardInfo> sortedRewards = Lists.newArrayList();
 	private final List<IChanceCubeReward> cooldownList = new ArrayList<>();
 
-	public static Map<UUID, StreamerReward> streamerReward = new HashMap<>();
+	public static final Map<UUID, StreamerReward> streamerReward = new HashMap<>();
 
 	public boolean enableReward(String reward)
 	{

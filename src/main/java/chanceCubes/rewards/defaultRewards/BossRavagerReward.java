@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class BossRavagerReward extends BossBaseReward
 {
+	private ArmorStand armorStandEntity;
 	public BossRavagerReward()
 	{
 		super("ravager");
@@ -33,9 +35,10 @@ public class BossRavagerReward extends BossBaseReward
 	{
 		Ravager ravager = EntityType.RAVAGER.create(level);
 
-		ArmorStand armorStandEntity = EntityType.ARMOR_STAND.create(level);
+		armorStandEntity = EntityType.ARMOR_STAND.create(level);
 		armorStandEntity.setInvulnerable(true);
 		armorStandEntity.startRiding(ravager, true);
+		level.addFreshEntity(armorStandEntity);
 
 
 		ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
@@ -73,13 +76,9 @@ public class BossRavagerReward extends BossBaseReward
 					groundPound(ravager.getOnPos(), level);
 				if(RewardsUtil.rand.nextInt(10) == 4)
 					charge(ravager, player);
-//				if(RewardsUtil.rand.nextInt(5) == 4)
-//					throwPotion(witch, player.getPosition(), world);
 			}
 		});
 
-
-		//world.addEntity(armorStandEntity);
 		return ravager;
 	}
 
@@ -97,12 +96,12 @@ public class BossRavagerReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, -1, 0);
+				BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, 0, 0);
 				for(int x = -radius; x <= radius; x++)
 				{
 					for(int z = -radius; z <= radius; z++)
 					{
-						pos.set(x, -1, z);
+						pos.set(x, 0, z);
 						if(withinDistance(pos, radius))
 						{
 							BlockPos newPos = ravagerPos.offset(pos);
@@ -140,7 +139,7 @@ public class BossRavagerReward extends BossBaseReward
 	@Override
 	public void onBossFightEnd(ServerLevel level, BlockPos pos, Player player)
 	{
-
+		armorStandEntity.remove(Entity.RemovalReason.DISCARDED);
 	}
 
 	public boolean withinDistance(BlockPos pos, double rad)

@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 
 public abstract class BaseRewardType<T> implements IRewardType
 {
-	protected T[] rewards;
+	protected final T[] rewards;
 
 	@SafeVarargs
 	protected BaseRewardType(T... rewards)

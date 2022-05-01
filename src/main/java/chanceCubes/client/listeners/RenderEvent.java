@@ -1,7 +1,6 @@
 package chanceCubes.client.listeners;
 
 import chanceCubes.util.SchematicUtil;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

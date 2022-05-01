@@ -39,7 +39,9 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -269,7 +271,7 @@ public class DefaultRewards
 					@Override
 					public void callback()
 					{
-						EntityWrapper.spawnLightning(level, player.getOnPos());
+						EntityWrapper.spawnLightning(level, ent.getOnPos());
 						ent.clearFire();
 					}
 				});
@@ -352,8 +354,7 @@ public class DefaultRewards
 			{
 				player.getInventory().dropAll();
 
-				for(int i = 0; i < player.getInventory().items.size(); i++)
-					player.getInventory().items.set(i, new ItemStack(Blocks.DEAD_BUSH, 64));
+				player.getInventory().items.replaceAll(ignored -> new ItemStack(Blocks.DEAD_BUSH, 64));
 
 				for(int i = 0; i < player.getInventory().armor.size(); i++)
 				{
@@ -460,11 +461,10 @@ public class DefaultRewards
 					@Override
 					public void callback()
 					{
-						//TODO
-						//player.isAirBorne = true;
+						player.setJumping(true);
+						player.setOnGround(false);
 						player.setDeltaMovement(0, 20, 0);
-						//TODO
-						//((ServerPlayer) player).connection.send(new SEntityVelocityPacket(player));
+						((ServerPlayer) player).connection.send(new ClientboundSetEntityMotionPacket(player));
 					}
 				});
 			}
@@ -570,9 +570,9 @@ public class DefaultRewards
 			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
 				ItemStack toEnchant;
-				if(!player.getUseItem().isEmpty())
+				if(!player.getMainHandItem().isEmpty())
 				{
-					toEnchant = player.getUseItem();
+					toEnchant = player.getMainHandItem();
 				}
 				else
 				{
