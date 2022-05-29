@@ -308,11 +308,11 @@ public class CCubesServerCommands
 
 	public int executeSpawnReward(CommandContext<CommandSourceStack> ctx, String rewardName, Collection<ServerPlayer> targets)
 	{
-		if(ctx.getSource().getEntity() != null)
-		{
-			CCubesCore.logger.error("Sorry, player's and entities cannot run this command!");
-			return 0;
-		}
+//		if(ctx.getSource().getEntity() != null)
+//		{
+//			CCubesCore.logger.error("Sorry, player's and entities cannot run this command!");
+//			return 0;
+//		}
 
 		IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(rewardName);
 		if(reward == null)
