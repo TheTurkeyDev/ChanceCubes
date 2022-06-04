@@ -29,5 +29,8 @@
   "advancements.chancecubes:herobrine.desc": "生成一个Herobrine",
   "advancements.chancecubes:its_a_lie": "这是谎言！",
   "advancements.chancecubes:its_a_lie.desc": "是的，蛋糕是个谎言",
-  "chancecubes.reward.raining_potions": "它被称为艺术！抬头看！"
+  "chancecubes.reward.raining_potions": "它被称为艺术！抬头看！",
+  "stat.chancecubes.opened_chance_cube": "Chance Cubes Opened",
+  "stat.chancecubes.opened_giant_chance_cube": "Giant Chance Cubes Opened",
+  "stat.chancecubes.opened_d20": "Chance Icosahedrons Opened"
 }

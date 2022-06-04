@@ -12,6 +12,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.util.NonreplaceableBlockOverride;
+import chanceCubes.util.StatsRegistry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -102,6 +103,7 @@ public class CCubesCore
 		CCubesPacketHandler.init();
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
+		event.enqueueWork(StatsRegistry::init);
 		//MinecraftForge.EVENT_BUS.register(new WorldGen());
 		//WorldGen.initWorldGen();
 	}

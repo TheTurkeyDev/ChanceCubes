@@ -5,6 +5,7 @@ import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileGiantCube;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -63,6 +64,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 
 			ServerLevel serverWorld = (ServerLevel) level;
 			RewardsUtil.executeCommand(serverWorld, player, player.getOnPos(), "/advancement grant @p only chancecubes:giant_chance_cube");
+			player.awardStat(StatsRegistry.OPENED_GIANT_CHANCE_CUBE);
 			GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
 			GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 		}

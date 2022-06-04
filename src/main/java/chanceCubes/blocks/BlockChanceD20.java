@@ -6,6 +6,7 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
+import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -82,6 +83,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 			}
 
 			RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
+			player.awardStat(StatsRegistry.OPENED_D20);
 			te.startBreaking(player);
 			CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())), new PacketTriggerD20(pos));
 		}

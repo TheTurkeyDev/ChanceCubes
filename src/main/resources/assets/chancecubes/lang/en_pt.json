@@ -30,5 +30,8 @@
   "advancements.chancecubes:herobrine.desc": "Have the Herobrine actually spawn",
   "advancements.chancecubes:its_a_lie": "It's a Lie!",
   "advancements.chancecubes:its_a_lie.desc": "Yes, the cake is a lie",
-  "chancecubes.reward.raining_potions": "It's called art! Look it up!"
+  "chancecubes.reward.raining_potions": "It's called art! Look it up!",
+  "stat.chancecubes.opened_chance_cube": "Chance Cubes Opened",
+  "stat.chancecubes.opened_giant_chance_cube": "Giant Chance Cubes Opened",
+  "stat.chancecubes.opened_d20": "Chance Icosahedrons Opened"
 }

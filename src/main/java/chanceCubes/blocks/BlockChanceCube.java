@@ -5,6 +5,7 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
+import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
@@ -61,6 +62,7 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
+			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE);
 		}
 	}
 
