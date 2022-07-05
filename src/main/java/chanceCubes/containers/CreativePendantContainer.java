@@ -62,7 +62,7 @@ public class CreativePendantContainer extends AbstractContainerMenu
 		{
 			if(!this.moveItemStackTo(stackInSlot, 0, 36, true))
 				return ItemStack.EMPTY;
-			else if(stack.getItem().equals(CCubesItems.CHANCE_CUBE) && !this.moveItemStackTo(stackInSlot, 36, 37, true))
+			else if(stack.getItem().equals(CCubesItems.CHANCE_CUBE.get()) && !this.moveItemStackTo(stackInSlot, 36, 37, true))
 				return ItemStack.EMPTY;
 		}
 

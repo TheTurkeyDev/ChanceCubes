@@ -3,12 +3,12 @@ package chanceCubes.items;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,13 +27,12 @@ public class ItemChanceCube extends BlockItem
 	public ItemChanceCube(BaseChanceBlock b)
 	{
 		super(b, getProps(b));
-		this.setRegistryName(b.getRegistryName());
 	}
 
 	public static Properties getProps(Block b)
 	{
 		Properties props = new Properties();
-		if(!b.equals(CCubesBlocks.GIANT_CUBE))
+		if(!b.equals(CCubesBlocks.GIANT_CUBE.get()))
 			props.tab(CCubesCore.modTab);
 		return props;
 	}
@@ -67,18 +66,18 @@ public class ItemChanceCube extends BlockItem
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag)
 	{
 		Item item = stack.getItem();
-		if(!item.equals(CCubesItems.CUBE_DISPENSER))
+		if(!item.equals(CCubesItems.CUBE_DISPENSER.get()))
 		{
 			String chance = this.getChanceAsStringValue(stack);
-			list.add(new TextComponent("Chance Value: " + chance));
+			list.add(ComponentWrapper.string("Chance Value: " + chance));
 		}
 
-		if(item.equals(CCubesItems.COMPACT_GIANT_CUBE))
-			list.add(new TextComponent(ChatFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
-		else if(item.equals(CCubesItems.CHANCE_CUBE))
-			list.add(new TextComponent(ChatFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
-		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON))
-			list.add(new TextComponent(ChatFormatting.RED + "WORK IN PROGRESS"));
+		if(item.equals(CCubesItems.COMPACT_GIANT_CUBE.get()))
+			list.add(ComponentWrapper.string(ChatFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
+		else if(item.equals(CCubesItems.CHANCE_CUBE.get()))
+			list.add(ComponentWrapper.string(ChatFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
+		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON.get()))
+			list.add(ComponentWrapper.string(ChatFormatting.RED + "WORK IN PROGRESS"));
 	}
 
 	@Override

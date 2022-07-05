@@ -1,12 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -39,22 +40,19 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 			@Override
 			public void update()
 			{
-				TamableAnimal ent;
-
-				if(RewardsUtil.rand.nextBoolean())
-					ent = EntityType.WOLF.create(level);
-				else
-					ent = EntityType.CAT.create(level);
-
 				int xInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
-				ent.moveTo(player.getX() + xInc, 256, player.getZ() + zInc, 0, 0);
+				BlockPos pos = new BlockPos(player.getX() + xInc, 256, player.getZ() + zInc);
+
+				TamableAnimal ent = RewardsUtil.rand.nextBoolean()
+						? EntityWrapper.spawnEntityAt(EntityType.WOLF, level, pos)
+						: EntityWrapper.spawnEntityAt(EntityType.CAT, level, pos);
+
 				ent.setTame(true);
 				ent.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 500, 1000));
-				ent.setCustomName(new TextComponent(names[RewardsUtil.rand.nextInt(names.length)]));
+				ent.setCustomName(ComponentWrapper.string(names[RewardsUtil.rand.nextInt(names.length)]));
 				ent.setCustomNameVisible(true);
 
-				level.addFreshEntity(ent);
 				Scheduler.scheduleTask(new Task("Despawn Delay", 200)
 				{
 					@Override

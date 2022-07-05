@@ -32,7 +32,7 @@ public class ChestChanceItem extends BasePart
 		{
 			stack = new ItemStack(RewardsUtil.getBlock(mod, item), amount);
 			if(stack.isEmpty())
-				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 1);
+				stack = new ItemStack(CCubesBlocks.CHANCE_CUBE.get(), 1);
 		}
 
 		return stack;

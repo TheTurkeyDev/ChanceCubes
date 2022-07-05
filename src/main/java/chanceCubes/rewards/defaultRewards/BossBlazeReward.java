@@ -1,11 +1,11 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -28,7 +28,7 @@ public class BossBlazeReward extends BossBaseReward
 	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		Blaze blaze = EntityType.BLAZE.create(level);
-		blaze.setCustomName(new TextComponent("Demonic Blaze"));
+		blaze.setCustomName(ComponentWrapper.string("Demonic Blaze"));
 
 		Scheduler.scheduleTask(new Task("blaze_abilities", -1, 20)
 		{
@@ -77,7 +77,7 @@ public class BossBlazeReward extends BossBaseReward
 	private void shootFireballs(Level level, Blaze blaze, Player player)
 	{
 		double d1 = player.getX() - blaze.getX();
-		double d2 = player.getBoundingBox().minY + (double) (player.getEyeHeight() / 2.0F) - (blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F));
+		double d2 = player.getLocalBoundsForPose(player.getPose()).minY + (double) (player.getEyeHeight() / 2.0F) - (blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F));
 		double d3 = player.getZ() - blaze.getZ();
 		for(int i = 0; i < 5; i++)
 		{

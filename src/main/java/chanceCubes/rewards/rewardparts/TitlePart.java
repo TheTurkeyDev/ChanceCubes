@@ -6,7 +6,6 @@ import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.GuiTextLocation;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
 public class TitlePart extends BasePart
 {
@@ -24,7 +23,7 @@ public class TitlePart extends BasePart
 		this(type, message, 0);
 	}
 
-	public TitlePart(String type, TextComponent message)
+	public TitlePart(String type, Component message)
 	{
 		this(new StringVar(type), message, new IntVar(0));
 	}

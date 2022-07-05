@@ -1,12 +1,13 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -21,22 +22,19 @@ public class WitherReward extends BaseCustomReward
 	}
 
 	@Override
-	public void trigger(ServerLevel world, BlockPos pos, final Player player, JsonObject settings)
+	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
 		int isReal = super.getSettingAsInt(settings, "isReal", 10, 0, 100);
-		final WitherBoss wither = EntityType.WITHER.create(world);
-		wither.moveTo(pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D, 90.0F, 0.0F);
+		final WitherBoss wither = EntityWrapper.spawnEntityAt(EntityType.WITHER, level, pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 1.5D);
 		//TODO
 		//wither.renderYawOffset = 90.0F;
-		world.addFreshEntity(wither);
-		//TODO
 		wither.makeInvulnerable();
 		if(RewardsUtil.rand.nextBoolean())
-			wither.setCustomName(new TextComponent("Kiwi"));
+			wither.setCustomName(ComponentWrapper.string("Kiwi"));
 		else
-			wither.setCustomName(new TextComponent("Kehaan"));
+			wither.setCustomName(ComponentWrapper.string("Kehaan"));
 
-		RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");
+		RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "\"You've got to ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?\"");
 
 		Scheduler.scheduleTask(new Task("Wither Reward", 180)
 		{
@@ -44,7 +42,7 @@ public class WitherReward extends BaseCustomReward
 			public void callback()
 			{
 				if(!removeEnts(wither))
-					RewardsUtil.executeCommand(world, player, player.getOnPos(), "/advancement grant @p only chancecubes:wither");
+					RewardsUtil.executeCommand(level, player, player.getOnPos(), "/advancement grant @p only chancecubes:wither");
 			}
 
 			private boolean removeEnts(Entity ent)

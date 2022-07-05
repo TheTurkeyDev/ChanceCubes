@@ -24,7 +24,7 @@ public class TileChanceCube extends BlockEntity
 
 	public TileChanceCube(int initialChance, BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_CUBE, pos, state);
+		super(CCubesBlocks.TILE_CHANCE_CUBE.get(), pos, state);
 		while(initialChance > 100 || initialChance < -100)
 			initialChance = Math.round((float) (random.nextGaussian() * 40));
 		this.setChance(initialChance);

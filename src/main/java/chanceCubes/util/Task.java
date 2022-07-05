@@ -1,9 +1,10 @@
 package chanceCubes.util;
 
+import chanceCubes.mcwrapper.ComponentWrapper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 
 public abstract class Task
@@ -49,7 +50,7 @@ public abstract class Task
 	public void showTimeLeft(Player player, GuiTextLocation location)
 	{
 		int time = this.delayLeft / 20;
-		TextComponent message = new TextComponent(String.valueOf(time));
+		MutableComponent message = ComponentWrapper.string(String.valueOf(time));
 		message.setStyle(Style.EMPTY.withBold(true).withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 		RewardsUtil.setPlayerTitle(player, location, message, 0, 20, 0);
 	}

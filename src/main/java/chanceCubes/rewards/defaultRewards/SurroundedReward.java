@@ -2,11 +2,11 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.mcwrapper.BlockWrapper;
+import chanceCubes.mcwrapper.EntityWrapper;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 
 public class SurroundedReward extends BaseCustomReward
@@ -21,7 +21,6 @@ public class SurroundedReward extends BaseCustomReward
 	{
 		int px = (int) player.getX();
 		int pz = (int) player.getZ();
-		EnderMan enderman;
 		for(int xx = 0; xx < 2; xx++)
 		{
 			int xValue = px + (xx == 0 ? -4 : 4);
@@ -32,11 +31,7 @@ public class SurroundedReward extends BaseCustomReward
 				BlockPos pos2 = new BlockPos(xValue, pos.getY() + 1, pz + zz);
 				BlockPos pos3 = new BlockPos(xValue, pos.getY() + 2, pz + zz);
 				if(!BlockWrapper.isBlockSolid(level, pos1) && !BlockWrapper.isBlockSolid(level, pos2) && !BlockWrapper.isBlockSolid(level, pos3))
-				{
-					enderman = EntityType.ENDERMAN.create(level);
-					enderman.moveTo(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
-					level.addFreshEntity(enderman);
-				}
+					EntityWrapper.spawnEntityAt(EntityType.ENDERMAN, level, xValue, pos.getY(), pos.getZ() + zz);
 			}
 		}
 
@@ -49,11 +44,7 @@ public class SurroundedReward extends BaseCustomReward
 				BlockPos pos2 = new BlockPos(px + xx, pos.getY() + 1, zValue);
 				BlockPos pos3 = new BlockPos(px + xx, pos.getY() + 2, zValue);
 				if(!BlockWrapper.isBlockSolid(level, pos1) && !BlockWrapper.isBlockSolid(level, pos2) && !BlockWrapper.isBlockSolid(level, pos3))
-				{
-					enderman = EntityType.ENDERMAN.create(level);
-					enderman.moveTo(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
-					level.addFreshEntity(enderman);
-				}
+					EntityWrapper.spawnEntityAt(EntityType.ENDERMAN, level, pos.getX() + xx, pos.getY(), zValue);
 			}
 		}
 	}

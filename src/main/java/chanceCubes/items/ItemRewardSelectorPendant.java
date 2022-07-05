@@ -26,7 +26,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemRewardSelectorPendant()
 	{
-		super((new Item.Properties()).stacksTo(1), "reward_selector_pendant");
+		super((new Item.Properties()).stacksTo(1));
 		super.addLore("Shift right click to change the reward.");
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
@@ -52,7 +52,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 
 		if(context.getItemInHand().getTag() != null && context.getItemInHand().getTag().contains("Reward"))
 		{
-			if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+			if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 			{
 				level.setBlockAndUpdate(context.getClickedPos(), Blocks.AIR.defaultBlockState());
 				IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
@@ -61,7 +61,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 				else
 					RewardsUtil.sendMessageToPlayer(context.getPlayer(), "That reward does not exist for this cube!");
 			}
-			else if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+			else if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE.get()))
 			{
 				BlockEntity ent = level.getBlockEntity(context.getClickedPos());
 				if(!(ent instanceof TileGiantCube giant))

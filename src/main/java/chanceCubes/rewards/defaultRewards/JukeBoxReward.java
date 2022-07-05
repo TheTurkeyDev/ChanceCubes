@@ -26,9 +26,9 @@ public class JukeBoxReward extends BaseCustomReward
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.placeBlock(Blocks.JUKEBOX.defaultBlockState(), level, pos);
-		BlockState iblockstate = level.getBlockState(pos);
+		BlockState iBlockState = level.getBlockState(pos);
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
-		((JukeboxBlock) Blocks.JUKEBOX).setRecord(level, pos, iblockstate, disc);
+		((JukeboxBlock) Blocks.JUKEBOX).setRecord(player, level, pos, iBlockState, disc);
 		level.levelEvent(null, 1010, pos, Item.getId(disc.getItem()));
 	}
 }

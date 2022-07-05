@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.rewards.biodomeGen.BioDomeGen;
 import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
@@ -10,9 +11,9 @@ import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
@@ -47,7 +48,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		battleWrapper.rewardCenterPos = pos;
 		battleWrapper.domeGen = new BioDomeGen(player);
 		battleWrapper.domeGen.genRandomDome(pos.offset(0, -1, 0), level, 15, false);
-		TextComponent message = new TextComponent("BOSS FIGHT!");
+		MutableComponent message = ComponentWrapper.string("BOSS FIGHT!");
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 		RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.TITLE, message, 10, 500, 0);
 
@@ -56,9 +57,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				TextComponent message = new TextComponent("");
-				message.append(player.getDisplayName());
-				message.append(" VS " + " ".repeat(bossName.length()));
+				MutableComponent message = ComponentWrapper.string(player.getDisplayName() + " VS " + " ".repeat(bossName.length()));
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 500, 0);
 			}
@@ -69,10 +68,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				TextComponent message = new TextComponent("");
-				message.append(player.getDisplayName());
-				message.append(" VS ");
-				message.append(bossName);
+				MutableComponent message = ComponentWrapper.string(player.getDisplayName() + " VS " + bossName);
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 100, 10);
 			}

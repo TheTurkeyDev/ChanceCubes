@@ -33,7 +33,7 @@ public class GiantCubeUtil
 		for(int x = cx; x < cx + 3; x++)
 			for(int y = cy; y < cy + 3; y++)
 				for(int z = cz; z < cz + 3; z++)
-					if(level.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+					if(level.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 						i++;
 		// check if there are 27 blocks present (3*3*3) and if a giant cube should be built
 		if(build)
@@ -79,7 +79,7 @@ public class GiantCubeUtil
 				{
 					i++;
 
-					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.defaultBlockState(), level, new BlockPos(x, y, z), i == 27 ? 3 : 2, level.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCE_CUBE));
+					RewardsUtil.placeBlock(CCubesBlocks.GIANT_CUBE.get().defaultBlockState(), level, new BlockPos(x, y, z), i == 27 ? 3 : 2, level.getBlockState(new BlockPos(x, y, z)).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()));
 
 
 					BlockEntity tile = level.getBlockEntity(new BlockPos(x, y, z));
@@ -94,7 +94,7 @@ public class GiantCubeUtil
 				}
 			}
 		}
-		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), CCubesSounds.GIANT_CUBE_SPAWN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 	}
 
 	public static BlockPos findBottomCorner(BlockPos pos, Level level)
@@ -102,17 +102,17 @@ public class GiantCubeUtil
 		int cx = pos.getX();
 		int cy = pos.getY();
 		int cz = pos.getZ();
-		while(level.getBlockState(pos.offset(0, -1, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		while(level.getBlockState(pos.offset(0, -1, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 		{
 			pos = pos.offset(0, -1, 0);
 			cy--;
 		}
-		while(level.getBlockState(pos.offset(-1, 0, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		while(level.getBlockState(pos.offset(-1, 0, 0)).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 		{
 			pos = pos.offset(-1, 0, 0);
 			cx--;
 		}
-		while(level.getBlockState(pos.offset(0, 0, -1)).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+		while(level.getBlockState(pos.offset(0, 0, -1)).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 		{
 			pos = pos.offset(0, 0, -1);
 			cz--;
@@ -136,7 +136,7 @@ public class GiantCubeUtil
 					{
 						((TileGiantCube) tile).reset();
 						level.removeBlockEntity(blockPos);
-						level.setBlockAndUpdate(blockPos, CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+						level.setBlockAndUpdate(blockPos, CCubesBlocks.CHANCE_CUBE.get().defaultBlockState());
 					}
 				}
 	}

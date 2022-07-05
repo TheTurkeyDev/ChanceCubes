@@ -1,6 +1,7 @@
 package chanceCubes.util;
 
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.mcwrapper.BlockWrapper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -73,7 +74,7 @@ public class RewardBlockCache
 		for(StoredBlockData storedBlock : storedBlocks)
 		{
 			BlockPos worldPos = origin.offset(storedBlock.pos);
-			ResourceLocation res = level.getBlockState(worldPos).getBlock().getRegistryName();
+			ResourceLocation res = BlockWrapper.getBlockId(level.getBlockState(worldPos).getBlock());
 			if(res == null || !blockedRestoreBlocks.contains(res.toString()))
 			{
 				RewardsUtil.placeBlock(storedBlock.oldState, level, worldPos, true);

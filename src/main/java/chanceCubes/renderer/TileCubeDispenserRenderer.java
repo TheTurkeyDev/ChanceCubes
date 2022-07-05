@@ -30,7 +30,7 @@ public class TileCubeDispenserRenderer implements BlockEntityRenderer<TileCubeDi
 	{
 		Level level = te.getLevel();
 
-		if(level == null || !level.getBlockState(te.getBlockPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER))
+		if(level == null || !level.getBlockState(te.getBlockPos()).getBlock().equals(CCubesBlocks.CUBE_DISPENSER.get()))
 			return;
 
 		DispenseType type = BlockCubeDispenser.getCurrentState(level.getBlockState(te.getBlockPos()));

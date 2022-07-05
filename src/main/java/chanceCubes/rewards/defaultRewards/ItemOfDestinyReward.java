@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -8,7 +9,6 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -65,7 +65,7 @@ public class ItemOfDestinyReward extends BaseCustomReward
 					{
 						CustomEntry<Enchantment, Integer> ench = RewardsUtil.getRandomEnchantmentAndLevel();
 						item.getItem().enchant(ench.getKey(), ench.getValue());
-						RewardsUtil.sendMessageToPlayer(player, new TextComponent(Language.getInstance().getOrDefault(ench.getKey().getDescriptionId()) + " Has been added to the item!"));
+						RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string(Language.getInstance().getOrDefault(ench.getKey().getDescriptionId()) + " Has been added to the item!"));
 					}
 					else
 					{

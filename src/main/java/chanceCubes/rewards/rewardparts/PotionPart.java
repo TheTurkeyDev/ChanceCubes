@@ -6,6 +6,7 @@ import chanceCubes.util.RewardsUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotionPart extends BasePart
 {
@@ -15,7 +16,7 @@ public class PotionPart extends BasePart
 
 	public PotionPart(MobEffect effect, int duration, int amplifier)
 	{
-		this(new StringVar(effect.getRegistryName().toString()), new IntVar(duration), new IntVar(amplifier));
+		this(new StringVar(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()), new IntVar(duration), new IntVar(amplifier));
 	}
 
 	public PotionPart(String id, int duration, int amplifier)

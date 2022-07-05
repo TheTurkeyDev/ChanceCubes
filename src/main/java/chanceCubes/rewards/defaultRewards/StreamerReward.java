@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.util.CustomEntry;
@@ -14,9 +15,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;
@@ -99,22 +100,25 @@ public class StreamerReward
 			public void update()
 			{
 				step++;
-				TextComponent message;
+				MutableComponent message;
 
 				switch(step)
 				{
-					case 1 -> {
-						message = new TextComponent("Hey Twitch Chat!");
+					case 1 ->
+					{
+						message = ComponentWrapper.string("Hey Twitch Chat!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
-					case 6 -> {
-						message = new TextComponent("Let's Play A Game!");
+					case 6 ->
+					{
+						message = ComponentWrapper.string("Let's Play A Game!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
-					case 11 -> {
-						message = new TextComponent("Decide My Fate!");
+					case 11 ->
+					{
+						message = ComponentWrapper.string("Decide My Fate!");
 						message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 						RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 10, 60, 10);
 					}
@@ -231,10 +235,10 @@ public class StreamerReward
 			sb.append(option.votes).append(" - ");
 		sb.delete(sb.length() - 2, sb.length());
 
-		TextComponent message = new TextComponent(sb.toString());
+		MutableComponent message = ComponentWrapper.string(sb.toString());
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, message, 0, 40, 0);
-		message = new TextComponent("Time Left: " + timeLeft);
+		message = ComponentWrapper.string("Time Left: " + timeLeft);
 		message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE)));
 		RewardsUtil.setPlayerTitle(player, GuiTextLocation.SUBTITLE, message, 0, 40, 0);
 
@@ -297,7 +301,7 @@ public class StreamerReward
 								if(zombie != null)
 								{
 									zombie.moveTo(player.getX(), player.getY(), player.getZ());
-									zombie.setCustomName(new TextComponent(user.getAsString()));
+									zombie.setCustomName(ComponentWrapper.string(user.getAsString()));
 									zombie.setCustomNameVisible(true);
 									level.addFreshEntity(zombie);
 								}

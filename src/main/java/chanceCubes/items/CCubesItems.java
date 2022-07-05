@@ -9,67 +9,54 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesItems
 {
 
-	public static BaseChanceCubesItem chancePendantT1;
-	public static BaseChanceCubesItem chancePendantT2;
-	public static BaseChanceCubesItem chancePendantT3;
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CCubesCore.MODID);
 
-	public static BaseChanceCubesItem silkPendant;
-	public static BaseChanceCubesItem creativePendant;
-	public static BaseChanceCubesItem rewardSelectorPendant;
-	public static BaseChanceCubesItem singleUseRewardSelectorPendant;
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T1 = ITEMS.register("chance_pendant_tier_1", () -> new ItemChancePendant(10));
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T2 = ITEMS.register("chance_pendant_tier_2", () -> new ItemChancePendant(25));
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T3 = ITEMS.register("chance_pendant_tier_3", () -> new ItemChancePendant(50));
 
-	public static BaseChanceCubesItem scanner;
+	public static RegistryObject<ItemSilkTouchPendant> SILK_PENDANT = ITEMS.register("silk_touch_pendant", ItemSilkTouchPendant::new);
+	public static RegistryObject<BaseChanceCubesItem> CREATIVE_PENDANT = ITEMS.register("creative_pendant", ItemCreativePendant::new);
+	public static RegistryObject<BaseChanceCubesItem> REWARD_SELECTOR_PENDANT = ITEMS.register("reward_selector_pendant", ItemRewardSelectorPendant::new);
+	public static RegistryObject<BaseChanceCubesItem> SINGLE_USE_REWARD_SELECTOR_PENDANT = ITEMS.register("single_use_reward_selector_pendant", ItemSingleUseRewardSelectorPendant::new);
 
-	public static ItemChanceCube CHANCE_CUBE;
-	public static ItemChanceCube CHANCE_ICOSAHEDRON;
-	public static ItemChanceCube GIANT_CUBE;
-	public static ItemChanceCube COMPACT_GIANT_CUBE;
-	public static ItemChanceCube CUBE_DISPENSER;
+	public static RegistryObject<BaseChanceCubesItem> SCANNER = ITEMS.register("scanner", ItemScanner::new);
+
+	public static RegistryObject<ItemChanceCube> CHANCE_CUBE = ITEMS.register("chance_cube", () -> new ItemChanceCube(CCubesBlocks.CHANCE_CUBE.get()));
+	public static RegistryObject<ItemChanceCube> CHANCE_ICOSAHEDRON = ITEMS.register("chance_icosahedron", () -> new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON.get()));
+	public static RegistryObject<ItemChanceCube> GIANT_CUBE = ITEMS.register("giant_chance_cube", () -> new ItemChanceCube(CCubesBlocks.GIANT_CUBE.get()));
+	public static RegistryObject<ItemChanceCube> COMPACT_GIANT_CUBE = ITEMS.register("compact_giant_chance_cube", () -> new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE.get()));
+	public static RegistryObject<ItemChanceCube> CUBE_DISPENSER = ITEMS.register("cube_dispenser", () -> new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER.get()));
 
 
 	public static MenuType<CreativePendantContainer> CREATIVE_PENDANT_CONTAINER;
 
 	@SubscribeEvent
-	public static void onItemRegistry(RegistryEvent.Register<Item> e)
+	public static void onContainerRegistry(RegisterEvent event)
 	{
-		e.getRegistry().register(chancePendantT1 = new ItemChancePendant(1, 10));
-		e.getRegistry().register(chancePendantT2 = new ItemChancePendant(2, 25));
-		e.getRegistry().register(chancePendantT3 = new ItemChancePendant(3, 50));
+		event.register(ForgeRegistries.Keys.CONTAINER_TYPES,
+				helper ->
+				{
+					CREATIVE_PENDANT_CONTAINER = IForgeMenuType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
+					helper.register("creative_pendant_container", CREATIVE_PENDANT_CONTAINER);
 
-		e.getRegistry().register(silkPendant = new ItemSilkTouchPendant());
-		e.getRegistry().register(creativePendant = new ItemCreativePendant());
-		e.getRegistry().register(rewardSelectorPendant = new ItemRewardSelectorPendant());
-		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
-
-		e.getRegistry().register(CHANCE_CUBE = new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
-		e.getRegistry().register(CHANCE_ICOSAHEDRON = new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
-		e.getRegistry().register(GIANT_CUBE = new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
-		e.getRegistry().register(COMPACT_GIANT_CUBE = new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
-		e.getRegistry().register(CUBE_DISPENSER = new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
-
-		e.getRegistry().register(scanner = new ItemScanner());
-	}
-
-	@SubscribeEvent
-	public static void onContainerRegistry(RegistryEvent.Register<MenuType<?>> event)
-	{
-		CREATIVE_PENDANT_CONTAINER = IForgeMenuType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));
-		CREATIVE_PENDANT_CONTAINER.setRegistryName(CCubesCore.MODID, "creative_pendant_container");
-		event.getRegistry().register(CREATIVE_PENDANT_CONTAINER);
-
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-		{
-			MenuScreens.register(CREATIVE_PENDANT_CONTAINER, CreativePendantScreen::new);
-		});
+					DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+					{
+						MenuScreens.register(CREATIVE_PENDANT_CONTAINER, CreativePendantScreen::new);
+					});
+				});
 	}
 
 }

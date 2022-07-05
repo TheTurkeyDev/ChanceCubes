@@ -4,6 +4,7 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.mcwrapper.BlockWrapper;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
@@ -37,8 +38,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,8 +46,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
@@ -113,7 +110,7 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":tnt_diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.DIAMOND_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":fake_tnt", 0, new SoundRewardType(new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.GENERIC_EXPLODE, 120).setAtPlayersLocation(true))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":invisible_ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.GHAST_SCREAM).setServerWide(true), new SoundPart(SoundEvents.GHAST_WARN).setServerWide(true), new SoundPart(SoundEvents.GHAST_WARN).setServerWide(true))));
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":no", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE, false)), new MessageRewardType("No")));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":no", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE.get(), false)), new MessageRewardType("No")));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":coal_to_diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":one_man_army", -10, new EntityRewardType("zombified_piglin"), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombified_piglin ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":arrow_trap", -25, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/arrow_trap.ccs", true, new IntVar(1), new IntVar(-1), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0)))));
@@ -207,7 +204,7 @@ public class DefaultRewards
 					{
 						MobEffectInstance effect = RewardsUtil.getRandomPotionEffectInstance();
 						RewardsUtil.sendMessageToPlayer(player, "You have been given: ");
-						RewardsUtil.sendMessageToPlayer(player, new TranslatableComponent(effect.getDescriptionId()));
+						RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.translatable(effect.getDescriptionId()));
 						RewardsUtil.sendMessageToPlayer(player, "for " + (effect.getDuration() / 20) + " seconds!");
 						player.addEffect(effect);
 					}
@@ -288,14 +285,9 @@ public class DefaultRewards
 						RewardsUtil.placeBlock(RewardsUtil.getRandomWool(), level, pos.offset(xx, -1, zz));
 
 				for(int i = 0; i < 10; i++)
-				{
-					Sheep sheep = EntityType.SHEEP.create(level);
-					sheep.setCustomName(new TextComponent("jeb_"));
-					sheep.moveTo(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);
-					level.addFreshEntity(sheep);
-				}
+					EntityWrapper.spawnNamedEntityAt(EntityType.SHEEP, level, "jeb_", pos.getX(), pos.getY() + 1, pos.getZ());
 
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState(), level, pos.offset(0, 3, 0));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 3, 0));
 
 				RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "Disco Party!!!!");
 			}
@@ -309,9 +301,7 @@ public class DefaultRewards
 				for(int i = 30; i > 0; i--)
 					RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, pos.offset(0, i, 0));
 
-				EndCrystal ent = EntityType.END_CRYSTAL.create(level);
-				ent.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
-				level.addFreshEntity(ent);
+				EntityWrapper.spawnEntityAt(EntityType.END_CRYSTAL, level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
 				Arrow arrow = new Arrow(level, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
 				arrow.setDeltaMovement(0, -0.25, 0);
@@ -331,19 +321,19 @@ public class DefaultRewards
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos);
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(0, 1, 0));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState(), level, pos.offset(0, 2, 0));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 2, 0));
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(-3, 0, -3));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(-3, 1, -3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(-3, 1, -3));
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(-3, 0, 3));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(-3, 1, 3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(-3, 1, 3));
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(3, 0, -3));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(3, 1, -3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(3, 1, -3));
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(3, 0, 3));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(3, 1, 3));
+				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(3, 1, 3));
 			}
 		});
 
@@ -361,12 +351,12 @@ public class DefaultRewards
 					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 					if(i == 0)
 					{
-						stack.setHoverName(new TextComponent("Button").setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE))));
+						stack.setHoverName(ComponentWrapper.string("Button").setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE))));
 						stack.setCount(13);
 					}
 					else if(i == 1)
 					{
-						stack.setHoverName(new TextComponent("TheBlackswordsman"));
+						stack.setHoverName(ComponentWrapper.string("TheBlackswordsman"));
 						stack.setCount(13);
 					}
 					player.getInventory().armor.set(i, stack);
@@ -490,9 +480,7 @@ public class DefaultRewards
 							if(b.getLightEmission(level, pos) > 0 && b.getBlock() != Blocks.LAVA && !b.hasBlockEntity())
 							{
 								RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, pos.offset(xx, yy, zz));
-								Creeper creeper = EntityType.CREEPER.create(level);
-								creeper.moveTo(pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5, 0, 0);
-								level.addFreshEntity(creeper);
+								EntityWrapper.spawnEntityAt(EntityType.CREEPER, level, pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5);
 								spawned++;
 								if(spawned >= maxCreepers && maxCreepers != -1)
 									return;
@@ -593,7 +581,7 @@ public class DefaultRewards
 					if(stacks.size() == 0)
 					{
 						ItemStack dirt = new ItemStack(Blocks.DIRT);
-						dirt.setHoverName(new TextComponent("A lonley piece of dirt"));
+						dirt.setHoverName(ComponentWrapper.string("A lonley piece of dirt"));
 						player.getInventory().add(dirt);
 						RewardsUtil.executeCommand(level, player, player.getOnPos(), "/advancement grant @p only chancecubes:lonely_dirt");
 						return;

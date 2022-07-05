@@ -1,6 +1,7 @@
 package chanceCubes.client.gui;
 
 import chanceCubes.client.listeners.RenderEvent;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,7 +9,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,7 +24,7 @@ public class SchematicCreationGui extends Screen
 
 	public SchematicCreationGui(Player player)
 	{
-		super(new TextComponent("Test"));
+		super(ComponentWrapper.string("Test"));
 		this.player = player;
 	}
 
@@ -36,19 +36,19 @@ public class SchematicCreationGui extends Screen
 	{
 		this.clearWidgets();
 		int i = this.width / 2;
-		this.nameField = new EditBox(this.font, i - 70, 10, 140, 12, new TextComponent("TEST"));
+		this.nameField = new EditBox(this.font, i - 70, 10, 140, 12, ComponentWrapper.string("TEST"));
 		this.nameField.setTextColor(-1);
 		//this.nameField.setDisabledTextColour(-1);
 		//this.nameField.setEnableBackgroundDrawing(true);
 		this.nameField.setMaxLength(100);
 		this.nameField.setValue("Schematic Name");
 
-		this.addWidget(new Button(i - 50, this.height - 70, 100, 20, new TextComponent("Back"), (button) ->
+		this.addWidget(new Button(i - 50, this.height - 70, 100, 20, ComponentWrapper.string("Back"), (button) ->
 		{
 			SchematicCreationGui.this.onClose();
 		}));
 
-		this.addWidget(new Button(i - 50, this.height - 40, 100, 20, new TextComponent("Create"), (button) ->
+		this.addWidget(new Button(i - 50, this.height - 40, 100, 20, ComponentWrapper.string("Create"), (button) ->
 		{
 			String fileName = nameField.getValue();
 			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
@@ -65,7 +65,7 @@ public class SchematicCreationGui extends Screen
 			for(int k = 0; k < 6; k++)
 			{
 				int buttonID = (j * 2) + k;
-				this.addWidget(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, new TextComponent(buttonText[k]), (button) ->
+				this.addWidget(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, ComponentWrapper.string(buttonText[k]), (button) ->
 				{
 					int idNormalized = buttonID % 6;
 					int point = (buttonID) / 6;

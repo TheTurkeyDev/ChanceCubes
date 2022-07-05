@@ -22,7 +22,7 @@ public class ItemScanner extends BaseChanceCubesItem
 {
 	public ItemScanner()
 	{
-		super((new Item.Properties()).stacksTo(1), "scanner");
+		super((new Item.Properties()).stacksTo(1));
 	}
 
 //	@Override
@@ -66,7 +66,7 @@ public class ItemScanner extends BaseChanceCubesItem
 
 					BlockPos position = new BlockPos(i, j, k);
 
-					if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+					if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 					{
 						TileChanceCube te = ((TileChanceCube) level.getBlockEntity(new BlockPos(i, j, k)));
 						if(te != null)
@@ -77,7 +77,7 @@ public class ItemScanner extends BaseChanceCubesItem
 							RenderEvent.setLookingAtChance(te.getChance());
 						}
 					}
-					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON))
+					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON.get()))
 					{
 						TileChanceD20 te = ((TileChanceD20) level.getBlockEntity(new BlockPos(i, j, k)));
 						if(te != null)
@@ -88,7 +88,7 @@ public class ItemScanner extends BaseChanceCubesItem
 							RenderEvent.setLookingAtChance(te.getChance());
 						}
 					}
-					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE.get()))
 					{
 						RenderEvent.setLookingAtChance(-201);
 						RenderEvent.setLookingAt(true);

@@ -1,9 +1,9 @@
 package chanceCubes.items;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -16,10 +16,9 @@ public class BaseChanceCubesItem extends Item
 {
 	private final List<String> lore = Lists.newArrayList();
 
-	public BaseChanceCubesItem(Properties builder, String name)
+	public BaseChanceCubesItem(Properties builder)
 	{
 		super(builder.tab(CCubesCore.modTab));
-		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
 	public void addLore(String info)
@@ -31,6 +30,6 @@ public class BaseChanceCubesItem extends Item
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag)
 	{
 		for(String s : lore)
-			list.add(new TextComponent(s));
+			list.add(ComponentWrapper.string(s));
 	}
 }

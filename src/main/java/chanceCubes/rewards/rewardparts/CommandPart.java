@@ -3,7 +3,7 @@ package chanceCubes.rewards.rewardparts;
 import chanceCubes.rewards.variableTypes.BoolVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraft.core.SerializableUUID;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
@@ -58,7 +58,7 @@ public class CommandPart extends BasePart
 		parsedCommand = parsedCommand.replace("%py", "" + player.getY());
 		parsedCommand = parsedCommand.replace("%pz", "" + player.getZ());
 		parsedCommand = parsedCommand.replace("%puuid", player.getStringUUID());
-		int[] enc = SerializableUUID.uuidToIntArray(player.getUUID());
+		int[] enc = UUIDUtil.uuidToIntArray(player.getUUID());
 		parsedCommand = parsedCommand.replace("%pencuuid", String.format("[I;%d,%d,%d,%d]", enc[0], enc[1], enc[2], enc[3]));
 		parsedCommand = parsedCommand.replace("%pdir", player.getDirection().toString());
 
@@ -83,7 +83,7 @@ public class CommandPart extends BasePart
 				randId = Integer.parseInt(randIDStr);
 
 			UUID uuid = randUUIDs.computeIfAbsent(randId, (id) -> UUID.randomUUID());
-			enc = SerializableUUID.uuidToIntArray(uuid);
+			enc = UUIDUtil.uuidToIntArray(uuid);
 			parsedCommand = parsedCommand.replace("%randencuuid", String.format("[I;%d,%d,%d,%d]", enc[0], enc[1], enc[2], enc[3]));
 		}
 

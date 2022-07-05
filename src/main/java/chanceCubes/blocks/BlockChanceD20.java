@@ -32,7 +32,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().strength(-1f, Integer.MAX_VALUE).lightLevel(state -> 7), "chance_icosahedron");
+		super(getBuilder().strength(-1f, Integer.MAX_VALUE).lightLevel(state -> 7));
 	}
 
 	@Override
@@ -72,9 +72,9 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 
 		if(level.getBlockEntity(pos) instanceof TileChanceD20 te)
 		{
-			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT.get()))
 			{
-				ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON, 1);
+				ItemStack stack = new ItemStack(CCubesItems.CHANCE_ICOSAHEDRON.get(), 1);
 				((ItemChanceCube) stack.getItem()).setChance(stack, te.isScanned() ? te.getChance() : -101);
 				popResource(level, pos, stack);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

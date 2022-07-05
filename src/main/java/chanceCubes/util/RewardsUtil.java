@@ -2,6 +2,7 @@ package chanceCubes.util;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,7 +16,6 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
@@ -47,7 +47,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -131,7 +130,7 @@ public class RewardsUtil
 	public static void sendMessageToPlayer(Player player, String message)
 	{
 		if(player != null)
-			sendMessageToPlayer(player, new TextComponent(message));
+			sendMessageToPlayer(player, ComponentWrapper.string(message));
 	}
 
 	public static void sendMessageToPlayer(Player player, Component message)
@@ -191,7 +190,7 @@ public class RewardsUtil
 		return getRegistryEntrySafe(ForgeRegistries.PARTICLE_TYPES, res, ForgeRegistries.PARTICLE_TYPES.getDefaultKey());
 	}
 
-	public static <T extends IForgeRegistryEntry<T>> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
+	public static <T> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
 	{
 		T val = registry.getValue(key);
 		return val == null ? registry.getValue(defaultReturn) : val;
@@ -268,7 +267,7 @@ public class RewardsUtil
 		return randomRegistryEntry(ForgeRegistries.POTIONS, Potions.EMPTY);
 	}
 
-	public static <T extends IForgeRegistryEntry<T>> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
+	public static <T> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
 	{
 		Collection<T> entries = registry.getValues();
 		T entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);

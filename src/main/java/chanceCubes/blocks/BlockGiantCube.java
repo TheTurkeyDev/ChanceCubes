@@ -25,7 +25,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 {
 	public BlockGiantCube()
 	{
-		super(getBuilder(), "giant_chance_cube");
+		super(getBuilder());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 		if(!(te instanceof TileGiantCube gc))
 			return Shapes.block();
 
-		BlockPos diff = pos.subtract(gc.getMasterPostion());
+		BlockPos diff = pos.offset(gc.getMasterPostion());
 		return Shapes.box(-1 - diff.getX(), -1 - diff.getY(), -1 - diff.getZ(), 2 - diff.getX(), 2 - diff.getY(), 2 - diff.getZ());
 	}
 
@@ -52,9 +52,9 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
 		{
-			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT))
 			{
-				popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE));
+				popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE.get()));
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 				return;
 			}

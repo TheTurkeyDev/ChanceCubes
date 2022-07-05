@@ -2,10 +2,10 @@ package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -30,14 +30,14 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE, 2);
+		ItemStack stack = new ItemStack(CCubesBlocks.CHANCE_CUBE.get(), 2);
 		String[] allChanceSyn = ArrayUtils.addAll(chanceSyn, super.getSettingAsStringList(settings, "chanceSynonym", new String[0]));
 		String name = allChanceSyn[RewardsUtil.rand.nextInt(allChanceSyn.length)];
 		String[] allCubeSyn = ArrayUtils.addAll(cubeSyn, super.getSettingAsStringList(settings, "cubeSynonym", new String[0]));
 		String adj = allCubeSyn[RewardsUtil.rand.nextInt(allCubeSyn.length)];
 
 		String newName = name + " " + adj;
-		stack.setHoverName(new TextComponent(newName));
+		stack.setHoverName(ComponentWrapper.string(newName));
 
 		RewardsUtil.sendMessageToPlayer(player, "Chance Cubes are sooooo 2017. Here have some " + newName + " instead!");
 

@@ -1,13 +1,13 @@
 package chanceCubes.rewards.giantRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.rewards.defaultRewards.BaseCustomReward;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +30,7 @@ public class PotionsReward extends BaseCustomReward
 	@Override
 	public void trigger(final ServerLevel level, final BlockPos pos, final Player player, JsonObject settings)
 	{
-		RewardsUtil.sendMessageToPlayer(player, new TranslatableComponent("chancecubes.reward.raining_potions"));
+		RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.translatable("chancecubes.reward.raining_potions"));
 		throwPoitonCircle(level, pos, player);
 	}
 

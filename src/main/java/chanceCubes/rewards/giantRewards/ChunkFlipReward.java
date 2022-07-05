@@ -61,7 +61,7 @@ public class ChunkFlipReward extends BaseCustomReward
 						BlockEntity te1 = level.getBlockEntity(pos1);
 						BlockEntity te2 = level.getBlockEntity(pos2);
 
-						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE) && !RewardsUtil.isBlockUnbreakable(level, pos) && !CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos)))
+						if(!b.getBlock().equals(Blocks.GRAVEL) && !b.getBlock().equals(CCubesBlocks.GIANT_CUBE.get()) && !RewardsUtil.isBlockUnbreakable(level, pos) && !CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos)))
 						{
 							level.setBlock(pos1, b2, 2);
 							level.setBlock(pos2, b, 2);

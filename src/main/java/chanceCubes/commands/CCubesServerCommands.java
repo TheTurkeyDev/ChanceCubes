@@ -6,6 +6,7 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.mcwrapper.ItemWrapper;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerRewardInfo;
 import chanceCubes.rewards.DefaultGiantRewards;
@@ -149,7 +150,7 @@ public class CCubesServerCommands
 		ItemStack stack = player.getInventory().getSelected();
 		if(!stack.isEmpty())
 		{
-			ResourceLocation res = stack.getItem().getRegistryName();
+			ResourceLocation res = ItemWrapper.getItemId(stack);
 			RewardsUtil.sendMessageToPlayer(player, res.getNamespace() + ":" + res.getPath());
 			RewardsUtil.sendMessageToPlayer(player, "meta: " + stack.getDamageValue());
 		}
@@ -223,27 +224,32 @@ public class CCubesServerCommands
 		List<String> playerRewards = new ArrayList<>();
 		switch(action)
 		{
-			case DEFAULT -> {
+			case DEFAULT ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
 			}
-			case GIANT -> {
+			case GIANT ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(PlayerRewardInfo reward : giantrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
 			}
-			case DEFAULT_ALL -> {
+			case DEFAULT_ALL ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case GIANT_ALL -> {
+			case GIANT_ALL ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case DEFAULT_DISABLED -> {
+			case DEFAULT_DISABLED ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					playerRewards.add(reward.reward.getName());
@@ -251,7 +257,8 @@ public class CCubesServerCommands
 					if(!playerRewards.contains(reward))
 						RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case GIANT_DISABLED -> {
+			case GIANT_DISABLED ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : giantrewards)
 					playerRewards.add(reward.reward.getName());

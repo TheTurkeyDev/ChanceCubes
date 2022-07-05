@@ -1,12 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -32,7 +32,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		Slime queen = EntityType.SLIME.create(level);
-		queen.setCustomName(new TextComponent("Slime Queen"));
+		queen.setCustomName(ComponentWrapper.string("Slime Queen"));
 
 		// Lol ok
 		CompoundTag nbt = new CompoundTag();

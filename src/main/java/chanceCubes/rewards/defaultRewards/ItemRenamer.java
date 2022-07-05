@@ -1,11 +1,12 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -47,7 +48,7 @@ public class ItemRenamer extends BaseCustomReward
 		if(stacks.size() == 0)
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
-			TextComponent name = new TextComponent("A lonely piece of dirt");
+			MutableComponent name = ComponentWrapper.string("A lonely piece of dirt");
 			name.setStyle(name.getStyle().withColor(TextColor.parseColor("#ff1111")));
 			dirt.setHoverName(name);
 			player.getInventory().add(dirt);
@@ -66,7 +67,7 @@ public class ItemRenamer extends BaseCustomReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setHoverName(new TextComponent(newName));
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setHoverName(ComponentWrapper.string(newName));
 		}
 
 		RewardsUtil.sendMessageToPlayer(player, "Those items of yours need a little personality!");

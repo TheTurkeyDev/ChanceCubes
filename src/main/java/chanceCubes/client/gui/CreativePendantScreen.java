@@ -2,6 +2,7 @@ package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCreativePendant;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,7 +11,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -31,13 +31,13 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 		super.init();
 		int halfWidth = this.width / 2;
 		int halfHeight = (this.height / 2);
-		this.addRenderableWidget(new Button(halfWidth - 40, halfHeight - 60, 20, 20, new TextComponent("-1"), p_onPress_1_ -> this.changeChanceValue(-1)));
-		this.addRenderableWidget(new Button(halfWidth + 15, halfHeight - 60, 20, 20, new TextComponent("+1"), p_onPress_1_ -> this.changeChanceValue(1)));
-		this.addRenderableWidget(new Button(halfWidth - 60, halfHeight - 60, 20, 20, new TextComponent("-5"), p_onPress_1_ -> this.changeChanceValue(-5)));
-		this.addRenderableWidget(new Button(halfWidth + 35, halfHeight - 60, 20, 20, new TextComponent("+5"), p_onPress_1_ -> this.changeChanceValue(5)));
-		this.addRenderableWidget(new Button(halfWidth - 80, halfHeight - 60, 20, 20, new TextComponent("-10"), p_onPress_1_ -> this.changeChanceValue(-10)));
-		this.addRenderableWidget(new Button(halfWidth + 55, halfHeight - 60, 20, 20, new TextComponent("+10"), p_onPress_1_ -> this.changeChanceValue(10)));
-		this.addRenderableWidget(new Button(halfWidth + 12, halfHeight - 35, 70, 20, new TextComponent("Set Chance"), p_onPress_1_ -> CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(this.chanceValue))));
+		this.addRenderableWidget(new Button(halfWidth - 40, halfHeight - 60, 20, 20, ComponentWrapper.string("-1"), p_onPress_1_ -> this.changeChanceValue(-1)));
+		this.addRenderableWidget(new Button(halfWidth + 15, halfHeight - 60, 20, 20, ComponentWrapper.string("+1"), p_onPress_1_ -> this.changeChanceValue(1)));
+		this.addRenderableWidget(new Button(halfWidth - 60, halfHeight - 60, 20, 20, ComponentWrapper.string("-5"), p_onPress_1_ -> this.changeChanceValue(-5)));
+		this.addRenderableWidget(new Button(halfWidth + 35, halfHeight - 60, 20, 20, ComponentWrapper.string("+5"), p_onPress_1_ -> this.changeChanceValue(5)));
+		this.addRenderableWidget(new Button(halfWidth - 80, halfHeight - 60, 20, 20, ComponentWrapper.string("-10"), p_onPress_1_ -> this.changeChanceValue(-10)));
+		this.addRenderableWidget(new Button(halfWidth + 55, halfHeight - 60, 20, 20, ComponentWrapper.string("+10"), p_onPress_1_ -> this.changeChanceValue(10)));
+		this.addRenderableWidget(new Button(halfWidth + 12, halfHeight - 35, 70, 20, ComponentWrapper.string("Set Chance"), p_onPress_1_ -> CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(this.chanceValue))));
 	}
 
 	public void changeChanceValue(int amount)

@@ -1,9 +1,9 @@
 package chanceCubes.rewards.biodomeGen;
 
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.util.RewardsUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Squid;
@@ -27,7 +27,7 @@ public class OceanBiome extends BaseBiome
 		{
 			Squid squid = EntityType.SQUID.create(level);
 			squid.moveTo(pos.getX() + (RewardsUtil.rand.nextInt(31) - 15), pos.getY() + 1, pos.getZ() + (RewardsUtil.rand.nextInt(31) - 15), 0, 0);
-			squid.setCustomName(new TextComponent("Mango"));
+			squid.setCustomName(ComponentWrapper.string("Mango"));
 			level.addFreshEntity(squid);
 		}
 	}

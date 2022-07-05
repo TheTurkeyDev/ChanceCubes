@@ -7,9 +7,9 @@ public class ItemChancePendant extends BaseChanceCubesItem
 {
 	private final int chanceIncrease;
 
-	public ItemChancePendant(int tier, int chanceBonus)
+	public ItemChancePendant(int chanceBonus)
 	{
-		super((new Item.Properties()).durability(32), "chance_pendant_tier" + tier);
+		super((new Item.Properties()).durability(32));
 		chanceIncrease = chanceBonus;
 		super.addLore("Increases the chance of Chance Cubes by:");
 		super.addLore("      +" + chanceIncrease + " when the block is broken");

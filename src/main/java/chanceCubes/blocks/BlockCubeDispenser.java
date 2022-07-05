@@ -22,7 +22,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements EntityBlock
 
 	public BlockCubeDispenser()
 	{
-		super(getBuilder().strength(2f, Integer.MAX_VALUE), "cube_dispenser");
+		super(getBuilder().strength(2f, Integer.MAX_VALUE));
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DISPENSING, DispenseType.CHANCE_CUBE));
 	}
 

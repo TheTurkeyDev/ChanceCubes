@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
@@ -48,9 +49,7 @@ public class MobTowerReward extends BaseCustomReward
 		Entity last;
 		try
 		{
-			last = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(level);
-			last.moveTo(pos.getX(), pos.getY(), pos.getZ());
-			level.addFreshEntity(last);
+			last = EntityWrapper.spawnEntityAt(entities.get(RewardsUtil.rand.nextInt(entities.size())), level, pos);
 		} catch(Exception e)
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Uh oh! Something went wrong and the reward could not be spawned! Please report this to the mod dev!");
@@ -61,9 +60,7 @@ public class MobTowerReward extends BaseCustomReward
 		{
 			try
 			{
-				Entity ent = entities.get(RewardsUtil.rand.nextInt(entities.size())).create(level);
-				ent.moveTo(pos.getX(), pos.getY(), pos.getZ());
-				level.addFreshEntity(ent);
+				Entity ent = EntityWrapper.spawnEntityAt(entities.get(RewardsUtil.rand.nextInt(entities.size())), level, pos);
 				ent.startRiding(last, true);
 				last = ent;
 			} catch(Exception ignored)

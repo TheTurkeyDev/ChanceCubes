@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -73,9 +74,7 @@ public class JarGuessReward extends BaseCustomReward
 						if(batsSpawned < amount)
 						{
 							BlockPos pos2 = pos.offset(x + 0.5, y + 0.5, z + 0.5);
-							Bat bat = EntityType.BAT.create(level);
-							bat.moveTo(pos2.getX(), pos2.getY(), pos2.getZ(), 0, 0);
-							level.addFreshEntity(bat);
+							Bat bat = EntityWrapper.spawnEntityAt(EntityType.BAT, level, pos2);
 							guessing.bats.add(bat);
 							batsSpawned++;
 						}

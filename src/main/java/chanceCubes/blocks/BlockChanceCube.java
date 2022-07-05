@@ -31,7 +31,7 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 
 	public BlockChanceCube()
 	{
-		super(getBuilder().lightLevel(state -> state.getValue(TEXTURE).equals(EnumTexture.HALLOWEEN) ? 2 : 0), "chance_cube");
+		super(getBuilder().lightLevel(state -> state.getValue(TEXTURE).equals(EnumTexture.HALLOWEEN) ? 2 : 0));
 		this.registerDefaultState(this.getStateDefinition().any().setValue(TEXTURE, EnumTexture.DEFAULT));
 	}
 
@@ -49,9 +49,9 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
 		{
-			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT.get()))
 			{
-				ItemStack stackCube = new ItemStack(CCubesItems.CHANCE_CUBE, 1);
+				ItemStack stackCube = new ItemStack(CCubesItems.CHANCE_CUBE.get(), 1);
 				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, te.isScanned() ? te.getChance() : -101);
 				ItemEntity blockStack = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stackCube);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

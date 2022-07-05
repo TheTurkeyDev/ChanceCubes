@@ -3,6 +3,8 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.mcwrapper.BlockWrapper;
+import chanceCubes.mcwrapper.ComponentWrapper;
+import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
@@ -19,7 +21,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -92,7 +93,7 @@ public class WheelSpinReward extends BaseCustomReward
 		rewards.add(new RewardTrigger(new BasicReward("emerald", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.EMERALD, 1)))), "", "1 Emerald"));
 		rewards.add(new RewardTrigger(new BasicReward("nothing", 0, new MessageRewardType("Congrats! You won absolutely nothing!")), "", "Nothing"));
 		ItemStack car = new ItemStack(Items.MINECART);
-		car.setHoverName(new TextComponent("New Car!"));
+		car.setHoverName(ComponentWrapper.string("New Car!"));
 		car.enchant(Enchantments.UNBREAKING, 0);
 		rewards.add(new RewardTrigger(new BasicReward("new_car", 0, new ItemRewardType(new ItemPart(car))), "", "A Brand", "New Car"));
 		rewards.add(new RewardTrigger(new BasicReward("lava", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.LAVA, false))), "", "Hot Stuff"));
@@ -133,13 +134,11 @@ public class WheelSpinReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerLevel level, BlockPos pos, final Player player, JsonObject settings)
 	{
-		ArmorStand armorStand = EntityType.ARMOR_STAND.create(level);
-		armorStand.moveTo(pos.getX() + 0.8, pos.getY() + 1.15, pos.getZ() + 1.5, 0, 0);
+		ArmorStand armorStand = EntityWrapper.spawnEntityAt(EntityType.ARMOR_STAND, level, pos.getX() + 0.8, pos.getY() + 1.15, pos.getZ() + 1.5);
 		armorStand.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.ORANGE_BANNER));
 		armorStand.setRightArmPose(new Rotations(90, 0, 0));
 		armorStand.setInvisible(true);
 		armorStand.setNoGravity(true);
-		level.addFreshEntity(armorStand);
 
 		rewardsChosen[0] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));
 		rewardsChosen[1] = rewards.get(RewardsUtil.rand.nextInt(rewards.size()));

@@ -6,10 +6,9 @@ import net.minecraft.world.level.material.Material;
 
 public class BaseChanceBlock extends Block
 {
-	public BaseChanceBlock(Properties builder, String name)
+	public BaseChanceBlock(Properties builder)
 	{
 		super(builder);
-		this.setRegistryName(CCubesCore.MODID, name);
 	}
 
 

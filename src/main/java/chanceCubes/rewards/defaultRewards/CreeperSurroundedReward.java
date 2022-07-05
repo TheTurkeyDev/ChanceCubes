@@ -41,12 +41,10 @@ public class CreeperSurroundedReward extends BaseCustomReward
 					BlockPos pos3 = new BlockPos(xValue, pos.getY() + 2, pz + zz);
 					if(!BlockWrapper.isBlockSolid(level, pos1) && !BlockWrapper.isBlockSolid(level, pos2) && !BlockWrapper.isBlockSolid(level, pos3))
 					{
-						creeper = EntityType.CREEPER.create(level);
-						creeper.moveTo(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
+						creeper = EntityWrapper.spawnEntityAt(EntityType.CREEPER, level, xValue, pos.getY(), pos.getZ() + zz);
 						creeper.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							EntityWrapper.setCreeperPowered(creeper);
-						level.addFreshEntity(creeper);
 					}
 				}
 				skip = !skip;
@@ -65,12 +63,10 @@ public class CreeperSurroundedReward extends BaseCustomReward
 					BlockPos pos3 = new BlockPos(px + xx, pos.getY() + 2, zValue);
 					if(!BlockWrapper.isBlockSolid(level, pos1) && !BlockWrapper.isBlockSolid(level, pos2) && !BlockWrapper.isBlockSolid(level, pos3))
 					{
-						creeper = EntityType.CREEPER.create(level);
-						creeper.moveTo(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
+						creeper = EntityWrapper.spawnEntityAt(EntityType.CREEPER, level, pos.getX() + xx, pos.getY(), zValue);
 						creeper.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
 							EntityWrapper.setCreeperPowered(creeper);
-						level.addFreshEntity(creeper);
 					}
 				}
 				skip = !skip;

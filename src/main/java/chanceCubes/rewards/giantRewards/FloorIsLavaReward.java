@@ -39,7 +39,7 @@ public class FloorIsLavaReward extends BaseCustomReward
 				if((-16 / 2 <= xx) && (xx <= 16 / 2) && (-16 / 2 <= zz) && (zz <= 16 / 2))
 				{
 					Block blockAt = level.getBlockState(new BlockPos(pos.getX() + xx, yy, pos.getZ() + zz)).getBlock();
-					if(!blockAt.equals(Blocks.AIR) && !blockAt.equals(CCubesBlocks.GIANT_CUBE))
+					if(!blockAt.equals(Blocks.AIR) && !blockAt.equals(CCubesBlocks.GIANT_CUBE.get()))
 					{
 						blocks.add(new OffsetBlock(xx, yy - pos.getY(), zz, Blocks.LAVA, false, delay));
 						delay++;

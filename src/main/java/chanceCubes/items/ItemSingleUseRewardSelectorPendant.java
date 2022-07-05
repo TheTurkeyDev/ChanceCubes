@@ -27,7 +27,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 
 	public ItemSingleUseRewardSelectorPendant()
 	{
-		super((new Item.Properties()).stacksTo(1), "single_use_reward_selector_pendant");
+		super((new Item.Properties()).stacksTo(1));
 		super.addLore("Right click a Chance Cube to summon the reward.");
 	}
 
@@ -55,7 +55,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 			Player player = context.getPlayer();
 			if(player != null)
 			{
-				if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE))
+				if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 				{
 					level.setBlockAndUpdate(context.getClickedPos(), Blocks.AIR.defaultBlockState());
 					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
@@ -69,7 +69,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 						RewardsUtil.sendMessageToPlayer(player, "That reward does not exist for this cube!");
 					}
 				}
-				else if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE))
+				else if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.GIANT_CUBE.get()))
 				{
 					BlockEntity ent = level.getBlockEntity(context.getClickedPos());
 					if(!(ent instanceof TileGiantCube giant))

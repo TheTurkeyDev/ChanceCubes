@@ -30,7 +30,7 @@ public class RenderEvent
 
 		Font fontRenderer = Minecraft.getInstance().font;
 
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 
 		if(islookingAt)
 		{

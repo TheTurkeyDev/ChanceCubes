@@ -1,5 +1,6 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.mcwrapper.ItemWrapper;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +23,7 @@ public class ItemPart extends BasePart
 	public ItemPart(ItemStack stack, IntVar delay)
 	{
 		CompoundTag nbt = new CompoundTag();
-		nbt.putString("id", stack.getItem().getRegistryName().toString());
+		nbt.putString("id", ItemWrapper.getItemIdStr(stack));
 		nbt.putByte("Count", (byte) stack.getCount());
 		nbt.putShort("Damage", (short) stack.getDamageValue());
 		nbt.put("tag", stack.getTag() == null ? new CompoundTag() : stack.getTag());

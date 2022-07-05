@@ -1,6 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -8,7 +9,6 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +44,7 @@ public class BossWitchReward extends BossBaseReward
 	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		Witch witch = EntityType.WITCH.create(level);
-		witch.setCustomName(new TextComponent("Evil Witch"));
+		witch.setCustomName(ComponentWrapper.string("Evil Witch"));
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);
 		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
@@ -125,7 +125,7 @@ public class BossWitchReward extends BossBaseReward
 					ent = entType.get().create(level);
 				else
 					ent = EntityType.CREEPER.create(level);
-				BlockPos adjPos = pos.relative(facing);
+				BlockPos adjPos = pos.relative(facing, 1);
 				ent.moveTo(adjPos.getX(), adjPos.getY(), adjPos.getZ());
 				level.addFreshEntity(ent);
 				trackSubEntities(battleWrapper, ent);

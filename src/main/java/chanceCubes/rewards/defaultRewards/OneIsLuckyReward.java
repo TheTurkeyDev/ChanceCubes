@@ -28,9 +28,9 @@ public class OneIsLuckyReward extends BaseCustomReward
 
 		boolean leftLucky = RewardsUtil.rand.nextBoolean();
 
-		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(-1, 0, 0)))
+		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(-1, 0, 0)))
 		{
-			TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100, pos.offset(-1, 0, 0), CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+			TileChanceCube leftCube = new TileChanceCube(leftLucky ? 100 : -100, pos.offset(-1, 0, 0), CCubesBlocks.CHANCE_CUBE.get().defaultBlockState());
 			level.setBlockEntity(leftCube);
 		}
 		if(RewardsUtil.placeBlock(Blocks.OAK_SIGN.defaultBlockState(), level, pos))
@@ -38,9 +38,9 @@ public class OneIsLuckyReward extends BaseCustomReward
 			SignBlockEntity sign = BlockWrapper.createSign(pos, new String[]{"One is lucky", "One is not", "#OGLuckyBlocks"});
 			level.setBlockEntity(sign);
 		}
-		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.defaultBlockState(), level, pos.offset(1, 0, 0)))
+		if(RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(1, 0, 0)))
 		{
-			TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100, pos.offset(1, 0, 0), CCubesBlocks.CHANCE_CUBE.defaultBlockState());
+			TileChanceCube rightCube = new TileChanceCube(!leftLucky ? 100 : -100, pos.offset(1, 0, 0), CCubesBlocks.CHANCE_CUBE.get().defaultBlockState());
 			level.setBlockEntity(rightCube);
 		}
 

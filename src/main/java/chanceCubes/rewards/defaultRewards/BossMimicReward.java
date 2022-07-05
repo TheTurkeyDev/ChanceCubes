@@ -1,8 +1,8 @@
 package chanceCubes.rewards.defaultRewards;
 
+import chanceCubes.mcwrapper.ComponentWrapper;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,7 +25,7 @@ public class BossMimicReward extends BossBaseReward
 	public LivingEntity initBoss(ServerLevel level, BlockPos pos, Player player, JsonObject settings, BattleWrapper battleWrapper)
 	{
 		Zombie mimic = EntityType.ZOMBIE.create(level);
-		mimic.setCustomName(new TextComponent("Mimic"));
+		mimic.setCustomName(ComponentWrapper.string("Mimic"));
 		mimic.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(mimic.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * 1.25);
 		List<ItemStack> playerArmorInv = player.getInventory().armor;
 

@@ -3,6 +3,7 @@ package chanceCubes.util;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.mcwrapper.BlockWrapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -142,10 +143,10 @@ public class NonreplaceableBlockOverride
 		switch(override.overrideType)
 		{
 			case ADD -> {
-				return "+" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
+				return "+" + BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + Block.getId(override.overriddenBlock);
 			}
 			case REMOVE -> {
-				return "-" + override.overriddenBlock.getBlock().getRegistryName() + Block.getId(override.overriddenBlock);
+				return "-" + BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + Block.getId(override.overriddenBlock);
 			}
 			default -> {
 				CCubesCore.logger.error("I have no idea how this managed to fall through to the default...");
@@ -171,22 +172,22 @@ public class NonreplaceableBlockOverride
 						if(!CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.add(override.overriddenBlock);
-							CCubesCore.logger.info("Adding " + override.overriddenBlock.getBlock().getRegistryName() + " to NRB array.");
+							CCubesCore.logger.info("Adding " + BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + " to NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " already exists in the NRB array, skipping.");
+							CCubesCore.logger.info(BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + " already exists in the NRB array, skipping.");
 						}
 					}
 					case REMOVE -> {
 						if(CCubesSettings.nonReplaceableBlocks.contains(override.overriddenBlock))
 						{
 							CCubesSettings.nonReplaceableBlocks.remove(override.overriddenBlock);
-							CCubesCore.logger.info("Removing " + override.overriddenBlock.getBlock().getRegistryName() + " from NRB array.");
+							CCubesCore.logger.info("Removing " + BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + " from NRB array.");
 						}
 						else
 						{
-							CCubesCore.logger.info(override.overriddenBlock.getBlock().getRegistryName() + " has already been removed from the NRB array, skipping.");
+							CCubesCore.logger.info(BlockWrapper.getBlockIdStr(override.overriddenBlock.getBlock()) + " has already been removed from the NRB array, skipping.");
 						}
 					}
 					default -> CCubesCore.logger.error("Something has gone horribly awry, #BlameDaemonumbra!");
@@ -199,9 +200,9 @@ public class NonreplaceableBlockOverride
 			CCubesSettings.nonReplaceableBlocks.addAll(CCubesSettings.backupNRB);
 		}
 
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.defaultBlockState());
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.defaultBlockState());
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.get().defaultBlockState());
+		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState());
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class NonreplaceableBlockOverride
 			if(noLongerExists(toRemove))
 			{
 				blocksToRemove.add(toRemove);
-				CCubesCore.logger.info("Removing " + toRemove.getBlock().getRegistryName() + " from Overrides list.");
+				CCubesCore.logger.info("Removing " + BlockWrapper.getBlockIdStr(toRemove.getBlock()) + " from Overrides list.");
 			}
 		}
 		CCubesSettings.nonReplaceableBlocks.removeAll(blocksToRemove);

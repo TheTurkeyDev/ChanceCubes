@@ -1,11 +1,11 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -55,7 +55,7 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		ArmorStand armorStand = EntityType.ARMOR_STAND.create(level);
 		String[] allNames = ArrayUtils.addAll(names, super.getSettingAsStringList(settings, "names", new String[0]));
 		String name = allNames[RewardsUtil.rand.nextInt(allNames.length)];
-		armorStand.setCustomName(new TextComponent(name));
+		armorStand.setCustomName(ComponentWrapper.string(name));
 		armorStand.setCustomNameVisible(true);
 		armorStand.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
 		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(settings, "headItemStacks", new ItemStack[0]));

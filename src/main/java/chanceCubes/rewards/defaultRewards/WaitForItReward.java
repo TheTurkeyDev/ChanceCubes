@@ -12,7 +12,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
@@ -55,10 +54,7 @@ public class WaitForItReward extends BaseCustomReward
 				}
 				else if(reward == 1)
 				{
-					Creeper ent = EntityType.CREEPER.create(level);
-					ent.moveTo(player.getX(), player.getY() + 1, player.getZ(), 0, 0);
-					EntityWrapper.setCreeperPowered(ent);
-					level.addFreshEntity(ent);
+					EntityWrapper.spawnChargedCreeper(level, player.getOnPos());
 				}
 				else if(reward == 2)
 				{
@@ -70,11 +66,10 @@ public class WaitForItReward extends BaseCustomReward
 				}
 				else
 				{
-					Zombie zomb = EntityType.ZOMBIE.create(level);
+					Zombie zomb = EntityWrapper.spawnEntityAt(EntityType.ZOMBIE, level, player.getOnPos());
 					zomb.setBaby(true);
 					zomb.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 0));
 					zomb.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 0));
-					level.addFreshEntity(zomb);
 				}
 			}
 		});

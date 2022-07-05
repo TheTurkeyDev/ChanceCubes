@@ -72,7 +72,8 @@ public class TileChanceD20 extends BlockEntity
 
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
+	public void saveAdditional(CompoundTag nbt)
+	{
 		super.saveAdditional(nbt);
 		nbt.putInt("chance", this.getChance());
 	}
@@ -134,7 +135,7 @@ public class TileChanceD20 extends BlockEntity
 		{
 			if(!player.level.isClientSide())
 			{
-				player.level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), CCubesSounds.D20_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+				player.level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), CCubesSounds.D20_BREAK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 				this.player = player;
 			}
 			breaking = true;

@@ -1,6 +1,7 @@
 package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +31,7 @@ public class RewardSelectorPendantScreen extends Screen
 
 	public RewardSelectorPendantScreen(Player player, ItemStack stack)
 	{
-		super(new TextComponent(""));
+		super(ComponentWrapper.string(""));
 		this.stack = stack;
 		this.player = player;
 		if(stack.getTag() != null && stack.getTag().contains("Reward"))
@@ -47,14 +47,14 @@ public class RewardSelectorPendantScreen extends Screen
 		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.rewardField = new EditBox(this.font, i + 17, j + 10, 143, 12, new TextComponent("Test"));
+		this.rewardField = new EditBox(this.font, i + 17, j + 10, 143, 12, ComponentWrapper.string("Test"));
 		this.rewardField.setTextColor(-1);
 		//this.rewardField.setDisabledTextColour(-1);
 		//this.rewardField.setEnableBackgroundDrawing(true);
 		this.rewardField.setMaxLength(100);
 		this.rewardField.setValue(this.rewardName);
 		this.addRenderableWidget(this.rewardField);
-		this.addRenderableWidget(new Button(i + 57, j + 27, 70, 20, new TextComponent("Set Reward"), p_onPress_1_ ->
+		this.addRenderableWidget(new Button(i + 57, j + 27, 70, 20, ComponentWrapper.string("Set Reward"), p_onPress_1_ ->
 		{
 			CompoundTag nbt = stack.getTag();
 			if(nbt == null)

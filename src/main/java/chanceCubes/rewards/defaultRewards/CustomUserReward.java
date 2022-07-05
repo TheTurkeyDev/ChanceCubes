@@ -3,6 +3,7 @@ package chanceCubes.rewards.defaultRewards;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
+import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.registry.player.PlayerCCRewardRegistry;
@@ -16,7 +17,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -122,13 +122,13 @@ public class CustomUserReward extends BaseCustomReward
 				{
 					String message = messageElem.getAsJsonObject().get("message").getAsString();
 					message = message.replace("%username%", userNameFinal);
-					RewardsUtil.sendMessageToPlayer(player, new TextComponent(message).setStyle(ccStyle));
+					RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string(message).setStyle(ccStyle));
 				}
 			}
 			else
 			{
-				RewardsUtil.sendMessageToPlayer(player, new TextComponent("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
-				RewardsUtil.sendMessageToPlayer(player, new TextComponent("Let the fun begin! >:)").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string("Seems you have some custom Chance Cubes rewards " + userNameFinal + "....").setStyle(ccStyle));
+				RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string("Let the fun begin! >:)").setStyle(ccStyle));
 			}
 		});
 	}
@@ -149,7 +149,7 @@ public class CustomUserReward extends BaseCustomReward
 		if(!UsernameCache.getLastKnownUsername(uuid).equalsIgnoreCase(player.getName().getString()))
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Hey you aren't " + this.userName + "! You can't have their reward! Try again!");
-			Entity itemEnt = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE, 1));
+			Entity itemEnt = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CCubesBlocks.CHANCE_CUBE.get(), 1));
 			level.addFreshEntity(itemEnt);
 			return;
 		}
