@@ -478,6 +478,8 @@ public class DefaultRewards
 				int xRadius = super.getSettingAsInt(settings, "xRadius", 64, 0, 100) / 2;
 				int yRadius = super.getSettingAsInt(settings, "yRadius", 64, 0, 100) / 2;
 				int zRadius = super.getSettingAsInt(settings, "zRadius", 64, 0, 100) / 2;
+				int maxCreepers = super.getSettingAsInt(settings, "maxCreepers", 50, -1, Integer.MAX_VALUE) / 2;
+				int spawned = 0;
 				for(int yy = -yRadius; yy <= yRadius; yy++)
 				{
 					for(int xx = -xRadius; xx <= xRadius; xx++)
@@ -491,6 +493,9 @@ public class DefaultRewards
 								Creeper creeper = EntityType.CREEPER.create(level);
 								creeper.moveTo(pos.getX() + xx + 0.5, pos.getY() + yy, pos.getZ() + zz + 0.5, 0, 0);
 								level.addFreshEntity(creeper);
+								spawned++;
+								if(spawned >= maxCreepers && maxCreepers != -1)
+									return;
 							}
 						}
 					}
