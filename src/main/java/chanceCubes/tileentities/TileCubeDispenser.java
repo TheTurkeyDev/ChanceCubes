@@ -20,7 +20,7 @@ public class TileCubeDispenser extends BlockEntity
 
 	public TileCubeDispenser(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CUBE_DISPENSER, pos, state);
+		super(CCubesBlocks.TILE_CUBE_DISPENSER.get(), pos, state);
 	}
 
 	public ItemEntity getRenderEntityItem(DispenseType type)

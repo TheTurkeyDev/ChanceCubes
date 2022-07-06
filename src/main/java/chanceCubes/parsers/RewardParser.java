@@ -296,16 +296,16 @@ public class RewardParser
 		{
 			JsonObject element = elementElem.getAsJsonObject();
 			// TODO: Handle sounds
-			SoundPart sound = new SoundPart(CCubesSounds.registerSound(ParserUtil.getString(element, "sound", "").getValue()));
-
-			sound.setDelay(ParserUtil.getInt(element, "delay", sound.getDelay()));
-			sound.setServerWide(ParserUtil.getBoolean(element, "serverWide", sound.isServerWide()));
-			sound.setRange(ParserUtil.getInt(element, "range", sound.getRange()));
-			sound.setAtPlayersLocation(ParserUtil.getBoolean(element, "playAtPlayersLocation", sound.playAtPlayersLocation()));
-			sound.setVolume(ParserUtil.getFloat(element, "volume", sound.getVolume()));
-			sound.setPitch(ParserUtil.getFloat(element, "pitch", sound.getPitch()));
-
-			sounds.add(sound);
+//			SoundPart sound = new SoundPart(CCubesSounds.registerSound(ParserUtil.getString(element, "sound", "").getValue()));
+//
+//			sound.setDelay(ParserUtil.getInt(element, "delay", sound.getDelay()));
+//			sound.setServerWide(ParserUtil.getBoolean(element, "serverWide", sound.isServerWide()));
+//			sound.setRange(ParserUtil.getInt(element, "range", sound.getRange()));
+//			sound.setAtPlayersLocation(ParserUtil.getBoolean(element, "playAtPlayersLocation", sound.playAtPlayersLocation()));
+//			sound.setVolume(ParserUtil.getFloat(element, "volume", sound.getVolume()));
+//			sound.setPitch(ParserUtil.getFloat(element, "pitch", sound.getPitch()));
+//
+//			sounds.add(sound);
 		}
 		rewards.add(new SoundRewardType(sounds.toArray(new SoundPart[0])));
 		return rewards;

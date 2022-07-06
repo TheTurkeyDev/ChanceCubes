@@ -40,7 +40,7 @@ public class TileChanceD20 extends BlockEntity
 
 	public TileChanceD20(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, pos, state);
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), pos, state);
 		if(!CCubesSettings.d20UseNormalChances.get())
 		{
 			this.chance = random.nextBoolean() ? -100 : 100;
@@ -55,7 +55,7 @@ public class TileChanceD20 extends BlockEntity
 
 	public TileChanceD20(int initialChance, BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, pos, state);
+		super(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), pos, state);
 		this.chance = initialChance;
 	}
 

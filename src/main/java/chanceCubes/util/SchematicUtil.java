@@ -1,6 +1,7 @@
 package chanceCubes.util;
 
 import chanceCubes.config.ConfigLoader;
+import chanceCubes.mcwrapper.BlockWrapper;
 import chanceCubes.mcwrapper.JsonWrapper;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
 import chanceCubes.rewards.rewardparts.OffsetTileEntity;
@@ -140,7 +141,7 @@ public class SchematicUtil
 					blockData.setLength(0);
 					BlockPos pos = new BlockPos(x, y, z);
 					BlockState blockState = level.getBlockState(pos);
-					blockData.append(blockState.getBlock().getRegistryName());
+					blockData.append(BlockWrapper.getBlockId(blockState.getBlock()));
 					String encoded = encodeBlockState(blockState);
 					if(!encoded.isEmpty())
 						blockData.append(":").append(encoded);

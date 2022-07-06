@@ -6,7 +6,6 @@ import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.rewards.rewardparts.CommandPart;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -136,7 +135,7 @@ public class RewardsUtil
 	public static void sendMessageToPlayer(Player player, Component message)
 	{
 		if(player != null)
-			player.sendMessage(message, Util.NIL_UUID);
+			player.displayClientMessage(message, true);
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)

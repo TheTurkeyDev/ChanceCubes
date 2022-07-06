@@ -6,11 +6,13 @@ import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
+import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.StatsRegistry;
 import net.minecraft.world.item.CreativeModeTab;
@@ -22,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -52,7 +55,7 @@ public class CCubesCore
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
+			return new ItemStack(CCubesBlocks.CHANCE_CUBE.get());
 		}
 	};
 	public static final Logger logger = LogManager.getLogger(MODID);
@@ -87,11 +90,16 @@ public class CCubesCore
 			e.printStackTrace();
 		}
 
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonStart);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onIMCMessage);
+		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		CCubesBlocks.BLOCKS.register(eventBus);
+		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
+		CCubesItems.ITEMS.register(eventBus);
+		CCubesSounds.SOUNDS.register(eventBus);
+		eventBus.addListener(this::commonStart);
+		eventBus.addListener(this::onIMCMessage);
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
-			FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientHelper::clientStart);
+			eventBus.addListener(ClientHelper::clientStart);
 		});
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();

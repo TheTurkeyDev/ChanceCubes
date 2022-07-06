@@ -35,7 +35,7 @@ minecraft {
     // these can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            workingDirectory project.file('run-1.18')
+            workingDirectory project.file('run-1.19')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
@@ -51,7 +51,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run-server-1.18')
+            workingDirectory project.file('run-server-1.19')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
@@ -67,7 +67,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run-1.18')
+            workingDirectory project.file('run-1.19')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''

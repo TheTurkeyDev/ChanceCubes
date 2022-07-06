@@ -23,9 +23,9 @@ public class CCubesItems
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CCubesCore.MODID);
 
-	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T1 = ITEMS.register("chance_pendant_tier_1", () -> new ItemChancePendant(10));
-	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T2 = ITEMS.register("chance_pendant_tier_2", () -> new ItemChancePendant(25));
-	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T3 = ITEMS.register("chance_pendant_tier_3", () -> new ItemChancePendant(50));
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T1 = ITEMS.register("chance_pendant_tier1", () -> new ItemChancePendant(10));
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T2 = ITEMS.register("chance_pendant_tier2", () -> new ItemChancePendant(25));
+	public static RegistryObject<ItemChancePendant> CHANCE_PENDANT_T3 = ITEMS.register("chance_pendant_tier3", () -> new ItemChancePendant(50));
 
 	public static RegistryObject<ItemSilkTouchPendant> SILK_PENDANT = ITEMS.register("silk_touch_pendant", ItemSilkTouchPendant::new);
 	public static RegistryObject<BaseChanceCubesItem> CREATIVE_PENDANT = ITEMS.register("creative_pendant", ItemCreativePendant::new);

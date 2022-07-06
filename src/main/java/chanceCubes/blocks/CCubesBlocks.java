@@ -7,7 +7,6 @@ import chanceCubes.tileentities.TileCubeDispenser;
 import chanceCubes.tileentities.TileGiantCube;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -26,18 +25,9 @@ public class CCubesBlocks
 
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, CCubesCore.MODID);
 
-	public static RegistryObject<BlockEntityType<TileChanceCube>> TILE_CHANCE_CUBE = BLOCK_ENTITIES.register("tile_chance_cube", () -> BlockEntityType.Builder.of(TileChanceCube::new, CCubesBlocks.CHANCE_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_cube"));
-	public static BlockEntityType<TileChanceD20> TILE_CHANCE_ICOSAHEDRON;
-	public static BlockEntityType<TileGiantCube> TILE_CHANCE_GIANT;
-	public static BlockEntityType<TileCubeDispenser> TILE_CUBE_DISPENSER;
+	public static RegistryObject<BlockEntityType<TileChanceCube>> TILE_CHANCE_CUBE = BLOCK_ENTITIES.register("tile_chance_cube", () -> BlockEntityType.Builder.of(TileChanceCube::new, CCubesBlocks.CHANCE_CUBE.get()).build(null));
+	public static RegistryObject<BlockEntityType<TileChanceD20>> TILE_CHANCE_ICOSAHEDRON = BLOCK_ENTITIES.register("tile_chance_icosahedron", () -> BlockEntityType.Builder.of(TileChanceD20::new, CCubesBlocks.CHANCE_ICOSAHEDRON.get()).build(null));
+	public static RegistryObject<BlockEntityType<TileGiantCube>> TILE_CHANCE_GIANT = BLOCK_ENTITIES.register("tile_chance_giant", () -> BlockEntityType.Builder.of(TileGiantCube::new, CCubesBlocks.GIANT_CUBE.get()).build(null));
+	public static RegistryObject<BlockEntityType<TileCubeDispenser>> TILE_CUBE_DISPENSER = BLOCK_ENTITIES.register("tile_cube_dispenser", () -> BlockEntityType.Builder.of(TileCubeDispenser::new, CCubesBlocks.CUBE_DISPENSER.get()).build(null));
 
-	@SuppressWarnings("unchecked")
-	@SubscribeEvent
-	public static void onTileEntityRegistry(RegistryEvent.Register<BlockEntityType<?>> event)
-	{
-		event.getRegistry().register(TILE_CHANCE_CUBE =);
-		event.getRegistry().register(TILE_CHANCE_ICOSAHEDRON = (BlockEntityType<TileChanceD20>) BlockEntityType.Builder.of(TileChanceD20::new, CCubesBlocks.CHANCE_ICOSAHEDRON).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_icosahedron"));
-		event.getRegistry().register(TILE_CHANCE_GIANT = (BlockEntityType<TileGiantCube>) BlockEntityType.Builder.of(TileGiantCube::new, CCubesBlocks.GIANT_CUBE).build(null).setRegistryName(CCubesCore.MODID, "tile_chance_giant"));
-		event.getRegistry().register(TILE_CUBE_DISPENSER = (BlockEntityType<TileCubeDispenser>) BlockEntityType.Builder.of(TileCubeDispenser::new, CCubesBlocks.CUBE_DISPENSER).build(null).setRegistryName(CCubesCore.MODID, "tile_cube_dispenser"));
-	}
 }

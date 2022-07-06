@@ -15,7 +15,7 @@ public class TileGiantCube extends BlockEntity
 
 	public TileGiantCube(BlockPos pos, BlockState state)
 	{
-		super(CCubesBlocks.TILE_CHANCE_GIANT, pos, state);
+		super(CCubesBlocks.TILE_CHANCE_GIANT.get(), pos, state);
 	}
 
 	/**
