@@ -37,6 +37,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import net.minecraftforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,7 +61,7 @@ public class CCubesServerCommands
 				)
 				.then(
 						Commands.literal("enableReward").then(
-								Commands.argument("rewardName", new RewardArgument())
+								Commands.argument("rewardName", RewardArgument.rewardArgument())
 										.executes(ctx -> executeEnableReward(ctx, RewardArgument.getReward(ctx, "rewardName")))
 						)
 				)
@@ -73,8 +74,8 @@ public class CCubesServerCommands
 				)
 				.then(
 						Commands.literal("rewardsInfo").then(
-								Commands.argument("action", new RewardInfoActionArgument())
-										.executes(ctx -> executeRewardInfo(ctx, RewardInfoActionArgument.func_212592_a(ctx, "action")))
+								Commands.argument("action", EnumArgument.enumArgument(InfoAction.class))
+										.executes(ctx -> executeRewardInfo(ctx, ctx.getArgument("action", InfoAction.class)))
 						)
 				)
 				.then(Commands.literal("test").executes(this::executeTest))

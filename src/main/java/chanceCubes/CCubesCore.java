@@ -2,6 +2,7 @@ package chanceCubes;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.ClientHelper;
+import chanceCubes.commands.CCubesRewardArguments;
 import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
@@ -36,6 +37,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -53,7 +55,7 @@ public class CCubesCore
 	public static final CreativeModeTab modTab = new CreativeModeTab(MODID)
 	{
 		@Override
-		public ItemStack makeIcon()
+		public @NotNull ItemStack makeIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE.get());
 		}
@@ -95,6 +97,7 @@ public class CCubesCore
 		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
 		CCubesItems.ITEMS.register(eventBus);
 		CCubesSounds.SOUNDS.register(eventBus);
+		CCubesRewardArguments.COMMAND_ARGUMENT_TYPES.register(eventBus);
 		eventBus.addListener(this::commonStart);
 		eventBus.addListener(this::onIMCMessage);
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
@@ -112,6 +115,7 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		event.enqueueWork(StatsRegistry::init);
+		//TODO
 		//MinecraftForge.EVENT_BUS.register(new WorldGen());
 		//WorldGen.initWorldGen();
 	}
@@ -119,6 +123,7 @@ public class CCubesCore
 	@SubscribeEvent
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
+		//TODO
 //		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
 //			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootPoolSingletonContainer.simpleBuilder(new LootItem(CCubesItems.CHANCE_CUBE))).build());
 	}
