@@ -23,7 +23,7 @@ public class CCubesBlocks
 	public static final RegistryObject<BaseChanceBlock> COMPACT_GIANT_CUBE = BLOCKS.register("compact_giant_chance_cube", BlockCompactGiantCube::new);
 	public static final RegistryObject<BaseChanceBlock> CUBE_DISPENSER = BLOCKS.register("cube_dispenser", BlockCubeDispenser::new);
 
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, CCubesCore.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CCubesCore.MODID);
 
 	public static RegistryObject<BlockEntityType<TileChanceCube>> TILE_CHANCE_CUBE = BLOCK_ENTITIES.register("tile_chance_cube", () -> BlockEntityType.Builder.of(TileChanceCube::new, CCubesBlocks.CHANCE_CUBE.get()).build(null));
 	public static RegistryObject<BlockEntityType<TileChanceD20>> TILE_CHANCE_ICOSAHEDRON = BLOCK_ENTITIES.register("tile_chance_icosahedron", () -> BlockEntityType.Builder.of(TileChanceD20::new, CCubesBlocks.CHANCE_ICOSAHEDRON.get()).build(null));

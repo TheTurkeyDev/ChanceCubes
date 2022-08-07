@@ -12,23 +12,23 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event)
 	{
-		if(event.getPlayer().level.isClientSide())
+		if(event.getEntity().level.isClientSide())
 			return;
 
-		new Thread(() -> CustomUserReward.getCustomUserReward(event.getPlayer().getUUID())).start();
+		new Thread(() -> CustomUserReward.getCustomUserReward(event.getEntity().getUUID())).start();
 	}
 
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.getPlayer().level.isClientSide())
+		if(event.getEntity().level.isClientSide())
 			return;
 
-		String rewardName = CCubesCore.MODID + ":CR_" + event.getPlayer().getName();
+		String rewardName = CCubesCore.MODID + ":CR_" + event.getEntity().getName();
 		if(GlobalCCRewardRegistry.DEFAULT.isRewardEnabled(rewardName))
 			GlobalCCRewardRegistry.DEFAULT.unregisterReward(rewardName);
 
-		String playerUUID = event.getPlayer().getStringUUID();
+		String playerUUID = event.getEntity().getStringUUID();
 		GlobalCCRewardRegistry.DEFAULT.removePlayerRewards(playerUUID);
 		GlobalCCRewardRegistry.GIANT.removePlayerRewards(playerUUID);
 	}

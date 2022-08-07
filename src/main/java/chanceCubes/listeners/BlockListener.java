@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickEmpty;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BlockListener
@@ -28,20 +28,20 @@ public class BlockListener
 	@SubscribeEvent
 	public void onBlockInteract(RightClickBlock event)
 	{
-		if(this.setSchematicPoint(2, event.getPlayer(), event.getPos()))
+		if(this.setSchematicPoint(2, event.getEntity(), event.getPos()))
 			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public void onAirInteractRight(RightClickEmpty event)
 	{
-		this.setSchematicPoint(2, event.getPlayer(), event.getPos());
+		this.setSchematicPoint(2, event.getEntity(), event.getPos());
 	}
 
 	@SubscribeEvent
 	public void onAirInteractLeft(LeftClickEmpty event)
 	{
-		this.setSchematicPoint(1, event.getPlayer(), event.getPos());
+		this.setSchematicPoint(1, event.getEntity(), event.getPos());
 	}
 
 	public boolean setSchematicPoint(int point, Player player, BlockPos pos)

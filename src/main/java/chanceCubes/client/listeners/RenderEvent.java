@@ -6,8 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class RenderEvent
@@ -19,9 +19,9 @@ public class RenderEvent
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onGuiRender(RenderGameOverlayEvent.Post event)
+	public void onGuiRender(RenderGuiOverlayEvent.Post event)
 	{
-		if(event.getType() != ElementType.TEXT || event.isCancelable())
+		if (event.getOverlay().id() != VanillaGuiOverlay.TITLE_TEXT.id() || event.isCancelable())
 			return;
 
 

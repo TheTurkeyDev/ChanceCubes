@@ -53,7 +53,7 @@ public class ClientHelper
 
 	public static void openCreativePendantGUI(Player player, ItemStack stack)
 	{
-		NetworkHooks.openGui((ServerPlayer) player, new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
+		NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
 	}
 
 	public static void openSchematicCreatorGUI(Player player)
