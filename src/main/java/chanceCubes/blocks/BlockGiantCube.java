@@ -20,6 +20,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 {
@@ -29,30 +30,30 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state)
 	{
 		return new TileGiantCube(pos, state);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		BlockEntity te = level.getBlockEntity(pos);
 		if(!(te instanceof TileGiantCube gc))
 			return Shapes.block();
 
-		BlockPos diff = pos.offset(gc.getMasterPostion());
-		return Shapes.box(-1 - diff.getX(), -1 - diff.getY(), -1 - diff.getZ(), 2 - diff.getX(), 2 - diff.getY(), 2 - diff.getZ());
+		BlockPos diff = gc.getMasterOffset();
+		return Shapes.box(diff.getX() - 1, diff.getY() - 1, diff.getZ() - 1, 2+diff.getX(), 2+diff.getY(), 2+diff.getZ());
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
+	public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
 	{
 		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
 		{
-			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT))
+			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT.get()))
 			{
 				popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE.get()));
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);

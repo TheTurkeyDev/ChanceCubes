@@ -34,8 +34,8 @@ public class ClientHelper
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
 		//TODO
-		//RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.getCutoutMipped());
-		//RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.getCutoutMipped());
+//		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.cutoutMipped());
+//		RenderTypeLookup.setRenderLayer(CCubesBlocks.COMPACT_GIANT_CUBE, RenderType.cutoutMipped());
 	}
 
 	@SubscribeEvent

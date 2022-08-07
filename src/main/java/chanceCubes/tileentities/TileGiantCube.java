@@ -100,6 +100,11 @@ public class TileGiantCube extends BlockEntity
 		return this.worldPosition.offset(masterPos);
 	}
 
+	public BlockPos getMasterOffset()
+	{
+		return this.masterPos;
+	}
+
 	public void setHasMaster(boolean bool)
 	{
 		hasMaster = bool;

@@ -20,6 +20,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -123,9 +125,8 @@ public class CCubesCore
 	@SubscribeEvent
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
-		//TODO
-//		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-//			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootPoolSingletonContainer.simpleBuilder(new LootItem(CCubesItems.CHANCE_CUBE))).build());
+		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
+			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootItem.lootTableItem(CCubesItems.CHANCE_CUBE.get())).build());
 	}
 
 	@SubscribeEvent
