@@ -46,7 +46,7 @@ public class CCubesItems
 	@SubscribeEvent
 	public static void onContainerRegistry(RegisterEvent event)
 	{
-		event.register(ForgeRegistries.Keys.CONTAINER_TYPES,
+		event.register(ForgeRegistries.Keys.MENU_TYPES,
 				helper ->
 				{
 					CREATIVE_PENDANT_CONTAINER = IForgeMenuType.create((windowId, inv, data) -> new CreativePendantContainer(windowId, inv));

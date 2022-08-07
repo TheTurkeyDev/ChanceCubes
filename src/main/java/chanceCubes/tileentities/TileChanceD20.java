@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
@@ -172,9 +172,9 @@ public class TileChanceD20 extends BlockEntity
 
 	@Nonnull
 	@Override
-	public IModelData getModelData()
+	public ModelData getModelData()
 	{
-		IModelData modelData = super.getModelData();
+		ModelData modelData = super.getModelData();
 		//modelData.setData(Properties.AnimationProperty, animationWrapper);
 		return modelData;
 	}
