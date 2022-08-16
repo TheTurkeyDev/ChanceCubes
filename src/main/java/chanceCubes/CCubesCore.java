@@ -105,6 +105,7 @@ public class CCubesCore
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			eventBus.addListener(ClientHelper::clientStart);
+			eventBus.addListener(ClientHelper::onEntityRenders);
 		});
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
