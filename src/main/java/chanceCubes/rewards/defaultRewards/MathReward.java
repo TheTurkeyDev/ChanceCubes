@@ -136,7 +136,7 @@ public class MathReward extends BaseCustomReward
 			int answer = 0;
 			try
 			{
-				answer = Integer.parseInt(event.getMessage());
+				answer = Integer.parseInt(event.getRawText());
 			} catch(NumberFormatException e)
 			{
 				RewardsUtil.sendMessageToPlayer(player, "Incorrect!");

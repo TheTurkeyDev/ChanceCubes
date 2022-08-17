@@ -111,7 +111,7 @@ public class QuestionsReward extends BaseCustomReward
 
 		if(inQuestion.containsKey(player))
 		{
-			String answer = event.getMessage();
+			String answer = event.getRawText();
 			boolean correct = false;
 			for(String s : inQuestion.get(player).split("-or-"))
 			{

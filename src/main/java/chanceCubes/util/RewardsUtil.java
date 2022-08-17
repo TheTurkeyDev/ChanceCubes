@@ -376,7 +376,7 @@ public class RewardsUtil
 		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(false, server);
 		CommandSourceStack cs = new CommandSourceStack(player, pos, player.getRotationVector(), level, 2, player.getName().getString(), player.getDisplayName(), server, player);
 		cs = cs.withSuppressedOutput();
-		server.getCommands().performCommand(cs, command);
+		server.getCommands().performPrefixedCommand(cs, command);
 		level.getGameRules().getRule(GameRules.RULE_COMMANDBLOCKOUTPUT).set(rule, server);
 	}
 

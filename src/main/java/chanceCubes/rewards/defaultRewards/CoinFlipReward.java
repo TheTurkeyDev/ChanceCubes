@@ -66,7 +66,7 @@ public class CoinFlipReward extends BaseCustomReward
 	{
 		Player player = event.getPlayer();
 
-		String message = event.getMessage();
+		String message = event.getRawText();
 
 		if(!message.equalsIgnoreCase("Heads") && !message.equalsIgnoreCase("Tails"))
 			return;

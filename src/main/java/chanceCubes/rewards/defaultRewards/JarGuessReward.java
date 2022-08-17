@@ -143,7 +143,7 @@ public class JarGuessReward extends BaseCustomReward
 
 		if(inGuess.containsKey(player))
 		{
-			String answer = event.getMessage();
+			String answer = event.getRawText();
 			if(answer.matches("\\d+"))
 			{
 				this.timeUp(player, Integer.parseInt(answer));
