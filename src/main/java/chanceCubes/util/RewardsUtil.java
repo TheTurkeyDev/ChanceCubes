@@ -135,7 +135,7 @@ public class RewardsUtil
 	public static void sendMessageToPlayer(Player player, Component message)
 	{
 		if(player != null)
-			player.displayClientMessage(message, true);
+			player.sendSystemMessage(message);
 	}
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)
