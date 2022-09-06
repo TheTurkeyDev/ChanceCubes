@@ -31,7 +31,7 @@ public class ClientHelper
 		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 
-		BlockEntityRenderers.register(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, p_173571_ -> new TileChanceD20Renderer());
+		//BlockEntityRenderers.register(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON, p_173571_ -> new TileChanceD20Renderer());
 		BlockEntityRenderers.register(CCubesBlocks.TILE_CUBE_DISPENSER, p_173571_ -> new TileCubeDispenserRenderer());
 		BlockEntityRenderers.register(CCubesBlocks.TILE_CHANCE_GIANT, p_173571_ -> new TileGiantCubeRenderer());
 

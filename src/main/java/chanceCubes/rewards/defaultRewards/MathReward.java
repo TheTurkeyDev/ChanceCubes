@@ -9,6 +9,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -44,8 +45,10 @@ public class MathReward extends BaseCustomReward
 
 		int num1 = RewardsUtil.rand.nextInt(100);
 		int num2 = RewardsUtil.rand.nextInt(100);
+		int duration = super.getSettingAsInt(settings, "answerDuration", 100, 20, 2400);
 
 		RewardsUtil.sendMessageToPlayer(player, "Quick, what's " + num1 + "+" + num2 + "?");
+		RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, new TextComponent(num1 + " + " + num2 + " = ?"), 0, 20, 0);
 
 		BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
 		RewardBlockCache cache = new RewardBlockCache(level, playerPos, player.getOnPos());
@@ -76,8 +79,6 @@ public class MathReward extends BaseCustomReward
 
 		inQuestion.put(player, new RewardInfo(num1 + num2, tnt, cache));
 
-		int duration = super.getSettingAsInt(settings, "answerDuration", 100, 20, 2400);
-
 		Scheduler.scheduleTask(new Task("Math", duration, 20)
 		{
 			@Override
@@ -90,7 +91,10 @@ public class MathReward extends BaseCustomReward
 			public void update()
 			{
 				if(this.delayLeft % 20 == 0)
+				{
+					RewardsUtil.setPlayerTitle(player, GuiTextLocation.TITLE, new TextComponent(num1 + " + " + num2 + " = ?"), 0, 20, 0);
 					this.showTimeLeft(player, GuiTextLocation.ACTION_BAR);
+				}
 			}
 
 		});

@@ -201,7 +201,7 @@ public class NonreplaceableBlockOverride
 
 		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_CUBE.defaultBlockState());
 		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.GIANT_CUBE.defaultBlockState());
-		CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState());
+		//CCubesSettings.nonReplaceableBlocks.add(CCubesBlocks.CHANCE_ICOSAHEDRON.defaultBlockState());
 	}
 
 	/**
