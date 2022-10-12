@@ -34,7 +34,6 @@ help_me.json
 horde.json
 hot_tub.json
 ice_cold.json
-icosahedron.json
 invisible_creeper.json
 invisible_vexes.json
 invizible_silverfish.json

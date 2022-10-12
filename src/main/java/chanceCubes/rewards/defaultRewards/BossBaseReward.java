@@ -57,7 +57,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				MutableComponent message = ComponentWrapper.string(player.getDisplayName() + " VS " + " ".repeat(bossName.length()));
+				MutableComponent message = ComponentWrapper.string(player.getScoreboardName() + " VS " + " ".repeat(bossName.length()));
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 500, 0);
 			}
@@ -68,7 +68,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				MutableComponent message = ComponentWrapper.string(player.getDisplayName() + " VS " + bossName);
+				MutableComponent message = ComponentWrapper.string(player.getScoreboardName() + " VS " + bossName);
 				message.setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
 				RewardsUtil.setNearPlayersTitle(level, pos, 50, GuiTextLocation.SUBTITLE, message, 0, 100, 10);
 			}

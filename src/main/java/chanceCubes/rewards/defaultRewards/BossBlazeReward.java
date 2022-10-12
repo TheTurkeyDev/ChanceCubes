@@ -68,7 +68,7 @@ public class BossBlazeReward extends BossBaseReward
 		{
 			for(int zOff = -1; zOff <= 1; zOff++)
 			{
-				BlockPos offPos = playerPos.offset(xOff, 0, zOff);
+				BlockPos offPos = playerPos.offset(xOff, 1, zOff);
 				RewardsUtil.placeBlock(Blocks.FIRE.defaultBlockState(), level, offPos);
 			}
 		}
