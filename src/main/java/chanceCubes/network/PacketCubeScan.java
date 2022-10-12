@@ -1,7 +1,6 @@
 package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,8 +34,8 @@ public class PacketCubeScan
 			BlockEntity te = ctx.get().getSender().level.getBlockEntity(msg.pos);
 			if(te instanceof TileChanceCube)
 				((TileChanceCube) te).setScanned(true);
-			else if(te instanceof TileChanceD20)
-				((TileChanceD20) te).setScanned(true);
+//			else if(te instanceof TileChanceD20)
+//				((TileChanceD20) te).setScanned(true);
 		});
 		ctx.get().setPacketHandled(true);
 	}

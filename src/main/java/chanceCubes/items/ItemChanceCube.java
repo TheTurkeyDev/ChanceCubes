@@ -5,7 +5,6 @@ import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -76,8 +75,8 @@ public class ItemChanceCube extends BlockItem
 			list.add(ComponentWrapper.string(ChatFormatting.RED + "WARNING: The Giant Chance Cube will probably cause lots damage and/or place a lot of blocks down... You've been warned."));
 		else if(item.equals(CCubesItems.CHANCE_CUBE.get()))
 			list.add(ComponentWrapper.string(ChatFormatting.RED + "Warning: It is recommended you don't open these in or next to your base."));
-		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON.get()))
-			list.add(ComponentWrapper.string(ChatFormatting.RED + "WORK IN PROGRESS"));
+//		else if(item.equals(CCubesItems.CHANCE_ICOSAHEDRON.get()))
+//			list.add(ComponentWrapper.string(ChatFormatting.RED + "WORK IN PROGRESS"));
 	}
 
 	@Override
@@ -93,8 +92,8 @@ public class ItemChanceCube extends BlockItem
 			{
 				if(te instanceof TileChanceCube)
 					((TileChanceCube) te).setChance(chance);
-				else if(te instanceof TileChanceD20)
-					((TileChanceD20) te).setChance(chance);
+//				else if(te instanceof TileChanceD20)
+//					((TileChanceD20) te).setChance(chance);
 			}
 		}
 

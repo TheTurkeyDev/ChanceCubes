@@ -1,6 +1,5 @@
 package chanceCubes.network;
 
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -39,10 +38,10 @@ public class PacketTriggerD20
 			{
 				BlockEntity ico;
 
-				Level level = levelOpt.get();
-				if((ico = level.getBlockEntity(msg.pos)) != null)
-					if(ico instanceof TileChanceD20 && level.players().size() > 0)
-						((TileChanceD20) ico).startBreaking(level.players().get(0));
+//				Level level = levelOpt.get();
+//				if((ico = level.getBlockEntity(msg.pos)) != null)
+//					if(ico instanceof TileChanceD20 && level.players().size() > 0)
+//						((TileChanceD20) ico).startBreaking(level.players().get(0));
 			}
 		});
 		ctx.get().setPacketHandled(true);

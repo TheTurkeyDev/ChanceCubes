@@ -287,7 +287,7 @@ public class DefaultRewards
 				for(int i = 0; i < 10; i++)
 					EntityWrapper.spawnNamedEntityAt(EntityType.SHEEP, level, "jeb_", pos.getX(), pos.getY() + 1, pos.getZ());
 
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 3, 0));
+				//RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 3, 0));
 
 				RewardsUtil.sendMessageToNearPlayers(level, pos, 32, "Disco Party!!!!");
 			}
@@ -321,7 +321,7 @@ public class DefaultRewards
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos);
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(0, 1, 0));
-				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 2, 0));
+				//RewardsUtil.placeBlock(CCubesBlocks.CHANCE_ICOSAHEDRON.get().defaultBlockState(), level, pos.offset(0, 2, 0));
 
 				RewardsUtil.placeBlock(Blocks.QUARTZ_BLOCK.defaultBlockState(), level, pos.offset(-3, 0, -3));
 				RewardsUtil.placeBlock(CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), level, pos.offset(-3, 1, -3));

@@ -127,7 +127,7 @@ public class MathReward extends BaseCustomReward
 	}
 
 	@SubscribeEvent
-	public void onMessage(ServerChatEvent event)
+	public void onMessage(ServerChatEvent.Submitted event)
 	{
 		Player player = event.getPlayer();
 

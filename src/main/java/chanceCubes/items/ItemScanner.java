@@ -5,7 +5,6 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
-import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -77,17 +76,17 @@ public class ItemScanner extends BaseChanceCubesItem
 							RenderEvent.setLookingAtChance(te.getChance());
 						}
 					}
-					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON.get()))
-					{
-						TileChanceD20 te = ((TileChanceD20) level.getBlockEntity(new BlockPos(i, j, k)));
-						if(te != null)
-						{
-							te.setScanned(true);
-							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getBlockPos()));
-							flag = true;
-							RenderEvent.setLookingAtChance(te.getChance());
-						}
-					}
+//					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON.get()))
+//					{
+//						TileChanceD20 te = ((TileChanceD20) level.getBlockEntity(new BlockPos(i, j, k)));
+//						if(te != null)
+//						{
+//							te.setScanned(true);
+//							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getBlockPos()));
+//							flag = true;
+//							RenderEvent.setLookingAtChance(te.getChance());
+//						}
+//					}
 					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.GIANT_CUBE.get()))
 					{
 						RenderEvent.setLookingAtChance(-201);

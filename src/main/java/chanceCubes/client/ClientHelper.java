@@ -8,7 +8,6 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.listeners.BlockListener;
-import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -41,7 +39,7 @@ public class ClientHelper
 	@SubscribeEvent
 	public static void onEntityRenders(EntityRenderersEvent.RegisterRenderers event)
 	{
-		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
+		//event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER.get(), p_173571_ -> new TileCubeDispenserRenderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), p_173571_ -> new TileGiantCubeRenderer());
 	}

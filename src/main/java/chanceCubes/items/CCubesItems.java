@@ -35,7 +35,7 @@ public class CCubesItems
 	public static RegistryObject<BaseChanceCubesItem> SCANNER = ITEMS.register("scanner", ItemScanner::new);
 
 	public static RegistryObject<ItemChanceCube> CHANCE_CUBE = ITEMS.register("chance_cube", () -> new ItemChanceCube(CCubesBlocks.CHANCE_CUBE.get()));
-	public static RegistryObject<ItemChanceCube> CHANCE_ICOSAHEDRON = ITEMS.register("chance_icosahedron", () -> new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON.get()));
+	//public static RegistryObject<ItemChanceCube> CHANCE_ICOSAHEDRON = ITEMS.register("chance_icosahedron", () -> new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON.get()));
 	public static RegistryObject<ItemChanceCube> GIANT_CUBE = ITEMS.register("giant_chance_cube", () -> new ItemChanceCube(CCubesBlocks.GIANT_CUBE.get()));
 	public static RegistryObject<ItemChanceCube> COMPACT_GIANT_CUBE = ITEMS.register("compact_giant_chance_cube", () -> new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE.get()));
 	public static RegistryObject<ItemChanceCube> CUBE_DISPENSER = ITEMS.register("cube_dispenser", () -> new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER.get()));
