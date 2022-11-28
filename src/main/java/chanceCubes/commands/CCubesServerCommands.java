@@ -47,6 +47,7 @@ public class CCubesServerCommands
 	{
 		// @formatter:off
 		dispatcher.register(Commands.literal("chancecubes")
+				.requires(cs -> cs.hasPermission(2))
 				.then(Commands.literal("reload").executes(this::executeReload))
 				.then(Commands.literal("version").executes(this::executeVersion))
 				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
@@ -64,7 +65,7 @@ public class CCubesServerCommands
 						)
 				)
 				.then(
-						Commands.literal("schematic").requires(cs -> cs.hasPermission(2)).requires(cs -> cs.getLevel().isClientSide()).then(
+						Commands.literal("schematic").requires(cs -> cs.getLevel().isClientSide()).then(
 								Commands.literal("create").executes(this::executeSchematicCreate)
 						).then(
 								Commands.literal("cancel").executes(this::executeSchematicCancel)
@@ -223,27 +224,32 @@ public class CCubesServerCommands
 		List<String> playerRewards = new ArrayList<>();
 		switch(action)
 		{
-			case DEFAULT -> {
+			case DEFAULT ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
 			}
-			case GIANT -> {
+			case GIANT ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(PlayerRewardInfo reward : giantrewards)
 					RewardsUtil.sendMessageToPlayer(player, reward.reward.getName());
 			}
-			case DEFAULT_ALL -> {
+			case DEFAULT_ALL ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.DEFAULT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case GIANT_ALL -> {
+			case GIANT_ALL ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS===");
 				for(String reward : GlobalCCRewardRegistry.GIANT.getRewardNames())
 					RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case DEFAULT_DISABLED -> {
+			case DEFAULT_DISABLED ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===DEFAULT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : defaultrewards)
 					playerRewards.add(reward.reward.getName());
@@ -251,7 +257,8 @@ public class CCubesServerCommands
 					if(!playerRewards.contains(reward))
 						RewardsUtil.sendMessageToPlayer(player, reward);
 			}
-			case GIANT_DISABLED -> {
+			case GIANT_DISABLED ->
+			{
 				RewardsUtil.sendMessageToPlayer(player, "===GIANT REWARDS DISABLED===");
 				for(PlayerRewardInfo reward : giantrewards)
 					playerRewards.add(reward.reward.getName());
