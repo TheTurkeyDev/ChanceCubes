@@ -6,24 +6,28 @@ import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
+import chanceCubes.listeners.WorldGen;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
-import chanceCubes.tests.RewardTests;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.StatsRegistry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegisterGameTestsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -35,6 +39,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -52,7 +57,7 @@ public class CCubesCore
 	public static final CreativeModeTab modTab = new CreativeModeTab(MODID)
 	{
 		@Override
-		public ItemStack makeIcon()
+		public @NotNull ItemStack makeIcon()
 		{
 			return new ItemStack(CCubesBlocks.CHANCE_CUBE);
 		}
@@ -106,15 +111,13 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		event.enqueueWork(StatsRegistry::init);
-		//MinecraftForge.EVENT_BUS.register(new WorldGen());
-		//WorldGen.initWorldGen();
 	}
 
 	@SubscribeEvent
 	public void lootTableLoad(LootTableLoadEvent event)
 	{
-//		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
-//			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootPoolSingletonContainer.simpleBuilder(new LootItem(CCubesItems.CHANCE_CUBE))).build());
+		if(CCubesSettings.chestLoot.get() && event.getName().getPath().contains("chests"))
+			event.getTable().addPool(LootPool.lootPool().name("chance_cubes_cubes").add(LootItem.lootTableItem(CCubesItems.CHANCE_CUBE)).build());
 	}
 
 	@SubscribeEvent
@@ -134,6 +137,14 @@ public class CCubesCore
 	public void onCommandsRegister(RegisterCommandsEvent event)
 	{
 		new CCubesServerCommands(event.getDispatcher());
+	}
+
+	@SubscribeEvent
+	public void onBiomeLoad(BiomeLoadingEvent event)
+	{
+		event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldGen.CC_SURFACE);
+//		event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, WorldGen.CC_ORE);
+//		WorldGen.initOreGen();
 	}
 
 	public void onIMCMessage(InterModProcessEvent e)
