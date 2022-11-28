@@ -118,9 +118,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		event.enqueueWork(StatsRegistry::init);
-		//TODO
-		//MinecraftForge.EVENT_BUS.register(new WorldGen());
-		//WorldGen.initWorldGen();
 	}
 
 	@SubscribeEvent

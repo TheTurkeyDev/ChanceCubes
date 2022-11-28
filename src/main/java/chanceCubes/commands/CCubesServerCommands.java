@@ -49,6 +49,7 @@ public class CCubesServerCommands
 	{
 		// @formatter:off
 		dispatcher.register(Commands.literal("chancecubes")
+				.requires(cs -> cs.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("reload").executes(this::executeReload))
 				.then(Commands.literal("version").executes(this::executeVersion))
 				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
@@ -66,7 +67,7 @@ public class CCubesServerCommands
 						)
 				)
 				.then(
-						Commands.literal("schematic").requires(cs -> cs.hasPermission(2)).requires(cs -> cs.getLevel().isClientSide()).then(
+						Commands.literal("schematic").requires(cs -> cs.getLevel().isClientSide()).then(
 								Commands.literal("create").executes(this::executeSchematicCreate)
 						).then(
 								Commands.literal("cancel").executes(this::executeSchematicCancel)

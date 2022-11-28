@@ -101,7 +101,7 @@ public class ConfigLoader
 				.comment("true if Chance Cubes should generate on the surface of the world. false if they should not")
 				.define("GenerateOnSurface", true);
 		CCubesSettings.surfaceGenAmount = builder
-				.comment("Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrese to make more common.")
+				.comment("Chance of a chunk to have a chance cube spawned on the surface. The math is 1/(surfaceGenerationAmount), so increase to make more rare, and decrease to make more common.")
 				.defineInRange("SurfaceGenerationAmount", 100, 0, Integer.MAX_VALUE);
 
 
