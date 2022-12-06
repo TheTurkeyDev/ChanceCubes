@@ -4,7 +4,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.worldgen.CCSurfaceFeature;
 import net.minecraft.core.Holder;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -34,12 +33,18 @@ public class WorldGen
 	private static final ResourceLocation CC_SURFACE_ID = new ResourceLocation(CCubesCore.MODID, "chance_cube_worldgen");
 	private static final ResourceLocation CC_ORE_ID = new ResourceLocation(CCubesCore.MODID, "chance_cube_oregen");
 	private static final RegistryObject<Feature<NoneFeatureConfiguration>> CC_SURFACE_FEATURE = FEATURES.register("chance_cube_worldgen", CCSurfaceFeature::new);
-	private static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CC_SURFACE_CONF = FeatureUtils.register(WorldGen.CC_SURFACE_ID.toString(), WorldGen.CC_SURFACE_FEATURE.get());
-	public static final Holder<PlacedFeature> CC_SURFACE = PlacementUtils.register(WorldGen.CC_SURFACE_ID.toString(), WorldGen.CC_SURFACE_CONF);
-	private static final List<OreConfiguration.TargetBlockState> CC_ORE_TARGET = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, CCubesBlocks.CHANCE_CUBE.get().defaultBlockState()));
-	private static final Holder<ConfiguredFeature<OreConfiguration, ?>> CC_ORE_CONF = FeatureUtils.register(CC_ORE_ID.toString(), Feature.ORE, new OreConfiguration(CC_ORE_TARGET, 100));
-	public static Holder<PlacedFeature> CC_ORE = PlacementUtils.register(CC_ORE_ID.toString(), CC_ORE_CONF, commonOrePlacement(16, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(192))));
+	public static Holder<PlacedFeature> CC_SURFACE;
+	public static Holder<PlacedFeature> CC_ORE;
 
+	public static void initFeatures()
+	{
+		Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> surfaceConf = FeatureUtils.register(WorldGen.CC_SURFACE_ID.toString(), WorldGen.CC_SURFACE_FEATURE.get());
+		CC_SURFACE = PlacementUtils.register(WorldGen.CC_SURFACE_ID.toString(), surfaceConf);
+		List<OreConfiguration.TargetBlockState> ccOreTarget = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, CCubesBlocks.CHANCE_CUBE.get().defaultBlockState()));
+		Holder<ConfiguredFeature<OreConfiguration, ?>> oreConf = FeatureUtils.register(CC_ORE_ID.toString(), Feature.ORE, new OreConfiguration(ccOreTarget, 100));
+		CC_ORE = PlacementUtils.register(CC_ORE_ID.toString(), oreConf, commonOrePlacement(16, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(192))));
+
+	}
 
 	private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_)
 	{
