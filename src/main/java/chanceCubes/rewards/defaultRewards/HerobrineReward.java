@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 public class HerobrineReward extends BaseCustomReward
 {
 	private final String[] leaveSayings = new String[]{"I will be back for you.", "Another day, another time.", "No, you are not ready for my wrath.", "Perhaps tomorrow you will be worthy of my challenge", "I sense that I am needed else where. You escape..... For now....", "If only you were worth my time."};
-	private final String[] staySayings = new String[]{"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can your run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end"};
+	private final String[] staySayings = new String[]{"Today is the day.", "May the other world have mercy on your soul.", "MUWAHAHAHAHAHAHAH", "Time to feast!!", "How fast can you run boy!", "It's a shame this will end so quickly for you.", "My presence alone will be your end"};
 
 	public HerobrineReward()
 	{
