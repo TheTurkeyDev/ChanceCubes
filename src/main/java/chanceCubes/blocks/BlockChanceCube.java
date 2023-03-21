@@ -8,6 +8,7 @@ import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -57,13 +58,17 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				level.removeBlockEntity(pos);
 				level.addFreshEntity(blockStack);
+				player.awardStat(Stats.BLOCK_MINED.get(this));
 				return;
 			}
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
 			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE);
+			return;
 		}
+
+		super.playerDestroy(level, player, pos, state, be, stack);
 	}
 
 	@Override
