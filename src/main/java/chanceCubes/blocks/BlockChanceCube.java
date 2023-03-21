@@ -8,6 +8,7 @@ import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -43,27 +44,31 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
+	public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, BlockEntity be, ItemStack stack)
 	{
-		super.playerWillDestroy(level, pos, state, player);
-		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
 		{
 			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 			{
 				ItemStack stackCube = new ItemStack(CCubesItems.CHANCE_CUBE, 1);
-				((ItemChanceCube) stackCube.getItem()).setChance(stackCube, te.isScanned() ? te.getChance() : -101);
+				if (te.isScanned()) {
+					((ItemChanceCube) stackCube.getItem()).setChance(stackCube, te.isScanned() ? te.getChance() : -101);
+				}
 				ItemEntity blockStack = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stackCube);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				level.removeBlockEntity(pos);
 				level.addFreshEntity(blockStack);
+				player.awardStat(Stats.BLOCK_MINED.get(this));
 				return;
 			}
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
 			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE);
+			return;
 		}
+
+		super.playerDestroy(level, player, pos, state, be, stack);
 	}
 
 	@Override
