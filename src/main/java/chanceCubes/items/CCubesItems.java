@@ -51,7 +51,7 @@ public class CCubesItems
 		e.getRegistry().register(singleUseRewardSelectorPendant = new ItemSingleUseRewardSelectorPendant());
 
 		e.getRegistry().register(CHANCE_CUBE = new ItemChanceCube(CCubesBlocks.CHANCE_CUBE));
-		//e.getRegistry().register(CHANCE_ICOSAHEDRON = new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
+		e.getRegistry().register(CHANCE_ICOSAHEDRON = new ItemChanceCube(CCubesBlocks.CHANCE_ICOSAHEDRON));
 		e.getRegistry().register(GIANT_CUBE = new ItemChanceCube(CCubesBlocks.GIANT_CUBE));
 		e.getRegistry().register(COMPACT_GIANT_CUBE = new ItemChanceCube(CCubesBlocks.COMPACT_GIANT_CUBE));
 		e.getRegistry().register(CUBE_DISPENSER = new ItemChanceCube(CCubesBlocks.CUBE_DISPENSER));
