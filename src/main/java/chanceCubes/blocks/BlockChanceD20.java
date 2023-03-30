@@ -62,11 +62,13 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 		this.startd20(level, pos, player);
 	}
 
-//	@Override
-//	public BlockRenderType getRenderType(BlockState state)
-//	{
-//		return BlockRenderType.ENTITYBLOCK_ANIMATED;
-//	}
+	@Override
+	public RenderShape getRenderShape(BlockState state)
+	{
+		// I don't know how else to make it so the block doesn't render when placed down, but still provides
+		// the OBJModel to singleRenderBlock
+		return RenderShape.ENTITYBLOCK_ANIMATED;
+	}
 
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result)
