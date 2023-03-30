@@ -13,19 +13,17 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class TileChanceD20 extends BlockEntity
 {
-	public static final ModelProperty<D20AnimationWrapper> D20AnimationProperty = new ModelProperty<>();
-
 	private static final Random random = new Random();
 
 	private boolean breaking = false;
@@ -35,8 +33,6 @@ public class TileChanceD20 extends BlockEntity
 
 	private int chance;
 	private boolean isScanned = false;
-
-	private D20AnimationWrapper animationWrapper = new D20AnimationWrapper();
 
 	public TileChanceD20(BlockPos pos, BlockState state)
 	{
@@ -174,7 +170,6 @@ public class TileChanceD20 extends BlockEntity
 	public IModelData getModelData()
 	{
 		IModelData modelData = super.getModelData();
-		//modelData.setData(Properties.AnimationProperty, animationWrapper);
 		return modelData;
 	}
 
