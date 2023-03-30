@@ -90,37 +90,29 @@ public class TileChanceD20 extends BlockEntity
 	}
 
 	//TODO
-	public void tick()
+	public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t)
 	{
-		if(breaking)
-			stage++;
-		if(stage > 200)
+		TileChanceD20 d20 = (TileChanceD20) t;
+		if(d20.breaking && d20.stage < 200) {
+			d20.stage++;
+		}
+		if(d20.stage >= 200)
 		{
-			breaking = false;
-			if(this.level != null && !this.level.isClientSide())
+			d20.breaking = false;
+			d20.stage = 0;
+			if(level != null && !level.isClientSide())
 			{
-				this.level.setBlockAndUpdate(this.getBlockPos(), Blocks.AIR.defaultBlockState());
-				this.level.removeBlockEntity(this.getBlockPos());
-				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) this.level, this.getBlockPos(), player, this.getChance());
+				level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
+				level.removeBlockEntity(blockPos);
+				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, blockPos, d20.player, d20.getChance());
 			}
 		}
 		else if(level != null && level.isClientSide())
 		{
-			Quaternion yaw = new Quaternion(0, 1, 0, (float) (Math.toRadians((level.getGameTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, getStage() + 1))));
+			Quaternion yaw = new Quaternion(0, 1, 0, (float) (Math.toRadians((level.getGameTime() % 10000F) / 10000F * 360F) + (0.4 + Math.pow(1.02, d20.getStage() + 1))));
 			Quaternion pitch = new Quaternion(1, 0, 0, 0F);
 
-			animationWrapper.transform = new Vector3f(0.5F, 0.5F + wave * 0.15f, 0.5F);
-			animationWrapper.rot = yaw;
-
-			//if(breaking)
-			//{
-//				Quaternion rot = new Quaternion(0, 0, 0, 1);
-//				rot.multiply(yaw);
-//				rot.multiply(pitch);
-//				rotationMat = new TransformationMatrix(new Matrix4f(rot));
-			//}
-
-			this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState());
+			level.setBlockAndUpdate(blockPos, blockState);
 		}
 	}
 

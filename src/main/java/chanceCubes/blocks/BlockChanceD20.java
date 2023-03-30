@@ -19,12 +19,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 {
@@ -32,7 +35,13 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 
 	public BlockChanceD20()
 	{
-		super(getBuilder().strength(-1f, Integer.MAX_VALUE).lightLevel(state -> 7), "chance_icosahedron");
+		super(getBuilder().strength(-1f, Integer.MAX_VALUE).lightLevel(state -> 7).noOcclusion(), "chance_icosahedron");
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+		return pBlockEntityType == CCubesBlocks.TILE_CHANCE_ICOSAHEDRON ? TileChanceD20::tick : null;
 	}
 
 	@Override
