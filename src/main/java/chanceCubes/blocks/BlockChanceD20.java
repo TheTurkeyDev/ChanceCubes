@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 {
-	private static final VoxelShape SHAPE = Block.box(0.1, 0.1, 0.1, 15.9, 15.9, 15.9);
 
 	public BlockChanceD20()
 	{
@@ -51,14 +51,29 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_)
+	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
 	{
-		return SHAPE;
+		TileChanceD20 d20 = (TileChanceD20) pLevel.getBlockEntity(pPos);
+		if (d20 != null) {
+			double wave = (double) d20.wave * 16.0D;
+			return Block.box(2.0D, 0.5D + wave, 2.0D, 14.0D, 15.5D + wave, 14.0D);
+		} else {
+			return Block.box(2.0D, 0.5D, 2.0D, 14.0D, 15.5D, 14.0D);
+		}
 	}
 
 	@Override
-	public void attack(BlockState state, Level level, BlockPos pos, Player player)
-	{
+	public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+		return Block.box(2.0D, 0.5D, 2.0D, 14.0D, 15.5D, 14.0D);
+	}
+
+	@Override
+	public boolean hasDynamicShape() {
+		return true;
+	}
+
+	@Override
+	public void attack(BlockState state, Level level, BlockPos pos, Player player) {
 		this.startd20(level, pos, player);
 	}
 
