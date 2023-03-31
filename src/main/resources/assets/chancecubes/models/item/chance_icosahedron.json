@@ -1,0 +1,35 @@
+{
+    "parent": "chancecubes:block/chance_icosahedron",
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "thirdperson_lefthand": {
+            "translation": [-3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "firstperson_righthand": {
+            "translation": [3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "firstperson_lefthand": {
+            "translation": [-3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "ground": {
+            "translation": [8, 12, 8],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "gui": {
+            "translation": [8, 8, 8]
+        },
+        "head": {
+            "translation": [3, 16, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "fixed": {
+            "translation": [8, 8, 8]
+        }
+    }
+}
