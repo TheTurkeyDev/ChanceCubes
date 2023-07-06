@@ -50,7 +50,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 	{
 		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
-		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
+		if(!level.isClientSide() && be instanceof TileGiantCube gcte)
 		{
 			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.silkPendant))
 			{
