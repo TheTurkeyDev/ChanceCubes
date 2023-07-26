@@ -31,7 +31,7 @@ public class PacketCubeScan
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			BlockEntity te = ctx.get().getSender().level.getBlockEntity(msg.pos);
+			BlockEntity te = ctx.get().getSender().level().getBlockEntity(msg.pos);
 			if(te instanceof TileChanceCube)
 				((TileChanceCube) te).setScanned(true);
 //			else if(te instanceof TileChanceD20)

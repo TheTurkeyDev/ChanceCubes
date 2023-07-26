@@ -7,25 +7,32 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.entity.SignText;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockWrapper
 {
 	public static SignBlockEntity createSign(BlockPos pos, String[] linesText)
 	{
-		SignBlockEntity sign = new SignBlockEntity(pos.offset(0, 0, 0), Blocks.OAK_SIGN.defaultBlockState());
+		SignBlockEntity sign = new SignBlockEntity(pos, Blocks.OAK_SIGN.defaultBlockState());
 
+		SignText text = new SignText();
 		for(int i = 0; i < Math.min(linesText.length, 3); i++)
-			sign.setMessage(i, ComponentWrapper.string(linesText[i]));
+			text = text.setMessage(i, ComponentWrapper.string(linesText[i]));
+
+		sign.frontText = text;
 
 		return sign;
 	}
 
 	public static void setSignText(BlockEntity signBE, String[] linesText)
 	{
+		SignText text = new SignText();
+		for(int i = 0; i < Math.min(linesText.length, 3); i++)
+			text = text.setMessage(i, ComponentWrapper.string(linesText[i]));
+
 		if(signBE instanceof SignBlockEntity sign)
-			for(int i = 0; i < Math.min(linesText.length, 3); i++)
-				sign.setMessage(i, ComponentWrapper.string(linesText[i]));
+			sign.frontText = text;
 	}
 
 	public static boolean isBlockSolid(Level level, BlockPos pos)

@@ -60,7 +60,7 @@ public class MazeReward extends BaseCustomReward
 					gen.endMaze(player);
 					RewardsUtil.sendMessageToPlayer(player, "Hey! You won!");
 					RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 					Scheduler.removeTask(this);
 				}
 			}

@@ -50,11 +50,11 @@ public class BlockFallingCustom extends FallingBlockEntity
 			if(this.time++ == 0)
 			{
 				BlockPos blockpos = this.blockPosition();
-				if(this.level.getBlockState(blockpos).getBlock() == block)
+				if(this.level().getBlockState(blockpos).getBlock() == block)
 				{
-					this.level.removeBlock(blockpos, false);
+					this.level().removeBlock(blockpos, false);
 				}
-				else if(this.level.isClientSide())
+				else if(this.level().isClientSide())
 				{
 					this.discard();
 					return;
@@ -65,23 +65,23 @@ public class BlockFallingCustom extends FallingBlockEntity
 				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.04D, 0.0D));
 
 			this.move(MoverType.SELF, this.getDeltaMovement());
-			if(!this.level.isClientSide())
+			if(!this.level().isClientSide())
 			{
 				BlockPos blockpos1 = new BlockPos(this.getOnPos());
-				if(this.onGround)
+				if(this.onGround())
 				{
-					BlockState iblockstate = this.level.getBlockState(blockpos1);
+					BlockState iblockstate = this.level().getBlockState(blockpos1);
 					this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
 
 					if(iblockstate.getBlock() != Blocks.PISTON_HEAD)
 					{
 						this.discard();
 						if(block instanceof FallingBlock)
-							osb.placeInWorld(level, blockpos1, false, null);
+							osb.placeInWorld(this.level(), blockpos1, false, null);
 
 						if(this.blockData != null && this.getBlockState().hasBlockEntity())
 						{
-							BlockEntity blockentity = this.level.getBlockEntity(blockpos1);
+							BlockEntity blockentity = this.level().getBlockEntity(blockpos1);
 							if(blockentity != null)
 							{
 								CompoundTag compoundtag = blockentity.saveWithFullMetadata();
@@ -109,7 +109,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 				}
 				else if(this.time > 100 && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.time > 600)
 				{
-					if(this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+					if(this.dropItem && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
 					{
 						this.callOnBrokenAfterFall(block, blockpos1);
 						this.spawnAtLocation(block);
@@ -120,7 +120,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 				else if((normY >= (getY() + this.getDeltaMovement().y) && this.getDeltaMovement().y <= 0) || this.getDeltaMovement().y == 0)
 				{
 					this.discard();
-					osb.placeInWorld(level, blockpos1, false, null);
+					osb.placeInWorld(this.level(), blockpos1, false, null);
 				}
 			}
 		}

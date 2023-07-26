@@ -18,16 +18,12 @@ import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.StatsRegistry;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -43,7 +39,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -52,7 +47,6 @@ import javax.net.ssl.X509TrustManager;
 import java.io.File;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.List;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -95,17 +89,18 @@ public class CCubesCore
 		CCubesBlocks.BLOCKS.register(eventBus);
 		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
 		CCubesItems.ITEMS.register(eventBus);
+		CCubesItems.CREATIVE_MODE_TABS.register(eventBus);
 		CCubesSounds.SOUNDS.register(eventBus);
 		CCubesModifiers.BIOME_MODIFIER_SERIALIZERS.register(eventBus);
 		CCubesRewardArguments.COMMAND_ARGUMENT_TYPES.register(eventBus);
 		WorldGen.FEATURES.register(eventBus);
 		eventBus.addListener(this::commonStart);
-		eventBus.addListener(this::registerCreativeTabs);
 		eventBus.addListener(this::onIMCMessage);
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			eventBus.addListener(ClientHelper::clientStart);
 			eventBus.addListener(ClientHelper::onEntityRenders);
+			MinecraftForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
 		});
 		MinecraftForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
@@ -118,20 +113,6 @@ public class CCubesCore
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		event.enqueueWork(StatsRegistry::init);
-	}
-
-	public void registerCreativeTabs(final CreativeModeTabEvent.@NotNull Register event)
-	{
-		event.registerCreativeModeTab(new ResourceLocation(MODID, "blocks"), builder -> builder
-				.icon(() -> new ItemStack(CCubesBlocks.CHANCE_CUBE.get()))
-				.title(Component.translatable("itemGroup.chancecubes"))
-				.displayItems((parameters, output) -> {
-					List<ItemStack> stacks = CCubesItems.ITEMS.getEntries().stream()
-							.filter(registryObject -> registryObject.get() != CCubesBlocks.GIANT_CUBE.get().asItem())
-							.map(reg -> new ItemStack(reg.get())).toList();
-					output.acceptAll(stacks);
-				})
-		);
 	}
 
 	@SubscribeEvent

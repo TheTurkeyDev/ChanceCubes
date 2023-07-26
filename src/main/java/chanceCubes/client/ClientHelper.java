@@ -5,6 +5,7 @@ import chanceCubes.client.gui.RewardSelectorPendantScreen;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
+import chanceCubes.commands.CCubesClientCommands;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.listeners.BlockListener;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -41,6 +43,11 @@ public class ClientHelper
 		//event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER.get(), p_173571_ -> new TileCubeDispenserRenderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), p_173571_ -> new TileGiantCubeRenderer());
+	}
+
+	public static void onClientCommandsRegister(RegisterClientCommandsEvent event)
+	{
+		new CCubesClientCommands(event.getDispatcher());
 	}
 
 	public static void openRewardSelectorGUI(Player player, ItemStack stack)

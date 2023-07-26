@@ -4,8 +4,7 @@ import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -52,7 +51,7 @@ public class SchematicCreationGui extends Screen
 		{
 			String fileName = nameField.getValue();
 			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
-			SchematicUtil.createCustomSchematic(player.level, SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
+			SchematicUtil.createCustomSchematic(player.level(), SchematicUtil.selectionPoints[0], SchematicUtil.selectionPoints[1], fileName);
 			RewardsUtil.sendMessageToPlayer(player, "Schematic file named " + fileName + " created!");
 			RenderEvent.setCreatingSchematic(false);
 			SchematicUtil.selectionPoints[0] = null;
@@ -102,14 +101,15 @@ public class SchematicCreationGui extends Screen
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		this.blit(poseStack, 0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
+		renderBackground(guiGraphics); //TODO: Test if this works or else feed the blit
+//		poseStack.blit(INSERT_TEXTURE, 0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
-			this.nameField.render(poseStack, mouseX, mouseY, partialTicks);
+			this.nameField.render(guiGraphics, mouseX, mouseY, partialTicks);
 		int i = this.width / 2;
-		GuiComponent.drawCenteredString(poseStack, this.font, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
-		GuiComponent.drawCenteredString(poseStack, this.font, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		guiGraphics.drawCenteredString(this.font, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
+		guiGraphics.drawCenteredString(this.font, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
 }

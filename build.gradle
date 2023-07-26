@@ -1,17 +1,9 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
-apply plugin: 'net.minecraftforge.gradle'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 ext.buildnumber = 'DEV'
 if (System.getenv('BUILD_NUMBER') != null)
@@ -20,11 +12,15 @@ else
     logger.lifecycle "No build number detected, setting to DEV"
 
 group = "com.theprogrammingturkey.chancecubes"
-archivesBaseName = "ChanceCubes"
+base {
+    archivesName = "ChanceCubes"
+}
 version = "${mc_version}-${mod_version}.${buildnumber}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
 
 minecraft {
     mappings channel: 'official', version: "${mc_version}"

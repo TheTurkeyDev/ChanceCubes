@@ -5,11 +5,9 @@ import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCreativePendant;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -53,29 +51,26 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 	}
 
 	@Override
-	protected void renderBg(PoseStack poseStack, float p_97788_, int p_97789_, int p_97790_)
+	protected void renderBg(GuiGraphics guiGraphics, float p_97788_, int p_97789_, int p_97790_)
 	{
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, GUI_BG);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.blit(poseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		guiGraphics.blit(GUI_BG, i, j, 0, 0, this.imageWidth, this.imageHeight);
 	}
 
 	@Override
-	protected void renderLabels(PoseStack poseStack, int p_97936_, int p_97937_)
+	protected void renderLabels(GuiGraphics guiGraphics, int p_97936_, int p_97937_)
 	{
-		drawString(poseStack, this.font, "Chance Value", 50, 5, 0);
+		guiGraphics.drawString(this.font, "Chance Value", 50, 5, 0, false);
 		String cValue = String.valueOf(this.chanceValue);
-		drawString(poseStack, this.font, cValue, (88 - (cValue.length() * 3)), 27, 0);
+		guiGraphics.drawString(this.font, cValue, (88 - (cValue.length() * 3)), 27, 0, false);
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int p_97922_, int p_97923_, float p_97924_)
+	public void render(GuiGraphics guiGraphics, int p_97922_, int p_97923_, float p_97924_)
 	{
-		this.renderBackground(poseStack);
-		super.render(poseStack, p_97922_, p_97923_, p_97924_);
-		this.renderTooltip(poseStack, p_97922_, p_97923_);
+		this.renderBackground(guiGraphics);
+		super.render(guiGraphics, p_97922_, p_97923_, p_97924_);
+		this.renderTooltip(guiGraphics, p_97922_, p_97923_);
 	}
 }

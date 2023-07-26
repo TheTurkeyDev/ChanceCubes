@@ -80,7 +80,7 @@ public class MontyHallReward extends BaseCustomReward
 				}
 				else if(value == 1)
 				{
-					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 
 				this.callback();

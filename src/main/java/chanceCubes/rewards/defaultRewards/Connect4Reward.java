@@ -44,7 +44,7 @@ public class Connect4Reward extends BaseCustomReward
 
 		BlockPos playerPos = pos.offset(3, 0, 0);
 		player.moveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ(), 0, 0);
-		player.level.addFreshEntity(new ItemEntity(player.level, playerPos.getX(), playerPos.getY(), playerPos.getZ(), new ItemStack(Blocks.RED_CONCRETE_POWDER, 21)));
+		player.level().addFreshEntity(new ItemEntity(player.level(), playerPos.getX(), playerPos.getY(), playerPos.getZ(), new ItemStack(Blocks.RED_CONCRETE_POWDER, 21)));
 
 		for(int x = -5; x < 6; x++)
 			for(int z = -6; z < 7; z++)
@@ -135,7 +135,7 @@ public class Connect4Reward extends BaseCustomReward
 				if(playerWon)
 				{
 					RewardsUtil.sendMessageToPlayer(player, "You Won!");
-					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
+					player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
 					gameOver = true;
 				}
 				else if(board.hasWon(board.computersMove.x, board.computersMove.y, GameTurn.CPU))

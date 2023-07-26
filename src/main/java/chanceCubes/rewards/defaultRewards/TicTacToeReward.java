@@ -32,7 +32,7 @@ public class TicTacToeReward extends BaseCustomReward
 		int mistakeChance = super.getSettingAsInt(settings, "mistakeChance", 3, 0, 100);
 		RewardsUtil.sendMessageToPlayer(player, "Lets play Tic-Tac-Toe!");
 		RewardsUtil.sendMessageToPlayer(player, "Beat the Computer to get 500 Diamonds!");
-		player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Blocks.RED_WOOL, 5)));
+		player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(Blocks.RED_WOOL, 5)));
 
 		RewardBlockCache cache = new RewardBlockCache(level, pos, player.getOnPos());
 		for(int x = -2; x < 3; x++)
@@ -98,7 +98,7 @@ public class TicTacToeReward extends BaseCustomReward
 					else if(board.hasPlayerWon())
 					{
 						RewardsUtil.sendMessageToPlayer(player, "You Won? You must have cheated... You only get 5 diamonds!");
-						player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
+						player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(Items.DIAMOND, 5)));
 					}
 					else
 					{

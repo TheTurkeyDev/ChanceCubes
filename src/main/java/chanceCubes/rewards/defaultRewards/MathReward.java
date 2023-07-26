@@ -109,11 +109,11 @@ public class MathReward extends BaseCustomReward
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Correct!");
 			RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-			player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
-			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
+			player.level().explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
 			player.hurt(player.damageSources().source(CCubesDamageTypes.MATH_FAIL), Float.MAX_VALUE);
 		}
 

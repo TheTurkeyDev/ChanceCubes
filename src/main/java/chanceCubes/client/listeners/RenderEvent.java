@@ -4,6 +4,7 @@ import chanceCubes.util.SchematicUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -30,7 +31,8 @@ public class RenderEvent
 
 		Font fontRenderer = Minecraft.getInstance().font;
 
-		PoseStack matrixStack = event.getPoseStack();
+		GuiGraphics guiGraphics = event.getGuiGraphics();
+		PoseStack matrixStack = guiGraphics.pose();
 
 		if(islookingAt)
 		{
@@ -40,15 +42,15 @@ public class RenderEvent
 			//GlStateManager.color4f(1F, 1F, 1F, 1F);
 			if(chance == -201)
 			{
-				fontRenderer.draw(matrixStack, "The chance of this cube is: Destruction... Probably", (k / 2f) - 80, (l / 2f) - 30, 16777215);
+				guiGraphics.drawString(fontRenderer, "The chance of this cube is: Destruction... Probably", (k / 2f) - 80, (l / 2f) - 30, 16777215, false);
 			}
 			else
 			{
-				fontRenderer.draw(matrixStack, "The chance of this cube is: " + chance, (k / 2f) - 80, (l / 2f) - 30, 16777215);
+				guiGraphics.drawString(fontRenderer, "The chance of this cube is: " + chance, (k / 2f) - 80, (l / 2f) - 30, 16777215, false);
 				if(chanceIncrease != 0)
 				{
 					int c = chance + chanceIncrease;
-					fontRenderer.draw(matrixStack, "Chance with pendants is: " + Math.min(100, Math.max(c, -100)), (k / 2f) - 80, (l / 2f) - 15, 16777215);
+					guiGraphics.drawString(fontRenderer, "Chance with pendants is: " + Math.min(100, Math.max(c, -100)), (k / 2f) - 80, (l / 2f) - 15, 16777215, false);
 				}
 			}
 			//TODO
@@ -69,12 +71,12 @@ public class RenderEvent
 			String text5 = "Point 1";
 			String text6 = "Point 2";
 
-			fontRenderer.draw(matrixStack, text1, (k / 2f) - (fontRenderer.width(text1) / 2f), 10, 0xFFFFFF);
-			fontRenderer.draw(matrixStack, text2, (k / 2f) - (fontRenderer.width(text2) / 2f), 20, 0xFFFFFF);
-			fontRenderer.draw(matrixStack, text3, (k / 2f) - (fontRenderer.width(text3) / 2f), 30, 0xFFFFFF);
-			fontRenderer.draw(matrixStack, text4, (k / 2f) - (fontRenderer.width(text4) / 2f), 40, 0xFFFFFF);
-			fontRenderer.draw(matrixStack, text5, (k / 2f) - (fontRenderer.width(text5) / 2f), 60, SchematicUtil.selectionPoints[0] == null ? 0xFF0000 : 0x00FF00);
-			fontRenderer.draw(matrixStack, text6, (k / 2f) - (fontRenderer.width(text6) / 2f), 70, SchematicUtil.selectionPoints[1] == null ? 0xFF0000 : 0x00FF00);
+			guiGraphics.drawString(fontRenderer, text1, (k / 2f) - (fontRenderer.width(text1) / 2f), 10, 0xFFFFFF, false);
+			guiGraphics.drawString(fontRenderer, text2, (k / 2f) - (fontRenderer.width(text2) / 2f), 20, 0xFFFFFF, false);
+			guiGraphics.drawString(fontRenderer, text3, (k / 2f) - (fontRenderer.width(text3) / 2f), 30, 0xFFFFFF, false);
+			guiGraphics.drawString(fontRenderer, text4, (k / 2f) - (fontRenderer.width(text4) / 2f), 40, 0xFFFFFF, false);
+			guiGraphics.drawString(fontRenderer, text5, (k / 2f) - (fontRenderer.width(text5) / 2f), 60, SchematicUtil.selectionPoints[0] == null ? 0xFF0000 : 0x00FF00, false);
+			guiGraphics.drawString(fontRenderer, text6, (k / 2f) - (fontRenderer.width(text6) / 2f), 70, SchematicUtil.selectionPoints[1] == null ? 0xFF0000 : 0x00FF00, false);
 
 			//TODO
 			//GlStateManager.enableLighting();

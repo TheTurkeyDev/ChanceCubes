@@ -39,7 +39,7 @@ public class CCSurfaceFeature extends Feature<NoneFeatureConfiguration>
 
 		BlockState bs = level.getBlockState(pos);
 
-		if(!bs.getMaterial().isReplaceable() || bs.is(Blocks.WATER))
+		if(!bs.canBeReplaced() || bs.is(Blocks.WATER))
 			return false;
 
 		level.setBlock(pos, CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), 3);
