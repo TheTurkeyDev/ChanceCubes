@@ -3,7 +3,6 @@ package chanceCubes.worldgen;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.util.RewardsUtil;
-import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;

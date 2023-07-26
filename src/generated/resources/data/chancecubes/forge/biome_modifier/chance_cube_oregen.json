@@ -1,0 +1,7 @@
+{
+  "type": "chancecubes:add_chancecubes_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "chancecubes:chance_cube_oregen",
+  "id": 1,
+  "step": "underground_ores"
+}

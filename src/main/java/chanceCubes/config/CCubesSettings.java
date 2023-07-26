@@ -23,7 +23,6 @@ public class CCubesSettings
 	public static BooleanValue rewardsEqualChance;
 
 	public static BooleanValue oreGeneration;
-	public static IntValue oreGenAmount;
 	public static BooleanValue surfaceGeneration;
 	public static IntValue surfaceGenAmount;
 	public static ConfigValue<List<? extends String>> blockedWorlds;

@@ -43,12 +43,12 @@ public class SchematicCreationGui extends Screen
 		this.nameField.setMaxLength(100);
 		this.nameField.setValue("Schematic Name");
 
-		this.addWidget(new Button(i - 50, this.height - 70, 100, 20, ComponentWrapper.string("Back"), (button) ->
+		this.addWidget(Button.builder(ComponentWrapper.string("Back"), (button) ->
 		{
 			SchematicCreationGui.this.onClose();
-		}));
+		}).bounds(i - 50, this.height - 70, 100, 20).build());
 
-		this.addWidget(new Button(i - 50, this.height - 40, 100, 20, ComponentWrapper.string("Create"), (button) ->
+		this.addWidget(Button.builder(ComponentWrapper.string("Create"), (button) ->
 		{
 			String fileName = nameField.getValue();
 			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
@@ -58,14 +58,14 @@ public class SchematicCreationGui extends Screen
 			SchematicUtil.selectionPoints[0] = null;
 			SchematicUtil.selectionPoints[1] = null;
 			SchematicCreationGui.this.onClose();
-		}));
+		}).bounds(i - 50, this.height - 40, 100, 20).build());
 
 		for(int j = 0; j < 2; j++)
 		{
 			for(int k = 0; k < 6; k++)
 			{
 				int buttonID = (j * 2) + k;
-				this.addWidget(new Button((i - 90) + (k * 30), (50 * (j + 1)), 25, 20, ComponentWrapper.string(buttonText[k]), (button) ->
+				this.addWidget(Button.builder(ComponentWrapper.string(buttonText[k]), (button) ->
 				{
 					int idNormalized = buttonID % 6;
 					int point = (buttonID) / 6;
@@ -82,7 +82,7 @@ public class SchematicCreationGui extends Screen
 						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].offset(0, 0, -1);
 					else if(idNormalized == 5)
 						SchematicUtil.selectionPoints[point] = SchematicUtil.selectionPoints[point].offset(0, 0, 1);
-				}));
+				}).bounds((i - 90) + (k * 30), (50 * (j + 1)), 25, 20).build());
 			}
 		}
 	}

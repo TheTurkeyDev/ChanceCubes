@@ -2,6 +2,7 @@ package chanceCubes.util;
 
 import chanceCubes.CCubesCore;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
@@ -22,7 +23,7 @@ public class StatsRegistry {
 
 	private static ResourceLocation makeCustomStat(String pKey) {
 		ResourceLocation resourcelocation = new ResourceLocation(CCubesCore.MODID, pKey);
-		Registry.register(Registry.CUSTOM_STAT, pKey, resourcelocation);
+		Registry.register(BuiltInRegistries.CUSTOM_STAT, pKey, resourcelocation);
 		Stats.CUSTOM.get(resourcelocation, StatFormatter.DEFAULT);
 		return resourcelocation;
 	}

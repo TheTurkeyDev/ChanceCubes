@@ -29,7 +29,7 @@ public class RandomExplosionReward extends BaseCustomReward
 	@Override
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
-		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE, SoundSource.BLOCKS, 1f, 1f);
+		level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.AMBIENT_CAVE.get(), SoundSource.BLOCKS, 1f, 1f);
 		Scheduler.scheduleTask(new Task("Random Explosion", 300, 2)
 		{
 			int delay = 12;

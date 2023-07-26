@@ -42,7 +42,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 			{
 				int xInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
 				int zInc = RewardsUtil.rand.nextInt(10) * (RewardsUtil.rand.nextBoolean() ? -1 : 1);
-				BlockPos pos = new BlockPos(player.getX() + xInc, 256, player.getZ() + zInc);
+				BlockPos pos = BlockPos.containing(player.getX() + xInc, 256, player.getZ() + zInc);
 
 				TamableAnimal ent = RewardsUtil.rand.nextBoolean()
 						? EntityWrapper.spawnEntityAt(EntityType.WOLF, level, pos)

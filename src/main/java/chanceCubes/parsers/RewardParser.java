@@ -10,7 +10,6 @@ import chanceCubes.rewards.variableTypes.FloatVar;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
 import chanceCubes.rewards.variableTypes.StringVar;
-import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.CustomEntry;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.SchematicUtil;

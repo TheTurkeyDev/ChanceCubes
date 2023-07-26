@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "chancecubes:items/creative_pendant"
+        "layer0": "chancecubes:item/creative_pendant"
     },
     "display": {
         "thirdperson": {

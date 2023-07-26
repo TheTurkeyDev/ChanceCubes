@@ -1,6 +1,5 @@
 package chanceCubes.items;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
@@ -18,7 +17,7 @@ public class BaseChanceCubesItem extends Item
 
 	public BaseChanceCubesItem(Properties builder)
 	{
-		super(builder.tab(CCubesCore.modTab));
+		super(builder);
 	}
 
 	public void addLore(String info)

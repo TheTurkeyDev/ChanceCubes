@@ -1,0 +1,7 @@
+{
+  "type": "chancecubes:add_chancecubes_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "chancecubes:chance_cube_worldgen",
+  "id": 0,
+  "step": "top_layer_modification"
+}

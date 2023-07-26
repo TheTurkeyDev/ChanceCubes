@@ -63,11 +63,11 @@ public class ItemScanner extends BaseChanceCubesItem
 					double k = movingobjectposition.getBlockPos().getZ();
 					boolean flag = false;
 
-					BlockPos position = new BlockPos(i, j, k);
+					BlockPos position = BlockPos.containing(i, j, k);
 
 					if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 					{
-						TileChanceCube te = ((TileChanceCube) level.getBlockEntity(new BlockPos(i, j, k)));
+						TileChanceCube te = ((TileChanceCube) level.getBlockEntity(BlockPos.containing(i, j, k)));
 						if(te != null)
 						{
 							te.setScanned(true);
@@ -78,7 +78,7 @@ public class ItemScanner extends BaseChanceCubesItem
 					}
 //					else if(level.getBlockState(position).getBlock().equals(CCubesBlocks.CHANCE_ICOSAHEDRON.get()))
 //					{
-//						TileChanceD20 te = ((TileChanceD20) level.getBlockEntity(new BlockPos(i, j, k)));
+//						TileChanceD20 te = ((TileChanceD20) level.getBlockEntity(BlockPos.containing(i, j, k)));
 //						if(te != null)
 //						{
 //							te.setScanned(true);

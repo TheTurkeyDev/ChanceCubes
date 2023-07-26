@@ -9,9 +9,10 @@ import com.google.gson.JsonParser;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -24,11 +25,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -59,6 +62,7 @@ import java.util.stream.StreamSupport;
 
 public class RewardsUtil
 {
+	public static final TagKey<Item> BLACKLIST = ItemTags.create(new ResourceLocation(CCubesCore.MODID, "blacklist"));
 	private static final List<String> oredicts = new ArrayList<>();
 	private static final String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/quartz", "ores/ruby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
 
@@ -82,7 +86,7 @@ public class RewardsUtil
 		oredicts.add("ores/coal");
 
 		for(String oreDict : possibleModOres)
-			if(Registry.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))).iterator().hasNext())
+			if(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))).iterator().hasNext())
 				oredicts.add(oreDict);
 	}
 
@@ -207,7 +211,7 @@ public class RewardsUtil
 
 	public static Block getRandomOreFromOreDict(String oreDict)
 	{
-		return getRandomElement(Registry.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))));
+		return getRandomElement(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))));
 	}
 
 	private static Block getRandomElement(Iterable<Holder<Block>> it)
@@ -218,7 +222,7 @@ public class RewardsUtil
 
 	private static TagKey<Block> getTagKey(ResourceLocation res)
 	{
-		return TagKey.create(Registry.BLOCK_REGISTRY, res);
+		return TagKey.create(Registries.BLOCK, res);
 	}
 
 	public static Block getRandomBlock()
@@ -231,7 +235,7 @@ public class RewardsUtil
 		Item item;
 		do
 			item = randomRegistryEntry(ForgeRegistries.ITEMS, Items.APPLE);
-		while(item == null || item.getCreativeTabs().size() == 0);
+		while(item == null || !item.isEnabled(FeatureFlags.VANILLA_SET) || item.getDefaultInstance().is(BLACKLIST));
 		return item;
 	}
 

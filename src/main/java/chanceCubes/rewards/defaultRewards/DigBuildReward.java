@@ -1,7 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.CCubesDamageTypes;
 import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 public class DigBuildReward extends BaseCustomReward
 {
@@ -48,8 +48,8 @@ public class DigBuildReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-				player.hurt(CCubesDamageSource.DIG_BUILD_FAIL, Float.MAX_VALUE);
+				player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
+				player.hurt(player.damageSources().source(CCubesDamageTypes.DIG_BUILD_FAIL), Float.MAX_VALUE);
 			}
 
 			@Override

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "P": {
+      "item": "chancecubes:chance_pendant_tier2"
+    }
+  },
+  "pattern": [
+    "GBG",
+    "BPB",
+    "GBG"
+  ],
+  "result": {
+    "item": "chancecubes:chance_pendant_tier3"
+  },
+  "show_notification": true
+}

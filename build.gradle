@@ -27,9 +27,9 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 compileJava.options.encoding = 'UTF-8'
 
 minecraft {
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: "${mc_version}"
 
-    //accessTransformer = file('my_at.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // default run configurations.
     // these can be tweaked, removed, or duplicated as needed.
@@ -75,7 +75,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
 
-            args '--mod', 'chancecubes', '--all', '--output', file('src/generated/resources/')
+            args '--mod', "chancecubes", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 chancecubes {

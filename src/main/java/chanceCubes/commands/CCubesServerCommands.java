@@ -23,6 +23,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
@@ -90,7 +91,9 @@ public class CCubesServerCommands
 				)
 				.then(
 						Commands.literal("spawnReward").then(
-								Commands.argument("rewardName", new RewardArgument()).then(
+								Commands.argument("rewardName", RewardArgument.rewardArgument())
+										.suggests((cs, builder) ->
+												SharedSuggestionProvider.suggest(GlobalCCRewardRegistry.DEFAULT.getRewardNames(), builder)).then(
 										Commands.argument("target", EntityArgument.players())
 												.executes(ctx -> executeSpawnReward(ctx, RewardArgument.getReward(ctx, "rewardName"), EntityArgument.getPlayers(ctx, "target")))
 								)

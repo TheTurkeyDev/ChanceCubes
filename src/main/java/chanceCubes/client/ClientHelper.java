@@ -1,6 +1,5 @@
 package chanceCubes.client;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.gui.RewardSelectorPendantScreen;
 import chanceCubes.client.gui.SchematicCreationGui;

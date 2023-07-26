@@ -10,6 +10,7 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ambient.Bat;
@@ -73,7 +74,8 @@ public class JarGuessReward extends BaseCustomReward
 					{
 						if(batsSpawned < amount)
 						{
-							BlockPos pos2 = pos.offset(x + 0.5, y + 0.5, z + 0.5);
+
+							BlockPos pos2 = pos.offset(Mth.floor(x + 0.5), Mth.floor(y + 0.5), Mth.floor(z + 0.5));
 							Bat bat = EntityWrapper.spawnEntityAt(EntityType.BAT, level, pos2);
 							guessing.bats.add(bat);
 							batsSpawned++;
@@ -137,7 +139,7 @@ public class JarGuessReward extends BaseCustomReward
 	}
 
 	@SubscribeEvent
-	public void onMessage(ServerChatEvent.Submitted event)
+	public void onMessage(ServerChatEvent event)
 	{
 		Player player = event.getPlayer();
 

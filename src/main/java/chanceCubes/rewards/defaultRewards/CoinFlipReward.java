@@ -62,7 +62,7 @@ public class CoinFlipReward extends BaseCustomReward
 	}
 
 	@SubscribeEvent
-	public void onMessage(ServerChatEvent.Submitted event)
+	public void onMessage(ServerChatEvent event)
 	{
 		Player player = event.getPlayer();
 

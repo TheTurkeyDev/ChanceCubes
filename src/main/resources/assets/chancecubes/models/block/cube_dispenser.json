@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "chancecubes:blocks/cube_dispenser_top",
-        "side": "chancecubes:blocks/cube_dispenser_side"
+        "end": "chancecubes:block/cube_dispenser_top",
+        "side": "chancecubes:block/cube_dispenser_side"
     }
 }
