@@ -30,7 +30,6 @@ public class WorldRenderListener
 			//double interpPosZ = entity.lastTickPosZ + (entity.getZ() - entity.lastTickPosZ) * event.getPartialTicks();
 
 			//poseStack.translate(-interpPosX, -interpPosY, -interpPosZ);
-			GlStateManager._disableTexture();
 			GlStateManager._enableBlend();
 			//TODO
 			//GlStateManager._enableAlphaTest();
@@ -80,7 +79,6 @@ public class WorldRenderListener
 			//TODO
 			//GlStateManager.end();
 			//GlStateManager.enableLighting();
-			GlStateManager._enableTexture();
 			GlStateManager._disableBlend();
 			poseStack.popPose();
 		}

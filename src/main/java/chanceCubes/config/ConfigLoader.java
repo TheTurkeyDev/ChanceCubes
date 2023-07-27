@@ -94,9 +94,6 @@ public class ConfigLoader
 		CCubesSettings.oreGeneration = builder
 				.comment("True if Chance Cubes should generate like ores with in the world. false if they should not")
 				.define("GenerateAsOre", true);
-		CCubesSettings.oreGenAmount = builder
-				.comment("Amount of chance cubes to try and spawn, per chunk, as an ore")
-				.defineInRange("OreGenAmount", 4, 1, 100);
 		CCubesSettings.surfaceGeneration = builder
 				.comment("true if Chance Cubes should generate on the surface of the world. false if they should not")
 				.define("GenerateOnSurface", true);

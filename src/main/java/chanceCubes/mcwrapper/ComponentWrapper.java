@@ -13,6 +13,6 @@ public class ComponentWrapper
 
 	public static MutableComponent translatable(String str, Object... objs)
 	{
-		return MutableComponent.create(new TranslatableContents(str, objs));
+		return MutableComponent.create(new TranslatableContents(str, null, objs));
 	}
 }

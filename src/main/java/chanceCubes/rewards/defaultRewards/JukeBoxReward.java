@@ -10,8 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.JukeboxBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
 public class JukeBoxReward extends BaseCustomReward
 {
@@ -26,9 +26,10 @@ public class JukeBoxReward extends BaseCustomReward
 	public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 	{
 		RewardsUtil.placeBlock(Blocks.JUKEBOX.defaultBlockState(), level, pos);
-		BlockState iBlockState = level.getBlockState(pos);
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
-		((JukeboxBlock) Blocks.JUKEBOX).setRecord(player, level, pos, iBlockState, disc);
+		BlockEntity blockentity = level.getBlockEntity(pos);
+		if(blockentity instanceof JukeboxBlockEntity jukeboxBlock)
+			jukeboxBlock.setFirstItem(disc);
 		level.levelEvent(null, 1010, pos, Item.getId(disc.getItem()));
 	}
 }

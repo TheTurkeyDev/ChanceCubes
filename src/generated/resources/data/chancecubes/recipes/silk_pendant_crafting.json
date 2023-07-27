@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "P": {
+      "item": "chancecubes:chance_pendant_tier1"
+    },
+    "S": {
+      "tag": "forge:string"
+    }
+  },
+  "pattern": [
+    "SBS",
+    "SPS",
+    "SBS"
+  ],
+  "result": {
+    "item": "chancecubes:silk_touch_pendant"
+  },
+  "show_notification": true
+}

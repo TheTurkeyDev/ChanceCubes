@@ -6,7 +6,6 @@ import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -44,7 +43,7 @@ public class RewardSelectorPendantScreen extends Screen
 	@Override
 	public void init()
 	{
-		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+//		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
 		this.rewardField = new EditBox(this.font, i + 17, j + 10, 143, 12, ComponentWrapper.string("Test"));
@@ -54,7 +53,7 @@ public class RewardSelectorPendantScreen extends Screen
 		this.rewardField.setMaxLength(100);
 		this.rewardField.setValue(this.rewardName);
 		this.addRenderableWidget(this.rewardField);
-		this.addRenderableWidget(new Button(i + 57, j + 27, 70, 20, ComponentWrapper.string("Set Reward"), p_onPress_1_ ->
+		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Reward"), p_onPress_1_ ->
 		{
 			CompoundTag nbt = stack.getTag();
 			if(nbt == null)
@@ -64,14 +63,14 @@ public class RewardSelectorPendantScreen extends Screen
 			CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getValue()));
 			rewardName = rewardField.getValue();
 			player.closeContainer();
-		}));
+		}).bounds(i + 57, j + 27, 70, 20).build());
 	}
 
 	@Override
 	public void onClose()
 	{
 		super.onClose();
-		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+//		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
 	}
 
 	@Override

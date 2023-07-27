@@ -1,0 +1,16 @@
+{
+  "values": [
+    "minecraft:bedrock",
+    "minecraft:command_block",
+    "minecraft:command_block_minecart",
+    "minecraft:chain_command_block",
+    "minecraft:repeating_command_block",
+    "minecraft:jigsaw",
+    "minecraft:structure_block",
+    "minecraft:structure_void",
+    "minecraft:air",
+    "minecraft:debug_stick",
+    "minecraft:knowledge_book",
+    "minecraft:reinforced_deepslate"
+  ]
+}

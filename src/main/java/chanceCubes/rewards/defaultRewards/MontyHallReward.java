@@ -16,7 +16,7 @@ import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.StoneButtonBlock;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MontyHallReward extends BaseCustomReward
@@ -35,9 +35,9 @@ public class MontyHallReward extends BaseCustomReward
 		cache.cacheBlock(new BlockPos(-1, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
 		cache.cacheBlock(new BlockPos(0, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
 		cache.cacheBlock(new BlockPos(1, 0, 0), Blocks.OBSIDIAN.defaultBlockState());
-		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
-		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
-		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(StoneButtonBlock.FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(-1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(ButtonBlock.FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(0, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(ButtonBlock.FACING, Direction.SOUTH));
+		cache.cacheBlock(new BlockPos(1, 0, 1), Blocks.STONE_BUTTON.defaultBlockState().setValue(ButtonBlock.FACING, Direction.SOUTH));
 
 		Scheduler.scheduleTask(new Task("Monty_Hall_Reward", 6000, 10)
 		{
@@ -53,15 +53,15 @@ public class MontyHallReward extends BaseCustomReward
 			public void update()
 			{
 				BlockState state = level.getBlockState(pos.offset(-1, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
+				if(state.getProperties().contains(ButtonBlock.POWERED) && state.getValue(ButtonBlock.POWERED))
 					giveReward(chance[0]);
 
 				state = level.getBlockState(pos.offset(0, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
+				if(state.getProperties().contains(ButtonBlock.POWERED) && state.getValue(ButtonBlock.POWERED))
 					giveReward(chance[1]);
 
 				state = level.getBlockState(pos.offset(1, 0, 1));
-				if(state.getProperties().contains(StoneButtonBlock.POWERED) && state.getValue(StoneButtonBlock.POWERED))
+				if(state.getProperties().contains(ButtonBlock.POWERED) && state.getValue(ButtonBlock.POWERED))
 					giveReward(chance[2]);
 			}
 

@@ -26,7 +26,7 @@ public class TrollTNTReward extends BaseCustomReward
 	{
 		for(int x = -1; x < 2; x++)
 			for(int z = -1; z < 2; z++)
-				RewardsUtil.placeBlock(Blocks.COBWEB.defaultBlockState(), level, new BlockPos(player.getX() + x, player.getY(), player.getZ() + z));
+				RewardsUtil.placeBlock(Blocks.COBWEB.defaultBlockState(), level, BlockPos.containing(player.getX() + x, player.getY(), player.getZ() + z));
 
 		final PrimedTnt entitytntprimed = new PrimedTnt(level, player.getX() + 1D, player.getY() + 1D, player.getZ(), player);
 		entitytntprimed.setFuse(80);

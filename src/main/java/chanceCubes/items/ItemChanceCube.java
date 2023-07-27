@@ -1,6 +1,5 @@
 package chanceCubes.items;
 
-import chanceCubes.CCubesCore;
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.mcwrapper.ComponentWrapper;
@@ -31,8 +30,7 @@ public class ItemChanceCube extends BlockItem
 	public static Properties getProps(Block b)
 	{
 		Properties props = new Properties();
-		if(!b.equals(CCubesBlocks.GIANT_CUBE.get()))
-			props.tab(CCubesCore.modTab);
+		if(!b.equals(CCubesBlocks.GIANT_CUBE.get()));
 		return props;
 	}
 

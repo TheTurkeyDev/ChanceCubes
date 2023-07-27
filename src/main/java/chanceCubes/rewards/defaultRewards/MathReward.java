@@ -1,7 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.CCubesDamageTypes;
 import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardBlockCache;
 import chanceCubes.util.RewardsUtil;
@@ -17,7 +17,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,7 +47,7 @@ public class MathReward extends BaseCustomReward
 
 		RewardsUtil.sendMessageToPlayer(player, "Quick, what's " + num1 + "+" + num2 + "?");
 
-		BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
+		BlockPos playerPos = BlockPos.containing(player.getX(), player.getY(), player.getZ());
 		RewardBlockCache cache = new RewardBlockCache(level, playerPos, player.getOnPos());
 		for(int xx = -2; xx < 3; xx++)
 		{
@@ -113,8 +113,8 @@ public class MathReward extends BaseCustomReward
 		}
 		else
 		{
-			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Explosion.BlockInteraction.NONE);
-			player.hurt(CCubesDamageSource.MATH_FAIL, Float.MAX_VALUE);
+			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
+			player.hurt(player.damageSources().source(CCubesDamageTypes.MATH_FAIL), Float.MAX_VALUE);
 		}
 
 		for(Entity tnt : info.tnt)
@@ -127,7 +127,7 @@ public class MathReward extends BaseCustomReward
 	}
 
 	@SubscribeEvent
-	public void onMessage(ServerChatEvent.Submitted event)
+	public void onMessage(ServerChatEvent event)
 	{
 		Player player = event.getPlayer();
 

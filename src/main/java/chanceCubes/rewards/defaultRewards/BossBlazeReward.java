@@ -82,7 +82,7 @@ public class BossBlazeReward extends BossBaseReward
 		for(int i = 0; i < 5; i++)
 		{
 			SmallFireball entitysmallfireball = new SmallFireball(level, blaze, d1 + RewardsUtil.rand.nextGaussian(), d2, d3 + RewardsUtil.rand.nextGaussian());
-			entitysmallfireball.getOnPos().offset(0, blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F) + 0.5D, 0);
+			entitysmallfireball.getOnPos().offset(0, (int)(blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F) + 0.5D), 0);
 			level.addFreshEntity(entitysmallfireball);
 		}
 	}

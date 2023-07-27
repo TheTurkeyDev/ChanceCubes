@@ -515,13 +515,13 @@ public class DefaultRewards
 			@Override
 			public void trigger(ServerLevel level, BlockPos pos, Player player, JsonObject settings)
 			{
-				final BlockPos worldPos = new BlockPos(Math.floor(player.getX()), Math.floor(player.getY()) - 1, Math.floor(player.getZ()));
-				final RewardBlockCache cache = new RewardBlockCache(level, worldPos, new BlockPos(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
+				final BlockPos worldPos = BlockPos.containing(Math.floor(player.getX()), Math.floor(player.getY()) - 1, Math.floor(player.getZ()));
+				final RewardBlockCache cache = new RewardBlockCache(level, worldPos, BlockPos.containing(worldPos.getX(), worldPos.getY() + 1, worldPos.getZ()));
 
 				for(int y = 0; y > -75; y--)
 					for(int x = -2; x < 3; x++)
 						for(int z = -2; z < 3; z++)
-							cache.cacheBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState());
+							cache.cacheBlock(BlockPos.containing(x, y, z), Blocks.AIR.defaultBlockState());
 
 				Scheduler.scheduleTask(new Task("TrollHole", 35)
 				{

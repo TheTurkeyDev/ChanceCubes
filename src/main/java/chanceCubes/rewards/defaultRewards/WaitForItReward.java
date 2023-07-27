@@ -58,11 +58,11 @@ public class WaitForItReward extends BaseCustomReward
 				}
 				else if(reward == 2)
 				{
-					RewardsUtil.placeBlock(Blocks.BEDROCK.defaultBlockState(), level, new BlockPos(player.getX(), player.getY(), player.getZ()));
+					RewardsUtil.placeBlock(Blocks.BEDROCK.defaultBlockState(), level, BlockPos.containing(player.getX(), player.getY(), player.getZ()));
 				}
 				else if(reward == 3)
 				{
-					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.defaultBlockState(), level, new BlockPos(player.getX(), player.getY(), player.getZ()));
+					RewardsUtil.placeBlock(Blocks.EMERALD_ORE.defaultBlockState(), level, BlockPos.containing(player.getX(), player.getY(), player.getZ()));
 				}
 				else
 				{

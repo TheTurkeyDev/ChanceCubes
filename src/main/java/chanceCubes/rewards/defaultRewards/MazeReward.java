@@ -1,7 +1,7 @@
 package chanceCubes.rewards.defaultRewards;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.util.CCubesDamageSource;
+import chanceCubes.util.CCubesDamageTypes;
 import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.MazeGenerator;
 import chanceCubes.util.RewardsUtil;
@@ -40,7 +40,7 @@ public class MazeReward extends BaseCustomReward
 			{
 				gen.endMaze(player);
 				if(RewardsUtil.isPlayerOnline(player))
-					player.hurt(CCubesDamageSource.MAZE_FAIL, Float.MAX_VALUE);
+					player.hurt(player.damageSources().source(CCubesDamageTypes.MAZE_FAIL), Float.MAX_VALUE);
 			}
 
 			@Override

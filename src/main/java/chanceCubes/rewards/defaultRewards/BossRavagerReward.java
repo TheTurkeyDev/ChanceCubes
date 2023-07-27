@@ -132,7 +132,7 @@ public class BossRavagerReward extends BossBaseReward
 	{
 		BlockPos dist = player.getOnPos().subtract(ravager.getOnPos());
 		double unit = Math.sqrt(dist.distSqr(BlockPos.ZERO));
-		BlockPos move = new BlockPos((dist.getX() / unit) * 3, 0, (dist.getZ() / unit) * 3);
+		BlockPos move = BlockPos.containing((dist.getX() / unit) * 3, 0, (dist.getZ() / unit) * 3);
 		ravager.setDeltaMovement(move.getX(), 0, move.getZ());
 	}
 

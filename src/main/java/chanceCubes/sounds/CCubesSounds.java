@@ -16,8 +16,8 @@ public class CCubesSounds
 {
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, CCubesCore.MODID);
 
-	public static RegistryObject<SoundEvent> D20_BREAK = SOUNDS.register("d20_break", () -> new SoundEvent(new ResourceLocation(CCubesCore.MODID, "d20_break")));
-	public static RegistryObject<SoundEvent> GIANT_CUBE_SPAWN = SOUNDS.register("giant_cube_spawn", () -> new SoundEvent(new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn")));
+	public static RegistryObject<SoundEvent> D20_BREAK = SOUNDS.register("d20_break", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "d20_break")));
+	public static RegistryObject<SoundEvent> GIANT_CUBE_SPAWN = SOUNDS.register("giant_cube_spawn", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn")));
 
 	public static final Map<String, SoundEvent> customSounds = new HashMap<>();
 
