@@ -1,9 +1,9 @@
 {
-    "pack": {
-        "description": "Chance Cube resources",
-        "pack_format": 9,
-        "forge:resource_pack_format": 9,
-        "forge:data_pack_format": 10,
-        "_comment": "Gobble Gobble"
-    }
+  "pack": {
+    "description": {
+      "text": "Chance Cube resources"
+    },
+    "pack_format": 15,
+    "_comment": "Gobble Gobble"
+  }
 }

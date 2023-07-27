@@ -1,8 +1,6 @@
 package chanceCubes.commands;
 
 import chanceCubes.CCubesCore;
-import chanceCubes.client.ClientHelper;
-import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
@@ -16,7 +14,6 @@ import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
-import chanceCubes.util.SchematicUtil;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -34,8 +31,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.server.command.EnumArgument;
@@ -65,13 +60,6 @@ public class CCubesServerCommands
 						Commands.literal("enableReward").then(
 								Commands.argument("rewardName", RewardArgument.rewardArgument())
 										.executes(ctx -> executeEnableReward(ctx, RewardArgument.getReward(ctx, "rewardName")))
-						)
-				)
-				.then(
-						Commands.literal("schematic").requires(cs -> cs.getLevel().isClientSide()).then(
-								Commands.literal("create").executes(this::executeSchematicCreate)
-						).then(
-								Commands.literal("cancel").executes(this::executeSchematicCancel)
 						)
 				)
 				.then(
@@ -183,38 +171,6 @@ public class CCubesServerCommands
 			RewardsUtil.sendMessageToPlayer(player, reward + " Has been enabled.");
 		else
 			RewardsUtil.sendMessageToPlayer(player, reward + " is either not currently disabled or is not a valid reward name.");
-		return 0;
-	}
-
-	public int executeSchematicCreate(CommandContext<CommandSourceStack> ctx)
-	{
-		if(RenderEvent.isCreatingSchematic())
-		{
-			//Possibly make own packet
-			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
-			{
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-				{
-					ClientHelper.openSchematicCreatorGUI(getPlayer(ctx.getSource()));
-				});
-			}
-			else
-			{
-				RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Please set both points before moving on!");
-			}
-		}
-		else
-		{
-			RenderEvent.setCreatingSchematic(true);
-		}
-		return 0;
-	}
-
-	public int executeSchematicCancel(CommandContext<CommandSourceStack> ctx)
-	{
-		RenderEvent.setCreatingSchematic(false);
-		SchematicUtil.selectionPoints[0] = null;
-		SchematicUtil.selectionPoints[1] = null;
 		return 0;
 	}
 

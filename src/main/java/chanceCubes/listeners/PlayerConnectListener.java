@@ -12,7 +12,7 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event)
 	{
-		if(event.getEntity().level.isClientSide())
+		if(event.getEntity().level().isClientSide())
 			return;
 
 		new Thread(() -> CustomUserReward.getCustomUserReward(event.getEntity().getUUID())).start();
@@ -21,7 +21,7 @@ public class PlayerConnectListener
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event)
 	{
-		if(event.getEntity().level.isClientSide())
+		if(event.getEntity().level().isClientSide())
 			return;
 
 		String rewardName = CCubesCore.MODID + ":CR_" + event.getEntity().getName();

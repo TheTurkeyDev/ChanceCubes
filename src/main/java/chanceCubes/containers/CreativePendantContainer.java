@@ -85,7 +85,7 @@ public class CreativePendantContainer extends AbstractContainerMenu
 	{
 		super.removed(player);
 
-		if(!player.level.isClientSide())
+		if(!player.level().isClientSide())
 		{
 			ItemStack itemstack = this.pendantSlot.getItem(0);
 			if(!itemstack.isEmpty())

@@ -361,7 +361,7 @@ public class RewardsUtil
 		if(player == null)
 			return false;
 
-		for(ServerPlayer playerMP : player.level.getServer().getPlayerList().getPlayers())
+		for(ServerPlayer playerMP : player.level().getServer().getPlayerList().getPlayers())
 			if(playerMP.getUUID().equals(player.getUUID()))
 				return true;
 

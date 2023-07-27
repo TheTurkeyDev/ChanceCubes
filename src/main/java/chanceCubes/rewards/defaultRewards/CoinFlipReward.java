@@ -86,15 +86,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Heads"))
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're correct!");
-					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was heads! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
-						player.level.addFreshEntity(new PrimedTnt(player.level, player.getX(), player.getY() + 1D, player.getZ(), player));
-						player.level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+						player.level().addFreshEntity(new PrimedTnt(player.level(), player.getX(), player.getY() + 1D, player.getZ(), player));
+						player.level().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}
@@ -103,15 +103,15 @@ public class CoinFlipReward extends BaseCustomReward
 				if(message.equalsIgnoreCase("Tails"))
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're correct!");
-					player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+					player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 				}
 				else
 				{
 					RewardsUtil.sendMessageToPlayer(player, "It was tails! You're incorrect!");
 					for(int i = 0; i < 5; i++)
 					{
-						player.level.addFreshEntity(new PrimedTnt(player.level, player.getX(), player.getY() + 1D, player.getZ(), player));
-						player.level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+						player.level().addFreshEntity(new PrimedTnt(player.level(), player.getX(), player.getY() + 1D, player.getZ(), player));
+						player.level().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 					}
 				}
 			}

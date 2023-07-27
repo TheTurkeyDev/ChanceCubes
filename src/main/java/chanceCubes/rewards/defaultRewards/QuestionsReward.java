@@ -91,12 +91,12 @@ public class QuestionsReward extends BaseCustomReward
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Correct!");
 			RewardsUtil.sendMessageToPlayer(player, "Here, have a item!");
-			player.level.addFreshEntity(new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
+			player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(RewardsUtil.getRandomItem(), 1)));
 		}
 		else
 		{
 			RewardsUtil.sendMessageToPlayer(player, "Incorrect! The answer was " + this.inQuestion.get(player));
-			player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
+			player.level().explode(player, player.getX(), player.getY(), player.getZ(), 1.0F, Level.ExplosionInteraction.NONE);
 			player.hurt(player.damageSources().source(CCubesDamageTypes.QUESTION_FAIL), Float.MAX_VALUE);
 		}
 
