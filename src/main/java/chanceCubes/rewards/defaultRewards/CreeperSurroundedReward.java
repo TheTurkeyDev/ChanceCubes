@@ -5,6 +5,7 @@ import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
@@ -42,9 +43,11 @@ public class CreeperSurroundedReward extends BaseCustomReward
 					{
 						creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, xx == 1 ? 90 : -90, 0);
+						LightningBoltEntity lbe = EntityType.LIGHTNING_BOLT.create(world);
+						lbe.setLocationAndAngles(xValue, pos.getY(), pos.getZ() + zz, 0, 0);
 						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
-							creeper.func_241841_a(world, null);
+							creeper.func_241841_a(world, lbe);
 						world.addEntity(creeper);
 					}
 				}
@@ -66,9 +69,11 @@ public class CreeperSurroundedReward extends BaseCustomReward
 					{
 						creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, zz == 1 ? 180 : 0, 0);
+						LightningBoltEntity lbe = EntityType.LIGHTNING_BOLT.create(world);
+						lbe.setLocationAndAngles(pos.getX() + xx, pos.getY(), zValue, 0, 0);
 						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 5));
 						if(RewardsUtil.rand.nextInt(100) < chargedChance)
-							creeper.func_241841_a(world, null);
+							creeper.func_241841_a(world, lbe);
 						world.addEntity(creeper);
 					}
 				}

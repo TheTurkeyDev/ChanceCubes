@@ -7,6 +7,7 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -45,7 +46,7 @@ public class WaitForItReward extends BaseCustomReward
 			@Override
 			public void callback()
 			{
-				int reward = RewardsUtil.rand.nextInt(3);
+				int reward = RewardsUtil.rand.nextInt(5);
 				RewardsUtil.sendMessageToPlayer(player, "NOW!");
 
 				if(reward == 0)
@@ -56,7 +57,9 @@ public class WaitForItReward extends BaseCustomReward
 				{
 					CreeperEntity ent = EntityType.CREEPER.create(world);
 					ent.setLocationAndAngles(player.getPosX(), player.getPosY() + 1, player.getPosZ(), 0, 0);
-					ent.func_241841_a(world, null);
+					LightningBoltEntity lbe = EntityType.LIGHTNING_BOLT.create(world);
+					lbe.setLocationAndAngles(player.getPosX(), player.getPosY() + 1, player.getPosZ(), 0, 0);
+					ent.func_241841_a(world, lbe);
 					world.addEntity(ent);
 				}
 				else if(reward == 2)

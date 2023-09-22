@@ -8,14 +8,13 @@ import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Map;
 
 public class CakeIsALieReward extends BaseCustomReward
 {
@@ -56,8 +55,10 @@ public class CakeIsALieReward extends BaseCustomReward
 						RewardsUtil.sendMessageToNearPlayers(world, pos, 32, "It's a lie!!!");
 						CreeperEntity creeper = EntityType.CREEPER.create(world);
 						creeper.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), pos.getX() == 1 ? 90 : -90, 0);
+						LightningBoltEntity lbe = EntityType.LIGHTNING_BOLT.create(world);
+						lbe.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 						if(RewardsUtil.rand.nextInt(100) < lieChance)
-							creeper.func_241841_a(world, null);
+							creeper.func_241841_a(world, lbe);
 						creeper.addPotionEffect(new EffectInstance(Effects.SPEED, 9999, 2));
 						creeper.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60, 999));
 						world.addEntity(creeper);
