@@ -35,9 +35,6 @@ runs {
         // Recommended logging level for the console
         systemProperty 'forge.logging.console.level', 'info'
 
-        //Limit ram usage for the dev environment to 4GB
-        jvmArgument '-Xmx4G'
-
         modSource project.sourceSets.main
     }
 
