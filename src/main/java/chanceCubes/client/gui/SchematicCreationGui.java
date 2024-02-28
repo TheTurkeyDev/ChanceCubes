@@ -9,8 +9,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SchematicCreationGui extends Screen
@@ -86,10 +86,10 @@ public class SchematicCreationGui extends Screen
 		}
 	}
 
-	public boolean charTyped(char p_73869_1_, int p_73869_2_)
+	public boolean charTyped(char codePoint, int modifiers)
 	{
-		if(!this.nameField.charTyped(p_73869_1_, p_73869_2_))
-			return super.charTyped(p_73869_1_, p_73869_2_);
+		if(!this.nameField.charTyped(codePoint, modifiers))
+			return super.charTyped(codePoint, modifiers);
 		return false;
 	}
 
@@ -103,7 +103,7 @@ public class SchematicCreationGui extends Screen
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground(guiGraphics); //TODO: Test if this works or else feed the blit
+		renderBackground(guiGraphics, mouseX, mouseY, partialTicks); //TODO: Test if this works or else feed the blit
 //		poseStack.blit(INSERT_TEXTURE, 0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
 			this.nameField.render(guiGraphics, mouseX, mouseY, partialTicks);

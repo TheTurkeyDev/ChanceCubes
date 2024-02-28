@@ -60,7 +60,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				List<Slime> slimes = level.getEntities(EntityType.SLIME, new AABB(pos.offset(-25, -25, -25), pos.offset(25, 25, 25)), EntitySelector.NO_SPECTATORS);
+				List<Slime> slimes = level.getEntities(EntityType.SLIME, new AABB(pos).inflate(25), EntitySelector.NO_SPECTATORS);
 				CCubesCore.logger.log(Level.INFO, slimes.size());
 				for(Slime slime : slimes)
 					slime.remove(Entity.RemovalReason.DISCARDED);

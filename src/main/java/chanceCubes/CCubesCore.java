@@ -7,6 +7,7 @@ import chanceCubes.commands.CCubesServerCommands;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.containers.CCubesMenus;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
@@ -22,20 +23,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,7 +54,7 @@ public class CCubesCore
 
 	public static final Logger logger = LogManager.getLogger(MODID);
 
-	public CCubesCore()
+	public CCubesCore(IEventBus eventBus)
 	{
 		try
 		{
@@ -85,34 +84,34 @@ public class CCubesCore
 			e.printStackTrace();
 		}
 
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		CCubesBlocks.BLOCKS.register(eventBus);
 		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
 		CCubesItems.ITEMS.register(eventBus);
 		CCubesItems.CREATIVE_MODE_TABS.register(eventBus);
+		CCubesMenus.MENU_TYPES.register(eventBus);
 		CCubesSounds.SOUNDS.register(eventBus);
 		CCubesModifiers.BIOME_MODIFIER_SERIALIZERS.register(eventBus);
 		CCubesRewardArguments.COMMAND_ARGUMENT_TYPES.register(eventBus);
+		StatsRegistry.CUSTOM_STAT.register(eventBus);
 		WorldGen.FEATURES.register(eventBus);
+		eventBus.addListener(CCubesPacketHandler::setupPackets);
 		eventBus.addListener(this::commonStart);
 		eventBus.addListener(this::onIMCMessage);
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+		if(FMLEnvironment.dist.isClient())
 		{
 			eventBus.addListener(ClientHelper::clientStart);
 			eventBus.addListener(ClientHelper::onEntityRenders);
-			MinecraftForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
-		});
-		MinecraftForge.EVENT_BUS.register(this);
+			NeoForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
+		}
+		NeoForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 	}
 
 	public void commonStart(FMLCommonSetupEvent event)
 	{
-		CCubesPacketHandler.init();
-		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
-		MinecraftForge.EVENT_BUS.register(new TickListener());
-		event.enqueueWork(StatsRegistry::init);
+		NeoForge.EVENT_BUS.register(new PlayerConnectListener());
+		NeoForge.EVENT_BUS.register(new TickListener());
 	}
 
 	@SubscribeEvent

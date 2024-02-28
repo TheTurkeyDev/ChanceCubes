@@ -43,5 +43,10 @@
 
     "stat.chancecubes.opened_chance_cube": "Chance Cubes Opened",
     "stat.chancecubes.opened_giant_chance_cube": "Giant Chance Cubes Opened",
-    "stat.chancecubes.opened_d20": "Chance Icosahedrons Opened"
+    "stat.chancecubes.opened_d20": "Chance Icosahedrons Opened",
+
+    "chancecubes.networking.creative_pendant.failed": "Failed to set the chance of a cube. %s",
+    "chancecubes.networking.cube_scan.failed": "Failed to scan the cube at %s. %s",
+    "chancecubes.networking.reward_selector.failed": "Failed to set the reward. %s",
+    "chancecubes.networking.trigger_d20.failed": "Failed to trigger the d20. %s"
 }

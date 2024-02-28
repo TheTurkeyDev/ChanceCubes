@@ -4,11 +4,11 @@ import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.mcwrapper.BlockWrapper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -95,7 +95,7 @@ public class NonreplaceableBlockOverride
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
 		output.overrideType = OverrideType.REMOVE;
-		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).defaultBlockState();
+		output.overriddenBlock = BuiltInRegistries.BLOCK.get(new ResourceLocation(substring)).defaultBlockState(); 
 		return output;
 	}
 
@@ -109,7 +109,7 @@ public class NonreplaceableBlockOverride
 	{
 		NonreplaceableBlockOverride output = new NonreplaceableBlockOverride();
 		output.overrideType = OverrideType.ADD;
-		output.overriddenBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(substring)).defaultBlockState();
+		output.overriddenBlock = BuiltInRegistries.BLOCK.get(new ResourceLocation(substring)).defaultBlockState();
 		return output;
 	}
 

@@ -23,10 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
 
 public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 {
@@ -48,9 +46,8 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
+	public BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
 	{
-		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
 		{
@@ -62,7 +59,7 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				level.removeBlockEntity(pos);
 				level.addFreshEntity(blockStack);
-				return;
+				return super.playerWillDestroy(level, pos, state, player);
 			}
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
@@ -74,8 +71,9 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 					GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
 				}
 			});
-			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE);
+			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE.get());
 		}
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class CreativePendantContainer extends AbstractContainerMenu
 
 	public CreativePendantContainer(int windowId, Inventory inv)
 	{
-		super(CCubesItems.CREATIVE_PENDANT_CONTAINER, windowId);
+		super(CCubesMenus.CREATIVE_PENDANT_CONTAINER.get(), windowId);
 
 		this.addSlot(new Slot(pendantSlot, 0, 80, 50)
 		{

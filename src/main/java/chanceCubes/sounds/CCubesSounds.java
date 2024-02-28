@@ -1,23 +1,22 @@
 package chanceCubes.sounds;
 
 import chanceCubes.CCubesCore;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+//@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CCubesSounds
 {
-	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, CCubesCore.MODID);
+	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, CCubesCore.MODID);
 
-	public static RegistryObject<SoundEvent> D20_BREAK = SOUNDS.register("d20_break", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "d20_break")));
-	public static RegistryObject<SoundEvent> GIANT_CUBE_SPAWN = SOUNDS.register("giant_cube_spawn", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn")));
+	public static DeferredHolder<SoundEvent, SoundEvent> D20_BREAK = SOUNDS.register("d20_break", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "d20_break")));
+	public static DeferredHolder<SoundEvent, SoundEvent> GIANT_CUBE_SPAWN = SOUNDS.register("giant_cube_spawn", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CCubesCore.MODID, "giant_cube_spawn")));
 
 	public static final Map<String, SoundEvent> customSounds = new HashMap<>();
 

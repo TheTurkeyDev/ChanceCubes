@@ -29,7 +29,7 @@ public class JukeBoxReward extends BaseCustomReward
 		ItemStack disc = discs[RewardsUtil.rand.nextInt(discs.length)];
 		BlockEntity blockentity = level.getBlockEntity(pos);
 		if(blockentity instanceof JukeboxBlockEntity jukeboxBlock)
-			jukeboxBlock.setFirstItem(disc);
+			jukeboxBlock.setTheItem(disc);
 		level.levelEvent(null, 1010, pos, Item.getId(disc.getItem()));
 	}
 }

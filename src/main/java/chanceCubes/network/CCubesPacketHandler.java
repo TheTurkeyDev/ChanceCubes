@@ -1,29 +1,24 @@
 package chanceCubes.network;
 
 import chanceCubes.CCubesCore;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkConstants;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
 
 public class CCubesPacketHandler
 {
-	private static int id = 0;
-	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CCubesCore.MODID, "packets")).clientAcceptedVersions(a -> true).serverAcceptedVersions(a -> true).networkProtocolVersion(() -> NetworkConstants.NETVERSION).simpleChannel();
+//	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CCubesCore.MODID, "packets")).clientAcceptedVersions(a -> true).serverAcceptedVersions(a -> true).networkProtocolVersion(() -> NetworkConstants.NETVERSION).simpleChannel();
 
+	public static void setupPackets(final RegisterPayloadHandlerEvent event) {
+		final IPayloadRegistrar registrar = event.registrar(CCubesCore.MODID);
 
-	public static void init()
-	{
-		CHANNEL.registerMessage(id++, PacketCreativePendant.class, PacketCreativePendant::encode, PacketCreativePendant::decode, PacketCreativePendant::handle);
-		CHANNEL.registerMessage(id++, PacketRewardSelector.class, PacketRewardSelector::encode, PacketRewardSelector::decode, PacketRewardSelector::handle);
-		CHANNEL.registerMessage(id++, PacketTriggerD20.class, PacketTriggerD20::encode, PacketTriggerD20::decode, PacketTriggerD20::handle);
-		CHANNEL.registerMessage(id++, PacketCubeScan.class, PacketCubeScan::encode, PacketCubeScan::decode, PacketCubeScan::handle);
-	}
+		registrar.play(PacketTriggerD20.ID, PacketTriggerD20::new, handler -> handler
+				.client(PacketTriggerD20::handle));
 
-	public static void sendToPlayer(Object msg, ServerPlayer player)
-	{
-		CHANNEL.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+		registrar.play(PacketCreativePendant.ID, PacketCreativePendant::new, handler -> handler
+				.server(PacketCreativePendant::handle));
+		registrar.play(PacketRewardSelector.ID, PacketRewardSelector::new, handler -> handler
+				.server(PacketRewardSelector::handle));
+		registrar.play(PacketCubeScan.ID, PacketCubeScan::new, handler -> handler
+				.server(PacketCubeScan::handle));
 	}
 }

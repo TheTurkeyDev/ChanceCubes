@@ -18,8 +18,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 
 public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 {
@@ -36,7 +34,7 @@ public class ItemRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getItemInHand(hand);
 		if(player.isCrouching() && level.isClientSide() && player.isCreative())
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHelper.openRewardSelectorGUI(player, stack));
+			ClientHelper.openRewardSelectorGUI(player, stack);
 		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 	}
 

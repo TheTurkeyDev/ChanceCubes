@@ -1,26 +1,27 @@
 package chanceCubes.client;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.client.gui.CreativePendantScreen;
 import chanceCubes.client.gui.RewardSelectorPendantScreen;
 import chanceCubes.client.gui.SchematicCreationGui;
 import chanceCubes.client.listeners.RenderEvent;
 import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesClientCommands;
+import chanceCubes.containers.CCubesMenus;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.listeners.BlockListener;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 
 public class ClientHelper
@@ -28,9 +29,9 @@ public class ClientHelper
 	@SubscribeEvent
 	public static void clientStart(FMLClientSetupEvent event)
 	{
-		MinecraftForge.EVENT_BUS.register(new RenderEvent());
-		MinecraftForge.EVENT_BUS.register(new WorldRenderListener());
-		MinecraftForge.EVENT_BUS.register(new BlockListener());
+		NeoForge.EVENT_BUS.register(new RenderEvent());
+		NeoForge.EVENT_BUS.register(new WorldRenderListener());
+		NeoForge.EVENT_BUS.register(new BlockListener());
 
 		//TODO
 //		RenderTypeLookup.setRenderLayer(CCubesBlocks.CHANCE_ICOSAHEDRON, RenderType.cutoutMipped());
@@ -45,6 +46,12 @@ public class ClientHelper
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), p_173571_ -> new TileGiantCubeRenderer());
 	}
 
+	@SubscribeEvent
+	public static void onRegisterMenuScreens(RegisterMenuScreensEvent event)
+	{
+		event.register(CCubesMenus.CREATIVE_PENDANT_CONTAINER.get(), CreativePendantScreen::new);
+	}
+
 	public static void onClientCommandsRegister(RegisterClientCommandsEvent event)
 	{
 		new CCubesClientCommands(event.getDispatcher());
@@ -57,7 +64,7 @@ public class ClientHelper
 
 	public static void openCreativePendantGUI(Player player, ItemStack stack)
 	{
-		NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
+		player.openMenu(new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
 	}
 
 	public static void openSchematicCreatorGUI(Player player)

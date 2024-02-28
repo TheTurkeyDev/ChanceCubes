@@ -2,7 +2,6 @@ package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.mcwrapper.ComponentWrapper;
-import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -12,8 +11,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantScreen extends Screen
@@ -58,7 +58,7 @@ public class RewardSelectorPendantScreen extends Screen
 				nbt = new CompoundTag();
 			nbt.putString("Reward", rewardName);
 			stack.setTag(nbt);
-			CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getValue()));
+			PacketDistributor.SERVER.noArg().send(new PacketRewardSelector(rewardField.getValue()));
 			rewardName = rewardField.getValue();
 			player.closeContainer();
 		}).bounds(i + 57, j + 27, 70, 20).build());

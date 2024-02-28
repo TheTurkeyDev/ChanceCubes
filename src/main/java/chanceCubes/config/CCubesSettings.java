@@ -3,9 +3,9 @@ package chanceCubes.config;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 import java.util.ArrayList;
 import java.util.List;
