@@ -1,40 +1,35 @@
 {
     "parent": "chancecubes:block/chance_icosahedron",
     "display": {
-        "firstperson_righthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 4, 4, 4 ],
-            "scale": [ 0.5, 0.5, 0.5 ]
-        },
-        "firstperson_lefthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 2, 0, -2 ],
-            "scale": [ 0.5, 0.5, 0.5 ]
-        },
         "thirdperson_righthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 2, 5, 2 ],
-            "scale": [ 0.375, 0.375, 0.375 ]
+            "translation": [3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
         },
         "thirdperson_lefthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ -2, 5, 2 ],
-            "scale": [ 0.375, 0.375, 0.375 ]
+            "translation": [-3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
         },
-        "gui": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 6, 6, 0 ],
-            "scale": [ 0.75, 0.75, 0.75 ]
+        "firstperson_righthand": {
+            "translation": [3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
         },
-        "fixed": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 6, 6, 6 ],
-            "scale": [ 0.75, 0.75, 0.75 ]
+        "firstperson_lefthand": {
+            "translation": [-3, 3, 3],
+            "scale": [0.375, 0.375, 0.375]
         },
         "ground": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 4, 4, 4 ],
-            "scale": [ 0.5, 0.5, 0.5 ]
+            "translation": [8, 12, 8],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "gui": {
+            "translation": [8, 8, 8]
+        },
+        "head": {
+            "translation": [3, 16, 3],
+            "scale": [0.375, 0.375, 0.375]
+        },
+        "fixed": {
+            "translation": [8, 8, 8]
         }
     }
 }

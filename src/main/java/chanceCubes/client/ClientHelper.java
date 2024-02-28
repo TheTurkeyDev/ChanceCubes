@@ -9,6 +9,7 @@ import chanceCubes.commands.CCubesClientCommands;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.listeners.BlockListener;
 import chanceCubes.network.CCubesNetwork;
+import chanceCubes.renderer.TileChanceD20Renderer;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
@@ -43,7 +44,7 @@ public class ClientHelper
 	@SubscribeEvent
 	public static void onEntityRenders(EntityRenderersEvent.RegisterRenderers event)
 	{
-		//event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
+		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER.get(), p_173571_ -> new TileCubeDispenserRenderer());
 		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), p_173571_ -> new TileGiantCubeRenderer());
 	}
