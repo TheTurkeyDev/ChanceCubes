@@ -5,7 +5,9 @@ import chanceCubes.items.ItemChanceCube;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.tileentities.TileChanceCube;
 import chanceCubes.util.GiantCubeUtil;
+import chanceCubes.util.Scheduler;
 import chanceCubes.util.StatsRegistry;
+import chanceCubes.util.Task;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
@@ -21,7 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 {
@@ -37,15 +40,14 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state)
 	{
 		return new TileChanceCube(pos, state);
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
+	public BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
 	{
-		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
 		{
@@ -57,17 +59,25 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				level.removeBlockEntity(pos);
 				level.addFreshEntity(blockStack);
-				return;
+				return super.playerWillDestroy(level, pos, state, player);
 			}
 
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-			GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
-			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE);
+			Scheduler.scheduleTask(new Task("reward_delay", 1)
+			{
+				@Override
+				public void callback()
+				{
+					GlobalCCRewardRegistry.DEFAULT.triggerRandomReward((ServerLevel) level, pos, player, te.getChance());
+				}
+			});
+			player.awardStat(StatsRegistry.OPENED_CHANCE_CUBE.get());
 		}
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean p_60570_)
+	public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state2, boolean p_60570_)
 	{
 		GiantCubeUtil.checkMultiBlockForm(pos, level, true);
 		super.onPlace(state, level, pos, state2, p_60570_);

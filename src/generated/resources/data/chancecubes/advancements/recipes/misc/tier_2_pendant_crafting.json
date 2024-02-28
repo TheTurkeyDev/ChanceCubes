@@ -1,0 +1,56 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_GOLD_block": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:storage_blocks/gold"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lapis_block": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:storage_blocks/lapis"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_pendant": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "chancecubes:chance_pendant_tier1"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "chancecubes:tier_2_pendant_crafting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lapis_block",
+      "has_pendant",
+      "has_GOLD_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "chancecubes:tier_2_pendant_crafting"
+    ]
+  }
+}

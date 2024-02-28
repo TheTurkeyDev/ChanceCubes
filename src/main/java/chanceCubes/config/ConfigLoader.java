@@ -6,11 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.Level;
 
@@ -27,7 +27,7 @@ public class ConfigLoader
 {
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	public static final ForgeConfigSpec configSpec;
+	public static final ModConfigSpec configSpec;
 	public static final ConfigLoader CONFIG;
 
 	public static File globalDisableConfig;
@@ -37,7 +37,7 @@ public class ConfigLoader
 
 	static
 	{
-		final Pair<ConfigLoader, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigLoader::new);
+		final Pair<ConfigLoader, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ConfigLoader::new);
 		configSpec = specPair.getRight();
 		CONFIG = specPair.getLeft();
 	}
@@ -57,7 +57,7 @@ public class ConfigLoader
 	 * <b>Do not use outside of postInit eventhandler</b>
 	 * instead.
 	 */
-	public ConfigLoader(ForgeConfigSpec.Builder builder)
+	public ConfigLoader(ModConfigSpec.Builder builder)
 	{
 		builder.push(genCat).comment("Set to false to disable a specific reward");
 

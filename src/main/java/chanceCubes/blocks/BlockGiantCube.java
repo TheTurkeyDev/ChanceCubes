@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
@@ -47,9 +47,8 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
+	public BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player)
 	{
-		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
 		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
 		{
@@ -57,7 +56,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 			{
 				popResource(level, pos, new ItemStack(CCubesBlocks.COMPACT_GIANT_CUBE.get()));
 				GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
-				return;
+				return super.playerWillDestroy(level, pos, state, player);
 			}
 
 			if(!gcte.hasMaster() || !gcte.checkForMaster())
@@ -65,9 +64,10 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 
 			ServerLevel serverWorld = (ServerLevel) level;
 			RewardsUtil.executeCommand(serverWorld, player, player.getOnPos(), "/advancement grant @p only chancecubes:giant_chance_cube");
-			player.awardStat(StatsRegistry.OPENED_GIANT_CHANCE_CUBE);
+			player.awardStat(StatsRegistry.OPENED_GIANT_CHANCE_CUBE.get());
 			GlobalCCRewardRegistry.GIANT.triggerRandomReward(serverWorld, gcte.getMasterPostion(), player, 0);
 			GiantCubeUtil.removeStructure(gcte.getMasterPostion(), level);
 		}
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 }

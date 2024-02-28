@@ -2,7 +2,6 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.listeners.RenderEvent;
-import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
 import net.minecraft.core.BlockPos;
@@ -16,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ItemScanner extends BaseChanceCubesItem
 {
@@ -71,7 +71,7 @@ public class ItemScanner extends BaseChanceCubesItem
 						if(te != null)
 						{
 							te.setScanned(true);
-							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getBlockPos()));
+							PacketDistributor.SERVER.noArg().send(new PacketCubeScan(te.getBlockPos()));
 							flag = true;
 							RenderEvent.setLookingAtChance(te.getChance());
 						}

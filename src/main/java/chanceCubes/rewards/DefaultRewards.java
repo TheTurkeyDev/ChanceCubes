@@ -61,7 +61,7 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -222,7 +222,7 @@ public class DefaultRewards
 				{
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
-						arrow = new Arrow(level, player);
+						arrow = new Arrow(level, player, ItemStack.EMPTY);
 						arrow.moveTo(pos.getX(), pos.getY() + 0.5f, pos.getZ(), 0, 0);
 						arrow.setDeltaMovement(xx, .3, zz);
 						level.addFreshEntity(arrow);
@@ -303,7 +303,7 @@ public class DefaultRewards
 
 				EntityWrapper.spawnEntityAt(EntityType.END_CRYSTAL, level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
-				Arrow arrow = new Arrow(level, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
+				Arrow arrow = new Arrow(level, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5, ItemStack.EMPTY);
 				arrow.setDeltaMovement(0, -0.25, 0);
 				level.addFreshEntity(arrow);
 			}
@@ -640,19 +640,19 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new LootBoxReward());
 
 		MathReward math = new MathReward();
-		MinecraftForge.EVENT_BUS.register(math);
+		NeoForge.EVENT_BUS.register(math);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(math);
 
 		QuestionsReward question = new QuestionsReward();
-		MinecraftForge.EVENT_BUS.register(question);
+		NeoForge.EVENT_BUS.register(question);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(question);
 
 		CoinFlipReward coinFlip = new CoinFlipReward();
-		MinecraftForge.EVENT_BUS.register(coinFlip);
+		NeoForge.EVENT_BUS.register(coinFlip);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(coinFlip);
 
 		JarGuessReward jarGuess = new JarGuessReward();
-		MinecraftForge.EVENT_BUS.register(jarGuess);
+		NeoForge.EVENT_BUS.register(jarGuess);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(jarGuess);
 	}
 }

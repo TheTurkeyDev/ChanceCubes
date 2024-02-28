@@ -3,7 +3,6 @@ package chanceCubes.client.gui;
 import chanceCubes.CCubesCore;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.mcwrapper.ComponentWrapper;
-import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCreativePendant;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -11,8 +10,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
 public class CreativePendantScreen extends AbstractContainerScreen<CreativePendantContainer>
@@ -38,7 +38,7 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("+5"), p_onPress_1_ -> this.changeChanceValue(5)).bounds(halfWidth + 35, halfHeight - 60, 20, 20).build());
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("-10"), p_onPress_1_ -> this.changeChanceValue(-10)).bounds(halfWidth - 80, halfHeight - 60, 20, 20).build());
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("+10"), p_onPress_1_ -> this.changeChanceValue(10)).bounds(halfWidth + 55, halfHeight - 60, 20, 20).build());
-		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Chance"), p_onPress_1_ -> CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(this.chanceValue))).bounds(halfWidth + 12, halfHeight - 35, 70, 20).build());
+		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Chance"), p_onPress_1_ -> PacketDistributor.SERVER.noArg().send(new PacketCreativePendant(this.chanceValue))).bounds(halfWidth + 12, halfHeight - 35, 70, 20).build());
 	}
 
 	public void changeChanceValue(int amount)
@@ -51,7 +51,7 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float p_97788_, int p_97789_, int p_97790_)
+	protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
 	{
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
@@ -59,7 +59,7 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 	}
 
 	@Override
-	protected void renderLabels(GuiGraphics guiGraphics, int p_97936_, int p_97937_)
+	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY)
 	{
 		guiGraphics.drawString(this.font, "Chance Value", 50, 5, 0, false);
 		String cValue = String.valueOf(this.chanceValue);
@@ -67,10 +67,10 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int p_97922_, int p_97923_, float p_97924_)
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
 	{
-		this.renderBackground(guiGraphics);
-		super.render(guiGraphics, p_97922_, p_97923_, p_97924_);
-		this.renderTooltip(guiGraphics, p_97922_, p_97923_);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+		super.render(guiGraphics, mouseX, mouseY, partialTick);
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 }

@@ -1,49 +1,53 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
-public class PacketTriggerD20
+public record PacketTriggerD20(BlockPos pos) implements CustomPacketPayload
 {
-	public final BlockPos pos;
+	public static final ResourceLocation ID = new ResourceLocation(CCubesCore.MODID, "trigger_d20");
 
-	public PacketTriggerD20(BlockPos pos)
+	public PacketTriggerD20(FriendlyByteBuf buf)
 	{
-		this.pos = pos;
+		this(buf.readBlockPos());
 	}
 
-	public static void encode(PacketTriggerD20 msg, FriendlyByteBuf buf)
+	public void write(FriendlyByteBuf buf)
 	{
-		buf.writeBlockPos(msg.pos);
+		buf.writeBlockPos(pos);
 	}
 
-	public static PacketTriggerD20 decode(FriendlyByteBuf buf)
+	@Override
+	public ResourceLocation id()
 	{
-		return new PacketTriggerD20(buf.readBlockPos());
+		return ID;
 	}
 
-	public static void handle(PacketTriggerD20 msg, Supplier<NetworkEvent.Context> ctx)
+	public static void handle(final PacketTriggerD20 msg, final PlayPayloadContext context)
 	{
-		ctx.get().enqueueWork(() ->
-		{
-			Optional<Level> levelOpt = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
-			if(levelOpt.isPresent())
-			{
-				BlockEntity ico;
+		context.workHandler().submitAsync(() -> {
+					if (context.player().isPresent()) {
+						Player player = context.player().get();
+						Level level = player.level();
+						BlockEntity ico;
 
-//				Level level = levelOpt.get();
-//				if((ico = level.getBlockEntity(msg.pos)) != null)
-//					if(ico instanceof TileChanceD20 && level.players().size() > 0)
-//						((TileChanceD20) ico).startBreaking(level.players().get(0));
-			}
-		});
-		ctx.get().setPacketHandled(true);
+//						if ((ico = level.getBlockEntity(msg.pos)) != null)
+//							if (ico instanceof TileChanceD20 && level.players().size() > 0)
+//								((TileChanceD20) ico).startBreaking(level.players().get(0));
+					}
+				})
+				.exceptionally(e -> {
+					// Handle exception
+					context.packetHandler().disconnect(Component.translatable("chancecubes.networking.trigger_d20.failed", e.getMessage()));
+					return null;
+				});
 	}
 }

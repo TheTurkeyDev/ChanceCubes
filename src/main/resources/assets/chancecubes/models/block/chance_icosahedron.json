@@ -1,7 +1,7 @@
 {
-  "parent": "forge:block/default",
+  "parent": "neoforge:block/default",
   "model": "chancecubes:models/block/chance_icosahedron.obj",
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "flip-v": true,
   "textures": {
     "all": "chancecubes:block/chance_icosahedron"

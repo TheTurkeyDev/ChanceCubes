@@ -82,7 +82,7 @@
 //			}
 //
 //			RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
-//			player.awardStat(StatsRegistry.OPENED_D20);
+//			player.awardStat(StatsRegistry.OPENED_D20.get());
 //			te.startBreaking(player);
 //			CCubesPacketHandler.CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())), new PacketTriggerD20(pos));
 //		}

@@ -20,10 +20,10 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.util.thread.EffectiveSide;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;

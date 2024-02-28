@@ -31,9 +31,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.server.command.EnumArgument;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;

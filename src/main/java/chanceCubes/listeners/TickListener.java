@@ -1,11 +1,11 @@
 package chanceCubes.listeners;
 
 import chanceCubes.util.Scheduler;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.TickEvent.Type;
-import net.minecraftforge.event.TickEvent.Phase;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.event.TickEvent.ServerTickEvent;
+import net.neoforged.neoforge.event.TickEvent.Type;
+import net.neoforged.neoforge.event.TickEvent.Phase;
 
 public class TickListener
 {

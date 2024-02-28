@@ -22,10 +22,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.common.UsernameCache;
+import net.neoforged.neoforge.common.util.LogicalSidedProvider;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;

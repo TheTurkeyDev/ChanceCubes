@@ -1,15 +1,14 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.rewards.variableTypes.IntVar;
-import chanceCubes.rewards.variableTypes.StringVar;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class EffectPart extends BasePart
 {
@@ -26,7 +25,7 @@ public class EffectPart extends BasePart
 
 	public EffectPart(MobEffect effect, IntVar duration, IntVar amplifier)
 	{
-		this(new StringVar(String.valueOf(ForgeRegistries.MOB_EFFECTS.getKey(effect))), duration, amplifier);
+		this(new StringVar(String.valueOf(BuiltInRegistries.MOB_EFFECT.getKey(effect))), duration, amplifier);
 	}
 
 	public EffectPart(String id, int duration, int amplifier)
@@ -63,9 +62,9 @@ public class EffectPart extends BasePart
 
 		String val = id.getValue();
 		if(IntVar.isInteger(val))
-			pot = MobEffect.byId(Integer.parseInt(val));
+			pot = BuiltInRegistries.MOB_EFFECT.byId(Integer.parseInt(val));
 		else
-			pot = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(val));
+			pot = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(val));
 
 		if(pot == null)
 		{

@@ -38,8 +38,8 @@ public class BasicTreesBiome extends BaseBiome
 			return;
 		if(dist < 0 && rand.nextInt(5) == 0)
 		{
-			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.GRASS, false, (delay / BioDomeGen.delayShorten));
-			osb.setBlockState(Blocks.GRASS.defaultBlockState());
+			OffsetBlock osb = new OffsetBlock(x, y + 1, z, Blocks.SHORT_GRASS, false, (delay / BioDomeGen.delayShorten));
+			osb.setBlockState(Blocks.SHORT_GRASS.defaultBlockState());
 			blocks.add(osb);
 		}
 		else if(dist < -5 && rand.nextInt(100) == 0)
