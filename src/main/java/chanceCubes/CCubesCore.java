@@ -12,7 +12,7 @@ import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
 import chanceCubes.listeners.WorldGen;
 import chanceCubes.modifier.CCubesModifiers;
-import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.CCubesNetwork;
 import chanceCubes.rewards.DefaultGiantRewards;
 import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
@@ -85,6 +85,8 @@ public class CCubesCore
 			e.printStackTrace();
 		}
 
+		CCubesNetwork.init();
+
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		CCubesBlocks.BLOCKS.register(eventBus);
 		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
@@ -109,7 +111,6 @@ public class CCubesCore
 
 	public void commonStart(FMLCommonSetupEvent event)
 	{
-		CCubesPacketHandler.init();
 		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
 		MinecraftForge.EVENT_BUS.register(new TickListener());
 		event.enqueueWork(StatsRegistry::init);

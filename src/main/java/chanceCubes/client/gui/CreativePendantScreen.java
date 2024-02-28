@@ -1,9 +1,10 @@
 package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.mcwrapper.ComponentWrapper;
-import chanceCubes.network.CCubesPacketHandler;
+import chanceCubes.network.CCubesNetwork;
 import chanceCubes.network.PacketCreativePendant;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -38,7 +39,7 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("+5"), p_onPress_1_ -> this.changeChanceValue(5)).bounds(halfWidth + 35, halfHeight - 60, 20, 20).build());
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("-10"), p_onPress_1_ -> this.changeChanceValue(-10)).bounds(halfWidth - 80, halfHeight - 60, 20, 20).build());
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("+10"), p_onPress_1_ -> this.changeChanceValue(10)).bounds(halfWidth + 55, halfHeight - 60, 20, 20).build());
-		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Chance"), p_onPress_1_ -> CCubesPacketHandler.CHANNEL.sendToServer(new PacketCreativePendant(this.chanceValue))).bounds(halfWidth + 12, halfHeight - 35, 70, 20).build());
+		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Chance"), p_onPress_1_ -> ClientHelper.sendToServer(new PacketCreativePendant(this.chanceValue))).bounds(halfWidth + 12, halfHeight - 35, 70, 20).build());
 	}
 
 	public void changeChanceValue(int amount)
@@ -67,10 +68,10 @@ public class CreativePendantScreen extends AbstractContainerScreen<CreativePenda
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int p_97922_, int p_97923_, float p_97924_)
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBackground(guiGraphics);
-		super.render(guiGraphics, p_97922_, p_97923_, p_97924_);
-		this.renderTooltip(guiGraphics, p_97922_, p_97923_);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 }

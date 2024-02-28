@@ -23,10 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
 
 public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 {
@@ -52,7 +49,7 @@ public class BlockChanceCube extends BaseChanceBlock implements EntityBlock
 	{
 		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
-		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileChanceCube te)
+		if(!level.isClientSide() && be instanceof TileChanceCube te)
 		{
 			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT.get()))
 			{

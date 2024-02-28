@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
@@ -51,7 +50,7 @@ public class BlockGiantCube extends BaseChanceBlock implements EntityBlock
 	{
 		super.playerWillDestroy(level, pos, state, player);
 		BlockEntity be = level.getBlockEntity(pos);
-		if(!level.isClientSide() && !(player instanceof FakePlayer) && be instanceof TileGiantCube gcte)
+		if(!level.isClientSide() && be instanceof TileGiantCube gcte)
 		{
 			if(!player.getInventory().getSelected().isEmpty() && player.getInventory().getSelected().getItem().equals(CCubesItems.SILK_PENDANT.get()))
 			{

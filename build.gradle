@@ -24,7 +24,7 @@ tasks.withType(JavaCompile).configureEach {
 
 minecraft {
     mappings channel: 'official', version: "${mc_version}"
-
+    copyIdeResources = true
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // default run configurations.

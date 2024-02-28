@@ -103,7 +103,7 @@ public class SchematicCreationGui extends Screen
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground(guiGraphics); //TODO: Test if this works or else feed the blit
+		renderBackground(guiGraphics, mouseX, mouseY, partialTicks); //TODO: Test if this works or else feed the blit
 //		poseStack.blit(INSERT_TEXTURE, 0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
 			this.nameField.render(guiGraphics, mouseX, mouseY, partialTicks);

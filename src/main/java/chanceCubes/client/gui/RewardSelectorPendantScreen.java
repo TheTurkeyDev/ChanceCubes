@@ -1,8 +1,8 @@
 package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.mcwrapper.ComponentWrapper;
-import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketRewardSelector;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -58,7 +58,7 @@ public class RewardSelectorPendantScreen extends Screen
 				nbt = new CompoundTag();
 			nbt.putString("Reward", rewardName);
 			stack.setTag(nbt);
-			CCubesPacketHandler.CHANNEL.sendToServer(new PacketRewardSelector(rewardField.getValue()));
+			ClientHelper.sendToServer(new PacketRewardSelector(rewardField.getValue()));
 			rewardName = rewardField.getValue();
 			player.closeContainer();
 		}).bounds(i + 57, j + 27, 70, 20).build());

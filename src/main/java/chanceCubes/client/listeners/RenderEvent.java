@@ -25,7 +25,6 @@ public class RenderEvent
 		if (event.getOverlay().id() != VanillaGuiOverlay.TITLE_TEXT.id() || event.isCancelable())
 			return;
 
-
 		int k = event.getWindow().getGuiScaledWidth();
 		int l = event.getWindow().getGuiScaledHeight();
 

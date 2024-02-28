@@ -8,6 +8,7 @@ import chanceCubes.client.listeners.WorldRenderListener;
 import chanceCubes.commands.CCubesClientCommands;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.listeners.BlockListener;
+import chanceCubes.network.CCubesNetwork;
 import chanceCubes.renderer.TileCubeDispenserRenderer;
 import chanceCubes.renderer.TileGiantCubeRenderer;
 import net.minecraft.client.Minecraft;
@@ -15,12 +16,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PacketDistributor;
 
 
 public class ClientHelper
@@ -57,7 +60,7 @@ public class ClientHelper
 
 	public static void openCreativePendantGUI(Player player, ItemStack stack)
 	{
-		NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
+		player.openMenu(new SimpleMenuProvider((w, p, pl) -> new CreativePendantContainer(w, p), stack.getHoverName()));
 	}
 
 	public static void openSchematicCreatorGUI(Player player)
@@ -65,5 +68,9 @@ public class ClientHelper
 		Minecraft.getInstance().setScreen(new SchematicCreationGui(player));
 	}
 
+	public static <T> void sendToServer(T packet)
+	{
+		CCubesNetwork.CHANNEL.send(packet, PacketDistributor.SERVER.noArg());
+	}
 
 }

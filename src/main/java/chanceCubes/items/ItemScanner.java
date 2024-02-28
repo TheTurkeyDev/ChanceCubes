@@ -1,8 +1,8 @@
 package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.client.ClientHelper;
 import chanceCubes.client.listeners.RenderEvent;
-import chanceCubes.network.CCubesPacketHandler;
 import chanceCubes.network.PacketCubeScan;
 import chanceCubes.tileentities.TileChanceCube;
 import net.minecraft.core.BlockPos;
@@ -71,7 +71,7 @@ public class ItemScanner extends BaseChanceCubesItem
 						if(te != null)
 						{
 							te.setScanned(true);
-							CCubesPacketHandler.CHANNEL.sendToServer(new PacketCubeScan(te.getBlockPos()));
+							ClientHelper.sendToServer(new PacketCubeScan(te.getBlockPos()));
 							flag = true;
 							RenderEvent.setLookingAtChance(te.getChance());
 						}

@@ -1,15 +1,14 @@
 package chanceCubes.rewards.rewardparts;
 
+import chanceCubes.CCubesCore;
+import chanceCubes.rewards.variableTypes.IntVar;
+import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import org.apache.logging.log4j.Level;
-
-import chanceCubes.CCubesCore;
-import chanceCubes.rewards.variableTypes.IntVar;
-import chanceCubes.rewards.variableTypes.StringVar;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.Level;
 
 public class EffectPart extends BasePart
 {
@@ -59,13 +58,8 @@ public class EffectPart extends BasePart
 
 	public MobEffectInstance getEffect()
 	{
-		MobEffect pot;
-
 		String val = id.getValue();
-		if(IntVar.isInteger(val))
-			pot = MobEffect.byId(Integer.parseInt(val));
-		else
-			pot = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(val));
+		MobEffect pot = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(val));
 
 		if(pot == null)
 		{
