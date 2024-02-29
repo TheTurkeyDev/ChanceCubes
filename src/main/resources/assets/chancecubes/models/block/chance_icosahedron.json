@@ -2,6 +2,7 @@
   "parent": "forge:block/default",
   "model": "chancecubes:models/block/chance_icosahedron.obj",
   "loader": "forge:obj",
+  "flip_v": true,
   "textures": {
     "all": "chancecubes:block/chance_icosahedron"
   },

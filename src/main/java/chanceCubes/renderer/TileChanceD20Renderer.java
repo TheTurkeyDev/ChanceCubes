@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.lighting.ForgeModelBlockRenderer;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -45,25 +46,20 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 	}
 
 	@Override
-	public void render(TileChanceD20 d20, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn)
+	public void render(@NotNull TileChanceD20 d20, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn)
 	{
 		random.setSeed(432L);
-		VertexConsumer vertexConsumer = bufferIn.getBuffer(RenderType.lightning());
-		poseStack.pushPose();
 
 		// cache model
-		if (this.modelData == null)
-			this.modelData = d20.getModelData();
+		if(modelData == null)
+			modelData = d20.getModelData();
 
 		Level level = d20.getLevel();
 
-		long gameTime = 0;
 
 		int stage = d20.getStage();
 		int maxStage = 200;
-
-		if(level != null)
-			gameTime = level.getGameTime();
+		long gameTime = level != null ? level.getGameTime() : 0;
 
 		float wave;
 		if(stage == 0)
@@ -72,7 +68,34 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 			wave = ((stage + partialTicks) / 70f);
 
 		d20.wave = wave;
-		float rotation = ((float) gameTime + partialTicks) / (ROTATION_SPEED / ((stage / 20) + 1));
+		float rotation = ((float) gameTime + partialTicks) / (ROTATION_SPEED / ((float) (stage / 20) + 1));
+		float scale = Math.max(1.0f - ((float) stage / (float) maxStage), 0.1f);
+
+		poseStack.pushPose();
+		poseStack.translate(0.5D, 0.5D + wave, 0.5D);
+		poseStack.scale(scale, scale, scale);
+		poseStack.mulPose(Axis.YP.rotationDegrees(rotation * 360.0F));
+		BlockState blockState = d20.getBlockState();
+		// render d20 model, based on blockRenderDispatcher.renderSingleBlock()
+		// unfortunately if RenderType is set to anything other than RenderType.MODEL it doesn't load the model,
+		// so instead this is extracted code
+		if(bakedIcoModel == null)
+			bakedIcoModel = blockRenderDispatcher.getBlockModel(blockState);
+
+		int i = this.blockColors.getColor(blockState, null, null, 0);
+		float f = (float) (i >> 16 & 255) / 255.0F;
+		float f1 = (float) (i >> 8 & 255) / 255.0F;
+		float f2 = (float) (i & 255) / 255.0F;
+		modelRenderer.renderModel(poseStack.last(), bufferIn.getBuffer(ItemBlockRenderTypes.getRenderType(blockState, false)), blockState, bakedIcoModel, f, f1, f2, combinedLightIn, combinedOverlayIn);
+		poseStack.popPose();
+
+		renderBeams(poseStack, bufferIn, rotation, wave, gameTime);
+	}
+
+	private static void renderBeams(PoseStack poseStack, MultiBufferSource bufferIn, float rotation, float wave, long gameTime)
+	{
+		poseStack.pushPose();
+		VertexConsumer vertexConsumer = bufferIn.getBuffer(RenderType.lightning());
 		float f7 = Math.min(rotation > 0.8F ? (rotation - 0.8F) / 0.2F : 0.0F, 1.0F);
 
 		float color = (gameTime % 75) / 75F;
@@ -85,18 +108,17 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 
 		for(int i = 0; (float) i < 5; ++i)
 		{
-
 			poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
 			poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
 			poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
 			poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
 			poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
 			poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + rotation * 90.0F));
-			float beamScale = (float) stage / ((float) maxStage * 10f);
+			float beamScale = 0.15f;
 			float f3 = (random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F) * beamScale;
 			float f4 = (random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F) * beamScale;
 			Matrix4f matrix4f = poseStack.last().pose();
-			int alpha = 130;
+			int alpha = 200;
 			vertex01(vertexConsumer, matrix4f, r, g, b, alpha);
 			vertex2(vertexConsumer, matrix4f, f3, f4, r, g, b, alpha);
 			vertex3(vertexConsumer, matrix4f, f3, f4, r, g, b, alpha);
@@ -106,28 +128,9 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 			vertex01(vertexConsumer, matrix4f, r, g, b, alpha);
 			vertex4(vertexConsumer, matrix4f, f3, f4, r, g, b, alpha);
 			vertex2(vertexConsumer, matrix4f, f3, f4, r, g, b, alpha);
-
 		}
 
 		poseStack.popPose();
-
-		float scale = Math.max(1.0f - ((float) stage / (float) maxStage), 0.1f);
-		poseStack.translate(0.5D, 0.5D + wave, 0.5D);
-		poseStack.scale(scale, scale, scale);
-		poseStack.mulPose(Axis.YP.rotationDegrees(rotation * 360.0F));
-		BlockState blockState = d20.getBlockState();
-		// render d20 model, based on blockRenderDispatcher.renderSingleBlock()
-		// unfortunately if RenderType is set to anything other than RenderType.MODEL it doesn't load the model,
-		// so instead this is extracted code
-		if (this.bakedIcoModel == null)
-			this.bakedIcoModel = blockRenderDispatcher.getBlockModel(blockState);
-
-		int i = this.blockColors.getColor(blockState, null, null, 0);
-		float f = (float)(i >> 16 & 255) / 255.0F;
-		float f1 = (float)(i >> 8 & 255) / 255.0F;
-		float f2 = (float)(i & 255) / 255.0F;
-		modelRenderer.renderModel(poseStack.last(), bufferIn.getBuffer(ItemBlockRenderTypes.getRenderType(blockState, false)), blockState, this.bakedIcoModel, f, f1, f2, combinedLightIn, combinedOverlayIn);
-
 	}
 
 	private static void vertex01(VertexConsumer vc, Matrix4f p_114221_, int r, int g, int b, int alpha)
@@ -147,7 +150,7 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 
 	private static void vertex4(VertexConsumer vc, Matrix4f p_114230_, float p_114231_, float p_114232_, int r, int g, int b, int alpha)
 	{
-		vc.vertex(p_114230_, 0.0F, p_114231_, 1.0F * p_114232_).color(r, g, b, 0).endVertex();
+		vc.vertex(p_114230_, 0.0F, p_114231_, p_114232_).color(r, g, b, 0).endVertex();
 	}
 
 }

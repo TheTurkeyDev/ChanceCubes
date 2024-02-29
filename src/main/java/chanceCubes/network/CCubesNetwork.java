@@ -31,7 +31,7 @@ public class CCubesNetwork
 			.consumerNetworkThread(CONTEXT, CCubesPacketHandler::handleRewardSelector)
 			.add()
 
-			.messageBuilder(PacketTriggerD20.class)
+			.messageBuilder(PacketTriggerD20.class, NetworkDirection.PLAY_TO_CLIENT)
 			.decoder(PacketTriggerD20::decode)
 			.encoder(PacketTriggerD20::encode)
 			.consumerNetworkThread(CONTEXT, CCubesPacketHandler::handleTriggerD20)

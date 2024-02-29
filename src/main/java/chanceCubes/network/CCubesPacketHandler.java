@@ -5,6 +5,7 @@ import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
 import chanceCubes.tileentities.TileChanceCube;
+import chanceCubes.tileentities.TileChanceD20;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.world.entity.player.Player;
@@ -74,11 +75,10 @@ public class CCubesPacketHandler
 			if(levelOpt.isPresent())
 			{
 				BlockEntity ico;
-
-//                Level level = levelOpt.get();
-//                if((ico = level.getBlockEntity(msg.pos)) != null)
-//                    if(ico instanceof TileChanceD20 && level.players().size() > 0)
-//                        ((TileChanceD20) ico).startBreaking(level.players().get(0));
+				Level level = levelOpt.get();
+				if((ico = level.getBlockEntity(msg.pos)) != null)
+					if(ico instanceof TileChanceD20 && !level.players().isEmpty())
+						((TileChanceD20) ico).startBreaking(level.players().get(0));
 			}
 		});
 		ctx.setPacketHandled(true);
@@ -91,8 +91,8 @@ public class CCubesPacketHandler
 			BlockEntity te = ctx.getSender().level().getBlockEntity(msg.pos);
 			if(te instanceof TileChanceCube)
 				((TileChanceCube) te).setScanned(true);
-//            else if(te instanceof TileChanceD20)
-//                ((TileChanceD20) te).setScanned(true);
+			else if(te instanceof TileChanceD20)
+				((TileChanceD20) te).setScanned(true);
 		});
 		ctx.setPacketHandled(true);
 	}
