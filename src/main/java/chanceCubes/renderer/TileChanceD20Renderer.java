@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.lighting.ForgeModelBlockRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -32,7 +31,6 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 	private static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
 
 	private static BakedModel bakedIcoModel;
-	private static ModelData modelData;
 
 	private final BlockRenderDispatcher blockRenderDispatcher;
 	private final ModelBlockRenderer modelRenderer;
@@ -50,13 +48,7 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 	{
 		random.setSeed(432L);
 
-		// cache model
-		if(modelData == null)
-			modelData = d20.getModelData();
-
 		Level level = d20.getLevel();
-
-
 		int stage = d20.getStage();
 		int maxStage = 200;
 		long gameTime = level != null ? level.getGameTime() : 0;

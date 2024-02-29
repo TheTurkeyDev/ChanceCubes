@@ -4,7 +4,8 @@
   "loader": "forge:obj",
   "flip_v": true,
   "textures": {
-    "all": "chancecubes:block/chance_icosahedron"
+    "all": "chancecubes:block/chance_icosahedron",
+    "particle": "chancecubes:block/chance_icosahedron"
   },
   "display": {
     "thirdperson_righthand": {
