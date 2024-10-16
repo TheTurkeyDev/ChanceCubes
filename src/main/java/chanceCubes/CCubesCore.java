@@ -63,33 +63,7 @@ public class CCubesCore
 
 	public CCubesCore()
 	{
-		try
-		{
-			SSLContext context = SSLContext.getInstance("TLSv1.2");
-			TrustManager[] trustManager = new TrustManager[]{
-					new X509TrustManager()
-					{
-						public X509Certificate[] getAcceptedIssuers()
-						{
-							return new X509Certificate[0];
-						}
-
-						public void checkClientTrusted(X509Certificate[] certificate, String str)
-						{
-						}
-
-						public void checkServerTrusted(X509Certificate[] certificate, String str)
-						{
-						}
-					}
-			};
-			context.init(null, trustManager, new SecureRandom());
-
-			HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
-		} catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		CCubesNetwork.init();
 
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		CCubesBlocks.BLOCKS.register(eventBus);
