@@ -51,7 +51,7 @@ public class RewardBlockCache
 		BlockEntity te = level.getBlockEntity(adjPos);
 		if(te != null)
 		{
-			oldNBT = te.serializeNBT();
+			oldNBT = te.saveWithoutMetadata(this.level.registryAccess());
 			if(te instanceof Container)
 				((Container) te).clearContent();
 
@@ -80,7 +80,7 @@ public class RewardBlockCache
 				RewardsUtil.placeBlock(storedBlock.oldState, level, worldPos, true);
 				BlockEntity tile = level.getBlockEntity(worldPos);
 				if(storedTE.containsKey(storedBlock.pos) && tile != null)
-					tile.deserializeNBT(storedTE.get(storedBlock.pos));
+					tile.loadWithComponents(storedTE.get(storedBlock.pos), this.level.registryAccess());
 			}
 		}
 

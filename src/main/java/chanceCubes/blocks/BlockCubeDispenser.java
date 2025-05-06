@@ -3,7 +3,6 @@ package chanceCubes.blocks;
 import chanceCubes.tileentities.TileCubeDispenser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +32,7 @@ public class BlockCubeDispenser extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand p_60507_, BlockHitResult p_60508_)
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult result)
 	{
 		if(level.isClientSide())
 			return InteractionResult.PASS;

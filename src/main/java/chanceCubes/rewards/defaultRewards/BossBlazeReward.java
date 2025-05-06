@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 public class BossBlazeReward extends BossBaseReward
 {
@@ -81,7 +82,7 @@ public class BossBlazeReward extends BossBaseReward
 		double d3 = player.getZ() - blaze.getZ();
 		for(int i = 0; i < 5; i++)
 		{
-			SmallFireball entitysmallfireball = new SmallFireball(level, blaze, d1 + RewardsUtil.rand.nextGaussian(), d2, d3 + RewardsUtil.rand.nextGaussian());
+			SmallFireball entitysmallfireball = new SmallFireball(level, blaze, new Vec3(d1 + RewardsUtil.rand.nextGaussian(), d2, d3 + RewardsUtil.rand.nextGaussian()));
 			entitysmallfireball.getOnPos().offset(0, (int)(blaze.getY() + (double) (blaze.getEyeHeight() / 2.0F) + 0.5D), 0);
 			level.addFreshEntity(entitysmallfireball);
 		}

@@ -1,28 +1,22 @@
 package chanceCubes.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import chanceCubes.CCubesCore;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-public class PacketCreativePendant
+public record PacketCreativePendant(int chanceValue) implements CustomPacketPayload
 {
-	private final int chanceValue;
+	public static final StreamCodec<ByteBuf, PacketCreativePendant> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.INT, PacketCreativePendant::chanceValue, PacketCreativePendant::new
+	);
+	public static final Type<PacketCreativePendant> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "creative_pendant"));
 
-	public PacketCreativePendant(int chance)
+	@Override
+	public Type<? extends CustomPacketPayload> type()
 	{
-		this.chanceValue = chance;
-	}
-
-	public static void encode(PacketCreativePendant msg, FriendlyByteBuf buf)
-	{
-		buf.writeInt(msg.chanceValue);
-	}
-
-	public static PacketCreativePendant decode(FriendlyByteBuf buf)
-	{
-		return new PacketCreativePendant(buf.readInt());
-	}
-
-	public int getChanceValue()
-	{
-		return this.chanceValue;
+		return ID;
 	}
 }

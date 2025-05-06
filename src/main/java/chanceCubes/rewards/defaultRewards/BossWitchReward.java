@@ -9,6 +9,7 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.apache.logging.log4j.Level;
 
@@ -47,22 +48,22 @@ public class BossWitchReward extends BossBaseReward
 		witch.setCustomName(ComponentWrapper.string("Evil Witch"));
 
 		ItemStack stack = new ItemStack(Items.LEATHER_HELMET);
-		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		stack.enchant(level.holderOrThrow(Enchantments.BLAST_PROTECTION), 5);
 		witch.setItemSlot(EquipmentSlot.HEAD, stack);
 		witch.setDropChance(EquipmentSlot.HEAD, 0);
 
 		stack = new ItemStack(Items.LEATHER_CHESTPLATE);
-		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		stack.enchant(level.holderOrThrow(Enchantments.BLAST_PROTECTION), 5);
 		witch.setItemSlot(EquipmentSlot.CHEST, stack);
 		witch.setDropChance(EquipmentSlot.CHEST, 0);
 
 		stack = new ItemStack(Items.LEATHER_LEGGINGS);
-		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		stack.enchant(level.holderOrThrow(Enchantments.BLAST_PROTECTION), 5);
 		witch.setItemSlot(EquipmentSlot.LEGS, stack);
 		witch.setDropChance(EquipmentSlot.LEGS, 0);
 
 		stack = new ItemStack(Items.LEATHER_BOOTS);
-		stack.enchant(Enchantments.BLAST_PROTECTION, 5);
+		stack.enchant(level.holderOrThrow(Enchantments.BLAST_PROTECTION), 5);
 		witch.setItemSlot(EquipmentSlot.FEET, stack);
 		witch.setDropChance(EquipmentSlot.FEET, 0);
 
@@ -100,7 +101,9 @@ public class BossWitchReward extends BossBaseReward
 	{
 		ThrownPotion pot = new ThrownPotion(level, witch);
 		MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
-		pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
+		ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+		stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(potionEffect));
+		pot.setItem(stack);
 		double d0 = playerPos.getY() + 0.5;
 		double d1 = playerPos.getX() - witch.getX();
 		double d2 = d0 - pot.getY();

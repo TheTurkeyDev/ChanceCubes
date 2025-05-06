@@ -8,15 +8,14 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
-
-import java.util.List;
+import net.minecraft.world.item.alchemy.PotionContents;
 
 public class PotionsReward extends BaseCustomReward
 {
@@ -54,7 +53,7 @@ public class PotionsReward extends BaseCustomReward
 				{
 					MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
 					pot = new ThrownPotion(level, player);
-					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
+//					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect))); TODO: Fix potions reward!
 					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setDeltaMovement(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
 					level.addFreshEntity(pot);
@@ -80,7 +79,9 @@ public class PotionsReward extends BaseCustomReward
 				{
 					MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
 					pot = new ThrownPotion(level, player);
-					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect)));
+					ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+					stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(potionEffect));
+					pot.setItem(stack);
 					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setDeltaMovement(Math.cos((this.delayLeft / 2f) * (Math.PI / 30)), yy, Math.sin((this.delayLeft / 2f) * (Math.PI / 30)));
 					level.addFreshEntity(pot);

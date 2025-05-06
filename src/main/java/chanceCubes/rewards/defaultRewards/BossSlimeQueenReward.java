@@ -17,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class BossSlimeQueenReward extends BossBaseReward
 			@Override
 			public void update()
 			{
-				List<Slime> slimes = level.getEntities(EntityType.SLIME, new AABB(pos.offset(-25, -25, -25), pos.offset(25, 25, 25)), EntitySelector.NO_SPECTATORS);
+				List<Slime> slimes = level.getEntities(EntityType.SLIME, new AABB(Vec3.atLowerCornerOf(pos.offset(-25, -25, -25)), Vec3.atLowerCornerOf(pos.offset(25, 25, 25))), EntitySelector.NO_SPECTATORS);
 				CCubesCore.logger.log(Level.INFO, slimes.size());
 				for(Slime slime : slimes)
 					slime.remove(Entity.RemovalReason.DISCARDED);

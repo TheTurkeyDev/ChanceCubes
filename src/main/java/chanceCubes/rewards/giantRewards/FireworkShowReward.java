@@ -93,6 +93,6 @@ public class FireworkShowReward extends BaseCustomReward
 
 	public void spawnFirework(ServerLevel level, double x, double y, double z)
 	{
-		level.addFreshEntity(new FireworkRocketEntity(level, x, y, z, RewardsUtil.getRandomFirework()));
+		level.addFreshEntity(new FireworkRocketEntity(level, x, y, z, RewardsUtil.getRandomFirework(level.registryAccess())));
 	}
 }

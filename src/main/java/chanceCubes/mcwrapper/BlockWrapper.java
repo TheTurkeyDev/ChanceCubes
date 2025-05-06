@@ -1,6 +1,7 @@
 package chanceCubes.mcwrapper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -8,7 +9,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockWrapper
 {
@@ -49,6 +49,6 @@ public class BlockWrapper
 
 	public static ResourceLocation getBlockId(Block b)
 	{
-		return ForgeRegistries.BLOCKS.getKey(b);
+		return BuiltInRegistries.BLOCK.getKey(b);
 	}
 }

@@ -4,8 +4,10 @@ import chanceCubes.CCubesCore;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -58,27 +61,27 @@ public class ArmorStandArmorReward extends BaseCustomReward
 		armorStand.setCustomName(ComponentWrapper.string(name));
 		armorStand.setCustomNameVisible(true);
 		armorStand.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0);
-		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(settings, "headItemStacks", new ItemStack[0]));
+		ItemStack[] allHeadItems = ArrayUtils.addAll(headItems, super.getSettingAsItemStackList(level.registryAccess(), settings, "headItemStacks", new ItemStack[0]));
 		ItemStack headStack = allHeadItems[RewardsUtil.rand.nextInt(allHeadItems.length)].copy();
 		if(headStack.getItem().equals(Items.PLAYER_HEAD))
 		{
-			CompoundTag nbt = headStack.getTag();
-			if(nbt == null)
-			{
-				nbt = new CompoundTag();
-				headStack.setTag(nbt);
-			}
-			nbt.putString("SkullOwner", name);
+			ResolvableProfile resolvableProfile = new ResolvableProfile(new GameProfile(Util.NIL_UUID, name));
+			resolvableProfile.resolve().thenAccept((profile) -> {
+				if(profile != null)
+				{
+					headStack.set(DataComponents.PROFILE, profile);
+				}
+			});
 		}
 
 		armorStand.setItemSlot(EquipmentSlot.HEAD, headStack);
-		ItemStack[] allChestItems = ArrayUtils.addAll(chestItems, super.getSettingAsItemStackList(settings, "chestItemStacks", new ItemStack[0]));
+		ItemStack[] allChestItems = ArrayUtils.addAll(chestItems, super.getSettingAsItemStackList(level.registryAccess(), settings, "chestItemStacks", new ItemStack[0]));
 		armorStand.setItemSlot(EquipmentSlot.CHEST, allChestItems[RewardsUtil.rand.nextInt(allChestItems.length)].copy());
-		ItemStack[] allLegsItems = ArrayUtils.addAll(legsItems, super.getSettingAsItemStackList(settings, "legItemStacks", new ItemStack[0]));
+		ItemStack[] allLegsItems = ArrayUtils.addAll(legsItems, super.getSettingAsItemStackList(level.registryAccess(), settings, "legItemStacks", new ItemStack[0]));
 		armorStand.setItemSlot(EquipmentSlot.LEGS, allLegsItems[RewardsUtil.rand.nextInt(allLegsItems.length)].copy());
-		ItemStack[] allBootItems = ArrayUtils.addAll(bootsItems, super.getSettingAsItemStackList(settings, "bootItemStacks", new ItemStack[0]));
+		ItemStack[] allBootItems = ArrayUtils.addAll(bootsItems, super.getSettingAsItemStackList(level.registryAccess(), settings, "bootItemStacks", new ItemStack[0]));
 		armorStand.setItemSlot(EquipmentSlot.FEET, allBootItems[RewardsUtil.rand.nextInt(allBootItems.length)].copy());
-		ItemStack[] allHandItems = ArrayUtils.addAll(handItems, super.getSettingAsItemStackList(settings, "handItemStacks", new ItemStack[0]));
+		ItemStack[] allHandItems = ArrayUtils.addAll(handItems, super.getSettingAsItemStackList(level.registryAccess(), settings, "handItemStacks", new ItemStack[0]));
 		armorStand.setItemSlot(EquipmentSlot.MAINHAND, allHandItems[RewardsUtil.rand.nextInt(allHandItems.length)].copy());
 		armorStand.setItemSlot(EquipmentSlot.OFFHAND, allHandItems[RewardsUtil.rand.nextInt(allHandItems.length)].copy());
 		level.addFreshEntity(armorStand);

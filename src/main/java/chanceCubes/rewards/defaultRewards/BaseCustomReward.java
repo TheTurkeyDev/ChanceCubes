@@ -6,6 +6,7 @@ import chanceCubes.rewards.IChanceCubeReward;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.Level;
 
@@ -123,7 +124,7 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 		return defaultVal;
 	}
 
-	public ItemStack[] getSettingAsItemStackList(JsonObject settings, String key, ItemStack[] defaultVal)
+	public ItemStack[] getSettingAsItemStackList(HolderLookup.Provider provider, JsonObject settings, String key, ItemStack[] defaultVal)
 	{
 		if(settings.has(key))
 		{
@@ -143,7 +144,7 @@ public abstract class BaseCustomReward implements IChanceCubeReward
 				ItemStack stack;
 				try
 				{
-					stack = ItemStack.of(JsonWrapper.getNBTFromJson(obj));
+					stack = ItemStack.parseOptional(provider, JsonWrapper.getNBTFromJson(obj));
 				} catch(Exception e)
 				{
 					CCubesCore.logger.log(Level.ERROR, key + " setting failed! Failed to convert " + obj.toString() + " to an item stack!");

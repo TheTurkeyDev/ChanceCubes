@@ -2,22 +2,20 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.BaseChanceBlock;
 import chanceCubes.blocks.CCubesBlocks;
+import chanceCubes.components.CCubesDataComponents;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.tileentities.TileChanceCube;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemChanceCube extends BlockItem
@@ -38,29 +36,22 @@ public class ItemChanceCube extends BlockItem
 	{
 		if(chance > 100 || chance < -101)
 			chance = -101;
-		CompoundTag nbt = stack.getTag();
-		if(nbt == null)
-			nbt = new CompoundTag();
-		nbt.putInt("Chance", chance);
-		stack.setTag(nbt);
+		stack.set(CCubesDataComponents.CHANCE, chance);
 	}
 
 	public int getChance(ItemStack stack)
 	{
-		if(stack.getTag() == null)
-			return -101;
-		return stack.getTag().contains("Chance") ? stack.getTag().getInt("Chance") : -101;
+		return stack.getOrDefault(CCubesDataComponents.CHANCE, -101);
 	}
 
 	public String getChanceAsStringValue(ItemStack stack)
 	{
-		if(stack.getTag() == null)
-			return "Random";
-		return stack.getTag().contains("Chance") ? stack.getTag().getInt("Chance") == -101 ? "Random" : "" + stack.getTag().getInt("Chance") : "Random";
+		int chance = stack.getOrDefault(CCubesDataComponents.CHANCE, -101);
+		return chance == -101 ? "Random" : "" + chance;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag flag) 
 	{
 		Item item = stack.getItem();
 		if(!item.equals(CCubesItems.CUBE_DISPENSER.get()))

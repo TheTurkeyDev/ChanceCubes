@@ -1,15 +1,15 @@
 package chanceCubes.modifier;
 
 import chanceCubes.config.CCubesSettings;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo.BiomeInfo.Builder;
+import net.neoforged.neoforge.common.world.BiomeGenerationSettingsBuilder;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo.BiomeInfo.Builder;
 
 public record AddCCubesFeaturesBiomeModifier(int id, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, Decoration step) implements BiomeModifier
 {
@@ -25,7 +25,7 @@ public record AddCCubesFeaturesBiomeModifier(int id, HolderSet<Biome> biomes, Ho
 	}
 
 	@Override
-	public Codec<? extends BiomeModifier> codec()
+	public MapCodec<? extends BiomeModifier> codec()
 	{
 		return CCubesModifiers.ADD_CCUBES_FEATURES_BIOME_MODIFIER_TYPE.get();
 	}

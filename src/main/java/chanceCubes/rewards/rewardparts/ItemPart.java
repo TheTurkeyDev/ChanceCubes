@@ -1,32 +1,32 @@
 package chanceCubes.rewards.rewardparts;
 
-import chanceCubes.mcwrapper.ItemWrapper;
 import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.NBTVar;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemPart extends BasePart
 {
 	private final NBTVar itemNBT;
 
-	public ItemPart(ItemStack stack)
+	public ItemPart(ItemStack stack, HolderLookup.Provider provider)
 	{
-		this(stack, 0);
+		this(stack, 0, provider);
 	}
 
-	public ItemPart(ItemStack stack, int delay)
+	public ItemPart(ItemStack stack, int delay, HolderLookup.Provider provider)
 	{
-		this(stack, new IntVar(delay));
+		this(stack, new IntVar(delay), provider);
 	}
 
-	public ItemPart(ItemStack stack, IntVar delay)
+	public ItemPart(ItemStack stack, IntVar delay, HolderLookup.Provider provider)
 	{
-		CompoundTag nbt = new CompoundTag();
-		nbt.putString("id", ItemWrapper.getItemIdStr(stack));
-		nbt.putByte("Count", (byte) stack.getCount());
-		nbt.putShort("Damage", (short) stack.getDamageValue());
-		nbt.put("tag", stack.getTag() == null ? new CompoundTag() : stack.getTag());
+		Tag tag = ItemStack.CODEC.encodeStart(provider.createSerializationContext(NbtOps.INSTANCE), stack)
+				.getOrThrow(string -> new IllegalStateException("Failed to encode item stack: " + string));
+		CompoundTag nbt = (CompoundTag) tag;
 		this.itemNBT = new NBTVar(nbt);
 		this.setDelay(delay);
 	}
@@ -47,8 +47,8 @@ public class ItemPart extends BasePart
 		this.setDelay(delay);
 	}
 
-	public ItemStack getItemStack()
+	public ItemStack getItemStack(HolderLookup.Provider provider)
 	{
-		return ItemStack.of(this.itemNBT.getNBTValue());
+		return ItemStack.parseOptional(provider, this.itemNBT.getNBTValue());
 	}
 }

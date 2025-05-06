@@ -37,7 +37,7 @@ public class WolvesToCreepersReward extends BaseCustomReward
 						RewardsUtil.placeBlock(Blocks.AIR.defaultBlockState(), level, pos.offset(xx, yy, zz));
 
 			Wolf wolf = EntityWrapper.spawnEntityAt(EntityType.WOLF, level, pos);
-			wolf.setTame(true);
+			wolf.setTame(true, false);
 			wolf.setOwnerUUID(player.getUUID());
 			wolf.setCustomName(ComponentWrapper.string("Kehaan"));
 			wolves.add(wolf);

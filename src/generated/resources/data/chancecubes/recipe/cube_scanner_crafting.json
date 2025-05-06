@@ -3,10 +3,10 @@
   "category": "equipment",
   "key": {
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/cheap"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "P": {
       "item": "chancecubes:chance_pendant_tier1"
@@ -18,7 +18,7 @@
     "IGI"
   ],
   "result": {
-    "item": "chancecubes:scanner"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chancecubes:scanner"
+  }
 }

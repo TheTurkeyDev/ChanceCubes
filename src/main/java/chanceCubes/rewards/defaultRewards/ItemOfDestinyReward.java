@@ -8,6 +8,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -63,9 +64,9 @@ public class ItemOfDestinyReward extends BaseCustomReward
 				{
 					if((iteration / 10) - 3 < enchants)
 					{
-						CustomEntry<Enchantment, Integer> ench = RewardsUtil.getRandomEnchantmentAndLevel();
+						CustomEntry<Holder<Enchantment>, Integer> ench = RewardsUtil.getRandomEnchantmentAndLevel(world.registryAccess());
 						item.getItem().enchant(ench.getKey(), ench.getValue());
-						RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string(Language.getInstance().getOrDefault(ench.getKey().getDescriptionId()) + " Has been added to the item!"));
+						RewardsUtil.sendMessageToPlayer(player, ComponentWrapper.string(Language.getInstance().getOrDefault(ench.getKey().value().description().getString()) + " Has been added to the item!"));
 					}
 					else
 					{

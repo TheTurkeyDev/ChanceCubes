@@ -8,13 +8,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
@@ -37,6 +43,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameRules;
@@ -47,8 +54,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -62,7 +67,7 @@ import java.util.stream.StreamSupport;
 
 public class RewardsUtil
 {
-	public static final TagKey<Item> BLACKLIST = ItemTags.create(new ResourceLocation(CCubesCore.MODID, "blacklist"));
+	public static final TagKey<Item> BLACKLIST = ItemTags.create(ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "blacklist"));
 	private static final List<String> oredicts = new ArrayList<>();
 	private static final String[] possibleModOres = new String[]{"ores/aluminum", "ores/copper", "ores/mythril", "ores/lead", "ores/plutonium", "ores/quartz", "ores/ruby", "ores/salt", "ores/sapphire", "ores/silver", "ores/tin", "ores/uranium", "ores/zinc"};
 
@@ -86,7 +91,7 @@ public class RewardsUtil
 		oredicts.add("ores/coal");
 
 		for(String oreDict : possibleModOres)
-			if(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))).iterator().hasNext())
+			if(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(ResourceLocation.fromNamespaceAndPath("c", oreDict))).iterator().hasNext())
 				oredicts.add(oreDict);
 	}
 
@@ -144,13 +149,13 @@ public class RewardsUtil
 
 	public static ItemStack getItemStack(String mod, String itemName, int size)
 	{
-		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mod, itemName));
+		Item item = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(mod, itemName));
 		return item == null ? ItemStack.EMPTY : new ItemStack(item, size);
 	}
 
 	public static Block getBlock(String mod, String blockName)
 	{
-		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(mod, blockName));
+		return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(mod, blockName));
 	}
 
 	public static boolean placeBlock(BlockState b, Level level, BlockPos pos)
@@ -178,25 +183,31 @@ public class RewardsUtil
 		return level.getBlockState(pos).getDestroySpeed(level, pos) == -1 || CCubesSettings.nonReplaceableBlocks.contains(level.getBlockState(pos));
 	}
 
-	public static Enchantment getEnchantSafe(ResourceLocation res)
-	{
-		return getRegistryEntrySafe(ForgeRegistries.ENCHANTMENTS, res, ForgeRegistries.ENCHANTMENTS.getDefaultKey());
-	}
+//	public static Enchantment getEnchantSafe(ResourceLocation res)
+//	{
+//		return getRegistryEntrySafe(BuiltInRegistries.ENCHANTMENT, res, BuiltInRegistries.ENCHANTMENT.getDefaultKey());
+//	}
 
-	public static MobEffect getPotionSafe(ResourceLocation res)
+	public static Holder<MobEffect> getPotionSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.MOB_EFFECTS, res, ForgeRegistries.MOB_EFFECTS.getDefaultKey());
+		return getRegistryHolderEntrySafe(BuiltInRegistries.MOB_EFFECT, res, ((DefaultedRegistry<?>)BuiltInRegistries.MOB_EFFECT).getDefaultKey());
 	}
 
 	public static ParticleType<?> getParticleSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(ForgeRegistries.PARTICLE_TYPES, res, ForgeRegistries.PARTICLE_TYPES.getDefaultKey());
+		return getRegistryEntrySafe(BuiltInRegistries.PARTICLE_TYPE, res, ((DefaultedRegistry<?>)BuiltInRegistries.PARTICLE_TYPE).getDefaultKey());
 	}
 
-	public static <T> T getRegistryEntrySafe(IForgeRegistry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
+	public static <T> T getRegistryEntrySafe(Registry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
 	{
-		T val = registry.getValue(key);
-		return val == null ? registry.getValue(defaultReturn) : val;
+		T val = registry.get(key);
+		return val == null ? registry.get(defaultReturn) : val;
+	}
+
+	public static <T> Holder<T> getRegistryHolderEntrySafe(Registry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
+	{
+		Holder<T> val = registry.getHolder(key).orElse(null);
+		return val == null ? registry.getHolder(defaultReturn).get() : val;
 	}
 
 	public static Block getRandomOre()
@@ -211,7 +222,7 @@ public class RewardsUtil
 
 	public static Block getRandomOreFromOreDict(String oreDict)
 	{
-		return getRandomElement(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(new ResourceLocation("forge", oreDict))));
+		return getRandomElement(BuiltInRegistries.BLOCK.getTagOrEmpty(getTagKey(ResourceLocation.fromNamespaceAndPath("c", oreDict))));
 	}
 
 	private static Block getRandomElement(Iterable<Holder<Block>> it)
@@ -227,38 +238,48 @@ public class RewardsUtil
 
 	public static Block getRandomBlock()
 	{
-		return randomRegistryEntry(ForgeRegistries.BLOCKS, Blocks.COBBLESTONE);
+		return randomRegistryEntry(BuiltInRegistries.BLOCK, Blocks.COBBLESTONE);
 	}
 
 	public static Item getRandomItem()
 	{
 		Item item;
 		do
-			item = randomRegistryEntry(ForgeRegistries.ITEMS, Items.APPLE);
+			item = randomRegistryEntry(BuiltInRegistries.ITEM, Items.APPLE);
 		while(item == null || !item.isEnabled(FeatureFlags.VANILLA_SET) || item.getDefaultInstance().is(BLACKLIST));
 		return item;
 	}
 
-	public static Enchantment randomEnchantment()
+	public static Holder<Enchantment> randomEnchantment(HolderLookup.Provider provider)
 	{
-		return randomRegistryEntry(ForgeRegistries.ENCHANTMENTS, Enchantments.SHARPNESS);
+		var entries = provider.lookupOrThrow(Registries.ENCHANTMENT).listElements().toList();
+		Holder<Enchantment> entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
+		int iteration = 0;
+		while(entry == null)
+		{
+			iteration++;
+			if(iteration > 100)
+				return provider.holderOrThrow(Enchantments.SHARPNESS);
+			entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
+		}
+		return entry;
 	}
 
-	public static CustomEntry<Enchantment, Integer> getRandomEnchantmentAndLevel()
+	public static CustomEntry<Holder<Enchantment>, Integer> getRandomEnchantmentAndLevel(HolderLookup.Provider provider)
 	{
-		Enchantment ench = randomEnchantment();
-		int level = rand.nextInt(ench.getMaxLevel()) + ench.getMinLevel();
+		Holder<Enchantment> ench = randomEnchantment(provider);
+		int level = rand.nextInt(ench.value().getMaxLevel()) + ench.value().getMinLevel();
 		return new CustomEntry<>(ench, level);
 	}
 
-	public static MobEffect getRandomPotionEffect()
+	public static Holder<MobEffect> getRandomPotionEffect()
 	{
-		return randomRegistryEntry(ForgeRegistries.MOB_EFFECTS, MobEffects.GLOWING);
+		return randomRegistryHolderEntry(BuiltInRegistries.MOB_EFFECT, MobEffects.GLOWING);
 	}
 
 	public static MobEffectInstance getRandomPotionEffectInstance()
 	{
-		MobEffect effect = RewardsUtil.getRandomPotionEffect();
+		Holder<MobEffect> effect = RewardsUtil.getRandomPotionEffect();
 		int duration = ((int) Math.round(Math.abs(rand.nextGaussian()) * 5) + 3) * 20;
 		int amplifier = (int) Math.round(Math.abs(rand.nextGaussian() * 1.5));
 
@@ -267,12 +288,12 @@ public class RewardsUtil
 
 	public static Potion getRandomPotionType()
 	{
-		return randomRegistryEntry(ForgeRegistries.POTIONS, Potions.EMPTY);
+		return randomRegistryEntry(BuiltInRegistries.POTION, Potions.WATER.value());
 	}
 
-	public static <T> T randomRegistryEntry(IForgeRegistry<T> registry, T defaultReturn)
+	public static <T> T randomRegistryEntry(Registry<T> registry, T defaultReturn)
 	{
-		Collection<T> entries = registry.getValues();
+		Collection<T> entries = registry.stream().toList();
 		T entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
 		int iteration = 0;
 		while(entry == null)
@@ -285,7 +306,22 @@ public class RewardsUtil
 		return entry;
 	}
 
-	public static ItemStack getRandomFirework()
+	public static <T> Holder<T> randomRegistryHolderEntry(Registry<T> registry, Holder<T> defaultReturn)
+	{
+		List<Reference<T>> entries = registry.holders().toList();
+		Holder<T> entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
+		int iteration = 0;
+		while(entry == null)
+		{
+			iteration++;
+			if(iteration > 100)
+				return defaultReturn;
+			entry = entries.stream().skip(rand.nextInt(entries.size())).findFirst().orElse(null);
+		}
+		return entry;
+	}
+
+	public static ItemStack getRandomFirework(HolderLookup.Provider provider)
 	{
 		ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
 		CompoundTag data = new CompoundTag();
@@ -317,7 +353,10 @@ public class RewardsUtil
 		CompoundTag nbt = new CompoundTag();
 		nbt.put("Fireworks", data);
 
-		stack.setTag(nbt);
+		Fireworks.CODEC
+				.parse(provider.createSerializationContext(NbtOps.INSTANCE), nbt)
+				.resultOrPartial(string -> CCubesCore.logger.error("Failed to parse fireworks: '{}'", string))
+				.ifPresent(firework -> stack.set(DataComponents.FIREWORKS, firework));
 
 		return stack;
 	}
@@ -337,7 +376,7 @@ public class RewardsUtil
 	{
 		Fluid fluid;
 		do
-			fluid = randomRegistryEntry(ForgeRegistries.FLUIDS, Fluids.WATER);
+			fluid = randomRegistryEntry(BuiltInRegistries.FLUID, Fluids.WATER);
 		while(onlySources && !fluid.isSource(fluid.defaultFluidState()));
 
 		return fluid;

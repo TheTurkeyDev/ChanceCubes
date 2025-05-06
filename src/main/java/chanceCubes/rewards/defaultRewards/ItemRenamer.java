@@ -5,6 +5,7 @@ import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
@@ -49,8 +50,8 @@ public class ItemRenamer extends BaseCustomReward
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
 			MutableComponent name = ComponentWrapper.string("A lonely piece of dirt");
-			name.setStyle(name.getStyle().withColor(TextColor.parseColor("#ff1111")));
-			dirt.setHoverName(name);
+			name.setStyle(name.getStyle().withColor(TextColor.parseColor("#ff1111").getOrThrow()));
+			dirt.set(DataComponents.CUSTOM_NAME, name);
 			player.getInventory().add(dirt);
 			RewardsUtil.executeCommand(world, player, player.getOnPos(), "/advancement grant @p only chancecubes:lonely_dirt");
 			return;
@@ -67,7 +68,7 @@ public class ItemRenamer extends BaseCustomReward
 			else
 				name += "'s";
 			String newName = name + " " + adj;
-			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).setHoverName(ComponentWrapper.string(newName));
+			stacks.get(RewardsUtil.rand.nextInt(stacks.size())).set(DataComponents.CUSTOM_NAME, ComponentWrapper.string(newName));
 		}
 
 		RewardsUtil.sendMessageToPlayer(player, "Those items of yours need a little personality!");

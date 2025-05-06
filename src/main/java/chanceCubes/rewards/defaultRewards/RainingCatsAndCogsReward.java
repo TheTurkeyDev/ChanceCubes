@@ -48,7 +48,7 @@ public class RainingCatsAndCogsReward extends BaseCustomReward
 						? EntityWrapper.spawnEntityAt(EntityType.WOLF, level, pos)
 						: EntityWrapper.spawnEntityAt(EntityType.CAT, level, pos);
 
-				ent.setTame(true);
+				ent.setTame(true, false);
 				ent.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 500, 1000));
 				ent.setCustomName(ComponentWrapper.string(names[RewardsUtil.rand.nextInt(names.length)]));
 				ent.setCustomNameVisible(true);

@@ -5,6 +5,7 @@ import chanceCubes.rewards.variableTypes.IntVar;
 import chanceCubes.rewards.variableTypes.StringVar;
 import chanceCubes.util.GuiTextLocation;
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 
 public class TitlePart extends BasePart
@@ -18,9 +19,9 @@ public class TitlePart extends BasePart
 	private BoolVar serverWide = new BoolVar(false);
 	private IntVar range = new IntVar(32);
 
-	public TitlePart(String type, String message)
+	public TitlePart(String type, String message, HolderLookup.Provider provider)
 	{
-		this(type, message, 0);
+		this(type, message, 0, provider);
 	}
 
 	public TitlePart(String type, Component message)
@@ -28,19 +29,19 @@ public class TitlePart extends BasePart
 		this(new StringVar(type), message, new IntVar(0));
 	}
 
-	public TitlePart(StringVar type, JsonObject message)
+	public TitlePart(StringVar type, JsonObject message, HolderLookup.Provider provider)
 	{
-		this(type, Component.Serializer.fromJson(message), new IntVar(0));
+		this(type, Component.Serializer.fromJson(message, provider), new IntVar(0));
 	}
 
-	public TitlePart(StringVar type, String message)
+	public TitlePart(StringVar type, String message, HolderLookup.Provider provider)
 	{
-		this(type, Component.Serializer.fromJson(message), new IntVar(0));
+		this(type, Component.Serializer.fromJson(message, provider), new IntVar(0));
 	}
 
-	public TitlePart(String type, String message, int delay)
+	public TitlePart(String type, String message, int delay, HolderLookup.Provider provider)
 	{
-		this(new StringVar(type), Component.Serializer.fromJson(message), new IntVar(delay));
+		this(new StringVar(type), Component.Serializer.fromJson(message, provider), new IntVar(delay));
 	}
 
 	public TitlePart(StringVar type, Component message, IntVar delay)

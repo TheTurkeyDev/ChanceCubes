@@ -7,7 +7,6 @@ import chanceCubes.util.GuiTextLocation;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
-import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -17,17 +16,16 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.ItemAttributeModifiers.Entry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class BossBaseReward extends BaseCustomReward
@@ -91,7 +89,7 @@ public abstract class BossBaseReward extends BaseCustomReward
 		ent.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getBossHealthDynamic(player, settings));
 		ent.setHealth(ent.getMaxHealth());
 //		CustomServerBossInfoManager customserverbossinfomanager = level.getServer().getCustomBossEvents();
-//		customserverbossinfomanager.add(new ResourceLocation(CCubesCore.MODID, this.getName()), ent.getCustomName());
+//		customserverbossinfomanager.add(ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, this.getName()), ent.getCustomName());
 //		BossBarCommand
 
 		level.addFreshEntity(ent);
@@ -177,13 +175,15 @@ public abstract class BossBaseReward extends BaseCustomReward
 		double maxDamage = 3;
 		for(ItemStack stack : player.getInventory().items)
 		{
-			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlot.MAINHAND, stack);
-			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
+			ItemAttributeModifiers attributeModifiers = stack.getAttributeModifiers();
+			for (Entry entry : attributeModifiers.modifiers())
 			{
-				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
-				for(AttributeModifier damage : damageList)
-					if(maxDamage < damage.getAmount())
-						maxDamage = damage.getAmount();
+				if (entry.attribute() == Attributes.ATTACK_DAMAGE)
+				{
+					AttributeModifier modifier = entry.modifier();
+					if(maxDamage < modifier.amount())
+						maxDamage = Math.max(maxDamage, modifier.amount());
+				}
 			}
 		}
 
@@ -200,15 +200,15 @@ public abstract class BossBaseReward extends BaseCustomReward
 		ItemStack maxItem = ItemStack.EMPTY;
 		for(ItemStack stack : player.getInventory().items)
 		{
-			Multimap<Attribute, AttributeModifier> atributes = stack.getItem().getAttributeModifiers(EquipmentSlot.MAINHAND, stack);
-			if(atributes.containsKey(Attributes.ATTACK_DAMAGE))
+			ItemAttributeModifiers attributeModifiers = stack.getAttributeModifiers();
+			for (Entry entry : attributeModifiers.modifiers())
 			{
-				Collection<AttributeModifier> damageList = atributes.get(Attributes.ATTACK_DAMAGE);
-				for(AttributeModifier damage : damageList)
+				if (entry.attribute() == Attributes.ATTACK_DAMAGE)
 				{
-					if(maxDamage < damage.getAmount())
+					AttributeModifier modifier = entry.modifier();
+					if(maxDamage < modifier.amount())
 					{
-						maxDamage = damage.getAmount();
+						maxDamage = modifier.amount();
 						maxItem = stack;
 					}
 				}

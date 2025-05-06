@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "B": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "L": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "LLL"
   ],
   "result": {
-    "item": "chancecubes:chance_cube"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chancecubes:chance_cube"
+  }
 }

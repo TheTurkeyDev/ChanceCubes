@@ -23,6 +23,6 @@ public class CCubesDamageTypes
 
 	private static ResourceKey<DamageType> register(String id)
 	{
-		return ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(CCubesCore.MODID, id));
+		return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, id));
 	}
 }

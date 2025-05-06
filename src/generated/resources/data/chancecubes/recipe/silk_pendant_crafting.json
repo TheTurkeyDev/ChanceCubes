@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "B": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "P": {
       "item": "chancecubes:chance_pendant_tier1"
     },
     "S": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     }
   },
   "pattern": [
@@ -18,7 +18,7 @@
     "SBS"
   ],
   "result": {
-    "item": "chancecubes:silk_touch_pendant"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chancecubes:silk_touch_pendant"
+  }
 }

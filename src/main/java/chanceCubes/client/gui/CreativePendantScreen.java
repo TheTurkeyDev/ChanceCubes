@@ -4,7 +4,6 @@ import chanceCubes.CCubesCore;
 import chanceCubes.client.ClientHelper;
 import chanceCubes.containers.CreativePendantContainer;
 import chanceCubes.mcwrapper.ComponentWrapper;
-import chanceCubes.network.CCubesNetwork;
 import chanceCubes.network.PacketCreativePendant;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -12,13 +11,13 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CreativePendantScreen extends AbstractContainerScreen<CreativePendantContainer>
 {
-	private static final ResourceLocation GUI_BG = new ResourceLocation(CCubesCore.MODID, "textures/gui/container/gui_creative_pendant.png");
+	private static final ResourceLocation GUI_BG = ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "textures/gui/container/gui_creative_pendant.png");
 
 	private int chanceValue = 0;
 

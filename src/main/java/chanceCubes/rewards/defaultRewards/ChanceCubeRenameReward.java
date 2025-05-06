@@ -6,6 +6,7 @@ import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.util.RewardsUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ public class ChanceCubeRenameReward extends BaseCustomReward
 		String adj = allCubeSyn[RewardsUtil.rand.nextInt(allCubeSyn.length)];
 
 		String newName = name + " " + adj;
-		stack.setHoverName(ComponentWrapper.string(newName));
+		stack.set(DataComponents.CUSTOM_NAME, ComponentWrapper.string(newName));
 
 		RewardsUtil.sendMessageToPlayer(player, "Chance Cubes are sooooo 2017. Here have some " + newName + " instead!");
 

@@ -6,15 +6,15 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
@@ -138,29 +138,8 @@ public class LootBoxReward extends BaseCustomReward
 
 		if(RewardsUtil.rand.nextInt(100) == 42)
 		{
-			CompoundTag nbt = stack.getTag();
-			if(nbt == null)
-			{
-				nbt = new CompoundTag();
-				stack.setTag(nbt);
-			}
-			ListTag enchantList = new ListTag();
-			nbt.put("Enchantments", enchantList);
-			enchantList.add(new CompoundTag());
-			CompoundTag display = (CompoundTag) nbt.get("display");
-			if(display == null)
-			{
-				display = new CompoundTag();
-				nbt.put("display", display);
-			}
-			ListTag loreList = (ListTag) display.get("Lore");
-			if(loreList == null)
-			{
-				loreList = new ListTag();
-				display.put("Lore", loreList);
-			}
-
-			loreList.add(StringTag.valueOf(SHINY_LORE));
+			ItemLore lore = stack.getOrDefault(DataComponents.LORE, ItemLore.EMPTY).withLineAdded(Component.literal(SHINY_LORE));
+			stack.set(DataComponents.LORE, lore);
 		}
 
 		return stack;
@@ -170,24 +149,8 @@ public class LootBoxReward extends BaseCustomReward
 	private static ItemStack addItem(List<ItemStack> list, Item item, String lore)
 	{
 		ItemStack stack = new ItemStack(item, 1);
-		stack.setTag(getLoreNBT(lore));
+		stack.set(DataComponents.LORE, ItemLore.EMPTY.withLineAdded(Component.literal(lore)));
 		list.add(stack);
 		return stack;
-	}
-
-	public static CompoundTag getLoreNBT(String... lore)
-	{
-		CompoundTag nbt = new CompoundTag();
-
-		CompoundTag display = new CompoundTag();
-		nbt.put("display", display);
-
-		ListTag loreList = new ListTag();
-		display.put("Lore", loreList);
-
-		for(String l : lore)
-			loreList.add(StringTag.valueOf(l));
-
-		return nbt;
 	}
 }

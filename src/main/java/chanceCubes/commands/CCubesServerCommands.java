@@ -24,16 +24,16 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.server.command.EnumArgument;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -112,7 +112,7 @@ public class CCubesServerCommands
 			GlobalCCRewardRegistry.DEFAULT.ClearRewards();
 			GlobalCCRewardRegistry.GIANT.ClearRewards();
 			ConfigLoader.reload();
-			DefaultRewards.loadDefaultRewards();
+			DefaultRewards.loadDefaultRewards(ctx.getSource().registryAccess());
 			DefaultGiantRewards.loadDefaultRewards();
 			CustomRewardsLoader.instance.loadCustomRewards();
 			GlobalCCRewardRegistry.loadCustomUserRewards(ServerLifecycleHooks.getCurrentServer());
@@ -132,7 +132,7 @@ public class CCubesServerCommands
 	public int executeHandNBT(CommandContext<CommandSourceStack> ctx)
 	{
 		Player player = getPlayer(ctx.getSource());
-		CompoundTag nbt = player.getInventory().getSelected().getOrCreateTag();
+		Tag nbt = player.getInventory().getSelected().saveOptional(player.registryAccess());
 		RewardsUtil.sendMessageToPlayer(player, nbt.toString());
 		return 0;
 	}

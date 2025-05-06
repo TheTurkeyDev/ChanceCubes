@@ -1,8 +1,9 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
 }
 
 ext.buildnumber = 'DEV'
@@ -17,68 +18,52 @@ base {
 }
 version = "${mc_version}-${mod_version}.${buildnumber}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
-minecraft {
-    mappings channel: 'official', version: "${mc_version}"
-    copyIdeResources = true
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+//minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
 
-    // default run configurations.
-    // these can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            workingDirectory project.file('run-1.20')
+runs {
+    // applies to all the run configs below
+    configureEach { net.neoforged.gradle.dsl.common.runs.run.Run run ->
+        // Recommended logging data for a userdev environment
+        systemProperty 'forge.logging.markers', ''
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', ''
+        // Recommended logging level for the console
+        systemProperty 'forge.logging.console.level', 'info'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
+        //Limit ram usage for the dev environment to 4GB
+        jvmArgument '-Xmx4G'
 
-            mods {
-                chancecubes {
-                    source sourceSets.main
-                }
-            }
+        if (run.project.javaToolchains.launcherFor(java.toolchain).map { it.metadata.vendor }.getOrElse("").contains("JetBrains")) {
+            run.jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
-        server {
-            workingDirectory project.file('run-server-1.20')
+        modSource project.sourceSets.main
+    }
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', ''
+    client {
+        workingDirectory 'run-1.21'
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        systemProperty 'forge.enabledGameTestNamespaces', "chancecubes"
+    }
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
+    server {
+        workingDirectory 'run-server-1.21'
+        systemProperty 'forge.enabledGameTestNamespaces', "chancecubes"
+        programArgument '--nogui'
+    }
 
-            mods {
-                chancecubes {
-                    source sourceSets.main
-                }
-            }
-        }
+    data {
+        workingDirectory 'run-1.21'
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
 
-        data {
-            workingDirectory project.file('run-1.20')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', ''
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
-
-            args '--mod', "chancecubes", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                chancecubes {
-                    source sourceSets.main
-                }
-            }
-        }
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        arguments.addAll '--mod', "chancecubes", '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -86,11 +71,10 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven { url 'https://maven.mcmoddev.com' }
-    maven { url 'https://www.dogforce-games.com/maven/' }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    implementation "net.neoforged:neoforge:${neo_version}"
 }
 
 jar {
@@ -102,5 +86,13 @@ jar {
                     "Implementation-Version"  : "${version}",
                     "Implementation-Vendor"   : "turkeydev",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+    }
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

@@ -1,9 +1,9 @@
 package chanceCubes.mcwrapper;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemWrapper
 {
@@ -24,6 +24,6 @@ public class ItemWrapper
 
 	public static ResourceLocation getItemId(Item item)
 	{
-		return ForgeRegistries.ITEMS.getKey(item);
+		return BuiltInRegistries.ITEM.getKey(item);
 	}
 }

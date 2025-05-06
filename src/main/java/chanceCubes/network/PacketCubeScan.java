@@ -1,25 +1,22 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-public class PacketCubeScan
+public record PacketCubeScan(BlockPos pos) implements CustomPacketPayload
 {
-	public final BlockPos pos;
+	public static final StreamCodec<ByteBuf, PacketCubeScan> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC, PacketCubeScan::pos, PacketCubeScan::new
+	);
+	public static final Type<PacketCubeScan> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "cube_scan"));
 
-	public PacketCubeScan(BlockPos pos)
+	@Override
+	public Type<? extends CustomPacketPayload> type()
 	{
-		this.pos = pos;
+		return ID;
 	}
-
-	public static void encode(PacketCubeScan msg, FriendlyByteBuf buf)
-	{
-		buf.writeBlockPos(msg.pos);
-	}
-
-	public static PacketCubeScan decode(FriendlyByteBuf buf)
-	{
-		return new PacketCubeScan(buf.readBlockPos());
-	}
-
 }

@@ -1,26 +1,22 @@
 package chanceCubes.network;
 
+import chanceCubes.CCubesCore;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-public class PacketTriggerD20
+public record PacketTriggerD20(BlockPos pos) implements CustomPacketPayload
 {
-	public final BlockPos pos;
+	public static final StreamCodec<ByteBuf, PacketTriggerD20> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC, PacketTriggerD20::pos, PacketTriggerD20::new
+	);
+	public static final Type<PacketTriggerD20> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "trigger_d20"));
 
-	public PacketTriggerD20(BlockPos pos)
+	@Override
+	public Type<? extends CustomPacketPayload> type()
 	{
-		this.pos = pos;
+		return ID;
 	}
-
-	public static void encode(PacketTriggerD20 msg, FriendlyByteBuf buf)
-	{
-		buf.writeBlockPos(msg.pos);
-	}
-
-	public static PacketTriggerD20 decode(FriendlyByteBuf buf)
-	{
-		return new PacketTriggerD20(buf.readBlockPos());
-	}
-
-
 }
