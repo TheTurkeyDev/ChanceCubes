@@ -71,6 +71,7 @@ public class CCubesCore
 		if (dist.isClient())
 		{
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+			eventBus.addListener(ClientHelper::registerMenuScreens);
 			eventBus.addListener(ClientHelper::clientStart);
 			eventBus.addListener(ClientHelper::onEntityRenders);
 			NeoForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
