@@ -5,20 +5,14 @@
       {
         "item": {
           "id": "minecraft:wooden_pickaxe",
-          "Count": 1,
-          "tag": {
-            "Enchantments": [
-              {
-                "id": "minecraft:efficiency",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:fortune",
-                "lvl": 3
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"bold\":true,\"color\":\"dark_purple\",\"text\":\"Giga Breaker\"}",
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:efficiency": 10,
+                "minecraft:fortune": 4
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"Giga Breaker\",\"color\":\"dark_purple\",\"bold\":true}"
             }
           }
         }
