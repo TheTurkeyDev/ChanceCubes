@@ -31,8 +31,7 @@ public class RewardSelectorPendantScreen extends Screen
 		super(ComponentWrapper.string(""));
 		this.stack = stack;
 		this.player = player;
-		if(stack.has(CCubesDataComponents.REWARD))
-			this.rewardName = stack.get(CCubesDataComponents.REWARD);
+		this.rewardName = stack.getOrDefault(CCubesDataComponents.REWARD, "");
 	}
 
 	/**
