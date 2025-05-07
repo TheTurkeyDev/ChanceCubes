@@ -71,7 +71,7 @@ public class CustomUserReward extends BaseCustomReward
 			}
 		}
 
-		if(userName.equals(""))
+		if(userName.isEmpty())
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;
@@ -113,7 +113,7 @@ public class CustomUserReward extends BaseCustomReward
 
 			Style ccStyle = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_AQUA));
 
-			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
+			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().isEmpty())
 				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options")));
 
 			if(contentCreatorStuff.get("Messages").getAsJsonArray().size() > 0)
