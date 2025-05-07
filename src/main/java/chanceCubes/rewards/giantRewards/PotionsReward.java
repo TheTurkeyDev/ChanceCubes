@@ -53,7 +53,9 @@ public class PotionsReward extends BaseCustomReward
 				{
 					MobEffectInstance potionEffect = RewardsUtil.getRandomPotionEffectInstance();
 					pot = new ThrownPotion(level, player);
-//					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(potionEffect))); TODO: Fix potions reward!
+					ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+					stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(potionEffect));
+					pot.setItem(stack);
 					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setDeltaMovement(Math.cos(rad) * (0.1 * tick), 1, Math.sin(rad) * (0.1 * tick));
 					level.addFreshEntity(pot);
