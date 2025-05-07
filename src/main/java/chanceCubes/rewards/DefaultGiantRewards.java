@@ -6,11 +6,12 @@ import chanceCubes.rewards.defaultRewards.BasicReward;
 import chanceCubes.rewards.giantRewards.*;
 import chanceCubes.rewards.rewardparts.SchematicPart;
 import chanceCubes.rewards.rewardtype.SchematicRewardType;
+import net.minecraft.core.HolderLookup;
 
 public class DefaultGiantRewards
 {
 
-	public static void loadDefaultRewards()
+	public static void loadDefaultRewards(HolderLookup.Provider provider)
 	{
 		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":village", 0, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/village.ccs", true))));
 		GlobalCCRewardRegistry.GIANT.registerReward(new BasicReward(CCubesCore.MODID + ":woodland_mansion", 0, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/mansion.ccs", true).setSpacingdelay(0.05f).shouldPlaceAitBlocks(true))));

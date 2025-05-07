@@ -15,7 +15,7 @@ public class PlayerConnectListener
 		if(event.getEntity().level().isClientSide())
 			return;
 
-		new Thread(() -> CustomUserReward.getCustomUserReward(event.getEntity().getUUID())).start();
+		new Thread(() -> CustomUserReward.getCustomUserReward(event.getEntity().getUUID(), event.getEntity().registryAccess())).start();
 	}
 
 	@SubscribeEvent

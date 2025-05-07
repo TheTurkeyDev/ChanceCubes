@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.core.HolderLookup;
 import net.neoforged.fml.ModList;
 import org.apache.logging.log4j.Level;
 
@@ -47,7 +48,7 @@ public class CustomRewardsLoader
 		}
 	}
 
-	public void loadCustomRewards()
+	public void loadCustomRewards(HolderLookup.Provider provider)
 	{
 		for(File f : Objects.requireNonNullElse(folder.listFiles(), new File[0]))
 		{
@@ -75,7 +76,7 @@ public class CustomRewardsLoader
 				int addedRewards = 0;
 				for(Entry<String, JsonElement> reward : fileJson.getAsJsonObject().entrySet())
 				{
-					CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward);
+					CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward, provider);
 					BasicReward basicReward = parsedReward.getKey();
 					if(basicReward == null)
 					{
@@ -106,7 +107,7 @@ public class CustomRewardsLoader
 				return;
 			}
 			this.loadDisabledRewards(json.get("Disabled Rewards").getAsJsonArray());
-			this.loadHolidayRewards(json.get("Holiday Rewards"));
+			this.loadHolidayRewards(json.get("Holiday Rewards"), provider);
 		} catch(Exception e)
 		{
 			CCubesCore.logger.log(Level.ERROR, "Failed to fetch remote information for the mod!");
@@ -114,7 +115,7 @@ public class CustomRewardsLoader
 		}
 	}
 
-	private void loadHolidayRewards(JsonElement json)
+	private void loadHolidayRewards(JsonElement json, HolderLookup.Provider provider)
 	{
 		if(!CCubesSettings.holidayRewards.get())
 			return;
@@ -140,7 +141,7 @@ public class CustomRewardsLoader
 			if(holidays.has("Holiday") && !(holidays.get("Holiday") instanceof JsonNull) && holidays.has("Reward") && !(holidays.get("Reward") instanceof JsonNull))
 			{
 				String holidayName = holidays.get("Holiday").getAsString();
-				BasicReward basicReward = RewardParser.parseReward(new CustomEntry<>(holidayName, holidays.get("Reward"))).getKey();
+				BasicReward basicReward = RewardParser.parseReward(new CustomEntry<>(holidayName, holidays.get("Reward")), provider).getKey();
 				if(basicReward != null)
 				{
 					CCubesSettings.doesHolidayRewardTrigger = true;

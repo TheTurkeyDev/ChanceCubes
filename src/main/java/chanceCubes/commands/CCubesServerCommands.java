@@ -26,6 +26,7 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -112,12 +113,13 @@ public class CCubesServerCommands
 	{
 		new Thread(() ->
 		{
+			HolderLookup.Provider provider = ctx.getSource().registryAccess();
 			GlobalCCRewardRegistry.DEFAULT.ClearRewards();
 			GlobalCCRewardRegistry.GIANT.ClearRewards();
 			ConfigLoader.reload();
-			DefaultRewards.loadDefaultRewards(ctx.getSource().registryAccess());
-			DefaultGiantRewards.loadDefaultRewards();
-			CustomRewardsLoader.instance.loadCustomRewards();
+			DefaultRewards.loadDefaultRewards(provider);
+			DefaultGiantRewards.loadDefaultRewards(provider);
+			CustomRewardsLoader.instance.loadCustomRewards(provider);
 			GlobalCCRewardRegistry.loadCustomUserRewards(ServerLifecycleHooks.getCurrentServer());
 			NonreplaceableBlockOverride.loadOverrides();
 			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Rewards Reloaded");

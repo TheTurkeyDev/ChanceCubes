@@ -131,7 +131,7 @@ public class DefaultRewards
 			JsonObject json = RewardsUtil.getRewardJson(fileName);
 			for(Map.Entry<String, JsonElement> reward : json.entrySet())
 			{
-				CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward);
+				CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward, provider);
 				BasicReward basicReward = parsedReward.getKey();
 				if(basicReward == null)
 				{

@@ -35,7 +35,7 @@ import java.util.Map;
 public class RewardParser
 {
 
-	public static CustomEntry<BasicReward, Boolean> parseReward(Map.Entry<String, JsonElement> reward)
+	public static CustomEntry<BasicReward, Boolean> parseReward(Map.Entry<String, JsonElement> reward, HolderLookup.Provider provider)
 	{
 		List<IRewardType> rewards = new ArrayList<>();
 		JsonObject rewardElements = reward.getValue().getAsJsonObject();
@@ -126,7 +126,7 @@ public class RewardParser
 				else if(rewardElement.getKey().equalsIgnoreCase("Effect"))
 					loadEffectReward(rewardTypes, rewards);
 				else if(rewardElement.getKey().equalsIgnoreCase("Title"))
-					loadTitleReward(rewardTypes, rewards, RegistryAccess.EMPTY); //TODO: Feed it an actual registry access
+					loadTitleReward(rewardTypes, rewards, provider);
 				else if(rewardElement.getKey().equalsIgnoreCase("Area"))
 					loadAreaReward(rewardTypes, rewards);
 			} catch(Exception ex)

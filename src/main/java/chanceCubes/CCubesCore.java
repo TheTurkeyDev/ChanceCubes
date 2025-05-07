@@ -20,6 +20,7 @@ import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.StatsRegistry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -95,11 +96,12 @@ public class CCubesCore
 	@SubscribeEvent
 	public void serverStart(ServerStartingEvent event)
 	{
+		HolderLookup.Provider provider = event.getServer().registryAccess();
 		CCubesSettings.backupNRB.add(Blocks.BEDROCK.defaultBlockState());
 		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.defaultBlockState());
-		DefaultRewards.loadDefaultRewards(event.getServer().registryAccess());
-		DefaultGiantRewards.loadDefaultRewards();
-		CustomRewardsLoader.instance.loadCustomRewards();
+		DefaultRewards.loadDefaultRewards(provider);
+		DefaultGiantRewards.loadDefaultRewards(provider);
+		CustomRewardsLoader.instance.loadCustomRewards(provider);
 		NonreplaceableBlockOverride.loadOverrides();
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");
