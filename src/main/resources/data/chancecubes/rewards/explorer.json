@@ -5,25 +5,25 @@
       {
         "item": {
           "id": "minecraft:compass",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:clock",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:torch",
-          "Count": 64
+          "count": 64
         }
       },
       {
         "item": {
           "id": "minecraft:iron_pickaxe",
-          "Count": 1
+          "count": 1
         }
       }
     ],

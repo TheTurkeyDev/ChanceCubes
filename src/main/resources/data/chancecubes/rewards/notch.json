@@ -4,13 +4,11 @@
     "Item": [
       {
         "item": {
-          "id": "minecraft:golden_apple",
-          "Count": 1,
-          "Damage": 1,
-          "tag": {
-            "display": {
-              "Name": "{\"text\":\"Notch\"}"
-            }
+          "id": "minecraft:enchanted_golden_apple",
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "\"Notch\"",
+            "minecraft:damage": 1
           }
         }
       }

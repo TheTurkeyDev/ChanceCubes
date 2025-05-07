@@ -5,29 +5,17 @@
       {
         "item": {
           "id": "minecraft:diamond_boots",
-          "Count": 1,
-          "tag": {
-            "Damage": 426,
-            "Enchantments": [
-              {
-                "id": "minecraft:fire_protection",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:feather_falling",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:depth_strider",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:unbreaking",
-                "lvl": 10
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"The Divine Boots\"}",
+            "minecraft:damage": 426,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:unbreaking": 10,
+                "minecraft:feather_falling": 10,
+                "minecraft:fire_protection": 10,
+                "minecraft:depth_strider": 10
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"The Divine Boots\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -40,25 +28,16 @@
       {
         "item": {
           "id": "minecraft:diamond_helmet",
-          "Count": 1,
-          "tag": {
-            "Damage": 360,
-            "Enchantments": [
-              {
-                "id": "minecraft:protection",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:aqua_affinity",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:unbreaking",
-                "lvl": 10
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"The Divine Helmet\"}",
+            "minecraft:damage": 360,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:unbreaking": 10,
+                "minecraft:aqua_affinity": 10,
+                "minecraft:protection": 10
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"The Divine Helmet\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -71,25 +50,16 @@
       {
         "item": {
           "id": "minecraft:diamond_chestplate",
-          "Count": 1,
-          "tag": {
-            "Damage": 525,
-            "Enchantments": [
-              {
-                "id": "minecraft:blast_protection",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:thorns",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:unbreaking",
-                "lvl": 10
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"The Divine Chestplate\"}",
+            "minecraft:damage": 525,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:blast_protection": 10,
+                "minecraft:thorns": 10,
+                "minecraft:unbreaking": 10
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"The Divine Chestplate\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -102,21 +72,15 @@
       {
         "item": {
           "id": "minecraft:diamond_leggings",
-          "Count": 1,
-          "tag": {
-            "Damage": 492,
-            "Enchantments": [
-              {
-                "id": "minecraft:projectile_protection",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:unbreaking",
-                "lvl": 10
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"The Divine Leggings\"}",
+            "minecraft:damage": 492,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:projectile_protection": 10,
+                "minecraft:unbreaking": 10
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"The Divine Leggings\",\"color\":\"dark_aqua\"}"
             }
           }
         }
@@ -129,21 +93,15 @@
       {
         "item": {
           "id": "minecraft:diamond_sword",
-          "Count": 1,
-          "tag": {
-            "Damage": 1558,
-            "Enchantments": [
-              {
-                "id": "minecraft:sharpness",
-                "lvl": 10
-              },
-              {
-                "id": "minecraft:unbreaking",
-                "lvl": 10
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"The Divine Sword\"}",
+            "minecraft:damage": 1558,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:sharpness": 10,
+                "minecraft:unbreaking": 10
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"The Divine Sword\",\"color\":\"dark_aqua\"}"
             }
           }
         }

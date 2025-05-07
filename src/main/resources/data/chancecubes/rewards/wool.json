@@ -5,7 +5,7 @@
       {
         "item": {
           "id": "minecraft:%%[white,orange,magenta,light_blue,yellow,lime,pink,gray,light_gray,cyan,blue,purple,green,brown,red,black]%%_wool",
-          "Count": 16
+          "count": 16
         }
       }
     ]

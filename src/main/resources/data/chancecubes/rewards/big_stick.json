@@ -5,17 +5,14 @@
       {
         "item": {
           "id": "minecraft:stick",
-          "Count": 1,
-          "tag": {
-            "display": {
-              "Name": "{\"text\":\"A Big Stick\"}"
-            },
-            "Enchantments": [
-              {
-                "id": "minecraft:sharpness",
-                "lvl": 5
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "\"A Big Stick\"",
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:sharpness": 5
               }
-            ]
+            }
           }
         }
       }
