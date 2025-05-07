@@ -46,8 +46,8 @@ public class ItemChanceCube extends BlockItem
 
 	public String getChanceAsStringValue(ItemStack stack)
 	{
-		int chance = stack.getOrDefault(CCubesDataComponents.CHANCE, -101);
-		return chance == -101 ? "Random" : "" + chance;
+		int chance = getChance(stack);
+		return chance == -101 ? "Random" : String.valueOf(chance);
 	}
 
 	@Override
