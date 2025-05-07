@@ -41,13 +41,14 @@ public class SchematicCreationGui extends Screen
 		//this.nameField.setEnableBackgroundDrawing(true);
 		this.nameField.setMaxLength(100);
 		this.nameField.setValue("Schematic Name");
+		this.addWidget(this.nameField);
 
-		this.addWidget(Button.builder(ComponentWrapper.string("Back"), (button) ->
+		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Back"), (button) ->
 		{
 			SchematicCreationGui.this.onClose();
 		}).bounds(i - 50, this.height - 70, 100, 20).build());
 
-		this.addWidget(Button.builder(ComponentWrapper.string("Create"), (button) ->
+		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Create"), (button) ->
 		{
 			String fileName = nameField.getValue();
 			fileName = fileName.endsWith(".ccs") ? fileName : fileName + ".ccs";
@@ -97,19 +98,18 @@ public class SchematicCreationGui extends Screen
 	public boolean mouseClicked(double x, double y, int mouseEvent)
 	{
 		super.mouseClicked(x, y, mouseEvent);
-		return this.nameField.mouseClicked(x, y, mouseEvent);
+		return super.mouseClicked(x, y, mouseEvent);
 	}
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground(guiGraphics, mouseX, mouseY, partialTicks); //TODO: Test if this works or else feed the blit
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 //		poseStack.blit(INSERT_TEXTURE, 0, 0, this.width, this.height, 0xBB000000, 0xBB000000);
 		if(this.nameField != null)
 			this.nameField.render(guiGraphics, mouseX, mouseY, partialTicks);
 		int i = this.width / 2;
 		guiGraphics.drawCenteredString(this.font, "Point 1 " + SchematicUtil.selectionPoints[0], i, 40, 0xFFFFFF);
 		guiGraphics.drawCenteredString(this.font, "Point 2 " + SchematicUtil.selectionPoints[1], i, 90, 0xFFFFFF);
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
 }
