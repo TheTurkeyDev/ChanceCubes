@@ -14,10 +14,12 @@ import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -49,6 +51,7 @@ public class CCubesServerCommands
 				.then(Commands.literal("reload").executes(this::executeReload))
 				.then(Commands.literal("version").executes(this::executeVersion))
 				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
+				.then(Commands.literal("handJSON").executes(this::executeHandJSON))
 				.then(Commands.literal("handID").executes(this::executeHandID))
 				.then(
 						Commands.literal("disableReward").then(
@@ -134,6 +137,15 @@ public class CCubesServerCommands
 		Player player = getPlayer(ctx.getSource());
 		Tag nbt = player.getInventory().getSelected().saveOptional(player.registryAccess());
 		RewardsUtil.sendMessageToPlayer(player, nbt.toString());
+		return 0;
+	}
+
+	public int executeHandJSON(CommandContext<CommandSourceStack> ctx)
+	{
+		Player player = getPlayer(ctx.getSource());
+		JsonElement json = ItemStack.CODEC.encodeStart(ctx.getSource().registryAccess().createSerializationContext(JsonOps.INSTANCE), player.getInventory().getSelected())
+			.getOrThrow(string -> new IllegalStateException("Failed to encode item stack: " + string));
+		RewardsUtil.sendMessageToPlayer(player, json.toString());
 		return 0;
 	}
 
