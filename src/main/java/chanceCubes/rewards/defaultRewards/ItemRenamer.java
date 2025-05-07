@@ -50,7 +50,7 @@ public class ItemRenamer extends BaseCustomReward
 		{
 			ItemStack dirt = new ItemStack(Blocks.DIRT);
 			MutableComponent name = ComponentWrapper.string("A lonely piece of dirt");
-			name.setStyle(name.getStyle().withColor(TextColor.parseColor("#ff1111").getOrThrow()));
+			name.setStyle(name.getStyle().withColor(TextColor.fromRgb(Integer.parseInt("ff1111", 16))));
 			dirt.set(DataComponents.CUSTOM_NAME, name);
 			player.getInventory().add(dirt);
 			RewardsUtil.executeCommand(world, player, player.getOnPos(), "/advancement grant @p only chancecubes:lonely_dirt");
