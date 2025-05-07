@@ -27,6 +27,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -143,9 +144,13 @@ public class CCubesServerCommands
 	public int executeHandJSON(CommandContext<CommandSourceStack> ctx)
 	{
 		Player player = getPlayer(ctx.getSource());
-		JsonElement json = ItemStack.CODEC.encodeStart(ctx.getSource().registryAccess().createSerializationContext(JsonOps.INSTANCE), player.getInventory().getSelected())
-			.getOrThrow(string -> new IllegalStateException("Failed to encode item stack: " + string));
-		RewardsUtil.sendMessageToPlayer(player, json.toString());
+		ItemStack stack = player.getInventory().getSelected();
+		if(!stack.isEmpty())
+		{
+			JsonElement json = ItemStack.CODEC.encodeStart(ctx.getSource().registryAccess().createSerializationContext(JsonOps.INSTANCE), stack)
+					.getOrThrow(string -> new IllegalStateException("Failed to encode item stack: " + string));
+			RewardsUtil.sendMessageToPlayer(player, json.toString());
+		}
 		return 0;
 	}
 
