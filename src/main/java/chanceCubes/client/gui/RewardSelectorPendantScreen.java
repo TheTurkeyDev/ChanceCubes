@@ -67,9 +67,15 @@ public class RewardSelectorPendantScreen extends Screen
 	}
 
 	@Override
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+	{
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+		guiGraphics.blit(guiTextures, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
+	}
+
+	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		guiGraphics.blit(guiTextures, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.rewardField.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
