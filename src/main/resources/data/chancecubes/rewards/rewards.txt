@@ -78,3 +78,4 @@ witch.json
 wither_status_effect.json
 wool.json
 xp_crystal.json
+maiden_voyage_swimmer.json
