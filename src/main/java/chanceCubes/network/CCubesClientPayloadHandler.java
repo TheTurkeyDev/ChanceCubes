@@ -19,7 +19,6 @@ public class CCubesClientPayloadHandler
 	public void handleTrigger(final PacketTriggerD20 msg, final IPayloadContext context)
 	{
 		context.enqueueWork(() -> {
-					//Open Captcha Screen
 					Minecraft mc = Minecraft.getInstance();
 					Level level = mc.level;
 					if (level != null)
