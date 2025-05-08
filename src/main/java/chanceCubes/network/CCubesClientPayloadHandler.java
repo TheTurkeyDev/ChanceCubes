@@ -1,8 +1,8 @@
 package chanceCubes.network;
 
 import chanceCubes.tileentities.TileChanceD20;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -19,8 +19,10 @@ public class CCubesClientPayloadHandler
 	public void handleTrigger(final PacketTriggerD20 msg, final IPayloadContext context)
 	{
 		context.enqueueWork(() -> {
-					Minecraft mc = Minecraft.getInstance();
-					Level level = mc.level;
+					Player player = context.player();
+					if (player == null)
+						return;
+					Level level = player.level();
 					if (level != null)
 					{
 						BlockEntity ico;
