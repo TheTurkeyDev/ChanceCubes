@@ -11,7 +11,7 @@
             "minecraft:enchantments": {
               "levels": {
                 "minecraft:efficiency": 10,
-                "minecraft:fortune": 4
+                "minecraft:fortune": 3
               }
             }
           }
