@@ -5,6 +5,8 @@ import chanceCubes.config.CCubesSettings;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.sounds.CCubesSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -65,24 +67,25 @@ public class TileChanceD20 extends BlockEntity
 
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	protected void saveAdditional(CompoundTag nbt, Provider registries)
+	{
+		super.saveAdditional(nbt, registries);
 		nbt.putInt("chance", this.getChance());
 	}
 
 	@Override
-	public CompoundTag getUpdateTag()
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries)
 	{
 		CompoundTag nbt = new CompoundTag();
-		nbt.putInt("chance", this.getChance());
+		this.saveAdditional(nbt, registries);
 		return nbt;
 	}
 
 
 	@Override
-	public void load(CompoundTag nbt)
+	public void loadAdditional(CompoundTag nbt, Provider registries)
 	{
-		super.load(nbt);
+		super.loadAdditional(nbt, registries);
 		this.chance = nbt.getInt("chance");
 	}
 
@@ -139,9 +142,9 @@ public class TileChanceD20 extends BlockEntity
 	}
 
 	@Override
-	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries)
 	{
-		load(pkt.getTag());
+		loadAdditional(pkt.getTag(), registries);
 	}
 
 	public boolean isScanned()

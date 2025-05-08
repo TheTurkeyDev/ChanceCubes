@@ -5,7 +5,7 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.worldgen.CCSurfaceFeature;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
@@ -24,26 +24,28 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = CCubesCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGen
 {
-	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, CCubesCore.MODID);
-	private static final ResourceLocation CC_SURFACE_ID = new ResourceLocation(CCubesCore.MODID, "chance_cube_worldgen");
-	private static final ResourceLocation CC_ORE_ID = new ResourceLocation(CCubesCore.MODID, "chance_cube_oregen");
-	private static final RegistryObject<Feature<NoneFeatureConfiguration>> CC_SURFACE_FEATURE = FEATURES.register("chance_cube_worldgen", CCSurfaceFeature::new);
+	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, CCubesCore.MODID);
+	private static final ResourceLocation CC_SURFACE_ID = ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "chance_cube_worldgen");
+	private static final ResourceLocation CC_ORE_ID = ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "chance_cube_oregen");
+	private static final Supplier<Feature<NoneFeatureConfiguration>> CC_SURFACE_FEATURE = FEATURES.register("chance_cube_worldgen", CCSurfaceFeature::new);
 
 
-	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_CC_SURFACE = FeatureUtils.createKey(CC_SURFACE_ID.toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_CC_ORE = FeatureUtils.createKey(CC_ORE_ID.toString());
+	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_CC_SURFACE = createConfiguredKey(CC_SURFACE_ID);
+	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_CC_ORE = createConfiguredKey(CC_ORE_ID);
 
-	public static void configuredBootstrap(BootstapContext<ConfiguredFeature<?, ?>> context)
+	public static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredKey(ResourceLocation id)
+	{
+		return ResourceKey.create(Registries.CONFIGURED_FEATURE, id);
+	}
+
+	public static void configuredBootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
 	{
 		FeatureUtils.register(context, CONFIGURED_CC_SURFACE, WorldGen.CC_SURFACE_FEATURE.get());
 
@@ -53,10 +55,15 @@ public class WorldGen
 		FeatureUtils.register(context, CONFIGURED_CC_ORE, Feature.ORE, new OreConfiguration(ccOreTarget, 4));
 	}
 
-	public static ResourceKey<PlacedFeature> CC_SURFACE = PlacementUtils.createKey(CC_SURFACE_ID.toString());
-	public static ResourceKey<PlacedFeature> CC_ORE = PlacementUtils.createKey(CC_ORE_ID.toString());
+	public static ResourceKey<PlacedFeature> CC_SURFACE = createPlacedKey(CC_SURFACE_ID);
+	public static ResourceKey<PlacedFeature> CC_ORE = createPlacedKey(CC_ORE_ID);
 
-	public static void placedBootstrap(BootstapContext<PlacedFeature> context)
+	public static ResourceKey<PlacedFeature> createPlacedKey(ResourceLocation id)
+	{
+		return ResourceKey.create(Registries.PLACED_FEATURE, id);
+	}
+
+	public static void placedBootstrap(BootstrapContext<PlacedFeature> context)
 	{
 		HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 

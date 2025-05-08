@@ -3,20 +3,23 @@ package chanceCubes.datagen;
 import chanceCubes.CCubesCore;
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.items.CCubesItems;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.CompletableFuture;
 
 public class CCubesRecipeProvider extends RecipeProvider
 {
-	public CCubesRecipeProvider(PackOutput packOutput)
+	public CCubesRecipeProvider(PackOutput packOutput, CompletableFuture<Provider> lookupProvider)
 	{
-		super(packOutput);
+		super(packOutput, lookupProvider);
 	}
 
 	@Override
@@ -36,10 +39,10 @@ public class CCubesRecipeProvider extends RecipeProvider
 				.pattern("IGI")
 				.pattern("GPG")
 				.pattern("IGI")
-				.define('G', Tags.Items.GLASS)
+				.define('G', Tags.Items.GLASS_BLOCKS_CHEAP)
 				.define('I', Tags.Items.INGOTS_IRON)
 				.define('P', CCubesItems.CHANCE_PENDANT_T1.get())
-				.unlockedBy("has_glass", has(Tags.Items.GLASS))
+				.unlockedBy("has_glass", has(Tags.Items.GLASS_BLOCKS_CHEAP))
 				.unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
 				.unlockedBy("has_pendant", has(CCubesItems.CHANCE_PENDANT_T1.get()))
 				.save(output, modLoc("cube_scanner_crafting"));
@@ -50,10 +53,10 @@ public class CCubesRecipeProvider extends RecipeProvider
 				.pattern("SBS")
 				.define('B', Tags.Items.STORAGE_BLOCKS_LAPIS)
 				.define('P', CCubesItems.CHANCE_PENDANT_T1.get())
-				.define('S', Tags.Items.STRING)
+				.define('S', Tags.Items.STRINGS)
 				.unlockedBy("has_lapis_block", has(Tags.Items.STORAGE_BLOCKS_LAPIS))
 				.unlockedBy("has_pendant", has(CCubesItems.CHANCE_PENDANT_T1.get()))
-				.unlockedBy("has_string", has(Tags.Items.STRING))
+				.unlockedBy("has_string", has(Tags.Items.STRINGS))
 				.save(output, modLoc("silk_pendant_crafting"));
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CCubesItems.CHANCE_PENDANT_T1.get())
@@ -96,6 +99,6 @@ public class CCubesRecipeProvider extends RecipeProvider
 
 	private ResourceLocation modLoc(String path)
 	{
-		return new ResourceLocation(CCubesCore.MODID, path);
+		return ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, path);
 	}
 }

@@ -5,25 +5,16 @@
       {
         "item": {
           "id": "minecraft:bow",
-          "Count": 1,
-          "tag": {
-            "Damage": 384,
-            "Enchantments": [
-              {
-                "id": "minecraft:power",
-                "lvl": 5
-              },
-              {
-                "id": "minecraft:punch",
-                "lvl": 3
-              },
-              {
-                "id": "minecraft:flame",
-                "lvl": 2
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "\"One Shot\"",
+            "minecraft:damage": 384,
+            "minecraft:enchantments": {
+              "levels": {
+                "minecraft:power": 5,
+                "minecraft:punch": 3,
+                "minecraft:flame": 2
               }
-            ],
-            "display": {
-              "Name": "{\"text\":\"One Shot\"}"
             }
           }
         }
@@ -31,7 +22,7 @@
       {
         "item": {
           "id": "minecraft:arrow",
-          "Count": 1
+          "count": 1
         }
       }
     ]

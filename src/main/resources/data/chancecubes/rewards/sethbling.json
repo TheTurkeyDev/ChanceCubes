@@ -5,31 +5,31 @@
       {
         "item": {
           "id": "minecraft:redstone",
-          "Count": 32
+          "count": 32
         }
       },
       {
         "item": {
           "id": "minecraft:repeater",
-          "Count": 3
+          "count": 3
         }
       },
       {
         "item": {
           "id": "minecraft:comparator",
-          "Count": 3
+          "count": 3
         }
       },
       {
         "item": {
           "id": "minecraft:redstone_lamp",
-          "Count": 3
+          "count": 3
         }
       },
       {
         "item": {
           "id": "minecraft:redstone_torch",
-          "Count": 3
+          "count": 3
         }
       }
     ],

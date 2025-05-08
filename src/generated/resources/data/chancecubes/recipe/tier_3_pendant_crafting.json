@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "B": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     },
     "P": {
       "item": "chancecubes:chance_pendant_tier2"
@@ -18,7 +18,7 @@
     "GBG"
   ],
   "result": {
-    "item": "chancecubes:chance_pendant_tier3"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chancecubes:chance_pendant_tier3"
+  }
 }

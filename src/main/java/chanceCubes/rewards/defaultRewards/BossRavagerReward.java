@@ -8,7 +8,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +19,7 @@ import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -42,13 +43,7 @@ public class BossRavagerReward extends BossBaseReward
 
 
 		ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
-		CompoundTag nbt = headStack.getTag();
-		if(nbt == null)
-		{
-			nbt = new CompoundTag();
-			headStack.setTag(nbt);
-		}
-		nbt.putString("SkullOwner", player.getName().getString());
+		headStack.set(DataComponents.PROFILE, new ResolvableProfile(player.getGameProfile()));
 
 		armorStandEntity.setItemSlot(EquipmentSlot.HEAD, headStack);
 		armorStandEntity.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));

@@ -2,14 +2,12 @@ package chanceCubes.blocks;
 
 import chanceCubes.items.CCubesItems;
 import chanceCubes.items.ItemChanceCube;
-import chanceCubes.network.CCubesNetwork;
 import chanceCubes.network.PacketTriggerD20;
 import chanceCubes.tileentities.TileChanceD20;
 import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.StatsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,7 +84,7 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 	}
 
 	@Override
-	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result)
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult result)
 	{
 		return this.startD20(level, pos, player) ? InteractionResult.PASS : InteractionResult.FAIL;
 	}
@@ -109,9 +107,9 @@ public class BlockChanceD20 extends BaseChanceBlock implements EntityBlock
 			}
 
 			RewardsUtil.executeCommand((ServerLevel) level, player, player.getOnPos(), "/advancement grant @p only chancecubes:chance_icosahedron");
-			player.awardStat(StatsRegistry.OPENED_D20);
+			player.awardStat(StatsRegistry.OPENED_D20.get());
 			te.startBreaking(player);
-			CCubesNetwork.CHANNEL.send(new PacketTriggerD20(pos), PacketDistributor.NEAR.with(new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), 50, level.dimension())));
+			PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX(), pos.getY(), pos.getZ(), 50, new PacketTriggerD20(pos));
 		}
 		return false;
 	}

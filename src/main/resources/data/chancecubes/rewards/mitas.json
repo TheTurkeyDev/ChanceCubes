@@ -5,25 +5,25 @@
       {
         "item": {
           "id": "minecraft:gold_nugget",
-          "Count": 32
+          "count": 32
         }
       },
       {
         "item": {
           "id": "minecraft:gold_ingot",
-          "Count": 8
+          "count": 8
         }
       },
       {
         "item": {
           "id": "minecraft:golden_carrot",
-          "Count": 16
+          "count": 16
         }
       },
       {
         "item": {
           "id": "minecraft:golden_helmet",
-          "Count": 1
+          "count": 1
         }
       }
     ]

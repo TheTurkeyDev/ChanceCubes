@@ -8,6 +8,7 @@ import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -15,10 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.Blocks;
-
-import java.util.List;
 
 public class CountDownReward extends BaseCustomReward
 {
@@ -73,7 +72,9 @@ public class CountDownReward extends BaseCustomReward
 				else if(thing == 8)
 				{
 					ThrownPotion pot = new ThrownPotion(level, player);
-					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.SPLASH_POTION), List.of(RewardsUtil.getRandomPotionEffectInstance())));
+					ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+					stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(RewardsUtil.getRandomPotionEffectInstance()));
+					pot.setItem(stack);
 					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setDeltaMovement(0, -1, 0);
 					level.addFreshEntity(pot);

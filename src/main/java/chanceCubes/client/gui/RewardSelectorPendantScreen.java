@@ -2,23 +2,23 @@ package chanceCubes.client.gui;
 
 import chanceCubes.CCubesCore;
 import chanceCubes.client.ClientHelper;
+import chanceCubes.components.CCubesDataComponents;
 import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.network.PacketRewardSelector;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RewardSelectorPendantScreen extends Screen
 {
-	private static final ResourceLocation guiTextures = new ResourceLocation(CCubesCore.MODID, "textures/gui/container/gui_reward_selector_pendant.png");
+	private static final ResourceLocation guiTextures = ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "textures/gui/container/gui_reward_selector_pendant.png");
 	private EditBox rewardField;
 	private String rewardName = "";
 	private final Player player;
@@ -31,8 +31,7 @@ public class RewardSelectorPendantScreen extends Screen
 		super(ComponentWrapper.string(""));
 		this.stack = stack;
 		this.player = player;
-		if(stack.getTag() != null && stack.getTag().contains("Reward"))
-			this.rewardName = stack.getTag().getString("Reward");
+		this.rewardName = stack.getOrDefault(CCubesDataComponents.REWARD, "");
 	}
 
 	/**
@@ -53,11 +52,7 @@ public class RewardSelectorPendantScreen extends Screen
 		this.addRenderableWidget(this.rewardField);
 		this.addRenderableWidget(Button.builder(ComponentWrapper.string("Set Reward"), p_onPress_1_ ->
 		{
-			CompoundTag nbt = stack.getTag();
-			if(nbt == null)
-				nbt = new CompoundTag();
-			nbt.putString("Reward", rewardName);
-			stack.setTag(nbt);
+			stack.set(CCubesDataComponents.REWARD, rewardName);
 			ClientHelper.sendToServer(new PacketRewardSelector(rewardField.getValue()));
 			rewardName = rewardField.getValue();
 			player.closeContainer();
@@ -72,9 +67,15 @@ public class RewardSelectorPendantScreen extends Screen
 	}
 
 	@Override
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+	{
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+		guiGraphics.blit(guiTextures, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
+	}
+
+	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		guiGraphics.blit(guiTextures, (this.width - this.imageWidth) / 2, (this.height - this.imageHeight) / 2, 0, 0, this.imageWidth, this.imageHeight);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.rewardField.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}

@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
@@ -22,10 +23,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.common.UsernameCache;
+import net.neoforged.neoforge.common.util.LogicalSidedProvider;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class CustomUserReward extends BaseCustomReward
 	private final String type;
 	private final List<BasicReward> customRewards;
 
-	public static void getCustomUserReward(UUID uuid)
+	public static void getCustomUserReward(UUID uuid, HolderLookup.Provider provider)
 	{
 		if(!CCubesSettings.userSpecificRewards.get())
 			return;
@@ -71,7 +72,7 @@ public class CustomUserReward extends BaseCustomReward
 			}
 		}
 
-		if(userName.equals(""))
+		if(userName.isEmpty())
 		{
 			CCubesCore.logger.log(Level.INFO, "No custom rewards detected for the current user!");
 			return;
@@ -97,7 +98,7 @@ public class CustomUserReward extends BaseCustomReward
 		List<BasicReward> customRewards = new ArrayList<>();
 
 		for(Entry<String, JsonElement> reward : userRewards.getAsJsonObject().entrySet())
-			customRewards.add(RewardParser.parseReward(reward).getKey());
+			customRewards.add(RewardParser.parseReward(reward, provider).getKey());
 
 		//GROSS, but idk what else to do
 		String userNameFinal = userName;
@@ -113,8 +114,8 @@ public class CustomUserReward extends BaseCustomReward
 
 			Style ccStyle = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_AQUA));
 
-			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().equals(""))
-				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options")));
+			if(contentCreatorStuff.get("Active").getAsBoolean() && !twitchFinal.trim().isEmpty())
+				PlayerCCRewardRegistry.streamerReward.put(uuid, new StreamerReward(twitchFinal, contentCreatorStuff.getAsJsonArray("Options"), provider));
 
 			if(contentCreatorStuff.get("Messages").getAsJsonArray().size() > 0)
 			{

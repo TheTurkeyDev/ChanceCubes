@@ -5,13 +5,16 @@ import chanceCubes.util.RewardsUtil;
 import chanceCubes.util.Scheduler;
 import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.Arrays;
@@ -31,16 +34,16 @@ public class CursedHeadReward extends BaseCustomReward
 	{
 		String username = HEAD_NAMES.get(RewardsUtil.rand.nextInt(HEAD_NAMES.size()));
 		ItemStack head = new ItemStack(Items.PLAYER_HEAD);
-		CompoundTag nbt = head.getTag();
-		if(nbt == null)
-		{
-			nbt = new CompoundTag();
-			head.setTag(nbt);
-		}
-		nbt.putString("SkullOwner", username);
+		ResolvableProfile resolvableProfile = new ResolvableProfile(new GameProfile(Util.NIL_UUID, username));
+		resolvableProfile.resolve().thenAccept((profile) -> {
+			if(profile != null)
+			{
+				head.set(DataComponents.PROFILE, profile);
+			}
+		});
 
-		head.enchant(Enchantments.BINDING_CURSE, 1);
-		head.enchant(Enchantments.VANISHING_CURSE, 1);
+		head.enchant(level.holderOrThrow(Enchantments.BINDING_CURSE), 1);
+		head.enchant(level.holderOrThrow(Enchantments.VANISHING_CURSE), 1);
 
 		player.drop(player.getItemBySlot(EquipmentSlot.HEAD), true, false);
 		player.setItemSlot(EquipmentSlot.HEAD, head);

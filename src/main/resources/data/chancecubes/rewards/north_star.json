@@ -5,11 +5,9 @@
       {
         "item": {
           "id": "minecraft:nether_star",
-          "Count": 1,
-          "tag": {
-            "display": {
-              "Name": "{\"text\":\"North Star\",\"color\":\"dark_aqua\"}"
-            }
+          "count": 1,
+          "components": {
+            "minecraft:item_name": "{\"color\":\"dark_aqua\",\"text\":\"North Star\"}"
           }
         }
       }

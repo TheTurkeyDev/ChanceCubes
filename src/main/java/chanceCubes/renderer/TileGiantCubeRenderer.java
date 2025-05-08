@@ -8,7 +8,6 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -24,12 +23,12 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 
 	static
 	{
-		GCC_TEXTURES.put(Direction.UP, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_1"));
-		GCC_TEXTURES.put(Direction.NORTH, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_2"));
-		GCC_TEXTURES.put(Direction.EAST, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_3"));
-		GCC_TEXTURES.put(Direction.WEST, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_4"));
-		GCC_TEXTURES.put(Direction.SOUTH, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_5"));
-		GCC_TEXTURES.put(Direction.DOWN, new ResourceLocation(CCubesCore.MODID, "block/chance_cube_face_6"));
+		GCC_TEXTURES.put(Direction.UP, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_1"));
+		GCC_TEXTURES.put(Direction.NORTH, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_2"));
+		GCC_TEXTURES.put(Direction.EAST, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_3"));
+		GCC_TEXTURES.put(Direction.WEST, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_4"));
+		GCC_TEXTURES.put(Direction.SOUTH, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_5"));
+		GCC_TEXTURES.put(Direction.DOWN, ResourceLocation.fromNamespaceAndPath(CCubesCore.MODID, "block/chance_cube_face_6"));
 	}
 
 	/**
@@ -58,7 +57,6 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 			Material materialInterface = new Material(InventoryMenu.BLOCK_ATLAS, GCC_TEXTURES.get(side));
 			VertexConsumer buffer = materialInterface.buffer(bufferIn, RenderType::text);
 
-			TextureAtlasSprite sprite = materialInterface.sprite();
 			poseStack.pushPose();
 			poseStack.translate(-1, -1, -1);
 			poseStack.scale(0.1875F, -0.1875F, 0.1875F); // (1 / 16) * 3
@@ -111,10 +109,10 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 			int a = 255;
 
 			Matrix4f matrix = poseStack.last().pose();
-			buffer.vertex(matrix, 16F, 16F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV1()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 16F, 0F, 0).color(r, g, b, a).uv(sprite.getU0(), sprite.getV0()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 0F, 0F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV0()).uv2(lightToUse).endVertex();
-			buffer.vertex(matrix, 0F, 16F, 0).color(r, g, b, a).uv(sprite.getU1(), sprite.getV1()).uv2(lightToUse).endVertex();
+			buffer.addVertex(matrix, 16F, 16F, 0).setColor(r, g, b, a).setUv(0, 1).setLight(lightToUse);
+			buffer.addVertex(matrix, 16F, 0F, 0).setColor(r, g, b, a).setUv(0, 0).setLight(lightToUse);
+			buffer.addVertex(matrix, 0F, 0F, 0).setColor(r, g, b, a).setUv(1, 0).setLight(lightToUse);
+			buffer.addVertex(matrix, 0F, 16F, 0).setColor(r, g, b, a).setUv(1, 1).setLight(lightToUse);
 			poseStack.popPose();
 		}
 		poseStack.popPose();

@@ -4,9 +4,11 @@ import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.ClientHelper;
 import chanceCubes.commands.CCubesRewardArguments;
 import chanceCubes.commands.CCubesServerCommands;
+import chanceCubes.components.CCubesDataComponents;
 import chanceCubes.config.CCubesSettings;
 import chanceCubes.config.ConfigLoader;
 import chanceCubes.config.CustomRewardsLoader;
+import chanceCubes.containers.CCubesMenus;
 import chanceCubes.items.CCubesItems;
 import chanceCubes.listeners.PlayerConnectListener;
 import chanceCubes.listeners.TickListener;
@@ -18,35 +20,30 @@ import chanceCubes.rewards.DefaultRewards;
 import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.StatsRegistry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.File;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 
 @Mod(CCubesCore.MODID)
 public class CCubesCore
@@ -55,37 +52,39 @@ public class CCubesCore
 
 	public static final Logger logger = LogManager.getLogger(MODID);
 
-	public CCubesCore()
+	public CCubesCore(IEventBus eventBus, Dist dist, ModContainer container)
 	{
-		CCubesNetwork.init();
-
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		CCubesDataComponents.DATA_COMPONENT_TYPES.register(eventBus);
 		CCubesBlocks.BLOCKS.register(eventBus);
 		CCubesBlocks.BLOCK_ENTITIES.register(eventBus);
 		CCubesItems.ITEMS.register(eventBus);
 		CCubesItems.CREATIVE_MODE_TABS.register(eventBus);
 		CCubesSounds.SOUNDS.register(eventBus);
+		CCubesMenus.MENUS.register(eventBus);
 		CCubesModifiers.BIOME_MODIFIER_SERIALIZERS.register(eventBus);
 		CCubesRewardArguments.COMMAND_ARGUMENT_TYPES.register(eventBus);
+		StatsRegistry.CUSTOM_STAT.register(eventBus);
 		WorldGen.FEATURES.register(eventBus);
 		eventBus.addListener(this::commonStart);
 		eventBus.addListener(this::onIMCMessage);
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+		eventBus.addListener(CCubesNetwork::setupPackets);
+		if (dist.isClient())
 		{
+			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+			eventBus.addListener(ClientHelper::registerMenuScreens);
 			eventBus.addListener(ClientHelper::clientStart);
 			eventBus.addListener(ClientHelper::onEntityRenders);
-			MinecraftForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
-		});
-		MinecraftForge.EVENT_BUS.register(this);
+			NeoForge.EVENT_BUS.addListener(ClientHelper::onClientCommandsRegister);
+		}
+		NeoForge.EVENT_BUS.register(this);
 		ConfigLoader.initParentFolder();
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
+		container.registerConfig(ModConfig.Type.COMMON, ConfigLoader.configSpec, "chancecubes" + File.separatorChar + "chancecubes-server.toml");
 	}
 
 	public void commonStart(FMLCommonSetupEvent event)
 	{
-		MinecraftForge.EVENT_BUS.register(new PlayerConnectListener());
-		MinecraftForge.EVENT_BUS.register(new TickListener());
-		event.enqueueWork(StatsRegistry::init);
+		NeoForge.EVENT_BUS.register(new PlayerConnectListener());
+		NeoForge.EVENT_BUS.register(new TickListener());
 	}
 
 	@SubscribeEvent
@@ -98,11 +97,12 @@ public class CCubesCore
 	@SubscribeEvent
 	public void serverStart(ServerStartingEvent event)
 	{
+		HolderLookup.Provider provider = event.getServer().registryAccess();
 		CCubesSettings.backupNRB.add(Blocks.BEDROCK.defaultBlockState());
 		CCubesSettings.backupNRB.add(Blocks.OBSIDIAN.defaultBlockState());
-		DefaultRewards.loadDefaultRewards();
-		DefaultGiantRewards.loadDefaultRewards();
-		CustomRewardsLoader.instance.loadCustomRewards();
+		DefaultRewards.loadDefaultRewards(provider);
+		DefaultGiantRewards.loadDefaultRewards(provider);
+		CustomRewardsLoader.instance.loadCustomRewards(provider);
 		NonreplaceableBlockOverride.loadOverrides();
 
 		logger.log(Level.INFO, "Death and destruction prepared! (And Cookies. Cookies were also prepared.)");

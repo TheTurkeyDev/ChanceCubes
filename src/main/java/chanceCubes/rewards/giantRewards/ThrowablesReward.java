@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Fireball;
 
 public class ThrowablesReward extends BaseCustomReward
 {
@@ -45,9 +44,9 @@ public class ThrowablesReward extends BaseCustomReward
 				else if(entChoice == 1)
 				{
 					throwEnt = EntityType.FIREBALL.create(level);
-					((Fireball) throwEnt).xPower = 0.1f * (-1 + (Math.random() * 2));
-					((Fireball) throwEnt).yPower = 0.1f * (-1 + (Math.random() * 2));
-					((Fireball) throwEnt).zPower = 0.1f * (-1 + (Math.random() * 2));
+//					((Fireball) throwEnt).xPower = 0.1f * (-1 + (Math.random() * 2));
+//					((Fireball) throwEnt).yPower = 0.1f * (-1 + (Math.random() * 2));
+//					((Fireball) throwEnt).zPower = 0.1f * (-1 + (Math.random() * 2));
 				}
 				else if(entChoice == 2)
 				{

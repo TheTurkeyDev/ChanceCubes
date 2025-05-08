@@ -22,7 +22,7 @@ public class ItemRewardType extends BaseRewardType<ItemPart>
 			@Override
 			public void callback()
 			{
-				ItemEntity itemEnt = new ItemEntity(level, x + 0.5, y + 0.5, z + 0.5, part.getItemStack().copy());
+				ItemEntity itemEnt = new ItemEntity(level, x + 0.5, y + 0.5, z + 0.5, part.getItemStack(level.registryAccess()).copy());
 				itemEnt.setPickUpDelay(10);
 				level.addFreshEntity(itemEnt);
 			}

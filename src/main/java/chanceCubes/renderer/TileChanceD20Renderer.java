@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.lighting.ForgeModelBlockRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
@@ -40,7 +39,7 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 	{
 		this.blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
 		this.blockColors = BlockColors.createDefault();
-		this.modelRenderer = new ForgeModelBlockRenderer(this.blockColors);
+		this.modelRenderer = new net.neoforged.neoforge.client.model.lighting.LightPipelineAwareModelBlockRenderer(this.blockColors);
 	}
 
 	@Override
@@ -127,22 +126,22 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 
 	private static void vertex01(VertexConsumer vc, Matrix4f p_114221_, int r, int g, int b, int alpha)
 	{
-		vc.vertex(p_114221_, 0.0F, 0.0F, 0.0F).color(r, g, b, alpha).endVertex();
+		vc.addVertex(p_114221_, 0.0F, 0.0F, 0.0F).setColor(r, g, b, alpha);
 	}
 
 	private static void vertex2(VertexConsumer vc, Matrix4f p_114216_, float p_114217_, float p_114218_, int r, int g, int b, int alpha)
 	{
-		vc.vertex(p_114216_, -HALF_SQRT_3 * p_114218_, p_114217_, -0.5F * p_114218_).color(r, g, b, 0).endVertex();
+		vc.addVertex(p_114216_, -HALF_SQRT_3 * p_114218_, p_114217_, -0.5F * p_114218_).setColor(r, g, b, 0);
 	}
 
 	private static void vertex3(VertexConsumer vc, Matrix4f p_114225_, float p_114226_, float p_114227_, int r, int g, int b, int alpha)
 	{
-		vc.vertex(p_114225_, HALF_SQRT_3 * p_114227_, p_114226_, -0.5F * p_114227_).color(r, g, b, 0).endVertex();
+		vc.addVertex(p_114225_, HALF_SQRT_3 * p_114227_, p_114226_, -0.5F * p_114227_).setColor(r, g, b, 0);
 	}
 
 	private static void vertex4(VertexConsumer vc, Matrix4f p_114230_, float p_114231_, float p_114232_, int r, int g, int b, int alpha)
 	{
-		vc.vertex(p_114230_, 0.0F, p_114231_, p_114232_).color(r, g, b, 0).endVertex();
+		vc.addVertex(p_114230_, 0.0F, p_114231_, p_114232_).setColor(r, g, b, 0);
 	}
 
 }

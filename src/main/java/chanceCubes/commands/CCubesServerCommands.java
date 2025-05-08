@@ -14,26 +14,29 @@ import chanceCubes.sounds.CCubesSounds;
 import chanceCubes.util.GiantCubeUtil;
 import chanceCubes.util.NonreplaceableBlockOverride;
 import chanceCubes.util.RewardsUtil;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.server.command.EnumArgument;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +52,7 @@ public class CCubesServerCommands
 				.then(Commands.literal("reload").executes(this::executeReload))
 				.then(Commands.literal("version").executes(this::executeVersion))
 				.then(Commands.literal("handNBT").executes(this::executeHandNBT))
+				.then(Commands.literal("handJSON").executes(this::executeHandJSON))
 				.then(Commands.literal("handID").executes(this::executeHandID))
 				.then(
 						Commands.literal("disableReward").then(
@@ -109,12 +113,13 @@ public class CCubesServerCommands
 	{
 		new Thread(() ->
 		{
+			HolderLookup.Provider provider = ctx.getSource().registryAccess();
 			GlobalCCRewardRegistry.DEFAULT.ClearRewards();
 			GlobalCCRewardRegistry.GIANT.ClearRewards();
 			ConfigLoader.reload();
-			DefaultRewards.loadDefaultRewards();
-			DefaultGiantRewards.loadDefaultRewards();
-			CustomRewardsLoader.instance.loadCustomRewards();
+			DefaultRewards.loadDefaultRewards(provider);
+			DefaultGiantRewards.loadDefaultRewards(provider);
+			CustomRewardsLoader.instance.loadCustomRewards(provider);
 			GlobalCCRewardRegistry.loadCustomUserRewards(ServerLifecycleHooks.getCurrentServer());
 			NonreplaceableBlockOverride.loadOverrides();
 			RewardsUtil.sendMessageToPlayer(getPlayer(ctx.getSource()), "Rewards Reloaded");
@@ -132,8 +137,21 @@ public class CCubesServerCommands
 	public int executeHandNBT(CommandContext<CommandSourceStack> ctx)
 	{
 		Player player = getPlayer(ctx.getSource());
-		CompoundTag nbt = player.getInventory().getSelected().getOrCreateTag();
+		Tag nbt = player.getInventory().getSelected().saveOptional(player.registryAccess());
 		RewardsUtil.sendMessageToPlayer(player, nbt.toString());
+		return 0;
+	}
+
+	public int executeHandJSON(CommandContext<CommandSourceStack> ctx)
+	{
+		Player player = getPlayer(ctx.getSource());
+		ItemStack stack = player.getInventory().getSelected();
+		if(!stack.isEmpty())
+		{
+			JsonElement json = ItemStack.CODEC.encodeStart(ctx.getSource().registryAccess().createSerializationContext(JsonOps.INSTANCE), stack)
+					.getOrThrow(string -> new IllegalStateException("Failed to encode item stack: " + string));
+			RewardsUtil.sendMessageToPlayer(player, json.toString());
+		}
 		return 0;
 	}
 

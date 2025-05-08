@@ -8,7 +8,51 @@ import chanceCubes.mcwrapper.ComponentWrapper;
 import chanceCubes.mcwrapper.EntityWrapper;
 import chanceCubes.parsers.RewardParser;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
-import chanceCubes.rewards.defaultRewards.*;
+import chanceCubes.rewards.defaultRewards.AnvilRain;
+import chanceCubes.rewards.defaultRewards.ArmorStandArmorReward;
+import chanceCubes.rewards.defaultRewards.BaseCustomReward;
+import chanceCubes.rewards.defaultRewards.BasicReward;
+import chanceCubes.rewards.defaultRewards.BookOfMemesReward;
+import chanceCubes.rewards.defaultRewards.BossBlazeReward;
+import chanceCubes.rewards.defaultRewards.BossMimicReward;
+import chanceCubes.rewards.defaultRewards.BossRavagerReward;
+import chanceCubes.rewards.defaultRewards.BossWitchReward;
+import chanceCubes.rewards.defaultRewards.CakeIsALieReward;
+import chanceCubes.rewards.defaultRewards.ChanceCubeRenameReward;
+import chanceCubes.rewards.defaultRewards.ClearInventoryReward;
+import chanceCubes.rewards.defaultRewards.CoinFlipReward;
+import chanceCubes.rewards.defaultRewards.Connect4Reward;
+import chanceCubes.rewards.defaultRewards.CountDownReward;
+import chanceCubes.rewards.defaultRewards.CreeperSurroundedReward;
+import chanceCubes.rewards.defaultRewards.CursedHeadReward;
+import chanceCubes.rewards.defaultRewards.DidYouKnowReward;
+import chanceCubes.rewards.defaultRewards.DigBuildReward;
+import chanceCubes.rewards.defaultRewards.DoubleRainbow;
+import chanceCubes.rewards.defaultRewards.HerobrineReward;
+import chanceCubes.rewards.defaultRewards.ItemChestReward;
+import chanceCubes.rewards.defaultRewards.ItemOfDestinyReward;
+import chanceCubes.rewards.defaultRewards.ItemRenamer;
+import chanceCubes.rewards.defaultRewards.JarGuessReward;
+import chanceCubes.rewards.defaultRewards.JukeBoxReward;
+import chanceCubes.rewards.defaultRewards.LootBoxReward;
+import chanceCubes.rewards.defaultRewards.MagicFeetReward;
+import chanceCubes.rewards.defaultRewards.MatchingReward;
+import chanceCubes.rewards.defaultRewards.MathReward;
+import chanceCubes.rewards.defaultRewards.MazeReward;
+import chanceCubes.rewards.defaultRewards.MobTowerReward;
+import chanceCubes.rewards.defaultRewards.MontyHallReward;
+import chanceCubes.rewards.defaultRewards.OneIsLuckyReward;
+import chanceCubes.rewards.defaultRewards.QuestionsReward;
+import chanceCubes.rewards.defaultRewards.RainingCatsAndCogsReward;
+import chanceCubes.rewards.defaultRewards.SkyblockReward;
+import chanceCubes.rewards.defaultRewards.SurroundedReward;
+import chanceCubes.rewards.defaultRewards.TableFlipReward;
+import chanceCubes.rewards.defaultRewards.TicTacToeReward;
+import chanceCubes.rewards.defaultRewards.TrollTNTReward;
+import chanceCubes.rewards.defaultRewards.WaitForItReward;
+import chanceCubes.rewards.defaultRewards.WheelSpinReward;
+import chanceCubes.rewards.defaultRewards.WitherReward;
+import chanceCubes.rewards.defaultRewards.WolvesToCreepersReward;
 import chanceCubes.rewards.rewardparts.ItemPart;
 import chanceCubes.rewards.rewardparts.MessagePart;
 import chanceCubes.rewards.rewardparts.OffsetBlock;
@@ -35,6 +79,9 @@ import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -54,14 +101,14 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +119,7 @@ public class DefaultRewards
 	/**
 	 * loads the default rewards of the Chance Cube
 	 */
-	public static void loadDefaultRewards()
+	public static void loadDefaultRewards(HolderLookup.Provider provider)
 	{
 		RewardsUtil.initData();
 
@@ -84,7 +131,7 @@ public class DefaultRewards
 			JsonObject json = RewardsUtil.getRewardJson(fileName);
 			for(Map.Entry<String, JsonElement> reward : json.entrySet())
 			{
-				CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward);
+				CustomEntry<BasicReward, Boolean> parsedReward = RewardParser.parseReward(reward, provider);
 				BasicReward basicReward = parsedReward.getKey();
 				if(basicReward == null)
 				{
@@ -103,15 +150,15 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":lava_ring", -40, new BlockRewardType(new OffsetBlock(1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, 0, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(-1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true), new OffsetBlock(1, -1, -1, Blocks.LAVA, false).setRelativeToPlayer(true))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":rain", -5, new CommandRewardType("/weather thunder 20000")));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":silverfish_surround", -20, new BlockRewardType(new OffsetBlock(1, 0, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(1, 1, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, 1, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, 1, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(-1, 0, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(-1, 1, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, 0, -1, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, 1, -1, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, 2, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true), new OffsetBlock(0, -1, 0, Blocks.INFESTED_COBBLESTONE, false).setRelativeToPlayer(true))));
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":fish_dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.COD, 5)), new ItemPart(new ItemStack(Items.WOLF_SPAWN_EGG)))));
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":bone_cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.BONE, 5)), new ItemPart(new ItemStack(Items.OCELOT_SPAWN_EGG)))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":fish_dog", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.COD, 5), provider), new ItemPart(new ItemStack(Items.WOLF_SPAWN_EGG), provider))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":bone_cat", 20, new ItemRewardType(new ItemPart(new ItemStack(Items.BONE, 5), provider), new ItemPart(new ItemStack(Items.OCELOT_SPAWN_EGG), provider))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":tnt_cat", -25, new CommandRewardType("/summon ocelot ~ ~1 ~ {CatType:0,Sitting:0,Passengers:[{id:\"tnt\",Fuse:80}]}")));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":diamond_block", 85, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.DIAMOND_BLOCK, true, 200))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":tnt_diamond", -35, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.DIAMOND_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.DIAMOND_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5))));
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":fake_tnt", 0, new SoundRewardType(new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.GENERIC_EXPLODE, 120).setAtPlayersLocation(true))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":fake_tnt", 0, new SoundRewardType(new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.TNT_PRIMED), new SoundPart(SoundEvents.GENERIC_EXPLODE.value(), 120).setAtPlayersLocation(true))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":invisible_ghasts", 0, new SoundRewardType(new SoundPart(SoundEvents.GHAST_SCREAM).setServerWide(true), new SoundPart(SoundEvents.GHAST_WARN).setServerWide(true), new SoundPart(SoundEvents.GHAST_WARN).setServerWide(true))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":no", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, CCubesBlocks.CHANCE_CUBE.get(), false)), new MessageRewardType("No")));
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":coal_to_diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50))));
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":coal_to_diamonds", 10, new BlockRewardType(new OffsetBlock(0, 1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, -1, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(-1, 0, 0, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, 1, Blocks.COAL_BLOCK, false), new OffsetBlock(0, 0, -1, Blocks.COAL_BLOCK, false)), new CommandRewardType(RewardsUtil.executeXCommands("/summon tnt %x %y %z {Fuse:40}", 3, 5)), new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 5), 50, provider))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":one_man_army", -10, new EntityRewardType("zombified_piglin"), new CommandRewardType(RewardsUtil.executeXCommands("/summon zombified_piglin ~ ~ ~ {Silent:1,ActiveEffects:[{Id:14,Amplifier:0,Duration:19980,ShowParticles:1b}]}", 9)), new MessageRewardType(new MessagePart("One man army").setRange(32))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":arrow_trap", -25, new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/arrow_trap.ccs", true, new IntVar(1), new IntVar(-1), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0)))));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":trampoline", 15, new MessageRewardType("Time to bounce!"), new SchematicRewardType(new SchematicPart("/data/chancecubes/schematics/trampoline.ccs", true, new IntVar(1), new IntVar(-3), new IntVar(1), new FloatVar(0), new BoolVar(false), new BoolVar(true), new BoolVar(true), new BoolVar(true), new IntVar(0))), new BlockRewardType(new OffsetBlock(2, -2, -2, Blocks.REDSTONE_BLOCK, false, 3).setRelativeToPlayer(true).setCausesBlockUpdate(true), new OffsetBlock(2, -2, -2, Blocks.REDSTONE_WIRE, false, 5).setRelativeToPlayer(true).setCausesBlockUpdate(true))));
@@ -119,7 +166,7 @@ public class DefaultRewards
 		CompoundTag nbt;
 
 		SignBlockEntity sign = BlockWrapper.createSign(new BlockPos(0, 0, 0), new String[]{"The broken path", "to succeed"});
-		nbt = sign.saveWithFullMetadata();
+		nbt = sign.saveWithFullMetadata(provider);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BasicReward(CCubesCore.MODID + ":path_to_succeed", 0, new BlockRewardType(new OffsetTileEntity(0, 0, -5, Blocks.OAK_SIGN, nbt, true, 20), new OffsetBlock(0, -1, 0, Blocks.COBBLESTONE, true, 0), new OffsetBlock(0, -1, -1, Blocks.COBBLESTONE, true, 4), new OffsetBlock(0, -1, -2, Blocks.COBBLESTONE, true, 8), new OffsetBlock(0, -1, -3, Blocks.COBBLESTONE, true, 12), new OffsetBlock(0, -1, -4, Blocks.COBBLESTONE, true, 16), new OffsetBlock(0, -1, -5, Blocks.COBBLESTONE, true, 20))));
 
 
@@ -222,7 +269,7 @@ public class DefaultRewards
 				{
 					for(double zz = 1; zz > -1; zz -= 0.25)
 					{
-						arrow = new Arrow(level, player);
+						arrow = new Arrow(level, player, new ItemStack(Items.ARROW), null);
 						arrow.moveTo(pos.getX(), pos.getY() + 0.5f, pos.getZ(), 0, 0);
 						arrow.setDeltaMovement(xx, .3, zz);
 						level.addFreshEntity(arrow);
@@ -240,7 +287,9 @@ public class DefaultRewards
 				for(double rad = -Math.PI; rad <= Math.PI; rad += (Math.PI / 10))
 				{
 					pot = new ThrownPotion(level, player);
-					pot.setItem(PotionUtils.setCustomEffects(new ItemStack(Items.LINGERING_POTION), List.of(RewardsUtil.getRandomPotionEffectInstance())));
+					ItemStack stack = new ItemStack(Items.LINGERING_POTION);
+					stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(RewardsUtil.getRandomPotionEffectInstance()));
+					pot.setItem(stack);
 					pot.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
 					pot.setDeltaMovement(Math.cos(rad) * (0.1 + (0.05 * 3)), 1, Math.sin(rad) * (0.1 + (0.05 * 3)));
 					level.addFreshEntity(pot);
@@ -303,7 +352,7 @@ public class DefaultRewards
 
 				EntityWrapper.spawnEntityAt(EntityType.END_CRYSTAL, level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
-				Arrow arrow = new Arrow(level, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5);
+				Arrow arrow = new Arrow(level, pos.getX() + 0.5, pos.getY() + 29, pos.getZ() + 0.5, new ItemStack(Items.ARROW), null);
 				arrow.setDeltaMovement(0, -0.25, 0);
 				level.addFreshEntity(arrow);
 			}
@@ -351,12 +400,12 @@ public class DefaultRewards
 					ItemStack stack = new ItemStack(Blocks.DEAD_BUSH, 64);
 					if(i == 0)
 					{
-						stack.setHoverName(ComponentWrapper.string("Button").setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE))));
+						stack.set(DataComponents.CUSTOM_NAME, ComponentWrapper.string("Button").setStyle(Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE))));
 						stack.setCount(13);
 					}
 					else if(i == 1)
 					{
-						stack.setHoverName(ComponentWrapper.string("TheBlackswordsman"));
+						stack.set(DataComponents.CUSTOM_NAME, ComponentWrapper.string("TheBlackswordsman"));
 						stack.setCount(13);
 					}
 					player.getInventory().armor.set(i, stack);
@@ -424,7 +473,7 @@ public class DefaultRewards
 				for(int i = 0; i < player.getInventory().items.size(); i++)
 				{
 					ItemStack stack = player.getInventory().items.get(i);
-					if(!stack.isEmpty() && stack.getItem().isEdible())
+					if(!stack.isEmpty() && stack.has(DataComponents.FOOD))
 						player.getInventory().items.set(i, new ItemStack(Items.ROTTEN_FLESH, stack.getCount()));
 				}
 
@@ -581,7 +630,7 @@ public class DefaultRewards
 					if(stacks.size() == 0)
 					{
 						ItemStack dirt = new ItemStack(Blocks.DIRT);
-						dirt.setHoverName(ComponentWrapper.string("A lonley piece of dirt"));
+						dirt.set(DataComponents.CUSTOM_NAME, ComponentWrapper.string("A lonley piece of dirt"));
 						player.getInventory().add(dirt);
 						RewardsUtil.executeCommand(level, player, player.getOnPos(), "/advancement grant @p only chancecubes:lonely_dirt");
 						return;
@@ -590,7 +639,7 @@ public class DefaultRewards
 					toEnchant = stacks.get(RewardsUtil.rand.nextInt(stacks.size()));
 				}
 
-				CustomEntry<Enchantment, Integer> enchantment = RewardsUtil.getRandomEnchantmentAndLevel();
+				CustomEntry<Holder<Enchantment>, Integer> enchantment = RewardsUtil.getRandomEnchantmentAndLevel(level.registryAccess());
 				toEnchant.enchant(enchantment.getKey(), enchantment.getValue());
 			}
 		});
@@ -635,24 +684,24 @@ public class DefaultRewards
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossBlazeReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new BossRavagerReward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new CursedHeadReward());
-		GlobalCCRewardRegistry.DEFAULT.registerReward(new WheelSpinReward());
+		GlobalCCRewardRegistry.DEFAULT.registerReward(new WheelSpinReward(provider));
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new Connect4Reward());
 		GlobalCCRewardRegistry.DEFAULT.registerReward(new LootBoxReward());
 
 		MathReward math = new MathReward();
-		MinecraftForge.EVENT_BUS.register(math);
+		NeoForge.EVENT_BUS.register(math);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(math);
 
 		QuestionsReward question = new QuestionsReward();
-		MinecraftForge.EVENT_BUS.register(question);
+		NeoForge.EVENT_BUS.register(question);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(question);
 
 		CoinFlipReward coinFlip = new CoinFlipReward();
-		MinecraftForge.EVENT_BUS.register(coinFlip);
+		NeoForge.EVENT_BUS.register(coinFlip);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(coinFlip);
 
 		JarGuessReward jarGuess = new JarGuessReward();
-		MinecraftForge.EVENT_BUS.register(jarGuess);
+		NeoForge.EVENT_BUS.register(jarGuess);
 		GlobalCCRewardRegistry.DEFAULT.registerReward(jarGuess);
 	}
 }

@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -47,7 +48,7 @@ public class StreamerReward
 	private final List<Option> options = new ArrayList<>();
 	private int timeLeft;
 
-	public StreamerReward(String channel, JsonArray jsonOptions)
+	public StreamerReward(String channel, JsonArray jsonOptions, HolderLookup.Provider provider)
 	{
 		this.channel = "#" + channel;
 		for(JsonElement option : jsonOptions)
@@ -60,7 +61,7 @@ public class StreamerReward
 				if(entry.getKey().equals("chat_invades"))
 					theReward = new ChatInvadeReward(channel);
 				else
-					theReward = RewardParser.parseReward(entry).getKey();
+					theReward = RewardParser.parseReward(entry, provider).getKey();
 
 				options.add(new Option(display, theReward, 0));
 				break;

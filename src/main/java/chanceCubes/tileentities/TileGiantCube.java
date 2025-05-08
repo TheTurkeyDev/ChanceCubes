@@ -2,6 +2,8 @@ package chanceCubes.tileentities;
 
 import chanceCubes.blocks.CCubesBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -38,9 +40,9 @@ public class TileGiantCube extends BlockEntity
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data)
+	protected void saveAdditional(CompoundTag data, Provider registries)
 	{
-		super.saveAdditional(data);
+		super.saveAdditional(data, registries);
 		data.putInt("masterX", masterPos.getX());
 		data.putInt("masterY", masterPos.getY());
 		data.putInt("masterZ", masterPos.getZ());
@@ -49,9 +51,9 @@ public class TileGiantCube extends BlockEntity
 	}
 
 	@Override
-	public void load(CompoundTag data)
+	public void loadAdditional(CompoundTag data, Provider registries)
 	{
-		super.load(data);
+		super.loadAdditional(data, registries);
 		int masterX = data.getInt("masterX");
 		int masterY = data.getInt("masterY");
 		int masterZ = data.getInt("masterZ");
@@ -67,22 +69,18 @@ public class TileGiantCube extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag getUpdateTag()
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries)
 	{
-		CompoundTag data = new CompoundTag();
-		data.putInt("masterX", masterPos.getX());
-		data.putInt("masterY", masterPos.getY());
-		data.putInt("masterZ", masterPos.getZ());
-		data.putBoolean("hasMaster", hasMaster);
-		data.putBoolean("isMaster", isMaster);
-		return data;
+		CompoundTag nbt = new CompoundTag();
+		this.saveAdditional(nbt, registries);
+		return nbt;
 	}
 
 
 	@Override
-	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries)
 	{
-		load(pkt.getTag());
+		loadAdditional(pkt.getTag(), registries);
 	}
 
 	public boolean hasMaster()

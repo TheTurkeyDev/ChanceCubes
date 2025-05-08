@@ -2,6 +2,7 @@ package chanceCubes.items;
 
 import chanceCubes.blocks.CCubesBlocks;
 import chanceCubes.client.ClientHelper;
+import chanceCubes.components.CCubesDataComponents;
 import chanceCubes.registry.global.GlobalCCRewardRegistry;
 import chanceCubes.rewards.IChanceCubeReward;
 import chanceCubes.tileentities.TileGiantCube;
@@ -19,8 +20,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 
 public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 {
@@ -36,7 +35,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 	{
 		ItemStack stack = player.getItemInHand(hand);
 		if(player.isCrouching() && level.isClientSide() && player.isCreative())
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHelper.openRewardSelectorGUI(player, stack));
+			ClientHelper.openRewardSelectorGUI(player, stack);
 		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 	}
 
@@ -50,7 +49,8 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 
 		ServerLevel level = (ServerLevel) context.getLevel();
 
-		if(context.getItemInHand().getTag() != null && context.getItemInHand().getTag().contains("Reward"))
+		String selectedReward = context.getItemInHand().get(CCubesDataComponents.REWARD);
+		if(selectedReward != null)
 		{
 			Player player = context.getPlayer();
 			if(player != null)
@@ -58,7 +58,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 				if(level.getBlockState(context.getClickedPos()).getBlock().equals(CCubesBlocks.CHANCE_CUBE.get()))
 				{
 					level.setBlockAndUpdate(context.getClickedPos(), Blocks.AIR.defaultBlockState());
-					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
+					IChanceCubeReward reward = GlobalCCRewardRegistry.DEFAULT.getRewardByName(selectedReward);
 					if(reward != null)
 					{
 						GlobalCCRewardRegistry.triggerReward(reward, level, context.getClickedPos(), context.getPlayer());
@@ -75,7 +75,7 @@ public class ItemSingleUseRewardSelectorPendant extends BaseChanceCubesItem
 					if(!(ent instanceof TileGiantCube giant))
 						return InteractionResult.FAIL;
 
-					IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(context.getItemInHand().getTag().getString("Reward"));
+					IChanceCubeReward reward = GlobalCCRewardRegistry.GIANT.getRewardByName(selectedReward);
 					if(reward != null)
 					{
 						GlobalCCRewardRegistry.triggerReward(reward, level, giant.getMasterPostion(), context.getPlayer());

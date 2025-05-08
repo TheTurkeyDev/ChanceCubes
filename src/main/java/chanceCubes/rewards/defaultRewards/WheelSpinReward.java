@@ -20,7 +20,9 @@ import chanceCubes.util.Task;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Rotations;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -47,9 +49,13 @@ public class WheelSpinReward extends BaseCustomReward
 {
 	private static final List<RewardTrigger> rewards = new ArrayList<>();
 
-	static
+	private final RewardTrigger[] rewardsChosen = new RewardTrigger[4];
+
+	public WheelSpinReward(HolderLookup.Provider provider)
 	{
-		rewards.add(new RewardTrigger(new BasicReward("diamond", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 1)))), "", "1 Diamond"));
+		super(CCubesCore.MODID + ":wheel_spin", 10);
+
+		rewards.add(new RewardTrigger(new BasicReward("diamond", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.DIAMOND, 1), provider))), "", "1 Diamond"));
 		rewards.add(new RewardTrigger(new BasicReward("creeper", 0, new EntityRewardType("creeper")), "", "Creeper"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("tnt", 0)
 		{
@@ -65,7 +71,7 @@ public class WheelSpinReward extends BaseCustomReward
 				}
 			}
 		}, "", "TNT"));
-		rewards.add(new RewardTrigger(new BasicReward("diamond_cooking", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.COAL_BLOCK, 1))), new MessageRewardType("Sorry, your diamond wasn't done cooking! :(")), "", "1 Diamond?"));
+		rewards.add(new RewardTrigger(new BasicReward("diamond_cooking", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.COAL_BLOCK, 1), provider)), new MessageRewardType("Sorry, your diamond wasn't done cooking! :(")), "", "1 Diamond?"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("random_reward_neutral", 0)
 		{
 			@Override
@@ -90,12 +96,12 @@ public class WheelSpinReward extends BaseCustomReward
 				GlobalCCRewardRegistry.DEFAULT.triggerRandomReward(level, pos, player, 50);
 			}
 		}, "Random", "chance Cube", "Reward", "Value: 50"));
-		rewards.add(new RewardTrigger(new BasicReward("emerald", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.EMERALD, 1)))), "", "1 Emerald"));
+		rewards.add(new RewardTrigger(new BasicReward("emerald", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.EMERALD, 1), provider))), "", "1 Emerald"));
 		rewards.add(new RewardTrigger(new BasicReward("nothing", 0, new MessageRewardType("Congrats! You won absolutely nothing!")), "", "Nothing"));
 		ItemStack car = new ItemStack(Items.MINECART);
-		car.setHoverName(ComponentWrapper.string("New Car!"));
-		car.enchant(Enchantments.UNBREAKING, 0);
-		rewards.add(new RewardTrigger(new BasicReward("new_car", 0, new ItemRewardType(new ItemPart(car))), "", "A Brand", "New Car"));
+		car.set(DataComponents.CUSTOM_NAME, ComponentWrapper.string("New Car!"));
+		car.enchant(provider.holderOrThrow(Enchantments.UNBREAKING), 0);
+		rewards.add(new RewardTrigger(new BasicReward("new_car", 0, new ItemRewardType(new ItemPart(car, provider))), "", "A Brand", "New Car"));
 		rewards.add(new RewardTrigger(new BasicReward("lava", 0, new BlockRewardType(new OffsetBlock(0, 0, 0, Blocks.LAVA, false))), "", "Hot Stuff"));
 		rewards.add(new RewardTrigger(new BaseCustomReward("vacation", 0)
 		{
@@ -121,14 +127,7 @@ public class WheelSpinReward extends BaseCustomReward
 				player.moveTo(xChange, yChange, zChange);
 			}
 		}, "All", "Expenses", "Paid", "Vacation"));
-		rewards.add(new RewardTrigger(new BasicReward("free_groceries", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.BREAD, 64)), new ItemPart(new ItemStack(Items.COOKIE, 64)), new ItemPart(new ItemStack(Items.MILK_BUCKET, 10))), new MessageRewardType("There, that should last you a year!")), "", "Free Groceries", "For a YEAR!"));
-	}
-
-	private final RewardTrigger[] rewardsChosen = new RewardTrigger[4];
-
-	public WheelSpinReward()
-	{
-		super(CCubesCore.MODID + ":wheel_spin", 10);
+		rewards.add(new RewardTrigger(new BasicReward("free_groceries", 0, new ItemRewardType(new ItemPart(new ItemStack(Items.BREAD, 64), provider), new ItemPart(new ItemStack(Items.COOKIE, 64), provider), new ItemPart(new ItemStack(Items.MILK_BUCKET, 10), provider)), new MessageRewardType("There, that should last you a year!")), "", "Free Groceries", "For a YEAR!"));
 	}
 
 	@Override

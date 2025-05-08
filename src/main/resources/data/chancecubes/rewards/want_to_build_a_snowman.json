@@ -5,13 +5,13 @@
       {
         "item": {
           "id": "minecraft:snow_block",
-          "Count": 2
+          "count": 2
         }
       },
       {
         "item": {
           "id": "minecraft:jack_o_lantern",
-          "Count": 1
+          "count": 1
         }
       }
     ],

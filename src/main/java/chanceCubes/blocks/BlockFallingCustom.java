@@ -84,7 +84,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 							BlockEntity blockentity = this.level().getBlockEntity(blockpos1);
 							if(blockentity != null)
 							{
-								CompoundTag compoundtag = blockentity.saveWithFullMetadata();
+								CompoundTag compoundtag = blockentity.saveWithFullMetadata(this.level().registryAccess());
 
 								for(String s : this.blockData.getAllKeys())
 								{
@@ -95,7 +95,7 @@ public class BlockFallingCustom extends FallingBlockEntity
 
 								try
 								{
-									blockentity.load(compoundtag);
+									blockentity.loadWithComponents(compoundtag, this.level().registryAccess());
 								} catch(Exception exception)
 								{
 									CCubesCore.logger.error("Failed to load block entity from falling block", exception);

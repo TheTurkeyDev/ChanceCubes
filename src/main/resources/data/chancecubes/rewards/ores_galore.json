@@ -5,37 +5,37 @@
       {
         "item": {
           "id": "minecraft:coal",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:redstone",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:iron_ingot",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:gold_ingot",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:diamond",
-          "Count": 1
+          "count": 1
         }
       },
       {
         "item": {
           "id": "minecraft:emerald",
-          "Count": 1
+          "count": 1
         }
       }
     ]

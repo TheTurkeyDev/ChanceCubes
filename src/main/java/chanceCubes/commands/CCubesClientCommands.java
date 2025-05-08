@@ -9,8 +9,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 public class CCubesClientCommands
 {
@@ -37,10 +36,10 @@ public class CCubesClientCommands
 			//Possibly make own packet
 			if(SchematicUtil.selectionPoints[0] != null && SchematicUtil.selectionPoints[1] != null)
 			{
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+				if (FMLEnvironment.dist.isClient())
 				{
 					ClientHelper.openSchematicCreatorGUI(Minecraft.getInstance().player);
-				});
+				}
 			}
 			else
 			{

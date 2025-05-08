@@ -38,9 +38,16 @@ public class CCSurfaceFeature extends Feature<NoneFeatureConfiguration>
 		pos = new BlockPos(x, y, z);
 
 		BlockState bs = level.getBlockState(pos);
-
-		if(!bs.canBeReplaced() || bs.is(Blocks.WATER))
+		if (bs.is(Blocks.WATER))
 			return false;
+
+		boolean canPlace = !bs.canBeReplaced();
+		if (!canPlace)
+		{
+			pos = pos.above();
+			if(!bs.canBeReplaced() || bs.is(Blocks.WATER))
+				return false;
+		}
 
 		level.setBlock(pos, CCubesBlocks.CHANCE_CUBE.get().defaultBlockState(), 3);
 

@@ -1,0 +1,10 @@
+{
+  "chancecubes:maiden_voyage_swimmer": {
+    "chance": 5,
+    "Command": [
+      {
+        "command": "\/summon armor_stand ~ ~2 ~ {CustomNameVisible:1b,ShowArms:1b,NoBasePlate:1b,Pose:{Body:[-4f,10f,0f],LeftArm:[4f,18f,0f],RightArm:[-153f,34f,-3f],LeftLeg:[6f,24f,0f],RightLeg:[-4f,17f,2f],Head:[-22f,25f,0f]},HandItems:[{id:\"minecraft:pumpkin\",count:1},{}],ArmorItems:[{id:\"minecraft:leather_boots\",count:1,components:{\"minecraft:dyed_color\":16777215}},{id:\"minecraft:leather_leggings\",count:1,components:{\"minecraft:dyed_color\":16099768}},{id:\"minecraft:leather_chestplate\",count:1,components:{\"minecraft:dyed_color\":6016762}},{id:\"minecraft:player_head\",count:1,components:{\"minecraft:profile\":{name:\"ShyNieke\"}}}],CustomName:'[{\"color\":\"#5BCEFA\",\"text\":\"S\"},{\"color\":\"#5BCEFA\",\"text\":\"h\"},{\"color\":\"#F5A9B8\",\"text\":\"y\"},{\"color\":\"#ffffff\",\"text\":\"n\"},{\"color\":\"#FFFFFF\",\"text\":\"i\"},{\"color\":\"#F5A9B8\",\"text\":\"e\"},{\"color\":\"#5BCEFA\",\"text\":\"k\"},{\"color\":\"#5BCEFA\",\"text\":\"e\"}]'}"
+      }
+    ]
+  }
+}

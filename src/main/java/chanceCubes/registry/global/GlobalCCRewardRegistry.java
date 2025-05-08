@@ -29,7 +29,7 @@ public class GlobalCCRewardRegistry
 	public static void loadCustomUserRewards(MinecraftServer server)
 	{
 		for(ServerPlayer player : server.getPlayerList().getPlayers())
-			CustomUserReward.getCustomUserReward(player.getUUID());
+			CustomUserReward.getCustomUserReward(player.getUUID(), player.registryAccess());
 	}
 
 	public void registerReward(IChanceCubeReward reward)
