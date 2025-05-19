@@ -12,10 +12,12 @@ import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -190,12 +192,12 @@ public class RewardsUtil
 
 	public static Holder<MobEffect> getPotionSafe(ResourceLocation res)
 	{
-		return getRegistryHolderEntrySafe(BuiltInRegistries.MOB_EFFECT, res, ((DefaultedRegistry<?>)BuiltInRegistries.MOB_EFFECT).getDefaultKey());
+		return getRegistryHolderEntrySafe(BuiltInRegistries.MOB_EFFECT, res, MobEffects.MOVEMENT_SPEED.getKey().location());
 	}
 
 	public static ParticleType<?> getParticleSafe(ResourceLocation res)
 	{
-		return getRegistryEntrySafe(BuiltInRegistries.PARTICLE_TYPE, res, ((DefaultedRegistry<?>)BuiltInRegistries.PARTICLE_TYPE).getDefaultKey());
+		return getRegistryEntrySafe(BuiltInRegistries.PARTICLE_TYPE, res, BuiltInRegistries.PARTICLE_TYPE.getKey(ParticleTypes.BLOCK));
 	}
 
 	public static <T> T getRegistryEntrySafe(Registry<T> registry, ResourceLocation key, ResourceLocation defaultReturn)
