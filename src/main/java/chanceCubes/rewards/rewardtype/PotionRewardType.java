@@ -30,8 +30,6 @@ public class PotionRewardType extends BaseRewardType<PotionPart>
 			@Override
 			public void callback()
 			{
-				ItemStack potion = new ItemStack(Items.SPLASH_POTION);
-
 				List<MobEffectInstance> effects = new ArrayList<>();
 				effects.add(part.getEffect());
 
