@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,11 +36,11 @@ public class TileChanceD20Renderer implements BlockEntityRenderer<TileChanceD20>
 	private final ModelBlockRenderer modelRenderer;
 	private final BlockColors blockColors;
 
-	public TileChanceD20Renderer()
+	public TileChanceD20Renderer(BlockEntityRendererProvider.Context context)
 	{
-		this.blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
-		this.blockColors = BlockColors.createDefault();
-		this.modelRenderer = new net.neoforged.neoforge.client.model.lighting.LightPipelineAwareModelBlockRenderer(this.blockColors);
+		this.blockRenderDispatcher = context.getBlockRenderDispatcher();
+		this.blockColors = Minecraft.getInstance().getBlockColors();
+		this.modelRenderer = blockRenderDispatcher.getModelRenderer();
 	}
 
 	@Override

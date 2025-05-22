@@ -8,6 +8,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +35,7 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 	/**
 	 * Make a new instance.
 	 */
-	public TileGiantCubeRenderer()
+	public TileGiantCubeRenderer(BlockEntityRendererProvider.Context context)
 	{
 
 	}
