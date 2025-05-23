@@ -9,6 +9,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
@@ -20,7 +21,7 @@ public class TileCubeDispenserRenderer implements BlockEntityRenderer<TileCubeDi
 	private static final float ROTATE_SPEED = 0.5F;
 	private static final float WAVE_SPEED = 0.3F;
 
-	public TileCubeDispenserRenderer()
+	public TileCubeDispenserRenderer(BlockEntityRendererProvider.Context context)
 	{
 
 	}

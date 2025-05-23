@@ -44,9 +44,9 @@ public class ClientHelper
 	@SubscribeEvent
 	public static void onEntityRenders(EntityRenderersEvent.RegisterRenderers event)
 	{
-		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), p_173571_ -> new TileChanceD20Renderer());
-		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER.get(), p_173571_ -> new TileCubeDispenserRenderer());
-		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), p_173571_ -> new TileGiantCubeRenderer());
+		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_ICOSAHEDRON.get(), TileChanceD20Renderer::new);
+		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CUBE_DISPENSER.get(), TileCubeDispenserRenderer::new);
+		event.registerBlockEntityRenderer(CCubesBlocks.TILE_CHANCE_GIANT.get(), TileGiantCubeRenderer::new);
 	}
 
 	@SubscribeEvent
