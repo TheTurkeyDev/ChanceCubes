@@ -5,14 +5,17 @@ import chanceCubes.tileentities.TileGiantCube;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 
 import java.util.HashMap;
@@ -49,9 +52,9 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 		poseStack.pushPose();
 		//TODO: Breaks with block on top
 		int lightToUse = light;
+		BlockPos offsetPos = tile.getBlockPos().offset(0, 3, 0);
 		if(tile.getLevel() != null)
-			lightToUse = tile.getLevel().getLightEmission(tile.getBlockPos().offset(0, 2, 0)) * 100;
-
+			lightToUse = LevelRenderer.getLightColor(tile.getLevel(), offsetPos);
 
 		for(Direction side : Direction.values())
 		{
@@ -110,10 +113,10 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 			int a = 255;
 
 			Matrix4f matrix = poseStack.last().pose();
-			buffer.addVertex(matrix, 16F, 16F, 0).setColor(r, g, b, a).setUv(0, 1).setLight(lightToUse);
-			buffer.addVertex(matrix, 16F, 0F, 0).setColor(r, g, b, a).setUv(0, 0).setLight(lightToUse);
-			buffer.addVertex(matrix, 0F, 0F, 0).setColor(r, g, b, a).setUv(1, 0).setLight(lightToUse);
-			buffer.addVertex(matrix, 0F, 16F, 0).setColor(r, g, b, a).setUv(1, 1).setLight(lightToUse);
+			buffer.addVertex(matrix, 16F, 16F, 0).setColor(r, g, b, a).setUv(0, 1).setLight(lightToUse).setOverlay(overlayLight);
+			buffer.addVertex(matrix, 16F, 0F, 0).setColor(r, g, b, a).setUv(0, 0).setLight(lightToUse).setOverlay(overlayLight);
+			buffer.addVertex(matrix, 0F, 0F, 0).setColor(r, g, b, a).setUv(1, 0).setLight(lightToUse).setOverlay(overlayLight);
+			buffer.addVertex(matrix, 0F, 16F, 0).setColor(r, g, b, a).setUv(1, 1).setLight(lightToUse).setOverlay(overlayLight);
 			poseStack.popPose();
 		}
 		poseStack.popPose();
@@ -141,5 +144,10 @@ public class TileGiantCubeRenderer implements BlockEntityRenderer<TileGiantCube>
 	public boolean shouldRenderOffScreen(TileGiantCube tile)
 	{
 		return true;
+	}
+
+	@Override
+	public AABB getRenderBoundingBox(TileGiantCube blockEntity) {
+		return new AABB(blockEntity.getBlockPos()).inflate(1, 1, 1);
 	}
 }
