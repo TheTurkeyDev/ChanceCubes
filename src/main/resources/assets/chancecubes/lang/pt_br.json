@@ -1,0 +1,52 @@
+{
+    "itemGroup.chancecubes": "Chance Cubes",
+
+    "block.chancecubes.chance_cube": "Cubo de Chance",
+    "block.chancecubes.chance_icosahedron": "Icosaedro de Chance",
+    "block.chancecubes.giant_chance_cube": "Cubo de Chance Gigante",
+    "block.chancecubes.compact_giant_chance_cube": "Cubo de Chance Gigante Compacto",
+    "block.chancecubes.cube_dispenser": "Ejetor de Cubo de Chance",
+
+    "item.chancecubes.chance_pendant_tier1": "Pingente de Chance Nível 1",
+    "item.chancecubes.chance_pendant_tier2": "Pingente de Chance Nível 2",
+    "item.chancecubes.chance_pendant_tier3": "Pingente de Chance Nível 3",
+
+    "item.chancecubes.creative_pendant": "Pingente de Chance Criativo",
+    "item.chancecubes.reward_selector_pendant": "Pingente Seletor de Recompensa",
+    "item.chancecubes.single_use_reward_selector_pendant": "Pingente Seletor de Recompensa de Uso Único",
+
+    "item.chancecubes.silk_touch_pendant": "Pingente de Chance com Toque Suave",
+
+    "item.chancecubes.scanner": "Scanner de Cubo de Chance",
+
+    "death.attack.mathdeath": "A mente de %1$s explodiu com o poder da matemática",
+    "death.attack.mazedeath": "%1$s se perdeu para sempre no labirinto do Cubo de Chance.",
+    "death.attack.questiondeath": "%1$s sofreu as consequências da resposta errada.",
+    "death.attack.digbuilddeath": "Os braços de %1$s aparentemente quebraram.",
+    "death.attack.matchingdeath": "%1$s encontrou um desafio à altura.",
+
+    "advancements.chancecubes:root.desc": "Um Jogo de Chance e Habilidade",
+    "advancements.chancecubes:chance_icosahedron": "Bola de Discoteca!",
+    "advancements.chancecubes:chance_icosahedron.desc": "Abra um Icosaedro de Chance",
+    "advancements.chancecubes:giant_chance_cube": "BWWWWAAAAAMMMMM!",
+    "advancements.chancecubes:giant_chance_cube.desc": "Quebre um Cubo de Chance Gigante",
+    "advancements.chancecubes:lonely_dirt": "Terra Solitária",
+    "advancements.chancecubes:lonely_dirt.desc": "Obtenha o Pedaço de Terra Solitário",
+    "advancements.chancecubes:wither": "É Real??",
+    "advancements.chancecubes:wither.desc": "Faça o Wither Kiwi realmente aparecer",
+    "advancements.chancecubes:herobrine": "Ele é Real??",
+    "advancements.chancecubes:herobrine.desc": "Faça o Herobrine realmente aparecer",
+    "advancements.chancecubes:its_a_lie": "É uma Mentira!",
+    "advancements.chancecubes:its_a_lie.desc": "Sim, o bolo é uma mentira",
+
+    "chancecubes.reward.raining_potions": "Isso se chama arte! Pesquise sobre isso!",
+
+    "stat.chancecubes.opened_chance_cube": "Cubos de Chance Abertos",
+    "stat.chancecubes.opened_giant_chance_cube": "Cubos de Chance Gigantes Abertos",
+    "stat.chancecubes.opened_d20": "Icosaedros de Chance Abertos",
+
+    "chancecubes.networking.trigger_d20.failed": "Falha ao acionar D20: %s",
+    "chancecubes.networking.creative_pendant.failed": "Falha ao acionar pingente criativo: %s",
+    "chancecubes.networking.reward_selector.failed": "Falha ao acionar seletor de recompensa: %s",
+    "chancecubes.networking.cube_scan.failed": "Falha ao acionar escaneamento de cubo: %s"
+}
